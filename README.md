@@ -3,14 +3,14 @@ Octahedral Distortion Analysis: calculating the octahedral distortion parameters
 
 ## Linux OS
 ### Prerequisites:
-- Python 3
+- Python 3 (use `python --version` to check version)
 - TkInter
 - NumPy
 - Math
 ### Usage
 1. program source code from 
 2. Change filer permission: `chmod +x OctaDist_V*.py`
-3. python
+3. Execute program: `python OctaDist_V*.py`
 
 ## Windows OS
 ### Usage
