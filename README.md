@@ -9,7 +9,7 @@ This program was written and tested on PyCharm 2018.3.2 (Community Edition).
 - NumPy
 - Math
 ### Usage
-1. program source code from 
+1. Download program source code from [this page](https://github.com/rangsimanketkaew/OctaDist)
 2. Change filer permission: `chmod +x OctaDist_V*.py`
 3. Execute program: `python OctaDist_V*.py`
 
