@@ -23,7 +23,7 @@ Last modified: January 2018
 
 This program, we use Python 3.7.2 and TkInter as GUI maker.
 PyInstaller is used as executable compiler.
-Writen and tested on PyCharm 2018.3.3 (Community Edition) program
+Written and tested on PyCharm 2018.3.3 (Community Edition) program
 
 Author: Rangsiman Ketkaew
         Department of Chemistry,
@@ -123,7 +123,7 @@ def prog_help():
     msg.pack(anchor=W)
 
     # XYZ file format
-    lbl = Label(hp, text="XYZ file format")
+    lbl = Label(hp, text="XYZ file format:")
     lbl.pack(anchor=W)
 
     msg_Help_2 = "  <number of atoms>\n" \
@@ -151,48 +151,12 @@ def prog_help():
     hp.mainloop()
 
 
-def popup_open_error():
-    """Show error message when opening file twice"""
-    print("Error: Open Error")
-    showinfo("Error", "You loaded input file now. Please clear cache before loading a new file.")
-
-
-def popup_nofile_error():
-    """Show error message when opening file twice"""
-    print("Error: No input file")
-    showinfo("Error", "No input file. Please open input file before clicking Run button")
-
-
-def popup_author():
-    """Show author information"""
-    print("Command: Show author information")
-    showinfo("Author", "Developed by Rangsiman Ketkaew\n"
-                       "Computational Chemistry Research Unit\n"
-                       "Department of Chemistry\n"
-                       "Faculty of Science and Technology\n"
-                       "Thammasat University, Pathum Thani, 12120 Thailand\n"
-                       "E-mail: rangsiman1993@gmail.com")
-
-
-def popup_license():
-    """Show program info"""
-    print("Command: Show program license information")
-    showinfo("License", "Octahedral distortion analysis v. 1 \n\n"
-                        "This program is free software: you can redistribute it "
-                        "and/or modify it under the terms of the GNU General Public "
-                        "License as published by the Free Software Foundation, either "
-                        "version 3 of the License, or (at your option) any later version.\n\n"
-                        "This program is distributed in the hope that it will be useful, "
-                        "but WITHOUT ANY WARRANTY; without even the implied warranty "
-                        "of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. "
-                        "See the GNU General Public License for more details.\n\n"
-                        "You should have received a copy of the GNU General Public License "
-                        "along with this program. If not, see <https://www.gnu.org/licenses/>.")
-
-
 def clear_cache():
     """Clear cache and free variable"""
     print("Command: Clear cache")
+    global filename
+    global filedata
+
     filename = ""
     filedata = ""
     textBox_1.delete(1.0, END)
@@ -218,6 +182,45 @@ def quit_msg():
     no_btn.pack(padx=10, pady=10, side=LEFT)
 
     qw.mainloop()
+
+
+def popup_open_error():
+    """Show error message when opening file twice"""
+    print("Error: Open Error")
+    showinfo("Error", "You already loaded input file. Please clear cache before loading a new file.")
+
+
+def popup_nofile_error():
+    """Show error message when opening file twice"""
+    print("Error: No input file")
+    showinfo("Error", "No input file. Please load input file by clicking \"Browse file\"")
+
+
+def popup_author():
+    """Show author information"""
+    print("Command: Show author information")
+    showinfo("Author", "Rangsiman Ketkaew (MSc in Chemistry)\n"
+                       "Computational Chemistry Research Unit\n"
+                       "Department of Chemistry\n"
+                       "Faculty of Science and Technology\n"
+                       "Thammasat University, Pathum Thani, 12120 Thailand\n"
+                       "E-mail: rangsiman1993@gmail.com")
+
+
+def popup_license():
+    """Show program info"""
+    print("Command: Show program license information")
+    showinfo("License", "Octahedral distortion analysis v. 1 \n\n"
+                        "This program is free software: you can redistribute it "
+                        "and/or modify it under the terms of the GNU General Public "
+                        "License as published by the Free Software Foundation, either "
+                        "version 3 of the License, or (at your option) any later version.\n\n"
+                        "This program is distributed in the hope that it will be useful, "
+                        "but WITHOUT ANY WARRANTY; without even the implied warranty "
+                        "of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. "
+                        "See the GNU General Public License for more details.\n\n"
+                        "You should have received a copy of the GNU General Public License "
+                        "along with this program. If not, see <https://www.gnu.org/licenses/>.")
 
 
 def donothing():
@@ -259,7 +262,8 @@ def get_coord():
     """
     f = open(filename, "r")
     # read lines with skips first two lines
-    coord_list = np.loadtxt(f, skiprows=2, usecols=[1, 2, 3])
+    coord_raw = np.loadtxt(f, skiprows=2, usecols=[1, 2, 3])
+    coord_list = coord_raw[0:6]
     print(coord_list)
     """Return both lists of atom_list and coord_list. 
     To use list, just grab a tuple, and use >> atom_list, coord_list = get_coord() <<
@@ -322,30 +326,34 @@ Create menu bar
 """
 menubar = Menu(master)
 
+# add menu bar button
 filemenu = Menu(menubar, tearoff=0)
+menubar.add_cascade(label="File", menu=filemenu)
+# sub-menu
 filemenu.add_command(label="New", command=clear_cache)
 filemenu.add_command(label="Open", command=openfile)
 filemenu.add_command(label="Save as ..", command=donothing)
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=root.quit)
-menubar.add_cascade(label="File", menu=filemenu)
 
+# add menu bar button
 helpmenu = Menu(menubar, tearoff=0)
+menubar.add_cascade(label="Help", menu=helpmenu)
+# add sub-menu
 helpmenu.add_command(label="Help", command=prog_help)
 helpmenu.add_command(label="Author", command=popup_author)
 helpmenu.add_command(label="License", command=popup_license)
-menubar.add_cascade(label="Help", menu=helpmenu)
 
 master.config(menu=menubar)
 
-print("Octahedral Distortion Analysis Copyright  (C) 2019  Rangsiman Kektaew")
-print("This program comes with ABSOLUTELY NO WARRANTY; for details Help --> License.")
-print("This is free software, and you are welcome to redistribute it")
-print("under certain conditions; see <https://www.gnu.org/licenses/> for details.")
+print("Octahedral Distortion Analysis  Copyright (C) 2019  Rangsiman Ketkaew")
+print("This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.")
+print("This is free software, and you are welcome to redistribute it under")
+print("certain conditions; see <https://www.gnu.org/licenses/> for details.")
 print(" ")
-print("------------------------------------")
-print("[] Octahedral Distortion Analysis []")
-print("------------------------------------")
+print("------------------------------")
+print("Octahedral Distortion Analysis")
+print("------------------------------")
 
 # program details
 msg_1 = Label(root, font=("Segoe-UI", 16, "bold"),
