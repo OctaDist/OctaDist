@@ -1,5 +1,6 @@
 # OctaDist
-Octahedral Distortion Analysis: calculating the octahedral distortion parameters
+Octahedral Distortion Analysis: calculating the octahedral distortion parameters. <br/>
+writen and tested on PyCharm 2018.3.2 (Community Edition)
 
 ## Linux OS
 ### Prerequisites:
