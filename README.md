@@ -11,7 +11,7 @@ This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Communi
 - Matplotlib
 ### Usage
 1. Download program source code from [this page](https://github.com/rangsimanketkaew/OctaDist)
-2. Change filer permission: `chmod +x OctaDist_V*.py`
+2. Change file permission: `chmod +x OctaDist_V*.py`
 3. Execute program: `python OctaDist_V*.py`
 
 ## Windows OS
