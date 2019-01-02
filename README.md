@@ -1,13 +1,14 @@
 # OctaDist
 Octahedral Distortion Analysis: calculating the octahedral distortion parameters. <br/>
-This program was written and tested on PyCharm 2018.3.2 (Community Edition).
+This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Community Edition).
 
 ## Linux OS
 ### Prerequisites:
-- Python 3 (use `python --version` to check version)
+- Python 3.x (use `python3 -V` to check python version)
 - TkInter
 - NumPy
 - Math
+- Matplotlib
 ### Usage
 1. Download program source code from [this page](https://github.com/rangsimanketkaew/OctaDist)
 2. Change filer permission: `chmod +x OctaDist_V*.py`
