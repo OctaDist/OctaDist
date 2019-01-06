@@ -4,7 +4,7 @@ This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Communi
 
 ## Linux OS
 ### Prerequisites:
-- Python 3.x (use `python3 -V` to check python version)
+- Python 3 (use `python3 -V` to check python version)
 - TkInter
 - NumPy
 - Math
