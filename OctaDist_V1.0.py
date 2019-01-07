@@ -43,6 +43,7 @@ from tkinter import filedialog
 from tkinter.messagebox import showinfo
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.axes3d import Axes3D
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 
 def clear_cache():
@@ -55,8 +56,8 @@ def clear_cache():
     coord_list = 0
     textBox_coord.delete(1.0, END)
     textBox_distance.delete(1.0, END)
-    textBox_angle.delete(1.0, END)
-    textBox_dihedral.delete(1.0, END)
+    textBox_sigma.delete(1.0, END)
+    textBox_theta.delete(1.0, END)
     clear_results()
 
 
@@ -142,13 +143,13 @@ def popup_program_help():
     # Input format
     lbl = Label(hp, text="Input file format:")
     lbl.pack(anchor=W)
-    msg_help_2 = "  <Metal center 0>  <X> <Y> <Z>\n" \
-                 "  <Ligand atom 1>  <X> <Y> <Z>\n" \
-                 "  <Ligand atom 2>  <X> <Y> <Z>\n" \
-                 "  <Ligand atom 3>  <X> <Y> <Z>\n" \
-                 "  <Ligand atom 4>  <X> <Y> <Z>\n" \
-                 "  <Ligand atom 5>  <X> <Y> <Z>\n" \
-                 "  <Ligand atom 6>  <X> <Y> <Z>\n" \
+    msg_help_2 = "  <Metal center 0>  <X>  <Y>  <Z>\n" \
+                 "  <Ligand atom 1>  <X>  <Y>  <Z>\n" \
+                 "  <Ligand atom 2>  <X>  <Y>  <Z>\n" \
+                 "  <Ligand atom 3>  <X>  <Y>  <Z>\n" \
+                 "  <Ligand atom 4>  <X>  <Y>  <Z>\n" \
+                 "  <Ligand atom 5>  <X>  <Y>  <Z>\n" \
+                 "  <Ligand atom 6>  <X>  <Y>  <Z>\n" \
                  "  <optional>\n" \
                  "  ...\n"
     msg = Message(hp, text=msg_help_2, width="450")
@@ -340,6 +341,12 @@ def get_coord():
     return atom_list, coord_list
 
 
+def dist_btw(x, y):
+    """Find distance between two point
+    """
+    return sqrt(sum([pow(x[i] - y[i], 2) for i in range(3)]))
+
+
 def dist_avg(x):
     """Calculate mean M-X distance by averaging the distance between
     metal center and ligand atom, d_i
@@ -351,7 +358,7 @@ def dist_avg(x):
     """
     dist_sum = []
     for i in range(1, 7):
-        results_sum = sqrt(sum([pow(x[i][j] - x[0][j], 2) for j in range(3)]))
+        results_sum = dist_btw(x[i], x[0])
         dist_sum.append(results_sum)
     return sum([dist_sum[i] for i in range(6)]) / 6
 
@@ -370,10 +377,10 @@ def calc_distance(x):
     """
     global computed_distance
     dist_indi = []
-    print("Command: Calculate distance between atoms in Ångström")
+    print("Command: Calculate distance between atoms (in Ångström)")
     for i in range(1, 7):
         distant_indi = sqrt(sum([pow(x[i][j] - x[0][j], 2) for j in range(3)]))
-        print("         Distance between atom 1 and atom", i+1, "is {0:5.5f}".format(distant_indi))
+        print("         Distance between metal center and ligand atom", i, "is {0:5.5f}".format(distant_indi))
         dist_indi.append(distant_indi)
     print("")
     for i in range(6):
@@ -385,6 +392,8 @@ def calc_distance(x):
 def normalize_vector(v):
     """Returns the unit vector of the vector v: normalizing
     """
+    if np.linalg.norm(v) == 0:
+        print("Error: norm of vector", v, "is 0. Thus function normalize_vector returns a wrong value.")
     return v / np.linalg.norm(v)
 
 
@@ -397,7 +406,7 @@ def angle_between(v0, v1, v2):
                                \               |v1| * |v2|                /
 
     Ex.
-            >>> angle_between((1, 0, 0), (0, 1, 0), (0, 0, 0))
+            >> angle_between((1, 0, 0), (0, 1, 0), (0, 0, 0))
             1.5707963267948966 (radian)
             90.0 (degree)
     """
@@ -409,11 +418,11 @@ def angle_between(v0, v1, v2):
 
 
 def calc_angle_sigma(v):
-    """Calculate octahedral distortion parameter, angle.
+    """Calculate octahedral distortion parameter, Σ
 
-              12
-    Sigma = sigma < 90 - angle_i >
-             i=1
+          12
+    Σ = sigma < 90 - angle_i >
+         i=1
 
     For more details, please refer to following article.
     J. K. McCusker, A. L. Rheingold, D. N. Hendrickson, Inorg. Chem. 1996, 35, 2100.
@@ -435,9 +444,91 @@ def calc_angle_sigma(v):
     return computed_sigma
 
 
+def find_plane(v):
+    """Find plane of given octahedral complex
+    v = XYZ coordinate of complex
+    v[0] = metal center atom of complex
+    v[i] = ligand atom of complex
+    """
+    global final_plane_list
+    # list of vertex of triangle (face of octahedral)
+    plane_list = []
+    print("Command: Determine all possible plane (face on octahedral)")
+    # Find four possible faces --> This would result 10 plane
+    for i in range(1, 4):
+        for j in range(i+1, 5):
+            for k in range(j+1, 6):
+                find_plane_eq(v[i], v[j], v[k])
+    # Find distance between metal center atom and its projected point on plane
+    # and store the vertex of triangle (face/plane) and distance btw metal to plane into array
+                m = project_atom_onto_plane(v[0], a, b, c, d)
+                d_btw = dist_btw(m, v[0])
+                plane_list.append(np.array([i, j, k, d_btw]))
+    # Show plane list before sorted
+    print("Command: Remove plane that mostly close to metal center atom")
+    print("         List before sorted:")
+    for i in range(len(plane_list)):
+        print("         ", plane_list[i])
+    print("")
+    # Use distance between metal center and its projected point to sort list (array)
+    # Two loops is used to sort the distance from lowest to greatest numbers
+    i = 0
+    while i < len(plane_list):
+        k = i
+        j = i + 1
+        while j < len(plane_list):
+            if plane_list[k][3] > plane_list[j][3]:
+                k = j
+            j += 1
+        plane_list[i], plane_list[k] = plane_list[k], plane_list[i]
+        i += 1
+    # Show plane list after sorted
+    print("         List after sorted:")
+    for i in range(len(plane_list)):
+        print("         ", plane_list[i])
+    print("")
+    # Remove first 6 plane list (6 rows)
+    excluded_plane_list = plane_list[6:]
+    # Show new plane list after unwanted plane excluded
+    print("         List after unwanted plane excluded:")
+    for i in range(len(excluded_plane_list)):
+        print("         ", excluded_plane_list[i])
+    print("")
+    # Remove the 4th column of distance
+    final_plane_list = np.delete(excluded_plane_list, 3, 1)
+    # Show final plane list
+    print("         Final plane list:")
+    for i in range(len(final_plane_list)):
+        print("         ", final_plane_list[i])
+    print("")
+    # Return string 2D array
+    return final_plane_list.astype(int)
+
+
+def convert_atom_to_point(v):
+    """Find 4 correct plane of octahedral complex
+    """
+    global coord_vertex_list
+    coord_vertex_list = []
+    f = find_plane(v)
+    # Generate list of coordinate of selected point
+    for i in range(len(f)):
+        coord_vertex_list.append(np.array([v[f[i][0]], v[f[i][1]], v[f[i][2]]]))
+    print("Command: Show coordinate list of atom (vertex) of selected plane (triangle)")
+    conv_v = coord_vertex_list
+    for i in range(len(conv_v)):
+        print("         Plane", i + 1)
+        for j in range(3):
+            print("         ", conv_v[i][j])
+
+    return coord_vertex_list
+
+
 def find_plane_eq(p1, p2, p3):
     """Find the equation of plane that defined by three points (ligand atoms)
     The general form of plane equation is Ax + By + Cz = D
+
+    Input arguments are vertex of plane (triangle)
     """
     global a, b, c, d
     v1 = p3 - p1
@@ -446,17 +537,11 @@ def find_plane_eq(p1, p2, p3):
     norm_p = np.cross(v1, v2)
     a, b, c = norm_p
     d = np.dot(norm_p, p3)
-    print("Command: Find the equation of plane given by three ligand atoms, Ax + By + Cz = D")
-    print("         Coefficient of x, y, and z:")
-    print("         A = {0:5.5f}".format(a))
-    print("         B = {0:5.5f}".format(b))
-    print("         C = {0:5.5f}".format(c))
-    print("         D = {0:5.5f}".format(d))
-    print("         The equation of plane is {0:5.5f}x + {1:5.5f}y + {2:5.5f}z = {3:5.5f}\n".format(a, b, c, d))
+
     return a, b, c, d
 
 
-def project_atom_onto_plane(v):
+def project_atom_onto_plane(v, a, b, c, d):
     """Find the orthogonal vector of point onto the given plane.
     If the equation of plane is Ax + By + Cz = D and the location of point is (L, M, N), 
     then the location in the plane that is closest to the point (P, Q, R) is
@@ -464,6 +549,10 @@ def project_atom_onto_plane(v):
     (P, Q, R) = (L, M, N) + λ * (A, B, C)
 
     where λ = (D - ( A*L + B*M + C*N)) / (A^2 + B^2 + C^2)
+
+    Input argument: v is vector
+                    a, b, and c are A, B, and C
+                    d is D
     """
     # Create array of coefficient of vector plane
     v_plane = np.array([a, b, c])
@@ -473,47 +562,64 @@ def project_atom_onto_plane(v):
 
 
 def calc_angle_theta(v):
-    """Calculate octahedral distortion parameter, dihedral
+    """Calculate octahedral distortion parameter, Θ
 
-              24
-    Theta = sigma < 60 - angle_i >
-             i=1
+          24
+    Θ = sigma < 60 - angle_i >
+         i=1
 
     where angle_i is angle between two plane defined by vector of
     metal center and ligand atoms.
 
-    4 faces, 6 angles each, thus total number of angle is 6*4 = 24 angles.
+    4 faces, 6 angles each, thus the total number of theta angle is 24 angles.
 
     For more details, please refer to following article.
     M. Marchivie, P. Guionneau, J. F. Letard, D. Chasseau,
     Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.
     """
     global angle_theta_list, computed_theta
-    global m, l
+    global cv, m, l_1, l_2, a, b, c, d
     angle_theta_list = []
-
-
-    # Get return values from previous function
-    find_plane_eq(v[2], v[3], v[4])
-    m = project_atom_onto_plane(v[0])
-    l = project_atom_onto_plane(v[5])
-    print("Command: Find the orthogonal projection of metal center atom onto the given plane")
-    print("         The point is ({0:5.5f}, {1:5.5f}, {2:5.5f})\n".format(m[0], m[1], m[2]))
-    print("Command: Find the orthogonal projection of ligand atom onto the given plane")
-    print("         The point is ({0:5.5f}, {1:5.5f}, {2:5.5f})\n".format(l[0], l[1], l[2]))
-    print("Command: Calculate Theta angle between atoms projected on given plane (in degree)")
-    print("         (If angle is greater than", angle_cutoff_for_theta, "degree, it will be set to 60.0 degree)")
-    angle_theta_indi = angle_between(m, l, v[2])
-    if angle_theta_indi > angle_cutoff_for_theta:
-        angle_theta_indi = 60.0
-        angle_theta_list.append(angle_theta_indi)
-    else:
-        angle_theta_list.append(angle_theta_indi)
+    q = 0
+    cv = convert_atom_to_point(v)
+    print("Command: Find the following parameters")
+    print("         - The equation of plane given by three ligand atoms, Ax + By + Cz = D")
+    print("         - The orthogonal projection of metal center onto the given plane")
+    print("         - The orthogonal projection of ligand atom onto the given plane")
+    print("         - Theta angle between atoms projected on given plane (in degree)")
+    print("           If the angle is greater than", angle_cutoff_for_theta, ", it will be set to 60.0)\n")
+    for i in range(4):
+        find_plane_eq(cv[i][0], cv[i][1], cv[i][2])
+        print("         Plane", i+1)
+        print("         The equation of plane: {1:5.5f}x + {2:5.5f}y + {3:5.5f}z = {4:5.5f}"\
+              .format(i+1, a, b, c, d))
+        m = project_atom_onto_plane(v[0], a, b, c, d)
+        print("         Orthogonal projection of metal center on given plane: "
+              "({0:5.5f}, {1:5.5f}, {2:5.5f})".format(m[0], m[1], m[2]))
+        for j in range(1, 6):
+            for k in range(2, 7):
+                l_1 = project_atom_onto_plane(v[j], a, b, c, d)
+                print("         Orthogonal projection of ligand atom {0} onto given plane: "
+                      "({1:5.5f}, {2:5.5f}, {3:5.5f})".format(j, l_1[0], l_1[1], l_1[2]))
+                l_2 = project_atom_onto_plane(v[k], a, b, c, d)
+                print("         Orthogonal projection of ligand atom {0} onto given plane: "
+                      "({1:5.5f}, {2:5.5f}, {3:5.5f})".format(k, l_2[0], l_2[1], l_2[2]))
+                angle_theta_indi = angle_between(m, l_1, l_2)
+                if angle_theta_indi > angle_cutoff_for_theta or angle_theta_indi <= 1:
+                    angle_theta_indi = 60.0
+                    angle_theta_list.append(angle_theta_indi)
+                    q += 1
+                else:
+                    angle_theta_list.append(angle_theta_indi)
+                print("         Theta angle between atom {0} and {1}: {2:5.10f}".format(j, k, angle_theta_indi))
+        print("")
+    # Sum up all individual theta angle
     for i in range(len(angle_theta_list)):
-        print("         Theta angle between atom ... and atom ... is {0:5.5}".format(angle_theta_indi))
-        computed_theta = abs(60 - angle_theta_list[i]) + computed_theta
+        computed_theta += abs(60.0 - angle_theta_list[i])
+    print("         Total number of all theta angle:", len(angle_theta_list))
+    print("         Total number of unwanted theta angle:", q)
+    print("         Total number of correct theta angle:", len(angle_theta_list) - q)
     print("")
-
     return computed_theta
 
 
@@ -540,10 +646,10 @@ def calc_all_param():
     print("         Theta     <Θ> =", formatted_computed_theta, "\n")
     textBox_distance.delete(1.0, END)
     textBox_distance.insert(INSERT, formatted_computed_distance)
-    textBox_angle.delete(1.0, END)
-    textBox_angle.insert(INSERT, formatted_computed_sigma)
-    textBox_dihedral.delete(1.0, END)
-    textBox_dihedral.insert(INSERT, formatted_computed_theta)
+    textBox_sigma.delete(1.0, END)
+    textBox_sigma.insert(INSERT, formatted_computed_sigma)
+    textBox_theta.delete(1.0, END)
+    textBox_theta.insert(INSERT, formatted_computed_theta)
 
 
 def draw_strc():
@@ -560,10 +666,10 @@ def draw_strc():
     ax = fig.add_subplot(111, projection='3d')
     c = coord_list
     ax.scatter(c[0][0], c[0][1], c[0][2], color='yellow', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(c[0][0] + 0.1, c[0][1] + 0.2, c[0][2] + 0.2, atom_list[0], fontsize=9)
+    ax.text(c[0][0] + 0.1, c[0][1] + 0.2, c[0][2] + 0.2, atom_list[0], fontsize=12)
     for i in range(1, 7):
         ax.scatter(c[i][0], c[i][1], c[i][2], color='red', marker='o', s=100, linewidths=2, edgecolors='blue')
-        ax.text(c[i][0] + 0.1, c[i][1] + 0.2, c[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=9)
+        ax.text(c[i][0] + 0.1, c[i][1] + 0.2, c[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=12)
     ax.set_xlabel(r'X', fontsize=15)
     ax.set_ylabel(r'Y', fontsize=15)
     ax.set_zlabel(r'Z', fontsize=15)
@@ -585,9 +691,14 @@ def draw_plane():
     # Plot and configuration
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    c = coord_list
-    ax.scatter(c[0][0], c[0][1], c[0][2], color='yellow', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(c[0][0] + 0.1, c[0][1] + 0.2, c[0][2] + 0.2, atom_list[0], fontsize=9)
+    cl = coord_list
+
+    points = [map(tuple, coord_vertex_list)]
+
+    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=200, linewidths=2, edgecolors='blue')
+    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, atom_list[0], fontsize=9)
+    ax.add_collection3d(Poly3DCollection(points, alpha=0.5, color="Khaki"))
+
     ax.set_xlabel(r'X', fontsize=15)
     ax.set_ylabel(r'Y', fontsize=15)
     ax.set_zlabel(r'Z', fontsize=15)
@@ -613,23 +724,23 @@ def draw_projection():
     # Plot and configuration
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
-    c = coord_list
+    cl = coord_list
 
     # Metal center atom
-    ax.scatter(c[0][0], c[0][1], c[0][2], color='blue', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(c[0][0] + 0.1, c[0][1] + 0.2, c[0][2] + 0.2, atom_list[0], fontsize=7)
+    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='blue', marker='o', s=200, linewidths=2, edgecolors='blue')
+    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, atom_list[0], fontsize=7)
     # Ligand atoms
     for i in range(1, 7):
-        ax.scatter(c[i][0], c[i][1], c[i][2], color='white', marker='o', s=100, linewidths=2, edgecolors='blue')
-        ax.text(c[i][0] + 0.1, c[i][1] + 0.2, c[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=7)
+        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='white', marker='o', s=100, linewidths=2, edgecolors='blue')
+        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.1, cl[i][2] + 0.1, atom_list[i] + ",{0}".format(i), fontsize=7)
 
     # Metal center atom projected onto the plane
     ax.scatter(m[0], m[1], m[2], color='skyblue', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(m[0] + 0.2, m[1] + 0.2, m[2] + 0.2, "Metal on the plane", fontsize=7)
+    ax.text(m[0] + 0.3, m[1] + 0.3, m[2] + 0.3, "Metal on the plane", fontsize=7)
 
     # Ligand atom projected onto the plane
-    ax.scatter(l[0], l[1], l[2], color='orange', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(l[0] + 0.1, l[1] + 0.2, l[2] + 0.2, "Ligand atom on the plane", fontsize=7)
+    ax.scatter(l_1[0], l_1[1], l_1[2], color='orange', marker='o', s=200, linewidths=2, edgecolors='blue')
+    ax.text(l_1[0] + 0.3, l_1[1] + 0.3, l_1[2] + 0.3, "Ligand atom on the plane", fontsize=7)
 
     ax.set_xlabel(r'X', fontsize=15)
     ax.set_ylabel(r'Y', fontsize=15)
@@ -754,20 +865,20 @@ lbl_dist = Label(master, text="D  = ")
 lbl_dist.grid(sticky=E, pady="5", row=7, column=1)
 textBox_distance = Text(master, height="1", width="15", wrap="word")
 textBox_distance.grid(row=7, column=2, sticky=W)
-# Angle
-lbl_angle = Label(master, text="Σ  = ")
-lbl_angle.grid(sticky=E, pady="5", row=8, column=1)
-textBox_angle = Text(master, height="1", width="15", wrap="word")
-textBox_angle.grid(sticky=W, row=8, column=2)
-lbl_angle_unit = Label(master, text="degree")
-lbl_angle_unit.grid(sticky=W, pady="5", row=8, column=3)
-# Dihedral
-lbl_dihedral = Label(master, text="Θ  = ")
-lbl_dihedral.grid(sticky=E, pady="5", row=9, column=1)
-textBox_dihedral = Text(master, height="1", width="15", wrap="word")
-textBox_dihedral.grid(sticky=W, row=9, column=2)
-lbl_dihedral_unit = Label(master, text="degree")
-lbl_dihedral_unit.grid(sticky=W, pady="5", row=9, column=3)
+# Sigma
+lbl_sigma = Label(master, text="Σ  = ")
+lbl_sigma.grid(sticky=E, pady="5", row=8, column=1)
+textBox_sigma = Text(master, height="1", width="15", wrap="word")
+textBox_sigma.grid(sticky=W, row=8, column=2)
+lbl_sigma_unit = Label(master, text="degree")
+lbl_sigma_unit.grid(sticky=W, pady="5", row=8, column=3)
+# Theta
+lbl_theta = Label(master, text="Θ  = ")
+lbl_theta.grid(sticky=E, pady="5", row=9, column=1)
+textBox_theta = Text(master, height="1", width="15", wrap="word")
+textBox_theta.grid(sticky=W, row=9, column=2)
+lbl_theta_unit = Label(master, text="degree")
+lbl_theta_unit.grid(sticky=W, pady="5", row=9, column=3)
 # Link
 lbl_link = Label(master, text=r"https://github.com/rangsimanketkaew/OctaDist", fg="blue", cursor="hand2")
 lbl_link.grid(pady="5", row=10, columnspan=4)
