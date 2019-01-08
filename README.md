@@ -49,7 +49,7 @@ Calculate octahedral distortion parameters
 - Sigma  <![](https://latex.codecogs.com/svg.Latex?%5CSigma)> = 0.00000000 degree
 - Theta  <![](https://latex.codecogs.com/svg.Latex?%5CTheta)> = 0.00000000 degree
 
-<p align="left">
+<p align="center">
    <img alt="Fe-structure" src="images/Fe-structure.png" align=middle width="300pt" />
 <p/>
 
@@ -70,7 +70,7 @@ Calculate octahedral distortion parameters
 - Sigma  <![](https://latex.codecogs.com/svg.Latex?%5CSigma)> = 58.86979039 degree
 - Theta  <![](https://latex.codecogs.com/svg.Latex?%5CTheta)> = 144.13959388 degree
 
-<p align="left">
+<p align="center">
    <img alt="Co-structure" src="images/Co-structure.png" align=middle width="300pt" />
 <p/>
 
