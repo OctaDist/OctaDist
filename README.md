@@ -33,7 +33,7 @@ For Linux user, use `python3 -V` to check python version.
 3. Execute program: `python OctaDist_V*.py`
 
 ### Test file
-* Perfect octahedral Fe complex
+* Perfect octahedral Fe complex ([complex-test-1.xyz](complex-test-1.xyz))
 ```
 Fe                 0.20069808    0.70680627    0.00000000
 H                  1.66069808    0.70680627    0.00000000
@@ -49,9 +49,13 @@ Calculate octahedral distortion parameters
 - Sigma  <![](https://latex.codecogs.com/svg.Latex?%5CSigma)> = 0.00000000 degree
 - Theta  <![](https://latex.codecogs.com/svg.Latex?%5CTheta)> = 0.00000000 degree
 
+<p align="left">
+   <img alt="Fe-structure" src="images/Fe-complex.png" align=middle width="300pt" />
+<p/>
+
 ---
 
-* XRD structure of octahedral Co complex in low-spin state
+* XRD structure of octahedral Co complex in low-spin state ([complex-test-2.xyz](complex-test-2.xyz))
 ```
 Co                -3.535353     0.004296     -0.544992
 N                 -1.350596     0.347169     -0.409266
@@ -66,6 +70,9 @@ Calculate octahedral distortion parameters
 - Sigma  <![](https://latex.codecogs.com/svg.Latex?%5CSigma)> = 58.86979039 degree
 - Theta  <![](https://latex.codecogs.com/svg.Latex?%5CTheta)> = 144.13959388 degree
 
+<p align="left">
+   <img alt="Co-structure" src="images/Co-complex.png" align=middle width="300pt" />
+<p/>
 
 ### Windows OS
 1. Download program executable from [this page](https://github.com/rangsimanketkaew/OctaDist/releases)
