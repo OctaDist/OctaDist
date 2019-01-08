@@ -1,5 +1,5 @@
 # OctaDist
-Octahedral Distortion Analysis: calculating the octahedral distortion parameters. <br/>
+Octahedral Distortion Analysis: determining the structural distortion of octahedral complex. <br/>
 This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Community Edition).
 
 ## Linux OS
