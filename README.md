@@ -1,16 +1,15 @@
 # OctaDist
 Octahedral Distortion Analysis: determining the structural distortion of octahedral complex. <br/>
 This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Community Edition). <br/>
-For Linux user, use `python3 -V` to check python version.
 
-## Linux OS
-### Usage
+## Usage
+### Linux OS
+For Linux user, use `python3 -V` to check python version.
 1. Download program source code from [this page](https://github.com/rangsimanketkaew/OctaDist)
 2. Change file permission: `chmod +x OctaDist_V*.py`
 3. Execute program: `python OctaDist_V*.py`
 
-## Windows OS
-### Usage
+### Windows OS
 1. Download program executable from [this page](https://github.com/rangsimanketkaew/OctaDist/releases)
 2. Right click and select `Run as administrator`
 3. Click `Yes`
