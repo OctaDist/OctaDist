@@ -4,7 +4,7 @@ This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Communi
 
 ## Background
 ### Octahedral Distortion Parameters
-Octahedral structure is composed of 7 atoms: one metal center atom and six ligand atoms. It has eqight faces, 6 vertices, and 12 edges.
+Octahedral structure is composed of 7 atoms: one metal center atom and 6 ligand atoms. It has eight faces, 6 vertices, and 12 edges.
 The structural distortion generally occurs in octahedral complex. Previous publications have determined the octahedral distortion using structural parameters: ![](https://latex.codecogs.com/svg.Latex?%5CDelta), ![](https://latex.codecogs.com/svg.Latex?%5CSigma), and ![](https://latex.codecogs.com/svg.Latex?%5CTheta), given by following equations
 
 - ![](https://latex.codecogs.com/svg.Latex?%5CDelta%20%3D%20%5Cfrac%7B1%7D%7B6%7D%20%5Csum_%7Bi%20%3D%201%7D%5E%7B6%7D%20%28%5Cfrac%7Bd_%7Bi%7D%20-%20d%7D%7Bd%7D%29%5E2)
@@ -13,9 +13,12 @@ The structural distortion generally occurs in octahedral complex. Previous publi
 
 - ![](https://latex.codecogs.com/svg.Latex?%5CTheta%20%3D%20%5Csum_%7Bi%20%3D%201%7D%5E%7B24%7D%20%5Cabs%20%5Cleft%20%7C%2060%20-%20%5Ctheta_%7Bi%7D%20%7C) 
 
+However, there is no program for determining this kind of parameter yet. So we present the OctaDist program for those who are ineterested in this.
+
 2D structure of octahedral Fe complex |  3D structure of octahedral Fe complex  | Projection of ligand atoms onto the twisting plane
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](images/complex-1.jpg)         |  ![](images/complex-2.jpg)       |  ![](images/complex-3.jpg)
+
 
 ### Methods
 #### Orthogonal projection
@@ -32,7 +35,12 @@ For Linux user, use `python3 -V` to check python version.
 2. Change file permission: `chmod +x OctaDist_V*.py`
 3. Execute program: `python OctaDist_V*.py`
 
-### Test file
+### Windows OS
+1. Download program executable from [this page](https://github.com/rangsimanketkaew/OctaDist/releases)
+2. Right click and select `Run as administrator`
+3. Click `Yes`
+
+## Testing
 * Perfect octahedral Fe complex ([complex-test-1.xyz](complex-test-1.xyz))
 ```
 Fe                 0.20069808    0.70680627    0.00000000
@@ -73,11 +81,6 @@ Calculate octahedral distortion parameters
 <p align="center">
    <img alt="Co-structure" src="images/Co-structure.png" align=middle width="300pt" />
 <p/>
-
-### Windows OS
-1. Download program executable from [this page](https://github.com/rangsimanketkaew/OctaDist/releases)
-2. Right click and select `Run as administrator`
-3. Click `Yes`
 
 ## Screenshots
 <p align="left">
