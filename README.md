@@ -57,13 +57,13 @@ Calculate octahedral distortion parameters
 
 * XRD structure of octahedral Co complex in low-spin state ([complex-test-2.xyz](complex-test-2.xyz))
 ```
-Co                -3.535353     0.004296     -0.544992
-N                 -1.350596     0.347169     -0.409266
-N                 -2.825682    -0.655117	   -2.430024
-O                 -5.494109    -0.145297	   -1.180266
-O                 -3.694033     2.008453	   -0.995907
-O                 -3.422328    -1.955076	    0.071764
-O                 -4.091008     0.421393	    1.388991
+Co                -3.535353      0.004296     -0.544992
+N                 -1.350596      0.347169     -0.409266
+N                 -2.825682     -0.655117     -2.430024
+O                 -5.494109     -0.145297     -1.180266
+O                 -3.694033      2.008453     -0.995907
+O                 -3.422328     -1.955076      0.071764
+O                 -4.091008      0.421393      1.388991
 ```
 Calculate octahedral distortion parameters
 - Delta  <![](https://latex.codecogs.com/svg.Latex?%5CDelta)> = 0.00077054
@@ -98,7 +98,7 @@ I would like to thank
 for useful advices and comments.
 
 ## Author
-Rangsiman ketkaew <br/>
+Rangsiman Ketkaew <br/>
 Computational Chemistry Research Unit <br/>
 Department of Chemistry, Faculty of Science and Technology <br/>
 Thammasat University, Pathum Thani, 12120 Thailand <br/>
