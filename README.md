@@ -15,7 +15,7 @@ The structural distortion generally occurs in octahedral complex. Previous publi
 
 2D structure of octahedral Fe complex |  3D structure of octahedral Fe complex  | Projection of ligand atoms onto the twisting plane
 :-------------------------:|:-------------------------:|:-------------------------:
-![](complex-2.jpg)         |  ![](complex-3.jpg)       |  ![](complex-1.jpg)
+![](images/complex-1.jpg)         |  ![](images/complex-2.jpg)       |  ![](images/complex-3.jpg)
 
 ### Methods
 #### Orthogonal projection
@@ -39,8 +39,8 @@ For Linux user, use `python3 -V` to check python version.
 
 ## Screenshots
 <p align="left">
-   <img alt="Capture_Window" src="Capture_Window.jpg" align=middle width="300pt" />
-   <img alt="Capture_CMD" src="Capture_CMD.jpg" align=middle width="500pt"/>
+   <img alt="Capture_Window" src="images/Capture_Window.jpg" align=middle width="300pt" />
+   <img alt="Capture_CMD" src="images/Capture_CMD.jpg" align=middle width="500pt"/>
 <p/>
 
 ## References
