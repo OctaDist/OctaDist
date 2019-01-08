@@ -973,7 +973,8 @@ FONT = "Segoe-UI 10"
 root.option_add("*Font", FONT)
 # Set program title
 root.title("OctaDist")
-root.iconbitmap(r'C:\Users\Nutt\PycharmProjects\OctaDist\icon-mol.ico')
+# Failed to use iconbitmap
+# root.iconbitmap(r'C:\Users\Nutt\PycharmProjects\OctaDist\icon-mol.ico')
 # width x height + x_offset + y_offset
 # master.geometry("350x610+400+100")
 # Uncomment command below, user can resize window freely
