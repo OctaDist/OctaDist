@@ -32,6 +32,41 @@ For Linux user, use `python3 -V` to check python version.
 2. Change file permission: `chmod +x OctaDist_V*.py`
 3. Execute program: `python OctaDist_V*.py`
 
+### Test file
+* Perfect octahedral Fe complex
+```
+Fe                 0.20069808    0.70680627    0.00000000
+H                  1.66069808    0.70680627    0.00000000
+H                  0.20069808    2.16680627    0.00000000
+H                  0.20069808    0.70680627    1.46000000
+H                 -1.25930192    0.70680627    0.00000000
+H                  0.20069808   -0.75319373    0.00000000
+H                  0.20069808    0.70680627   -1.46000000
+```
+
+Calculate octahedral distortion parameters
+- Delta  <![](https://latex.codecogs.com/svg.Latex?%5CDelta)> = 0.00000000
+- Sigma  <![](https://latex.codecogs.com/svg.Latex?%5CSigma)> = 0.00000000 degree
+- Theta  <![](https://latex.codecogs.com/svg.Latex?%5CTheta)> = 0.00000000 degree
+
+---
+
+* XRD structure of octahedral Co complex in low-spin state
+```
+Co                -3.535353     0.004296     -0.544992
+N                 -1.350596     0.347169     -0.409266
+N                 -2.825682    -0.655117	   -2.430024
+O                 -5.494109    -0.145297	   -1.180266
+O                 -3.694033     2.008453	   -0.995907
+O                 -3.422328    -1.955076	    0.071764
+O                 -4.091008     0.421393	    1.388991
+```
+Calculate octahedral distortion parameters
+- Delta  <![](https://latex.codecogs.com/svg.Latex?%5CDelta)> = 0.00077054
+- Sigma  <![](https://latex.codecogs.com/svg.Latex?%5CSigma)> = 58.86979039 degree
+- Theta  <![](https://latex.codecogs.com/svg.Latex?%5CTheta)> = 144.13959388 degree
+
+
 ### Windows OS
 1. Download program executable from [this page](https://github.com/rangsimanketkaew/OctaDist/releases)
 2. Right click and select `Run as administrator`
