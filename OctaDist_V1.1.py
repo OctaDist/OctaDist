@@ -466,12 +466,12 @@ def calc_sigma(v):
     print("         Three trans angle (three biggest angles) are excluded.")
     print("")
     print("                   Atom i\n"
-          "                    ^\n"
+          "                    /\n"
           "                   /\n"
           "                  /\n"
           "                 /\n"
           "                /\n"
-          "              Vertex -----> Atom j")
+          "              Vertex ------- Atom j")
     print("")
     print("         Metal center atom is taken as vertex.")
     print("")
@@ -482,11 +482,9 @@ def calc_sigma(v):
             angle_sigma_list.append(angle_sigma_indi)
             ligand_atom_list.append([i, j])
     # Show list of angle before sorted
-    print("         List before sorted:")
-    for i in range(len(angle_sigma_list)):
-        print("         Angle between atom", ligand_atom_list[i][0], "and atom", ligand_atom_list[i][1],
-                "is {0:5.5f}".format(angle_sigma_list[i]))
-    print("")
+    print("         List of the angles:")
+    # Backup the before sorted angle
+    bf_angle_sigma_list = angle_sigma_list
     # Sort the angle from lowest to highest
     # Two loops is used to sort the distance from lowest to greatest numbers
     i = 0
@@ -499,20 +497,22 @@ def calc_sigma(v):
             j += 1
         angle_sigma_list[i], angle_sigma_list[k] = angle_sigma_list[k], angle_sigma_list[i]
         i += 1
-    # Show angle list after sorted
-    print("         List before sorted:")
+    # Backup the after sorted angle
+    af_angle_sigma_list = angle_sigma_list
     for i in range(len(angle_sigma_list)):
-        print("         ", angle_sigma_list[i])
+        print("         Angle between atom", ligand_atom_list[i][0], "and atom", ligand_atom_list[i][1],
+              "before sorted: {0:5.5f} and after sorted: {1:5.5f}"\
+              .format(bf_angle_sigma_list[i], af_angle_sigma_list[i]))
     print("")
     # Remove last three angles (last three rows)
-    new_angle_sigma_list = angle_sigma_list[:len(angle_sigma_list)-3]
-    # Show new plane list after unwanted plane excluded
-    print("         List after sorted:")
+    new_angle_sigma_list = af_angle_sigma_list[:len(af_angle_sigma_list)-3]
+    # Show new list of angle after three transs angle deleted
+    print("         List after three trans angles deleted:")
     for i in range(len(new_angle_sigma_list)):
         print("         ", new_angle_sigma_list[i])
     print("")
-    print("         Total number of angles before sorted:", len(angle_sigma_list))
-    print("         Total number of angles after sorted :", len(new_angle_sigma_list))
+    print("         Total number of angles before three trans angles deleted:", len(af_angle_sigma_list))
+    print("         Total number of angles after three trans angles deleted :", len(new_angle_sigma_list))
     print("")
     # Calculate Sigma parameter
     for i in range(len(new_angle_sigma_list)):
@@ -711,15 +711,18 @@ def calc_theta(v):
         m = project_atom_onto_plane(v[0], a, b, c, d)
         print("          The point of metal center atom on the given plane: "
               "({0:5.5f}, {1:5.5f}, {2:5.5f})".format(m[0], m[1], m[2]))
-        print("")
+        # print("")
         for j in range(1, 6):
             for k in range(2, 7):
                 l_1 = project_atom_onto_plane(v[j], a, b, c, d)
-                print("          The point of ligand atom {0} onto given plane: "
-                      "({1:5.5f}, {2:5.5f}, {3:5.5f})".format(j, l_1[0], l_1[1], l_1[2]))
+                ################################################
+                # Not print the projected points of ligand atoms
+                ################################################
+                # print("          The point of ligand atom {0} onto given plane: "
+                #       "({1:5.5f}, {2:5.5f}, {3:5.5f})".format(j, l_1[0], l_1[1], l_1[2]))
                 l_2 = project_atom_onto_plane(v[k], a, b, c, d)
-                print("          The point of ligand atom {0} onto given plane: "
-                      "({1:5.5f}, {2:5.5f}, {3:5.5f})".format(k, l_2[0], l_2[1], l_2[2]))
+                # print("          The point of ligand atom {0} onto given plane: "
+                #       "({1:5.5f}, {2:5.5f}, {3:5.5f})".format(k, l_2[0], l_2[1], l_2[2]))
                 angle_theta_indi = angle_between(m, l_1, l_2)
                 if angle_theta_indi > angle_cutoff_for_theta_max or angle_theta_indi <= angle_cutoff_for_theta_min:
                     angle_theta_indi = 60.0
@@ -732,9 +735,9 @@ def calc_theta(v):
     # Sum up all individual theta angle
     for i in range(len(angle_theta_list)):
         computed_theta += abs(60.0 - angle_theta_list[i])
-    print("         Total number of all angle     :", len(angle_theta_list))
-    print("         Total number of unwanted angle:", q)
-    print("         Total number of selected angle:", len(angle_theta_list) - q)
+    print("         Total number of all angles      :", len(angle_theta_list))
+    print("         Total number of unwanted angles :", q)
+    print("         Total number of remaining angles:", len(angle_theta_list) - q)
     print("")
     return computed_theta
 
@@ -782,17 +785,31 @@ def draw_strc():
     fig = plt.figure()
     ax = Axes3D(fig)
     cl = coord_list
-    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.2, cl[0][2] + 0.2, atom_list[0], fontsize=12)
+
+    # Plot metal center
+    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=300, linewidths=3, edgecolors='black')
+    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, atom_list[0], fontsize=12)
+    # Plot ligand atoms
     for i in range(1, 7):
-        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=100, linewidths=2, edgecolors='blue')
-        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.2, cl[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=12)
+        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=200, linewidths=2, edgecolors='black')
+        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.1, cl[i][2] + 0.1,  "{0},{1}".format(atom_list[i], i), fontsize=12)
+
+    # Draw line
+    # x, y, z = [], [], []
+    # for i in range(1, 7):
+    #     x.append(cl[i][0])
+    #     y.append(cl[i][1])
+    #     z.append(cl[i][2])
+    # ax.plot(x, y, z, 'k-')
+
     ax.set_xlabel(r'X', fontsize=15)
     ax.set_ylabel(r'Y', fontsize=15)
     ax.set_zlabel(r'Z', fontsize=15)
-    ax.set_title('Octahedral structure')
+    ax.set_title('Octahedral structure', fontsize="12")
     ax.grid(True)
-    # plt.axis('equal')
+
+    #plt.axis('equal')
+
     plt.show()
 
 
@@ -812,6 +829,8 @@ def draw_plane():
 
     cl = coord_list
     vl = coord_vertex_list
+    verts_list = []
+    color_list = ["red", "blue", "green", "yellow"]
 
     # This function is hard code. Waiting for improvement
 
@@ -820,98 +839,58 @@ def draw_plane():
     plane_3_x, plane_3_y, plane_3_z = [], [], []
     plane_4_x, plane_4_y, plane_4_z = [], [], []
 
-    for j in range(3):
-        plane_1_x.append(vl[0][j][0])
-        plane_1_y.append(vl[0][j][1])
-        plane_1_z.append(vl[0][j][2])
-    for j in range(3):
-        plane_2_x.append(vl[1][j][0])
-        plane_2_y.append(vl[1][j][1])
-        plane_2_z.append(vl[1][j][2])
-    for j in range(3):
-        plane_3_x.append(vl[2][j][0])
-        plane_3_y.append(vl[2][j][1])
-        plane_3_z.append(vl[2][j][2])
-    for j in range(3):
-        plane_4_x.append(vl[3][j][0])
-        plane_4_y.append(vl[3][j][1])
-        plane_4_z.append(vl[3][j][2])
+    for i in range(3):
+        plane_1_x.append(vl[0][i][0])
+        plane_1_y.append(vl[0][i][1])
+        plane_1_z.append(vl[0][i][2])
+    for i in range(3):
+        plane_2_x.append(vl[1][i][0])
+        plane_2_y.append(vl[1][i][1])
+        plane_2_z.append(vl[1][i][2])
+    for i in range(3):
+        plane_3_x.append(vl[2][i][0])
+        plane_3_y.append(vl[2][i][1])
+        plane_3_z.append(vl[2][i][2])
+    for i in range(3):
+        plane_4_x.append(vl[3][i][0])
+        plane_4_y.append(vl[3][i][1])
+        plane_4_z.append(vl[3][i][2])
 
     verts_1 = [list(zip(plane_1_x, plane_1_y, plane_1_z))]
     verts_2 = [list(zip(plane_2_x, plane_2_y, plane_2_z))]
     verts_3 = [list(zip(plane_3_x, plane_3_y, plane_3_z))]
     verts_4 = [list(zip(plane_4_x, plane_4_y, plane_4_z))]
 
+    verts_list.append(verts_1)
+    verts_list.append(verts_2)
+    verts_list.append(verts_3)
+    verts_list.append(verts_4)
+
     fig = plt.figure()
 
-    # Plane 1
-    ax = fig.add_subplot(2,2,1, projection='3d')
-    ax.set_title('Plane 1')
-    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100, linewidths=1, edgecolors='blue')
-    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.2, cl[0][2] + 0.2, atom_list[0], fontsize=9)
-    for i in range(1, 7):
-        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=50, linewidths=1, edgecolors='blue')
-        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.2, cl[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=9)
-    ax.add_collection3d(Poly3DCollection(verts_1, alpha=0.5, color="red"))
+    # Plot four planes
+    for i in range(4):
+        ax = fig.add_subplot(2,2,int(i+1), projection='3d')
+        ax.set_title("Plane {}".format(i+1))
+        ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100, linewidths=1, edgecolors='black')
+        ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, atom_list[0], fontsize=9)
+        for j in range(1, 7):
+            ax.scatter(cl[j][0], cl[j][1], cl[j][2], color='red', marker='o', s=50, linewidths=1, edgecolors='black')
+            ax.text(cl[j][0] + 0.1, cl[j][1] + 0.1, cl[j][2] + 0.1, "{0},{1}".format(atom_list[j], j), fontsize=9)
+        ax.add_collection3d(Poly3DCollection(verts_list[i], alpha=0.5, color=color_list[i]))
 
-    ax.set_xlabel(r'X', fontsize=10)
-    ax.set_ylabel(r'Y', fontsize=10)
-    ax.set_zlabel(r'Z', fontsize=10)
-    ax.grid(True)
+        ax.set_xlabel(r'X', fontsize=10)
+        ax.set_ylabel(r'Y', fontsize=10)
+        ax.set_zlabel(r'Z', fontsize=10)
+        ax.grid(True)
 
-    # Plane 2
-    ax = fig.add_subplot(2,2,2, projection='3d')
-    ax.set_title('Plane 2')
-    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100, linewidths=1, edgecolors='blue')
-    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.2, cl[0][2] + 0.2, atom_list[0], fontsize=9)
-    for i in range(1, 7):
-        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=50, linewidths=1, edgecolors='blue')
-        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.2, cl[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=9)
-    ax.add_collection3d(Poly3DCollection(verts_2, alpha=0.5, color="blue"))
-
-    ax.set_xlabel(r'X', fontsize=10)
-    ax.set_ylabel(r'Y', fontsize=10)
-    ax.set_zlabel(r'Z', fontsize=10)
-    ax.grid(True)
-
-    # Plane 3
-    ax = fig.add_subplot(2,2,3, projection='3d')
-    ax.set_title('Plane 3')
-    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100, linewidths=1, edgecolors='blue')
-    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.2, cl[0][2] + 0.2, atom_list[0], fontsize=9)
-    for i in range(1, 7):
-        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=50, linewidths=1, edgecolors='blue')
-        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.2, cl[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=9)
-    ax.add_collection3d(Poly3DCollection(verts_3, alpha=0.5, color="green"))
-
-    ax.set_xlabel(r'X', fontsize=10)
-    ax.set_ylabel(r'Y', fontsize=10)
-    ax.set_zlabel(r'Z', fontsize=10)
-    ax.grid(True)
-
-    # Plane 4
-    ax = fig.add_subplot(2,2,4, projection='3d')
-    ax.set_title('Plane 4')
-    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100, linewidths=1, edgecolors='blue')
-    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.2, cl[0][2] + 0.2, atom_list[0], fontsize=9)
-    for i in range(1, 7):
-        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=50, linewidths=1, edgecolors='blue')
-        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.2, cl[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=9)
-    ax.add_collection3d(Poly3DCollection(verts_4, alpha=0.5, color="yellow"))
-
-    ax.set_xlabel(r'X', fontsize=10)
-    ax.set_ylabel(r'Y', fontsize=10)
-    ax.set_zlabel(r'Z', fontsize=10)
-    ax.grid(True)
-    plt.axis('equal')
-
+    #plt.axis('equal')
     plt.show()
 
 
 def draw_projection():
     """Display the vector projection of all atoms onto the given plane
     """
-    # global m, l
     # check if input file exist
     if filename == "":
         popup_nofile_error()
@@ -924,29 +903,82 @@ def draw_projection():
     # Plot and configuration
     fig = plt.figure()
     cl = coord_list
+    vl = coord_vertex_list
+    color_list = ["red", "blue", "green", "yellow"]
+    x_range, y_range = [], []
+    pl_x, pl_y, pl_z = [], [], []
+    l = []
 
-    # Figure configuration
-    ax = fig.add_subplot(2, 2, 1, projection='3d')
-    ax.set_title('Orthogonal projection onto the plane 1')
-    # Metal center atom
-    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='blue', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.2, cl[0][2] + 0.2, atom_list[0], fontsize=9)
-    # Ligand atoms
-    for i in range(1, 7):
-        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='white', marker='o', s=100, linewidths=2, edgecolors='blue')
-        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.2, cl[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=9)
-    # Metal center atom projected onto the plane
-    ax.scatter(m[0], m[1], m[2], color='skyblue', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(m[0] + 0.1, m[1] + 0.2, m[2] + 0.2, "Metal on the plane", fontsize=9)
-    # Ligand atom projected onto the plane
-    ax.scatter(l_1[0], l_1[1], l_1[2], color='orange', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(l_1[0] + 0.1, l_1[1] + 0.2, l_1[2] + 0.2, "Ligand atom on the plane", fontsize=9)
+    for i in range(4):
+        # Figure configuration
+        ax = fig.add_subplot(2, 2, int(i+1), projection='3d')
+        ax.set_title("Orthogonal projection onto the plane {}".format(i+1), fontsize='10')
 
-    ax.set_xlabel(r'X', fontsize=10)
-    ax.set_ylabel(r'Y', fontsize=10)
-    ax.set_zlabel(r'Z', fontsize=10)
-    ax.grid(True)
-    plt.axis('equal')
+        # Plot plane
+        # Given three points, the plane is a*x + b*y + c*z + d = 0
+        a, b, c, d = find_plane_eq(vl[i][0], vl[i][1], vl[i][2])
+        print("         The equation of plane {0} is {1:5.5f}x + {2:5.5f}y + {3:5.5f}z + {4:5.5f} = 0"\
+              .format(i+1, a, b, c, d))
+        m = project_atom_onto_plane(cl[0], a, b, c, d)
+        point = m
+        normal = np.array([a, b, c])
+        d = -np.sum(point * normal)
+        # Parameters for plotting the surface
+        for j in range(len(cl)):
+            x_range.append(cl[j][0])
+            y_range.append(cl[j][1])
+        x_limit = min(x_range) - 1, max(x_range) + 1
+        y_limit = min(y_range) - 1, max(y_range) + 1
+        xx, yy = np.meshgrid((x_limit), (y_limit))
+        # xx, yy = np.meshgrid(range(10), range(10))
+        z = (-normal[0] * xx - normal[1] * yy - d) / normal[2]
+        ax.plot_surface(xx, yy, z, alpha='0.5', color=color_list[i])
+
+        # Plot original location of atoms
+        # Metal center atom
+        ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100, linewidths=1, edgecolors='black',
+                   label="Metal center")
+        ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, atom_list[0], fontsize=9)
+        # Ligand atoms
+        for k in range(1, 7):
+            ax.scatter(cl[k][0], cl[k][1], cl[k][2], color='red', marker='o', s=50, linewidths=1, edgecolors='black',
+                   label="Ligand atom")
+            ax.text(cl[k][0] + 0.1, cl[k][1] + 0.1, cl[k][2] + 0.1, "{0}".format(k), fontsize=9)
+
+        # Plot the location of atoms on the given plane
+        # Projected Metal center atom
+        ax.scatter(m[0], m[1], m[2], color='orange', marker='o', s=100, linewidths=1, edgecolors='black',
+                   label="Projected metal center")
+        ax.text(m[0] + 0.1, m[1] + 0.1, m[2] + 0.1, "{}*".format(atom_list[0]), fontsize=9)
+        # Ligand atom projected onto the plane
+        # Projected Ligand atom
+        for n in range(1, 7):
+            l.append(project_atom_onto_plane(cl[n], a, b, c, d))
+            pl_x.append(project_atom_onto_plane(cl[n], a, b, c, d)[0])
+            pl_y.append(project_atom_onto_plane(cl[n], a, b, c, d)[0])
+            pl_z.append(project_atom_onto_plane(cl[n], a, b, c, d)[0])
+        for p in range(6):
+            print(l[p])
+            ax.scatter(l[p][0], l[p][1], l[p][2], color='blue', marker='o', s=50, linewidths=1, edgecolors='black',
+                   label="Projected ligand atom")
+            ax.text(l[p][0] + 0.1, l[p][1] + 0.1, l[p][2] + 0.1, "{0}".format(p+1), fontsize=9)
+
+        ax.set_xlabel(r'X', fontsize=10)
+        ax.set_ylabel(r'Y', fontsize=10)
+        ax.set_zlabel(r'Z', fontsize=10)
+        ax.grid(True)
+
+        #ax.legend()
+
+    # Draw line
+    # x, y, z = [], [], []
+    # for i in range(1, 7):
+    #     x.append(cl[i][0])
+    #     y.append(cl[i][1])
+    #     z.append(cl[i][2])
+    # ax.plot(x, y, z, 'k-')
+
+    #plt.axis('equal')
 
     plt.show()
 
@@ -960,7 +992,6 @@ run_check = 0
 computed_delta = 0.0
 computed_sigma = 0.0
 computed_theta = 0.0
-angle_cutoff_for_sigma = 150.0  # degree
 angle_cutoff_for_theta_max = 60.0  # degree
 angle_cutoff_for_theta_min = 1.0  # degree
 ##################################################
@@ -973,8 +1004,6 @@ FONT = "Segoe-UI 10"
 root.option_add("*Font", FONT)
 # Set program title
 root.title("OctaDist")
-# Failed to use iconbitmap
-# root.iconbitmap(r'C:\Users\Nutt\PycharmProjects\OctaDist\icon-mol.ico')
 # width x height + x_offset + y_offset
 # master.geometry("350x610+400+100")
 # Uncomment command below, user can resize window freely
@@ -1068,7 +1097,7 @@ btn_open_file.grid(sticky=W, pady="5", row=2, column=3)
 lbl_1 = Label(master, text="Molecular specification")
 lbl_1.grid(sticky=W, pady="5", row=3, columnspan=4)
 # text box for showing cartesian coordinates
-textBox_coord = Text(master, height="12", width="65", wrap="word")
+textBox_coord = Text(master, height="9", width="65", wrap="word")
 textBox_coord.grid(pady="5", row=4, columnspan=4)
 # Octahedral distortion parameters
 lbl_2 = Label(master, text="Octahedral distortion parameters")
@@ -1108,8 +1137,8 @@ btn_draw_strc.grid(pady="5", row=7, column=0)
 btn_draw_plane = Button(master, command=draw_plane, text="Projection plane")
 btn_draw_plane.grid(pady="5", row=8, column=0)
 # button to draw vector projection
-btn_draw_proj = Button(master, command=draw_projection, text="Orthogonal projection")
-btn_draw_proj.grid(pady="5", row=9, column=0)
+btn_draw_projection = Button(master, command=draw_projection, text="Orthogonal projection")
+btn_draw_projection.grid(pady="5", row=9, column=0)
 
 # activate the window
 root.mainloop()
