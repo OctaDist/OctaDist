@@ -5,8 +5,8 @@ This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Communi
 ## Introduction
 ### Octahedral Distortion Parameters
 Octahedral structure is composed of 7 atoms: one metal center atom and six ligand atoms. It has eqight faces, 6 vertices, and 12 edges.
-If the distance between metal center atom and each ligand atoms are the same as well as the angle between ligand atom i - metal center atom - ligand atom j are all 90 degree, this is called perfect octahedral structure. If not, the structure distortion occurs. 
-
+The structural distortion generally occurs in octahedral complex. Previous publications have determined the octahedral distortion using structural parameters: Delta, Sigma, and Theta.
+ 
 ## Usage
 ### Linux OS
 For Linux user, use `python3 -V` to check python version.
