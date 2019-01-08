@@ -42,7 +42,7 @@ from tkinter import *
 from tkinter import filedialog
 from tkinter.messagebox import showinfo
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d.axes3d import Axes3D
+from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 
@@ -256,7 +256,7 @@ def save_file():
         popup_nofile_error()
         return 1
     # check if parameters are computed
-    if run_check == "0":
+    if run_check == 0:
         popup_nocalc_error()
         return 1
     f = filedialog.asksaveasfile(mode='w',
@@ -275,10 +275,23 @@ def save_file():
     f.write("")
     # f.write(coord_raw)
     f.write("Atom list")
-    f.write(atom_list)
+    for item in atom_list:
+        f.write("%s\n" % item)
     f.write("")
     f.write("Coordinate list")
-    f.write(coord_list)
+    for item in coord_list:
+        f.write("%s\n" % item)
+
+    f_computed_distance = "Distance = {0:10.8f}".format(computed_distance)
+    f_computed_sigma = "Sigma = {0:10.8f}".format(computed_sigma)
+    f_computed_theta = "Theta = {0:10.8f}".format(computed_theta)
+
+    f.write("")
+    f.write("Command: Calculate octahedral distortion parameters")
+    f.write("         Distance  <D> = %s" % f_computed_distance)
+    f.write("         Sigma     <Σ> = %s" % f_computed_sigma)
+    f.write("         Theta     <Θ> = %s" % f_computed_theta)
+    f.write("")
     f.close()  # `()` was missing.
     print("Command: Data has been saved to ", f)
 
@@ -453,7 +466,9 @@ def find_plane(v):
     global final_plane_list
     # list of vertex of triangle (face of octahedral)
     plane_list = []
-    print("Command: Determine all possible plane (face on octahedral)")
+    print("Command: Determine the plane (face on octahedral) defined by given three atoms (vertex)")
+    print("         Given 5 atoms, 3 out of 5 are chosen as a vertex of triangle (plane)")
+    print("         Total number of typical plane is 10")
     # Find four possible faces --> This would result 10 plane
     for i in range(1, 4):
         for j in range(i+1, 5):
@@ -466,6 +481,8 @@ def find_plane(v):
                 plane_list.append(np.array([i, j, k, d_btw]))
     # Show plane list before sorted
     print("Command: Remove plane that mostly close to metal center atom")
+    print("         Format of list:\n")
+    print("         [<atom_1>  <atom_2>  <atom_3>  <distance_from_metal_center_to_plane>\n")
     print("         List before sorted:")
     for i in range(len(plane_list)):
         print("         ", plane_list[i])
@@ -499,7 +516,7 @@ def find_plane(v):
     # Show final plane list
     print("         Final plane list:")
     for i in range(len(final_plane_list)):
-        print("         ", final_plane_list[i])
+        print("         ", final_plane_list[i].astype(int))
     print("")
     # Return string 2D array
     return final_plane_list.astype(int)
@@ -507,6 +524,12 @@ def find_plane(v):
 
 def convert_atom_to_point(v):
     """Find 4 correct plane of octahedral complex
+    For example,
+
+    list of atom                    list of XYZ coordinate of atom
+     [[1 2 3]          [[[0.00 0.00 0.00]  [1.22 2.34 1.23]  [3.21 1.09 -0.43]
+      [1 2 4]    --->   [[0.00 0.00 0.00]  [1.22 2.34 1.23]  [-0.56 2.65 0.45]
+      [2 3 5]]          [[1.22 2.34 1.23]  [3.21 1.09 -0.43] [2.32 -0.54 -0.23]]
     """
     global coord_vertex_list
     coord_vertex_list = []
@@ -628,6 +651,7 @@ def calc_all_param():
     Distance, Sigma, and Theta parameters
     """
     global filename, run_check, computed_distance, computed_sigma, computed_theta
+    global formatted_computed_distance, formatted_computed_sigma, formatted_computed_theta
     # check if input file exist
     if filename == "":
         popup_nofile_error()
@@ -643,7 +667,8 @@ def calc_all_param():
     print("Command: Calculate octahedral distortion parameters")
     print("         Distance  <D> =", formatted_computed_distance)
     print("         Sigma     <Σ> =", formatted_computed_sigma)
-    print("         Theta     <Θ> =", formatted_computed_theta, "\n")
+    print("         Theta     <Θ> =", formatted_computed_theta)
+    print("")
     textBox_distance.delete(1.0, END)
     textBox_distance.insert(INSERT, formatted_computed_distance)
     textBox_sigma.delete(1.0, END)
@@ -663,13 +688,13 @@ def draw_strc():
     print("Command: Display octahedral structure")
     # Plot and configuration
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    c = coord_list
-    ax.scatter(c[0][0], c[0][1], c[0][2], color='yellow', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(c[0][0] + 0.1, c[0][1] + 0.2, c[0][2] + 0.2, atom_list[0], fontsize=12)
+    ax = Axes3D(fig)
+    cl = coord_list
+    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=200, linewidths=2, edgecolors='blue')
+    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.2, cl[0][2] + 0.2, atom_list[0], fontsize=12)
     for i in range(1, 7):
-        ax.scatter(c[i][0], c[i][1], c[i][2], color='red', marker='o', s=100, linewidths=2, edgecolors='blue')
-        ax.text(c[i][0] + 0.1, c[i][1] + 0.2, c[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=12)
+        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=100, linewidths=2, edgecolors='blue')
+        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.2, cl[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=12)
     ax.set_xlabel(r'X', fontsize=15)
     ax.set_ylabel(r'Y', fontsize=15)
     ax.set_zlabel(r'Z', fontsize=15)
@@ -686,25 +711,108 @@ def draw_plane():
     if filename == "":
         popup_nofile_error()
         return 1
-    get_coord()
+    # check if the orthogonal projection is computed
+    if run_check == 0:
+        popup_nocalc_error()
+        return 1
     print("Command: Display defined plane and orthogonal point")
     # Plot and configuration
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
+
     cl = coord_list
+    vl = coord_vertex_list
 
-    points = [map(tuple, coord_vertex_list)]
+    # This function is hard code. Waiting for improvement
 
-    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, atom_list[0], fontsize=9)
-    ax.add_collection3d(Poly3DCollection(points, alpha=0.5, color="Khaki"))
+    plane_1_x, plane_1_y, plane_1_z = [], [], []
+    plane_2_x, plane_2_y, plane_2_z = [], [], []
+    plane_3_x, plane_3_y, plane_3_z = [], [], []
+    plane_4_x, plane_4_y, plane_4_z = [], [], []
 
-    ax.set_xlabel(r'X', fontsize=15)
-    ax.set_ylabel(r'Y', fontsize=15)
-    ax.set_zlabel(r'Z', fontsize=15)
-    ax.set_title('3D plane')
+    for j in range(3):
+        plane_1_x.append(vl[0][j][0])
+        plane_1_y.append(vl[0][j][1])
+        plane_1_z.append(vl[0][j][2])
+    for j in range(3):
+        plane_2_x.append(vl[1][j][0])
+        plane_2_y.append(vl[1][j][1])
+        plane_2_z.append(vl[1][j][2])
+    for j in range(3):
+        plane_3_x.append(vl[2][j][0])
+        plane_3_y.append(vl[2][j][1])
+        plane_3_z.append(vl[2][j][2])
+    for j in range(3):
+        plane_4_x.append(vl[3][j][0])
+        plane_4_y.append(vl[3][j][1])
+        plane_4_z.append(vl[3][j][2])
+
+    verts_1 = [list(zip(plane_1_x, plane_1_y, plane_1_z))]
+    verts_2 = [list(zip(plane_2_x, plane_2_y, plane_2_z))]
+    verts_3 = [list(zip(plane_3_x, plane_3_y, plane_3_z))]
+    verts_4 = [list(zip(plane_4_x, plane_4_y, plane_4_z))]
+
+    fig = plt.figure()
+
+    # Plane 1
+    ax = fig.add_subplot(2,2,1, projection='3d')
+    ax.set_title('Plane 1')
+    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100, linewidths=1, edgecolors='blue')
+    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.2, cl[0][2] + 0.2, atom_list[0], fontsize=9)
+    for i in range(1, 7):
+        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=50, linewidths=1, edgecolors='blue')
+        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.2, cl[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=9)
+    ax.add_collection3d(Poly3DCollection(verts_1, alpha=0.5, color="red"))
+
+    ax.set_xlabel(r'X', fontsize=10)
+    ax.set_ylabel(r'Y', fontsize=10)
+    ax.set_zlabel(r'Z', fontsize=10)
     ax.grid(True)
-    # plt.axis('equal')
+
+    # Plane 2
+    ax = fig.add_subplot(2,2,2, projection='3d')
+    ax.set_title('Plane 2')
+    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100, linewidths=1, edgecolors='blue')
+    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.2, cl[0][2] + 0.2, atom_list[0], fontsize=9)
+    for i in range(1, 7):
+        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=50, linewidths=1, edgecolors='blue')
+        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.2, cl[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=9)
+    ax.add_collection3d(Poly3DCollection(verts_2, alpha=0.5, color="blue"))
+
+    ax.set_xlabel(r'X', fontsize=10)
+    ax.set_ylabel(r'Y', fontsize=10)
+    ax.set_zlabel(r'Z', fontsize=10)
+    ax.grid(True)
+
+    # Plane 3
+    ax = fig.add_subplot(2,2,3, projection='3d')
+    ax.set_title('Plane 3')
+    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100, linewidths=1, edgecolors='blue')
+    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.2, cl[0][2] + 0.2, atom_list[0], fontsize=9)
+    for i in range(1, 7):
+        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=50, linewidths=1, edgecolors='blue')
+        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.2, cl[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=9)
+    ax.add_collection3d(Poly3DCollection(verts_3, alpha=0.5, color="green"))
+
+    ax.set_xlabel(r'X', fontsize=10)
+    ax.set_ylabel(r'Y', fontsize=10)
+    ax.set_zlabel(r'Z', fontsize=10)
+    ax.grid(True)
+
+    # Plane 4
+    ax = fig.add_subplot(2,2,4, projection='3d')
+    ax.set_title('Plane 4')
+    ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100, linewidths=1, edgecolors='blue')
+    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.2, cl[0][2] + 0.2, atom_list[0], fontsize=9)
+    for i in range(1, 7):
+        ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=50, linewidths=1, edgecolors='blue')
+        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.2, cl[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=9)
+    ax.add_collection3d(Poly3DCollection(verts_4, alpha=0.5, color="yellow"))
+
+    ax.set_xlabel(r'X', fontsize=10)
+    ax.set_ylabel(r'Y', fontsize=10)
+    ax.set_zlabel(r'Z', fontsize=10)
+    ax.grid(True)
+    plt.axis('equal')
+
     plt.show()
 
 
@@ -720,34 +828,34 @@ def draw_projection():
     if run_check == 0:
         popup_nocalc_error()
         return 1
-    print("Command: Display the projection plane and orthogonal vector")
+    print("Command: Display the orthogonal projection onto the given plane")
     # Plot and configuration
     fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
     cl = coord_list
 
+    # Figure configuration
+    ax = fig.add_subplot(2, 2, 1, projection='3d')
+    ax.set_title('Orthogonal projection onto the plane 1')
     # Metal center atom
     ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='blue', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, atom_list[0], fontsize=7)
+    ax.text(cl[0][0] + 0.1, cl[0][1] + 0.2, cl[0][2] + 0.2, atom_list[0], fontsize=9)
     # Ligand atoms
     for i in range(1, 7):
         ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='white', marker='o', s=100, linewidths=2, edgecolors='blue')
-        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.1, cl[i][2] + 0.1, atom_list[i] + ",{0}".format(i), fontsize=7)
-
+        ax.text(cl[i][0] + 0.1, cl[i][1] + 0.2, cl[i][2] + 0.2, atom_list[i] + ",{0}".format(i), fontsize=9)
     # Metal center atom projected onto the plane
     ax.scatter(m[0], m[1], m[2], color='skyblue', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(m[0] + 0.3, m[1] + 0.3, m[2] + 0.3, "Metal on the plane", fontsize=7)
-
+    ax.text(m[0] + 0.1, m[1] + 0.2, m[2] + 0.2, "Metal on the plane", fontsize=9)
     # Ligand atom projected onto the plane
     ax.scatter(l_1[0], l_1[1], l_1[2], color='orange', marker='o', s=200, linewidths=2, edgecolors='blue')
-    ax.text(l_1[0] + 0.3, l_1[1] + 0.3, l_1[2] + 0.3, "Ligand atom on the plane", fontsize=7)
+    ax.text(l_1[0] + 0.1, l_1[1] + 0.2, l_1[2] + 0.2, "Ligand atom on the plane", fontsize=9)
 
-    ax.set_xlabel(r'X', fontsize=15)
-    ax.set_ylabel(r'Y', fontsize=15)
-    ax.set_zlabel(r'Z', fontsize=15)
-    ax.set_title('Atom projection onto the plane')
+    ax.set_xlabel(r'X', fontsize=10)
+    ax.set_ylabel(r'Y', fontsize=10)
+    ax.set_zlabel(r'Z', fontsize=10)
     ax.grid(True)
-    # plt.axis('equal')
+    plt.axis('equal')
+
     plt.show()
 
 
@@ -826,13 +934,22 @@ helpmenu.add_command(label="About program", command=popup_about)
 helpmenu.add_command(label="License information", command=popup_license)
 root.config(menu=menubar)
 
+print("")
 print("OctaDist  Copyright (C) 2019  Rangsiman Ketkaew")
 print("This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.")
 print("This is free software, and you are welcome to redistribute it under")
 print("certain conditions; see <https://www.gnu.org/licenses/> for details.")
-print("\n--------------------------------------------")
-print("OctaDist v.1: Octahedral Distortion Analysis")
-print("--------------------------------------------\n")
+print("")
+print("=========================================================================")
+print("                              OctaDist 1.0")
+print("")
+print("                     Octahedral Distortion Analysis")
+print("                     ------------------------------")
+print("A Program for Determining The Structural Distortion of Octahedral Complex")
+print("                          by Rangsiman Ketkaew")
+print("                           January 8th, 2019")
+print("=========================================================================")
+print("")
 
 # program details
 msg_1 = Label(master, font=("Segoe-UI", 16, "bold"), text="Octahedral Distortion Analysis")
