@@ -15,9 +15,9 @@ The structural distortion generally occurs in octahedral complex. Previous publi
 
 However, there is no program for determining this kind of parameter yet. So we present the OctaDist program for those who are ineterested in this.
 
-2D structure of octahedral Fe complex |  3D structure of octahedral Fe complex  | Projection of ligand atoms onto the twisting plane
+   Octahedral Fe complex   |   Octahedral Fe complex   |  Projection of ligand atoms onto the twisting plane
 :-------------------------:|:-------------------------:|:-------------------------:
-![](images/complex-1.jpg)         |  ![](images/complex-2.jpg)       |  ![](images/complex-3.jpg)
+![](images/complex-1.jpg)  | ![](images/complex-2.jpg) |  ![](images/complex-3.jpg)
 
 
 ### Methods
