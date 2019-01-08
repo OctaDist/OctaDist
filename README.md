@@ -27,12 +27,10 @@ For Linux user, use `python3 -V` to check python version.
 3. Click `Yes`
 
 ## Screenshots
-<p align="center">
-   <img alt="Capture_Window" src="https://github.com/rangsimanketkaew/OctaDist/blob/master/Capture_Window.jpg" align=middle width="400pt" hight="100pt" /> 
-<p/>
-
-<p align="center">
-<img alt="Capture_CMD" src="https://github.com/rangsimanketkaew/OctaDist/blob/master/Capture_CMD.jpg" align=middle width="700pt" hight="100pt" /> 
+<p align="left">
+   <img alt="Capture_Window" src="https://github.com/rangsimanketkaew/OctaDist/blob/master/Capture_Window.jpg" align=middle width="300pt" /> 
+   
+<img alt="Capture_CMD" src="https://github.com/rangsimanketkaew/OctaDist/blob/master/Capture_CMD.jpg" align=middle width="400pt"/> 
 <p/>
 
 ## Author
