@@ -46,6 +46,7 @@ For Linux user, use `python3 -V` to check python version.
 ## Author
 Rangsiman ketkaew <br/>
 Computational Chemistry Research Unit <br/>
-Department of Chemistry, Thammasat University
+Department of Chemistry, Faculty of Science and Technology <br/>
+Thammasat University, Pathum Thani, 12120 Thailand <br/>
 E-mail: [rangsiman1993@gmail.com](rangsiman1993@gmail.com)
 Website: [https://sites.google.com/site/rangsiman1993](https://sites.google.com/site/rangsiman1993)
