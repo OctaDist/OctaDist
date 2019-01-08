@@ -6,7 +6,11 @@ This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Communi
 ### Octahedral Distortion Parameters
 Octahedral structure is composed of 7 atoms: one metal center atom and six ligand atoms. It has eqight faces, 6 vertices, and 12 edges.
 The structural distortion generally occurs in octahedral complex. Previous publications have determined the octahedral distortion using structural parameters: Delta, Sigma, and Theta.
- 
+
+- <img src="https://latex.codecogs.com/gif.latex?O_t=\text { Onset event at time bin } t " /> 
+- <img src="https://latex.codecogs.com/gif.latex?s=\text { sensor reading }  " /> 
+- <img src="https://latex.codecogs.com/gif.latex?P(s | O_t )=\text { Probability of a sensor reading value when sleep onset is observed at a time bin } t " />
+
 ## Usage
 ### Linux OS
 For Linux user, use `python3 -V` to check python version.
