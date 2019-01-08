@@ -41,7 +41,7 @@ For Linux user, use `python3 -V` to check python version.
 3. Click `Yes`
 
 ## Testing
-* Perfect octahedral Fe complex ([complex-test-1.xyz](complex-test-1.xyz))
+* Perfect octahedral Fe complex ([complex-test-1.txt](complex-test-1.txt))
 ```
 Fe                 0.20069808    0.70680627    0.00000000
 H                  1.66069808    0.70680627    0.00000000
