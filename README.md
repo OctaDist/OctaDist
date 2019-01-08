@@ -19,7 +19,7 @@ The structural distortion generally occurs in octahedral complex. Previous publi
 
 ### Methods
 #### Orthogonal projection
-Determining the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) paramers are straightforward, but the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. Given three ligand atoms, we can find the plane for orthogonal projection of other ligan atoms onto the plane. The location of the ligand atoms on the given plane are called a projected point. Then, we compute the angle between the vector of a projected point of two atoms (ray 1 and ray 2), which a projected metal center is taken as vertex. 
+Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward, but the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky becuase the ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle depends on how the two twisting planes are defined. Given three ligand atoms, we can find the plane for orthogonal projection of other ligan atoms onto the plane. The location of the ligand atoms on the given plane are called a projected point. Then, we compute the angle between the vector of a projected point of two atoms (ray 1 and ray 2), which a projected metal center is taken as vertex. 
 
 <p align="center">
    <img alt="Angle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Two_rays_and_one_vertex.png/440px-Two_rays_and_one_vertex.png" align=middle width="200pt" /> 
