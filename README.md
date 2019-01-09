@@ -1,6 +1,7 @@
 # OctaDist
 Octahedral Distortion Analysis: determining the structural distortion of octahedral complex. <br/>
 This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Community Edition). <br/>
+<br/>
 
 ## Background
 ### Octahedral Distortion Parameters
@@ -13,7 +14,7 @@ The structural distortion generally occurs in octahedral complex. Previous publi
 
 - ![](https://latex.codecogs.com/svg.Latex?%5CTheta%20%3D%20%5Csum_%7Bi%20%3D%201%7D%5E%7B24%7D%20%5Cabs%20%5Cleft%20%7C%2060%20-%20%5Ctheta_%7Bi%7D%20%7C) 
 
-However, there is no program for determining this kind of parameter yet. So we present the OctaDist program for those who are ineterested in this.
+However, there is no program for determining this kind of parameter yet. So we present the OctaDist program for those who are interested in this. The following structure is an example of 
 
    Octahedral Fe complex   |   Octahedral Fe complex   |  Projection of ligand atoms onto the twisting plane
 :-------------------------:|:-------------------------:|:-------------------------:
@@ -22,7 +23,7 @@ However, there is no program for determining this kind of parameter yet. So we p
 
 ### Methods
 #### Orthogonal projection
-Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward, but the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky becuase the ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle depends on how the two twisting planes are defined. Given three ligand atoms, we can find the plane for orthogonal projection of other ligan atoms onto the plane. The location of the ligand atoms on the given plane are called a projected point. Then, we compute the angle between the vector of a projected point of two atoms (ray 1 and ray 2), which a projected metal center is taken as vertex. 
+Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward, but the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky becuase the ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle depends on how the two twisting planes are defined. Given three ligand atoms, we can find the plane for orthogonal projection of other ligand atoms onto the plane. The new location of the ligand atoms on the given plane is called a projected point. Then, we compute the angle between the vector of a projected point of two atoms (ray 1 and ray 2), which a projected metal center is taken as vertex. 
 
 <p align="center">
    <img alt="Angle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Two_rays_and_one_vertex.png/440px-Two_rays_and_one_vertex.png" align=middle width="200pt" /> 
@@ -96,12 +97,12 @@ Calculate octahedral distortion parameters
 ## Special thanks
 I would like to thank
 - [Prof. Yuthana Tantirungrotechai](https://sites.google.com/site/compchem403/people/faculty/yuthana) (Thammasat University, Thailand)
-- [Prof. David J. Harding](https://www.funtechwu.com/david-j-harding) (Walailuk University, Thailand)
+- [Prof. David J. Harding](https://www.funtechwu.com/david-j-harding) (Walailak University, Thailand)
 
 for useful advices and comments.
 
 ## Author
-Rangsiman Ketkaew <br/>
+Rangsiman Ketkaew (Master Student) <br/>
 Computational Chemistry Research Unit <br/>
 Department of Chemistry, Faculty of Science and Technology <br/>
 Thammasat University, Pathum Thani, 12120 Thailand <br/>
