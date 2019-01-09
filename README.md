@@ -14,7 +14,7 @@ The structural distortion generally occurs in octahedral complex. Previous publi
 
 - ![](https://latex.codecogs.com/svg.Latex?%5CTheta%20%3D%20%5Csum_%7Bi%20%3D%201%7D%5E%7B24%7D%20%5Cabs%20%5Cleft%20%7C%2060%20-%20%5Ctheta_%7Bi%7D%20%7C) 
 
-However, there is no program for determining this kind of parameter yet. So we present the OctaDist program for those who are interested in this. The following structure is an example of 
+However, there is no program for determining this kind of parameter yet. So we present the OctaDist program for those who are interested in this. The following is an example of octahedral structure. 
 
    Octahedral Fe complex   |   Octahedral Fe complex   |  Projection of ligand atoms onto the twisting plane
 :-------------------------:|:-------------------------:|:-------------------------:
@@ -64,7 +64,7 @@ Calculate octahedral distortion parameters
 
 ---
 
-* XRD structure of octahedral Co complex in low-spin state ([complex-test-2.xyz](complex-test-2.xyz))
+* XRD structure of octahedral Co complex in low-spin state, provided by David Harding ([complex-test-2.xyz](complex-test-2.xyz))
 ```
 Co                -3.535353      0.004296     -0.544992
 N                 -1.350596      0.347169     -0.409266
