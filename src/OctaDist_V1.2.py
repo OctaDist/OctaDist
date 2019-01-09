@@ -1469,48 +1469,49 @@ filemenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="File", menu=filemenu)
 
 # sub-menu
-filemenu.add_command(label="New", command=lambda: clear_cache)
-filemenu.add_command(label="Open", command=lambda: open_file)
-filemenu.add_command(label="Save as ..", command=lambda: save_file)
+filemenu.add_command(label="New", command=lambda: clear_cache())
+filemenu.add_command(label="Open", command=lambda: open_file())
+filemenu.add_command(label="Save as ..", command=lambda: save_file())
 filemenu.add_separator()
-filemenu.add_command(label="Exit", command=lambda: quit_program)
+filemenu.add_command(label="Exit", command=lambda: quit_program())
 
 # add menu bar button
 toolsmenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Tools", menu=toolsmenu)
 
 # add sub-menu
-toolsmenu.add_command(label="Draw octahedral structure", command=lambda: draw_structure)
-toolsmenu.add_command(label="Draw projection plane", command=lambda: draw_plane)
-toolsmenu.add_command(label="Draw orthogonal projection", command=lambda: draw_projection)
+toolsmenu.add_command(label="Draw octahedral structure", command=lambda: draw_structure())
+toolsmenu.add_command(label="Draw projection plane", command=lambda: draw_plane())
+toolsmenu.add_command(label="Draw orthogonal projection", command=lambda: draw_projection())
 
 # add menu bar button
 helpmenu = Menu(menubar, tearoff=0)
 menubar.add_cascade(label="Help", menu=helpmenu)
 
 # add sub-menu
-helpmenu.add_command(label="Program help", command=lambda: popup_program_help)
-helpmenu.add_command(label="About program", command=lambda: popup_about)
-helpmenu.add_command(label="License information", command=lambda: popup_license)
+helpmenu.add_command(label="Program help", command=lambda: popup_program_help())
+helpmenu.add_command(label="About program", command=lambda: popup_about())
+helpmenu.add_command(label="License information", command=lambda: popup_license())
 root.config(menu=menubar)
 
 print("")
-print("OctaDist  Copyright (C) 2019  Rangsiman Ketkaew")
+print("OctaDist (Octahedral Distortion Analysis) Copyright (C) 2019  Rangsiman Ketkaew")
 print("This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.")
 print("This is free software, and you are welcome to redistribute it under")
 print("certain conditions; see <https://www.gnu.org/licenses/> for details.")
 print("")
-print("=========================================================================")
+print("     ==============================================================")
 print("                              OctaDist {}".format(program_version))
 print("")
-print("                     Octahedral Distortion Analysis")
+print("                     OCTAHEDRAL DISTORTION ANALYSIS")
 print("                     ------------------------------")
-print("A Program for Determining The Structural Distortion of Octahedral Complex")
+print("         A PROGRAM FOR DETERMINING THE STRUCTURAL PROPERTIES OF")
+print("                   THE DISTORTED OCTAHEDRAL STRUCTURE")
 print("")
 print("                          by Rangsiman Ketkaew")
 print("                           January 8th, 2019")
 print("              https://github.com/rangsimanketkaew/OctaDist")
-print("=========================================================================")
+print("     ==============================================================")
 print("")
 
 # program details
@@ -1525,17 +1526,17 @@ msg_2.grid(pady="5", row=1, columnspan=4)
 #################################
 
 # button to browse input file
-btn_open_file = Button(master, command=lambda: open_file, text="Browse file", )
+btn_open_file = Button(master, command=lambda: open_file(), text="Browse file", )
 btn_open_file.grid(pady="5", row=2, column=0)
 
 # button to run
-btn_run = Button(master, command=lambda: calc_all_param, text="Compute parameters")
+btn_run = Button(master, command=lambda: calc_all_param(), text="Compute parameters")
 
 # btn_run.config(font="Segoe 10")
 btn_run.grid(sticky=W, pady="5", row=2, column=1, columnspan=2)
 
 # button to clear cache
-btn_open_file = Button(master, command=lambda: clear_cache, text="Clear cache", )
+btn_open_file = Button(master, command=lambda: clear_cache(), text="Clear cache", )
 btn_open_file.grid(sticky=W, pady="5", row=2, column=3)
 
 # coordinate label
@@ -1563,15 +1564,15 @@ lbl_display = Label(master, text="Graphical Displays")
 lbl_display.grid(row=6, column=0)
 
 # button to draw structure
-btn_draw_structure = Button(master, command=lambda: draw_structure, text="Octahedral structure")
+btn_draw_structure = Button(master, command=lambda: draw_structure(), text="Octahedral structure")
 btn_draw_structure.grid(pady="5", row=7, column=0)
 
 # button to draw plane
-btn_draw_plane = Button(master, command=lambda: draw_plane, text="Projection plane")
+btn_draw_plane = Button(master, command=lambda: draw_plane(), text="Projection plane")
 btn_draw_plane.grid(pady="5", row=8, column=0)
 
 # button to draw vector projection
-btn_draw_projection = Button(master, command=lambda: draw_projection, text="Orthogonal projection")
+btn_draw_projection = Button(master, command=lambda: draw_projection(), text="Orthogonal projection")
 btn_draw_projection.grid(pady="5", row=9, column=0)
 
 #################################
