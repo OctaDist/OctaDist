@@ -4,9 +4,13 @@ This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Communi
 Program executable was compiled by Pyinstaller. <br/>
 
 ## Background
+### Distortion in Octahedral Geometry
+
+Octahedral structure is composed of 7 atoms: metal center atom and 6 ligand atoms. It has 8 faces, 6 vertices, and 12 edges. Octahedral complex can be simply classified into two types: regular and distorted octahedron. The complexes with regular octahedral geometry are expected to form, when all of the ligands are of the same kind, if the ligands are of different kinds, this would be distorted octahedron instead.
+
 ### Octahedral Distortion Parameters
-Octahedral structure is composed of 7 atoms: metal center atom and 6 ligand atoms. It has 8 faces, 6 vertices, and 12 edges.
-The structural distortion generally occurs in octahedral complex. Previous publications have determined the octahedral distortion using structural parameters: ![](https://latex.codecogs.com/svg.Latex?%5CDelta), ![](https://latex.codecogs.com/svg.Latex?%5CSigma), and ![](https://latex.codecogs.com/svg.Latex?%5CTheta), given by following equations
+
+Octahedral distortion paramers have been widely used to determine the structural distortion of synthesized metal complex such as metal organic framework (MOF), spin-crossover (SCO) complex, and perovskite cstructure. Previous publications have determined the octahedral distortion using structural parameters: ![](https://latex.codecogs.com/svg.Latex?%5CDelta), ![](https://latex.codecogs.com/svg.Latex?%5CSigma), and ![](https://latex.codecogs.com/svg.Latex?%5CTheta), given by following equations
 
 - ![](https://latex.codecogs.com/svg.Latex?%5CDelta%20%3D%20%5Cfrac%7B1%7D%7B6%7D%20%5Csum_%7Bi%20%3D%201%7D%5E%7B6%7D%20%28%5Cfrac%7Bd_%7Bi%7D%20-%20d%7D%7Bd%7D%29%5E2)
 
