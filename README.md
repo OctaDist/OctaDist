@@ -28,8 +28,11 @@ However, there is no program for determining this kind of parameter yet. So we p
 
 
 ### Methods
-#### Calculation of Parameters
-Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward. The ![](https://latex.codecogs.com/svg.Latex?%5CDelta) is the avearge of the sum of the deviation of LG-M distance, where LG and M are ligand atom and metal center atom, from mean distance. The ![](https://latex.codecogs.com/svg.Latex?%5CSigma) is the sum of LG-M-LS angle ( ![](https://latex.codecogs.com/svg.Latex?%5Cphi) ) from the 90 degree. But, the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. The ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is the sum of the deviation of 24 LG-M-LG angles ( ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) ) from 60 degree. The size of ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle depends on how the two twisting planes are defined. Given any three ligand atoms, the plane for orthogonal projection is defined. The other three ligand atoms are projected onto the orthogonal plane. The new location of the ligand atoms on the given plane is called a projected point. Then, we can compute the angle between the vector of which projected point of two atoms (ray 1 and ray 2), a metal center atom is defined as vertex. 
+#### Calculation of ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) Parameters
+Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward. The ![](https://latex.codecogs.com/svg.Latex?%5CDelta) is the avearge of the sum of the deviation of LG-M distance, where LG and M are ligand atom and metal center atom, from mean distance. The ![](https://latex.codecogs.com/svg.Latex?%5CSigma) is the sum of LG-M-LS angle ( ![](https://latex.codecogs.com/svg.Latex?%5Cphi) ) from the 90 degree. 
+
+#### Calculation of ![](https://latex.codecogs.com/svg.Latex?%5CTheta) Parameter
+Determining the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. It is the sum of the deviation of 24 LG-M-LG angles ( ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) ) from 60 degree. The size of ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle depends on how the two twisting planes are defined. Given any three ligand atoms, the plane for orthogonal projection is defined. The other three ligand atoms are projected onto the orthogonal plane. The new location of the ligand atoms on the given plane is called a projected point. Then, we can compute the angle between the vector of which projected point of two atoms (ray 1 and ray 2), a metal center atom is defined as vertex. 
 
 <p align="center">
    <img alt="Angle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Two_rays_and_one_vertex.png/440px-Two_rays_and_one_vertex.png" align=middle width="200pt" /> 
@@ -40,6 +43,65 @@ Ligand atoms on the same twisting plane.
 <p align="center">
    <img alt="Co-structure" src="images/complex-3.jpg" align=middle width="300pt" />
 <p/>
+
+Following is step-by-step procedure we use to calculate the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) parameter
+
+```
+Determine 24 angles
+        1. Suppose that we have an octahedron composed of one metal center atom (m)
+            and six ligand atoms of which index 1-6.
+
+                        1
+                    4  /\  6
+                     \/  \/
+                     /\  /\
+                    3  \/  5
+                       2
+
+            m is absent.
+
+        2. Given three atom (vertex) of triangular plane, i.e.
+
+            [1, 3, 5]
+
+            So the rest are on the opposite plane,
+
+            [2, 4, 6]
+
+        3. Orthogonally project [2, 4, 6] onto the plane that defined by [1, 3, 5]
+
+            [2, 4, 6] -----> [2', 4', 6']
+                    [1, 3, 5]
+
+        4. Determine the minimum distance from atom on the plane ([1, 3, 5]) to the line that
+            pass through two points of projected atoms ([2', 4', 6'])
+
+            d1 = atom 1 to line 2'---4'
+            d2 = atom 1 to line 4'---6'
+            d3 = atom 1 to line 2'---6'
+
+            What if d2 is the shortest distance, so the atom 1 is between projected atoms 4' and 6'
+
+        5. Subtract vector of ligand atoms by projected metal center (m'). this yields three adjacent rays
+
+            ray1 = 4' - m'
+            ray2 = 1 - m'
+            ray3 = 6' - m'
+
+        6. Calculate the angle between the rays
+
+            ray2 and ray1 --yields--> angle1
+            ray2 and ray3 --yields--> angle2
+
+        7. Repeat step (2) - (6) with changing the plane and reference atoms.
+            We defined four planes. Each plane gives 6 angles.
+            Eventually, the total number of angles is 24.
+
+        8. Calculate Theta parameter, it is the sum of the deviation of angle from 60 degree.
+
+            Theta = \sum_{1}_{24} abs(60 - angle_i)
+            
+```
 
 ## Usage
 ### Linux OS
