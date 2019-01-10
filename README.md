@@ -6,7 +6,7 @@ Program executable was compiled by Pyinstaller. <br/>
 ## Background
 ### Distortion in Octahedral Geometry
 
-Octahedral structure is composed of 7 atoms: metal center atom and 6 ligand atoms. It has 8 faces, 6 vertices, and 12 edges. Octahedral complex can be simply classified into two types: regular and distorted octahedron. The complexes with regular octahedral geometry are expected to form, when all of the ligands are of the same kind, if the ligands are of different kinds, this would be distorted octahedron instead.
+Octahedral structure is composed of 7 atoms: metal center atom and 6 ligand atoms. It has 8 faces, 6 vertices, and 12 edges. Octahedral complex can be simply classified into two types: regular and distorted octahedrons. The complexes with regular octahedral geometry are expected to form, when all of the ligands are of the same kind. In contrast, if the ligands are of different kinds, the complex would turns the distorted octahedron instead.
 
 ### Octahedral Distortion Parameters
 
