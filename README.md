@@ -8,6 +8,12 @@ Program executable was compiled by Pyinstaller. <br/>
 
 Octahedral structure is composed of 7 atoms: metal center atom and 6 ligand atoms. It has 8 faces, 6 vertices, and 12 edges. It can be simply classified into two types: regular and distorted octahedrons. The complexes with regular octahedral geometry are expected to form, when all of the ligands are of the same kind. In contrast, if the ligands are of different kinds, the complex would turns the distorted octahedron instead.
 
+The following is an example of octahedral structure. 
+
+   Octahedral Fe complex   |   Octahedral Fe complex   
+:-------------------------:|:-------------------------:
+![](images/complex-1.jpg)  | ![](images/complex-2.jpg) 
+
 ### Octahedral Distortion Parameters
 
 Octahedral distortion paramers have been widely used to determine the structural distortion of synthesized metal complex such as metal organic framework (MOF), spin-crossover (SCO) complex, and perovskite cstructure. Previous publications have determined the octahedral distortion using structural parameters: ![](https://latex.codecogs.com/svg.Latex?%5CDelta), ![](https://latex.codecogs.com/svg.Latex?%5CSigma), and ![](https://latex.codecogs.com/svg.Latex?%5CTheta), given by following equations
@@ -18,25 +24,21 @@ Octahedral distortion paramers have been widely used to determine the structural
 
 - ![](https://latex.codecogs.com/svg.Latex?%5CTheta%20%3D%20%5Csum_%7Bi%20%3D%201%7D%5E%7B24%7D%20%5Cabs%20%5Cleft%20%7C%2060%20-%20%5Ctheta_%7Bi%7D%20%7C) 
 
-However, there is no program for determining this kind of parameter yet. So we present the OctaDist program for those who are interested in this. The following is an example of octahedral structure. 
-
-   Octahedral Fe complex   |   Octahedral Fe complex   |  Projection of ligand atoms onto the twisting plane
-:-------------------------:|:-------------------------:|:-------------------------:
-![](images/complex-1.jpg)  | ![](images/complex-2.jpg) |  ![](images/complex-3.jpg)
+However, there is no program for determining this kind of parameter yet. So we present the OctaDist program for those who are interested in this. 
 
 
 ### Methods
-#### ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters
-![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward.
-
-#### Determining the plane
-The plane for projection is defined by given three ligand atoms. 
-
-#### Orthogonal projection
-Calculation of the , but the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky becuase the ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle depends on how the two twisting planes are defined. Given three ligand atoms, we can find the plane for orthogonal projection of other ligand atoms onto the plane. The new location of the ligand atoms on the given plane is called a projected point. Then, we compute the angle between the vector of a projected point of two atoms (ray 1 and ray 2), which a projected metal center is taken as vertex. 
+#### Calculation of Parameters
+Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward., but the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky becuase the ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle depends on how the two twisting planes are defined. Given any three ligand atoms, the plane for orthogonal projection can be defined. The other three ligand atoms are projected onto the plane. The new location of the ligand atoms on the given plane is called a projected point. Then, we can compute the angle between the vector of a projected point of two atoms (ray 1 and ray 2), which a projected metal center is taken as vertex. 
 
 <p align="center">
    <img alt="Angle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Two_rays_and_one_vertex.png/440px-Two_rays_and_one_vertex.png" align=middle width="200pt" /> 
+<p/>
+
+Ligand atoms on the same twisting plane.
+
+<p align="center">
+   <img alt="Co-structure" src="images/complex-3.jpg" align=middle width="300pt" />
 <p/>
 
 ## Usage
