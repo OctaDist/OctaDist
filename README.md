@@ -24,12 +24,12 @@ Octahedral distortion paramers have been widely used to determine the structural
 
 - ![](https://latex.codecogs.com/svg.Latex?%5CTheta%20%3D%20%5Csum_%7Bi%20%3D%201%7D%5E%7B24%7D%20%5Cabs%20%5Cleft%20%7C%2060%20-%20%5Ctheta_%7Bi%7D%20%7C) 
 
-However, there is no program for determining this kind of parameter yet. So we present the OctaDist program for those who are interested in this. 
+However, there is no program for determining this kind of parameter yet. So we present the OctaDist program as a choice for those who are interested in this.
 
 
 ### Methods
 #### Calculation of Parameters
-Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward, but the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. The ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is computed from the individual ![](https://latex.codecogs.com/svg.Latex?%5theta) angle which depends on how the two twisting planes are defined. Given any three ligand atoms, the plane for orthogonal projection is defined. The other three ligand atoms are projected onto the orthogonal plane. The new location of the ligand atoms on the given plane is called a projected point. Then, we can compute the angle between the vector of which projected point of two atoms (ray 1 and ray 2), a metal center atom is defined as vertex. 
+Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward. They are the sum of the deviation of individual distance and angle from mean distance and 90 degree, respective. But, the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. The ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is the sum of the deviation of 24 LG-M-LG angles (![](https://latex.codecogs.com/svg.Latex?%5theta)) the individual ![](https://latex.codecogs.com/svg.Latex?%5theta)). The size of ![](https://latex.codecogs.com/svg.Latex?%5theta)) angle depends on how the two twisting planes are defined. Given any three ligand atoms, the plane for orthogonal projection is defined. The other three ligand atoms are projected onto the orthogonal plane. The new location of the ligand atoms on the given plane is called a projected point. Then, we can compute the angle between the vector of which projected point of two atoms (ray 1 and ray 2), a metal center atom is defined as vertex. 
 
 <p align="center">
    <img alt="Angle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Two_rays_and_one_vertex.png/440px-Two_rays_and_one_vertex.png" align=middle width="200pt" /> 
