@@ -186,7 +186,7 @@ class OctaDist:
 
         # Display coordinate and vector projection
         self.lbl_display = Label(master, text="Graphical Displays")
-        #self.lbl_display.config(font="Segoe 10 bold")
+        # self.lbl_display.config(font="Segoe 10 bold")
         self.lbl_display.grid(row=6, column=0, padx="30")
 
         # button to draw structure
@@ -978,37 +978,6 @@ class OctaDist:
 
         return sum([dist_sum[i] for i in range(6)]) / 6
 
-    def distance_point_2_line(self, x0, x1, x2):
-        """If the line passes through two points in 3D space x1=(x1,y1,z1) and x2=(x2,y2,z2)
-        then the minimum distance of point x0=(x0,y0,z0) from the line is:
-
-            | (x0 - x1) X (x0 - x2) |
-        d = -------------------------           < X is cross product >
-                  | x2 - x1 |
-
-        Ref:
-        http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
-
-        Parameter
-        ---------
-        x1 and x2 : array
-            start and end point that the line passes through
-        x0 : int
-            point
-
-        Return
-        ------
-        minimum distance : float
-            shortest distance from point to line
-        """
-
-        # Convert the atom sequence to coordinate
-        v1 = x0 - x1
-        v2 = x0 - x2
-        v3 = x2 - x1
-
-        return np.linalg.norm(np.cross(v1, v2)) / np.linalg.norm(v3)
-
     def angle_between(self, v0, v1, v2):
         """Compute the angle between vector <v1 - v0> and <v2 - v0>
         and returns the angle in degree.
@@ -1025,7 +994,7 @@ class OctaDist:
         Parameter
         ---------
         v0, v1, v2 : array
-                    coordinate of three atoms
+            3D coordinate of three atoms
 
         Return
         ------
@@ -1130,7 +1099,6 @@ class OctaDist:
             for j in range(i + 1, 5):
 
                 for k in range(j + 1, 6):
-
                     a, b, c, d = self.eq_of_plane(v[i], v[j], v[k])
                     # Find metal center atom projection onto the new plane
                     m = self.project_atom_onto_plane(v[0], a, b, c, d)
@@ -1244,11 +1212,48 @@ class OctaDist:
         v2 = p2 - p1
 
         # find the vector orthogonal to the plane using cross product method
-        norm_p = np.cross(v1, v2)
-        a, b, c = norm_p
-        d = np.dot(norm_p, p3)
+        ortho_vector = np.cross(v1, v2)
+        a, b, c = ortho_vector
+        d = np.dot(ortho_vector, p3)
 
         return a, b, c, d
+
+    def project_atom_onto_line(self, p, a, b):
+        """Find the projected point of atom on the line that defined by another two atoms
+
+        Given two atoms, x1 and x2, and another atom, p. The projected point is given as
+
+        P(x) = x1 + d*(x2 - x1)/|x2 - x1|
+
+        where d = (x2 - x1).(p - x1) / |x2 - x1|, "." is dot project, and | | is Euclidean norm
+
+        *****My version*****
+
+        P(x) = x1 + (p - x1).(x2 - x1)/(x2-x1).(x2-x1) * (x2-x1)
+
+        Parameter
+        --------
+        p, x1, x2 : array
+            p : the point that want to project
+            x1, x2 : start and end points of line
+
+        Return
+        ------
+        the projected point : array
+        """
+
+        # v1 = x2 - x1
+        # v2 = p - x1
+        #
+        # d = np.dot(v1, v2) / np.linalg.norm(v1)
+
+        # return x1 + (d * v1 / np.linalg.norm(v1))
+        # return x1 + ((p - x1)*(np.dot(v2, v1))/((np.linalg.norm(v2)) * (np.linalg.norm(v1))))
+
+        ap = p - a
+        ab = b - a
+        result = a + (np.dot(ap, ab) / np.dot(ab, ab) * ab)
+        return result
 
     def project_atom_onto_plane(self, v, a, b, c, d):
         """Find the orthogonal vector of point onto the given plane.
@@ -1281,7 +1286,8 @@ class OctaDist:
         v_plane = np.array([a, b, c])
 
         # find lambda
-        lambda_plane = (d - (a * v[0] + b * v[1] + c * v[2])) / np.dot(v_plane, v_plane)
+        # lambda_plane = (d - (a * v[0] + b * v[1] + c * v[2])) / np.dot(v_plane, v_plane)
+        lambda_plane = (d - (a * v[0] + b * v[1] + c * v[2])) / (pow(a, 2) + pow(b, 2) + pow(c, 2))
 
         projected_point = v + (lambda_plane * v_plane)
 
@@ -1342,63 +1348,51 @@ class OctaDist:
         """Determine 24 angles
 
         1. Suppose that we have an octahedron composed of one metal center atom (m)
-            and six ligand atoms of which index 1-6.
+            and six ligand atoms of which index 1-6. Given three atom of triangular plane
 
                         1
-                    4  /\  6
+                    4  /\  6            [1, 3, 5]
                      \/  \/
-                     /\  /\
+                     /\  /\             So the rest are on another parallel plane,
                     3  \/  5
-                       2
+                       2                [2, 4, 6]
 
             m is absent for clarity.
 
-        2. Given three atom (vertex) of triangular plane, i.e.
-
-            [1, 3, 5]
-
-            So the rest are on another parallel plane,
-
-            [2, 4, 6]
-
-        3. Orthogonally project [2, 4, 6] onto the plane that defined by [1, 3, 5]
+        2. Orthogonally project [2, 4, 6] onto the plane that defined by [1, 3, 5]
 
             [2, 4, 6] -----> [2', 4', 6']
                     [1, 3, 5]
 
             The new location of projected atoms on the given plane is [2', 4', 6']
 
-        4. Given the line that pass through two points of the projected atoms
+        3. Given the line that pass through two points of the projected atoms
 
             line1 = 2'---4'
             line2 = 4'---6'
             line3 = 2'---6'
 
-        5. Determine the minimum distance from atom on the plane ([1, 3, 5]) to the line
+        4. Project another atoms onto the given line
+            and Check if two vectors are parallel or anti-parallel
 
-            d1 = atom 1 to line1 (2'---4')
-            d2 = atom 1 to line2 (4'---6')
-            d3 = atom 1 to line3 (2'---6')
+            Example,
+                            ^                          ^
+                     ------>|                  ------->|
+                            |   Parallel               |
+                      ---->|                          |<------
+                           v                          v
+                        Parallel                Anti-Parallel
+                   Negative dot-product     Positive dot-product
 
-            What if d2 is the shortest distance, so the atom 1 is between projected atoms 4' and 6'
+            If anti-parallel, the start and end points of line are adjacent atoms
 
-        6. Subtract vector of ligand atoms by projected metal center (m'). this yields three adjacent rays
 
-            ray1 = 4' - m'
-            ray2 = 1 - m'
-            ray3 = 6' - m'
-
-        7. Calculate the angle between the rays
-
-            ray2 and ray1 --yields--> angle1
-            ray2 and ray3 --yields--> angle2
-
-        8. Repeat step (2) - (7) with changing the plane and reference atoms.
+        5. Repeat step (2) - (4) with changing the plane and reference atoms.
 
             We defined four planes. Each plane gives 6 angles.
             Eventually, the total number of angles is 24.
 
-        9. Calculate Theta parameter, it is the sum of the deviation of angle from 60 degree.
+        6. Calculate Theta parameter, it is the sum of the deviation of angle from 60 degree.
 
             Theta = \sum_{1}_{24} | 60 - angle_i |
 
@@ -1431,13 +1425,16 @@ class OctaDist:
         print("Command: Find the orthogonal projection of atom on the given plane")
 
         # loop plane
-        for i in range(1):
+        for i in range(4):
 
             # Find coefficient of plane equation
             a, b, c, d = self.eq_of_plane(pcl[i][0], pcl[i][1], pcl[i][2])
-            
+
+            # Project metal center onto the given plane
+            m = self.project_atom_onto_plane(v[0], a, b, c, d)
+
             print("         Orthogonal projection onto the plane", i + 1)
-            print("          The equation of plane: {1:5.5f}x + {2:5.5f}y + {3:5.5f}z = {4:5.5f}"
+            print("         The equation of plane: {1:5.5f}x + {2:5.5f}y + {3:5.5f}z = {4:5.5f}"
                   .format(i + 1, a, b, c, d))
             print("")
 
@@ -1445,10 +1442,13 @@ class OctaDist:
             o2 = int(oppo_pal[i][1])
             o3 = int(oppo_pal[i][2])
 
-            print("          Old coordinate of projected atom on the original plane")
-            print("           Atom no.", o1, "-->", v[o1])
-            print("           Atom no.", o2, "-->", v[o2])
-            print("           Atom no.", o3, "-->", v[o3])
+            print("         Old coordinate of projected atom on the original plane")
+            print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+                  .format(o1, v[o1][0], v[o1][1], v[o1][2]))
+            print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+                  .format(o2, v[o2][0], v[o2][1], v[o2][2]))
+            print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+                  .format(o3, v[o3][0], v[o3][1], v[o3][2]))
             print("")
 
             # Project the opposite atom onto the given plane
@@ -1456,125 +1456,66 @@ class OctaDist:
             n2 = self.project_atom_onto_plane(v[o2], a, b, c, d)
             n3 = self.project_atom_onto_plane(v[o3], a, b, c, d)
 
-            print("          New coordinate of projected atom on the given projection plane")
-            print("           Atom no.", o1, "-->", n1)
-            print("           Atom no.", o2, "-->", n2)
-            print("           Atom no.", o3, "-->", n3)
+            print("         New coordinate of projected atom on the given projection plane")
+            print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+                  .format(o1, n1[0], n1[1], n1[2]))
+            print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+                  .format(o2, n2[0], n2[1], n2[2]))
+            print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+                  .format(o3, n3[0], n3[1], n3[2]))
             print("")
 
-            # Find minimum distance from point to three lines
-            min_dist_list = []
+            # Define line and find that if the two vectors are parallel or anti parallel.
+
+            lal = [[o1, o2, o3],    # lal = line atom list
+                   [o2, o3, o1],
+                   [o1, o3, o2]]
+
+            lcl = [[n1, n2, n3],    # lcl = line coord list
+                   [n2, n3, n1],
+                   [n1, n3, n2]]
+
+            # selected_atom_list = []
 
             # loop three ref atoms (vertices of triangular)
-            # Calculate minimum distance
             for j in range(3):
 
-                # pal[i][j] is pal[plane i][atom j]
-
-                v_ref = v[int(pal[i][j])]
-
-                # minimum distance from atom j (one plane i) to the given line
-                # the given line is defined by a pair of the projected atom
-                min_dist_1 = self.distance_point_2_line(v_ref, n1, n2)
-                min_dist_2 = self.distance_point_2_line(v_ref, n1, n3)
-                min_dist_3 = self.distance_point_2_line(v_ref, n2, n3)
-
-                item_1 = [int(pal[i][j]), o1, o2, min_dist_1]
-                item_2 = [int(pal[i][j]), o1, o3, min_dist_2]
-                item_3 = [int(pal[i][j]), o2, o1, min_dist_3]
-
-                min_dist_list.append([item_1, item_2, item_3])
-
-            # loop to print list of ref atom and minimum distance to three lines
-            print("          Minimum Distance from reference atom to the given line")
-            print("          [<ref. atom>  <adjacent atom 1>  <adjacent atom 2>  <Minimum Distance>")
-            print("")
-
-            for j in range(3):
-
-                print("          ", min_dist_list[j][0])
-                print("          ", min_dist_list[j][1])
-                print("          ", min_dist_list[j][2])
-                print("")
-            print("")
-
-            # loop three ref atoms and minimum distance (vertices of triangular)
-            # Sort list in ascending order of the minimum distance (4th column)
-            for j in range(3):
-
-                indi_list = min_dist_list[j]
-
-                p = 0
-
-                while p < len(indi_list):
-                    r = p
-                    q = p + 1
-
-                    while q < len(indi_list):
-                        # Compare the minimum distance (column 4 --> index 3)
-                        if indi_list[r][3] > indi_list[q][3]:
-                            r = q
-                        q += 1
-
-                    # Reorder of atom sequence for both arrays
-                    indi_list[p], indi_list[r] = indi_list[r], indi_list[p]
-
-                    p += 1
-
-                # Print list of ref atom and minimum to three line after sorted
-                print("         List after sorted in ascending order of minimum distance")
-
+                # find projected point of reference atom and the another atom on given line
                 for k in range(3):
-                    print("          {}".format(indi_list[k]))
 
-                # Delete last two lines
-                indi_list = indi_list[0]
-                print("-----------")
-                print(indi_list)
+                    ref_on_line = self.project_atom_onto_line(pcl[i][j], lcl[k][0], lcl[k][1])
+                    x_on_line = self.project_atom_onto_line(lcl[k][2], lcl[k][0], lcl[k][1])
 
-                # Print only the pair that mostly close to reference atom
-                print("          The shortest distance from reference atom to line: {0:5.5f} Ångström"
-                      .format(indi_list[3]))
-                print("")
+                    vector_ref = ref_on_line - pcl[i][j]
+                    vector_x = x_on_line - lcl[k][2]
 
-                # Ready to Calculate angle between atoms from two twisting planes
+                    print(np.dot(vector_ref, vector_x))
 
-                # Project metal center onto the given plane
-                m = self.project_atom_onto_plane(v[0], a, b, c, d)
+                    # check if the two vectors are parallel or anti-parallel
 
-                # print("          The point of metal center atom on the given plane:"
-                #       "({0:5.5f}, {1:5.5f}, {2:5.5f})".format(m[0], m[1], m[2]))
-                # print("")
+                    #
 
-                # Project selected atoms onto the given plane
+                    if np.dot(vector_ref, vector_x) < 0:
+                        # print("         Dot product is", np.dot(vector_ref, vector_x))
+                        # selected_atom_list.append([pcl[i][j], lcl[k][0], lcl[k][1]])
 
-                # for z in range(7):
-                #     print("      -->", v[z])
-                # print("")
+                        # angle 1
+                        angle = self.angle_between(m, pcl[i][j], lcl[k][0])
+                        angle_theta_list.append(angle)
 
-                v0 = v[int(indi_list[0])]
-                v1 = v[int(indi_list[1])]
-                v2 = v[int(indi_list[2])]
+                        # angle 2
+                        angle = self.angle_between(m, pcl[i][j], lcl[k][1])
+                        angle_theta_list.append(angle)
 
-                l1 = self.project_atom_onto_plane(v1, a, b, c, d)
-                l2 = self.project_atom_onto_plane(v2, a, b, c, d)
-
-                # Calculate angle and insert into angle_theta_list
-                angle_theta_indi = self.angle_between(m, v0, l1)
-                print(angle_theta_indi)
-                angle_theta_list.append(angle_theta_indi)
-                angle_theta_indi = self.angle_between(m, v0, l2)
-                print(angle_theta_indi)
-                angle_theta_list.append(angle_theta_indi)
-
-                #print("          Angle between atom {0} and {1}: {2:5.5f}".format(j, k, angle_theta_indi))
-
-            print("")
+                        print("          Angle between atom {0} and {1}: {2:5.5f}"
+                              .format(pal[i][j], lal[k][0], angle))
+                        print("          Angle between atom {0} and {1}: {2:5.5f}"
+                              .format(pal[i][j], lal[k][1], angle))
 
         return angle_theta_list
 
     def calc_delta(self, x):
-            """Calculate 1st octahedral distortion parameter, delta.
+        """Calculate 1st octahedral distortion parameter, delta.
 
                                               2
                          1         / d_i - d \
@@ -1596,31 +1537,31 @@ class OctaDist:
                 delta parameter (unitless)
             """
 
-            global distance_list, computed_delta
+        global distance_list, computed_delta
 
-            print("Command: Calculate distance between atoms (in Ångström)")
+        print("Command: Calculate distance between atoms (in Ångström)")
 
-            # Calculate and print individual distance
-            distance_list = []
+        # Calculate and print individual distance
+        distance_list = []
 
-            for i in range(1, 7):
-                distance_indi = sqrt(sum([pow(x[i][j] - x[0][j], 2) for j in range(3)]))
-                print("         Distance between metal center and ligand atom", i, "is {0:5.5f}".format(distance_indi))
-                distance_list.append(distance_indi)
+        for i in range(1, 7):
+            distance_indi = sqrt(sum([pow(x[i][j] - x[0][j], 2) for j in range(3)]))
+            print("         Distance between metal center and ligand atom", i, "is {0:5.5f}".format(distance_indi))
+            distance_list.append(distance_indi)
 
-            # Print summary
-            print("")
-            print("         Total number of computed distance:", len(distance_list))
-            print("")
+        # Print summary
+        print("")
+        print("         Total number of computed distance:", len(distance_list))
+        print("")
 
-            computed_distance_avg = self.distance_avg(x)
+        computed_distance_avg = self.distance_avg(x)
 
-            # Calculate Delta parameter
-            for i in range(6):
-                diff_dist = (distance_list[i] - computed_distance_avg) / computed_distance_avg
-                computed_delta = (pow(diff_dist, 2) / 6) + computed_delta
+        # Calculate Delta parameter
+        for i in range(6):
+            diff_dist = (distance_list[i] - computed_distance_avg) / computed_distance_avg
+            computed_delta = (pow(diff_dist, 2) / 6) + computed_delta
 
-            return computed_delta
+        return computed_delta
 
     def calc_sigma(self, v):
         """Calculate octahedral distortion parameter, Σ
@@ -1778,7 +1719,7 @@ class OctaDist:
         # Print all 24 angles
         print("Command: Show all 24 angles")
         for i in range(len(computed_24_angle)):
-            print("         Angle", i+1, ": {0:5.5f} degree".format(computed_24_angle[i]))
+            print("         Angle", i + 1, ": {0:5.5f} degree".format(computed_24_angle[i]))
         print("")
 
         # Sum up all individual theta angle
@@ -1982,10 +1923,9 @@ class OctaDist:
             ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
             ax.set_title("Orthogonal projection onto the plane {}".format(i + 1), fontsize='10')
 
-            # Plot plane
-            # Given three points, the plane is a*x + b*y + c*z + d = 0
+            # Plot plane : Given three points, the plane is a*x + b*y + c*z + d = 0
             a, b, c, d = self.eq_of_plane(vl[i][0], vl[i][1], vl[i][2])
-            print("         The equation of plane {0} is {1:5.5f}x + {2:5.5f}y + {3:5.5f}z + {4:5.5f} = 0" \
+            print("         The equation of plane {0} is {1:5.5f}x + {2:5.5f}y + {3:5.5f}z + {4:5.5f} = 0"
                   .format(i + 1, a, b, c, d))
 
             m = self.project_atom_onto_plane(cl[0], a, b, c, d)
@@ -2003,7 +1943,7 @@ class OctaDist:
             xx, yy = np.meshgrid((x_limit), (y_limit))
             # xx, yy = np.meshgrid(range(10), range(10))
 
-            z = (-normal[0] * xx - normal[1] * yy - d) / normal[2]
+            z = (- (normal[0] * xx + normal[1] * yy + d)) / normal[2]
 
             ax.plot_surface(xx, yy, z, alpha='0.5', color=color_list[i])
 
