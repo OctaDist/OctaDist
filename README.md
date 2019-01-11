@@ -79,7 +79,7 @@ Calculate octahedral distortion parameters
 - Theta  <![](https://latex.codecogs.com/svg.Latex?%5CTheta)> = 0.00000000 degree
 
 <p align="center">
-   <img alt="Fe-structure" src="images/Fe-structure.png" align=middle width="300pt" />
+   <img alt="Fe-structure" src="images/Fe-structure.png" align=middle width="400pt" />
 <p/>
 
 ---
@@ -100,7 +100,7 @@ Calculate octahedral distortion parameters
 - Theta  <![](https://latex.codecogs.com/svg.Latex?%5CTheta)> = 144.13959388 degree
 
 <p align="center">
-   <img alt="Co-structure" src="images/Co-structure.png" align=middle width="300pt" />
+   <img alt="Co-structure" src="images/Co-structure.png" align=middle width="400pt" />
 <p/>
 
 ## Screenshots
