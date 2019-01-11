@@ -127,23 +127,23 @@ class OctaDist:
         masters.config(menu=menubar)
 
         print("")
-        print("OctaDist (Octahedral Distortion Analysis) Copyright (C) 2019  Rangsiman Ketkaew")
-        print("This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.")
-        print("This is free software, and you are welcome to redistribute it under")
-        print("certain conditions; see <https://www.gnu.org/licenses/> for details.")
+        print(" OctaDist Copyright (C) 2019  Rangsiman Ketkaew  (rangsiman1993@gmail.com)")
+        print(" This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.")
+        print(" This is free software, and you are welcome to redistribute it under")
+        print(" certain conditions; see <https://www.gnu.org/licenses/> for details.")
         print("")
-        print("     ==============================================================")
-        print("                              OctaDist {}".format(program_version))
+        print("       ==============================================================")
+        print("                                OctaDist {}".format(program_version))
         print("")
-        print("                     OCTAHEDRAL DISTORTION ANALYSIS")
-        print("                     ------------------------------")
-        print("         A PROGRAM FOR DETERMINING THE STRUCTURAL PARAMETERS OF")
-        print("                   THE DISTORTED OCTAHEDRAL STRUCTURE")
+        print("                       OCTAHEDRAL DISTORTION ANALYSIS")
+        print("                       ------------------------------")
+        print("           A PROGRAM FOR DETERMINING THE STRUCTURAL PARAMETERS OF")
+        print("                     THE DISTORTED OCTAHEDRAL STRUCTURE")
         print("")
-        print("                          by Rangsiman Ketkaew")
-        print("                           January 8th, 2019")
-        print("              https://github.com/rangsimanketkaew/OctaDist")
-        print("     ==============================================================")
+        print("                            by Rangsiman Ketkaew")
+        print("                             January 8th, 2019")
+        print("                https://github.com/rangsimanketkaew/OctaDist")
+        print("       ==============================================================")
         print("")
 
         # program details
@@ -161,7 +161,6 @@ class OctaDist:
 
         # button to run
         self.btn_run = Button(master, command=self.calc_all_param, text="Compute parameters")
-
         # btn_run.config(font="Segoe 10")
         self.btn_run.grid(sticky=W, pady="5", row=2, column=1, columnspan=2)
 
@@ -406,6 +405,147 @@ class OctaDist:
     def callback(self, event):
         webbrowser.open_new(event.widget.cget("text"))
 
+    def file_len(self, fname):
+        """Count lines in file
+        """
+
+        with open(fname) as f:
+            for i, l in enumerate(f):
+                pass
+        return i + 1
+
+    def check_txt_type(self, f):
+        """Check if the input file is TXT file format
+
+        Parameter
+        ---------
+        f : string
+            File name
+
+        Return
+        ------
+        1 : int
+            Return 1 if file is TXT file format
+        """
+
+        if self.file_len(f) < 7:
+            return 0
+
+        else:
+            return 1
+
+    def get_coord_from_txt(self, f):
+        """In case the coordinate is in TXT file format
+
+        text file format
+        ----------------
+                                                     4
+            <index 0> <X> <Y> <Z>                2   |      6
+            <index 1> <X> <Y> <Z>                 \  |    /
+            <index 2> <X> <Y> <Z>                  \ |  /
+            <index 3> <X> <Y> <Z>                    0
+            <index 4> <X> <Y> <Z>                  / | \
+            <index 5> <X> <Y> <Z>                //  |  \\
+            <index 6> <X> <Y> <Z>               1    |   5
+                                                     3
+        The first atom must be metal center.
+        """
+
+        # check if input file is correct format
+        # check_format()
+
+        print("Command: Get Cartesian coordinates")
+
+        global atom_list, coord_list
+
+        file = open(f, "r")
+        line = file.readlines()
+        file.close()
+
+        # line = self.textBox_coord.get('1.0', END).splitlines()
+
+        atom_raw = []
+
+        for l in line:
+            # read only the 1st column, elements, and pass into array
+            lst = l.split(' ')[0]
+            atom_raw.append(lst)
+
+        # Get only first 7 atoms
+        # delete row 8, 9, 10, ...
+        atom_list = atom_raw[0:7]
+
+        """Read file again for getting XYZ coordinate
+            We have two ways to do this, 
+            1. use >> file.seek(0) <<
+            2. use >> file = open(f, "r") <<
+        """
+
+        file = open(f, "r")
+        coord_raw = np.loadtxt(file, skiprows=0, usecols=[1, 2, 3])
+        file.close()
+
+        # delete row 8, 9, 10, ...
+        coord_list = coord_raw[0:7]
+
+        return atom_list, coord_list
+
+    def check_xyz_type(self, f):
+        """Check if the input file is XYZ file format
+
+        Parameter
+        ---------
+        f : string
+            File name
+
+        Return
+        ------
+        0 : int
+            Return 0 if file is XYZ file format
+        """
+
+        file = open(f, 'r')
+
+        first_line = file.readline()
+
+        num_atoms = 0
+
+        try:
+            num_atoms = int(first_line)
+
+        except ValueError:
+            return 0
+
+        if self.file_len(f) >= 9:
+            return 1
+        else:
+            return 0
+
+    def get_coord_from_xyz(self, f):
+        """In case the coordinate is in XYZ file format
+
+        XYZ file format
+        ----------------
+
+            <number of atom>
+            <comment>                                4
+            <index 0> <X> <Y> <Z>                2   |      6
+            <index 1> <X> <Y> <Z>                 \  |    /
+            <index 2> <X> <Y> <Z>                  \ |  /
+            <index 3> <X> <Y> <Z>                    0
+            <index 4> <X> <Y> <Z>                  / | \
+            <index 5> <X> <Y> <Z>                //  |  \\
+            <index 6> <X> <Y> <Z>               1    |   5
+                                                     3
+        The first atom must be metal center.
+        """
+
+        print("Command: Get Cartesian coordinates")
+
+        global atom_list, coord_list
+
+        return print("XYZ is not supported.")
+
     def check_gaussian_type(self, f):
         """Check if the input file is Gaussian output file
 
@@ -416,8 +556,8 @@ class OctaDist:
 
         Return
         ------
-        0 : int
-            Return 0 if file is Gaussian output file
+        1 : int
+            Return 1 if file is Gaussian output file, return 0 if not.
         """
 
         gaussian_file = open(f, "r")
@@ -433,7 +573,7 @@ class OctaDist:
         """Extract XYZ coordinate from Gaussian output file
         """
 
-        print("Command: Get cartesian coordinates")
+        print("Command: Get Cartesian coordinates")
 
         global atom_list, coord_list
 
@@ -618,115 +758,6 @@ class OctaDist:
         coord_list = coord_raw_from_g09[0:7]
         coord_list = np.asarray(coord_list)
 
-        for i in range(len(coord_list)):
-            print(coord_list[i])
-
-        for i in range(len(coord_list)):
-            print(coord_list[i][0])
-
-        return atom_list, coord_list
-
-    def check_xyz_type(self, f):
-        """Check if the input file is Gaussian output file
-
-        Parameter
-        ---------
-        f : string
-            File name
-
-        Return
-        ------
-        0 : int
-            Return 0 if file is Gaussian output file
-        """
-
-        file = open(f, 'r')
-
-        first_line = file.readline()
-
-        # print(first_line)
-
-        return 0
-
-    def get_coord_from_xyz(self, f):
-        """In case the coordinate is in XYZ file format
-
-        XYZ file format
-        ----------------
-
-            <number of atom>
-            <comment>                                4
-            <index 0> <X> <Y> <Z>                2   |      6
-            <index 1> <X> <Y> <Z>                 \  |    /
-            <index 2> <X> <Y> <Z>                  \ |  /
-            <index 3> <X> <Y> <Z>                    0
-            <index 4> <X> <Y> <Z>                  / | \
-            <index 5> <X> <Y> <Z>                //  |  \\
-            <index 6> <X> <Y> <Z>               1    |   5
-                                                     3
-        The first atom must be metal center.
-        """
-
-        print("Command: Get cartesian coordinates")
-
-        global atom_list, coord_list
-
-        return f
-
-    def get_coord_from_txt(self, f):
-        """In case the coordinate is in TXT file format
-
-        text file format
-        ----------------
-                                                     4
-            <index 0> <X> <Y> <Z>                2   |      6
-            <index 1> <X> <Y> <Z>                 \  |    /
-            <index 2> <X> <Y> <Z>                  \ |  /
-            <index 3> <X> <Y> <Z>                    0
-            <index 4> <X> <Y> <Z>                  / | \
-            <index 5> <X> <Y> <Z>                //  |  \\
-            <index 6> <X> <Y> <Z>               1    |   5
-                                                     3
-        The first atom must be metal center.
-        """
-
-        # check if input file is correct format
-        # check_format()
-
-        print("Command: Get cartesian coordinates")
-
-        global atom_list, coord_list
-
-        file = open(f, "r")
-        line = file.readlines()
-        file.close()
-
-        # line = self.textBox_coord.get('1.0', END).splitlines()
-
-        atom_raw = []
-
-        for l in line:
-            # read only the 1st column, elements, and pass into array
-            lst = l.split(' ')[0]
-            atom_raw.append(lst)
-
-        # Get only first 7 atoms
-        # delete row 8, 9, 10, ...
-        atom_list = atom_raw[0:7]
-
-        """Read file again for getting XYZ coordinate
-            We have two ways to do this, 
-            1. use >> file.seek(0) <<
-            2. use >> file = open(f, "r") <<
-        """
-
-        file = open(f, "r")
-        coord_raw = np.loadtxt(file, skiprows=0, usecols=[1, 2, 3])
-        file.close()
-
-        # delete row 8, 9, 10, ...
-        coord_list = coord_raw[0:7]
-
         return atom_list, coord_list
 
     def get_coord(self, f):
@@ -734,26 +765,42 @@ class OctaDist:
         """
 
         # Get coordinate from Gaussian output file
-        if self.check_gaussian_type(f) == 1:
+        if f.endswith(".txt"):
+            if self.check_txt_type(f) == 1:
+                print("         File type: TXT file")
+                self.get_coord_from_txt(f)
+
+            else:
+                print("Error: Could not read data in TXT file '%s'" % f)
+                print("")
+
+        elif f.endswith(".xyz"):
+            if self.check_xyz_type(f) == 1:
+                print("         File type: XYZ file")
+                self.get_coord_from_xyz(f)
+
+            else:
+                print("Error: Could not read data in XYZ file '%s'" % f)
+                print("")
+
+        elif self.check_gaussian_type(f) == 1:
             print("         File type: Gaussian output")
             self.get_coord_from_gaussian(f)
 
-        elif self.check_xyz_type(f) == 1:
-            print("         File type: XYZ file")
-            self.get_coord_from_xyz(f)
-
         else:
-            print("         File type: TXT file")
-            self.get_coord_from_txt(f)
-
-        #######################################
+            print("Error: Could not read file '%s'" % f)
+            print("")
 
         print("Command: Show Cartesian coordinates")
+
         for i in range(len(atom_list)):
-            print("         Atom no.", i + 1, "--> ", atom_list[i], "", coord_list[i])
+            print("         Atom no. {0} : {1}   ({2:5.8f}, {3:5.8f}, {4:5.8f})"
+                  .format(i+1, atom_list[i], coord_list[i][0], coord_list[i][1], coord_list[i][2]))
+        print("")
 
         # Form list of atom and coordinate
         atom_coords = []
+
         for i in range(len(atom_list)):
             atom_coords.append([atom_list[i], coord_list[i]])
 
@@ -886,17 +933,17 @@ class OctaDist:
 
         f.write("Distance between atoms:\n")
         for item in distance_list:
-            f.write("Distance --> %5.5f Angstrom\n" % item)
+            f.write("Distance --> %5.6f Angstrom\n" % item)
         f.write("\n")
 
         f.write("Angle of three cis atoms (metal center is vertex):\n")
         for item in new_angle_sigma_list:
-            f.write("Angle --> %5.5f degree\n" % item)
+            f.write("Angle --> %5.6f degree\n" % item)
         f.write("\n")
 
         f.write("Angle of three projected atoms on the same orthogonal plane:\n")
         for item in angle_theta_list:
-            f.write("Angle --> %5.5f degree\n" % item)
+            f.write("Angle --> %5.6f degree\n" % item)
         f.write("\n")
         #########################
 
@@ -1049,9 +1096,8 @@ class OctaDist:
 
             the numbers in column 1-3 are the number ligand atom referes to their coordinate
 
-        4. Sort plane_coord_list in ascending order of the minimum distance
-
-        5. The unwanted plane is close to metal center atom.
+        5. Sort plane_coord_list in ascending order of the minimum distance
+            The unwanted plane is close to metal center atom.
             Remove first 6 plane (6 rows) out of plane_coord_list
             The remaining planes are last 4 planes.
 
@@ -1094,18 +1140,19 @@ class OctaDist:
 
         # Find all possible faces --> 10 faces (plane)
         for i in range(1, 4):
-
             for j in range(i + 1, 5):
-
                 for k in range(j + 1, 6):
                     a, b, c, d = self.eq_of_plane(v[i], v[j], v[k])
+
                     # Find metal center atom projection onto the new plane
                     m = self.project_atom_onto_plane(v[0], a, b, c, d)
+
                     # Find distance between metal center atom to its projected point
                     d_btw = self.distance_between(m, v[0])
 
                     # Insert the number of ligand atoms into list
                     plane_atom_list.append([i, j, k])
+
                     # Insert the minimum distance into list
                     plane_coord_list.append([v[i], v[j], v[k], d_btw])
 
@@ -1128,7 +1175,7 @@ class OctaDist:
         for i in range(len(pcl)):
             print("          ", pal[i])
             for j in range(3):
-                print("              ({0:5.5f}, {1:5.5f}, {2:5.5f})"
+                print("              ({0:5.6f}, {1:5.6f}, {2:5.6f})"
                       .format(pcl[i][j][0], pcl[i][j][1], pcl[i][j][2]))
         print("")
 
@@ -1158,7 +1205,7 @@ class OctaDist:
         for i in range(len(pcl)):
             print("          ", pal[i])
             for j in range(3):
-                print("              ({0:5.5f}, {1:5.5f}, {2:5.5f})"
+                print("              ({0:5.6f}, {1:5.6f}, {2:5.6f})"
                       .format(pcl[i][j][0], pcl[i][j][1], pcl[i][j][2]))
         print("")
 
@@ -1178,7 +1225,7 @@ class OctaDist:
         for i in range(len(scl)):
             print("          ", sal[i])
             for j in range(3):
-                print("              ({0:5.5f}, {1:5.5f}, {2:5.5f})"
+                print("              ({0:5.6f}, {1:5.6f}, {2:5.6f})"
                       .format(scl[i][j][0], scl[i][j][1], scl[i][j][2]))
         print("")
 
@@ -1336,7 +1383,7 @@ class OctaDist:
         for i in range(len(oppo_pal)):
             print("         Opposite to {0}".format(x[i]))
             for j in range(3):
-                print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+                print("          {0} --> ({1:5.6f}, {2:5.6f}, {3:5.6f})"
                       .format(oppo_pal[i][j],
                               v[int(oppo_pal[i][j])][0], v[int(oppo_pal[i][j])][1], v[int(oppo_pal[i][j])][2]))
         print("")
@@ -1380,6 +1427,7 @@ class OctaDist:
                             |   Parallel               |
                       ---->|                          |<------
                            v                          v
+
                         Parallel                Anti-Parallel
                    Negative dot-product     Positive dot-product
 
@@ -1388,8 +1436,7 @@ class OctaDist:
 
         5. Repeat step (2) - (4) with changing the plane and reference atoms.
 
-            We defined four planes. Each plane gives 6 angles.
-            Eventually, the total number of angles is 24.
+            4 planes. Each plane gives 6 angles. Eventually, the total number of angles is 24.
 
         6. Calculate Theta parameter, it is the sum of the deviation of angle from 60 degree.
 
@@ -1433,7 +1480,7 @@ class OctaDist:
             m = self.project_atom_onto_plane(v[0], a, b, c, d)
 
             print("         Orthogonal projection onto the plane", i + 1)
-            print("         The equation of plane: {1:5.5f}x + {2:5.5f}y + {3:5.5f}z = {4:5.5f}"
+            print("         The equation of plane: {1:5.6f}x + {2:5.6f}y + {3:5.6f}z = {4:5.6f}"
                   .format(i + 1, a, b, c, d))
             print("")
 
@@ -1442,11 +1489,11 @@ class OctaDist:
             o3 = int(oppo_pal[i][2])
 
             print("         Old coordinate of projected atom on the original plane")
-            print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+            print("          {0} --> ({1:5.6f}, {2:5.6f}, {3:5.6f})"
                   .format(o1, v[o1][0], v[o1][1], v[o1][2]))
-            print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+            print("          {0} --> ({1:5.6f}, {2:5.6f}, {3:5.6f})"
                   .format(o2, v[o2][0], v[o2][1], v[o2][2]))
-            print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+            print("          {0} --> ({1:5.6f}, {2:5.6f}, {3:5.6f})"
                   .format(o3, v[o3][0], v[o3][1], v[o3][2]))
             print("")
 
@@ -1456,11 +1503,11 @@ class OctaDist:
             n3 = self.project_atom_onto_plane(v[o3], a, b, c, d)
 
             print("         New coordinate of projected atom on the given projection plane")
-            print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+            print("          {0} --> ({1:5.6f}, {2:5.6f}, {3:5.6f})"
                   .format(o1, n1[0], n1[1], n1[2]))
-            print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+            print("          {0} --> ({1:5.6f}, {2:5.6f}, {3:5.6f})"
                   .format(o2, n2[0], n2[1], n2[2]))
-            print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+            print("          {0} --> ({1:5.6f}, {2:5.6f}, {3:5.6f})"
                   .format(o3, n3[0], n3[1], n3[2]))
             print("")
 
@@ -1488,12 +1535,6 @@ class OctaDist:
                     vector_ref = ref_on_line - pcl[i][j]
                     vector_x = x_on_line - lcl[k][2]
 
-                    print(np.dot(vector_ref, vector_x))
-
-                    # check if the two vectors are parallel or anti-parallel
-
-                    #
-
                     if np.dot(vector_ref, vector_x) < 0:
                         # print("         Dot product is", np.dot(vector_ref, vector_x))
                         # selected_atom_list.append([pcl[i][j], lcl[k][0], lcl[k][1]])
@@ -1506,10 +1547,11 @@ class OctaDist:
                         angle = self.angle_between(m, pcl[i][j], lcl[k][1])
                         angle_theta_list.append(angle)
 
-                        print("          Angle between atom {0} and {1}: {2:5.5f}"
+                        print("          Angle between atom {0} and {1}: {2:5.6f}"
                               .format(pal[i][j], lal[k][0], angle))
-                        print("          Angle between atom {0} and {1}: {2:5.5f}"
+                        print("          Angle between atom {0} and {1}: {2:5.6f}"
                               .format(pal[i][j], lal[k][1], angle))
+                        print("")
 
         return angle_theta_list
 
@@ -1545,7 +1587,8 @@ class OctaDist:
 
         for i in range(1, 7):
             distance_indi = sqrt(sum([pow(x[i][j] - x[0][j], 2) for j in range(3)]))
-            print("         Distance between metal center and ligand atom", i, "is {0:5.5f}".format(distance_indi))
+            print("         Distance between metal center and ligand atom {0} : {1:5.6f}"
+                  .format(i, distance_indi))
             distance_list.append(distance_indi)
 
         # Print summary
@@ -1609,8 +1652,14 @@ class OctaDist:
                 angle_sigma_list.append(angle_sigma_indi)
                 ligand_atom_list.append([i, j])
 
-        # Backup the before sorted angle
-        bf_angle_sigma_list = angle_sigma_list
+        # Print list of angle
+        print("         List of the angles before sorted:")
+
+        # Print list of angles before sorted
+        for i in range(len(angle_sigma_list)):
+            print("         Angle between atom", ligand_atom_list[i][0], "and atom", ligand_atom_list[i][1],
+                  "before sorted: {0:5.6f}".format(angle_sigma_list[i]))
+        print("")
 
         # Sort the angle from lowest to highest
         # Two loops is used to sort the distance from lowest to greatest numbers
@@ -1623,37 +1672,29 @@ class OctaDist:
                     k = j
                 j += 1
             angle_sigma_list[i], angle_sigma_list[k] = angle_sigma_list[k], angle_sigma_list[i]
+            ligand_atom_list[i], ligand_atom_list[k] = ligand_atom_list[k], ligand_atom_list[i]
             i += 1
 
-        # Backup the after sorted angle
-        af_angle_sigma_list = angle_sigma_list
-
-        # Print list of angle
-        print("         List of the angles:")
-
-        # Print list of angles before sorted
-        for i in range(len(bf_angle_sigma_list)):
-            print("         Angle between atom", ligand_atom_list[i][0], "and atom", ligand_atom_list[i][1],
-                  "before sorted: {0:5.5f}".format(bf_angle_sigma_list[i]))
-        print("")
-
         # Print list of angles after sorted
-        for i in range(len(af_angle_sigma_list)):
-            print("         Angle after sorted: {0:5.5f}".format(af_angle_sigma_list[i]))
+        print("         List of the angles after sorted:")
+
+        for i in range(len(angle_sigma_list)):
+            print("         Angle between atom", ligand_atom_list[i][0], "and atom", ligand_atom_list[i][1],
+                  "after sorted : {0:5.6f}".format(angle_sigma_list[i]))
         print("")
 
         # Remove last three angles (last three rows)
-        new_angle_sigma_list = af_angle_sigma_list[:len(af_angle_sigma_list) - 3]
+        new_angle_sigma_list = angle_sigma_list[:len(angle_sigma_list) - 3]
 
         # Print new list of angle after three trans angle deleted
         print("         List after three trans angles deleted:")
 
         for i in range(len(new_angle_sigma_list)):
-            print("         ", new_angle_sigma_list[i])
+            print("         {0:5.6f} degree".format(new_angle_sigma_list[i]))
 
         # Print summary
         print("")
-        print("         Total number of angles before three trans angles deleted:", len(af_angle_sigma_list))
+        print("         Total number of angles before three trans angles deleted:", len(angle_sigma_list))
         print("         Total number of angles after three trans angles deleted :", len(new_angle_sigma_list))
         print("")
 
@@ -1718,7 +1759,7 @@ class OctaDist:
         # Print all 24 angles
         print("Command: Show all 24 angles")
         for i in range(len(computed_24_angle)):
-            print("         Angle", i + 1, ": {0:5.5f} degree".format(computed_24_angle[i]))
+            print("         Angle", i + 1, ": {0:5.6f} degree".format(computed_24_angle[i]))
         print("")
 
         # Sum up all individual theta angle
@@ -1924,7 +1965,7 @@ class OctaDist:
 
             # Plot plane : Given three points, the plane is a*x + b*y + c*z + d = 0
             a, b, c, d = self.eq_of_plane(vl[i][0], vl[i][1], vl[i][2])
-            print("         The equation of plane {0} is {1:5.5f}x + {2:5.5f}y + {3:5.5f}z + {4:5.5f} = 0"
+            print("         The equation of plane {0} is {1:5.6f}x + {2:5.6f}y + {3:5.6f}z + {4:5.6f} = 0"
                   .format(i + 1, a, b, c, d))
 
             m = self.project_atom_onto_plane(cl[0], a, b, c, d)
