@@ -34,6 +34,7 @@ Contact: rangsiman1993@gmail.com
          rangsiman_k@sci.tu.ac.th
 Personal website: https://sites.google.com/site/rangsiman1993
 """
+from typing import List
 
 program_version = 1.2
 
@@ -65,7 +66,7 @@ class OctaDist:
         masters.title("OctaDist")
 
         # Set font and text size as default setting.
-        FONT = "Segoe-UI 10"
+        FONT = "Arial 10"
         self.masters.option_add("*Font", FONT)
 
         # width x height + x_offset + y_offset
@@ -74,7 +75,7 @@ class OctaDist:
         # master.bind('<Escape>', quit)
 
         # Configure frame
-        master = Frame(masters, highlightbackground="Grey", highlightthickness=1, bd="5", width="2", height="2")
+        master = Frame(masters, width="2", height="2")
         master.grid(padx=5, pady=5)
 
         """
@@ -148,15 +149,15 @@ class OctaDist:
 
         # program details
         program_name = "Octahedral Distortion Analysis"
-        self.msg_1 = Label(master, font=("Segoe-UI", 16, "bold"), text=program_name)
-        self.msg_1.config(fg="Blue")
+        self.msg_1 = Label(master, foreground="blue", font=("Arial", 16, "bold"), text=program_name)
+        self.msg_1.config()
         self.msg_1.grid(pady="5", row=0, columnspan=4)
         description = "Determine the structural distortion between two octahedral structures."
         self.msg_2 = Label(master, text=description)
         self.msg_2.grid(pady="5", row=1, columnspan=4)
 
         # button to browse input file
-        self.btn_open_file = Button(master, command=self.open_file, text="Browse file", )
+        self.btn_open_file = Button(master, command=self.open_file, text="Browse file")
         self.btn_open_file.grid(pady="5", row=2, column=0)
 
         # button to run
@@ -185,20 +186,19 @@ class OctaDist:
 
         # Display coordinate and vector projection
         self.lbl_display = Label(master, text="Graphical Displays")
-
-        # lbl_display.config(font="Segoe 10 bold")
-        self.lbl_display.grid(row=6, column=0)
+        #self.lbl_display.config(font="Segoe 10 bold")
+        self.lbl_display.grid(row=6, column=0, padx="30")
 
         # button to draw structure
         self.btn_draw_structure = Button(master, command=self.draw_structure, text="Octahedral structure")
         self.btn_draw_structure.grid(pady="5", row=7, column=0)
 
         # button to draw plane
-        self.btn_draw_plane = Button(master, command=self.draw_plane, text="Projection plane")
+        self.btn_draw_plane = Button(master, command=self.draw_plane, text="Projection plane", width="15")
         self.btn_draw_plane.grid(pady="5", row=8, column=0)
 
         # button to draw vector projection
-        self.btn_draw_projection = Button(master, command=self.draw_projection, text="Projected atoms")
+        self.btn_draw_projection = Button(master, command=self.draw_projection, text="Projected atoms", width="15")
         self.btn_draw_projection.grid(pady="5", row=9, column=0)
 
         # Delta
@@ -225,7 +225,7 @@ class OctaDist:
 
         # Link
         link = "https://github.com/rangsimanketkaew/OctaDist"
-        self.lbl_link = Label(master, text=link, fg="blue", cursor="hand2")
+        self.lbl_link = Label(master, foreground="blue", text=link, cursor="hand2")
         self.lbl_link.grid(pady="5", row=10, columnspan=4)
         self.lbl_link.bind("<Button-1>", self.callback)
 
@@ -308,7 +308,7 @@ class OctaDist:
 
         hp = Tk()
         # hp.overrideredirect(1)
-        hp.option_add("*Font", "Segoe-UI 10")
+        hp.option_add("*Font", "Arial 10")
         hp.geometry("500x450+750+200")
         hp.title("Program Help")
 
@@ -324,7 +324,7 @@ class OctaDist:
                      "3. Check results\n" \
                      "4. File → Save as ..\n"
         msg = Message(hp, text=msg_help_1, width="450")
-        # msg.config(font=("Segoe-UI 10"))
+        # msg.config(font=("Arial 10"))
         msg.pack(anchor=W)
 
         # Input format
@@ -341,7 +341,7 @@ class OctaDist:
                      "  <optional>\n" \
                      "  ...\n"
         msg = Message(hp, text=msg_help_2, width="450")
-        msg.config(font="Segoe-UI 10 italic")
+        msg.config(font="Arial 10 italic")
         msg.pack(anchor=W)
 
         # References
@@ -355,7 +355,7 @@ class OctaDist:
                      "3. M. Marchivie, P. Guionneau, J. F. Letard, D. Chasseau\n" \
                      "   Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.\n"
         msg = Message(hp, text=msg_help_3, width="450")
-        # msg.config(font=("Segoe-UI 10"))
+        # msg.config(font=("Arial 10"))
         msg.pack(anchor=W)
 
         hp.mainloop()
@@ -913,8 +913,31 @@ class OctaDist:
 
         print("Command: Data has been saved to ", f)
 
-    def dist_btw(self, x, y):
-        """Find distance between two point
+    def norm_vector(self, v):
+        """Returns the unit vector of the vector v: normalizing
+
+        Parameter
+        ---------
+        v : array
+            vector
+
+        Return
+        ------
+        normalized vector : array
+        """
+
+        if np.linalg.norm(v) == 0:
+            print("Error: norm of vector", v, "is 0. Thus function norm_vector returns a wrong value.")
+
+        return v / np.linalg.norm(v)
+
+    def distance_between(self, x, y):
+        """Find distance between two point, given points (x1,y1,z1) and (x2,y2,z2)
+        
+             -----------------------------------------
+           \/ (x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2
+
+        This function can find distance for two points in 2D and 3D spaces
 
         Parameter
         ---------
@@ -926,7 +949,7 @@ class OctaDist:
         individual distance : float
         """
 
-        return sqrt(sum([pow(x[i] - y[i], 2) for i in range(3)]))
+        return sqrt(sum([pow(x[i] - y[i], 2) for i in range(len(x))]))
 
     def distance_avg(self, x):
         """Calculate mean M-X distance by averaging the distance between
@@ -950,77 +973,41 @@ class OctaDist:
         dist_sum = []
 
         for i in range(1, 7):
-            results_sum = self.dist_btw(x[i], x[0])
+            results_sum = self.distance_between(x[i], x[0])
             dist_sum.append(results_sum)
 
         return sum([dist_sum[i] for i in range(6)]) / 6
 
-    def calc_delta(self, x):
-        """Calculate 1st octahedral distortion parameter, delta.
+    def distance_point_2_line(self, x0, x1, x2):
+        """If the line passes through two points in 3D space x1=(x1,y1,z1) and x2=(x2,y2,z2)
+        then the minimum distance of point x0=(x0,y0,z0) from the line is:
 
-                                          2
-                     1         / d_i - d \
-        delta(d) =  --- * sum | -------- |
-                     6        \    d    /
+            | (x0 - x1) X (x0 - x2) |
+        d = -------------------------           < X is cross product >
+                  | x2 - x1 |
 
-                    where d_i is individual M-X distance and d is mean M-X distance.
-
-        Ref: DOI: 10.1107/S0108768103026661  Acta Cryst. (2004). B60, 10-20
-
-        Parameter
-        ---------
-        x : array
-            cartesian coordinate of atom (point)
-
-        Return
-        ------
-        computed_delta : float
-            delta parameter (unitless)
-        """
-
-        global distance_list, computed_delta
-
-        print("Command: Calculate distance between atoms (in Ångström)")
-
-        # Calculate and print individual distance
-        distance_list = []
-
-        for i in range(1, 7):
-            distance_indi = sqrt(sum([pow(x[i][j] - x[0][j], 2) for j in range(3)]))
-            print("         Distance between metal center and ligand atom", i, "is {0:5.5f}".format(distance_indi))
-            distance_list.append(distance_indi)
-
-        # Print summary
-        print("")
-        print("         Total number of computed distance:", len(distance_list))
-        print("")
-
-        computed_distance_avg = self.distance_avg(x)
-
-        # Calculate Delta parameter
-        for i in range(6):
-            diff_dist = (distance_list[i] - computed_distance_avg) / computed_distance_avg
-            computed_delta = (pow(diff_dist, 2) / 6) + computed_delta
-
-        return computed_delta
-
-    def normalize_vector(self, v):
-        """Returns the unit vector of the vector v: normalizing
+        Ref:
+        http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
 
         Parameter
         ---------
-        v : array
-            vector
+        x1 and x2 : array
+            start and end point that the line passes through
+        x0 : int
+            point
 
         Return
         ------
-        normalized vector : array
+        minimum distance : float
+            shortest distance from point to line
         """
 
-        if np.linalg.norm(v) == 0:
-            print("Error: norm of vector", v, "is 0. Thus function normalize_vector returns a wrong value.")
+        # Convert the atom sequence to coordinate
+        v1 = x0 - x1
+        v2 = x0 - x2
+        v3 = x2 - x1
 
-        return v / np.linalg.norm(v)
+        return np.linalg.norm(np.cross(v1, v2)) / np.linalg.norm(v3)
 
     def angle_between(self, v0, v1, v2):
         """Compute the angle between vector <v1 - v0> and <v2 - v0>
@@ -1050,10 +1037,590 @@ class OctaDist:
         sub_v1 = v1 - v0
         sub_v2 = v2 - v0
 
-        v1_u = self.normalize_vector(sub_v1)
-        v2_u = self.normalize_vector(sub_v2)
+        v1_u = self.norm_vector(sub_v1)
+        v2_u = self.norm_vector(sub_v2)
 
         return np.degrees(np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0)))
+
+    def search_plane(self, v):
+        """Find plane of given octahedral complex
+
+        1. Determine possible plane by given any three ligand atoms.
+            Choose 3 from 5 atoms. This yields (5!/2!3!) = 10 planes
+
+        2. Find the projected metal center atom (m') on the new plane
+
+            m ---> m'
+             plane
+
+        3. Find the minimum distance between metal center atom and its projected point
+
+            d_plane_i = norm(m' - m)
+
+            Eventually, we will get d_plane_1, d_plane_2, ..., d_plane_6
+
+        4. Given plane_coord_list array with dimension 10 x 1 x 4.
+            This array contains sequence of vertices and the minimum distance from previous step.
+
+                         [[ co. co. co. distance ]  --> plane 1
+                          | co. co. co. distance ]  --> plane 2
+            plane_coord = | ...              ... |
+                          | ...              ... |
+                          [ co. co. co. distance ]] ---> plane 10
+
+            where co. is the cartesian coordinate of atom i (vertex)
+
+            Example,
+
+                         [[ 1  2  3  1.220 ]  --> plane 1
+                          | 1  2  4  0.611 ]  --> plane 2
+            plane_coord = | ...        ... |
+                          | 2  3  4  1.210 |
+                          | ...        ... |
+                          [ 3  4  5  1.434 ]] ---> plane 10
+
+            the numbers in column 1-3 are the number ligand atom referes to their coordinate
+
+        4. Sort plane_coord_list in ascending order of the minimum distance
+
+        5. The unwanted plane is close to metal center atom.
+            Remove first 6 plane (6 rows) out of plane_coord_list
+            The remaining planes are last 4 planes.
+
+                         [[ 1  3  5 ]  --> plane 7
+                          | 3  4  5 ]  --> plane 8
+            plane_coord = | ... ... |
+                          [ 1  2  4 ] ---> plane 10
+
+        Parameter
+        ---------
+        v : array
+            XYZ coordinate of one metal center and six ligand atoms
+
+            v[0] = metal center atom of complex
+            v[i] = ligand atom of complex
+
+        Return
+        ------
+        plane_atom_list and plane_coord_list : array - int
+            the list of the number of atom and coordinate of vertices of 4 planes
+        """
+
+        print("Command: Given three atoms. Find the plane (AKA the face) on octahedron.")
+        print("")
+        print("                   Atom i\n"
+              "                   /  \\\n"
+              "                  /    \\\n"
+              "                 /      \\\n"
+              "                /        \\\n"
+              "              Atom j-----Atom k")
+        print("")
+        print("         Total number of the selected plane is 10")
+        print("")
+
+        global plane_atom_list, plane_coord_list
+
+        # list of vertex of triangle (face of octahedral)
+        plane_atom_list = []
+        plane_coord_list = []
+
+        # Find all possible faces --> 10 faces (plane)
+        for i in range(1, 4):
+
+            for j in range(i + 1, 5):
+
+                for k in range(j + 1, 6):
+
+                    a, b, c, d = self.eq_of_plane(v[i], v[j], v[k])
+                    # Find metal center atom projection onto the new plane
+                    m = self.project_atom_onto_plane(v[0], a, b, c, d)
+                    # Find distance between metal center atom to its projected point
+                    d_btw = self.distance_between(m, v[0])
+
+                    # Insert the number of ligand atoms into list
+                    plane_atom_list.append([i, j, k])
+                    # Insert the minimum distance into list
+                    plane_coord_list.append([v[i], v[j], v[k], d_btw])
+
+        # Do not convert list to array!
+        # plane_atom_list = np.asarray(plane_atom_list)
+        # plane_coord_list = np.asarray(plane_coord_list)
+
+        pal = plane_atom_list
+        pcl = plane_coord_list
+
+        # Print plane list before sorted
+        print("Command: Show the given three atoms and shortest distance from metal center to the plane")
+        print("         Format of list:")
+        print("")
+        print("         [<atom_i> <atom_j> <atom_k> <shortest_distance_from_metal_center_to_the_plane>]")
+        print("")
+        print("         List before sorted:")
+        print("          The sequence of atom and coordinate (x,y,z):")
+
+        for i in range(len(pcl)):
+            print("          ", pal[i])
+            for j in range(3):
+                print("              ({0:5.5f}, {1:5.5f}, {2:5.5f})"
+                      .format(pcl[i][j][0], pcl[i][j][1], pcl[i][j][2]))
+        print("")
+
+        # Sort plane_coord_list in ascending order of the minimum distance (4th column)
+        i = 0
+
+        while i < len(pcl):
+            k = i
+            j = i + 1
+
+            while j < len(pcl):
+                # Compare the minimum distance
+                if pcl[k][3] > pcl[j][3]:
+                    k = j
+                j += 1
+
+            # Reorder of atom sequence for both arrays
+            pcl[i], pcl[k] = pcl[k], pcl[i]
+            pal[i], pal[k] = pal[k], pal[i]
+
+            i += 1
+
+        # Print plane list after sorted
+        print("         List after sorted:")
+        print("          The sequence of atom and coordinate (x,y,z):")
+
+        for i in range(len(pcl)):
+            print("          ", pal[i])
+            for j in range(3):
+                print("              ({0:5.5f}, {1:5.5f}, {2:5.5f})"
+                      .format(pcl[i][j][0], pcl[i][j][1], pcl[i][j][2]))
+        print("")
+
+        # Remove first 6 out of 10 planes (first 6 rows), now plane_coord_list remains 4 planes
+        # spl = selected coordinate list
+        # sal = selected atom list
+        scl = pcl[6:]
+        sal = pal[6:]
+
+        # Remove the 4th column of distance
+        coord_vertex_list = np.delete(scl, 3, 1)
+
+        # Print new plane list after unwanted plane excluded
+        print("Command: Delete 6 planes that mostly close to metal center atom")
+        print("         List after unwanted plane deleted:")
+
+        for i in range(len(scl)):
+            print("          ", sal[i])
+            for j in range(3):
+                print("              ({0:5.5f}, {1:5.5f}, {2:5.5f})"
+                      .format(scl[i][j][0], scl[i][j][1], scl[i][j][2]))
+        print("")
+
+        # Return adjusted value to the old array
+        plane_atom_list = sal
+        plane_coord_list = coord_vertex_list
+
+        # Return array
+        return coord_vertex_list
+
+    def eq_of_plane(self, p1, p2, p3):
+        """Find the equation of plane that defined by three points (ligand atoms)
+        The general form of plane equation is Ax + By + Cz = D
+
+        Input arguments are vertex of plane (triangle)
+
+        Parameter
+        ---------
+        p1, p2, p3 : array
+            the given points
+
+        Return
+        ------
+        a, b, c, d : float
+            coefficient of the equation of plane
+        """
+
+        # subtract vector
+        v1 = p3 - p1
+        v2 = p2 - p1
+
+        # find the vector orthogonal to the plane using cross product method
+        norm_p = np.cross(v1, v2)
+        a, b, c = norm_p
+        d = np.dot(norm_p, p3)
+
+        return a, b, c, d
+
+    def project_atom_onto_plane(self, v, a, b, c, d):
+        """Find the orthogonal vector of point onto the given plane.
+        If the equation of plane is Ax + By + Cz = D and the location of point is (L, M, N),
+        then the location in the plane that is closest to the point (P, Q, R) is
+
+        (P, Q, R) = (L, M, N) + λ * (A, B, C)
+
+        where λ = (D - ( A*L + B*M + C*N)) / (A^2 + B^2 + C^2)
+
+        Input argument: v is vector
+                        a, b, and c are A, B, and C
+                        d is D
+
+        Parameter
+        ---------
+        v : array
+            coordinate of atom (x,y,z)
+
+        a, b, c, d : float
+            coefficient of the equation of plane
+
+        Return
+        ------
+        projected_point : array
+            new location of atom on the given plane (a projected point)
+        """
+
+        # Create array of coefficient of vector plane
+        v_plane = np.array([a, b, c])
+
+        # find lambda
+        lambda_plane = (d - (a * v[0] + b * v[1] + c * v[2])) / np.dot(v_plane, v_plane)
+
+        projected_point = v + (lambda_plane * v_plane)
+
+        return projected_point
+
+    def find_atom_on_oppo_plane(self, x):
+        """Find the atom on the parallel opposite plane
+        For example,
+
+        list of the atom on plane    list of the atom on opposite plane
+                [[1 2 3]                       [[4 5 6]
+                 [1 2 4]         --->           [3 5 6]
+                 [2 3 5]]                       [1 4 6]]
+
+        Parameter
+        ---------
+        x : array
+            the three ligand atoms
+
+        Return
+        ------
+        oppo_pal : array
+            list of atoms on opposite plane
+        """
+
+        all_atom = [1, 2, 3, 4, 5, 6]
+
+        oppo_pal = []
+
+        print("Command: Find the atoms on the opposite plane")
+
+        # loop for 4 planes
+        for i in range(4):
+
+            new_pal = []
+
+            # find the list of atoms on opposite plane
+            for e in all_atom:
+                if e not in (x[i][0], x[i][1], x[i][2]):
+                    new_pal.append(e)
+            oppo_pal.append(new_pal)
+
+        print("         List of the coordinate of atom on the opposite plane:")
+
+        v = coord_list
+
+        for i in range(len(oppo_pal)):
+            print("         Opposite to {0}".format(x[i]))
+            for j in range(3):
+                print("          {0} --> ({1:5.5f}, {2:5.5f}, {3:5.5f})"
+                      .format(oppo_pal[i][j],
+                              v[int(oppo_pal[i][j])][0], v[int(oppo_pal[i][j])][1], v[int(oppo_pal[i][j])][2]))
+        print("")
+
+        return oppo_pal
+
+    def calc_24_angles(self, v):
+        """Determine 24 angles
+
+        1. Suppose that we have an octahedron composed of one metal center atom (m)
+            and six ligand atoms of which index 1-6.
+
+                        1
+                    4  /\  6
+                     \/  \/
+                     /\  /\
+                    3  \/  5
+                       2
+
+            m is absent for clarity.
+
+        2. Given three atom (vertex) of triangular plane, i.e.
+
+            [1, 3, 5]
+
+            So the rest are on another parallel plane,
+
+            [2, 4, 6]
+
+        3. Orthogonally project [2, 4, 6] onto the plane that defined by [1, 3, 5]
+
+            [2, 4, 6] -----> [2', 4', 6']
+                    [1, 3, 5]
+
+            The new location of projected atoms on the given plane is [2', 4', 6']
+
+        4. Given the line that pass through two points of the projected atoms
+
+            line1 = 2'---4'
+            line2 = 4'---6'
+            line3 = 2'---6'
+
+        5. Determine the minimum distance from atom on the plane ([1, 3, 5]) to the line
+
+            d1 = atom 1 to line1 (2'---4')
+            d2 = atom 1 to line2 (4'---6')
+            d3 = atom 1 to line3 (2'---6')
+
+            What if d2 is the shortest distance, so the atom 1 is between projected atoms 4' and 6'
+
+        6. Subtract vector of ligand atoms by projected metal center (m'). this yields three adjacent rays
+
+            ray1 = 4' - m'
+            ray2 = 1 - m'
+            ray3 = 6' - m'
+
+        7. Calculate the angle between the rays
+
+            ray2 and ray1 --yields--> angle1
+            ray2 and ray3 --yields--> angle2
+
+        8. Repeat step (2) - (7) with changing the plane and reference atoms.
+
+            We defined four planes. Each plane gives 6 angles.
+            Eventually, the total number of angles is 24.
+
+        9. Calculate Theta parameter, it is the sum of the deviation of angle from 60 degree.
+
+            Theta = \sum_{1}_{24} | 60 - angle_i |
+
+        Parameter
+        ---------
+        v = array
+            coordinate of octahedron
+            v[0] = coordinate of metal center atom
+            v[1] - v[6] = coordinate of 6 ligand atoms
+
+        Return
+        ------
+        angle_theta_list = list
+            24 angles, each angle computed from the vector of two atoms
+            that are on the different twisting plane
+        """
+
+        global angle_theta_list
+
+        self.search_plane(v)
+
+        pal = plane_atom_list
+        pcl = plane_coord_list
+
+        angle_theta_list = []
+
+        # Find the atoms on opposite plane
+        oppo_pal = self.find_atom_on_oppo_plane(pal)
+
+        print("Command: Find the orthogonal projection of atom on the given plane")
+
+        # loop plane
+        for i in range(1):
+
+            # Find coefficient of plane equation
+            a, b, c, d = self.eq_of_plane(pcl[i][0], pcl[i][1], pcl[i][2])
+            
+            print("         Orthogonal projection onto the plane", i + 1)
+            print("          The equation of plane: {1:5.5f}x + {2:5.5f}y + {3:5.5f}z = {4:5.5f}"
+                  .format(i + 1, a, b, c, d))
+            print("")
+
+            o1 = int(oppo_pal[i][0])
+            o2 = int(oppo_pal[i][1])
+            o3 = int(oppo_pal[i][2])
+
+            print("          Old coordinate of projected atom on the original plane")
+            print("           Atom no.", o1, "-->", v[o1])
+            print("           Atom no.", o2, "-->", v[o2])
+            print("           Atom no.", o3, "-->", v[o3])
+            print("")
+
+            # Project the opposite atom onto the given plane
+            n1 = self.project_atom_onto_plane(v[o1], a, b, c, d)
+            n2 = self.project_atom_onto_plane(v[o2], a, b, c, d)
+            n3 = self.project_atom_onto_plane(v[o3], a, b, c, d)
+
+            print("          New coordinate of projected atom on the given projection plane")
+            print("           Atom no.", o1, "-->", n1)
+            print("           Atom no.", o2, "-->", n2)
+            print("           Atom no.", o3, "-->", n3)
+            print("")
+
+            # Find minimum distance from point to three lines
+            min_dist_list = []
+
+            # loop three ref atoms (vertices of triangular)
+            # Calculate minimum distance
+            for j in range(3):
+
+                # pal[i][j] is pal[plane i][atom j]
+
+                v_ref = v[int(pal[i][j])]
+
+                # minimum distance from atom j (one plane i) to the given line
+                # the given line is defined by a pair of the projected atom
+                min_dist_1 = self.distance_point_2_line(v_ref, n1, n2)
+                min_dist_2 = self.distance_point_2_line(v_ref, n1, n3)
+                min_dist_3 = self.distance_point_2_line(v_ref, n2, n3)
+
+                item_1 = [int(pal[i][j]), o1, o2, min_dist_1]
+                item_2 = [int(pal[i][j]), o1, o3, min_dist_2]
+                item_3 = [int(pal[i][j]), o2, o1, min_dist_3]
+
+                min_dist_list.append([item_1, item_2, item_3])
+
+            # loop to print list of ref atom and minimum distance to three lines
+            print("          Minimum Distance from reference atom to the given line")
+            print("          [<ref. atom>  <adjacent atom 1>  <adjacent atom 2>  <Minimum Distance>")
+            print("")
+
+            for j in range(3):
+
+                print("          ", min_dist_list[j][0])
+                print("          ", min_dist_list[j][1])
+                print("          ", min_dist_list[j][2])
+                print("")
+            print("")
+
+            # loop three ref atoms and minimum distance (vertices of triangular)
+            # Sort list in ascending order of the minimum distance (4th column)
+            for j in range(3):
+
+                indi_list = min_dist_list[j]
+
+                p = 0
+
+                while p < len(indi_list):
+                    r = p
+                    q = p + 1
+
+                    while q < len(indi_list):
+                        # Compare the minimum distance (column 4 --> index 3)
+                        if indi_list[r][3] > indi_list[q][3]:
+                            r = q
+                        q += 1
+
+                    # Reorder of atom sequence for both arrays
+                    indi_list[p], indi_list[r] = indi_list[r], indi_list[p]
+
+                    p += 1
+
+                # Print list of ref atom and minimum to three line after sorted
+                print("         List after sorted in ascending order of minimum distance")
+
+                for k in range(3):
+                    print("          {}".format(indi_list[k]))
+
+                # Delete last two lines
+                indi_list = indi_list[0]
+                print("-----------")
+                print(indi_list)
+
+                # Print only the pair that mostly close to reference atom
+                print("          The shortest distance from reference atom to line: {0:5.5f} Ångström"
+                      .format(indi_list[3]))
+                print("")
+
+                # Ready to Calculate angle between atoms from two twisting planes
+
+                # Project metal center onto the given plane
+                m = self.project_atom_onto_plane(v[0], a, b, c, d)
+
+                # print("          The point of metal center atom on the given plane:"
+                #       "({0:5.5f}, {1:5.5f}, {2:5.5f})".format(m[0], m[1], m[2]))
+                # print("")
+
+                # Project selected atoms onto the given plane
+
+                # for z in range(7):
+                #     print("      -->", v[z])
+                # print("")
+
+                v0 = v[int(indi_list[0])]
+                v1 = v[int(indi_list[1])]
+                v2 = v[int(indi_list[2])]
+
+                l1 = self.project_atom_onto_plane(v1, a, b, c, d)
+                l2 = self.project_atom_onto_plane(v2, a, b, c, d)
+
+                # Calculate angle and insert into angle_theta_list
+                angle_theta_indi = self.angle_between(m, v0, l1)
+                print(angle_theta_indi)
+                angle_theta_list.append(angle_theta_indi)
+                angle_theta_indi = self.angle_between(m, v0, l2)
+                print(angle_theta_indi)
+                angle_theta_list.append(angle_theta_indi)
+
+                #print("          Angle between atom {0} and {1}: {2:5.5f}".format(j, k, angle_theta_indi))
+
+            print("")
+
+        return angle_theta_list
+
+    def calc_delta(self, x):
+            """Calculate 1st octahedral distortion parameter, delta.
+
+                                              2
+                         1         / d_i - d \
+            delta(d) =  --- * sum | -------- |
+                         6        \    d    /
+
+                        where d_i is individual M-X distance and d is mean M-X distance.
+
+            Ref: DOI: 10.1107/S0108768103026661  Acta Cryst. (2004). B60, 10-20
+
+            Parameter
+            ---------
+            x : array
+                cartesian coordinate of atom (point)
+
+            Return
+            ------
+            computed_delta : float
+                delta parameter (unitless)
+            """
+
+            global distance_list, computed_delta
+
+            print("Command: Calculate distance between atoms (in Ångström)")
+
+            # Calculate and print individual distance
+            distance_list = []
+
+            for i in range(1, 7):
+                distance_indi = sqrt(sum([pow(x[i][j] - x[0][j], 2) for j in range(3)]))
+                print("         Distance between metal center and ligand atom", i, "is {0:5.5f}".format(distance_indi))
+                distance_list.append(distance_indi)
+
+            # Print summary
+            print("")
+            print("         Total number of computed distance:", len(distance_list))
+            print("")
+
+            computed_distance_avg = self.distance_avg(x)
+
+            # Calculate Delta parameter
+            for i in range(6):
+                diff_dist = (distance_list[i] - computed_distance_avg) / computed_distance_avg
+                computed_delta = (pow(diff_dist, 2) / 6) + computed_delta
+
+            return computed_delta
 
     def calc_sigma(self, v):
         """Calculate octahedral distortion parameter, Σ
@@ -1156,217 +1723,6 @@ class OctaDist:
 
         return computed_sigma
 
-    def find_plane(self, v):
-        """Find plane of given octahedral complex
-
-        v = XYZ coordinate of complex
-        v[0] = metal center atom of complex
-        v[i] = ligand atom of complex
-
-        Parameter
-        ---------
-        v : array
-            coordinate of ligand atoms
-
-        Return
-        ------
-        final_plane_list : array - int
-            the possible 4 plane
-        """
-
-        global final_plane_list
-
-        print("Command: Find the plane (AKA the face on octahedron). Given three atoms as vertices")
-        print("")
-        print("                   Atom i\n"
-              "                   /  \\\n"
-              "                  /    \\\n"
-              "                 /      \\\n"
-              "                /        \\\n"
-              "              Atom j-----Atom k")
-        print("")
-        print("         Total number of the selected plane is 10")
-        print("")
-
-        # list of vertex of triangle (face of octahedral)
-        plane_list = []
-
-        # Find four possible faces --> This would result 10 plane
-        for i in range(1, 4):
-            for j in range(i + 1, 5):
-                for k in range(j + 1, 6):
-                    self.find_plane_eq(v[i], v[j], v[k])
-
-                    # Find distance between metal center atom and its projected point on plane
-                    # and store the vertex of triangle (face/plane) and distance btw metal to plane into array
-                    m = self.project_atom_onto_plane(v[0], a, b, c, d)
-                    d_btw = self.dist_btw(m, v[0])
-                    plane_list.append(np.array([i, j, k, d_btw]))
-
-        # Print plane list before sorted
-        print("Command: Show the list of given three atoms and shortest distance from metal center to the plane")
-        print("         Format of list:\n")
-        print("         [<atom_i> <atom_j> <atom_k> <shortest_distance_from_metal_center_to_the_plane>]\n")
-        print("         List before sorted:")
-
-        for i in range(len(plane_list)):
-            print("         ", plane_list[i])
-        print("")
-
-        # Use distance between metal center and its projected point to sort list (array)
-        # Two loops is used to sort the distance from lowest to greatest numbers
-        i = 0
-
-        while i < len(plane_list):
-            k = i
-            j = i + 1
-
-            while j < len(plane_list):
-                if plane_list[k][3] > plane_list[j][3]:
-                    k = j
-                j += 1
-
-            plane_list[i], plane_list[k] = plane_list[k], plane_list[i]
-
-            i += 1
-
-        # Print plane list after sorted
-        print("         List after sorted:")
-        for i in range(len(plane_list)):
-            print("         ", plane_list[i])
-        print("")
-
-        # Remove first six planes from list (first six rows)
-        excluded_plane_list = plane_list[6:]
-
-        # Print new plane list after unwanted plane excluded
-        print("Command: Delete six planes that mostly closest to metal center atom")
-        print("         List after unwanted plane deleted:")
-
-        for i in range(len(excluded_plane_list)):
-            print("         ", excluded_plane_list[i])
-        print("")
-
-        # Remove the 4th column of distance
-        final_plane_list = np.delete(excluded_plane_list, 3, 1)
-
-        # Show final plane list
-        print("         Final list of the number of atoms for four selected plane:")
-
-        for i in range(len(final_plane_list)):
-            print("         ", final_plane_list[i].astype(int))
-        print("")
-
-        # Return 2D string array
-        return final_plane_list.astype(int)
-
-    def convert_atom_to_point(self, v):
-        """Find 4 correct plane of octahedral complex
-        For example,
-
-        list of atom                    list of XYZ coordinate of atom
-         [[1 2 3]          [[[0.00 0.00 0.00]  [1.22 2.34 1.23]  [3.21 1.09 -0.43]
-          [1 2 4]    --->   [[0.00 0.00 0.00]  [1.22 2.34 1.23]  [-0.56 2.65 0.45]
-          [2 3 5]]          [[1.22 2.34 1.23]  [3.21 1.09 -0.43] [2.32 -0.54 -0.23]]
-
-        Parameter
-        ---------
-        v : array
-            coordinate of ligand atoms
-
-        Return
-        ------
-        coord_vertex_list : array
-            list of coordinate of three atoms for each the defined plane
-        """
-
-        global coord_vertex_list
-
-        # Generate list of coordinate of selected point
-        coord_vertex_list = []
-        f = self.find_plane(v)
-
-        for i in range(len(f)):
-            coord_vertex_list.append(np.array([v[f[i][0]], v[f[i][1]], v[f[i][2]]]))
-
-        # Print list of coordinate of three selected atoms
-        print("Command: Show coordinate list of selected three ligand atoms for defining the plane")
-
-        for i in range(len(coord_vertex_list)):
-            print("         Plane", i + 1)
-            for j in range(3):
-                print("         ", coord_vertex_list[i][j])
-        print("")
-
-        return coord_vertex_list
-
-    def find_plane_eq(self, p1, p2, p3):
-        """Find the equation of plane that defined by three points (ligand atoms)
-        The general form of plane equation is Ax + By + Cz = D
-
-        Input arguments are vertex of plane (triangle)
-
-        Parameter
-        ---------
-        p1, p2, p3 : array
-            the given points
-
-        Return
-        ------
-        a, b, c, d : float
-            coefficient of the equation
-        """
-
-        global a, b, c, d
-
-        # subtract vector
-        v1 = p3 - p1
-        v2 = p2 - p1
-
-        # find the vector orthogonal to the plane using cross product method
-        norm_p = np.cross(v1, v2)
-        a, b, c = norm_p
-        d = np.dot(norm_p, p3)
-
-        return a, b, c, d
-
-    def project_atom_onto_plane(self, v, a, b, c, d):
-        """Find the orthogonal vector of point onto the given plane.
-        If the equation of plane is Ax + By + Cz = D and the location of point is (L, M, N),
-        then the location in the plane that is closest to the point (P, Q, R) is
-
-        (P, Q, R) = (L, M, N) + λ * (A, B, C)
-
-        where λ = (D - ( A*L + B*M + C*N)) / (A^2 + B^2 + C^2)
-
-        Input argument: v is vector
-                        a, b, and c are A, B, and C
-                        d is D
-
-        Parameter
-        ---------
-        v : array
-            the given atom coordinates
-
-        a, b, c, d : float
-            coefficient of the equation of plane
-
-        Return
-        ------
-        projected_point : array
-            new location of atom on the given plane (a projected point)
-        """
-
-        # Create array of coefficient of vector plane
-        v_plane = np.array([a, b, c])
-
-        # find lambda
-        lambda_plane = (d - (a * v[0] + b * v[1] + c * v[2])) / np.dot(v_plane, v_plane)
-
-        projected_point = v + (lambda_plane * v_plane)
-
-        return projected_point
-
     def calc_theta(self, v):
         """Calculate octahedral distortion parameter, Θ
 
@@ -1394,7 +1750,7 @@ class OctaDist:
             computed theta angle
         """
 
-        global angle_theta_list, computed_theta
+        global computed_theta
 
         print("Command: Calculate the following items")
         print("         - The equation of plane given by three selected ligand atoms, Ax + By + Cz = D")
@@ -1416,69 +1772,18 @@ class OctaDist:
         print("")
         print("         - Compute the angle between Metal and ligand atom [i, j, k, p, q, r] (in degree)")
         print("")
-        print("         - Default settings:")
-        print("           1. If the angle is greater than", angle_cutoff_for_theta_max, ", it will be set to 60.0")
-        print("           2. If the angle is less than", angle_cutoff_for_theta_min, ", it will be set to 60.0")
-        print("")
-        print("         ------------------------------------")
-        print("")
 
-        angle_theta_list = []
+        computed_24_angle = self.calc_24_angles(v)
 
-        cv = self.convert_atom_to_point(v)
-        count = 0
-
-        for i in range(4):
-            # Find coefficient of plane equation
-            a, b, c, d = self.find_plane_eq(cv[i][0], cv[i][1], cv[i][2])
-
-            print("         Orthogonal projection onto the plane", i + 1)
-            print("          The equation of plane: {1:5.5f}x + {2:5.5f}y + {3:5.5f}z = {4:5.5f}"
-                  .format(i + 1, a, b, c, d))
-
-            # Project metal center onto the given plane
-            m = self.project_atom_onto_plane(v[0], a, b, c, d)
-            print("          The point of metal center atom on the given plane: "
-                  "({0:5.5f}, {1:5.5f}, {2:5.5f})".format(m[0], m[1], m[2]))
-
-            for j in range(1, 6):
-                for k in range(2, 7):
-                    ##################################################
-                    # Not print the projected points of ligand atoms
-                    ##################################################
-                    l_1 = self.project_atom_onto_plane(v[j], a, b, c, d)
-                    # print("          The point of ligand atom {0} onto given plane: "
-                    #       "({1:5.5f}, {2:5.5f}, {3:5.5f})".format(j, l_1[0], l_1[1], l_1[2]))
-                    l_2 = self.project_atom_onto_plane(v[k], a, b, c, d)
-                    # print("          The point of ligand atom {0} onto given plane: "
-                    #       "({1:5.5f}, {2:5.5f}, {3:5.5f})".format(k, l_2[0], l_2[1], l_2[2]))
-
-                    angle_theta_indi = self.angle_between(m, l_1, l_2)
-
-                    if angle_theta_indi > angle_cutoff_for_theta_max \
-                            or angle_theta_indi <= angle_cutoff_for_theta_min:
-
-                        angle_theta_indi = 60.0
-                        angle_theta_list.append(angle_theta_indi)
-
-                        count += 1
-
-                    else:
-                        angle_theta_list.append(angle_theta_indi)
-
-                    print("          Angle between atom {0} and {1}: {2:5.5f}".format(j, k, angle_theta_indi))
-
-            print("")
-
-        # Print summary
-        print("         Total number of all angles      :", len(angle_theta_list))
-        print("         Total number of deleted angles  :", count)
-        print("         Total number of remaining angles:", len(angle_theta_list) - count)
+        # Print all 24 angles
+        print("Command: Show all 24 angles")
+        for i in range(len(computed_24_angle)):
+            print("         Angle", i+1, ": {0:5.5f} degree".format(computed_24_angle[i]))
         print("")
 
         # Sum up all individual theta angle
-        for i in range(len(angle_theta_list)):
-            computed_theta += abs(60.0 - angle_theta_list[i])
+        for i in range(len(computed_24_angle)):
+            computed_theta += abs(60.0 - computed_24_angle[i])
 
         return computed_theta
 
@@ -1581,7 +1886,7 @@ class OctaDist:
         print("Command: Display defined plane and orthogonal point")
 
         cl = coord_list
-        vl = coord_vertex_list
+        vl = self.search_plane(cl)
         vertex_list = []
         color_list = ["red", "blue", "green", "yellow"]
 
@@ -1625,14 +1930,15 @@ class OctaDist:
         for i in range(4):
             ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
             ax.set_title("Plane {}".format(i + 1))
-            ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100, linewidths=1,
-                       edgecolors='black')
+            ax.scatter(cl[0][0], cl[0][1], cl[0][2],
+                       color='yellow', marker='o', s=100, linewidths=1, edgecolors='black')
             ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, atom_list[0], fontsize=9)
 
             for j in range(1, 7):
-                ax.scatter(cl[j][0], cl[j][1], cl[j][2], color='red', marker='o', s=50, linewidths=1,
-                           edgecolors='black')
-                ax.text(cl[j][0] + 0.1, cl[j][1] + 0.1, cl[j][2] + 0.1, "{0},{1}".format(atom_list[j], j), fontsize=9)
+                ax.scatter(cl[j][0], cl[j][1], cl[j][2],
+                           color='red', marker='o', s=50, linewidths=1, edgecolors='black')
+                ax.text(cl[j][0] + 0.1, cl[j][1] + 0.1, cl[j][2] + 0.1,
+                        "{0},{1}".format(atom_list[j], j), fontsize=9)
 
             # Draw plane
             ax.add_collection3d(Poly3DCollection(vertex_list[i], alpha=0.5, color=color_list[i]))
@@ -1643,7 +1949,6 @@ class OctaDist:
             ax.grid(True)
 
         # plt.axis('equal')
-
         plt.show()
 
     def draw_projection(self):
@@ -1663,7 +1968,7 @@ class OctaDist:
         print("Command: Display the orthogonal projection onto the given plane")
 
         cl = coord_list
-        vl = coord_vertex_list
+        vl = self.search_plane(cl)
         color_list = ["red", "blue", "green", "yellow"]
 
         x_range, y_range = [], []
@@ -1679,7 +1984,7 @@ class OctaDist:
 
             # Plot plane
             # Given three points, the plane is a*x + b*y + c*z + d = 0
-            a, b, c, d = self.find_plane_eq(vl[i][0], vl[i][1], vl[i][2])
+            a, b, c, d = self.eq_of_plane(vl[i][0], vl[i][1], vl[i][2])
             print("         The equation of plane {0} is {1:5.5f}x + {2:5.5f}y + {3:5.5f}z + {4:5.5f} = 0" \
                   .format(i + 1, a, b, c, d))
 
