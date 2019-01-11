@@ -1,4 +1,9 @@
 # OctaDist
+
+<p align="center">
+   <img alt="Co-structure" src="images/molecule.png" align=middle width="200pt" />
+<p/>
+
 Octahedral Distortion Analysis: determining the structural distortion of octahedral complex. <br/>
 This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Community Edition). <br/>
 Program executable was compiled by Pyinstaller. <br/>
