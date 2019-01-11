@@ -34,7 +34,6 @@ Contact: rangsiman1993@gmail.com
          rangsiman_k@sci.tu.ac.th
 Personal website: https://sites.google.com/site/rangsiman1993
 """
-from typing import List
 
 program_version = 1.2
 
