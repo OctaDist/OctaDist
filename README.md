@@ -51,9 +51,9 @@ Ligand atoms on the same twisting plane.
 
 The following is an example of octahedral structure.  <img src="Assets/icon.png" width="200">
 
-Orthogonal projection of metal center and ligand atoms onthe the given plane Octahedral Fe complex | Orthogonal projection | Definining the ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle between twisting planes
-:--------------------------------------:|:-------------------------:|:-----------------------------:
-<img src="images/Co-complex-projection.png" width="300">   | <img src="images/complex-3.jpg" width="300"> | <img src="images/Co-complex-2D-projection.png" width="300">   
+Orthogonal projection of metal center and ligand atoms onthe the given plane Octahedral Fe complex | The ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) defined by angle between vectors of two atoms on the twisting plane
+:----------------------------------------:|:---------------------------------------------- :
+<img src="images/Co-complex-projection.png" width="300"> | <img src="images/Co-complex-2D-projection.png" width="300">   
 
 ## Usage
 ### Linux OS
