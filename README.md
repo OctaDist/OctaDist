@@ -39,20 +39,10 @@ Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](ht
 #### Calculation of ![](https://latex.codecogs.com/svg.Latex?%5CTheta) Parameter
 Determining the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. It is the sum of the deviation of 24 LG-M-LG angles ( ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) ) from 60 degree. The size of ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle depends on how the two twisting planes are defined. Given any three ligand atoms, the plane for orthogonal projection is defined. The other three ligand atoms are projected onto the orthogonal plane. The new location of the ligand atoms on the given plane is called a projected point. Then, we can compute the angle between the vector of which projected point of two atoms (ray 1 and ray 2), a metal center atom is defined as vertex. 
 
-<p align="center">
-   <img alt="Angle" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Two_rays_and_one_vertex.png/440px-Two_rays_and_one_vertex.png" align=middle width="200pt" /> 
-<p/>
-
-Ligand atoms on the same twisting plane.
-
-<p align="center">
-   <img alt="Co-structure" src="images/complex-3.jpg" align=middle width="300pt" />
-<p/>
-
-The following is an example of octahedral structure.  <img src="Assets/icon.png" width="200">
+Graphical representation of orthogonal projection and twisting planes
 
 Orthogonal projection of metal center and ligand atoms onthe the given plane Octahedral Fe complex | The ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) defined by angle between vectors of two atoms on the twisting plane
-:----------------------------------------:|:---------------------------------------------- :
+:-----------------------------------:|:--------------------------------- :
 <img src="images/Co-complex-projection.png" width="300"> | <img src="images/Co-complex-2D-projection.png" width="300">   
 
 ## Usage
