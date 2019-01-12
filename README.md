@@ -49,6 +49,12 @@ Ligand atoms on the same twisting plane.
    <img alt="Co-structure" src="images/complex-3.jpg" align=middle width="300pt" />
 <p/>
 
+The following is an example of octahedral structure. 
+
+  Orthogonal projection of metal center and ligand atoms onthe the given plane Octahedral Fe complex   |  Orthogonal projection   |      Twisting planes
+:--------------------------------------:|:-------------------------:|:-----------------------------:
+![](images/Co-complex-projection.png)   | ![](images/complex-3.jpg) | ![](images/Co-complex-2D-projection.png)   
+
 ## Usage
 ### Linux OS
 For Linux user, use `python3 -V` to check python version.
