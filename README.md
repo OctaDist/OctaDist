@@ -42,7 +42,7 @@ Determining the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. It
 Graphical representation of orthogonal projection and twisting planes
 
 Orthogonal projection of metal center and ligand atoms onthe the given plane Octahedral Fe complex | The ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) defined by angle between vectors of two atoms on the twisting plane
-:-------------------------------------------------------:|:--------------------------------- :
+:-------------------------------------------------------:|:---------------------------------------------------------- :
 <img src="images/Co-complex-projection.png" width="300"> | <img src="images/Co-complex-2D-projection.png" width="300">   
 
 ## Usage
