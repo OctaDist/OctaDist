@@ -48,7 +48,7 @@ Determining the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. It
 Graphical representation of orthogonal projection and twisting planes
 
 
-   Orthogonal projection onto the opposite plane  |  Tge ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle between the atom vectors defined by twisting planes   
+   Orthogonal projection onto the opposite plane  |  The ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle between the atom vectors defined by twisting planes   
 :-------------------------:|:-------------------------:
 ![](images/Co-complex-projection.png)  | ![](images/Co-complex-2D-projection.png)   
 
