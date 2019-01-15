@@ -80,9 +80,9 @@ H                  0.20069808    0.70680627   -1.46000000
 ```
 
 Calculate octahedral distortion parameters
-- Delta  <![](https://latex.codecogs.com/svg.Latex?%5CDelta)> = 0.00000000
-- Sigma  <![](https://latex.codecogs.com/svg.Latex?%5CSigma)> = 0.00000000 degree
-- Theta  <![](https://latex.codecogs.com/svg.Latex?%5CTheta)> = 0.00000000 degree
+- ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 0.00000000
+- ![](https://latex.codecogs.com/svg.Latex?%5CSigma) = 0.00000000 degree
+- ![](https://latex.codecogs.com/svg.Latex?%5CTheta) = 0.00000000 degree
 
 <p align="center">
    <img alt="Fe-structure" src="images/Fe-structure.png" align=middle width="400pt" />
@@ -103,9 +103,9 @@ O                 -3.422328     -1.955076      0.071764
 O                 -4.091008      0.421393      1.388991
 ```
 Calculate octahedral distortion parameters
-- Delta  <![](https://latex.codecogs.com/svg.Latex?%5CDelta)> = 0.00077054
-- Sigma  <![](https://latex.codecogs.com/svg.Latex?%5CSigma)> = 58.86979039 degree
-- Theta  <![](https://latex.codecogs.com/svg.Latex?%5CTheta)> = 144.13959388 degree
+- ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 0.00077054
+- ![](https://latex.codecogs.com/svg.Latex?%5CSigma) = 58.86979039 degree
+- ![](https://latex.codecogs.com/svg.Latex?%5CTheta) = 144.13959388 degree
 
 <p align="center">
    <img alt="Co-structure" src="images/Co-structure.png" align=middle width="400pt" />
