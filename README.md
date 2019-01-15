@@ -8,10 +8,10 @@ Octahedral Distortion Analysis: determining the structural distortion of octahed
 This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Community Edition). <br/>
 Program executable was compiled by Pyinstaller. <br/>
 
-## Background
+## Why OctaDist?
 ### Distortion in Octahedral Geometry
 
-Octahedral structure is composed of 7 atoms: metal center atom and 6 ligand atoms. It has 8 faces, 6 vertices, and 12 edges. It can be simply classified into two types: regular and distorted octahedrons. The complexes with regular octahedral geometry are expected to form, when all of the ligands are of the same kind. In contrast, if the ligands are of different kinds, the complex would turns the distorted octahedron instead.
+Octahedral complex is composed of 7 atoms: metal center atom and 6 ligand atoms. It has 8 faces, 6 vertices, and 12 edges. It can be simply classified into two types: regular and distorted octahedrons. The complexes with regular octahedral geometry are expected to form, when all of the ligands are of the same kind. In contrast, if the ligands are of different kinds, the complex would turns the distorted octahedron instead. The structural distion is geenrally found in the metal organic framework, the spin-crossover complex, and perovskite structure. 
 
 The following is an example of octahedral structure. 
 
@@ -22,7 +22,7 @@ The following is an example of octahedral structure.
 ### Octahedral Distortion Parameters
 
 #### Purpose
-Octahedral distortion paramers have been widely used to determine the structural distortion of synthesized metal complex such as metal organic framework (MOF), spin-crossover (SCO) complex, and perovskite cstructure. Previous publications have determined the octahedral distortion using structural parameters: ![](https://latex.codecogs.com/svg.Latex?%5CDelta), ![](https://latex.codecogs.com/svg.Latex?%5CSigma), and ![](https://latex.codecogs.com/svg.Latex?%5CTheta), given by following equations
+Octahedral distortion paramers have been widely used to determine the structural distortion in the octahedral complex. The parameters includes ![](https://latex.codecogs.com/svg.Latex?%5CDelta), ![](https://latex.codecogs.com/svg.Latex?%5CSigma), and ![](https://latex.codecogs.com/svg.Latex?%5CTheta), their mathematical expression given by following equations
 
 ![](https://latex.codecogs.com/svg.Latex?%5CDelta%20%3D%20%5Cfrac%7B1%7D%7B6%7D%20%5Csum_%7Bi%20%3D%201%7D%5E%7B6%7D%20%28%5Cfrac%7Bd_%7Bi%7D%20-%20d%7D%7Bd%7D%29%5E2)
 
@@ -36,7 +36,7 @@ Octahedral distortion paramers have been widely used to determine the structural
 
 <br/>
 
-However, there is no program for determining this kind of parameter yet. So we present the OctaDist program as a choice for those who are interested in this.
+Octahedral distortion parameters have been being widely used in inorganic chemistry, especially crystallography. People in community, mostly chemist, have calculated these parameters for their structures, but not used a certain way to do this. Moreover, there is no software for determining this kind of parameter yet. Therefore, we present the OctaDist program as a choice for those who are interested in this.
 
 
 #### Calculation of ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) Parameters
