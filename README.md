@@ -11,7 +11,7 @@ Program executable was compiled by Pyinstaller. <br/>
 ## Why OctaDist?
 ### Distortion in Octahedral Geometry
 
-Octahedral complex is composed of 7 atoms: metal center atom and 6 ligand atoms. It has 8 faces, 6 vertices, and 12 edges. It can be simply classified into two types: regular and distorted octahedrons. The complexes with regular octahedral geometry are expected to form, when all of the ligands are of the same kind. In contrast, if the ligands are of different kinds, the complex would turns the distorted octahedron instead. The structural distion is geenrally found in the metal organic framework, the spin-crossover complex, and perovskite structure. 
+Octahedral complex is composed of 7 atoms: metal center atom and 6 ligand atoms. It has 8 faces, 6 vertices, and 12 edges. It can be simply classified into two types: regular and distorted octahedrons. The complexes with regular octahedral geometry are expected to form, when all of the ligands are of the same kind. In contrast, if the ligands are of different kinds, the complex would turns the distorted octahedron instead. Generally, the structural distion is found in the metal organic framework, the spin-crossover complex, and perovskite structures. 
 
 The following is an example of octahedral structure. 
 
