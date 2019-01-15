@@ -40,6 +40,12 @@ Mathematical expression of three parameters are given by following equations
 
 - Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward. The ![](https://latex.codecogs.com/svg.Latex?%5CDelta) is the avearge of the sum of the deviation of LG-M distance, where LG and M are ligand atom and metal center atom, from mean distance. The ![](https://latex.codecogs.com/svg.Latex?%5CSigma) is the sum of LG-M-LS angle ( ![](https://latex.codecogs.com/svg.Latex?%5Cphi) ) from the 90 degree.
 
+
+   Distortion of Octahedron  |  Cis-Angle (![](https://latex.codecogs.com/svg.Latex?%5Cphi) between metal and ligand atoms   
+:-------------------------:|:-------------------------:
+![](images/Co-complex-8faces.png)  | ![](images/Co-complex-Cis-Angle.png)   
+
+
 - Unlike, ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma), the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. It is the sum of the deviation of 24 unique LG-M-LG angles (![](https://latex.codecogs.com/svg.Latex?%5Ctheta)) from 60 degree, where ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) is computed on the orthogonal projection of the two triangular faces of the octahedron projected along its pseudo-threefold axes. The problem is that the projection plane can not be determined directly. To solve this, we propose a method to find the optimal view of plane for further twisting triangular faces. Given three ligand atoms, the plane for atom projection can be defined. The other three ligand atoms on an opposite plane and metal center atom are orthogonally projected onto the given plane. The new location of the atoms on the given plane is called *a projected point*. Then, the unique ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle is computed as an angle between V1 and V2, where V1 and V2 are vectors of atom on below plane (reference atom) and upper planes (a projected atom), and a projected metal center atom is defined as vertex.
 
 Graphical representation of orthogonal projection and twisting planes
