@@ -50,7 +50,7 @@ Distortion of octahedron   |  3 out of 12 Cis-Angles (![](https://latex.codecogs
 
 Graphical representation of orthogonal projection and twisting planes
 
-Orthogonal projection onto the opposite plane  |  The ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle between the atom vectors defined by twisting planes   
+Orthogonal projection of atoms onto the given (opposite) plane  |  The ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle between the atom vectors defined by two twisting triangular faces   
 :-------------------------:|:-------------------------:
 ![](images/Co-complex-projection.png)  | ![](images/Co-complex-2D-projection.png)   
 
