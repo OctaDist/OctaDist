@@ -15,7 +15,7 @@ Octahedral complex is composed of 7 atoms: metal center atom and 6 ligand atoms.
 
 The following is an example of octahedral structure. 
 
-   Octahedral Fe complex   |   Octahedral Fe complex   
+   Octahedral Fe complex   |   Octahedral Fe complex  
 :-------------------------:|:-------------------------:
 ![](images/complex-1.jpg)  | ![](images/complex-2.jpg) 
 
@@ -69,7 +69,7 @@ For Linux user, use `python3 -V` to check python version.
 3. Click `Yes`
 
 ## Testing
-* Perfect octahedral Fe complex ([complex-test-1.txt](test/complex-test-1.xyz))
+* Perfect octahedral Fe complex ([complex-test-1.xyz](test/complex-test-1.xyz))
 ```
 7
 
