@@ -66,8 +66,10 @@ For Linux user, use `python3 -V` to check python version.
 3. Click `Yes`
 
 ## Testing
-* Perfect octahedral Fe complex ([complex-test-1.txt](test/complex-test-1.txt))
+* Perfect octahedral Fe complex ([complex-test-1.txt](test/complex-test-1.xyz))
 ```
+7
+
 Fe                 0.20069808    0.70680627    0.00000000
 H                  1.66069808    0.70680627    0.00000000
 H                  0.20069808    2.16680627    0.00000000
@@ -90,6 +92,8 @@ Calculate octahedral distortion parameters
 
 * XRD structure of octahedral Co complex in low-spin state, provided by David Harding ([complex-test-2.xyz](test/complex-test-2.txt))
 ```
+7
+
 Co                -3.535353      0.004296     -0.544992
 N                 -1.350596      0.347169     -0.409266
 N                 -2.825682     -0.655117     -2.430024
