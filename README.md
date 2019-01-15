@@ -67,6 +67,11 @@ For Linux user, use `python3 -V` to check python version.
 2. Right click and select `Run as administrator`
 3. Click `Yes`
 
+### Supported input file format
+- XYZ file format (*.xyz)
+- Text file format (*.txt)
+- Output file of several computational chemistry programs: Gaussian, NWChem, and ORCA
+
 ## Testing
 * Perfect octahedral Fe complex ([complex-test-1.xyz](test/complex-test-1.xyz))
 ```
@@ -126,6 +131,7 @@ Calculate octahedral distortion parameters
 
 ## Special thanks
 I would like to thank
+
 - [Prof. Yuthana Tantirungrotechai](https://sites.google.com/site/compchem403/people/faculty/yuthana) (Thammasat University, Thailand)
 - [Prof. David J. Harding](https://www.funtechwu.com/david-j-harding) (Walailak University, Thailand)
 
