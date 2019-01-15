@@ -22,7 +22,11 @@ The following is an example of octahedral structure.
 ### Octahedral Distortion Parameters
 
 #### Purpose
-Octahedral distortion paramers have been widely used to determine the structural distortion in the octahedral complex. The parameters includes ![](https://latex.codecogs.com/svg.Latex?%5CDelta), ![](https://latex.codecogs.com/svg.Latex?%5CSigma), and ![](https://latex.codecogs.com/svg.Latex?%5CTheta), their mathematical expression given by following equations
+Octahedral distortion parameters have been being widely used in inorganic chemistry and material science to determine the change in stural distortion of metal complex. People in community, mostly chemist and crystallographer, have calculated these parameters for their structures, but not used a certain way to do this. Moreover, there is no software for determining this kind of parameter yet. Therefore, we present the OctaDist program as a choice for those who are interested in this.
+
+
+#### Calculation of ![](https://latex.codecogs.com/svg.Latex?%5CDelta), ![](https://latex.codecogs.com/svg.Latex?%5CSigma), and ![](https://latex.codecogs.com/svg.Latex?%5CTheta) Parameters 
+Mathematical expression of three parameters are given by following equations
 
 ![](https://latex.codecogs.com/svg.Latex?%5CDelta%20%3D%20%5Cfrac%7B1%7D%7B6%7D%20%5Csum_%7Bi%20%3D%201%7D%5E%7B6%7D%20%28%5Cfrac%7Bd_%7Bi%7D%20-%20d%7D%7Bd%7D%29%5E2)
 
@@ -34,16 +38,9 @@ Octahedral distortion paramers have been widely used to determine the structural
 
 ![](https://latex.codecogs.com/svg.Latex?%5CTheta%20%3D%20%5Csum_%7Bi%20%3D%201%7D%5E%7B24%7D%20%5Cabs%20%5Cleft%20%7C%2060%20-%20%5Ctheta_%7Bi%7D%20%7C) 
 
-<br/>
+- Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward. The ![](https://latex.codecogs.com/svg.Latex?%5CDelta) is the avearge of the sum of the deviation of LG-M distance, where LG and M are ligand atom and metal center atom, from mean distance. The ![](https://latex.codecogs.com/svg.Latex?%5CSigma) is the sum of LG-M-LS angle ( ![](https://latex.codecogs.com/svg.Latex?%5Cphi) ) from the 90 degree.
 
-Octahedral distortion parameters have been being widely used in inorganic chemistry, especially crystallography. People in community, mostly chemist, have calculated these parameters for their structures, but not used a certain way to do this. Moreover, there is no software for determining this kind of parameter yet. Therefore, we present the OctaDist program as a choice for those who are interested in this.
-
-
-#### Calculation of ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) Parameters
-Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward. The ![](https://latex.codecogs.com/svg.Latex?%5CDelta) is the avearge of the sum of the deviation of LG-M distance, where LG and M are ligand atom and metal center atom, from mean distance. The ![](https://latex.codecogs.com/svg.Latex?%5CSigma) is the sum of LG-M-LS angle ( ![](https://latex.codecogs.com/svg.Latex?%5Cphi) ) from the 90 degree. 
-
-#### Calculation of ![](https://latex.codecogs.com/svg.Latex?%5CTheta) Parameter
-Determining the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. It is the sum of the deviation of 24 LG-M-LG angles ( ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) ) from 60 degree. The size of ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle depends on how the two twisting planes are defined. Given any three ligand atoms, the plane for orthogonal projection is defined. The other three ligand atoms are projected onto the orthogonal plane. The new location of the ligand atoms on the given plane is called a projected point. Then, we can compute the angle between the vector of which projected point of two atoms (ray 1 and ray 2), a metal center atom is defined as vertex. 
+- Unlike, ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma), the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. It is the sum of the deviation of 24 unique LG-M-LG angles (![](https://latex.codecogs.com/svg.Latex?%5Ctheta)) from 60 degree, where ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) is computed on the orthogonal projection of the two triangular faces of the octahedron projected along its pseudo-threefold axes. The problem is that the projection plane can not be determined directly. To solve this, we propose a method to find the optimal view of plane for further twisting triangular faces. Given three ligand atoms, the plane for atom projection can be defined. The other three ligand atoms on an opposite plane and metal center atom are orthogonally projected onto the given plane. The new location of the atoms on the given plane is called *a projected point*. Then, the unique ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle is computed as an angle between V1 and V2, where V1 and V2 are vectors of atom on below plane (reference atom) and upper planes (a projected atom), and a projected metal center atom is defined as vertex.
 
 Graphical representation of orthogonal projection and twisting planes
 
