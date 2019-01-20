@@ -15,6 +15,29 @@ import webbrowser
 program_version = 1.3
 
 
+def welcome():
+
+    print("")
+    print(" OctaDist Copyright (C) 2019  Rangsiman Ketkaew  (rangsiman1993@gmail.com)")
+    print(" This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.")
+    print(" This is free software, and you are welcome to redistribute it under")
+    print(" certain conditions; see <https://www.gnu.org/licenses/> for details.")
+    print("")
+    print("       ==============================================================")
+    print("                                OctaDist {}".format(program_version))
+    print("")
+    print("                       OCTAHEDRAL DISTORTION ANALYSIS")
+    print("                       ------------------------------")
+    print("           A PROGRAM FOR DETERMINING THE STRUCTURAL PARAMETERS OF")
+    print("                     THE DISTORTED OCTAHEDRAL STRUCTURE")
+    print("")
+    print("                            by Rangsiman Ketkaew")
+    print("                             January 8th, 2019")
+    print("                https://github.com/rangsimanketkaew/OctaDist")
+    print("       ==============================================================")
+    print("")
+
+
 def callback(event):
     webbrowser.open_new(event.widget.cget("text"))
 

@@ -34,8 +34,8 @@ def distance_between(x, y):
     return sqrt(sum([pow(x[i] - y[i], 2) for i in range(len(x))]))
 
 
-def point_between(x, y):
-    """Find the mid-point between between two point, given points (x1,y1,z1) and (x2,y2,z2)
+def midpoint_of_line(x, y):
+    """Find the midpoint of line segment (between two point), given points (x1,y1,z1) and (x2,y2,z2)
 
     :param x: array - cartesian coordinate of atom x
     :param y: array - cartesian coordinate of atom x
