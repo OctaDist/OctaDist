@@ -12,7 +12,7 @@ from tkinter.messagebox import showinfo
 import webbrowser
 
 
-program_version = 1.3
+program_version = 2.0
 
 
 def welcome():

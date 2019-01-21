@@ -78,4 +78,3 @@ def angle_between(v0, v1, v2):
 
     return np.degrees(np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0)))
 
-

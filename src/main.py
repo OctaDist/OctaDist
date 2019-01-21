@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ----------------------------------------------------------------------
 
-OctaDist version 1.3
+OctaDist version 2.0
 
 Octahedral Distortion Analysis
 Software website: www.github.com/rangsimanketkaew/octadist
@@ -36,7 +36,7 @@ Contact: rangsiman1993@gmail.com
 Personal website: https://sites.google.com/site/rangsiman1993
 """
 
-program_version = 1.3
+program_version = 2.0
 
 import numpy as np
 import datetime
@@ -331,6 +331,7 @@ class OctaDist:
                 f.close()
 
                 # Check file type and get coordinate
+                print("")
                 print("         Determine file type")
                 atom_list, coord_list = self.get_coord(file_name)
 
@@ -440,6 +441,7 @@ class OctaDist:
         """
         global run_check, computed_delta, computed_sigma, computed_theta
         global distance_list, new_angle_sigma_list, computed_theta_list
+        global ref_pal, ref_pcl, oppo_pal, oppo_pcl
 
         if file_name == "":
             popup.nofile_error()
@@ -456,21 +458,20 @@ class OctaDist:
             print("Command: Calculate octahedral distortion parameters")
             computed_delta, distance_list = calc.calc_delta(coord_list)
             computed_sigma, new_angle_sigma_list = calc.calc_sigma(coord_list)
-            computed_theta, computed_theta_list = calc.calc_theta(coord_list)
+            computed_theta, computed_theta_list, selected_plane_lists = calc.calc_theta(coord_list)
 
-            print("         Show the computed distortion parameters")
+            ref_pal, ref_pcl, oppo_pal, oppo_pcl = selected_plane_lists
+
+            print("Command: Show computed octahedral distortion parameters")
             print("")
-            print("         Δ            = {0:11.8f}".format(computed_delta))
-            print("         Σ            = {0:11.8f} degree".format(computed_sigma))
-            print("         Θ <method 1> = {0:11.8f} degree".format(computed_theta[0]))
-            print("         Θ <method 2> = {0:11.8f} degree".format(computed_theta[1]))
-            print("         Θ <method 3> = {0:11.8f} degree".format(computed_theta[2]))
-            print("         Θ <method 4> = {0:11.8f} degree".format(computed_theta[3]))
+            print("         Δ = {0:11.8f}".format(computed_delta))
+            print("         Σ = {0:11.8f} degree".format(computed_sigma))
+            print("         Θ = {0:11.8f} degree".format(computed_theta))
             print("")
 
             self.textBox_delta.insert(INSERT, '%10.8f' % computed_delta)
             self.textBox_sigma.insert(INSERT, '%10.8f' % computed_sigma)
-            self.textBox_theta.insert(INSERT, '%10.8f' % computed_theta[0])
+            self.textBox_theta.insert(INSERT, '%10.8f' % computed_theta)
 
         else:
             popup.nocoord_error()
