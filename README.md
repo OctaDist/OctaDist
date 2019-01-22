@@ -40,7 +40,7 @@ Distorted octahedron   |  3 out of 12 Cis-Angles (![](https://latex.codecogs.com
 ![](images/Co-complex-8faces.png)  | ![](images/Co-complex-Cis-Angle.png)   
 
 
-- Unlike ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma), calculating the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. It is the sum of the deviation of 24 unique LG-M-LG angles (![](https://latex.codecogs.com/svg.Latex?%5Ctheta)) from 60 degree, where ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) is computed on the orthogonal projection of the two triangular faces of the octahedron projected along its pseudo-threefold axes. The problem is that the projection plane can not be determined directly. To solve this, we propose a method to find the optimal view of plane for further computing twisting triangular faces. Given three ligand atoms, the plane for atom projection can be defined. The other three ligand atoms on an opposite plane and metal center atom are orthogonally projected onto the given plane. The new location of the atoms on the given plane is called *a projected point*. Then, the unique ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle is computed as an angle between V1 and V2, where V1 and V2 are vectors of atom on below plane (reference atom) and upper planes (a projected atom), and a projected metal center atom is defined as vertex.
+- Unlike ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma), calculating the ![](https://latex.codecogs.com/svg.Latex?%5CTheta) is tricky. It is the sum of the deviation of 24 unique LG-M-LG angles (![](https://latex.codecogs.com/svg.Latex?%5Ctheta)) from 60 degree, where ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) is computed on the orthogonal projection of the two triangular faces of the octahedron projected along its pseudo-threefold axes. The problem is that the projection plane can not be determined directly. To solve this, we propose a method to find the optimal 4 faces and use orthogonal vector projection for computing the unique angles on twisting triangular faces. Given three ligand atoms, the plane for atom projection can be defined. The other three ligand atoms on an opposite plane and metal center atom are orthogonally projected onto the given plane. The new location of the atoms on the given plane is called *a projected point*. Then, the unique ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle is computed as an angle between V1 and V2, where V1 and V2 are vectors of atom on below plane (reference atom) and upper planes (a projected atom), and a projected metal center atom is defined as vertex.
 
 Graphical representation of orthogonal projection and twisting planes
 
@@ -53,8 +53,9 @@ Orthogonal projection of atoms onto the given (opposite) plane  |  The ![](https
 ### Linux OS
 For Linux user, use `python3 -V` to check python version.
 1. Download program source code from [this page](https://github.com/rangsimanketkaew/OctaDist/src)
-2. Change file permission: `chmod +x OctaDist_V*.py`
-3. Execute program: `python OctaDist_V*.py`
+2. Uncompress the tarball: `tar -xzvf OctaDist-v*`
+3. Enter OctaDist directory and change file permission of all python files: `chmod +x *.py`
+4. Execute program: `python3 main.py`
 
 ### Windows OS
 1. Download program executable from [this page](https://github.com/rangsimanketkaew/OctaDist/releases)
@@ -64,7 +65,7 @@ For Linux user, use `python3 -V` to check python version.
 ### Supported input file format
 - XYZ file format (*.xyz)
 - Text file format (*.txt)
-- Output file of several computational chemistry programs: Gaussian, NWChem, and ORCA
+- Output file of several computational chemistry programs (*.out, *.log): Gaussian, NWChem, and ORCA
 
 ## Testing
 * Perfect octahedral Fe complex ([complex-test-1.xyz](test/complex-test-1.xyz))
@@ -106,7 +107,7 @@ O                 -4.091008      0.421393      1.388991
 Calculate octahedral distortion parameters
 - ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 0.00077054
 - ![](https://latex.codecogs.com/svg.Latex?%5CSigma) = 58.86979039 degree
-- ![](https://latex.codecogs.com/svg.Latex?%5CTheta) = 144.13959388 degree
+- ![](https://latex.codecogs.com/svg.Latex?%5CTheta) = 142.38373321 degree
 
 <p align="center">
    <img alt="Co-structure" src="images/Co-structure.png" align=middle width="400pt" />
