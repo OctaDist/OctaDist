@@ -32,7 +32,7 @@ def welcome():
     print("                     THE DISTORTED OCTAHEDRAL STRUCTURE")
     print("")
     print("                            by Rangsiman Ketkaew")
-    print("                             January 8th, 2019")
+    print("                             January 22nd, 2019")
     print("                https://github.com/rangsimanketkaew/OctaDist")
     print("       ==============================================================")
     print("")
@@ -65,6 +65,14 @@ def nocalc_error():
     print("Error: No results")
 
     showinfo("Error", "No results. Click \"Compute parameters\" to calculate octahedral distortion parameters.")
+
+
+def nosupport_mult():
+    """Show error message when multiple files are selected and call draw function
+    """
+    print("Error: Cannot use graphical drawing function if multiple files are selected")
+
+    showinfo("Error", "Cannot use graphical drawing function if multiple files are selected.")
 
 
 def wrong_format():

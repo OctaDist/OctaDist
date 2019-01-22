@@ -64,8 +64,6 @@ class OctaDist:
         self.masters.option_add("*Font", FONT)
         master = Frame(masters, width="2", height="2")
         master.grid(padx=5, pady=5, row=0, column=0)
-        master_2 = Frame(masters, width="2", height="2")
-        master_2.grid(padx=5, pady=5, row=0, column=1)
 
         """
         Create menu bar
@@ -183,7 +181,7 @@ class OctaDist:
         self.lbl_sigma_unit = Label(master, text="degree")
         self.lbl_sigma_unit.grid(sticky=W, pady="5", row=8, column=3)
 
-        # Theta 1
+        # Theta
         self.lbl_theta = Label(master, text="Θ  = ")
         self.lbl_theta.grid(sticky=E, pady="5", row=9, column=1)
         self.textBox_theta = Text(master, height="1", width="15", wrap="word")
@@ -200,7 +198,7 @@ class OctaDist:
     def clear_cache(self):
         """Clear all variables
         """
-        global file_name, file_data, atom_list, coord_list
+        global file_name, file_data, atom_list, coord_list, mult
 
         print("Command: Clear cache")
 
@@ -208,6 +206,7 @@ class OctaDist:
         file_data = ""
         atom_list = []
         coord_list = []
+        mult = 0
 
         for name in dir():
             if not name.startswith('_'):
@@ -229,12 +228,16 @@ class OctaDist:
         computed_sigma = 0.0
         computed_theta = 0.0
 
+        self.textBox_delta.delete(1.0, END)
+        self.textBox_sigma.delete(1.0, END)
+        self.textBox_theta.delete(1.0, END)
+
     def open_file(self):
         """Open file using Open Dialog
         Atom and coordinates must be in Cartesian (XYZ) coordinate.
         Supported file extensions: .txt, .xyz, and Gaussian output file
         """
-        global file_name, file_data, atom_list, coord_list
+        global file_name, file_data, atom_list, coord_list, full_atom_list, full_coord_list
 
         print("Command: Open input file")
 
@@ -256,53 +259,33 @@ class OctaDist:
         # Using try/except in case user types in unknown file or closes without choosing a file.
         try:
             with open(file_name, 'r') as f:
-                print("         Open file: " + file_name)
+                print("         File full path: " + file_name)
+                print("         File name: " + file_name.split('/')[-1])
                 f.close()
 
                 # Check file type and get coordinate
                 print("")
-                print("         Determine file type")
+                print("Command: Determine file type")
                 full_atom_list, full_coord_list = coord.get_coord(file_name)
 
-                atom_list = full_atom_list[0:7]
-                coord_list = full_coord_list[0:7]
+                if len(full_coord_list) != 0:
+                    atom_list, coord_list = coord.cut_coord(full_atom_list, full_coord_list)
+                else:
+                    return 1
 
-                if atom_list:
-                    print("Command: Show Cartesian coordinates")
+                texts = "File: {0}\n\n" \
+                        "Atom                       Cartesian coordinate".format(file_name.split('/')[-1])
+                self.textBox_coord.insert(INSERT, texts)
 
-                    for i in range(len(atom_list)):
-                        print("          {0:>2}   ({1: 5.8f}, {2: 5.8f}, {3: 5.8f})"
-                              .format(atom_list[i], coord_list[i][0], coord_list[i][1], coord_list[i][2]))
-                    print("")
-
-                    atom_coords = []
-
-                    for i in range(len(atom_list)):
-                        atom_coords.append([atom_list[i], coord_list[i]])
-
-                    texts = "File: {0}\n\n" \
-                            "Atom     Cartesian coordinate\n" \
-                            " {A1:>2}      {L1x: 3.8}  {L1y: 3.8}  {L1z: 3.8}\n" \
-                            " {A2:>2}      {L2x: 3.8}  {L2y: 3.8}  {L2z: 3.8}\n" \
-                            " {A3:>2}      {L3x: 3.8}  {L3y: 3.8}  {L3z: 3.8}\n" \
-                            " {A4:>2}      {L4x: 3.8}  {L4y: 3.8}  {L4z: 3.8}\n" \
-                            " {A5:>2}      {L5x: 3.8}  {L5y: 3.8}  {L5z: 3.8}\n" \
-                            " {A6:>2}      {L6x: 3.8}  {L6y: 3.8}  {L6z: 3.8}\n" \
-                            " {A7:>2}      {L7x: 3.8}  {L7y: 3.8}  {L7z: 3.8}\n" \
-                        .format(file_name,
-                        A1=atom_list[0], L1x=coord_list[0][0], L1y=coord_list[0][1], L1z=coord_list[0][2],
-                        A2=atom_list[1], L2x=coord_list[1][0], L2y=coord_list[1][1], L2z=coord_list[1][2],
-                        A3=atom_list[2], L3x=coord_list[2][0], L3y=coord_list[2][1], L3z=coord_list[2][2],
-                        A4=atom_list[3], L4x=coord_list[3][0], L4y=coord_list[3][1], L4z=coord_list[3][2],
-                        A5=atom_list[4], L5x=coord_list[4][0], L5y=coord_list[4][1], L5z=coord_list[4][2],
-                        A6=atom_list[5], L6x=coord_list[5][0], L6y=coord_list[5][1], L6z=coord_list[5][2],
-                        A7=atom_list[6], L7x=coord_list[6][0], L7y=coord_list[6][1], L7z=coord_list[6][2])
-
-                    self.textBox_coord.insert(INSERT, texts)
+                for i in range(len(atom_list)):
+                    texts = " {A:>2}      {Lx:14.9f}  {Ly:14.9f}  {Lz:14.9f}" \
+                            .format(file_name, A=atom_list[i],
+                            Lx=coord_list[i][0], Ly=coord_list[i][1], Lz=coord_list[i][2])
+                    self.textBox_coord.insert(END, "\n" + texts)
 
                 return atom_list, coord_list
         except:
-            print("Error: No input filhhhe")
+            print("Error: No input file")
             atom_list, coord_list = 0, 0
 
             return atom_list, coord_list
@@ -310,9 +293,14 @@ class OctaDist:
     def open_multiple(self):
         """Open multiple input files
         """
+        global list_file, mult
+
         print("Command: Open multiple files")
 
-        file_name = filedialog.askopenfilenames(  # initialdir="C:/Users/",
+        if list_file != "":
+            self.clear_cache()
+
+        file_name = filedialog.askopenfilenames(# initialdir="C:/Users/",
             title="Choose input file",
             filetypes=(("XYZ File", "*.xyz"),
                        ("Text File", "*.txt"),
@@ -327,9 +315,16 @@ class OctaDist:
         list_file = list(file_name)
 
         try:
+            open(file_name[0], 'r')
+            mult = 1
+
+            texts = "< Open multiple files >\n< Open multiple files >\n< Open multiple files >"
+            self.textBox_coord.insert(INSERT, texts)
+
             print("Command: %s input files selected" % len(list_file))
             for i in range(len(list_file)):
-                print("         File {0: d} : \"{1}\"".format(i + 1, list_file[i]))
+                print("         File {0:2d} : \"{1}\"".format(i + 1, list_file[i]))
+            print("")
         except:
             print("Error: No input file")
 
@@ -408,16 +403,17 @@ class OctaDist:
         global distance_list, new_angle_sigma_list, computed_theta_list
         global ref_pal, ref_pcl, oppo_pal, oppo_pcl
 
+        if mult == 1:
+            self.clear_results()
+            calc.calc_mult(list_file)
+            return 0
+
         if file_name == "":
             popup.nofile_error()
             return 1
 
         run_check = 1
         self.clear_results()
-
-        self.textBox_delta.delete(1.0, END)
-        self.textBox_sigma.delete(1.0, END)
-        self.textBox_theta.delete(1.0, END)
 
         if np.any(coord_list) != 0:
             print("Command: Calculate octahedral distortion parameters")
@@ -429,14 +425,14 @@ class OctaDist:
 
             print("Command: Show computed octahedral distortion parameters")
             print("")
-            print("         Δ = {0:11.8f}".format(computed_delta))
-            print("         Σ = {0:11.8f} degree".format(computed_sigma))
-            print("         Θ = {0:11.8f} degree".format(computed_theta))
+            print("         Δ = {0:11.6f}".format(computed_delta))
+            print("         Σ = {0:11.6f} degree".format(computed_sigma))
+            print("         Θ = {0:11.6f} degree".format(computed_theta))
             print("")
 
-            self.textBox_delta.insert(INSERT, '%10.8f' % computed_delta)
-            self.textBox_sigma.insert(INSERT, '%10.8f' % computed_sigma)
-            self.textBox_theta.insert(INSERT, '%10.8f' % computed_theta)
+            self.textBox_delta.insert(INSERT, '%3.6f' % computed_delta)
+            self.textBox_sigma.insert(INSERT, '%3.6f' % computed_sigma)
+            self.textBox_theta.insert(INSERT, '%3.6f' % computed_theta)
 
         else:
             popup.nocoord_error()
@@ -446,6 +442,9 @@ class OctaDist:
         """
         if file_name == "":
             popup.nofile_error()
+            return 1
+        if mult == 1:
+            popup.nosupport_mult()
             return 1
 
         print("Command: Display octahedral structure")
@@ -478,6 +477,9 @@ class OctaDist:
         """
         if file_name == "":
             popup.nofile_error()
+            return 1
+        if mult == 1:
+            popup.nosupport_mult()
             return 1
         if run_check == 0:
             popup.nocalc_error()
@@ -541,6 +543,9 @@ class OctaDist:
         """
         if file_name == "":
             popup.nofile_error()
+            return 1
+        if mult == 1:
+            popup.nosupport_mult()
             return 1
         if run_check == 0:
             popup.nocalc_error()
@@ -620,10 +625,12 @@ def main():
     masters = Tk()
     MainProgram = OctaDist(masters)
 
-    global file_name, file_data, run_check
+    global file_name, file_data, list_file, run_check, mult
     file_name = ""
     file_data = ""
+    list_file = ""
     run_check = 0
+    mult = 0
 
     # activate program windows
     masters.mainloop()

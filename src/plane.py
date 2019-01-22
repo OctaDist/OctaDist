@@ -50,7 +50,7 @@ def search_8_planes(v):
     for i in range(len(pcl)):
         print("         ", pal[i])
         for j in range(3):
-            print("           ({0: 5.6f}, {1: 5.6f}, {2: 5.6f})"
+            print("           ({0:11.6f}, {1:11.6f}, {2:11.6f})"
                   .format(pcl[i][j][0], pcl[i][j][1], pcl[i][j][2]))
     print("")
 
@@ -77,7 +77,7 @@ def search_8_planes(v):
     for i in range(len(pcl)):
         print("         ", pal[i])
         for j in range(3):
-            print("           ({0: 5.6f}, {1: 5.6f}, {2: 5.6f})"
+            print("           ({0:11.6f}, {1:11.6f}, {2:11.6f})"
                   .format(pcl[i][j][0], pcl[i][j][1], pcl[i][j][2]))
     print("")
 
@@ -92,7 +92,7 @@ def search_8_planes(v):
     for i in range(len(scl)):
         print("         ", sal[i])
         for j in range(3):
-            print("           ({0: 5.6f}, {1: 5.6f}, {2: 5.6f})"
+            print("           ({0:11.6f}, {1:11.6f}, {2:11.6f})"
                   .format(scl[i][j][0], scl[i][j][1], scl[i][j][2]))
     print("")
 
@@ -157,7 +157,7 @@ def find_opposite_atoms(x, z):
         for j in range(3):
             new_pcl.append([v[int(oppo_pal[i][j])][0], v[int(oppo_pal[i][j])][1], v[int(oppo_pal[i][j])]][2])
             oppo_pcl.append(new_pcl)
-            print("          {0} --> ({1: 5.6f}, {2: 5.6f}, {3: 5.6f})"
+            print("          {0} --> ({1:11.6f}, {2:11.6f}, {3:11.6f})"
                   .format(oppo_pal[i][j], oppo_pcl[i][j][0], oppo_pcl[i][j][1], oppo_pcl[i][j][2]))
     print("")
 

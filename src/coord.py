@@ -341,15 +341,15 @@ def get_coord(f):
             full_atom_list, full_coord_list = get_coord_from_xyz(f)
         else:
             print("Error: Invalid XYZ file format")
-            print("       Could not read data in XYZ file '%s'\n" % f)
+            print("       Could not read data in XYZ file %s" % f)
     elif f.endswith(".txt"):
         if check_txt_file(f) == 1:
-            print("         File type: TEXT file")
+            print("         File type: TXT file")
             print("")
             full_atom_list, full_coord_list = get_coord_from_txt(f)
         else:
-            print("Error: Invalid TEXT file format")
-            print("       Could not read data in TEXT file '%s'\n" % f)
+            print("Error: Invalid TXT file format")
+            print("       Could not read data in TXT file %s" % f)
     elif f.endswith(".out") or f.endswith(".log"):
         if check_gaussian_file(f) == 1:
             print("         File type: Gaussian Output\n")
@@ -360,9 +360,11 @@ def get_coord(f):
         elif check_orca_file(f) == 1:
             print("         File type: ORCA Output\n")
             full_atom_list, full_coord_list = get_coord_from_orca(f)
+        else:
+            print("Error: Could not read output file %s" % f)
     else:
-        print("Error")
-        print("Error: Could not read file '%s'\n" % f)
+        print("Error: Could not read file %s" % f)
+        print("Error: File type is not supported in OctaDist")
 
     # Sort the atoms order:
     # Atom no. 1   metal center
@@ -370,4 +372,36 @@ def get_coord(f):
     #          3-n other atoms
 
     return full_atom_list, full_coord_list
+
+
+def cut_coord(full_atom_list, full_coord_list):
+    """
+
+    :param full_atom_list:
+    :param full_coord_list:
+    :return:
+    """
+    if len(full_coord_list) > 7:
+        print("Command: Show Cartesian coordinates of all %s atoms" % len(full_coord_list))
+
+        for i in range(len(full_coord_list)):
+            print("          {0:>2}   ({1:12.8f}, {2:12.8f}, {3:12.8f})"
+                  .format(full_atom_list[i], full_coord_list[i][0], full_coord_list[i][1],
+                          full_coord_list[i][2]))
+        print("")
+
+    # Get only first 7 atoms (octahedron)
+    atom_list = np.asarray(full_atom_list[0:7])
+    coord_list = np.asarray(full_coord_list[0:7])
+
+    # if atom_list:
+    print("Command: Show Cartesian coordinates of selected 7 atoms")
+
+    for i in range(len(coord_list)):
+        print("          {0:>2}   ({1:12.8f}, {2:12.8f}, {3:12.8f})"
+              .format(atom_list[i], coord_list[i][0], coord_list[i][1], coord_list[i][2]))
+    print("")
+
+    return atom_list, coord_list
+
 
