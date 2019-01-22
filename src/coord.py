@@ -47,10 +47,8 @@ def check_xyz_file(f):
 
     first_line = file.readline()
 
-    first = 0
-
     try:
-        first = int(first_line)
+        int(first_line)
     except ValueError:
         return 0
 
@@ -64,7 +62,7 @@ def get_coord_from_xyz(f):
     """Get coordinate from .xyz file
 
     :param f: string - input file
-    :return: atom_list and coord_list
+    :return: atom_list and full_coord_list
     """
     print("Command: Get Cartesian coordinates")
 
@@ -73,15 +71,12 @@ def get_coord_from_xyz(f):
     line = file.readlines()[2:]
     file.close()
 
-    atom_list = []
+    full_atom_list = []
 
     for l in line:
         # read atom on 1st column and insert to array
         lst = l.split(' ')[0]
-        atom_list.append(lst)
-
-    # Get only first 7 atoms
-    atom_list = atom_list[0:7]
+        full_atom_list.append(lst)
 
     """Read file again for getting XYZ coordinate
         We have two ways to do this, 
@@ -90,13 +85,10 @@ def get_coord_from_xyz(f):
     """
 
     file = open(f, "r")
-    coord_list = np.loadtxt(file, skiprows=2, usecols=[1, 2, 3])
+    full_coord_list = np.loadtxt(file, skiprows=2, usecols=[1, 2, 3])
     file.close()
 
-    # Get only first 7 atoms
-    coord_list = coord_list[0:7]
-
-    return atom_list, coord_list
+    return full_atom_list, full_coord_list
 
 
 def check_txt_file(f):
@@ -128,7 +120,7 @@ def get_coord_from_txt(f):
     """Get coordinate from .txt file
 
     :param f: string - file
-    :return: atom_list and coord_list
+    :return: full_atom_list and full_coord_list
     """
     print("Command: Get Cartesian coordinates")
 
@@ -136,15 +128,12 @@ def get_coord_from_txt(f):
     line = file.readlines()
     file.close()
 
-    atom_list = []
+    full_atom_list = []
 
     for l in line:
         # read atom on 1st column and insert to array
         lst = l.split(' ')[0]
-        atom_list.append(lst)
-
-    # Get only first 7 atoms
-    atom_list = atom_list[0:7]
+        full_atom_list.append(lst)
 
     """Read file again for getting XYZ coordinate
         We have two ways to do this, 
@@ -153,13 +142,10 @@ def get_coord_from_txt(f):
     """
 
     file = open(f, "r")
-    coord_list = np.loadtxt(file, skiprows=0, usecols=[1, 2, 3])
+    full_coord_list = np.loadtxt(file, skiprows=0, usecols=[1, 2, 3])
     file.close()
 
-    # Get only first 7 atoms
-    coord_list = coord_list[0:7]
-
-    return atom_list, coord_list
+    return full_atom_list, full_coord_list
 
 
 def check_gaussian_file(f):
@@ -182,7 +168,7 @@ def get_coord_from_gaussian(f):
     """Extract XYZ coordinate from Gaussian output file
 
     :param f: string - input file
-    :return: atom_list and coord_list
+    :return: full_atom_list and full_coord_list
     """
     print("Command: Get Cartesian coordinates")
 
@@ -192,7 +178,7 @@ def get_coord_from_gaussian(f):
     start = 0
     end = 0
 
-    atom_list, coord_list = [], []
+    full_atom_list, full_coord_list = [], []
 
     for i in range(len(nline)):
         if "Standard orientation:" in nline[i]:
@@ -212,15 +198,12 @@ def get_coord_from_gaussian(f):
 
         dat1 = elements.check_atom(dat1)
 
-        atom_list.append(dat1)
-        coord_list.append([coord_x, coord_y, coord_z])
+        full_atom_list.append(dat1)
+        full_coord_list.append([coord_x, coord_y, coord_z])
 
     gaussian_file.close()
 
-    atom_list = atom_list[0:7]
-    coord_list = np.asarray(coord_list[0:7])
-
-    return atom_list, coord_list
+    return full_atom_list, full_coord_list
 
 
 def check_nwchem_file(f):
@@ -248,7 +231,7 @@ def get_coord_from_nwchem(f):
     """Extract XYZ coordinate from NWChem output file
 
     :param f: string - input file
-    :return: atom_list and coord_list
+    :return: full_atom_list and full_coord_list
     """
     print("Command: Get Cartesian coordinates")
 
@@ -258,7 +241,7 @@ def get_coord_from_nwchem(f):
     start = 0
     end = 0
 
-    atom_list, coord_list = [], []
+    full_atom_list, full_coord_list = [], []
 
     for i in range(len(nline)):
         if "Optimization converged" in nline[i]:
@@ -281,15 +264,12 @@ def get_coord_from_nwchem(f):
 
         dat1 = elements.check_atom(dat1)
 
-        atom_list.append(dat1)
-        coord_list.append([coord_x, coord_y, coord_z])
+        full_atom_list.append(dat1)
+        full_coord_list.append([coord_x, coord_y, coord_z])
 
     nwchem_file.close()
 
-    atom_list = atom_list[0:7]
-    coord_list = np.asarray(coord_list[0:7])
-
-    return atom_list, coord_list
+    return full_atom_list, full_coord_list
 
 
 def check_orca_file(f):
@@ -312,7 +292,7 @@ def get_coord_from_orca(f):
     """Extract XYZ coordinate from ORCA output file
 
     :param f: string - input file
-    :return: atom_list and coord_list
+    :return: full_atom_list and full_coord_list
     """
     print("Command: Get Cartesian coordinates")
 
@@ -322,7 +302,7 @@ def get_coord_from_orca(f):
     start = 0
     end = 0
 
-    atom_list, coord_list = [], []
+    full_atom_list, full_coord_list = [], []
 
     for i in range(len(nline)):
         if "CARTESIAN COORDINATES (ANGSTROEM)" in nline[i]:
@@ -340,15 +320,12 @@ def get_coord_from_orca(f):
         coord_y = float(dat[2])
         coord_z = float(dat[3])
 
-        atom_list.append(dat1)
-        coord_list.append([coord_x, coord_y, coord_z])
+        full_atom_list.append(dat1)
+        full_coord_list.append([coord_x, coord_y, coord_z])
 
     orca_file.close()
 
-    atom_list = atom_list[0:7]
-    coord_list = np.asarray(coord_list[0:7])
-
-    return atom_list, coord_list
+    return full_atom_list, full_coord_list
 
 
 def get_coord(f):
@@ -361,7 +338,7 @@ def get_coord(f):
     if f.endswith(".xyz"):
         if check_xyz_file(f) == 1:
             print("         File type: XYZ file\n")
-            atom_list, coord_list = get_coord_from_xyz(f)
+            full_atom_list, full_coord_list = get_coord_from_xyz(f)
         else:
             print("Error: Invalid XYZ file format")
             print("       Could not read data in XYZ file '%s'\n" % f)
@@ -369,16 +346,28 @@ def get_coord(f):
         if check_txt_file(f) == 1:
             print("         File type: TEXT file")
             print("")
-            atom_list, coord_list = get_coord_from_txt(f)
+            full_atom_list, full_coord_list = get_coord_from_txt(f)
         else:
             print("Error: Invalid TEXT file format")
             print("       Could not read data in TEXT file '%s'\n" % f)
-    elif check_gaussian_file(f) == 1:
-        print("         File type: Gaussian Output\n")
-        atom_list, coord_list = get_coord_from_gaussian(f)
+    elif f.endswith(".out") or f.endswith(".log"):
+        if check_gaussian_file(f) == 1:
+            print("         File type: Gaussian Output\n")
+            full_atom_list, full_coord_list = get_coord_from_gaussian(f)
+        elif check_nwchem_file(f) == 1:
+            print("         File type: NWChem Output\n")
+            full_atom_list, full_coord_list = get_coord_from_nwchem(f)
+        elif check_orca_file(f) == 1:
+            print("         File type: ORCA Output\n")
+            full_atom_list, full_coord_list = get_coord_from_orca(f)
     else:
         print("Error")
         print("Error: Could not read file '%s'\n" % f)
 
-    return atom_list, coord_list
+    # Sort the atoms order:
+    # Atom no. 1   metal center
+    #          2-7 ligand atoms
+    #          3-n other atoms
+
+    return full_atom_list, full_coord_list
 

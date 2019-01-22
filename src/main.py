@@ -158,15 +158,15 @@ class OctaDist:
         self.lbl_display.grid(row=6, column=0, padx="30")
 
         # button to draw structure
-        self.btn_draw_structure = Button(master, command=self.display_structure, text="Octahedral structure")
+        self.btn_draw_structure = Button(master, command=self.display_structure, text="Octahedral structure", width="18")
         self.btn_draw_structure.grid(pady="5", row=7, column=0)
 
         # button to draw plane
-        self.btn_draw_plane = Button(master, command=self.display_plane, text="Projection plane", width="15")
+        self.btn_draw_plane = Button(master, command=self.display_2D_plane, text="Twisting triangular faces", width="18")
         self.btn_draw_plane.grid(pady="5", row=8, column=0)
 
         # button to draw vector projection
-        self.btn_draw_projection = Button(master, command=self.display_projection, text="Projected atoms", width="15")
+        self.btn_draw_projection = Button(master, command=self.display_3D_plane, text="3D Projection planes", width="18")
         self.btn_draw_projection.grid(pady="5", row=9, column=0)
 
         # Delta
@@ -229,77 +229,6 @@ class OctaDist:
         computed_sigma = 0.0
         computed_theta = 0.0
 
-    def get_coord(self, f):
-        """Check file type, read data, extract atom and coord from input file
-
-        :param f: string - input file
-        :return: insert atom and coord read from input file into text box
-        """
-        # Check file extension
-        if f.endswith(".xyz"):
-            if coord.check_xyz_file(f) == 1:
-                print("         File type: XYZ file\n")
-                atom_list, coord_list = coord.get_coord_from_xyz(f)
-            else:
-                print("Error: Invalid XYZ file format")
-                print("       Could not read data in XYZ file '%s'\n" % f)
-        elif f.endswith(".txt"):
-            if coord.check_txt_file(f) == 1:
-                print("         File type: TEXT file")
-                print("")
-                atom_list, coord_list = coord.get_coord_from_txt(f)
-            else:
-                print("Error: Invalid TEXT file format")
-                print("       Could not read data in TEXT file '%s'\n" % f)
-        elif f.endswith(".out") or f.endswith(".log"):
-            if coord.check_gaussian_file(f) == 1:
-                print("         File type: Gaussian Output\n")
-                atom_list, coord_list = coord.get_coord_from_gaussian(f)
-            elif coord.check_nwchem_file(f) == 1:
-                print("         File type: NWChem Output\n")
-                atom_list, coord_list = coord.get_coord_from_nwchem(f)
-            elif coord.check_orca_file(f) == 1:
-                print("         File type: ORCA Output\n")
-                atom_list, coord_list = coord.get_coord_from_orca(f)
-        else:
-            print("Error")
-            print("Error: Could not read file '%s'\n" % f)
-
-        if atom_list:
-            print("Command: Show Cartesian coordinates")
-
-            for i in range(len(atom_list)):
-                print("          {0:>2}   ({1: 5.8f}, {2: 5.8f}, {3: 5.8f})"
-                      .format(atom_list[i], coord_list[i][0], coord_list[i][1], coord_list[i][2]))
-            print("")
-
-            atom_coords = []
-
-            for i in range(len(atom_list)):
-                atom_coords.append([atom_list[i], coord_list[i]])
-
-            texts = "File: {0}\n\n" \
-                    "Atom     Cartesian coordinate\n" \
-                    " {A1:>2}      {L1x: 3.8}  {L1y: 3.8}  {L1z: 3.8}\n" \
-                    " {A2:>2}      {L2x: 3.8}  {L2y: 3.8}  {L2z: 3.8}\n" \
-                    " {A3:>2}      {L3x: 3.8}  {L3y: 3.8}  {L3z: 3.8}\n" \
-                    " {A4:>2}      {L4x: 3.8}  {L4y: 3.8}  {L4z: 3.8}\n" \
-                    " {A5:>2}      {L5x: 3.8}  {L5y: 3.8}  {L5z: 3.8}\n" \
-                    " {A6:>2}      {L6x: 3.8}  {L6y: 3.8}  {L6z: 3.8}\n" \
-                    " {A7:>2}      {L7x: 3.8}  {L7y: 3.8}  {L7z: 3.8}\n" \
-                .format(file_name,
-                        A1=atom_list[0], L1x=coord_list[0][0], L1y=coord_list[0][1], L1z=coord_list[0][2],
-                        A2=atom_list[1], L2x=coord_list[1][0], L2y=coord_list[1][1], L2z=coord_list[1][2],
-                        A3=atom_list[2], L3x=coord_list[2][0], L3y=coord_list[2][1], L3z=coord_list[2][2],
-                        A4=atom_list[3], L4x=coord_list[3][0], L4y=coord_list[3][1], L4z=coord_list[3][2],
-                        A5=atom_list[4], L5x=coord_list[4][0], L5y=coord_list[4][1], L5z=coord_list[4][2],
-                        A6=atom_list[5], L6x=coord_list[5][0], L6y=coord_list[5][1], L6z=coord_list[5][2],
-                        A7=atom_list[6], L7x=coord_list[6][0], L7y=coord_list[6][1], L7z=coord_list[6][2])
-
-            self.textBox_coord.insert(INSERT, texts)
-
-        return atom_list, coord_list
-
     def open_file(self):
         """Open file using Open Dialog
         Atom and coordinates must be in Cartesian (XYZ) coordinate.
@@ -312,7 +241,7 @@ class OctaDist:
         if file_name != "":
             self.clear_cache()
 
-        file_name = filedialog.askopenfilename(  # initialdir="C:/Users/",
+        file_name = filedialog.askopenfilename(# initialdir="C:/Users/",
             title="Choose input file",
             filetypes=(("XYZ File", "*.xyz"),
                        ("Text File", "*.txt"),
@@ -333,11 +262,47 @@ class OctaDist:
                 # Check file type and get coordinate
                 print("")
                 print("         Determine file type")
-                atom_list, coord_list = self.get_coord(file_name)
+                full_atom_list, full_coord_list = coord.get_coord(file_name)
+
+                atom_list = full_atom_list[0:7]
+                coord_list = full_coord_list[0:7]
+
+                if atom_list:
+                    print("Command: Show Cartesian coordinates")
+
+                    for i in range(len(atom_list)):
+                        print("          {0:>2}   ({1: 5.8f}, {2: 5.8f}, {3: 5.8f})"
+                              .format(atom_list[i], coord_list[i][0], coord_list[i][1], coord_list[i][2]))
+                    print("")
+
+                    atom_coords = []
+
+                    for i in range(len(atom_list)):
+                        atom_coords.append([atom_list[i], coord_list[i]])
+
+                    texts = "File: {0}\n\n" \
+                            "Atom     Cartesian coordinate\n" \
+                            " {A1:>2}      {L1x: 3.8}  {L1y: 3.8}  {L1z: 3.8}\n" \
+                            " {A2:>2}      {L2x: 3.8}  {L2y: 3.8}  {L2z: 3.8}\n" \
+                            " {A3:>2}      {L3x: 3.8}  {L3y: 3.8}  {L3z: 3.8}\n" \
+                            " {A4:>2}      {L4x: 3.8}  {L4y: 3.8}  {L4z: 3.8}\n" \
+                            " {A5:>2}      {L5x: 3.8}  {L5y: 3.8}  {L5z: 3.8}\n" \
+                            " {A6:>2}      {L6x: 3.8}  {L6y: 3.8}  {L6z: 3.8}\n" \
+                            " {A7:>2}      {L7x: 3.8}  {L7y: 3.8}  {L7z: 3.8}\n" \
+                        .format(file_name,
+                        A1=atom_list[0], L1x=coord_list[0][0], L1y=coord_list[0][1], L1z=coord_list[0][2],
+                        A2=atom_list[1], L2x=coord_list[1][0], L2y=coord_list[1][1], L2z=coord_list[1][2],
+                        A3=atom_list[2], L3x=coord_list[2][0], L3y=coord_list[2][1], L3z=coord_list[2][2],
+                        A4=atom_list[3], L4x=coord_list[3][0], L4y=coord_list[3][1], L4z=coord_list[3][2],
+                        A5=atom_list[4], L5x=coord_list[4][0], L5y=coord_list[4][1], L5z=coord_list[4][2],
+                        A6=atom_list[5], L6x=coord_list[5][0], L6y=coord_list[5][1], L6z=coord_list[5][2],
+                        A7=atom_list[6], L7x=coord_list[6][0], L7y=coord_list[6][1], L7z=coord_list[6][2])
+
+                    self.textBox_coord.insert(INSERT, texts)
 
                 return atom_list, coord_list
         except:
-            print("Error: No input file")
+            print("Error: No input filhhhe")
             atom_list, coord_list = 0, 0
 
             return atom_list, coord_list
@@ -491,13 +456,13 @@ class OctaDist:
         cl = coord_list
 
         # Plot metal center
-        ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=300, linewidths=3, edgecolors='black')
+        ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=300, linewidths=2, edgecolors='black')
         ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, atom_list[0], fontsize=12)
 
         # Plot ligand atoms
         for i in range(1, 7):
             ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=200, linewidths=2, edgecolors='black')
-            ax.text(cl[i][0] + 0.1, cl[i][1] + 0.1, cl[i][2] + 0.1, "{0},{1}".format(atom_list[i], i), fontsize=12)
+            ax.text(cl[i][0] + 0.1, cl[i][1] + 0.1, cl[i][2] + 0.1, "{0},{1}".format(atom_list[i], i), fontsize=10)
 
         ax.set_xlabel(r'X', fontsize=15)
         ax.set_ylabel(r'Y', fontsize=15)
@@ -507,9 +472,9 @@ class OctaDist:
 
         # plt.axis('equal')
         plt.show()
-
-    def display_plane(self):
-        """Display the plane defined by three ligand atoms
+    
+    def display_2D_plane(self):
+        """Display twisting triangular faces vector projection of all atoms onto the given plane
         """
         if file_name == "":
             popup.nofile_error()
@@ -518,10 +483,72 @@ class OctaDist:
             popup.nocalc_error()
             return 1
 
-        print("Command: Display defined plane and orthogonal point")
+        print("Command: Display the selected 4 twisting triangular faces")
 
-        cl = coord_list
-        al, vl = plane.search_4_planes(cl)
+        al, cl, vl, ovl = atom_list, coord_list, ref_pcl, oppo_pcl
+
+        fig = plt.figure()
+
+        for i in range(4):
+            a, b, c, d = plane.eq_of_plane(vl[i][0], vl[i][1], vl[i][2])
+            m = proj.project_atom_onto_plane(cl[0], a, b, c, d)
+
+            ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
+            ax.set_title("Orthogonal projection onto the plane {0}".format(i + 1), fontsize='10')
+
+            # Projected Metal center atom
+            ax.scatter(m[0], m[1], m[2], color='orange', marker='o', s=100, linewidths=1,
+                       edgecolors='black', label="Projected metal center")
+            ax.text(m[0] + 0.1, m[1] + 0.1, m[2] + 0.1, "{}'".format(al[0]), fontsize=9)
+
+            l = []
+
+            for k in range(3):
+                # Reference ligand atoms
+                ax.scatter(vl[i][k][0], vl[i][k][1], vl[i][k][2], color='red', marker='o', s=50, linewidths=1,
+                           edgecolors='black', label="Ligand atom")
+                ax.text(vl[i][k][0] + 0.1, vl[i][k][1] + 0.1, vl[i][k][2] + 0.1, "{0}".format(k), fontsize=9)
+                # Projected Ligand atom
+                l.append(proj.project_atom_onto_plane(ovl[i][k], a, b, c, d))
+
+                print(l[k])
+
+            for k in range(3):
+                ax.scatter(l[k][0], l[k][1], l[k][2], color='blue', marker='o', s=50, linewidths=1,
+                           edgecolors='black', label="Projected ligand atom")
+                ax.text(l[k][0] + 0.1, l[k][1] + 0.1, l[k][2] + 0.1, "{0}".format(k + 1), fontsize=9)
+
+            ax.set_xlabel(r'X', fontsize=10)
+            ax.set_ylabel(r'Y', fontsize=10)
+            ax.set_zlabel(r'Z', fontsize=10)
+            ax.grid(True)
+
+        # ax.legend()
+
+        # Draw line
+        # x, y, z = [], [], []
+        # for i in range(1, 7):
+        #     x.append(cl[i][0])
+        #     y.append(cl[i][1])
+        #     z.append(cl[i][2])
+        # ax.plot(x, y, z, 'k-')
+
+        # plt.axis('equal')
+        plt.show()
+
+    def display_3D_plane(self):
+        """Display the selected 4 faces of octahedral complex
+        """
+        if file_name == "":
+            popup.nofile_error()
+            return 1
+        if run_check == 0:
+            popup.nocalc_error()
+            return 1
+
+        print("Command: Display the selected 4 pairs of opposite faces")
+
+        al, cl, vl = atom_list, coord_list, ref_pcl
         vertex_list = []
         color_list = ["red", "blue", "green", "yellow"]
 
@@ -569,13 +596,13 @@ class OctaDist:
             ax.set_title("Plane {}".format(i + 1))
             ax.scatter(cl[0][0], cl[0][1], cl[0][2],
                        color='yellow', marker='o', s=100, linewidths=1, edgecolors='black')
-            ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, atom_list[0], fontsize=9)
+            ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, al[0], fontsize=9)
 
             for j in range(1, 7):
                 ax.scatter(cl[j][0], cl[j][1], cl[j][2],
                            color='red', marker='o', s=50, linewidths=1, edgecolors='black')
                 ax.text(cl[j][0] + 0.1, cl[j][1] + 0.1, cl[j][2] + 0.1,
-                        "{0},{1}".format(atom_list[j], j), fontsize=9)
+                        "{0},{1}".format(al[j], j), fontsize=9)
 
             # Draw plane
             ax.add_collection3d(Poly3DCollection(vertex_list[i], alpha=0.5, color=color_list[i]))
@@ -584,109 +611,6 @@ class OctaDist:
             ax.set_ylabel(r'Y', fontsize=10)
             ax.set_zlabel(r'Z', fontsize=10)
             ax.grid(True)
-
-        # plt.axis('equal')
-        plt.show()
-
-    def display_projection(self):
-        """Display the vector projection of all atoms onto the given plane
-        """
-        if file_name == "":
-            popup.nofile_error()
-            return 1
-        if run_check == 0:
-            popup.nocalc_error()
-            return 1
-
-        print("Command: Display the orthogonal projection onto the given plane")
-
-        cl = coord_list
-        al, vl = plane.search_4_planes(cl)
-        color_list = ["red", "blue", "green", "yellow"]
-
-        x_range, y_range = [], []
-        pl_x, pl_y, pl_z = [], [], []
-        l = []
-
-        fig = plt.figure()
-
-        for i in range(4):
-            # Figure configuration
-            ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
-            ax.set_title("Orthogonal projection onto the plane {}".format(i + 1), fontsize='10')
-
-            # Plot plane : Given three points, the plane is a*x + b*y + c*z + d = 0
-            a, b, c, d = plane.eq_of_plane(vl[i][0], vl[i][1], vl[i][2])
-            print("         The equation of plane {0} is {1:5.6f}x + {2:5.6f}y + {3:5.6f}z + {4:5.6f} = 0"
-                  .format(i + 1, a, b, c, d))
-
-            m = proj.project_atom_onto_plane(cl[0], a, b, c, d)
-
-            point = m
-            normal = np.array([a, b, c])
-            d = -np.sum(point * normal)
-
-            # Parameters for plotting the surface
-            for j in range(len(cl)):
-                x_range.append(cl[j][0])
-                y_range.append(cl[j][1])
-
-            x_limit = min(x_range) - 1, max(x_range) + 1
-            y_limit = min(y_range) - 1, max(y_range) + 1
-            xx, yy = np.meshgrid((x_limit), (y_limit))
-            # xx, yy = np.meshgrid(range(10), range(10))
-            z = (- (normal[0] * xx + normal[1] * yy + d)) / normal[2]
-
-            ax.plot_surface(xx, yy, z, alpha='0.5', color=color_list[i])
-
-            # Plot original location of atoms
-            # Metal center atom
-            ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100, linewidths=1,
-                       edgecolors='black',
-                       label="Metal center")
-            ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, atom_list[0], fontsize=9)
-
-            # Ligand atoms
-            for k in range(1, 7):
-                ax.scatter(cl[k][0], cl[k][1], cl[k][2], color='red', marker='o', s=50, linewidths=1,
-                           edgecolors='black',
-                           label="Ligand atom")
-                ax.text(cl[k][0] + 0.1, cl[k][1] + 0.1, cl[k][2] + 0.1, "{0}".format(k), fontsize=9)
-
-            # Plot the location of atoms on the given plane
-            # Projected Metal center atom
-            ax.scatter(m[0], m[1], m[2], color='orange', marker='o', s=100, linewidths=1, edgecolors='black',
-                       label="Projected metal center")
-            ax.text(m[0] + 0.1, m[1] + 0.1, m[2] + 0.1, "{}*".format(atom_list[0]), fontsize=9)
-
-            # Ligand atom projected onto the plane
-            # Projected Ligand atom
-            for n in range(1, 7):
-                l.append(proj.project_atom_onto_plane(cl[n], a, b, c, d))
-                pl_x.append(proj.project_atom_onto_plane(cl[n], a, b, c, d)[0])
-                pl_y.append(proj.project_atom_onto_plane(cl[n], a, b, c, d)[0])
-                pl_z.append(proj.project_atom_onto_plane(cl[n], a, b, c, d)[0])
-            for p in range(6):
-                ax.scatter(l[p][0], l[p][1], l[p][2], color='blue', marker='o', s=50, linewidths=1, edgecolors='black',
-                           label="Projected ligand atom")
-                ax.text(l[p][0] + 0.1, l[p][1] + 0.1, l[p][2] + 0.1, "{0}".format(p + 1), fontsize=9)
-
-            ax.set_xlabel(r'X', fontsize=10)
-            ax.set_ylabel(r'Y', fontsize=10)
-            ax.set_zlabel(r'Z', fontsize=10)
-            ax.grid(True)
-
-        print("")
-
-        # ax.legend()
-
-        # Draw line
-        # x, y, z = [], [], []
-        # for i in range(1, 7):
-        #     x.append(cl[i][0])
-        #     y.append(cl[i][1])
-        #     z.append(cl[i][2])
-        # ax.plot(x, y, z, 'k-')
 
         # plt.axis('equal')
         plt.show()

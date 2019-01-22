@@ -15,6 +15,9 @@ import proj
 def search_8_planes(v):
     """Find 8 planes (faces) of octahedron
 
+    Use any three ligand atoms to find all possible triangular faces
+    The total number of combination is 6!/3!3! = 20 planes, but we want only 8 faces.
+
     :param v: array - XYZ coordinate of one metal center and six ligand atoms
                 v[0] = metal center atom of complex
                 v[i] = ligand atom of complex
@@ -22,8 +25,6 @@ def search_8_planes(v):
     """
     pal, pcl = [], []
 
-    # Use any three ligand atoms to find all possible triangular faces
-    # The total number is 6!/3!3! = 20 planes, but we want only 8 faces.
     for i in range(1, 5):
         for j in range(i + 1, 6):
             for k in range(j + 1, 7):

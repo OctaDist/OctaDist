@@ -8,13 +8,10 @@ the Free Software Foundation, either version 3 of the License, or
 """
 
 import numpy as np
-import scipy.optimize
-import functools
 from math import sqrt, pow
 import linear
 import plane
 import proj
-import matplotlib.pyplot as plt
 
 
 def calc_delta(x):
@@ -188,8 +185,7 @@ def calc_theta(z):
         line segment no. 2 = 4' <------> 6'
         line segment no. 3 = 2' <------> 6'
 
-    4. Project another atoms onto the given line
-        and Check if two vectors are parallel or anti-parallel
+    4. Project another atoms onto the given line and check if two vectors are anti-parallel
 
         Example, line1
 
@@ -200,7 +196,7 @@ def calc_theta(z):
                         4'                         4'
 
                     Parallel                Anti-Parallel
-               Negative dot-product     Positive dot-product
+               Positive dot-product     Negative dot-product
 
         Compute dot product between vectors 1 and 6'. If they are anti-parallel,
         this means that the start (2') and end (4') points of line segment are adjacent atoms of 1.
