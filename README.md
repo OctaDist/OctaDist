@@ -13,12 +13,6 @@ Program executable was compiled by Pyinstaller. <br/>
 
 Octahedral complex is composed of 7 atoms: metal center atom and 6 ligand atoms. It has 8 faces, 6 vertices, and 12 edges. It can be simply classified into two types: regular and distorted octahedrons. The complexes with regular octahedral geometry or perfect octahedron are expected to form, when all of the ligands are of the same kind. In contrast, if the ligands are of different kinds, the complex would turns the distorted octahedron instead. Generally, the structural distortion is found in the [metal-organic framework](https://en.wikipedia.org/wiki/Metal%E2%80%93organic_framework), the [spin-crossover complex](https://en.wikipedia.org/wiki/Spin_crossover), and [perovskite structures](https://en.wikipedia.org/wiki/Perovskite_(structure)).
 
-The following is an example of octahedral structure.
-
-   Octahedral Fe complex   |   Octahedral Fe complex  
-:-------------------------:|:-------------------------:
-![](images/complex-1.jpg)  | ![](images/complex-2.jpg) 
-
 ### Octahedral Distortion Parameters
 
 #### Purpose
@@ -41,7 +35,7 @@ Mathematical expression of three parameters are given by following equations
 - Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward. The ![](https://latex.codecogs.com/svg.Latex?%5CDelta) is the avearge of the sum of the deviation of LG-M distance, where LG and M are ligand atom and metal center atom, from mean distance. The ![](https://latex.codecogs.com/svg.Latex?%5CSigma) is the sum of LG-M-LS angle ( ![](https://latex.codecogs.com/svg.Latex?%5Cphi) ) from the 90 degree.
 
 
-Distortion of octahedron   |  3 out of 12 Cis-Angles (![](https://latex.codecogs.com/svg.Latex?%5Cphi)) of octahedral complex   
+    Distorted octahedron   |  3 out of 12 Cis-Angles (![](https://latex.codecogs.com/svg.Latex?%5Cphi)) of octahedral complex   
 :-------------------------:|:-------------------------:
 ![](images/Co-complex-8faces.png)  | ![](images/Co-complex-Cis-Angle.png)   
 
