@@ -35,7 +35,7 @@ Mathematical expression of three parameters are given by following equations
 - Calculation of the ![](https://latex.codecogs.com/svg.Latex?%5CDelta) and ![](https://latex.codecogs.com/svg.Latex?%5CSigma) parameters are straightforward. The ![](https://latex.codecogs.com/svg.Latex?%5CDelta) is the avearge of the sum of the deviation of LG-M distance, where LG and M are ligand atom and metal center atom, from mean distance. The ![](https://latex.codecogs.com/svg.Latex?%5CSigma) is the sum of LG-M-LS angle ( ![](https://latex.codecogs.com/svg.Latex?%5Cphi) ) from the 90 degree.
 
 
-    Distorted octahedron   |  3 out of 12 Cis-Angles (![](https://latex.codecogs.com/svg.Latex?%5Cphi)) of octahedral complex   
+Distorted octahedron   |  3 out of 12 Cis-Angles (![](https://latex.codecogs.com/svg.Latex?%5Cphi)) of octahedral complex   
 :-------------------------:|:-------------------------:
 ![](images/Co-complex-8faces.png)  | ![](images/Co-complex-Cis-Angle.png)   
 
