@@ -125,7 +125,7 @@ I would like to thank
 for useful advices and comments.
 
 ## Author
-Rangsiman Ketkaew (Master Student) <br/>
+Rangsiman Ketkaew<br/>
 Computational Chemistry Research Unit <br/>
 Department of Chemistry, Faculty of Science and Technology <br/>
 Thammasat University, Pathum Thani, 12120 Thailand <br/>
