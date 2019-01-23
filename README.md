@@ -13,12 +13,10 @@ Program executable was compiled by Pyinstaller. <br/>
 
 Octahedral complex is composed of 7 atoms: metal center atom and 6 ligand atoms. It has 8 faces, 6 vertices, and 12 edges. It can be simply classified into two types: regular and distorted octahedrons. The complexes with regular octahedral geometry or perfect octahedron are expected to form, when all of the ligands are of the same kind. In contrast, if the ligands are of different kinds, the complex would turns the distorted octahedron instead. Generally, the structural distortion is found in the [metal-organic framework](https://en.wikipedia.org/wiki/Metal%E2%80%93organic_framework), the [spin-crossover complex](https://en.wikipedia.org/wiki/Spin_crossover), and [perovskite structures](https://en.wikipedia.org/wiki/Perovskite_(structure)).
 
-### Octahedral Distortion Parameters
-
 #### Purpose
 Octahedral distortion parameters have been being widely used in inorganic chemistry and material science to determine the change in structural distortion of metal complex. People in community, mostly chemist and crystallographer, have calculated these parameters for their structures, but not used a certain way to do this. Moreover, there is no software for determining this kind of parameter yet. Therefore, we present the OctaDist program as a choice for those who are interested in this.
 
-
+### Octahedral Distortion Parameters
 #### Calculation of ![](https://latex.codecogs.com/svg.Latex?%5CDelta), ![](https://latex.codecogs.com/svg.Latex?%5CSigma), and ![](https://latex.codecogs.com/svg.Latex?%5CTheta) Parameters 
 Mathematical expression of three parameters are given by following equations
 
