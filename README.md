@@ -111,8 +111,8 @@ Calculate octahedral distortion parameters
 
 ## Screenshots
 <p align="left">
-   <img alt="Capture_Window" src="images/Capture_Window.jpg" align=middle width="300pt" />
-   <img alt="Capture_CMD" src="images/Capture_CMD.jpg" align=middle width="500pt"/>
+   <img alt="Capture_Program" src="images/Capture_Program.jpg" align=middle width="300pt" />
+   <img alt="Capture_Window" src="images/Capture_Window.png" align=middle width="500pt"/>
 <p/>
 
 ## References
