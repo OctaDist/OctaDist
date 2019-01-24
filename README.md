@@ -48,13 +48,15 @@ Distorted octahedron | Orthogonal projection of atoms onto the given (opposite) 
 For Linux user, use `python3 -V` to check python version.
 1. Download program source code from [this page](https://github.com/rangsimanketkaew/OctaDist/src)
 2. Uncompress the tarball: `tar -xzvf OctaDist-*`
-3. Enter OctaDist directory and change file permission of all python files: `chmod +x *.py`
-4. Execute program: `python3 main.py`
+3. Enter OctaDist directory `cd OctaDist-*/src`
+4. Change file permission of all python files: `chmod +x *.py`
+5. Execute program: `python3 main.py`
 
 ### Windows OS
 1. Download program executable from [this page](https://github.com/rangsimanketkaew/OctaDist/releases)
 2. Right click and select `Run as administrator`
 3. Click `Yes`
+4. Wait program for process until open
 
 ### Supported input file format
 - XYZ file format (*.xyz)
