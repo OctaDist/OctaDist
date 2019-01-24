@@ -40,15 +40,16 @@ program_version = 2.0
 
 import numpy as np
 import datetime
-
 import popup
 import coord
 import plane
 import proj
 import calc
+import tools
 
-from tkinter import *
+import tkinter as tk
 from tkinter import filedialog
+import tkinter.scrolledtext as tkscrolled
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -62,7 +63,7 @@ class OctaDist:
         masters.title("OctaDist")
         FONT = "Arial 10"
         self.masters.option_add("*Font", FONT)
-        master = Frame(masters, width="2", height="2")
+        master = tk.Frame(masters, width="2", height="2")
         master.grid(padx=5, pady=5, row=0, column=0)
 
         """
@@ -82,9 +83,9 @@ class OctaDist:
             |- License info               << license
         """
 
-        menubar = Menu(masters)
+        menubar = tk.Menu(masters)
         # add menu bar button
-        filemenu = Menu(menubar, tearoff=0)
+        filemenu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="File", menu=filemenu)
 
         # sub-menu
@@ -96,14 +97,14 @@ class OctaDist:
         filemenu.add_command(label="Exit", command=self.masters.quit)
 
         # add menu bar button
-        toolsmenu = Menu(menubar, tearoff=0)
+        toolsmenu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Tools", menu=toolsmenu)
 
         # add sub-menu
-        toolsmenu.add_command(label="Show structural parameters")
+        toolsmenu.add_command(label="Show structural parameters", command=self.show_strct_param)
 
         # add menu bar button
-        helpmenu = Menu(menubar, tearoff=0)
+        helpmenu = tk.Menu(menubar, tearoff=0)
         menubar.add_cascade(label="Help", menu=helpmenu)
 
         # add sub-menu
@@ -116,89 +117,93 @@ class OctaDist:
 
         # program details
         program_name = "Octahedral Distortion Analysis"
-        self.msg_1 = Label(master, foreground="blue", font=("Arial", 16, "bold"), text=program_name)
+        self.msg_1 = tk.Label(master, foreground="blue", font=("Arial", 16, "bold"), text=program_name)
         self.msg_1.config()
         self.msg_1.grid(pady="5", row=0, columnspan=4)
         description = "Determine the structural distortion between two octahedral structures."
-        self.msg_2 = Label(master, text=description)
+        self.msg_2 = tk.Label(master, text=description)
         self.msg_2.grid(pady="5", row=1, columnspan=4)
 
         # button to browse input file
-        self.btn_open_file = Button(master, command=self.open_file, text="Browse file", relief=RAISED)
+        self.btn_open_file = tk.Button(master, command=self.open_file, text="Browse file", relief=tk.RAISED)
         self.btn_open_file.grid(pady="5", row=2, column=0)
 
         # button to run
-        self.btn_run = Button(master, command=self.calc_all_param, text="Compute parameters")
+        self.btn_run = tk.Button(master, command=self.calc_all_param, text="Compute parameters")
         # btn_run.config(font="Segoe 10")
-        self.btn_run.grid(sticky=W, pady="5", row=2, column=1, columnspan=2)
+        self.btn_run.grid(sticky=tk.W, pady="5", row=2, column=1, columnspan=2)
 
         # button to clear cache
-        self.btn_open_file = Button(master, command=self.clear_cache, text="Clear cache", )
-        self.btn_open_file.grid(sticky=W, pady="5", row=2, column=3)
+        self.btn_open_file = tk.Button(master, command=self.clear_cache, text="Clear cache", )
+        self.btn_open_file.grid(sticky=tk.W, pady="5", row=2, column=3)
 
         # coordinate label
-        self.lbl_1 = Label(master, text="Molecule Specifications")
-        self.lbl_1.grid(sticky=W, pady="5", row=3, columnspan=4)
+        self.lbl_1 = tk.Label(master, text="Molecule Specifications")
+        self.lbl_1.grid(sticky=tk.W, pady="5", row=3, columnspan=4)
 
         # text box for showing cartesian coordinates
-        self.textBox_coord = Text(master, height="14", width="65", wrap="word")
+        self.textBox_coord = tkscrolled.ScrolledText(master, height="14", width="70", wrap="word", undo="True")
         self.textBox_coord.grid(pady="5", row=4, columnspan=4)
 
         # Octahedral distortion parameters
-        self.lbl_2 = Label(master, text="Octahedral distortion parameters")
+        self.lbl_2 = tk.Label(master, text="Octahedral distortion parameters")
 
         # lbl_2.config(font="Segoe 10 bold")
         self.lbl_2.grid(row=6, column=1, columnspan=2)
 
         # Display coordinate and vector projection
-        self.lbl_display = Label(master, text="Graphical Displays")
+        self.lbl_display = tk.Label(master, text="Graphical Displays")
         # self.lbl_display.config(font="Segoe 10 bold")
         self.lbl_display.grid(row=6, column=0, padx="30")
 
         # button to draw structure
-        self.btn_draw_structure = Button(master, command=self.display_structure, text="Octahedral structure", width="18")
+        self.btn_draw_structure = tk.Button(master, command=self.display_structure, text="Octahedral structure",
+                                            width="18")
         self.btn_draw_structure.grid(pady="5", row=7, column=0)
 
         # button to draw plane
-        self.btn_draw_plane = Button(master, command=self.display_2D_plane, text="Twisting triangular faces", width="18")
+        self.btn_draw_plane = tk.Button(master, command=self.display_3D_plane, text="Pair of opposite faces",
+                                        width="18")
         self.btn_draw_plane.grid(pady="5", row=8, column=0)
 
         # button to draw vector projection
-        self.btn_draw_projection = Button(master, command=self.display_3D_plane, text="3D Projection planes", width="18")
+        self.btn_draw_projection = tk.Button(master, command=self.display_projection, text="Projection planes",
+                                             width="18")
         self.btn_draw_projection.grid(pady="5", row=9, column=0)
 
         # Delta
-        self.lbl_dist = Label(master, text="Δ  = ")
-        self.lbl_dist.grid(sticky=E, pady="5", row=7, column=1)
-        self.textBox_delta = Text(master, height="1", width="15", wrap="word")
-        self.textBox_delta.grid(row=7, column=2, sticky=W)
+        self.lbl_dist = tk.Label(master, text="Δ  = ")
+        self.lbl_dist.grid(sticky=tk.E, pady="5", row=7, column=1)
+        self.textBox_delta = tk.Text(master, height="1", width="15", wrap="word")
+        self.textBox_delta.grid(row=7, column=2, sticky=tk.W)
 
         # Sigma
-        self.lbl_sigma = Label(master, text="Σ  = ")
-        self.lbl_sigma.grid(sticky=E, pady="5", row=8, column=1)
-        self.textBox_sigma = Text(master, height="1", width="15", wrap="word")
-        self.textBox_sigma.grid(sticky=W, row=8, column=2)
-        self.lbl_sigma_unit = Label(master, text="degree")
-        self.lbl_sigma_unit.grid(sticky=W, pady="5", row=8, column=3)
+        self.lbl_sigma = tk.Label(master, text="Σ  = ")
+        self.lbl_sigma.grid(sticky=tk.E, pady="5", row=8, column=1)
+        self.textBox_sigma = tk.Text(master, height="1", width="15", wrap="word")
+        self.textBox_sigma.grid(sticky=tk.W, row=8, column=2)
+        self.lbl_sigma_unit = tk.Label(master, text="degree")
+        self.lbl_sigma_unit.grid(sticky=tk.W, pady="5", row=8, column=3)
 
         # Theta
-        self.lbl_theta = Label(master, text="Θ  = ")
-        self.lbl_theta.grid(sticky=E, pady="5", row=9, column=1)
-        self.textBox_theta = Text(master, height="1", width="15", wrap="word")
-        self.textBox_theta.grid(sticky=W, row=9, column=2)
-        self.lbl_theta_unit = Label(master, text="degree")
-        self.lbl_theta_unit.grid(sticky=W, pady="5", row=9, column=3)
+        self.lbl_theta = tk.Label(master, text="Θ  = ")
+        self.lbl_theta.grid(sticky=tk.E, pady="5", row=9, column=1)
+        self.textBox_theta = tk.Text(master, height="1", width="15", wrap="word")
+        self.textBox_theta.grid(sticky=tk.W, row=9, column=2)
+        self.lbl_theta_unit = tk.Label(master, text="degree")
+        self.lbl_theta_unit.grid(sticky=tk.W, pady="5", row=9, column=3)
 
         # Link
         link = "https://github.com/rangsimanketkaew/OctaDist"
-        self.lbl_link = Label(master, foreground="blue", text=link, cursor="hand2")
+        self.lbl_link = tk.Label(master, foreground="blue", text=link, cursor="hand2")
         self.lbl_link.grid(pady="5", row=10, columnspan=4)
         self.lbl_link.bind("<Button-1>", popup.callback)
 
     def clear_cache(self):
         """Clear all variables
         """
-        global file_name, file_data, atom_list, coord_list, mult
+        global file_name, file_data, atom_list, coord_list, mult, strct
+        global computed_delta, computed_sigma, computed_theta
 
         print("Command: Clear cache")
 
@@ -207,30 +212,26 @@ class OctaDist:
         atom_list = []
         coord_list = []
         mult = 0
+        strct = 0
 
         for name in dir():
             if not name.startswith('_'):
                 del locals()[name]
 
-        self.textBox_coord.delete(1.0, END)
-        self.textBox_delta.delete(1.0, END)
-        self.textBox_sigma.delete(1.0, END)
-        self.textBox_theta.delete(1.0, END)
+        self.textBox_coord.delete(1.0, tk.END)
+
+        computed_delta = 0.0
+        computed_sigma = 0.0
+        computed_theta = 0.0
 
         self.clear_results()
 
     def clear_results(self):
         """Clear the computed parameters
         """
-        global computed_delta, computed_sigma, computed_theta
-
-        computed_delta = 0.0
-        computed_sigma = 0.0
-        computed_theta = 0.0
-
-        self.textBox_delta.delete(1.0, END)
-        self.textBox_sigma.delete(1.0, END)
-        self.textBox_theta.delete(1.0, END)
+        self.textBox_delta.delete(1.0, tk.END)
+        self.textBox_sigma.delete(1.0, tk.END)
+        self.textBox_theta.delete(1.0, tk.END)
 
     def open_file(self):
         """Open file using Open Dialog
@@ -241,27 +242,25 @@ class OctaDist:
 
         print("Command: Open input file")
 
-        if file_name != "":
+        if file_name != "" or mult == 1:
             self.clear_cache()
 
-        file_name = filedialog.askopenfilename(# initialdir="C:/Users/",
-            title="Choose input file",
-            filetypes=(("XYZ File", "*.xyz"),
-                       ("Text File", "*.txt"),
-                       ("Gaussian Output File", "*.out"),
-                       ("Gaussian Output File", "*.log"),
-                       ("NWChem Output File", "*.out"),
-                       ("NWChem Output File", "*.log"),
-                       ("ORCA Output File", "*.out"),
-                       ("ORCA Output File", "*.log"),
-                       ("All Files", "*.*")))
+        file_name = filedialog.askopenfilename(title="Choose input file",
+                                               filetypes=(("XYZ File", "*.xyz"),
+                                                          ("Text File", "*.txt"),
+                                                          ("Gaussian Output File", "*.out"),
+                                                          ("Gaussian Output File", "*.log"),
+                                                          ("NWChem Output File", "*.out"),
+                                                          ("NWChem Output File", "*.log"),
+                                                          ("ORCA Output File", "*.out"),
+                                                          ("ORCA Output File", "*.log"),
+                                                          ("All Files", "*.*")))
 
         # Using try/except in case user types in unknown file or closes without choosing a file.
         try:
             with open(file_name, 'r') as f:
                 print("         File full path: " + file_name)
                 print("         File name: " + file_name.split('/')[-1])
-                f.close()
 
                 # Check file type and get coordinate
                 print("")
@@ -275,15 +274,15 @@ class OctaDist:
 
                 texts = "File: {0}\n\n" \
                         "Atom                       Cartesian coordinate".format(file_name.split('/')[-1])
-                self.textBox_coord.insert(INSERT, texts)
+                self.textBox_coord.insert(tk.INSERT, texts)
 
                 for i in range(len(atom_list)):
                     texts = " {A:>2}      {Lx:14.9f}  {Ly:14.9f}  {Lz:14.9f}" \
-                            .format(file_name, A=atom_list[i],
-                            Lx=coord_list[i][0], Ly=coord_list[i][1], Lz=coord_list[i][2])
-                    self.textBox_coord.insert(END, "\n" + texts)
+                        .format(A=atom_list[i], Lx=coord_list[i][0], Ly=coord_list[i][1], Lz=coord_list[i][2])
+                    self.textBox_coord.insert(tk.END, "\n" + texts)
 
                 return atom_list, coord_list
+
         except:
             print("Error: No input file")
             atom_list, coord_list = 0, 0
@@ -293,38 +292,56 @@ class OctaDist:
     def open_multiple(self):
         """Open multiple input files
         """
-        global list_file, mult
+        global file_name, list_file, mult, atom_coord_mult
 
         print("Command: Open multiple files")
 
-        if list_file != "":
+        if file_name != "" or list_file != "":
             self.clear_cache()
 
-        file_name = filedialog.askopenfilenames(# initialdir="C:/Users/",
-            title="Choose input file",
-            filetypes=(("XYZ File", "*.xyz"),
-                       ("Text File", "*.txt"),
-                       ("Gaussian Output File", "*.out"),
-                       ("Gaussian Output File", "*.log"),
-                       ("NWChem Output File", "*.out"),
-                       ("NWChem Output File", "*.log"),
-                       ("ORCA Output File", "*.out"),
-                       ("ORCA Output File", "*.log"),
-                       ("All Files", "*.*")))
+        file_name = filedialog.askopenfilenames(title="Choose input file",
+                                                filetypes=(("XYZ File", "*.xyz"),
+                                                           ("Text File", "*.txt"),
+                                                           ("Gaussian Output File", "*.out"),
+                                                           ("Gaussian Output File", "*.log"),
+                                                           ("NWChem Output File", "*.out"),
+                                                           ("NWChem Output File", "*.log"),
+                                                           ("ORCA Output File", "*.out"),
+                                                           ("ORCA Output File", "*.log"),
+                                                           ("All Files", "*.*")))
 
         list_file = list(file_name)
 
         try:
             open(file_name[0], 'r')
-            mult = 1
-
-            texts = "< Open multiple files >\n< Open multiple files >\n< Open multiple files >"
-            self.textBox_coord.insert(INSERT, texts)
-
             print("Command: %s input files selected" % len(list_file))
+            mult = 1
+            atom_coord_mult = []
+
             for i in range(len(list_file)):
                 print("         File {0:2d} : \"{1}\"".format(i + 1, list_file[i]))
+
+                texts = "File {0}: {1}\n\n" \
+                        "Atom                       Cartesian coordinate".format(i + 1, list_file[i].split('/')[-1])
+                self.textBox_coord.insert(tk.INSERT, texts)
+
+                # Get and show coordinate
+                full_atom_list, full_coord_list = coord.get_coord(list_file[i])
+
+                if len(full_coord_list) != 0:
+                    atom_list, coord_list = coord.cut_coord(full_atom_list, full_coord_list)
+
+                for j in range(len(atom_list)):
+                    texts = " {A:>2}      {Lx:14.9f}  {Ly:14.9f}  {Lz:14.9f}" \
+                        .format(A=atom_list[j], Lx=coord_list[j][0], Ly=coord_list[j][1], Lz=coord_list[j][2])
+                    self.textBox_coord.insert(tk.END, "\n" + texts)
+                self.textBox_coord.insert(tk.END, "\n\n---------------------------------\n\n")
+
+                atom_coord_mult.append([full_atom_list, full_coord_list])
             print("")
+
+            return atom_coord_mult
+
         except:
             print("Error: No input file")
 
@@ -336,6 +353,9 @@ class OctaDist:
         if file_name == "":
             popup.nofile_error()
             return 1
+        if mult == 1:
+            popup.cannot_show_param()
+            return 1
         if run_check == 0:
             popup.nocalc_error()
             return 1
@@ -343,69 +363,86 @@ class OctaDist:
         f = filedialog.asksaveasfile(mode='w',
                                      defaultextension=".out",
                                      title="Save as",
-                                     filetypes=(("Text File", "*.txt"),
-                                                ("Output File", "*.out"),
+                                     filetypes=(("Output File", "*.out"),
+                                                ("Text File", "*.txt"),
                                                 ("All Files", "*.*")))
 
         if f is None:
-            print("Warning: Cancelled save file")
+            print("Warning: Save file cancelled")
             return 0
 
-        f.write("OctaDist  Copyright (C) 2019  Rangsiman Ketkaew\n")
-        f.write("This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.\n")
-        f.write("This is free software, and you are welcome to redistribute it under\n")
-        f.write("certain conditions; see <https://www.gnu.org/licenses/> for details.\n\n")
         f.write("OctaDist {}: Octahedral Distortion Analysis\n".format(program_version))
         f.write("https://github.com/rangsimanketkaew/OctaDist\n\n")
         f.write("By Rangsiman Ketkaew\n")
         f.write("Computational Chemistry Research Unit\n")
-        f.write("Department of Chemistry, Faculty of Science and Technology\n")
+        f.write("Department of Chemistry\n")
+        f.write("Faculty of Science and Technology\n")
         f.write("Thammasat University, Pathum Thani, 12120 Thailand\n")
         f.write("E-mail: rangsiman1993@gmail.com\n\n")
-        f.write("================== Output file ==================\n\n")
-        f.write("Date: Saved on {}\n\n".format(datetime.datetime.now()))
-        f.write("Input file: " + file_name + "\n\n")
-        f.write("Molecular specification of Octahedral structure\n")
-        f.write("Atom list:\n")
-        for item in atom_list:
-            f.write("%s  " % item)
-        f.write("\n\n")
-        f.write("Coordinate list:\n")
-        for item in coord_list:
-            f.write("%s\n" % item)
+        f.write("Date: {}\n\n".format(datetime.datetime.now()))
+        f.write("Input file: " + file_name.split('/')[-1] + "\n")
+        f.write("Output file: " + f.name.split('/')[-1] + "\n\n")
+        f.write("Cartesian coordinates:\n")
+        for i in range(len(coord_list)):
+            f.write("{0:2}  {1:10.6f}  {2:10.6f}  {3:10.6f}\n"
+                    .format(atom_list[i], coord_list[i][0], coord_list[i][1], coord_list[i][2]))
         f.write("\n")
-        f.write("Distance between atoms:\n")
-        for item in distance_list:
-            f.write("Distance --> %5.6f Angstrom\n" % item)
+        f.write("Distance between metal center and 6 ligand atoms:\n")
+        for i in range(len(unique_delta_list)):
+            f.write("Distance {0} --> {1:10.6f} Angstrom\n".format(i+1, unique_delta_list[i]))
         f.write("\n")
-        f.write("Angle of three cis atoms (metal center is vertex):\n")
-        for item in new_angle_sigma_list:
-            f.write("Angle --> %5.6f degree\n" % item)
+        f.write("12 cis angle (metal center is a vertex):\n")
+        for i in range(len(unique_sigma_list)):
+            f.write("Angle {0:2} --> {1:10.6f} degree\n".format(i+1, unique_sigma_list[i]))
         f.write("\n")
-        f.write("The Theta parameter for each orthogonal plane:\n")
-        for item in computed_theta_list:
-            f.write("Angle --> %5.6f degree\n" % item)
+        f.write("24 unique angle for all 70 sets of 4 faces:\n")
+        for i in range(len(unique_theta_list)):
+            f.write("Angle {0:2} --> {1:10.6f} degree\n".format(i+1, unique_theta_list[i]))
+        f.write("\n")
+        f.write("Selected 4 optimal faces for orthogonal projection:\n")
+        for i in range(len(ref_pal)):
+            f.write("Face {0} --> {1}\n".format(i + 1, ref_pal[i]))
+            for j in range(3):
+                f.write("  [{0:10.6f}, {1:10.6f}, {2:10.6f}]\n"
+                        .format(ref_pcl[i][j][0], ref_pcl[i][j][1], ref_pcl[i][j][2]))
         f.write("\n")
         f.write("Octahedral distortion parameters:\n")
-        f.write(" - Delta = {0:5.10f}\n".format(computed_delta))
-        f.write(" - Sigma = {0:5.10f} degree\n".format(computed_sigma))
-        f.write(" - Theta = {0:5.10f} degree\n".format(computed_theta))
-        f.write("\n\n")
-        f.write("============ End of the output file. ============\n\n")
+        f.write(" - Delta = %10.6f\n" % computed_delta)
+        f.write(" - Sigma = %10.6f degree\n" % computed_sigma)
+        f.write(" - Theta = %10.6f degree\n" % computed_theta)
+        f.write("\n")
         f.close()
 
-        print("Command: Data has been saved to ", f)
+        print("Command: Data has been saved to \"%s\"" % f.name)
+
+    def show_strct_param(self):
+        """Show structural parameters: bond distance and bond angle
+        """
+        global strct
+
+        if file_name == "":
+            popup.nofile_error()
+            return 1
+        if mult == 1:
+            popup.cannot_show_param()
+            return 1
+        if strct == 1:
+            popup.redundant_strct()
+            return 1
+
+        strct = 1
+        tools.show_strct_param(full_atom_list, full_coord_list)
 
     def calc_all_param(self):
         """Calculate octahedral distortion parameters
         """
         global run_check, computed_delta, computed_sigma, computed_theta
-        global distance_list, new_angle_sigma_list, computed_theta_list
-        global ref_pal, ref_pcl, oppo_pal, oppo_pcl
+        global unique_delta_list, unique_sigma_list, unique_theta_list
+        global pal, pcl, ref_pal, ref_pcl, oppo_pal, oppo_pcl
 
         if mult == 1:
             self.clear_results()
-            calc.calc_mult(list_file)
+            calc.calc_mult(list_file, atom_coord_mult)
             return 0
 
         if file_name == "":
@@ -417,25 +454,27 @@ class OctaDist:
 
         if np.any(coord_list) != 0:
             print("Command: Calculate octahedral distortion parameters")
-            computed_delta, distance_list = calc.calc_delta(coord_list)
-            computed_sigma, new_angle_sigma_list = calc.calc_sigma(coord_list)
-            computed_theta, computed_theta_list, selected_plane_lists = calc.calc_theta(coord_list)
+            computed_delta, unique_delta_list = calc.calc_delta(coord_list)
+            computed_sigma, unique_sigma_list = calc.calc_sigma(coord_list)
+            computed_theta, unique_theta_list, selected_plane_lists = calc.calc_theta(coord_list)
 
-            ref_pal, ref_pcl, oppo_pal, oppo_pcl = selected_plane_lists
+            pal, pcl, ref_pal, ref_pcl, oppo_pal, oppo_pcl = selected_plane_lists
 
             print("Command: Show computed octahedral distortion parameters")
             print("")
-            print("         Δ = {0:11.6f}".format(computed_delta))
-            print("         Σ = {0:11.6f} degree".format(computed_sigma))
-            print("         Θ = {0:11.6f} degree".format(computed_theta))
+            print("         Δ = %11.6f" % computed_delta)
+            print("         Σ = %11.6f degree" % computed_sigma)
+            print("         Θ = %11.6f degree" % computed_theta)
             print("")
 
-            self.textBox_delta.insert(INSERT, '%3.6f' % computed_delta)
-            self.textBox_sigma.insert(INSERT, '%3.6f' % computed_sigma)
-            self.textBox_theta.insert(INSERT, '%3.6f' % computed_theta)
+            self.textBox_delta.insert(tk.INSERT, '%3.6f' % computed_delta)
+            self.textBox_sigma.insert(tk.INSERT, '%3.6f' % computed_sigma)
+            self.textBox_theta.insert(tk.INSERT, '%3.6f' % computed_theta)
 
         else:
             popup.nocoord_error()
+
+        return ref_pal, ref_pcl, oppo_pal, oppo_pcl
 
     def display_structure(self):
         """Display 3D structure of octahedral complex with label for each atoms
@@ -444,25 +483,52 @@ class OctaDist:
             popup.nofile_error()
             return 1
         if mult == 1:
-            popup.nosupport_mult()
+            popup.cannot_display()
+            return 1
+        if run_check == 0:
+            popup.nocalc_error()
             return 1
 
         print("Command: Display octahedral structure")
+        print("         Scattering plot of all atoms")
+        print("         Draw surface for all 8 faces")
 
         # Plot and configuration
         fig = plt.figure()
         ax = Axes3D(fig)
-        cl = coord_list
+        al, cl = atom_list, coord_list
+        vertices_list = []
+
+        # Create array of vertices for 8 faces
+        for i in range(8):
+            get_vertices = pcl[i].tolist()
+            x, y, z = zip(*get_vertices)
+            vertices = [list(zip(x, y, z))]
+            vertices_list.append(vertices)
+
+        # The following is for showing only 4 faces whose the minimum Theta value
+        # for i in range(4):
+        #     get_vertices = ref_pcl[i].tolist()
+        #     x, y, z = zip(*get_vertices)
+        #     vertices = [list(zip(x, y, z))]
+        #     vertices_list.append(vertices)
 
         # Plot metal center
         ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=300, linewidths=2, edgecolors='black')
-        ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, atom_list[0], fontsize=12)
+        ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, al[0], fontsize=12)
 
         # Plot ligand atoms
         for i in range(1, 7):
             ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=200, linewidths=2, edgecolors='black')
-            ax.text(cl[i][0] + 0.1, cl[i][1] + 0.1, cl[i][2] + 0.1, "{0},{1}".format(atom_list[i], i), fontsize=10)
+            ax.text(cl[i][0] + 0.1, cl[i][1] + 0.1, cl[i][2] + 0.1, "{0},{1}".format(al[i], i), fontsize=10)
 
+        # Draw plane
+        color_list = ["red", "blue", "green", "yellow", "violet", "cyan", "brown", "grey"]
+
+        for i in range(len(vertices_list)):
+            ax.add_collection3d(Poly3DCollection(vertices_list[i], alpha=0.5, color=color_list[i]))
+
+        # Set axis
         ax.set_xlabel(r'X', fontsize=15)
         ax.set_ylabel(r'Y', fontsize=15)
         ax.set_zlabel(r'Z', fontsize=15)
@@ -470,72 +536,7 @@ class OctaDist:
         ax.grid(True)
 
         # plt.axis('equal')
-        plt.show()
-    
-    def display_2D_plane(self):
-        """Display twisting triangular faces vector projection of all atoms onto the given plane
-        """
-        if file_name == "":
-            popup.nofile_error()
-            return 1
-        if mult == 1:
-            popup.nosupport_mult()
-            return 1
-        if run_check == 0:
-            popup.nocalc_error()
-            return 1
-
-        print("Command: Display the selected 4 twisting triangular faces")
-
-        al, cl, vl, ovl = atom_list, coord_list, ref_pcl, oppo_pcl
-
-        fig = plt.figure()
-
-        for i in range(4):
-            a, b, c, d = plane.eq_of_plane(vl[i][0], vl[i][1], vl[i][2])
-            m = proj.project_atom_onto_plane(cl[0], a, b, c, d)
-
-            ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
-            ax.set_title("Orthogonal projection onto the plane {0}".format(i + 1), fontsize='10')
-
-            # Projected Metal center atom
-            ax.scatter(m[0], m[1], m[2], color='orange', marker='o', s=100, linewidths=1,
-                       edgecolors='black', label="Projected metal center")
-            ax.text(m[0] + 0.1, m[1] + 0.1, m[2] + 0.1, "{}'".format(al[0]), fontsize=9)
-
-            l = []
-
-            for k in range(3):
-                # Reference ligand atoms
-                ax.scatter(vl[i][k][0], vl[i][k][1], vl[i][k][2], color='red', marker='o', s=50, linewidths=1,
-                           edgecolors='black', label="Ligand atom")
-                ax.text(vl[i][k][0] + 0.1, vl[i][k][1] + 0.1, vl[i][k][2] + 0.1, "{0}".format(k), fontsize=9)
-                # Projected Ligand atom
-                l.append(proj.project_atom_onto_plane(ovl[i][k], a, b, c, d))
-
-                print(l[k])
-
-            for k in range(3):
-                ax.scatter(l[k][0], l[k][1], l[k][2], color='blue', marker='o', s=50, linewidths=1,
-                           edgecolors='black', label="Projected ligand atom")
-                ax.text(l[k][0] + 0.1, l[k][1] + 0.1, l[k][2] + 0.1, "{0}".format(k + 1), fontsize=9)
-
-            ax.set_xlabel(r'X', fontsize=10)
-            ax.set_ylabel(r'Y', fontsize=10)
-            ax.set_zlabel(r'Z', fontsize=10)
-            ax.grid(True)
-
-        # ax.legend()
-
-        # Draw line
-        # x, y, z = [], [], []
-        # for i in range(1, 7):
-        #     x.append(cl[i][0])
-        #     y.append(cl[i][1])
-        #     z.append(cl[i][2])
-        # ax.plot(x, y, z, 'k-')
-
-        # plt.axis('equal')
+        # plt.axis('off')
         plt.show()
 
     def display_3D_plane(self):
@@ -545,94 +546,176 @@ class OctaDist:
             popup.nofile_error()
             return 1
         if mult == 1:
-            popup.nosupport_mult()
+            popup.cannot_display()
             return 1
         if run_check == 0:
             popup.nocalc_error()
             return 1
 
         print("Command: Display the selected 4 pairs of opposite faces")
+        print("         Scattering plot of all atoms")
+        print("         Draw surface for 4 pairs of reference and opposite faces")
 
-        al, cl, vl = atom_list, coord_list, ref_pcl
-        vertex_list = []
-        color_list = ["red", "blue", "green", "yellow"]
+        al, cl, vl, ovl = atom_list, coord_list, ref_pcl, oppo_pcl
 
-        ##########################################################
-        # This function is hard coding. Waiting for improvement
-        ##########################################################
+        # reference face
+        ref_vertices_list = []
 
-        plane_1_x, plane_1_y, plane_1_z = [], [], []
-        plane_2_x, plane_2_y, plane_2_z = [], [], []
-        plane_3_x, plane_3_y, plane_3_z = [], [], []
-        plane_4_x, plane_4_y, plane_4_z = [], [], []
+        for i in range(4):
+            get_vertices = vl[i].tolist()
+            x, y, z = zip(*get_vertices)
+            vertices = [list(zip(x, y, z))]
+            ref_vertices_list.append(vertices)
 
-        for i in range(3):
-            plane_1_x.append(vl[0][i][0])
-            plane_1_y.append(vl[0][i][1])
-            plane_1_z.append(vl[0][i][2])
-        for i in range(3):
-            plane_2_x.append(vl[1][i][0])
-            plane_2_y.append(vl[1][i][1])
-            plane_2_z.append(vl[1][i][2])
-        for i in range(3):
-            plane_3_x.append(vl[2][i][0])
-            plane_3_y.append(vl[2][i][1])
-            plane_3_z.append(vl[2][i][2])
-        for i in range(3):
-            plane_4_x.append(vl[3][i][0])
-            plane_4_y.append(vl[3][i][1])
-            plane_4_z.append(vl[3][i][2])
+        # opposite face
+        oppo_vertices_list = []
 
-        vertex_set_1 = [list(zip(plane_1_x, plane_1_y, plane_1_z))]
-        vertex_set_2 = [list(zip(plane_2_x, plane_2_y, plane_2_z))]
-        vertex_set_3 = [list(zip(plane_3_x, plane_3_y, plane_3_z))]
-        vertex_set_4 = [list(zip(plane_4_x, plane_4_y, plane_4_z))]
-
-        vertex_list.append(vertex_set_1)
-        vertex_list.append(vertex_set_2)
-        vertex_list.append(vertex_set_3)
-        vertex_list.append(vertex_set_4)
+        for i in range(4):
+            x, y, z = zip(*ovl[i])
+            vertices = [list(zip(x, y, z))]
+            oppo_vertices_list.append(vertices)
 
         fig = plt.figure()
+        st = fig.suptitle("4 pairs of opposite faces", fontsize="x-large")
 
         # Display four planes
+        color_list_1 = ["red", "blue", "orange", "magenta"]
+        color_list_2 = ["green", "yellow", "cyan", "brown"]
+
         for i in range(4):
             ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
             ax.set_title("Plane {}".format(i + 1))
             ax.scatter(cl[0][0], cl[0][1], cl[0][2],
-                       color='yellow', marker='o', s=100, linewidths=1, edgecolors='black')
+                       color='yellow', marker='o', s=100, linewidths=1, edgecolors='black', label="Metal center")
             ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, al[0], fontsize=9)
 
             for j in range(1, 7):
                 ax.scatter(cl[j][0], cl[j][1], cl[j][2],
-                           color='red', marker='o', s=50, linewidths=1, edgecolors='black')
-                ax.text(cl[j][0] + 0.1, cl[j][1] + 0.1, cl[j][2] + 0.1,
-                        "{0},{1}".format(al[j], j), fontsize=9)
+                           color='red', marker='o', s=50, linewidths=1, edgecolors='black', label="Ligand atoms")
+                ax.text(cl[j][0] + 0.1, cl[j][1] + 0.1, cl[j][2] + 0.1, "{0},{1}".format(al[j], j), fontsize=9)
 
             # Draw plane
-            ax.add_collection3d(Poly3DCollection(vertex_list[i], alpha=0.5, color=color_list[i]))
+            ax.add_collection3d(Poly3DCollection(ref_vertices_list[i], alpha=0.5, color=color_list_1[i]))
+            ax.add_collection3d(Poly3DCollection(oppo_vertices_list[i], alpha=0.5, color=color_list_2[i]))
 
+            # Set axis
             ax.set_xlabel(r'X', fontsize=10)
             ax.set_ylabel(r'Y', fontsize=10)
             ax.set_zlabel(r'Z', fontsize=10)
             ax.grid(True)
 
+        # Shift subplots down
+        st.set_y(1.0)
+        fig.subplots_adjust(top=0.25)
+
         # plt.axis('equal')
+        plt.tight_layout()
+        plt.show()
+
+    def display_projection(self):
+        """Display twisting triangular faces vector projection of all atoms onto the given plane
+        """
+        if file_name == "":
+            popup.nofile_error()
+            return 1
+        if mult == 1:
+            popup.cannot_display()
+            return 1
+        if run_check == 0:
+            popup.nocalc_error()
+            return 1
+
+        print("Command: Display the reference and projected atoms")
+        print("         Scattering plot of reference atom and projected atoms on the reference plane")
+        print("         Draw surface for 4 pairs of two twisting triangular faces")
+
+        al, cl, vl, ovl = atom_list, coord_list, ref_pcl, oppo_pcl
+
+        ref_vertices_list = []
+
+        for i in range(4):
+            get_vertices = vl[i].tolist()
+            x, y, z = zip(*get_vertices)
+            vertices = [list(zip(x, y, z))]
+            ref_vertices_list.append(vertices)
+
+        fig = plt.figure()
+        st = fig.suptitle("Projected twisting triangular faces", fontsize="x-large")
+
+        for i in range(4):
+            a, b, c, d = plane.eq_of_plane(vl[i][0], vl[i][1], vl[i][2])
+            m = proj.project_atom_onto_plane(cl[0], a, b, c, d)
+
+            ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
+            ax.set_title("Projection plane {0}".format(i + 1), fontsize='10')
+
+            # Projected metal center atom
+            ax.scatter(m[0], m[1], m[2], color='orange', s=100, marker='o', linewidths=1, edgecolors='black',
+                       label="Metal center")
+            ax.text(m[0] + 0.1, m[1] + 0.1, m[2] + 0.1, "{0}'".format(al[0]), fontsize=9)
+
+            # Reference atoms
+            pl = []
+
+            for j in range(3):
+                ax.scatter(vl[i][j][0], vl[i][j][1], vl[i][j][2], color='red', s=50, marker='o', linewidths=1,
+                           edgecolors='black', label="Reference atom")
+                ax.text(vl[i][j][0] + 0.1, vl[i][j][1] + 0.1, vl[i][j][2] + 0.1, "{0}".format(j+1), fontsize=9)
+                # Project ligand atom onto the reference face
+                pl.append(proj.project_atom_onto_plane(ovl[i][j], a, b, c, d))
+
+            # Projected opposite atoms
+            for j in range(3):
+                ax.scatter(pl[j][0], pl[j][1], pl[j][2], color='blue', s=50, marker='o', linewidths=1,
+                           edgecolors='black', label="Projected ligand atom")
+                ax.text(pl[j][0] + 0.1, pl[j][1] + 0.1, pl[j][2] + 0.1, "{0}'".format(j + 1), fontsize=9)
+
+            # Draw plane
+            x, y, z = zip(*pl)
+            projected_oppo_vertices_list = [list(zip(x, y, z))]
+
+            ax.add_collection3d(Poly3DCollection(ref_vertices_list[i], alpha=0.5, color="yellow"))
+            ax.add_collection3d(Poly3DCollection(projected_oppo_vertices_list, alpha=0.5, color="blue"))
+
+            # Draw line
+            for j in range(3):
+                merge = list(zip(m.tolist(), vl[i][j].tolist()))
+                x, y, z = merge
+                ax.plot(x, y, z, 'k-', color="black")
+
+            for j in range(3):
+                merge = list(zip(m.tolist(), pl[j].tolist()))
+                x, y, z = merge
+                ax.plot(x, y, z, 'k->', color="black")
+
+            # Set axis
+            ax.set_xlabel(r'X', fontsize=10)
+            ax.set_ylabel(r'Y', fontsize=10)
+            ax.set_zlabel(r'Z', fontsize=10)
+            ax.grid(True)
+
+        # Shift subplots down
+        st.set_y(1.0)
+        fig.subplots_adjust(top=0.25)
+
+        # plt.legend(bbox_to_anchor=(1.05, 1), loc=2)
+        # plt.axis('equal')
+        plt.tight_layout()
         plt.show()
 
 
 def main():
-    masters = Tk()
+    masters = tk.Tk()
     MainProgram = OctaDist(masters)
 
-    global file_name, file_data, list_file, run_check, mult
+    global file_name, file_data, list_file, run_check, mult, strct
     file_name = ""
     file_data = ""
     list_file = ""
     run_check = 0
     mult = 0
+    strct = 0
 
-    # activate program windows
     masters.mainloop()
 
 

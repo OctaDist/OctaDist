@@ -8,8 +8,8 @@ the Free Software Foundation, either version 3 of the License, or
 """
 
 import numpy as np
-from math import sqrt, pow
-from tkinter import *
+import tkinter as tk
+import tkinter.scrolledtext as tkscrolled
 import coord
 import linear
 import plane
@@ -36,8 +36,8 @@ def calc_delta(x):
 
     print("         Show distance list")
     for i in range(1, 7):
-        distance_indi = sqrt(sum([pow(x[i][j] - x[0][j], 2) for j in range(3)]))
-        print("         Distance between M and ligand atom {0} : {1:11.6f}"
+        distance_indi = linear.distance_between(x[0], x[i])
+        print("         Distance between M and ligand atom {0} : {1:10.6f}"
               .format(i, distance_indi))
         distance_list.append(distance_indi)
     print("")
@@ -48,12 +48,12 @@ def calc_delta(x):
     # Calculate Delta parameter
     for i in range(6):
         diff_dist = (distance_list[i] - computed_distance_avg) / computed_distance_avg
-        computed_delta = (pow(diff_dist, 2) / 6) + computed_delta
+        computed_delta = ((diff_dist*diff_dist) / 6) + computed_delta
 
     print("         ====================== SUMMARY of Δ ======================")
     print("")
-    print("         Average distance     : %10.8f Angstrom" % computed_distance_avg)
-    print("         Computed Δ parameter : %10.8f" % computed_delta)
+    print("         Average distance     : %10.6f Angstrom" % computed_distance_avg)
+    print("         Computed Δ parameter : %10.6f" % computed_delta)
     print("")
     print("         ==========================================================")
     print("")
@@ -94,7 +94,7 @@ def calc_sigma(v):
     # Print list of angles before sorted
     for i in range(len(angle_sigma_list)):
         print("          Angle between atom", ligand_atom_list[i][0], "and atom", ligand_atom_list[i][1],
-              "before sorted: {0:11.6f}".format(angle_sigma_list[i]))
+              "before sorted: {0:10.6f}".format(angle_sigma_list[i]))
     print("")
 
     # Sort the angle from the lowest to the highest
@@ -110,21 +110,15 @@ def calc_sigma(v):
         ligand_atom_list[i], ligand_atom_list[k] = ligand_atom_list[k], ligand_atom_list[i]
         i += 1
 
-    print("         List of the angles after sorted:")
-
-    for i in range(len(angle_sigma_list)):
-        print("          Angle between atom", ligand_atom_list[i][0], "and atom", ligand_atom_list[i][1],
-              "after sorted : {0:11.6f}".format(angle_sigma_list[i]))
-    print("")
-
     # Remove last three angles (last three rows)
     new_angle_sigma_list = angle_sigma_list[:len(angle_sigma_list) - 3]
+    new_ligand_atom_list = ligand_atom_list[:len(ligand_atom_list) - 3]
 
-    # Print new list of angle after three trans angle deleted
-    print("         List after three trans angles deleted:")
+    print("         List of the sorted angles after three trans angles deleted:")
 
     for i in range(len(new_angle_sigma_list)):
-        print("          {0:11.6f} degree".format(new_angle_sigma_list[i]))
+        print("          Angle between atom", new_ligand_atom_list[i][0], "and atom", new_ligand_atom_list[i][1],
+              "after sorted : {0:10.6f}".format(angle_sigma_list[i]))
     print("")
 
     computed_sigma = 0
@@ -135,10 +129,14 @@ def calc_sigma(v):
 
     print("         ====================== SUMMARY of Σ ======================")
     print("")
+    for i in range(3):
+        print("         Trans angle no.{0} is atom {1} <- Metal -> atom {2} : {3:10.6f}"
+              .format(i+1, ligand_atom_list[i+12][0], ligand_atom_list[i+12][1], angle_sigma_list[i+12]))
+    print("")
     print("         Total number of angles before three trans angles deleted:", len(angle_sigma_list))
     print("         Total number of angles after three trans angles deleted :", len(new_angle_sigma_list))
     print("")
-    print("         Computed Σ parameter : %10.8f" % computed_sigma)
+    print("         Computed Σ parameter : %10.6f" % computed_sigma)
     print("")
     print("         ==========================================================")
     print("")
@@ -237,7 +235,7 @@ def calc_theta(z):
         m = proj.project_atom_onto_plane(v[0], a, b, c, d)
 
         print("         Orthogonal projection onto the plane", i + 1)
-        print("         The equation of plane: {0:11.6f}x + {1:11.6f}y + {2:11.6f}z = {3:11.6f}"
+        print("         The equation of plane: {0:10.6f}x + {1:10.6f}y + {2:10.6f}z = {3:10.6f}"
               .format(a, b, c, d))
         print("")
 
@@ -246,9 +244,9 @@ def calc_theta(z):
         o3 = int(oppo_pal[i][2])
 
         print("         Old coordinate of atom on opposite plane (before projection)")
-        print("          {0}  --> ({1:11.6f}, {2:11.6f}, {3:11.6f})".format(o1, v[o1][0], v[o1][1], v[o1][2]))
-        print("          {0}  --> ({1:11.6f}, {2:11.6f}, {3:11.6f})".format(o2, v[o2][0], v[o2][1], v[o2][2]))
-        print("          {0}  --> ({1:11.6f}, {2:11.6f}, {3:11.6f})".format(o3, v[o3][0], v[o3][1], v[o3][2]))
+        print("          {0}  --> ({1:10.6f}, {2:10.6f}, {3:10.6f})".format(o1, v[o1][0], v[o1][1], v[o1][2]))
+        print("          {0}  --> ({1:10.6f}, {2:10.6f}, {3:10.6f})".format(o2, v[o2][0], v[o2][1], v[o2][2]))
+        print("          {0}  --> ({1:10.6f}, {2:10.6f}, {3:10.6f})".format(o3, v[o3][0], v[o3][1], v[o3][2]))
         print("")
 
         # Project the opposite atom onto the given plane
@@ -257,9 +255,9 @@ def calc_theta(z):
         n3 = proj.project_atom_onto_plane(v[o3], a, b, c, d)
 
         print("         New coordinate of atom on reference plane (after projection)")
-        print("          {0}' --> ({1:11.6f}, {2:11.6f}, {3:11.6f})".format(o1, n1[0], n1[1], n1[2]))
-        print("          {0}' --> ({1:11.6f}, {2:11.6f}, {3:11.6f})".format(o2, n2[0], n2[1], n2[2]))
-        print("          {0}' --> ({1:11.6f}, {2:11.6f}, {3:11.6f})".format(o3, n3[0], n3[1], n3[2]))
+        print("          {0}' --> ({1:10.6f}, {2:10.6f}, {3:10.6f})".format(o1, n1[0], n1[1], n1[2]))
+        print("          {0}' --> ({1:10.6f}, {2:10.6f}, {3:10.6f})".format(o2, n2[0], n2[1], n2[2]))
+        print("          {0}' --> ({1:10.6f}, {2:10.6f}, {3:10.6f})".format(o3, n3[0], n3[1], n3[2]))
         print("")
 
         # Define line and find that if the two vectors are parallel or anti parallel.
@@ -290,9 +288,9 @@ def calc_theta(z):
                     angle_2 = linear.angle_between(m, pcl[i][j], lcl[k][1])
                     computed_unique_angle.append(angle_2)
 
-                    print("          Angle between atom {0} and {1}: {2:11.6f}"
+                    print("          Angle between atom {0} and {1}: {2:10.6f}"
                           .format(pal[i][j], lal[k][0], angle_1))
-                    print("          Angle between atom {0} and {1}: {2:11.6f}"
+                    print("          Angle between atom {0} and {1}: {2:10.6f}"
                           .format(pal[i][j], lal[k][1], angle_2))
 
         computed_unique_angle_list.append(computed_unique_angle)
@@ -300,9 +298,9 @@ def calc_theta(z):
         print("         ----------------------------------------")
         print("")
 
-    print("Command: Show list of atom for the given face")
+    print("Command: Show list of atoms of reference and opposite faces for 8 faces")
     print("")
-    print("                  Reference face    Opposite face")
+    print("                  Reference atom    Opposite atom")
     for i in range(len(pal)):
         print("         Face {0} : {1}         {2}".format(i+1, pal[i], oppo_pal[i]))
     print("")
@@ -322,7 +320,7 @@ def calc_theta(z):
     plane_set = []
     computed_theta_list = []
 
-    # loop choosing 4 planes out of 8 planes
+    # loop - choose 4 planes out of 8 planes
     for i in range(0, 5):
         for j in range(i + 1, 6):
             for k in range(j + 1, 7):
@@ -334,6 +332,7 @@ def calc_theta(z):
     # Find the minimum Theta angle
     computed_theta = min(computed_theta_list)
 
+    # Print the Theta value for all 70 combinations
     for i in range(len(computed_theta_list)):
         if computed_theta_list[i] == computed_theta:
             print("         Θ of face set {0} : {1:11.6f} ***"
@@ -353,17 +352,28 @@ def calc_theta(z):
         sel_p_oppo_atom.append(oppo_pal[p - 1])
         sel_p_oppo_coord.append(oppo_pcl[p - 1])
 
-    selected_plane_list = (sel_p_atom, sel_p_coord, sel_p_oppo_atom, sel_p_oppo_coord)
+    # Put all selected array into one list for returning
+    # pal & pcl   : atom number and coordinates of all 8 faces
+    # sel_p_atom, sel_p_coord   : atom number and coordinates of selected 4 reference faces
+    # sel_p_oppo_atom, sel_p_oppo_coord   : atom number and coordinates of selected 4 opposite faces
+
+    selected_plane_list = (pal, pcl, sel_p_atom, sel_p_coord, sel_p_oppo_atom, sel_p_oppo_coord)
 
     print("         ====================== SUMMARY of Θ ======================")
     print("")
-    print("         The plane set {0} gives the lowest Θ value : {1:11.6f} degree"
+    print("         The face set {0} gives the lowest Θ value : {1:11.6f} degree"
           .format(selected_plane_set, computed_theta))
     print("")
     for i in range(4):
-        print("         Pair of opposite faces no.", selected_plane_set[i])
-        print("          Reference plane: {0}".format(sel_p_atom[i]))
-        print("          Opposite plane : {0}".format(sel_p_oppo_atom[i]))
+        print("         Face no.", selected_plane_set[i])
+        print("          Reference atom: {0}".format(sel_p_atom[i]))
+        for j in range(3):
+            print("                        : ({0:10.6f}, {1:10.6f}, {2:10.6f})"
+                  .format(sel_p_coord[i][j][0], sel_p_coord[i][j][1], sel_p_coord[i][j][2]))
+        print("          Opposite atom : {0}".format(sel_p_oppo_atom[i]))
+        for j in range(3):
+            print("                        : ({0:10.6f}, {1:10.6f}, {2:10.6f})"
+                  .format(sel_p_oppo_coord[i][j][0], sel_p_oppo_coord[i][j][1], sel_p_oppo_coord[i][j][2]))
         print("")
     print("         ==========================================================")
     print("")
@@ -371,16 +381,16 @@ def calc_theta(z):
     return computed_theta, computed_theta_list, selected_plane_list
 
 
-def calc_mult(l):
-    """
-
-    :param l:
-    :return:
+def calc_mult(f, l):
+    """Calculate octahedral distortion parameters for all selected input files
+    :param f, l: array - list of file name and list of atom and coordinates
+    :return computed_results: array - results for all complexes
     """
     print("Command: Calculate octahedral distortion parameters")
     print("")
 
-    list_file = l
+    list_file = f
+    atom_coord_list = l
     computed_results = []
 
     for i in range(len(list_file)):
@@ -391,7 +401,7 @@ def calc_mult(l):
         # Check file type and get coordinate
         print("")
         print("Command: Determine file type")
-        full_atom_list, full_coord_list = coord.get_coord(list_file[i])
+        full_atom_list, full_coord_list = atom_coord_list[i]
 
         if len(full_coord_list) != 0:
             atom_list, coord_list = coord.cut_coord(full_atom_list, full_coord_list)
@@ -406,9 +416,9 @@ def calc_mult(l):
 
             print("Command: Show computed octahedral distortion parameters")
             print("")
-            print("         Δ = {0:11.6f}".format(computed_delta))
-            print("         Σ = {0:11.6f} degree".format(computed_sigma))
-            print("         Θ = {0:11.6f} degree".format(computed_theta))
+            print("         Δ = {0:10.6f}".format(computed_delta))
+            print("         Σ = {0:10.6f} degree".format(computed_sigma))
+            print("         Θ = {0:10.6f} degree".format(computed_theta))
             print("")
 
         computed_results.append([computed_delta, computed_sigma, computed_theta])
@@ -427,7 +437,7 @@ def calc_mult(l):
     print("                         --------     ---------     ---------")
     for i in range(len(computed_results)):
 
-        print("         Complex {0:2d} : {1:11.6f}   {2:11.6f}   {3:11.6f}"
+        print("         Complex {0:2d} : {1:10.6f}   {2:10.6f}   {3:10.6f}"
               .format(i+1, computed_results[i][0], computed_results[i][1], computed_results[i][2]))
     print("")
 
@@ -440,26 +450,26 @@ def show_results_mult(computed_results):
     """
 
     :param computed_results:
-    :return:
+    :return: show the results in new text box
     """
-    mult = Tk()
+    mult = tk.Tk()
     mult.option_add("*Font", "Arial 10")
-    mult.geometry("370x600")
+    mult.geometry("380x530")
     mult.title("Results")
 
-    lbl = Label(mult, text="Computed octahedral distortion parameter for all complexes")
-    lbl.grid(row=0, pady="5", padx="5", sticky=W)
-    Box = Text(mult, wrap="word", width="51", height="35")
+    lbl = tk.Label(mult, text="Computed octahedral distortion parameters for all complexes")
+    lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
+    Box = tkscrolled.ScrolledText(mult, wrap="word", width="50", height="30", undo="True")
     Box.grid(row=1, pady="5", padx="5")
 
-    texts = "                            Δ             Σ             Θ\n" \
-            "                         ------------------------------------"
-    Box.insert(INSERT, texts)
+    texts = "                             Δ               Σ               Θ\n" \
+            "                        --------------------------------------------"
+    Box.insert(tk.INSERT, texts)
 
     for i in range(len(computed_results)):
-        texts = "Complex {0} : {1:11.6f}  {2:11.6f}  {3:11.6f}" \
+        texts = "Complex {0} : {1:10.6f}  {2:10.6f}  {3:10.6f}" \
         .format(i+1, computed_results[i][0], computed_results[i][1], computed_results[i][2])
-        Box.insert(END, "\n" + texts)
+        Box.insert(tk.END, "\n" + texts)
 
     mult.mainloop()
 

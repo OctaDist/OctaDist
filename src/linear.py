@@ -34,17 +34,6 @@ def distance_between(x, y):
     return sqrt(sum([pow(x[i] - y[i], 2) for i in range(len(x))]))
 
 
-def midpoint_of_line(x, y):
-    """Find the midpoint of line segment (between two point), given points (x1,y1,z1) and (x2,y2,z2)
-
-    :param x: array - cartesian coordinate of atom x
-    :param y: array - cartesian coordinate of atom x
-    :return: float - point
-    """
-
-    return np.array([(x[0] + y[0]) / 2, (x[1] + y[1]) / 2, (x[2] + y[2]) / 2])
-
-
 def distance_avg(x):
     """Calculate average M-X distance
 
@@ -60,8 +49,19 @@ def distance_avg(x):
     return sum([dist_sum[i] for i in range(6)]) / 6
 
 
+def midpoint_of_line(x, y):
+    """Find the midpoint of line segment (between two point), given points (x1,y1,z1) and (x2,y2,z2)
+
+    :param x: array - cartesian coordinate of atom x
+    :param y: array - cartesian coordinate of atom x
+    :return: float - point
+    """
+
+    return np.array([(x[0] + y[0]) / 2, (x[1] + y[1]) / 2, (x[2] + y[2]) / 2])
+
+
 def angle_between(v0, v1, v2):
-    """Compute the angle between vector <v1 - v0> and <v2 - v0>
+    """Compute the angle between vector v1 - v0 and v2 - v0
 
                                 / v1_x * v2_x + v1_y * v2_y + v1_z * v2_z  \
     angle (in radian) = arccos | ----------------------------------------- |

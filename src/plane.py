@@ -50,7 +50,7 @@ def search_8_planes(v):
     for i in range(len(pcl)):
         print("         ", pal[i])
         for j in range(3):
-            print("           ({0:11.6f}, {1:11.6f}, {2:11.6f})"
+            print("           ({0:10.6f}, {1:10.6f}, {2:10.6f})"
                   .format(pcl[i][j][0], pcl[i][j][1], pcl[i][j][2]))
     print("")
 
@@ -77,7 +77,7 @@ def search_8_planes(v):
     for i in range(len(pcl)):
         print("         ", pal[i])
         for j in range(3):
-            print("           ({0:11.6f}, {1:11.6f}, {2:11.6f})"
+            print("           ({0:10.6f}, {1:10.6f}, {2:10.6f})"
                   .format(pcl[i][j][0], pcl[i][j][1], pcl[i][j][2]))
     print("")
 
@@ -92,7 +92,7 @@ def search_8_planes(v):
     for i in range(len(scl)):
         print("         ", sal[i])
         for j in range(3):
-            print("           ({0:11.6f}, {1:11.6f}, {2:11.6f})"
+            print("           ({0:10.6f}, {1:10.6f}, {2:10.6f})"
                   .format(scl[i][j][0], scl[i][j][1], scl[i][j][2]))
     print("")
 
@@ -124,42 +124,47 @@ def eq_of_plane(p1, p2, p3):
 def find_opposite_atoms(x, z):
     """Find the atom on the parallel opposite plane. For example,
 
-    list of the atom on plane    list of the atom on opposite plane
-            [[1 2 3]                       [[4 5 6]
-             [1 2 4]         --->           [3 5 6]
-             [2 3 5]]                       [1 4 6]]
+    list of atom on reference plane    list of atom on opposite plane
+             [[1 2 3]                            [[4 5 6]
+              [1 2 4]              --->           [3 5 6]
+              [2 3 5]]                            [1 4 6]]
 
-    :param x: array - three ligand atoms
+    :param x, z: array - list of three ligand atoms for 4 reference planes (pal)
+                         list of coordinates of 6 ligand atoms (coord_list)
     :return oppo_pal, oppo_pcl: array - 2 lists of atoms and coordinates on the opposite plane
     """
     all_atom = [1, 2, 3, 4, 5, 6]
     oppo_pal = []
-    oppo_pcl = []
 
     print("Command: Find the atoms on the opposite plane")
 
-    # loop for 4 planes
+    # loop for 4 reference planes
     for i in range(len(x)):
-        new_pal = []
         # Find the list of atoms on opposite plane
+        new_pal = []
+
         for j in all_atom:
             if j not in (x[i][0], x[i][1], x[i][2]):
                 new_pal.append(j)
         oppo_pal.append(new_pal)
+
     print("         List of the coordinate of atom on the opposite plane:")
 
     # z is coord_list
     v = np.array(z)
+    oppo_pcl = []
 
     for i in range(len(oppo_pal)):
         print("         Opposite to {0}".format(x[i]))
         new_pcl = []
+
         for j in range(3):
             new_pcl.append([v[int(oppo_pal[i][j])][0], v[int(oppo_pal[i][j])][1], v[int(oppo_pal[i][j])]][2])
-            oppo_pcl.append(new_pcl)
-            print("          {0} --> ({1:11.6f}, {2:11.6f}, {3:11.6f})"
+        oppo_pcl.append(new_pcl)
+
+        for j in range(3):
+            print("          {0} --> ({1:10.6f}, {2:10.6f}, {3:10.6f})"
                   .format(oppo_pal[i][j], oppo_pcl[i][j][0], oppo_pcl[i][j][1], oppo_pcl[i][j][2]))
     print("")
 
     return oppo_pal, oppo_pcl
-

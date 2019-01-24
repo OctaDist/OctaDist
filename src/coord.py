@@ -33,10 +33,7 @@ def check_xyz_file(f):
     comment
     <index 0> <X> <Y> <Z>
     <index 1> <X> <Y> <Z>
-    <index 2> <X> <Y> <Z>
-    <index 3> <X> <Y> <Z>
-    <index 4> <X> <Y> <Z>
-    <index 5> <X> <Y> <Z>
+    ...
     <index 6> <X> <Y> <Z>
 
     ***The first atom must be a metal center.
@@ -98,10 +95,7 @@ def check_txt_file(f):
 
     <index 0> <X> <Y> <Z>
     <index 1> <X> <Y> <Z>
-    <index 2> <X> <Y> <Z>
-    <index 3> <X> <Y> <Z>
-    <index 4> <X> <Y> <Z>
-    <index 5> <X> <Y> <Z>
+    ...
     <index 6> <X> <Y> <Z>
 
     ***The first atom must be metal center.
@@ -403,5 +397,4 @@ def cut_coord(full_atom_list, full_coord_list):
     print("")
 
     return atom_list, coord_list
-
 

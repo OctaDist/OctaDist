@@ -33,9 +33,9 @@ def project_atom_onto_plane(v, a, b, c, d):
     (P, Q, R) = (L, M, N) + λ * (A, B, C)
         where λ = (D - ( A*L + B*M + C*N)) / (A^2 + B^2 + C^2)
 
-    :param v: array - coordinate of atom
+    :param v: array - coordinate of atom that will be projected
     :param a, b, c, d: float - coefficient of the equation of plane
-    :return: the projected point on the othogonal plane
+    :return: the projected point on the orthogonal plane
     """
     # Create array of coefficient of vector plane
     v_plane = np.array([a, b, c])
