@@ -91,7 +91,7 @@ Calculate octahedral distortion parameters
 
 ---
 
-* XRD structure of octahedral Co complex in low-spin state, provided by David Harding ([complex-test-2.xyz](test/complex-test-2.txt))
+* XRD structure of octahedral Co complex in low-spin state, provided by David Harding ([complex-test-2.xyz](test/complex-test-2.xyz))
 ```
 7
 
