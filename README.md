@@ -77,8 +77,8 @@ For Linux user, use `python3 -V` to check python version.
 
 ### Input preparation
 The current version of OctaDist only supports the cartesian (XYZ) coordinate file (see [Testing](#testing)) <br/>
-- **1. The first seven atoms in input file must be the atoms of octahedral structure.**
-- **2. A metal center atom of octahedron must be the first atom. So the next six atoms would be six ligand atoms.**
+**1. First seven atoms must be the studied octahedral structure.** <br/>
+**2. A metal center atom of octahedron must be the first atom. So the next six atoms would be six ligand atoms.**
 
 ## Testing
 * Perfect octahedral Fe complex ([complex-test-1.xyz](test/complex-test-1.xyz))
