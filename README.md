@@ -47,14 +47,6 @@ Distorted octahedron | Orthogonal projection of atoms onto the given (opposite) 
 
 <br/>
 
-**Display of full complex and selected octahedron**
-
-Full complex | Full complex with faces of octahedron |
-:-------------------------:|:-------------------------:
-![](images/Figure_1.png)   | ![](images/Figure_2.png) 
-**Selected octahedral structure** | **Optimal 4 faces** 
-![](images/Figure_3.png)  | ![](images/Figure_4.png)
-
 ## Usage
 ### Linux OS
 For Linux user, use `python3 -V` to check python version.
@@ -250,10 +242,18 @@ H                  2.98720000    3.05050000   16.91840000
 
 
 ## Screenshots
-<p align="left">
-   <img alt="Capture_Program" src="images/Capture_Program.png" align=middle width="300pt" />
-   <img alt="Capture_Window" src="images/Capture_Window.png" align=middle width="500pt"/>
-<p/>
+
+Program UI | Console window |
+:-------------------------:|:-------------------------:
+![](images/Capture_Program.png)   | ![](images/Capture_Window.png) 
+
+**Display of full complex and selected octahedron**
+
+Full complex | Full complex with faces of octahedron |
+:-------------------------:|:-------------------------:
+![](images/Figure_1.png)   | ![](images/Figure_2.png) 
+**Selected octahedral structure** | **Optimal 4 faces** 
+![](images/Figure_3.png)  | ![](images/Figure_4.png)
 
 ## References
 1. [J. A. Alonso, M. J. Martı´nez-Lope, M. T. Casais, M. T. Ferna´ndez-Dı´az. Inorg. Chem. 2000, 39, 917-923](https://pubs.acs.org/doi/abs/10.1021/ic990921e)
