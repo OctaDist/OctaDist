@@ -8,7 +8,7 @@ Octahedral Distortion Analysis: determining the structural distortion of octahed
 This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Community Edition). <br/>
 Program executable was compiled by Pyinstaller. <br/>
 
-[**Click here**](https://github.com/rangsimanketkaew/OctaDist/releases/tag/v.2.0) to download the stable version of OctaDist 2.0 for Windows and GNU/Linux OS
+[**Click here**](https://github.com/rangsimanketkaew/OctaDist/releases/tag/v.2.1) to download the stable version of OctaDist 2.1 for Windows 32-bit & 64-bit systems, and GNU/Linux OS
 
 ## Why OctaDist?
 ### Distortion in Octahedral Geometry
