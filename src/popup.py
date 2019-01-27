@@ -14,26 +14,23 @@ from main import program_version
 
 
 def welcome():
+    """Show welcome message
+    """
 
-    print("")
-    print(" OctaDist Copyright (C) 2019  Rangsiman Ketkaew  (rangsiman1993@gmail.com)")
+    print(" \nOctaDist Copyright (C) 2019  Rangsiman Ketkaew  (rangsiman1993@gmail.com)")
     print(" This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.")
     print(" This is free software, and you are welcome to redistribute it under")
-    print(" certain conditions; see <https://www.gnu.org/licenses/> for details.")
-    print("")
+    print(" certain conditions; see <https://www.gnu.org/licenses/> for details.\n")
     print("       ==============================================================")
-    print("                                OctaDist {}".format(program_version))
-    print("")
+    print("                                OctaDist {0}\n".format(program_version))
     print("                       OCTAHEDRAL DISTORTION ANALYSIS")
     print("                       ------------------------------")
-    print("           A PROGRAM FOR DETERMINING THE STRUCTURAL PARAMETERS OF")
-    print("                     THE DISTORTED OCTAHEDRAL STRUCTURE")
-    print("")
+    print("            A PROGRAM FOR DETERMINING THE STRUCTURAL DISTORTION")
+    print("                         OF THE OCTAHEDRAL STRUCTURE\n")
     print("                            by Rangsiman Ketkaew")
     print("                             January 22nd, 2019")
     print("                https://github.com/rangsimanketkaew/OctaDist")
-    print("       ==============================================================")
-    print("")
+    print("       ==============================================================\n")
 
 
 def callback(event):
@@ -43,61 +40,52 @@ def callback(event):
 def nofile_error():
     """Show error message when opening file twice
     """
-    print("Error: No input file")
 
-    showinfo("Error", "No input file. Click \"Browse file\" to load a new file.")
+    print("Error: No input file")
+    showinfo("Error", "No input file.")
 
 
 def nocoord_error():
     """Show error message when opening file twice
     """
-    print("Error: No coordinate of a molecule")
 
-    showinfo("Error", "No coordinate of a molecule. Please make sure that the input file format is correct. "
-                      "Click \"Browse file\" to load a new file.")
+    print("Error: No coordinate of a molecule")
+    showinfo("Error", "No coordinate of a molecule. Please make sure the input file format is correct.")
 
 
 def nocalc_error():
     """Show error message when save file but no any parameters computed
     """
-    print("Error: No results")
 
+    print("Error: No results")
     showinfo("Error", "No results. Click \"Compute parameters\" to calculate octahedral distortion parameters.")
 
 
-def cannot_display():
-    """Show error message when multiple files are selected and call draw function
+def only_single_file():
+    """Show error message when user request function that not supported for multiple files mode
     """
-    print("Error: Cannot use graphical drawing function if multiple files are selected")
 
-    showinfo("Error", "Cannot use graphical drawing function if multiple files are selected.")
+    print("Error: This function only supports single file mode")
+    showinfo("Error", "This function only supports single input file.")
 
 
-def cannot_show_param():
-    """Show error message when multiple files are selected and call draw function
+def only_mult_file():
+    """Show error message when user request function that not supported for single file mode
     """
-    print("Error: Cannot use this function if multiple files are selected")
 
-    showinfo("Error", "Cannot use this function if multiple files are selected.")
-
-
-def redundant_strct():
-    """Show error message if user request strct while it is opening
-    """
-    print("Error: Structural parameters are showing")
-
-    showinfo("Error", "Structural parameters are showing.")
+    print("Error: This function only supports multiple files mode")
+    showinfo("Error", "This function only supports multiple input files.")
 
 
 def wrong_format():
     """Show error message when opening file twice
     """
-    print("Error: Wrong input format")
 
-    showinfo("Error", "Your input file format is not supported.")
+    print("Error: Input file format is not supported")
+    showinfo("Error", "Input file format is not supported.")
 
 
-def help():
+def show_help():
     """Open program help page
         - Usage
         - Input file format
@@ -109,7 +97,7 @@ def help():
     hp = tk.Tk()
     # hp.overrideredirect(1)
     hp.option_add("*Font", "Arial 10")
-    hp.geometry("650x570")
+    hp.geometry("550x570")
     hp.title("Program Help")
 
     # Usage
@@ -130,31 +118,17 @@ def help():
     lbl.grid(sticky=tk.W, row=3, column=0)
     msg_help_2 = " <number of atoms\n" \
                  " comment line\n" \
-                 " <Metal center 0>  <X>  <Y>  <Z>      \n" \
-                 " <Ligand atom 1>  <X>  <Y>  <Z>      \n" \
-                 " <Ligand atom 2>  <X>  <Y>  <Z>      \n" \
-                 " <Ligand atom 3>  <X>  <Y>  <Z>      \n" \
-                 " <Ligand atom 4>  <X>  <Y>  <Z>      \n" \
-                 " <Ligand atom 5>  <X>  <Y>  <Z>      \n" \
-                 " <Ligand atom 6>  <X>  <Y>  <Z>      \n" \
+                 " <Metal center 0>  <X>  <Y>  <Z>\n" \
+                 " <Ligand atom 1>  <X>  <Y>  <Z>\n" \
+                 " <Ligand atom 2>  <X>  <Y>  <Z>\n" \
+                 " <Ligand atom 3>  <X>  <Y>  <Z>\n" \
+                 " <Ligand atom 4>  <X>  <Y>  <Z>\n" \
+                 " <Ligand atom 5>  <X>  <Y>  <Z>\n" \
+                 " <Ligand atom 6>  <X>  <Y>  <Z>\n" \
                  " <optional>\n" \
                  " ...\n"
     msg = tk.Message(hp, text=msg_help_2, width="450")
     msg.grid(sticky=tk.W, row=4, column=0)
-
-    lbl = tk.Label(hp, text="Example: the Fe(H2O)6 can be described in XYZ by following:")
-    lbl.grid(sticky=tk.W, row=3, column=1)
-    msg_help_2 = " 7\n" \
-                 "\n" \
-                 " Fe    0.20069808   0.70680627   0.00000000\n" \
-                 "  O    1.66069810   0.70680627   0.00000000\n" \
-                 "  O    0.20069808   2.16680630   0.00000000\n" \
-                 "  O    0.20069808   0.70680627   1.46000000\n" \
-                 "  O   -1.25930190   0.70680627   0.00000000\n" \
-                 "  O    0.20069808  -0.75319373   0.00000000\n" \
-                 "  O    0.20069808   0.70680627  -1.46000000\n"
-    msg = tk.Message(hp, text=msg_help_2)
-    msg.grid(sticky=tk.W, row=4, column=1)
 
     lbl = tk.Label(hp, text="Example of input file is available at the following website:")
     lbl.grid(sticky=tk.W, row=5, columnspan=2)
@@ -178,9 +152,10 @@ def help():
     hp.mainloop()
 
 
-def about():
+def show_about():
     """Show author information
     """
+
     print("Command: Show program information")
 
     text = "OctaDist version {}\n" \
@@ -199,25 +174,22 @@ def about():
     showinfo("About program", text)
 
 
-def license():
+def show_license():
     """Show program info
     """
+
     print("Command: Show program license information")
 
-    text = "OctaDist {} Copyright (C) 2019  Rangsiman Ketkaew\n" \
-           "\n" \
+    text = "OctaDist {} Copyright (C) 2019  Rangsiman Ketkaew\n\n" \
            "This program is free software: you can redistribute it " \
            "and/or modify it under the terms of the GNU General Public " \
            "License as published by the Free Software Foundation, either " \
-           "version 3 of the License, or (at your option) any later version.\n" \
-           "\n" \
+           "version 3 of the License, or (at your option) any later version.\n\n" \
            "This program is distributed in the hope that it will be useful, " \
            "but WITHOUT ANY WARRANTY; without even the implied warranty " \
            "of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. " \
-           "See the GNU General Public License for more details.\n" \
-           "\n" \
+           "See the GNU General Public License for more details.\n\n" \
            "You should have received a copy of the GNU General Public License " \
            "along with this program. If not, see <https://www.gnu.org/licenses/>." \
         .format(program_version)
     showinfo("License", text)
-

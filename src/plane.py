@@ -12,38 +12,39 @@ import linear
 import proj
 
 
-def search_8_planes(v):
-    """Find 8 planes (faces) of octahedron
+def search_8_faces(cl):
+    """Find 8 triangular faces (plane of octahedron by any three ligand atoms
 
-    Use any three ligand atoms to find all possible triangular faces
-    The total number of combination is 6!/3!3! = 20 planes, but we want only 8 faces.
+    Choose 3 atoms out of 6 ligand atoms. The total number of combination is 6!/3!3! = 20,
+    but we want only 8 faces. So must delete 12 faces that defined by two trans atoms.
 
-    :param v: array - XYZ coordinate of one metal center and six ligand atoms
-                v[0] = metal center atom of complex
-                v[i] = ligand atom of complex
-    :return: array - pal and pcl = lists of atom and coordinate on the plane
+    :param cl: array - XYZ coordinate of one metal center and six ligand atoms
+                cl[0] = metal center atom of complex
+                cl[i] = ligand atom of complex
+    :return pal: array - plane_atom_list - list of atom on the projection plane
+    :return pcl: array - plane_coord_list - list of coordinate of atom on the projection plane
     """
+
+    # Find the new location of metal center (m') and a distance between old and new position.
+    # m ---- m'
+    # then store the number of ligand atoms and the minimum distance into list pal & pcl.
+
     pal, pcl = [], []
 
     for i in range(1, 5):
         for j in range(i + 1, 6):
             for k in range(j + 1, 7):
-                a, b, c, d = eq_of_plane(v[i], v[j], v[k])
-                # Find metal center atom projection onto the new plane
-                m = proj.project_atom_onto_plane(v[0], a, b, c, d)
-                # Find distance between metal center atom to its projected point
-                d_btw = linear.distance_between(m, v[0])
-                # Insert the number of ligand atoms into list
+                a, b, c, d = eq_of_plane(cl[i], cl[j], cl[k])
+                m = proj.project_atom_onto_plane(cl[0], a, b, c, d)
+                d_btw = linear.distance_between(m, cl[0])
                 pal.append([i, j, k])
-                # Insert the minimum distance into list
-                pcl.append([v[i], v[j], v[k], d_btw])
+                pcl.append([cl[i], cl[j], cl[k], d_btw])
 
     # Do not convert list to array!
     # pal = np.asarray(pal)
     # pcl = np.asarray(pcl)
 
-    print("Command: Show three ligand atoms of the given face and their coordinates")
-    print("")
+    print("Command: Show three ligand atoms of the given face and their coordinates\n")
     print("         List before sorted:")
     print("         The sequence of atom and coordinate (x,y,z):")
 
@@ -69,8 +70,7 @@ def search_8_planes(v):
         pal[i], pal[k] = pal[k], pal[i]
         i += 1
 
-    print("Command: Sort the shortest distance from plane to metal center in ascending order")
-    print("")
+    print("Command: Sort the shortest distance from plane to metal center in ascending order\n")
     print("         List after sorted:")
     print("         The sequence of atom and coordinate (x,y,z):")
 
@@ -103,36 +103,45 @@ def search_8_planes(v):
     return plane_atom_list, plane_coord_list
 
 
-def eq_of_plane(p1, p2, p3):
-    """Find the equation of plane of given three ligand atoms
+def eq_of_plane(X, Y, Z):
+    """Find the equation of plane of given three points (ligand atoms)
     The general form of plane equation is Ax + By + Cz = D
+    where A, B, C, and D are coefficient. They can be computed using cross product definition
 
-    :param p1, p2, p3: array - given three points
-    :return: float - coefficient of the equation of given plane
+    -->    -->
+    XZ  X  XY = (a, b, c)
+
+    d = (a, b, c).Z
+
+    :param X, Y, Z: array - given three points
+    :return a, b, c, d: float - coefficients of the equation of the given plane
     """
-    v1 = p3 - p1
-    v2 = p2 - p1
 
-    # Find the vector orthogonal to the plane using cross product method
-    ortho_vector = np.cross(v1, v2)
-    a, b, c = ortho_vector
-    d = np.dot(ortho_vector, p3)
+    XZ = Z - X
+    XY = Y - X
+
+    cross_vector = np.cross(XZ, XY)
+    a, b, c = cross_vector
+    d = np.dot(cross_vector, Z)
 
     return a, b, c, d
 
 
-def find_opposite_atoms(x, z):
-    """Find the atom on the parallel opposite plane. For example,
+def find_opposite_atoms(x, cl):
+    """Find the atom on the parallel opposite plane.
+    For example,
 
     list of atom on reference plane    list of atom on opposite plane
              [[1 2 3]                            [[4 5 6]
               [1 2 4]              --->           [3 5 6]
               [2 3 5]]                            [1 4 6]]
 
-    :param x, z: array - list of three ligand atoms for 4 reference planes (pal)
-                         list of coordinates of 6 ligand atoms (coord_list)
-    :return oppo_pal, oppo_pcl: array - 2 lists of atoms and coordinates on the opposite plane
+    :param x: list - list of three ligand atoms for 4 reference planes (pal)
+    :param cl: array - coordinates of octahedron atoms (coord_list)
+    :return oppo_pal: list - atoms on the opposite plane
+    :return oppo_pcl: array - coordinates of atoms on the opposite plane
     """
+
     all_atom = [1, 2, 3, 4, 5, 6]
     oppo_pal = []
 
@@ -150,8 +159,8 @@ def find_opposite_atoms(x, z):
 
     print("         List of the coordinate of atom on the opposite plane:")
 
-    # z is coord_list
-    v = np.array(z)
+    # cl is coord_list
+    v = np.array(cl)
     oppo_pcl = []
 
     for i in range(len(oppo_pal)):

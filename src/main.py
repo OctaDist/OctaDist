@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ----------------------------------------------------------------------
 
-OctaDist version 2.0
+OctaDist version 2.1
 
 Octahedral Distortion Analysis
 Software website: www.github.com/rangsimanketkaew/octadist
@@ -36,24 +36,213 @@ Contact: rangsiman1993@gmail.com
 Personal website: https://sites.google.com/site/rangsiman1993
 """
 
-program_version = 2.0
+program_version = "2.1"
 
 import numpy as np
 import datetime
 import popup
 import coord
-import plane
-import proj
 import calc
 import tools
-
+import draw
 import tkinter as tk
 from tkinter import filedialog
 import tkinter.scrolledtext as tkscrolled
 
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+
+def show_data_summary():
+    if list_file == "":
+        popup.nofile_error()
+        return 1
+
+    tools.show_data_summary(list_file, full_atom_coord_list)
+
+
+def show_strct_param_octa():
+    """Show structural parameters for octahedral structure (7 atoms):
+    bond distance and bond angle between metal center and ligand atoms
+    """
+
+    if list_file == "":
+        popup.nofile_error()
+        return 1
+    if len(list_file) > 1:
+        popup.only_single_file()
+        return 1
+
+    tools.calc_strct_param_octa(atom_list, coord_list)
+
+
+def show_strct_param_full():
+    """Show structural parameters for full complex:
+    bond distance and bond angle between metal center and ligand atoms
+    """
+
+    if list_file == "":
+        popup.nofile_error()
+        return 1
+    if len(list_file) > 1:
+        popup.only_single_file()
+        return 1
+
+    full_atom_list, full_coord_list = full_atom_coord_list[0]
+
+    tools.calc_strct_param_full(full_atom_list, full_coord_list)
+
+
+def show_surface_area():
+    """Show surface area of selected 8 faces
+    """
+
+    if list_file == "":
+        popup.nofile_error()
+        return 1
+    if len(list_file) > 1:
+        popup.only_single_file()
+        return 1
+    if run_check == 0:
+        popup.nocalc_error()
+        return 1
+
+    tools.calc_surface_area(pal, pcl)
+
+
+def show_plot_angle():
+    """Plot Sigma versus Theta angles
+    Relation plot between Sigma and Theta
+    """
+
+    if list_file == "":
+        popup.nofile_error()
+        return 1
+    if run_check == 0:
+        popup.nocalc_error()
+        return 1
+
+    draw.show_plot_angles(sigma_list, theta_list)
+
+
+def display_full_complex():
+    """Display full structure
+    """
+
+    if list_file == "":
+        popup.nofile_error()
+        return 1
+    if len(list_file) > 1:
+        popup.only_single_file()
+        return 1
+    if run_check == 0:
+        popup.nocalc_error()
+        return 1
+
+    full_atom_list, full_coord_list = full_atom_coord_list[0]
+
+    draw.draw_full_complex(full_atom_list, full_coord_list)
+
+
+def display_full_complex_with_face():
+    """Display full structure with the projection plane
+    """
+
+    if list_file == "":
+        popup.nofile_error()
+        return 1
+    if len(list_file) > 1:
+        popup.only_single_file()
+        return 1
+    if run_check == 0:
+        popup.nocalc_error()
+        return 1
+
+    full_atom_list, full_coord_list = full_atom_coord_list[0]
+
+    draw.draw_full_complex_with_face(full_atom_list, full_coord_list, pcl)
+
+
+def display_octahedron():
+    """Display the octahedral structure
+    """
+
+    if list_file == "":
+        popup.nofile_error()
+        return 1
+    if len(list_file) > 1:
+        popup.only_single_file()
+        return 1
+    if run_check == 0:
+        popup.nocalc_error()
+        return 1
+
+    draw.draw_octahedron(atom_list, coord_list)
+
+
+def display_octahedron_with_face():
+    """Display the octahedral structure with 8 faces
+    """
+
+    if list_file == "":
+        popup.nofile_error()
+        return 1
+    if len(list_file) > 1:
+        popup.only_single_file()
+        return 1
+    if run_check == 0:
+        popup.nocalc_error()
+        return 1
+
+    draw.draw_octahedron_with_face(atom_list, coord_list, pcl)
+
+
+def display_octahedron_with_optimal_face():
+    """Display the octahedral structure with optimal 4 faces which give the lowest Theta value
+    """
+
+    if list_file == "":
+        popup.nofile_error()
+        return 1
+    if len(list_file) > 1:
+        popup.only_single_file()
+        return 1
+    if run_check == 0:
+        popup.nocalc_error()
+        return 1
+
+    draw.draw_octahedron_with_optimal_face(atom_list, coord_list, ref_pcl)
+
+
+def display_projection_planes():
+    """Display the projection planes
+    """
+
+    if list_file == "":
+        popup.nofile_error()
+        return 1
+    if len(list_file) > 1:
+        popup.only_single_file()
+        return 1
+    if run_check == 0:
+        popup.nocalc_error()
+        return 1
+
+    draw.draw_projection_planes(atom_list, coord_list, ref_pcl, oppo_pcl)
+
+
+def display_twisting_faces():
+    """Display the twisting triangular faces
+    """
+
+    if list_file == "":
+        popup.nofile_error()
+        return 1
+    if len(list_file) > 1:
+        popup.only_single_file()
+        return 1
+    if run_check == 0:
+        popup.nocalc_error()
+        return 1
+
+    draw.draw_twisting_faces(atom_list, coord_list, ref_pcl, oppo_pcl)
 
 
 class OctaDist:
@@ -69,48 +258,74 @@ class OctaDist:
         """
         Create menu bar
             File
-            |- New                        << clear_cache
-            |- Open                       << open_file
-            |- Open multiple files        << open_multiple
-            |- Save as ..                 << save_file
+            |- New 
+            |- Open 
+            |- Save as .. 
             |-------------
-            |- Exit                       << quit_program
+            |- Exit
+            | 
             Tools
-            |- Show structural parameters << structure_param
+            |- Data summary
+            |  |- Complex info
+            |- Show structural parameters 
+            |  |- Truncated octahedron 
+            |  |- Full complex 
+            |-------------
+            |- Calculate surface area 
+            |-------------
+            |- Relationship plot between Σ and Θ
+            |-------------
+            |- Display full complex
+            |- Display full complex with projection planes
+            |
             Help
-            |- Program help               << help
-            |- About program              << about
-            |- License info               << license
+            |- Program help 
+            |- About program 
+            |- License info
         """
 
+        # Main menu
         menubar = tk.Menu(masters)
-        # add menu bar button
-        filemenu = tk.Menu(menubar, tearoff=0)
-        menubar.add_cascade(label="File", menu=filemenu)
+        filemenu = tk.Menu(masters, tearoff=0)
+        toolsmenu = tk.Menu(masters, tearoff=0)
+        helpmenu = tk.Menu(masters, tearoff=0)
 
-        # sub-menu
+        # Sub-menu
+        datamenu = tk.Menu(masters, tearoff=0)
+        structuremenu = tk.Menu(masters, tearoff=0)
+
+        # File
+        menubar.add_cascade(label="File", menu=filemenu)
         filemenu.add_command(label="New", command=self.clear_cache)
         filemenu.add_command(label="Open", command=self.open_file)
-        filemenu.add_command(label="Open multiple files", command=self.open_multiple)
         filemenu.add_command(label="Save as ..", command=self.save_file)
         filemenu.add_separator()
-        filemenu.add_command(label="Exit", command=self.masters.quit)
+        filemenu.add_command(label="Exit", command=masters.quit)
 
-        # add menu bar button
-        toolsmenu = tk.Menu(menubar, tearoff=0)
+        # Tools
         menubar.add_cascade(label="Tools", menu=toolsmenu)
+        toolsmenu.add_cascade(label="Data summary", menu=datamenu)
+        datamenu.add_cascade(label="Complex info", command=show_data_summary)
+        toolsmenu.add_cascade(label="Show structural parameter", menu=structuremenu)
+        structuremenu.add_command(label="Octahedral structure", command=show_strct_param_octa)
+        structuremenu.add_command(label="Full complex", command=show_strct_param_full)
+        toolsmenu.add_separator()
+        toolsmenu.add_command(label="Calculate surface area", command=show_surface_area)
+        toolsmenu.add_separator()
+        toolsmenu.add_command(label="Relationship plot between Σ and Θ", command=show_plot_angle)
+        toolsmenu.add_separator()
+        toolsmenu.add_command(label="Display full complex with faces",
+                              command=display_full_complex_with_face)
+        toolsmenu.add_command(label="Display only octahedron with faces",
+                              command=display_octahedron_with_face)
+        toolsmenu.add_command(label="Display Projection planes", command=display_projection_planes)
+        toolsmenu.add_command(label="Display Twisting triangular faces", command=display_twisting_faces)
 
-        # add sub-menu
-        toolsmenu.add_command(label="Show structural parameters", command=self.show_strct_param)
-
-        # add menu bar button
-        helpmenu = tk.Menu(menubar, tearoff=0)
+        # Help
         menubar.add_cascade(label="Help", menu=helpmenu)
-
-        # add sub-menu
-        helpmenu.add_command(label="Program help", command=popup.help)
-        helpmenu.add_command(label="About program", command=popup.about)
-        helpmenu.add_command(label="License information", command=popup.license)
+        helpmenu.add_command(label="Program help", command=popup.show_help)
+        helpmenu.add_command(label="About program", command=popup.show_about)
+        helpmenu.add_command(label="License information", command=popup.show_license)
         masters.config(menu=menubar)
 
         popup.welcome()
@@ -157,18 +372,18 @@ class OctaDist:
         self.lbl_display.grid(row=6, column=0, padx="30")
 
         # button to draw structure
-        self.btn_draw_structure = tk.Button(master, command=self.display_structure, text="Octahedral structure",
-                                            width="18")
+        self.btn_draw_structure = tk.Button(master, command=display_full_complex,
+                                            text="Full complex", width="18")
         self.btn_draw_structure.grid(pady="5", row=7, column=0)
 
         # button to draw plane
-        self.btn_draw_plane = tk.Button(master, command=self.display_3D_plane, text="Pair of opposite faces",
-                                        width="18")
+        self.btn_draw_plane = tk.Button(master, command=display_octahedron,
+                                        text="Only Octahedron", width="18")
         self.btn_draw_plane.grid(pady="5", row=8, column=0)
 
         # button to draw vector projection
-        self.btn_draw_projection = tk.Button(master, command=self.display_projection, text="Projection planes",
-                                             width="18")
+        self.btn_draw_projection = tk.Button(master, command=display_octahedron_with_optimal_face,
+                                             text="Octahedron with 4 faces", width="18")
         self.btn_draw_projection.grid(pady="5", row=9, column=0)
 
         # Delta
@@ -202,17 +417,16 @@ class OctaDist:
     def clear_cache(self):
         """Clear all variables
         """
-        global file_name, file_data, atom_list, coord_list, mult, strct
-        global computed_delta, computed_sigma, computed_theta
+        global list_file, atom_list, coord_list, computed_delta, computed_sigma, computed_theta
+        global full_atom_coord_list, sel_atom_coord_list
 
         print("Command: Clear cache")
 
-        file_name = ""
-        file_data = ""
+        list_file = ""
         atom_list = []
         coord_list = []
-        mult = 0
-        strct = 0
+        full_atom_coord_list = []
+        sel_atom_coord_list = []
 
         for name in dir():
             if not name.startswith('_'):
@@ -234,69 +448,14 @@ class OctaDist:
         self.textBox_theta.delete(1.0, tk.END)
 
     def open_file(self):
-        """Open file using Open Dialog
-        Atom and coordinates must be in Cartesian (XYZ) coordinate.
-        Supported file extensions: .txt, .xyz, and Gaussian output file
+        """Open input files
         """
-        global file_name, file_data, atom_list, coord_list, full_atom_list, full_coord_list
 
-        print("Command: Open input file")
+        global list_file, atom_list, coord_list, full_atom_coord_list, sel_atom_coord_list
 
-        if file_name != "" or mult == 1:
-            self.clear_cache()
+        print("Command: Browse input file(s)")
 
-        file_name = filedialog.askopenfilename(title="Choose input file",
-                                               filetypes=(("XYZ File", "*.xyz"),
-                                                          ("Text File", "*.txt"),
-                                                          ("Gaussian Output File", "*.out"),
-                                                          ("Gaussian Output File", "*.log"),
-                                                          ("NWChem Output File", "*.out"),
-                                                          ("NWChem Output File", "*.log"),
-                                                          ("ORCA Output File", "*.out"),
-                                                          ("ORCA Output File", "*.log"),
-                                                          ("All Files", "*.*")))
-
-        # Using try/except in case user types in unknown file or closes without choosing a file.
-        try:
-            with open(file_name, 'r') as f:
-                print("         File full path: " + file_name)
-                print("         File name: " + file_name.split('/')[-1])
-
-                # Check file type and get coordinate
-                print("")
-                print("Command: Determine file type")
-                full_atom_list, full_coord_list = coord.get_coord(file_name)
-
-                if len(full_coord_list) != 0:
-                    atom_list, coord_list = coord.cut_coord(full_atom_list, full_coord_list)
-                else:
-                    return 1
-
-                texts = "File: {0}\n\n" \
-                        "Atom                       Cartesian coordinate".format(file_name.split('/')[-1])
-                self.textBox_coord.insert(tk.INSERT, texts)
-
-                for i in range(len(atom_list)):
-                    texts = " {A:>2}      {Lx:14.9f}  {Ly:14.9f}  {Lz:14.9f}" \
-                        .format(A=atom_list[i], Lx=coord_list[i][0], Ly=coord_list[i][1], Lz=coord_list[i][2])
-                    self.textBox_coord.insert(tk.END, "\n" + texts)
-
-                return atom_list, coord_list
-
-        except:
-            print("Error: No input file")
-            atom_list, coord_list = 0, 0
-
-            return atom_list, coord_list
-
-    def open_multiple(self):
-        """Open multiple input files
-        """
-        global file_name, list_file, mult, atom_coord_mult
-
-        print("Command: Open multiple files")
-
-        if file_name != "" or list_file != "":
+        if list_file != "":
             self.clear_cache()
 
         file_name = filedialog.askopenfilenames(title="Choose input file",
@@ -313,48 +472,57 @@ class OctaDist:
         list_file = list(file_name)
 
         try:
-            open(file_name[0], 'r')
-            print("Command: %s input files selected" % len(list_file))
-            mult = 1
-            atom_coord_mult = []
+            open(list_file[0], 'r')
+            print("Command: The total number of file(s) selected: %s \n" % len(list_file))
+
+            full_atom_coord_list, sel_atom_coord_list = [], []
 
             for i in range(len(list_file)):
-                print("         File {0:2d} : \"{1}\"".format(i + 1, list_file[i]))
+                # Print coordinates
+                print("Command: Open file no. {0:2d} : \"{1}\"".format(i + 1, list_file[i]))
 
                 texts = "File {0}: {1}\n\n" \
-                        "Atom                       Cartesian coordinate".format(i + 1, list_file[i].split('/')[-1])
+                        "Atom                       Cartesian coordinate"\
+                        .format(i + 1, list_file[i].split('/')[-1])
                 self.textBox_coord.insert(tk.INSERT, texts)
 
-                # Get and show coordinate
+                # Get atom and coordinate
                 full_atom_list, full_coord_list = coord.get_coord(list_file[i])
 
-                if len(full_coord_list) != 0:
-                    atom_list, coord_list = coord.cut_coord(full_atom_list, full_coord_list)
+                # Print atom and coordinate, and get only first 7 atoms
+                atom_list, coord_list = coord.cut_coord(full_atom_list, full_coord_list)
+
+                # Check if input file has coordinate inside
+                if np.any(coord_list) == 0:
+                    popup.nocoord_error()
+                    return 1
 
                 for j in range(len(atom_list)):
-                    texts = " {A:>2}      {Lx:14.9f}  {Ly:14.9f}  {Lz:14.9f}" \
-                        .format(A=atom_list[j], Lx=coord_list[j][0], Ly=coord_list[j][1], Lz=coord_list[j][2])
+                    texts = " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}" \
+                            .format(atom_list[j], coord_list[j][0], coord_list[j][1], coord_list[j][2])
                     self.textBox_coord.insert(tk.END, "\n" + texts)
+
                 self.textBox_coord.insert(tk.END, "\n\n---------------------------------\n\n")
 
-                atom_coord_mult.append([full_atom_list, full_coord_list])
-            print("")
-
-            return atom_coord_mult
+                # Store all data into following arrays
+                full_atom_coord_list.append([full_atom_list, full_coord_list])
+                sel_atom_coord_list.append([atom_list, coord_list])
 
         except:
             print("Error: No input file")
+            list_file = ""
 
     def save_file(self):
-        """Save file using Save Dialog. The result will be saved into .txt or .out file.
+        """Save computed data to file. The result will be saved into .txt or .out file.
         """
+
         print("Command: Save data to output file")
 
-        if file_name == "":
+        if list_file == "":
             popup.nofile_error()
             return 1
-        if mult == 1:
-            popup.cannot_show_param()
+        if len(list_file) > 1:
+            popup.only_single_file()
             return 1
         if run_check == 0:
             popup.nocalc_error()
@@ -380,7 +548,7 @@ class OctaDist:
         f.write("Thammasat University, Pathum Thani, 12120 Thailand\n")
         f.write("E-mail: rangsiman1993@gmail.com\n\n")
         f.write("Date: {}\n\n".format(datetime.datetime.now()))
-        f.write("Input file: " + file_name.split('/')[-1] + "\n")
+        f.write("Input file: " + list_file.split('/')[-1] + "\n")
         f.write("Output file: " + f.name.split('/')[-1] + "\n\n")
         f.write("Cartesian coordinates:\n")
         for i in range(len(coord_list)):
@@ -389,15 +557,15 @@ class OctaDist:
         f.write("\n")
         f.write("Distance between metal center and 6 ligand atoms:\n")
         for i in range(len(unique_delta_list)):
-            f.write("Distance {0} --> {1:10.6f} Angstrom\n".format(i+1, unique_delta_list[i]))
+            f.write("Distance {0} --> {1:10.6f} Angstrom\n".format(i + 1, unique_delta_list[i]))
         f.write("\n")
         f.write("12 cis angle (metal center is a vertex):\n")
         for i in range(len(unique_sigma_list)):
-            f.write("Angle {0:2} --> {1:10.6f} degree\n".format(i+1, unique_sigma_list[i]))
+            f.write("Angle {0:2} --> {1:10.6f} degree\n".format(i + 1, unique_sigma_list[i]))
         f.write("\n")
         f.write("24 unique angle for all 70 sets of 4 faces:\n")
         for i in range(len(unique_theta_list)):
-            f.write("Angle {0:2} --> {1:10.6f} degree\n".format(i+1, unique_theta_list[i]))
+            f.write("Angle {0:2} --> {1:10.6f} degree\n".format(i + 1, unique_theta_list[i]))
         f.write("\n")
         f.write("Selected 4 optimal faces for orthogonal projection:\n")
         for i in range(len(ref_pal)):
@@ -415,307 +583,87 @@ class OctaDist:
 
         print("Command: Data has been saved to \"%s\"" % f.name)
 
-    def show_strct_param(self):
-        """Show structural parameters: bond distance and bond angle
-        """
-        global strct
-
-        if file_name == "":
-            popup.nofile_error()
-            return 1
-        if mult == 1:
-            popup.cannot_show_param()
-            return 1
-        if strct == 1:
-            popup.redundant_strct()
-            return 1
-
-        strct = 1
-        tools.show_strct_param(full_atom_list, full_coord_list)
-
     def calc_all_param(self):
         """Calculate octahedral distortion parameters
         """
+
         global run_check, computed_delta, computed_sigma, computed_theta
+        global sigma_list, theta_list, computed_results
         global unique_delta_list, unique_sigma_list, unique_theta_list
-        global pal, pcl, ref_pal, ref_pcl, oppo_pal, oppo_pcl
+        global selected_plane_lists, pal, pcl, ref_pal, ref_pcl, oppo_pal, oppo_pcl
 
-        if mult == 1:
-            self.clear_results()
-            calc.calc_mult(list_file, atom_coord_mult)
-            return 0
-
-        if file_name == "":
+        if list_file == "":
             popup.nofile_error()
             return 1
 
         run_check = 1
         self.clear_results()
 
-        if np.any(coord_list) != 0:
-            print("Command: Calculate octahedral distortion parameters")
+        # Ready to compute all parameters
+        delta_list, sigma_list, theta_list, computed_results = [], [], [], []
+
+        for i in range(len(list_file)):
+            print("         ====================== Complex %s ======================\n" % int(i + 1))
+            print("Command: Show coordinate and compute Δ, Σ, and Θ parameters")
+
+            atom_list, coord_list = sel_atom_coord_list[i]
+            coord.show_7_atoms(atom_list, coord_list)
+
             computed_delta, unique_delta_list = calc.calc_delta(coord_list)
             computed_sigma, unique_sigma_list = calc.calc_sigma(coord_list)
             computed_theta, unique_theta_list, selected_plane_lists = calc.calc_theta(coord_list)
 
-            pal, pcl, ref_pal, ref_pcl, oppo_pal, oppo_pcl = selected_plane_lists
+            print("Command: Show computed octahedral distortion parameters\n")
+            print("         Δ = {0:10.6f}".format(computed_delta))
+            print("         Σ = {0:10.6f} degree".format(computed_sigma))
+            print("         Θ = {0:10.6f} degree\n".format(computed_theta))
 
-            print("Command: Show computed octahedral distortion parameters")
-            print("")
-            print("         Δ = %11.6f" % computed_delta)
-            print("         Σ = %11.6f degree" % computed_sigma)
-            print("         Θ = %11.6f degree" % computed_theta)
-            print("")
+            delta_list.append(computed_delta)
+            sigma_list.append(computed_sigma)
+            theta_list.append(computed_theta)
 
+            computed_results.append([computed_delta, computed_sigma, computed_theta])
+
+        print("         ==========================================================\n")
+        print("Command: Show the names of all files")
+
+        for i in range(len(computed_results)):
+            print("         Complex {0:2d} : {1}".format(i + 1, list_file[i].split('/')[-1]))
+        print("")
+
+        print("Command: Show computed octahedral distortion parameters of all complexes\n")
+        print("                            Δ            Σ             Θ")
+        print("                        --------    ----------    ----------")
+        for i in range(len(computed_results)):
+            print("         Complex {0:2d} : {1:10.6f}    {2:10.6f}    {3:10.6f}"
+                  .format(i + 1, computed_results[i][0], computed_results[i][1], computed_results[i][2]))
+        print("")
+
+        if len(list_file) == 1:
             self.textBox_delta.insert(tk.INSERT, '%3.6f' % computed_delta)
             self.textBox_sigma.insert(tk.INSERT, '%3.6f' % computed_sigma)
             self.textBox_theta.insert(tk.INSERT, '%3.6f' % computed_theta)
 
         else:
-            popup.nocoord_error()
+            tools.show_results_mult(computed_results)
 
-        return ref_pal, ref_pcl, oppo_pal, oppo_pcl
-
-    def display_structure(self):
-        """Display 3D structure of octahedral complex with label for each atoms
-        """
-        if file_name == "":
-            popup.nofile_error()
-            return 1
-        if mult == 1:
-            popup.cannot_display()
-            return 1
-        if run_check == 0:
-            popup.nocalc_error()
-            return 1
-
-        print("Command: Display octahedral structure")
-        print("         Scattering plot of all atoms")
-        print("         Draw surface for all 8 faces")
-
-        # Plot and configuration
-        fig = plt.figure()
-        ax = Axes3D(fig)
-        al, cl = atom_list, coord_list
-        vertices_list = []
-
-        # Create array of vertices for 8 faces
-        for i in range(8):
-            get_vertices = pcl[i].tolist()
-            x, y, z = zip(*get_vertices)
-            vertices = [list(zip(x, y, z))]
-            vertices_list.append(vertices)
-
-        # The following is for showing only 4 faces whose the minimum Theta value
-        # for i in range(4):
-        #     get_vertices = ref_pcl[i].tolist()
-        #     x, y, z = zip(*get_vertices)
-        #     vertices = [list(zip(x, y, z))]
-        #     vertices_list.append(vertices)
-
-        # Plot metal center
-        ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=300, linewidths=2, edgecolors='black')
-        ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, al[0], fontsize=12)
-
-        # Plot ligand atoms
-        for i in range(1, 7):
-            ax.scatter(cl[i][0], cl[i][1], cl[i][2], color='red', marker='o', s=200, linewidths=2, edgecolors='black')
-            ax.text(cl[i][0] + 0.1, cl[i][1] + 0.1, cl[i][2] + 0.1, "{0},{1}".format(al[i], i), fontsize=10)
-
-        # Draw plane
-        color_list = ["red", "blue", "green", "yellow", "violet", "cyan", "brown", "grey"]
-
-        for i in range(len(vertices_list)):
-            ax.add_collection3d(Poly3DCollection(vertices_list[i], alpha=0.5, color=color_list[i]))
-
-        # Set axis
-        ax.set_xlabel(r'X', fontsize=15)
-        ax.set_ylabel(r'Y', fontsize=15)
-        ax.set_zlabel(r'Z', fontsize=15)
-        ax.set_title('Octahedral structure', fontsize="12")
-        ax.grid(True)
-
-        # plt.axis('equal')
-        # plt.axis('off')
-        plt.show()
-
-    def display_3D_plane(self):
-        """Display the selected 4 faces of octahedral complex
-        """
-        if file_name == "":
-            popup.nofile_error()
-            return 1
-        if mult == 1:
-            popup.cannot_display()
-            return 1
-        if run_check == 0:
-            popup.nocalc_error()
-            return 1
-
-        print("Command: Display the selected 4 pairs of opposite faces")
-        print("         Scattering plot of all atoms")
-        print("         Draw surface for 4 pairs of reference and opposite faces")
-
-        al, cl, vl, ovl = atom_list, coord_list, ref_pcl, oppo_pcl
-
-        # reference face
-        ref_vertices_list = []
-
-        for i in range(4):
-            get_vertices = vl[i].tolist()
-            x, y, z = zip(*get_vertices)
-            vertices = [list(zip(x, y, z))]
-            ref_vertices_list.append(vertices)
-
-        # opposite face
-        oppo_vertices_list = []
-
-        for i in range(4):
-            x, y, z = zip(*ovl[i])
-            vertices = [list(zip(x, y, z))]
-            oppo_vertices_list.append(vertices)
-
-        fig = plt.figure()
-        st = fig.suptitle("4 pairs of opposite faces", fontsize="x-large")
-
-        # Display four planes
-        color_list_1 = ["red", "blue", "orange", "magenta"]
-        color_list_2 = ["green", "yellow", "cyan", "brown"]
-
-        for i in range(4):
-            ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
-            ax.set_title("Plane {}".format(i + 1))
-            ax.scatter(cl[0][0], cl[0][1], cl[0][2],
-                       color='yellow', marker='o', s=100, linewidths=1, edgecolors='black', label="Metal center")
-            ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, al[0], fontsize=9)
-
-            for j in range(1, 7):
-                ax.scatter(cl[j][0], cl[j][1], cl[j][2],
-                           color='red', marker='o', s=50, linewidths=1, edgecolors='black', label="Ligand atoms")
-                ax.text(cl[j][0] + 0.1, cl[j][1] + 0.1, cl[j][2] + 0.1, "{0},{1}".format(al[j], j), fontsize=9)
-
-            # Draw plane
-            ax.add_collection3d(Poly3DCollection(ref_vertices_list[i], alpha=0.5, color=color_list_1[i]))
-            ax.add_collection3d(Poly3DCollection(oppo_vertices_list[i], alpha=0.5, color=color_list_2[i]))
-
-            # Set axis
-            ax.set_xlabel(r'X', fontsize=10)
-            ax.set_ylabel(r'Y', fontsize=10)
-            ax.set_zlabel(r'Z', fontsize=10)
-            ax.grid(True)
-
-        # Shift subplots down
-        st.set_y(1.0)
-        fig.subplots_adjust(top=0.25)
-
-        # plt.axis('equal')
-        plt.tight_layout()
-        plt.show()
-
-    def display_projection(self):
-        """Display twisting triangular faces vector projection of all atoms onto the given plane
-        """
-        if file_name == "":
-            popup.nofile_error()
-            return 1
-        if mult == 1:
-            popup.cannot_display()
-            return 1
-        if run_check == 0:
-            popup.nocalc_error()
-            return 1
-
-        print("Command: Display the reference and projected atoms")
-        print("         Scattering plot of reference atom and projected atoms on the reference plane")
-        print("         Draw surface for 4 pairs of two twisting triangular faces")
-
-        al, cl, vl, ovl = atom_list, coord_list, ref_pcl, oppo_pcl
-
-        ref_vertices_list = []
-
-        for i in range(4):
-            get_vertices = vl[i].tolist()
-            x, y, z = zip(*get_vertices)
-            vertices = [list(zip(x, y, z))]
-            ref_vertices_list.append(vertices)
-
-        fig = plt.figure()
-        st = fig.suptitle("Projected twisting triangular faces", fontsize="x-large")
-
-        for i in range(4):
-            a, b, c, d = plane.eq_of_plane(vl[i][0], vl[i][1], vl[i][2])
-            m = proj.project_atom_onto_plane(cl[0], a, b, c, d)
-
-            ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
-            ax.set_title("Projection plane {0}".format(i + 1), fontsize='10')
-
-            # Projected metal center atom
-            ax.scatter(m[0], m[1], m[2], color='orange', s=100, marker='o', linewidths=1, edgecolors='black',
-                       label="Metal center")
-            ax.text(m[0] + 0.1, m[1] + 0.1, m[2] + 0.1, "{0}'".format(al[0]), fontsize=9)
-
-            # Reference atoms
-            pl = []
-
-            for j in range(3):
-                ax.scatter(vl[i][j][0], vl[i][j][1], vl[i][j][2], color='red', s=50, marker='o', linewidths=1,
-                           edgecolors='black', label="Reference atom")
-                ax.text(vl[i][j][0] + 0.1, vl[i][j][1] + 0.1, vl[i][j][2] + 0.1, "{0}".format(j+1), fontsize=9)
-                # Project ligand atom onto the reference face
-                pl.append(proj.project_atom_onto_plane(ovl[i][j], a, b, c, d))
-
-            # Projected opposite atoms
-            for j in range(3):
-                ax.scatter(pl[j][0], pl[j][1], pl[j][2], color='blue', s=50, marker='o', linewidths=1,
-                           edgecolors='black', label="Projected ligand atom")
-                ax.text(pl[j][0] + 0.1, pl[j][1] + 0.1, pl[j][2] + 0.1, "{0}'".format(j + 1), fontsize=9)
-
-            # Draw plane
-            x, y, z = zip(*pl)
-            projected_oppo_vertices_list = [list(zip(x, y, z))]
-
-            ax.add_collection3d(Poly3DCollection(ref_vertices_list[i], alpha=0.5, color="yellow"))
-            ax.add_collection3d(Poly3DCollection(projected_oppo_vertices_list, alpha=0.5, color="blue"))
-
-            # Draw line
-            for j in range(3):
-                merge = list(zip(m.tolist(), vl[i][j].tolist()))
-                x, y, z = merge
-                ax.plot(x, y, z, 'k-', color="black")
-
-            for j in range(3):
-                merge = list(zip(m.tolist(), pl[j].tolist()))
-                x, y, z = merge
-                ax.plot(x, y, z, 'k->', color="black")
-
-            # Set axis
-            ax.set_xlabel(r'X', fontsize=10)
-            ax.set_ylabel(r'Y', fontsize=10)
-            ax.set_zlabel(r'Z', fontsize=10)
-            ax.grid(True)
-
-        # Shift subplots down
-        st.set_y(1.0)
-        fig.subplots_adjust(top=0.25)
-
-        # plt.legend(bbox_to_anchor=(1.05, 1), loc=2)
-        # plt.axis('equal')
-        plt.tight_layout()
-        plt.show()
+        if len(list_file) == 1:
+            pal, pcl, ref_pal, ref_pcl, oppo_pal, oppo_pcl = selected_plane_lists
 
 
 def main():
     masters = tk.Tk()
     MainProgram = OctaDist(masters)
 
-    global file_name, file_data, list_file, run_check, mult, strct
-    file_name = ""
-    file_data = ""
+    global list_file, run_check
     list_file = ""
     run_check = 0
-    mult = 0
-    strct = 0
 
+    def on_closing():
+        if tk.messagebox.askokcancel("Quit", "Do you want to quit?"):
+            masters.destroy()
+
+    masters.protocol("WM_DELETE_WINDOW", on_closing)
     masters.mainloop()
 
 
