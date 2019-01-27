@@ -49,9 +49,11 @@ Distorted octahedron | Orthogonal projection of atoms onto the given (opposite) 
 
 **Display of full complex and selected octahedron**
 
-Full complex | Full complex with faces of octahedron | Selected octahedral structure | Optimal 4 faces 
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![](images/Figure_1.png)   | ![](images/Figure_2.png)  | ![](images/Figure_3.png)  | ![](images/Figure_4.png)
+Full complex | Full complex with faces of octahedron |
+:-------------------------:|:-------------------------:
+![](images/Figure_1.png)   | ![](images/Figure_2.png) 
+**Selected octahedral structure** | **Optimal 4 faces** 
+![](images/Figure_3.png)  | ![](images/Figure_4.png)
 
 ## Usage
 ### Linux OS
