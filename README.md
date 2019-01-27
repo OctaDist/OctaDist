@@ -71,7 +71,7 @@ For Linux user, use `python3 -V` to check python version.
 4. Wait program for process until open
 
 ### Supported input file format
-- XYZ file format (*.xyz)
+- [XYZ file format](https://en.wikipedia.org/wiki/XYZ_file_format) (*.xyz)
 - Text file format (*.txt)
 - Output file of several computational chemistry programs (*.out, *.log): Gaussian, NWChem, and ORCA
 
