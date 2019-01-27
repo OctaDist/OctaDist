@@ -82,7 +82,7 @@ The current version of OctaDist only supports the cartesian (XYZ) coordinate fil
 
 ## Testing
 
-* Perfect octahedral metal complex ([Perfect-octahedral.xyz](test/Perfect-octahedral.xyz))
+* Perfect octahedral metal complex ([Perfect-octahedron.xyz](test/Perfect-octahedral.xyz))
 
 Calculate octahedral distortion parameters
 - ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 0.00000000
@@ -111,9 +111,9 @@ H                  0.20069808    0.70680627   -1.46000000
 * XRD structure of [Fe(1-bpp)2][BF4]2 complex in low-spin state, taken from Halcrow's CCDC library ([[Fe(1-bpp)2][BF4]2-LS-Full.xyz](test/[Fe(1-bpp)2][BF4]2-LS-Full.xyz))
 
 Calculate octahedral distortion parameters
-- ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 
-- ![](https://latex.codecogs.com/svg.Latex?%5CSigma) =  degree
-- ![](https://latex.codecogs.com/svg.Latex?%5CTheta) =  degree
+- ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 0.000348
+- ![](https://latex.codecogs.com/svg.Latex?%5CSigma) = 86.081494 degree
+- ![](https://latex.codecogs.com/svg.Latex?%5CTheta) = 271.388567 degree
 
 <details>
 <summary> Click here to see the coordinates</summary>
@@ -179,14 +179,12 @@ H                  2.25040000    3.15370000   15.63790000
 
 ---
 
-[Fe(1-bpp)2][BF4]2-HS-Full.xyz
-
 * XRD structure of [Fe(1-bpp)2][BF4]2 complex in high-spin state, taken from Halcrow's CCDC library ([[Fe(1-bpp)2][BF4]2-HS-Full.xyz](test/[Fe(1-bpp)2][BF4]2-HS-Full.xyz))
 
 Calculate octahedral distortion parameters
-- ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 
-- ![](https://latex.codecogs.com/svg.Latex?%5CSigma) =  degree
-- ![](https://latex.codecogs.com/svg.Latex?%5CTheta) =  degree
+- ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 0.000168
+- ![](https://latex.codecogs.com/svg.Latex?%5CSigma) = 150.814795 degree
+- ![](https://latex.codecogs.com/svg.Latex?%5CTheta) = 469.590198 degree
 
 <details>
 <summary> Click here to see the coordinates</summary>
