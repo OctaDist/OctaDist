@@ -39,12 +39,19 @@ Mathematical expression of three parameters are given by following equations
 
 - To find the optimal 4 planes (faces), OctaDist firstly chooses 4 faces out of 8 faces of complex. The total number of combination is 70. Then OctaDist computes the 24 unique (![](https://latex.codecogs.com/svg.Latex?%5Ctheta)) angles for all 70 sets of planes and computes the 70 different values of ![](https://latex.codecogs.com/svg.Latex?%5CTheta) parameter. The lowest value is chosen as a minimum ![](https://latex.codecogs.com/svg.Latex?%5CTheta) parameter representing the distortion of the octahedral metal complex.
 
-Graphical representation of orthogonal projection and twisting triangular faces
+**Graphical representation of orthogonal projection and twisting triangular faces**
 
 Distorted octahedron | Orthogonal projection of atoms onto the given (opposite) plane | The ![](https://latex.codecogs.com/svg.Latex?%5Ctheta) angle between the atom vectors defined by two twisting triangular faces   
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](images/Co-complex-8faces.png) | ![](images/Co-complex-projection.png) | ![](images/Co-complex-2D-projection.png)   
 
+<br/>
+
+**Display of full complex and selected octahedron**
+
+Full complex | Full complex with faces of octahedron | Selected octahedral structure | Optimal 4 faces 
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](images/Figure_1.png)   | ![](images/Figure_2.png)  | ![](images/Figure_3.png)  | ![](images/Figure_4.png)
 
 ## Usage
 ### Linux OS
@@ -85,10 +92,6 @@ Calculate octahedral distortion parameters
 - ![](https://latex.codecogs.com/svg.Latex?%5CSigma) = 0.00000000 degree
 - ![](https://latex.codecogs.com/svg.Latex?%5CTheta) = 0.00000000 degree
 
-<p align="center">
-   <img alt="Fe-structure" src="images/Fe-structure.png" align=middle width="400pt" />
-<p/>
-
 ---
 
 * XRD structure of octahedral Co complex in low-spin state, provided by David Harding ([complex-test-2.xyz](test/complex-test-2.xyz))
@@ -107,10 +110,6 @@ Calculate octahedral distortion parameters
 - ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 0.00077054
 - ![](https://latex.codecogs.com/svg.Latex?%5CSigma) = 58.86979039 degree
 - ![](https://latex.codecogs.com/svg.Latex?%5CTheta) = 142.38373321 degree
-
-<p align="center">
-   <img alt="Co-structure" src="images/Co-structure.png" align=middle width="400pt" />
-<p/>
 
 ## Screenshots
 <p align="left">
