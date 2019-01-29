@@ -1,7 +1,15 @@
 language: python
-rvm:
-  - 3.7
-
 branches:
   only:
     - master
+
+python:
+  - "3.7"  # 3.7 development branch
+  
+install:
+  - pip install -r requirements.txt
+
+script:
+  - python src/main.py
+
+
