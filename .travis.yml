@@ -1,4 +1,7 @@
 language: python
+sudo: yes
+dist: xenial
+
 branches:
   only:
     - master
