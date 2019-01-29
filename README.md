@@ -1,3 +1,11 @@
+[![Github release](https://img.shields.io/github/release/rangsimanketkaew/octadist.svg
+)](https://github.com/rangsimanketkaew/OctaDist/releases)
+[![Code size](https://img.shields.io/github/languages/code-size/rangsimanketkaew/OctaDist.svg)](https://github.com/rangsimanketkaew/OctaDist)
+[![Repo size](https://img.shields.io/github/repo-size/rangsimanketkaew/OctaDist.svg)](https://github.com/rangsimanketkaew/OctaDist)
+[![Github Download All releases](https://img.shields.io/github/downloads/rangsimanketkaew/octadist/total.svg)](https://github.com/rangsimanketkaew/OctaDist/releases)
+[![Github Download release 2.1](https://img.shields.io/github/downloads/rangsimanketkaew/OctaDist/v.2.1/total.svg
+)](https://github.com/rangsimanketkaew/OctaDist/releases/tag/v.2.1)
+
 # OctaDist
 
 <p align="center">
