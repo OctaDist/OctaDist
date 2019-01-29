@@ -13,6 +13,8 @@ install:
   - pip install -r requirements.txt
 
 script:
-  - python src/main.py
+  - cd src/
+  - pyinstaller --onefile main.py
+#  - python src/main.py
 
 
