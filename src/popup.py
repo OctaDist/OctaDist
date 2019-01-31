@@ -22,7 +22,7 @@ def welcome():
     print(" This is free software, and you are welcome to redistribute it under")
     print(" certain conditions; see <https://www.gnu.org/licenses/> for details.\n")
     print("       ==============================================================")
-    print("                                OctaDist {0}\n".format(program_version))
+    print("                                OctaDist %s\n" % program_version)
     print("                       OCTAHEDRAL DISTORTION ANALYSIS")
     print("                       ------------------------------")
     print("            A PROGRAM FOR DETERMINING THE STRUCTURAL DISTORTION")
@@ -38,7 +38,7 @@ def callback(event):
 
 
 def nofile_error():
-    """Show error message when opening file twice
+    """Show error when opening file twice
     """
 
     print("Error: No input file")
@@ -46,7 +46,7 @@ def nofile_error():
 
 
 def nocoord_error():
-    """Show error message when opening file twice
+    """Show error when opening file twice
     """
 
     print("Error: No coordinate of a molecule")
@@ -54,31 +54,31 @@ def nocoord_error():
 
 
 def nocalc_error():
-    """Show error message when save file but no any parameters computed
+    """Show error when save file but no any parameters computed
     """
 
     print("Error: No results")
     showinfo("Error", "No results. Click \"Compute parameters\" to calculate octahedral distortion parameters.")
 
 
-def only_single_file():
-    """Show error message when user request function that not supported for multiple files mode
+def only_single_file_error():
+    """Show error when user request function that not supported for multiple files mode
     """
 
     print("Error: This function only supports single file mode")
     showinfo("Error", "This function only supports single input file.")
 
 
-def only_mult_file():
-    """Show error message when user request function that not supported for single file mode
+def only_mult_file_error():
+    """Show error when user request function that not supported for single file mode
     """
 
     print("Error: This function only supports multiple files mode")
     showinfo("Error", "This function only supports multiple input files.")
 
 
-def wrong_format():
-    """Show error message when opening file twice
+def wrong_format_error():
+    """Show error when opening file twice
     """
 
     print("Error: Input file format is not supported")
@@ -87,12 +87,9 @@ def wrong_format():
 
 def show_help():
     """Open program help page
-        - Usage
-        - Input file format
-        - References
     """
 
-    print("Command: Show program help")
+    print("Info: Show program help")
 
     hp = tk.Tk()
     # hp.overrideredirect(1)
@@ -106,7 +103,7 @@ def show_help():
     msg_help_1 = "1. Browse file\n" \
                  "2. Compute parameters\n" \
                  "3. Check results\n" \
-                 "4. File → Save as ..\n"
+                 "4. File → Save as\n"
     msg = tk.Message(hp, text=msg_help_1, width="450")
     # msg.config(font=("Arial 10"))
     msg.grid(sticky=tk.W, row=1)
@@ -153,10 +150,10 @@ def show_help():
 
 
 def show_about():
-    """Show author information
+    """Show author info
     """
 
-    print("Command: Show program information")
+    print("Info: Show program information")
 
     text = "OctaDist version {}\n" \
            "\n" \
@@ -175,10 +172,10 @@ def show_about():
 
 
 def show_license():
-    """Show program info
+    """Show license info
     """
 
-    print("Command: Show program license information")
+    print("Info: Show program license information")
 
     text = "OctaDist {} Copyright (C) 2019  Rangsiman Ketkaew\n\n" \
            "This program is free software: you can redistribute it " \

@@ -20,17 +20,19 @@ def show_data_summary(lf, facl):
     :return: 
     """
 
-    print("Command: Show general information of all complexes")
+    print("Info: Show general information of all complexes")
 
     window = tk.Tk()
     window.option_add("*Font", "Arial 10")
-    window.geometry("380x500")
+    window.geometry("555x500")
     window.title("Complex info")
 
-    Box = tkscrolled.ScrolledText(window, wrap="word", width="50", height="30", undo="True")
+    Box = tkscrolled.ScrolledText(window, wrap="word", width="75", height="30", undo="True")
     Box.grid(row=0, pady="5", padx="5")
 
     Box.delete(1.0, tk.END)
+
+    print(facl)
 
     for i in range(len(lf)):
         texts = "File {0:>2} : {1}".format(i + 1, lf[i].split('/')[-1])
@@ -51,29 +53,32 @@ def show_results_mult(computed_results):
     :return: show the results in new text box
     """
 
-    multi = tk.Tk()
-    multi.option_add("*Font", "Arial 10")
-    multi.geometry("380x530")
-    multi.title("Results")
+    window = tk.Tk()
+    window.option_add("*Font", "Arial 10")
+    window.geometry("380x530")
+    window.title("Results")
 
-    lbl = tk.Label(multi, text="Computed octahedral distortion parameters for all complexes")
+    lbl = tk.Label(window, text="Computed octahedral distortion parameters for all complexes")
     lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
-    Box = tkscrolled.ScrolledText(multi, wrap="word", width="50", height="30", undo="True")
+    Box = tkscrolled.ScrolledText(window, wrap="word", width="50", height="30", undo="True")
     Box.grid(row=1, pady="5", padx="5")
 
-    texts = "                            Δ               Σ                Θ\n" \
-            "                        -----------    -------------     ------------"
+    texts = "                         Δ               Σ                Θ\n" \
+            "                     -----------    -------------     ------------"
     Box.insert(tk.INSERT, texts)
 
     for i in range(len(computed_results)):
-        texts = "Complex {0} : {1:10.6f}   {2:10.6f}   {3:10.6f}" \
-            .format(i + 1, computed_results[i][0], computed_results[i][1], computed_results[i][2])
+        texts = "Complex {0} : {1:10.6f}   {2:10.6f}   {3:10.6f}"\
+            .format(i + 1,
+                    computed_results[i][0],
+                    computed_results[i][1],
+                    computed_results[i][2])
         Box.insert(tk.END, "\n" + texts)
 
-    multi.mainloop()
+    window.mainloop()
 
 
-def calc_strct_param_octa(al, cl):
+def calc_param_octa(al, cl):
     """Show structural parameters of selected complex
 
     :param al: atom_list
@@ -81,7 +86,7 @@ def calc_strct_param_octa(al, cl):
     :return: bond distance and bond angle
     """
 
-    print("Command: Show structural parameters of truncated octahedron")
+    print("Info: Show structural parameters of truncated octahedron")
 
     window = tk.Tk()
     window.option_add("*Font", "Arial 10")
@@ -100,10 +105,14 @@ def calc_strct_param_octa(al, cl):
         for j in range(i + 1, len(cl)):
             if i == 0:
                 distance = linear.distance_between(cl[i], cl[j])
-                texts = "{0}-{1}{2} {3:10.6f}".format(al[i], al[j], j, distance)
+                texts = "{0}-{1}{2} {3:10.6f}".format(al[i],
+                                                      al[j], j,
+                                                      distance)
             else:
                 distance = linear.distance_between(cl[i], cl[j])
-                texts = "{0}{1}-{2}{3} {4:10.6f}".format(al[i], i, al[j], j, distance)
+                texts = "{0}{1}-{2}{3} {4:10.6f}".format(al[i], i,
+                                                         al[j], j,
+                                                         distance)
 
             Box.insert(tk.END, "\n" + texts)
 
@@ -115,21 +124,26 @@ def calc_strct_param_octa(al, cl):
             for k in range(j + 1, len(cl)):
                 if i == 0:
                     angle = linear.angle_between(cl[j], cl[i], cl[k])
-                    texts = "{0}{1}-{2}-{3}{4} {5:10.6f}" \
-                        .format(al[k], k, al[i], al[j], j, angle)
+                    texts = "{0}{1}-{2}-{3}{4} {5:10.6f}"\
+                        .format(al[k], k,
+                                al[i],
+                                al[j], j,
+                                angle)
                 else:
                     angle = linear.angle_between(cl[j], cl[i], cl[k])
-                    texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}" \
-                        .format(al[k], k, al[i], i, al[j], j, angle)
+                    texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}"\
+                        .format(al[k], k,
+                                al[i], i,
+                                al[j], j,
+                                angle)
 
                 Box.insert(tk.END, "\n" + texts)
-
     Box.insert(tk.END, "\n")
 
     window.mainloop()
 
 
-def calc_strct_param_full(fal, fcl):
+def calc_param_full(fal, fcl):
     """Show structural parameters of selected complex
 
     :param fal: full_atom_list
@@ -137,7 +151,7 @@ def calc_strct_param_full(fal, fcl):
     :return: bond distance and bond angle
     """
 
-    print("Command: Show structural parameters of full complex")
+    print("Info: Show structural parameters of full complex")
 
     window = tk.Tk()
     window.option_add("*Font", "Arial 10")
@@ -179,7 +193,6 @@ def calc_strct_param_full(fal, fcl):
                         .format(fal[k], k, fal[i], i, fal[j], j, angle)
 
                 Box.insert(tk.END, "\n" + texts)
-
     Box.insert(tk.END, "\n")
 
     window.mainloop()
@@ -197,46 +210,62 @@ def calc_bond_distance(fal, fcl):
     :return check_2_bond_list: selected bonds
     """
 
-    cutoff_distance = 2.0
-    hydrogen_cutoff_distance = 1.2
+    global_distance_cutoff = 2.0
+    hydrogen_distance_cutoff = 1.2
 
-    print("Command: Determine correct bonds for atoms pair")
-    print("         Distance cut-off is %s Angstroms" % cutoff_distance)
+    print("Info: Determine correct bonds for atoms pair")
+    print("Info: Global distance cutoff       : %s Angstrom"
+          % global_distance_cutoff)
+    print("Info: Distance cutoff for Hydrogen : %s Angstrom"
+          % hydrogen_distance_cutoff)
 
-    bond_list = []
     pair_list = []
+    bond_list = []
 
     for i in range(len(fcl)):
         for j in range(i + 1, len(fcl)):
             if i == 0:
                 distance = linear.distance_between(fcl[i], fcl[j])
-                # print("         {0}-{1}{2} {3:10.6f}".format(fal[i], fal[j], j, distance))
+                # print("      {0}-{1}{2} {3:10.6f}".format(fal[i],
+                #                                           fal[j], j,
+                #                                           distance))
             else:
                 distance = linear.distance_between(fcl[i], fcl[j])
-                # print("         {0}{1}-{2}{3} {4:10.6f}".format(fal[i], i, fal[j], j, distance))
+                # print("      {0}{1}-{2}{3} {4:10.6f}".format(fal[i], i,
+                #                                              fal[j], j,
+                #                                              distance))
 
-            bond_list.append([fcl[i], fcl[j], distance])
             pair_list.append([fal[i], fal[j]])
+            bond_list.append([fcl[i], fcl[j], distance])
 
     check_1_bond_list = []
     screen_1_pair_list = []
 
     for i in range(len(bond_list)):
-        if bond_list[i][2] <= cutoff_distance:
-            check_1_bond_list.append([bond_list[i][0], bond_list[i][1], bond_list[i][2]])
-            screen_1_pair_list.append([pair_list[i][0], pair_list[i][1]])
+        if bond_list[i][2] <= global_distance_cutoff:
+            check_1_bond_list.append([bond_list[i][0],
+                                      bond_list[i][1],
+                                      bond_list[i][2]])
+            screen_1_pair_list.append([pair_list[i][0],
+                                       pair_list[i][1]])
 
     check_2_bond_list = []
 
     for i in range(len(check_1_bond_list)):
         if screen_1_pair_list[i][0] == "H" or screen_1_pair_list[i][1] == "H":
-            if check_1_bond_list[i][2] <= hydrogen_cutoff_distance:
-                check_2_bond_list.append([check_1_bond_list[i][0], check_1_bond_list[i][1]])
+            if check_1_bond_list[i][2] <= hydrogen_distance_cutoff:
+                check_2_bond_list.append([check_1_bond_list[i][0],
+                                          check_1_bond_list[i][1]])
         else:
-            check_2_bond_list.append([check_1_bond_list[i][0], check_1_bond_list[i][1]])
+            check_2_bond_list.append([check_1_bond_list[i][0],
+                                      check_1_bond_list[i][1]])
 
-    print("\n         Total number of bonds before screening: %4s" % len(bond_list))
-    print("         Total number of bonds after screening : %4s\n" % len(check_2_bond_list))
+    print("\n      Total number of bonds before screening    : %5s"
+          % len(bond_list))
+    print("      Total number of bonds after 1st screening : %5s"
+          % len(check_1_bond_list))
+    print("      Total number of bonds after 2nd screening : %5s\n"
+          % len(check_2_bond_list))
 
     return check_2_bond_list
 
@@ -249,7 +278,7 @@ def calc_surface_area(pal, pcl):
     :return: surface area of face
     """
 
-    print("Command: Show the area of the triangular faces of truncated octahedron")
+    print("Info: Show the area of the triangular faces of truncated octahedron")
 
     window = tk.Tk()
     window.option_add("*Font", "Arial 10")
@@ -259,11 +288,13 @@ def calc_surface_area(pal, pcl):
     Box = tkscrolled.ScrolledText(window, wrap="word", width="50", height="30", undo="True")
     Box.grid(row=0, pady="5", padx="5")
 
-    texts = "                    Atoms*        Area (Å³)"
+    texts = "                 Atoms*        Area (Å³)"
     Box.insert(tk.INSERT, texts)
 
     for i in range(8):
-        area = linear.triangle_area(pcl[i][0], pcl[i][1], pcl[i][2])
+        area = linear.triangle_area(pcl[i][0],
+                                    pcl[i][1],
+                                    pcl[i][2])
         texts = "Face no. {0}:  {1}      {2:10.6f}".format(i + 1, pal[i], area)
         Box.insert(tk.END, "\n" + texts)
 

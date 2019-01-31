@@ -12,7 +12,7 @@ import linear
 import proj
 
 
-def search_8_faces(cl):
+def find_8_faces(cl):
     """Find 8 triangular faces (plane of octahedron by any three ligand atoms
 
     Choose 3 atoms out of 6 ligand atoms. The total number of combination is 6!/3!3! = 20,
@@ -29,12 +29,16 @@ def search_8_faces(cl):
     # m ---- m'
     # then store the number of ligand atoms and the minimum distance into list pal & pcl.
 
-    pal, pcl = [], []
+    print("Info: Find all 20 faces of octahedron")
+    print("Info: Find minimum distance from metal center to each face")
+
+    pal = []
+    pcl = []
 
     for i in range(1, 5):
         for j in range(i + 1, 6):
             for k in range(j + 1, 7):
-                a, b, c, d = eq_of_plane(cl[i], cl[j], cl[k])
+                a, b, c, d = find_eq_of_plane(cl[i], cl[j], cl[k])
                 m = proj.project_atom_onto_plane(cl[0], a, b, c, d)
                 d_btw = linear.distance_between(m, cl[0])
                 pal.append([i, j, k])
@@ -44,16 +48,11 @@ def search_8_faces(cl):
     # pal = np.asarray(pal)
     # pcl = np.asarray(pcl)
 
-    print("Command: Show three ligand atoms of the given face and their coordinates\n")
-    print("         List before sorted:")
-    print("         The sequence of atom and coordinate (x,y,z):")
+    print("Info: Show atom on octahedron faces and minimum distance:\n")
+    print("      List of faces before sorting minimum distance out:")
 
     for i in range(len(pcl)):
-        print("         ", pal[i])
-        for j in range(3):
-            print("           ({0:10.6f}, {1:10.6f}, {2:10.6f})"
-                  .format(pcl[i][j][0], pcl[i][j][1], pcl[i][j][2]))
-    print("")
+        print("       {0} : {1:10.6f}".format(pal[i], pcl[i][3]))
 
     # Sort pcl in ascending order of the minimum distance (column 4)
     i = 0
@@ -68,42 +67,103 @@ def search_8_faces(cl):
         # Reorder of atom sequence for both arrays
         pcl[i], pcl[k] = pcl[k], pcl[i]
         pal[i], pal[k] = pal[k], pal[i]
+
         i += 1
 
-    print("Command: Sort the shortest distance from plane to metal center in ascending order\n")
-    print("         List after sorted:")
-    print("         The sequence of atom and coordinate (x,y,z):")
+    print("\nInfo: Sort out minimum distance in ascending order")
+    print("Info: Show octahedron faces after sorting minimum distance out:\n")
+    print("      List of faces as sorted minimum distance:")
 
     for i in range(len(pcl)):
-        print("         ", pal[i])
-        for j in range(3):
-            print("           ({0:10.6f}, {1:10.6f}, {2:10.6f})"
-                  .format(pcl[i][j][0], pcl[i][j][1], pcl[i][j][2]))
-    print("")
+        print("       {0} : {1:10.6f}".format(pal[i], pcl[i][3]))
 
     # Remove first 12 out of 20 planes (first 12 rows), now pcl remains 8 planes (faces)
+    print("\nInfo: Delete 12 faces that mostly close to metal center atom")
+
     scl = pcl[12:]
     sal = pal[12:]
 
     # Print new plane list after unwanted plane excluded
-    print("Command: Delete 6 planes that mostly close to metal center atom")
-    print("         List after unwanted plane deleted:")
+    print("Info: Show 8 octahedron faces after deleting 12 faces closest to metal center\n")
+    print("      List of 8 reference faces, minimum distance, and coordinates of atom on face:")
 
     for i in range(len(scl)):
-        print("         ", sal[i])
-        for j in range(3):
-            print("           ({0:10.6f}, {1:10.6f}, {2:10.6f})"
-                  .format(scl[i][j][0], scl[i][j][1], scl[i][j][2]))
-    print("")
+        print("       {0} : {1:10.6f}"
+              .format(sal[i], scl[i][3]))
+        print("                 : {0:10.6f}, {1:10.6f}, {2:10.6f}"
+              .format(scl[i][0][0], scl[i][0][1], scl[i][0][2]))
+        print("                 : {0:10.6f}, {1:10.6f}, {2:10.6f}"
+              .format(scl[i][1][0], scl[i][1][1], scl[i][1][2]))
+        print("                 : {0:10.6f}, {1:10.6f}, {2:10.6f}"
+              .format(scl[i][2][0], scl[i][2][1], scl[i][2][2]))
 
     plane_atom_list = sal
+
     # Remove the 4th column of distance
     plane_coord_list = np.delete(scl, 3, 1)
 
     return plane_atom_list, plane_coord_list
 
 
-def eq_of_plane(X, Y, Z):
+def find_opposite_atoms(x, cl):
+    """Find the atom on the parallel opposite face (plane).
+    For example,
+
+    list of atom on reference plane    list of atom on opposite plane
+             [[1 2 3]                            [[4 5 6]
+              [1 2 4]              --->           [3 5 6]
+              [2 3 5]]                            [1 4 6]]
+
+    :param x: list - list of three ligand atoms for 4 reference planes (pal)
+    :param cl: array - coordinates of octahedron atoms (coord_list)
+    :return oppo_pal: list - atoms on the opposite plane
+    :return oppo_pcl: array - coordinates of atoms on the opposite plane
+    """
+
+    print("\nInfo: Find opposite faces")
+    print("Info: Show 8 opposite faces and coordinate of atoms on face:")
+
+    all_atom = [1, 2, 3, 4, 5, 6]
+    oppo_pal = []
+
+    # loop over 4 reference planes
+    for i in range(len(x)):
+        # Find the list of atoms on opposite plane
+        new_pal = []
+
+        for j in all_atom:
+            if j not in (x[i][0], x[i][1], x[i][2]):
+                new_pal.append(j)
+        oppo_pal.append(new_pal)
+
+    print("\n      List of 8 opposite faces and coordinates of atom on face:")
+
+    # cl is coord_list
+    v = np.array(cl)
+    oppo_pcl = []
+
+    for i in range(len(oppo_pal)):
+        print("      Reference face : {0}".format(x[i]))
+        new_pcl = []
+
+        for j in range(3):
+            new_pcl.append([v[int(oppo_pal[i][j])][0],
+                            v[int(oppo_pal[i][j])][1],
+                            v[int(oppo_pal[i][j])]][2])
+        oppo_pcl.append(new_pcl)
+
+        print("      Opposite face  : {0}".format(oppo_pal[i]))
+
+        for j in range(3):
+            print("                     : {0:10.6f}, {1:10.6f}, {2:10.6f}"
+                  .format(oppo_pcl[i][1][0],
+                          oppo_pcl[i][1][1],
+                          oppo_pcl[i][1][2]))
+
+    return oppo_pal, oppo_pcl
+
+
+def find_eq_of_plane(X, Y, Z):
     """Find the equation of plane of given three points (ligand atoms)
     The general form of plane equation is Ax + By + Cz = D
     where A, B, C, and D are coefficient. They can be computed using cross product definition
@@ -125,55 +185,3 @@ def eq_of_plane(X, Y, Z):
     d = np.dot(cross_vector, Z)
 
     return a, b, c, d
-
-
-def find_opposite_atoms(x, cl):
-    """Find the atom on the parallel opposite plane.
-    For example,
-
-    list of atom on reference plane    list of atom on opposite plane
-             [[1 2 3]                            [[4 5 6]
-              [1 2 4]              --->           [3 5 6]
-              [2 3 5]]                            [1 4 6]]
-
-    :param x: list - list of three ligand atoms for 4 reference planes (pal)
-    :param cl: array - coordinates of octahedron atoms (coord_list)
-    :return oppo_pal: list - atoms on the opposite plane
-    :return oppo_pcl: array - coordinates of atoms on the opposite plane
-    """
-
-    all_atom = [1, 2, 3, 4, 5, 6]
-    oppo_pal = []
-
-    print("Command: Find the atoms on the opposite plane")
-
-    # loop for 4 reference planes
-    for i in range(len(x)):
-        # Find the list of atoms on opposite plane
-        new_pal = []
-
-        for j in all_atom:
-            if j not in (x[i][0], x[i][1], x[i][2]):
-                new_pal.append(j)
-        oppo_pal.append(new_pal)
-
-    print("         List of the coordinate of atom on the opposite plane:")
-
-    # cl is coord_list
-    v = np.array(cl)
-    oppo_pcl = []
-
-    for i in range(len(oppo_pal)):
-        print("         Opposite to {0}".format(x[i]))
-        new_pcl = []
-
-        for j in range(3):
-            new_pcl.append([v[int(oppo_pal[i][j])][0], v[int(oppo_pal[i][j])][1], v[int(oppo_pal[i][j])]][2])
-        oppo_pcl.append(new_pcl)
-
-        for j in range(3):
-            print("          {0} --> ({1:10.6f}, {2:10.6f}, {3:10.6f})"
-                  .format(oppo_pal[i][j], oppo_pcl[i][j][0], oppo_pcl[i][j][1], oppo_pcl[i][j][2]))
-    print("")
-
-    return oppo_pal, oppo_pcl

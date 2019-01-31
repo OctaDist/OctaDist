@@ -32,7 +32,7 @@ def distance_between(a, b):
     :return: float - distance
     """
 
-    return sqrt(sum([pow(a[i] - b[i], 2) for i in range(len(a))]))
+    return sqrt(sum([pow(a[i]-b[i], 2) for i in range(len(a))]))
 
 
 def distance_avg(x):
@@ -48,7 +48,7 @@ def distance_avg(x):
         results_sum = distance_between(x[i], x[0])
         dist_sum.append(results_sum)
 
-    return sum([dist_sum[i] for i in range(6)]) / 6
+    return sum([dist_sum[i] for i in range(6)])/6
 
 
 def midpoint_of_line(x, y):
@@ -59,7 +59,7 @@ def midpoint_of_line(x, y):
     :return: float - point
     """
 
-    return np.array([(x[0] + y[0]) / 2, (x[1] + y[1]) / 2, (x[2] + y[2]) / 2])
+    return np.array([(x[0] + y[0])/2, (x[1] + y[1])/2, (x[2] + y[2])/2])
 
 
 def angle_between(p1, p2, p3):
@@ -99,8 +99,8 @@ def triangle_area(a, b, c):
     AB = b - a
     AC = c - a
 
-    value = pow(np.dot(AB[1], AC[2]) - np.dot(AB[2], AC[1]), 2) + \
-            pow(np.dot(AB[2], AC[0]) - np.dot(AB[0], AC[2]), 2) + \
-            pow(np.dot(AB[0], AC[1]) - np.dot(AB[1], AC[0]), 2)
+    value = (pow(np.dot(AB[1], AC[2]) - np.dot(AB[2], AC[1]), 2) +
+             pow(np.dot(AB[2], AC[0]) - np.dot(AB[0], AC[2]), 2) +
+             pow(np.dot(AB[0], AC[1]) - np.dot(AB[1], AC[0]), 2))
 
-    return sqrt(value) / 2
+    return sqrt(value)/2
