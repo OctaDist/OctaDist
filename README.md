@@ -85,8 +85,6 @@ For Linux user, use `python3 -V` to check python version.
 numpy==1.16.0
 matplotlib==3.0.2
 PyInstaller==3.4
-tkinter
-matplotlib
 ```
 
 ### Supported input file format
