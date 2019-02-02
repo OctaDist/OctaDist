@@ -11,14 +11,13 @@ import numpy as np
 import elements
 
 
-def file_lines(fname):
+def file_lines(file):
     """Count line in file
 
-    :param fname: string
+    :param file: string - absolute path of file
     :return: number of line in file
     """
-
-    with open(fname) as f:
+    with open(file) as f:
         for i, l in enumerate(f):
             pass
     return i + 1
@@ -41,7 +40,6 @@ def check_xyz_file(f):
     :param f: string - user input filename
     :return: if the file is .xyz format, return True
     """
-
     file = open(f, "r")
 
     first_line = file.readline()
@@ -73,7 +71,6 @@ def check_txt_file(f):
     :param f: string - user filename
     :return: if file is a .txt fie format, return True
     """
-
     with open(f) as f_1:
         line = f_1.readline()
 
@@ -91,7 +88,6 @@ def check_gaussian_file(f):
     :param f: string - user input file
     :return: if file is Gaussian output file, return True
     """
-
     gaussian_file = open(f, "r")
     nline = gaussian_file.readlines()
 
@@ -107,7 +103,6 @@ def check_nwchem_file(f):
     :param f: string - user input file
     :return: if file is NWChem output file, return True
     """
-
     nwchem_file = open(f, "r")
     nline = nwchem_file.readlines()
 
@@ -128,7 +123,6 @@ def check_orca_file(f):
     :param f: string - user input file
     :return: if file is ORCA output file, return True
     """
-
     orca_file = open(f, "r")
     nline = orca_file.readlines()
 
@@ -161,7 +155,6 @@ def get_coord_xyz(f):
     :return atom_full: list - full atom list of user's complex
     :return coord_full: array - full coordinates of all atoms of complex
     """
-
     file = open(f, "r")
     # read file from 3rd line
     line = file.readlines()[2:]
@@ -195,7 +188,6 @@ def get_coord_txt(f):
     :return atom_full: list - full atom list of user's complex
     :return coord_full: array - full coordinates of all atoms of complex
     """
-
     file = open(f, "r")
     line = file.readlines()
     file.close()
@@ -228,7 +220,6 @@ def get_coord_gaussian(f):
     :return atom_full: list - full atom list of user's complex
     :return coord_full: array - full coordinates of all atoms of complex
     """
-
     gaussian_file = open(f, "r")
     nline = gaussian_file.readlines()
 
@@ -270,7 +261,6 @@ def get_coord_nwchem(f):
     :return atom_full: list - full atom list of user's complex
     :return coord_full: array - full coordinates of all atoms of complex
     """
-
     nwchem_file = open(f, "r")
     nline = nwchem_file.readlines()
 
@@ -315,7 +305,6 @@ def get_coord_orca(f):
     :return atom_full: list - full atom list of user's complex
     :return coord_full: array - full coordinates of all atoms of complex
     """
-
     orca_file = open(f, "r")
     nline = orca_file.readlines()
 
@@ -355,7 +344,6 @@ def get_coord_qchem(f):
     :return atom_full: list - full atom list of user's complex
     :return coord_full: array - full coordinates of all atoms of complex
     """
-
     orca_file = open(f, "r")
     nline = orca_file.readlines()
 
@@ -395,7 +383,6 @@ def get_coord(f):
     :return atom_full: list - full atom list of user's complex
     :return coord_full: array - full coordinates of all atoms of complex
     """
-
     # Atom no. 1   metal center
     #          2-7 ligand atoms
     #          3-n other atoms
@@ -451,10 +438,9 @@ def cut_coord(fal, fcl):
     :return atom_list: list - atom in octahedral structure
     :return coord_list: array - coordinates of atom in octahedral structure
     """
-
     # If complex has atoms > 7, print all atoms and coordinates.
     if len(fcl) > 7:
-        show_full_atom(fal, fcl)
+        show_all_atoms(fal, fcl)
 
     atom_list = np.asarray(fal[0:7])
     coord_list = np.asarray(fcl[0:7])
@@ -465,14 +451,16 @@ def cut_coord(fal, fcl):
     return atom_list, coord_list
 
 
-def show_full_atom(fal, fcl):
-    """Show full atoms and coordinates
+def show_all_atoms(fal, fcl):
+    """Show atomic symbol and coordinates of all atoms
 
     :param fal: list - atom_full
     :param fcl: array - coord_full
+    :return:
     """
-
-    print("Info: Show Cartesian coordinates of all %s atoms" % len(fcl))
+    print("Info: Show Cartesian coordinates of all %s atoms\n" % len(fcl))
+    print("      Atom        X              Y             Z")
+    print("      ----    ----------    ----------    ----------")
 
     for i in range(len(fcl)):
         print("       {0:>2}   {1:12.8f}, {2:12.8f}, {3:12.8f}"
@@ -485,9 +473,11 @@ def show_7_atoms(al, cl):
 
     :param al: list - atom_list
     :param cl: array - coord_list
+    :return:
     """
-
-    print("Info: Show Cartesian coordinates of selected 7 atoms")
+    print("Info: Show Cartesian coordinates of selected 7 atoms\n")
+    print("      Atom        X              Y             Z")
+    print("      ----    ----------    ----------    ----------")
 
     for i in range(len(cl)):
         print("       {0:>2}   {1:12.8f}, {2:12.8f}, {3:12.8f}"

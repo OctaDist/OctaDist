@@ -16,14 +16,13 @@ from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 
-def draw_full_complex(fal, fcl):
+def draw_all_atom(fal, fcl):
     """Display 3D structure of octahedral complex with label for each atoms
 
     :param fal: list - full_atom_list
     :param fcl: array - full_coord_list
     :return:
     """
-
     print("Info: Display scattering plot of all atoms")
 
     fig = plt.figure()
@@ -33,17 +32,8 @@ def draw_full_complex(fal, fcl):
     for i in range(len(fcl)):
         # Determine atomic number
         n = elements.check_atom(fal[i])
-        ax.scatter(fcl[i][0], fcl[i][1], fcl[i][2],
-                   marker='o', linewidths=0.5, edgecolors='black',
-                   color=elements.check_color(n),
-                   label="{}".format(fal[i]),
-                   s=elements.check_radii(n) * 300)
-
-        # if fal[i] != "H":
-        #     ax.text(fcl[i][0] + 0.1, fcl[i][1] + 0.1, fcl[i][2] + 0.1,
-        #             "{0}".format(fal[i]), fontsize=10)
-        #     ax.text(fcl[i][0], fcl[i][1], fcl[i][2], "{0}".format(fal[i]),
-        #             fontsize=5, ha="center", va="center", style="normal")
+        ax.scatter(fcl[i][0], fcl[i][1], fcl[i][2], marker='o', linewidths=0.5, edgecolors='black',
+                   color=elements.check_color(n), label="{}".format(fal[i]), s=elements.check_radii(n)*300)
 
     # Calculate distance
     bond_list = tools.calc_bond_distance(fal, fcl)
@@ -71,8 +61,7 @@ def draw_full_complex(fal, fcl):
         if label not in label_list:
             handle_list.append(handle)
             label_list.append(label)
-    leg = plt.legend(handle_list, label_list,
-                     loc="lower left", scatterpoints=1, fontsize=12)
+    leg = plt.legend(handle_list, label_list, loc="lower left", scatterpoints=1, fontsize=12)
     # Fixed size of point in legend
     # Ref. https://stackoverflow.com/a/24707567/6596684
     for i in range(len(leg.legendHandles)):
@@ -90,7 +79,7 @@ def draw_full_complex(fal, fcl):
     plt.show()
 
 
-def draw_full_complex_and_faces(fal, fcl, pcl):
+def draw_all_atom_and_face(fal, fcl, pcl):
     """Display 3D structure of octahedral complex with label for each atoms
 
     :param fal: list - full_atom_list
@@ -98,7 +87,6 @@ def draw_full_complex_and_faces(fal, fcl, pcl):
     :param pcl: array - coordinate of atom in selected plane list
     :return:
     """
-
     print("Info: Display scattering plot of all atoms")
     print("      Draw surface for all 8 faces of selected octahedron")
 
@@ -113,31 +101,19 @@ def draw_full_complex_and_faces(fal, fcl, pcl):
         vertices = [list(zip(x, y, z))]
         vertices_list.append(vertices)
 
-    # The following is for showing only 4 faces whose the minimum Theta value
-    # for i in range(4):
-    #     get_vertices = ref_pcl[i].tolist()
-    #     x, y, z = zip(*get_vertices)
-    #     vertices = [list(zip(x, y, z))]
-    #     vertices_list.append(vertices)
-
     # Plot all atoms
     for i in range(len(fcl)):
         # Determine atomic number
         n = elements.check_atom(fal[i])
-        ax.scatter(fcl[i][0], fcl[i][1], fcl[i][2],
-                   marker='o', linewidths=0.5, edgecolors='black',
-                   color=elements.check_color(n),
-                   label="{}".format(fal[i]),
-                   s=elements.check_radii(n) * 300)
+        ax.scatter(fcl[i][0], fcl[i][1], fcl[i][2], marker='o', linewidths=0.5, edgecolors='black',
+                   color=elements.check_color(n), label="{}".format(fal[i]), s=elements.check_radii(n)*300)
 
     # Draw plane
     color_list = ["red", "blue", "green", "yellow",
                   "violet", "cyan", "brown", "grey"]
 
     for i in range(len(vertices_list)):
-        ax.add_collection3d(Poly3DCollection(vertices_list[i],
-                                             alpha=0.5,
-                                             color=color_list[i]))
+        ax.add_collection3d(Poly3DCollection(vertices_list[i], alpha=0.5, color=color_list[i]))
 
     # Calculate distance
     bond_list = tools.calc_bond_distance(fal, fcl)
@@ -165,8 +141,7 @@ def draw_full_complex_and_faces(fal, fcl, pcl):
         if label not in label_list:
             handle_list.append(handle)
             label_list.append(label)
-    leg = plt.legend(handle_list, label_list,
-                     loc="lower left", scatterpoints=1, fontsize=12)
+    leg = plt.legend(handle_list, label_list, loc="lower left", scatterpoints=1, fontsize=12)
     # Fixed size of point in legend
     # Ref. https://stackoverflow.com/a/24707567/6596684
     for i in range(len(leg.legendHandles)):
@@ -191,7 +166,6 @@ def draw_octahedron(al, cl):
     :param cl: array - coord_list
     :return:
     """
-
     print("Info: Display scattering plot of truncated octahedral structure")
     print("      Draw surface for all 8 faces of selected octahedron")
 
@@ -202,11 +176,8 @@ def draw_octahedron(al, cl):
     for i in range(len(cl)):
         # Determine atomic number
         n = elements.check_atom(al[i])
-        ax.scatter(cl[i][0], cl[i][1], cl[i][2],
-                   marker='o', linewidths=0.5, edgecolors='black',
-                   color=elements.check_color(n),
-                   label="{}".format(al[i]),
-                   s=elements.check_radii(n) * 300)
+        ax.scatter(cl[i][0], cl[i][1], cl[i][2], marker='o', linewidths=0.5, edgecolors='black',
+                   color=elements.check_color(n), label="{}".format(al[i]), s=elements.check_radii(n)*300)
 
     # Draw line
     for i in range(1, len(cl)):
@@ -223,8 +194,7 @@ def draw_octahedron(al, cl):
         if label not in label_list:
             handle_list.append(handle)
             label_list.append(label)
-    leg = plt.legend(handle_list, label_list,
-                     loc="lower left", scatterpoints=1, fontsize=12)
+    leg = plt.legend(handle_list, label_list, loc="lower left", scatterpoints=1, fontsize=12)
     # Fixed size of point in legend
     # Ref. https://stackoverflow.com/a/24707567/6596684
     for i in range(len(leg.legendHandles)):
@@ -242,7 +212,7 @@ def draw_octahedron(al, cl):
     plt.show()
 
 
-def draw_octahedron_and_faces(al, cl, pcl):
+def draw_octahedron_and_face(al, cl, pcl):
     """Display 3D structure of octahedral complex with 8 faces
 
     :param al: list - atom_list
@@ -250,7 +220,6 @@ def draw_octahedron_and_faces(al, cl, pcl):
     :param pcl: array - coordinate of atom of 8 faces list
     :return:
     """
-
     print("Info: Display scattering plot of truncated octahedral structure")
     print("      Draw surface for all 8 faces of selected oatahedral")
 
@@ -269,20 +238,15 @@ def draw_octahedron_and_faces(al, cl, pcl):
     for i in range(len(cl)):
         # Determine atomic number
         n = elements.check_atom(al[i])
-        ax.scatter(cl[i][0], cl[i][1], cl[i][2],
-                   marker='o', linewidths=0.5, edgecolors='black',
-                   color=elements.check_color(n),
-                   label="{}".format(al[i]),
-                   s=elements.check_radii(n) * 300)
+        ax.scatter(cl[i][0], cl[i][1], cl[i][2], marker='o', linewidths=0.5, edgecolors='black',
+                   color=elements.check_color(n), label="{}".format(al[i]), s=elements.check_radii(n)*300)
 
     # Draw plane
     color_list = ["red", "blue", "green", "yellow",
                   "violet", "cyan", "brown", "grey"]
 
     for i in range(len(vertices_list)):
-        ax.add_collection3d(Poly3DCollection(vertices_list[i],
-                                             alpha=0.5,
-                                             color=color_list[i]))
+        ax.add_collection3d(Poly3DCollection(vertices_list[i], alpha=0.5, color=color_list[i]))
 
     # Draw line
     for i in range(1, len(cl)):
@@ -299,8 +263,7 @@ def draw_octahedron_and_faces(al, cl, pcl):
         if label not in label_list:
             handle_list.append(handle)
             label_list.append(label)
-    leg = plt.legend(handle_list, label_list,
-                     loc="lower left", scatterpoints=1, fontsize=12)
+    leg = plt.legend(handle_list, label_list, loc="lower left", scatterpoints=1, fontsize=12)
     # Fixed size of point in legend
     # Ref. https://stackoverflow.com/a/24707567/6596684
     for i in range(len(leg.legendHandles)):
@@ -318,7 +281,7 @@ def draw_octahedron_and_faces(al, cl, pcl):
     plt.show()
 
 
-def draw_octahedron_and_opt_faces(al, cl, ref_pcl):
+def draw_octahedron_and_opt_face(al, cl, ref_pcl):
     """Display 3D structure of octahedral complex with 8 faces
 
     :param al: list - atom_list
@@ -326,11 +289,9 @@ def draw_octahedron_and_opt_faces(al, cl, ref_pcl):
     :param ref_pcl: array - coordinate of atom in selected optimal 4 faces
     :return:
     """
-
     print("Info: Display scattering plot of truncated octahedral structure")
     print("      Draw surface for all 8 faces of selected oatahedral")
 
-    # Plot and configuration
     fig = plt.figure()
     ax = Axes3D(fig)
     vertices_list = []
@@ -346,19 +307,14 @@ def draw_octahedron_and_opt_faces(al, cl, ref_pcl):
     for i in range(len(cl)):
         # Determine atomic number
         n = elements.check_atom(al[i])
-        ax.scatter(cl[i][0], cl[i][1], cl[i][2],
-                   marker='o', linewidths=0.5, edgecolors='black',
-                   color=elements.check_color(n),
-                   label="{}".format(al[i]),
-                   s=elements.check_radii(n) * 300)
+        ax.scatter(cl[i][0], cl[i][1], cl[i][2], marker='o', linewidths=0.5, edgecolors='black',
+                   color=elements.check_color(n), label="{}".format(al[i]), s=elements.check_radii(n) * 300)
 
     # Draw plane
     color_list = ["red", "blue", "green", "yellow"]
 
     for i in range(len(vertices_list)):
-        ax.add_collection3d(Poly3DCollection(vertices_list[i],
-                                             alpha=0.5,
-                                             color=color_list[i]))
+        ax.add_collection3d(Poly3DCollection(vertices_list[i], alpha=0.5, color=color_list[i]))
 
     # Draw line
     for i in range(1, len(cl)):
@@ -375,8 +331,7 @@ def draw_octahedron_and_opt_faces(al, cl, ref_pcl):
         if label not in label_list:
             handle_list.append(handle)
             label_list.append(label)
-    leg = plt.legend(handle_list, label_list,
-                     loc="lower left", scatterpoints=1, fontsize=12)
+    leg = plt.legend(handle_list, label_list, loc="lower left", scatterpoints=1, fontsize=12)
     # Fixed size of point in legend
     # Ref. https://stackoverflow.com/a/24707567/6596684
     for i in range(len(leg.legendHandles)):
@@ -397,16 +352,15 @@ def draw_octahedron_and_opt_faces(al, cl, ref_pcl):
 def draw_projection_planes(al, cl, vl, ovl):
     """Display the selected 4 faces of octahedral complex
 
-    :param al: atom_list
-    :param cl: coord_list
-    :param vl: ref_pcl
-    :param ovl: oppo_pcl
+    :param al: list - atom_list
+    :param cl: array - coord_list
+    :param vl: array - ref_pcl
+    :param ovl: array - oppo_pcl
     :return:
     """
-
-    print("Info: Display the selected 4 pairs of opposite faces")
+    print("Info: Display the selected 4 pairs of opposite planes (faces)")
     print("      Scattering plot of all atoms")
-    print("      Draw surface for 4 pairs of reference and opposite faces")
+    print("      Draw surface for 4 pairs of reference and opposite planes")
 
     # reference face
     ref_vertices_list = []
@@ -426,7 +380,7 @@ def draw_projection_planes(al, cl, vl, ovl):
         oppo_vertices_list.append(vertices)
 
     fig = plt.figure()
-    st = fig.suptitle("4 pairs of opposite faces", fontsize="x-large")
+    st = fig.suptitle("4 pairs of opposite planes", fontsize="x-large")
 
     # Display four planes
     color_list_1 = ["red", "blue", "orange", "magenta"]
@@ -434,27 +388,19 @@ def draw_projection_planes(al, cl, vl, ovl):
 
     for i in range(4):
         ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
-        ax.set_title("Plane {}".format(i + 1))
-        ax.scatter(cl[0][0], cl[0][1], cl[0][2],
-                   color='yellow', marker='o', s=100,
+        ax.set_title("Pair {}".format(i + 1))
+        ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100,
                    linewidths=1, edgecolors='black', label="Metal center")
-        ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1,
-                al[0], fontsize=9)
+        ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, al[0], fontsize=9)
 
         for j in range(1, 7):
-            ax.scatter(cl[j][0], cl[j][1], cl[j][2],
-                       color='red', marker='o', s=50,
+            ax.scatter(cl[j][0], cl[j][1], cl[j][2], color='red', marker='o', s=50,
                        linewidths=1, edgecolors='black', label="Ligand atoms")
-            ax.text(cl[j][0] + 0.1, cl[j][1] + 0.1, cl[j][2] + 0.1,
-                    "{0},{1}".format(al[j], j), fontsize=9)
+            ax.text(cl[j][0] + 0.1, cl[j][1] + 0.1, cl[j][2] + 0.1, "{0},{1}".format(al[j], j), fontsize=9)
 
         # Draw plane
-        ax.add_collection3d(Poly3DCollection(ref_vertices_list[i],
-                                             alpha=0.5,
-                                             color=color_list_1[i]))
-        ax.add_collection3d(Poly3DCollection(oppo_vertices_list[i],
-                                             alpha=0.5,
-                                             color=color_list_2[i]))
+        ax.add_collection3d(Poly3DCollection(ref_vertices_list[i], alpha=0.5, color=color_list_1[i]))
+        ax.add_collection3d(Poly3DCollection(oppo_vertices_list[i], alpha=0.5, color=color_list_2[i]))
 
         # Set axis
         ax.set_xlabel(r'X', fontsize=10)
@@ -476,11 +422,10 @@ def draw_twisting_faces(al, cl, vl, ovl):
 
     :param al: list - atom_list
     :param cl: array - coord_list
-    :param vl: ref_pcl - reference plane list
-    :param ovl: oppo_pcl - opposite plane list
+    :param vl: array - ref_pcl - reference plane list
+    :param ovl: array - oppo_pcl - opposite plane list
     :return:
     """
-
     print("Info: Display the reference and projected atoms")
     print("      Scattering plot of all projected atoms on the reference plane")
     print("      Draw surface for 4 pairs of two twisting triangular faces")
@@ -504,45 +449,32 @@ def draw_twisting_faces(al, cl, vl, ovl):
         ax.set_title("Projection plane {0}".format(i + 1), fontsize='10')
 
         # Projected metal center atom
-        ax.scatter(m[0], m[1], m[2],
-                   color='orange', s=100, marker='o',
-                   linewidths=1, edgecolors='black',
-                   label="Metal center")
-        ax.text(m[0] + 0.1, m[1] + 0.1, m[2] + 0.1,
-                "{0}'".format(al[0]), fontsize=9)
+        ax.scatter(m[0], m[1], m[2], color='orange', s=100, marker='o',
+                   linewidths=1, edgecolors='black', label="Metal center")
+        ax.text(m[0] + 0.1, m[1] + 0.1, m[2] + 0.1, "{0}'".format(al[0]), fontsize=9)
 
         # Reference atoms
         pl = []
 
         for j in range(3):
-            ax.scatter(vl[i][j][0], vl[i][j][1], vl[i][j][2],
-                       color='red', s=50, marker='o',
-                       linewidths=1, edgecolors='black',
-                       label="Reference atom")
-            ax.text(vl[i][j][0] + 0.1, vl[i][j][1] + 0.1, vl[i][j][2] + 0.1,
-                    "{0}".format(j + 1), fontsize=9)
+            ax.scatter(vl[i][j][0], vl[i][j][1], vl[i][j][2], color='red', s=50, marker='o',
+                       linewidths=1, edgecolors='black', label="Reference atom")
+            ax.text(vl[i][j][0] + 0.1, vl[i][j][1] + 0.1, vl[i][j][2] + 0.1, "{0}".format(j + 1), fontsize=9)
             # Project ligand atom onto the reference face
             pl.append(proj.project_atom_onto_plane(ovl[i][j], a, b, c, d))
 
         # Projected opposite atoms
         for j in range(3):
-            ax.scatter(pl[j][0], pl[j][1], pl[j][2],
-                       color='blue', s=50, marker='o',
-                       linewidths=1, edgecolors='black',
-                       label="Projected ligand atom")
-            ax.text(pl[j][0] + 0.1, pl[j][1] + 0.1, pl[j][2] + 0.1,
-                    "{0}'".format(j + 1), fontsize=9)
+            ax.scatter(pl[j][0], pl[j][1], pl[j][2], color='blue', s=50, marker='o',
+                       linewidths=1, edgecolors='black', label="Projected ligand atom")
+            ax.text(pl[j][0] + 0.1, pl[j][1] + 0.1, pl[j][2] + 0.1, "{0}'".format(j + 1), fontsize=9)
 
         # Draw plane
         x, y, z = zip(*pl)
         projected_oppo_vertices_list = [list(zip(x, y, z))]
 
-        ax.add_collection3d(Poly3DCollection(ref_vertices_list[i],
-                                             alpha=0.5,
-                                             color="yellow"))
-        ax.add_collection3d(Poly3DCollection(projected_oppo_vertices_list,
-                                             alpha=0.5,
-                                             color="blue"))
+        ax.add_collection3d(Poly3DCollection(ref_vertices_list[i], alpha=0.5, color="yellow"))
+        ax.add_collection3d(Poly3DCollection(projected_oppo_vertices_list, alpha=0.5, color="blue"))
 
         # Draw line
         for j in range(3):
@@ -578,7 +510,6 @@ def show_plot_angles(s, t):
     :param t: array - computed Theta parameter
     :return:
     """
-
     print("Info: Show relationship plot between Σ and Θ\n")
 
     ax = plt.subplot()
@@ -589,12 +520,10 @@ def show_plot_angles(s, t):
 
     # Shrink current axis's height by 10% on the bottom
     box = ax.get_position()
-    ax.set_position([box.x0, box.y0 + box.height * 0.1,
-                     box.width, box.height * 0.9])
+    ax.set_position([box.x0, box.y0 + box.height*0.1, box.width, box.height*0.9])
 
     # Put a legend below current axis
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1),
-              fancybox=True, shadow=True, ncol=5)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), fancybox=True, shadow=True, ncol=5)
 
     plt.title("Relationship plot between $\Sigma$ and $\Theta$")
     plt.xlabel(r'$\Sigma$')

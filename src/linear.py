@@ -17,15 +17,17 @@ def norm_vector(v):
     :param v: array - vector
     :return: array - normalized vector
     """
-
     if np.linalg.norm(v) == 0:
         print("Error: Norm of vector", v, "is 0.")
 
-    return v / np.linalg.norm(v)
+    return v/np.linalg.norm(v)
 
 
 def distance_between(a, b):
-    """Find distance between two point, given points (x1, y1, z1) and (x2, y2, z2)
+    """Find distance between two point, a = (x1, y1, z1) and b = (x2, y2, z2)
+
+                 -----------------------------------
+    distance = \/ (x2-x1)^2 + (y2-y1)^2 + (z2-z1)^2
 
     :param a: array - cartesian coordinate of point a
     :param b: array - cartesian coordinate of point b
@@ -36,30 +38,29 @@ def distance_between(a, b):
 
 
 def distance_avg(x):
-    """Calculate average M-X distance
+    """Calculate average bond distance
 
-    :param x: array - coordinate of atom x
-    :return: float - average M-X distance
+    :param x: array - coordinates of ligand atoms
+    :return: float - average bond distance
     """
-
-    dist_sum = []
+    dist_list = []
 
     for i in range(1, 7):
-        results_sum = distance_between(x[i], x[0])
-        dist_sum.append(results_sum)
+        dist = distance_between(x[i], x[0])
+        dist_list.append(dist)
 
-    return sum([dist_sum[i] for i in range(6)])/6
+    return sum([dist_list[i] for i in range(6)])/6
 
 
-def midpoint_of_line(x, y):
-    """Find the midpoint of line segment (between two point), given points (x1,y1,z1) and (x2,y2,z2)
+def midpoint_of_line(a, b):
+    """Find the midpoint of line segment, a = (x1,y1,z1) and b = (x2,y2,z2)
 
-    :param x: array - cartesian coordinate of atom x
-    :param y: array - cartesian coordinate of atom x
-    :return: float - point
+    :param a: array - cartesian coordinate of head atom
+    :param b: array - cartesian coordinate of tail atom
+    :return: array - midpoint of line segment
     """
 
-    return np.array([(x[0] + y[0])/2, (x[1] + y[1])/2, (x[2] + y[2])/2])
+    return np.array([(a[0] + b[0])/2, (a[1] + b[1])/2, (a[2] + b[2])/2])
 
 
 def angle_between(p1, p2, p3):
@@ -69,10 +70,11 @@ def angle_between(p1, p2, p3):
     angle (in radian) = arccos | ----------------------------------------- |
                                \               |p2| * |p3|                /
 
-    :param p1, p2, p3: array - coordinate of atom 1, 2, 3
+    :param p1: array - coordinate of atom 1
+    :param p2: array - coordinate of atom 2
+    :param p3: array - coordinate of atom 3
     :return: float - angle in degree unit
     """
-
     v1 = p2 - p1
     v2 = p3 - p1
 
@@ -95,7 +97,6 @@ def triangle_area(a, b, c):
     :param c: point C - (Cx, Cy, Cz)
     :return: float - triangle area
     """
-
     AB = b - a
     AC = c - a
 

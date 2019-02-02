@@ -15,8 +15,15 @@ import proj
 def find_8_faces(cl):
     """Find 8 triangular faces (plane of octahedron by any three ligand atoms
 
-    Choose 3 atoms out of 6 ligand atoms. The total number of combination is 6!/3!3! = 20,
-    but we want only 8 faces. So must delete 12 faces that defined by two trans atoms.
+    1) Choose 3 atoms out of 6 ligand atoms. The total number of combination is 6!/3!3! = 20,
+
+    2) Then, delete 12 faces that defined by two trans atoms.
+        2.1) Orthogonally project metal center atom on to face: m ----> m'
+        2.2) Compute the shortest distance between metal center and face.
+        2.3) Sort the distances in ascending order
+        2.4) Exclude the 12 faces which mostly closest to metal center atom.
+
+    3) The number of remaining faces is 8.
 
     :param cl: array - XYZ coordinate of one metal center and six ligand atoms
                 cl[0] = metal center atom of complex
@@ -24,11 +31,6 @@ def find_8_faces(cl):
     :return pal: array - plane_atom_list - list of atom on the projection plane
     :return pcl: array - plane_coord_list - list of coordinate of atom on the projection plane
     """
-
-    # Find the new location of metal center (m') and a distance between old and new position.
-    # m ---- m'
-    # then store the number of ligand atoms and the minimum distance into list pal & pcl.
-
     print("Info: Find all 20 faces of octahedron")
     print("Info: Find minimum distance from metal center to each face")
 
@@ -44,10 +46,6 @@ def find_8_faces(cl):
                 pal.append([i, j, k])
                 pcl.append([cl[i], cl[j], cl[k], d_btw])
 
-    # Do not convert list to array!
-    # pal = np.asarray(pal)
-    # pcl = np.asarray(pcl)
-
     print("Info: Show atom on octahedron faces and minimum distance:\n")
     print("      List of faces before sorting minimum distance out:")
 
@@ -60,11 +58,9 @@ def find_8_faces(cl):
         k = i
         j = i + 1
         while j < len(pcl):
-            # Compare the minimum distance
             if pcl[k][3] > pcl[j][3]:
                 k = j
             j += 1
-        # Reorder of atom sequence for both arrays
         pcl[i], pcl[k] = pcl[k], pcl[i]
         pal[i], pal[k] = pal[k], pal[i]
 
@@ -88,14 +84,10 @@ def find_8_faces(cl):
     print("      List of 8 reference faces, minimum distance, and coordinates of atom on face:")
 
     for i in range(len(scl)):
-        print("       {0} : {1:10.6f}"
-              .format(sal[i], scl[i][3]))
-        print("                 : {0:10.6f}, {1:10.6f}, {2:10.6f}"
-              .format(scl[i][0][0], scl[i][0][1], scl[i][0][2]))
-        print("                 : {0:10.6f}, {1:10.6f}, {2:10.6f}"
-              .format(scl[i][1][0], scl[i][1][1], scl[i][1][2]))
-        print("                 : {0:10.6f}, {1:10.6f}, {2:10.6f}"
-              .format(scl[i][2][0], scl[i][2][1], scl[i][2][2]))
+        print("       {0} : {1:10.6f}".format(sal[i], scl[i][3]))
+        print("                 : {0:10.6f}, {1:10.6f}, {2:10.6f}".format(scl[i][0][0], scl[i][0][1], scl[i][0][2]))
+        print("                 : {0:10.6f}, {1:10.6f}, {2:10.6f}".format(scl[i][1][0], scl[i][1][1], scl[i][1][2]))
+        print("                 : {0:10.6f}, {1:10.6f}, {2:10.6f}".format(scl[i][2][0], scl[i][2][1], scl[i][2][2]))
 
     plane_atom_list = sal
 
@@ -119,7 +111,6 @@ def find_opposite_atoms(x, cl):
     :return oppo_pal: list - atoms on the opposite plane
     :return oppo_pcl: array - coordinates of atoms on the opposite plane
     """
-
     print("\nInfo: Find opposite faces")
     print("Info: Show 8 opposite faces and coordinate of atoms on face:")
 
@@ -138,7 +129,6 @@ def find_opposite_atoms(x, cl):
 
     print("\n      List of 8 opposite faces and coordinates of atom on face:")
 
-    # cl is coord_list
     v = np.array(cl)
     oppo_pcl = []
 
@@ -147,23 +137,19 @@ def find_opposite_atoms(x, cl):
         new_pcl = []
 
         for j in range(3):
-            new_pcl.append([v[int(oppo_pal[i][j])][0],
-                            v[int(oppo_pal[i][j])][1],
-                            v[int(oppo_pal[i][j])]][2])
+            new_pcl.append([v[int(oppo_pal[i][j])][0], v[int(oppo_pal[i][j])][1], v[int(oppo_pal[i][j])]][2])
         oppo_pcl.append(new_pcl)
 
         print("      Opposite face  : {0}".format(oppo_pal[i]))
 
         for j in range(3):
             print("                     : {0:10.6f}, {1:10.6f}, {2:10.6f}"
-                  .format(oppo_pcl[i][1][0],
-                          oppo_pcl[i][1][1],
-                          oppo_pcl[i][1][2]))
+                  .format(oppo_pcl[i][1][0], oppo_pcl[i][1][1], oppo_pcl[i][1][2]))
 
     return oppo_pal, oppo_pcl
 
 
-def find_eq_of_plane(X, Y, Z):
+def find_eq_of_plane(x, y, z):
     """Find the equation of plane of given three points (ligand atoms)
     The general form of plane equation is Ax + By + Cz = D
     where A, B, C, and D are coefficient. They can be computed using cross product definition
@@ -173,15 +159,16 @@ def find_eq_of_plane(X, Y, Z):
 
     d = (a, b, c).Z
 
-    :param X, Y, Z: array - given three points
+    :param x: array - point 1
+    :param y: array - point 2
+    :param z: array - point 3
     :return a, b, c, d: float - coefficients of the equation of the given plane
     """
-
-    XZ = Z - X
-    XY = Y - X
+    XZ = z - x
+    XY = y - x
 
     cross_vector = np.cross(XZ, XY)
     a, b, c = cross_vector
-    d = np.dot(cross_vector, Z)
+    d = np.dot(cross_vector, z)
 
     return a, b, c, d

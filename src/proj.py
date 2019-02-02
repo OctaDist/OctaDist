@@ -11,17 +11,18 @@ import numpy as np
 
 
 def project_atom_onto_line(p, a, b):
-    """Find the projected atom on the given line, which defined by two atoms.
+    """Find the projected atom on the given line,
+    which defined by two distinct end points (two atoms)
 
     a <------> b
 
     P(x) = x1 + (p - x1).(x2 - x1)/(x2-x1).(x2-x1) * (x2-x1)
 
     :param p: point to project
-    :param a, b: head and tail atoms as two distinct end points
+    :param a: head atom
+    :param b: tail atom
     :return: the projected point on the orthogonal line
     """
-
     ap = p - a
     ab = b - a
 
@@ -37,11 +38,13 @@ def project_atom_onto_plane(p, a, b, c, d):
 
     where λ = (D - ( A*L + B*M + C*N)) / (A^2 + B^2 + C^2)
 
+    :param a: float - coefficient of the equation of plane
+    :param b: float - coefficient of the equation of plane
+    :param c: float - coefficient of the equation of plane
+    :param d: float - coefficient of the equation of plane
     :param p: array - coordinate of atom that will be projected
-    :param a, b, c, d: float - coefficient of the equation of plane
     :return: the projected point on the orthogonal plane
     """
-
     plane = np.array([a, b, c])
     lambda_plane = (d - (a*p[0] + b*p[1] + c*p[2]))/np.dot(plane, plane)
 

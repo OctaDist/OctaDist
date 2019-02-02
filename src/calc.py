@@ -27,10 +27,8 @@ def calc_delta(cl):
     :return computed_delta: float - delta parameter (unitless)
     :return unique_distance: list - list of unique distances
     """
-
     print("Info: Calculate distance between metal center (M) and ligand atoms (Å)")
 
-    # Calculate and print individual distance
     unique_distance = []
 
     print("Info: Show 6 distances\n")
@@ -45,7 +43,6 @@ def calc_delta(cl):
     computed_distance_avg = linear.distance_avg(cl)
     computed_delta = 0
 
-    # Calculate Delta parameter
     for i in range(6):
         diff_dist = (unique_distance[i] - computed_distance_avg) / computed_distance_avg
         computed_delta = ((diff_dist * diff_dist) / 6) + computed_delta
@@ -71,11 +68,9 @@ def calc_sigma(cl):
     :return computed_sigma: float - sigma parameter in degree
     :return new_angle_sigma: list - list of 12 unique angles
     """
-
     print("Info: Calculate angle (°) between ligand atoms")
     print("Info: Show 15 angles including cis and trans angles")
 
-    # Calculate individual angle and print angles before and after sorted
     angle_sigma = []
     ligand_atom = []
 
@@ -119,7 +114,6 @@ def calc_sigma(cl):
 
     computed_sigma = 0
 
-    # Calculate Sigma parameter
     for i in range(len(new_angle_sigma)):
         computed_sigma = abs(90.0 - new_angle_sigma[i]) + computed_sigma
 
@@ -210,21 +204,19 @@ def calc_theta(cl):
     :param cl: array - coordinate of all atoms
     :return comp_theta: list - the lowest Theta value
     :return comp_theta_list: list - list of 70 Theta values
-    :return pal: list - atom number of all 8 faces
-    :return pcl: list - coordinates of all 8 faces
+    :return pal: list - atomic number of all 8 faces
+    :return pcl: list - atomic coordinates of all 8 faces
     :return sel_p_atom: list - atom number of selected 4 reference faces
     :return sel_p_coord: list - coordinates of selected 4 reference faces
     :return sel_p_oppo_atom: list - atom number of selected 4 opposite faces
     :return sel_p_oppo_coord: list - coordinates of selected 4 opposite faces
     :return all_comp: compile all results
     """
-
-    # Find suitable plane and atom on opposite plane
-    pal, pcl = plane.find_8_faces(cl)
-    oppo_pal, oppo_pcl = plane.find_opposite_atoms(pal, cl)
-
     print("\nInfo: Find the orthogonal projection of opposite atoms on the reference plane")
     print("      The general form of the equation is Ax + By + Cz = D\n")
+
+    pal, pcl = plane.find_8_faces(cl)
+    oppo_pal, oppo_pcl = plane.find_opposite_atoms(pal, cl)
 
     unique_24_angles = []
 
@@ -258,12 +250,9 @@ def calc_theta(cl):
         N3 = proj.project_atom_onto_plane(cl[O3], a, b, c, d)
 
         print("      New coordinate of atom on reference plane (after projection)")
-        print("       {0}' : {1:10.6f}, {2:10.6f}, {3:10.6f}"
-              .format(O1, N1[0], N1[1], N1[2]))
-        print("       {0}' : {1:10.6f}, {2:10.6f}, {3:10.6f}"
-              .format(O2, N2[0], N2[1], N2[2]))
-        print("       {0}' : {1:10.6f}, {2:10.6f}, {3:10.6f}\n"
-              .format(O3, N3[0], N3[1], N3[2]))
+        print("       {0}' : {1:10.6f}, {2:10.6f}, {3:10.6f}".format(O1, N1[0], N1[1], N1[2]))
+        print("       {0}' : {1:10.6f}, {2:10.6f}, {3:10.6f}".format(O2, N2[0], N2[1], N2[2]))
+        print("       {0}' : {1:10.6f}, {2:10.6f}, {3:10.6f}\n".format(O3, N3[0], N3[1], N3[2]))
 
         # Define line and find that if the two vectors are parallel or anti parallel.
         lal = [[O1, O2, O3],  # lal = atoms on line
@@ -280,12 +269,8 @@ def calc_theta(cl):
         for j in range(3):
             # Find projected point of "reference atom" and "candidate atom" on the given line
             for k in range(3):
-                ref_on_line = proj.project_atom_onto_line(pcl[i][j],
-                                                          lcl[k][0],
-                                                          lcl[k][1])
-                can_on_line = proj.project_atom_onto_line(lcl[k][2],
-                                                          lcl[k][0],
-                                                          lcl[k][1])
+                ref_on_line = proj.project_atom_onto_line(pcl[i][j], lcl[k][0], lcl[k][1])
+                can_on_line = proj.project_atom_onto_line(lcl[k][2], lcl[k][0], lcl[k][1])
 
                 # Find vectors from reference atom and candidate atom to a line segment
                 vector_ref = ref_on_line - pcl[i][j]
@@ -294,28 +279,25 @@ def calc_theta(cl):
                 # Compute dot product to check if two vectors are anti-parallel.
                 if np.dot(vector_ref, vector_can) < 0:
                     # Compute two unique angles between reference atom and neighbors.
-                    # Left angle
                     angle_1 = linear.angle_between(m, pcl[i][j], lcl[k][0])
                     unique_6_angles.append(angle_1)
-                    # Right angle
                     angle_2 = linear.angle_between(m, pcl[i][j], lcl[k][1])
                     unique_6_angles.append(angle_2)
 
-                    print("       Angle between atom {0} and {1} : {2:10.6f}"
-                          .format(pal[i][j], lal[k][0], angle_1))
-                    print("       Angle between atom {0} and {1} : {2:10.6f}"
-                          .format(pal[i][j], lal[k][1], angle_2))
+                    print("       Angle between atom {0} and {1} : {2:10.6f}".format(pal[i][j], lal[k][0], angle_1))
+                    print("       Angle between atom {0} and {1} : {2:10.6f}".format(pal[i][j], lal[k][1], angle_2))
 
         unique_24_angles.append(unique_6_angles)
 
         print("      ----------------------------------------\n")
 
     print("Info: Show list of atoms of reference and opposite faces for 8 faces\n")
-    print("               Reference    Opposite")
-    print("                 atom         atom")
+    print("                Reference     Opposite")
+    print("       Face       atom          atom")
+    print("       ----     ---------     --------")
 
     for i in range(len(pal)):
-        print("      Face {0} : {1}    {2}".format(i + 1, pal[i], oppo_pal[i]))
+        print("         {0}      {1}     {2}".format(i + 1, pal[i], oppo_pal[i]))
 
     unique_angle_list = []
 
@@ -325,7 +307,6 @@ def calc_theta(cl):
             diff_angle += abs(60.0 - unique_24_angles[i][j])
         unique_angle_list.append(diff_angle)
 
-    # Print 70 Theta values for different plane sets and add to comp_theta_list
     print("\nInfo: Show computed Θ parameter (°) of 70 sets of pair of opposite faces\n")
 
     LIST = unique_angle_list
@@ -338,26 +319,21 @@ def calc_theta(cl):
             for k in range(j + 1, 7):
                 for l in range(k + 1, 8):
                     plane_set.append([i + 1, j + 1, k + 1, l + 1])
-
-                    sum_unique_angle = (LIST[i] +
-                                        LIST[j] +
-                                        LIST[k] +
-                                        LIST[l])
-
+                    sum_unique_angle = (LIST[i] + LIST[j] + LIST[k] + LIST[l])
                     comp_theta_list.append(sum_unique_angle)
 
-    # Find the minimum Theta angle
-    comp_theta = min(comp_theta_list)
+    # Find the minimum Theta angle and print all values
+    lowest_theta = min(comp_theta_list)
 
-    # Print the Theta value for all 70 combinations
+    print("       Set    Atom on face         Θ (°)")
+    print("       ---    ------------     ----------")
+
     for i in range(len(comp_theta_list)):
-        if comp_theta_list[i] == comp_theta:
-            print("      Θ of face set {0} : {1:11.6f} ***"
-                  .format(plane_set[i], comp_theta_list[i]))
+        if comp_theta_list[i] == lowest_theta:
+            print("       {0:2d}     {1}    {2:11.6f} ***".format(i+1, plane_set[i], comp_theta_list[i]))
             sel_plane_set = plane_set[i]
         else:
-            print("      Θ of face set {0} : {1:11.6f}"
-                  .format(plane_set[i], comp_theta_list[i]))
+            print("       {0:2d}     {1}    {2:11.6f}".format(i+1, plane_set[i], comp_theta_list[i]))
 
     # sel = selected
     sel_p_atom = []
@@ -372,35 +348,21 @@ def calc_theta(cl):
         sel_p_oppo_atom.append(oppo_pal[p])
         sel_p_oppo_coord.append(oppo_pcl[p])
 
-    # Put all selected result into all_comp
-    all_comp = (pal,
-                pcl,
-                sel_p_atom,
-                sel_p_coord,
-                sel_p_oppo_atom,
-                sel_p_oppo_coord)
+    all_comp = (pal, pcl, sel_p_atom, sel_p_coord, sel_p_oppo_atom, sel_p_oppo_coord)
 
     print("\n      ====================== SUMMARY of Θ ======================\n")
-    print("      The face set %s gives the lowest Θ parameter" % sel_plane_set)
-    print("      Selected Θ parameter : %11.6f\n" % comp_theta)
+    print("      The face set %s gives the lowest Θ parameter\n" % sel_plane_set)
 
     for i in range(4):
         print("      Face no. %s" % sel_plane_set[i])
-        print("      Reference atom: %s" % sel_p_atom[i])
+        print("      Reference atoms: {0}        Opposite atoms: {1}".format(sel_p_atom[i], sel_p_oppo_atom[i]))
 
         for j in range(3):
-            print("                    : {0:10.6f}, {1:10.6f}, {2:10.6f}"
-                  .format(sel_p_coord[i][j][0],
-                          sel_p_coord[i][j][1],
-                          sel_p_coord[i][j][2]))
-        print("      Opposite atom : %s" % sel_p_oppo_atom[i])
-
-        for j in range(3):
-            print("                    : {0:10.6f}, {1:10.6f}, {2:10.6f}"
-                  .format(sel_p_oppo_coord[i][j][0],
-                          sel_p_oppo_coord[i][j][1],
-                          sel_p_oppo_coord[i][j][2]))
+            print("      {0:9.6f},{1:9.6f},{2:9.6f}      {3:9.6f},{4:9.6f},{5:9.6f}"
+                  .format(sel_p_coord[i][j][0], sel_p_coord[i][j][1], sel_p_coord[i][j][2],
+                          sel_p_oppo_coord[i][j][0], sel_p_oppo_coord[i][j][1], sel_p_oppo_coord[i][j][2]))
         print("")
+    print("      Selected Θ parameter : %11.6f\n" % lowest_theta)
     print("      ==========================================================\n")
 
-    return comp_theta, all_comp
+    return lowest_theta, all_comp
