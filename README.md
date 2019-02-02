@@ -65,9 +65,11 @@ Distorted octahedron | Orthogonal projection of atoms onto the given (opposite) 
 4. Wait program for process until open
 
 ### Mac OS X
-1. Download program executable from [this page](https://github.com/rangsimanketkaew/OctaDist/releases)
-2. Open terminal
-3. Compile executable using PyInstaller: `pyinstaller --onefile main.py`
+1. Download program source code from [this page](https://github.com/rangsimanketkaew/OctaDist/releases)
+2. Uncompress the tarball: `tar -xzvf OctaDist-*`
+3. Enter OctaDist directory: `cd OctaDist-*/src`
+4. Change file permission of all python files: `chmod +x *.py`
+5. Compile executable using PyInstaller: `pyinstaller --onefile main.py`
 
 ### Linux OS
 For Linux user, use `python3 -V` to check python version.
@@ -76,6 +78,15 @@ For Linux user, use `python3 -V` to check python version.
 3. Enter OctaDist directory: `cd OctaDist-*/src`
 4. Change file permission of all python files: `chmod +x *.py`
 5. Execute program: `python3 main.py`
+<br/>
+### Prerequisite:
+```
+numpy==1.16.0
+matplotlib==3.0.2
+PyInstaller==3.4
+tkinter
+matplotlib
+```
 
 ### Supported input file format
 - [XYZ file format](https://en.wikipedia.org/wiki/XYZ_file_format) (*.xyz)
