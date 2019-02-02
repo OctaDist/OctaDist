@@ -78,8 +78,11 @@ For Linux user, use `python3 -V` to check python version.
 3. Enter OctaDist directory: `cd OctaDist-*/src`
 4. Change file permission of all python files: `chmod +x *.py`
 5. Execute program: `python3 main.py`
+
 <br/>
+
 ### Prerequisite:
+
 ```
 numpy==1.16.0
 matplotlib==3.0.2
