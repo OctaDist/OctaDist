@@ -20,6 +20,7 @@ def file_lines(file):
     with open(file) as f:
         for i, l in enumerate(f):
             pass
+
     return i + 1
 
 
@@ -94,6 +95,7 @@ def check_gaussian_file(f):
     for i in range(len(nline)):
         if "Standard orientation:" in nline[i]:
             return True
+
     return False
 
 
@@ -114,6 +116,7 @@ def check_nwchem_file(f):
     for j in range(len(nline)):
         if "Optimization converged" in nline[j]:
             return True
+
     return False
 
 
@@ -129,6 +132,7 @@ def check_orca_file(f):
     for i in range(len(nline)):
         if "CARTESIAN COORDINATES (ANGSTROEM)" in nline[i]:
             return True
+
     return False
 
 
@@ -145,6 +149,7 @@ def check_qchem_file(f):
     for i in range(len(nline)):
         if "OPTIMIZATION CONVERGED" in nline[i]:
             return True
+
     return False
 
 
@@ -238,15 +243,15 @@ def get_coord_gaussian(f):
             break
 
     for line in nline[start + 5: end]:
-        dat = line.split()
-        dat1 = int(dat[1])
-        coord_x = float(dat[3])
-        coord_y = float(dat[4])
-        coord_z = float(dat[5])
+        data = line.split()
+        data1 = int(data[1])
+        coord_x = float(data[3])
+        coord_y = float(data[4])
+        coord_z = float(data[5])
 
-        dat1 = elements.check_atom(dat1)
+        data1 = elements.check_atom(data1)
 
-        atom_full.append(dat1)
+        atom_full.append(data1)
         coord_full.append([coord_x, coord_y, coord_z])
 
     gaussian_file.close()
@@ -446,7 +451,7 @@ def cut_coord(fal, fcl):
     coord_list = np.asarray(fcl[0:7])
 
     # Print 7 atoms and their coordinates
-    show_7_atoms(atom_list, coord_list)
+    show_octahedron_atoms(atom_list, coord_list)
 
     return atom_list, coord_list
 
@@ -463,12 +468,13 @@ def show_all_atoms(fal, fcl):
     print("      ----    ----------    ----------    ----------")
 
     for i in range(len(fcl)):
-        print("       {0:>2}   {1:12.8f}, {2:12.8f}, {3:12.8f}"
+        print("       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
               .format(fal[i], fcl[i][0], fcl[i][1], fcl[i][2]))
+
     print("")
 
 
-def show_7_atoms(al, cl):
+def show_octahedron_atoms(al, cl):
     """Show selected atoms of octahedral structure
 
     :param al: list - atom_list
@@ -480,6 +486,7 @@ def show_7_atoms(al, cl):
     print("      ----    ----------    ----------    ----------")
 
     for i in range(len(cl)):
-        print("       {0:>2}   {1:12.8f}, {2:12.8f}, {3:12.8f}"
+        print("       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
               .format(al[i], cl[i][0], cl[i][1], cl[i][2]))
+
     print("")

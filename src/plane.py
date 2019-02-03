@@ -13,17 +13,17 @@ import proj
 
 
 def find_8_faces(cl):
-    """Find 8 triangular faces (plane of octahedron by any three ligand atoms
+    """Find 8 triangular faces
 
-    1) Choose 3 atoms out of 6 ligand atoms. The total number of combination is 6!/3!3! = 20,
+    1) Choose 3 atoms out of 6 ligand atoms. The total number of combination is 20.
 
-    2) Then, delete 12 faces that defined by two trans atoms.
-        2.1) Orthogonally project metal center atom on to face: m ----> m'
-        2.2) Compute the shortest distance between metal center and face.
-        2.3) Sort the distances in ascending order
-        2.4) Exclude the 12 faces which mostly closest to metal center atom.
+    2) Delete 12 faces that containing two trans atoms.
+        2.1) Orthogonally project metal center atom on to the face: m ----> m'
+        2.2) Compute the shortest distance between metal center and face
+        2.3) Sort out the distances in ascending order
+        2.4) Delete 12 faces which closest to metal center atom
 
-    3) The number of remaining faces is 8.
+    3) The rest of faces is 8.
 
     :param cl: array - XYZ coordinate of one metal center and six ligand atoms
                 cl[0] = metal center atom of complex
@@ -31,8 +31,8 @@ def find_8_faces(cl):
     :return pal: array - plane_atom_list - list of atom on the projection plane
     :return pcl: array - plane_coord_list - list of coordinate of atom on the projection plane
     """
-    print("Info: Find all 20 faces of octahedron")
-    print("Info: Find minimum distance from metal center to each face")
+    print("Info: Find all 20 triangles of octahedron")
+    print("Info: Find minimum distance from metal center to each triangle")
 
     pal = []
     pcl = []
@@ -46,11 +46,12 @@ def find_8_faces(cl):
                 pal.append([i, j, k])
                 pcl.append([cl[i], cl[j], cl[k], d_btw])
 
-    print("Info: Show atom on octahedron faces and minimum distance:\n")
-    print("      List of faces before sorting minimum distance out:")
+    print("Info: Show atoms of each triangle and minimum distance (Angstrom) before sorting out\n")
+    print("      Triangle     Minimum distance")
+    print("      ---------    ----------------")
 
     for i in range(len(pcl)):
-        print("       {0} : {1:10.6f}".format(pal[i], pcl[i][3]))
+        print("      {0}      {1:10.6f}".format(pal[i], pcl[i][3]))
 
     # Sort pcl in ascending order of the minimum distance (column 4)
     i = 0
@@ -67,31 +68,36 @@ def find_8_faces(cl):
         i += 1
 
     print("\nInfo: Sort out minimum distance in ascending order")
-    print("Info: Show octahedron faces after sorting minimum distance out:\n")
-    print("      List of faces as sorted minimum distance:")
+    print("Info: Show octahedron triangles after sorting minimum distance out\n")
+    print("      Triangle     Minimum distance")
+    print("      ---------    ----------------")
 
     for i in range(len(pcl)):
-        print("       {0} : {1:10.6f}".format(pal[i], pcl[i][3]))
+        print("      {0}      {1:10.6f}".format(pal[i], pcl[i][3]))
 
-    # Remove first 12 out of 20 planes (first 12 rows), now pcl remains 8 planes (faces)
-    print("\nInfo: Delete 12 faces that mostly close to metal center atom")
+    # Remove first 12 triangles, the rest of triangles is 8 faces of octahedron
+    print("\nInfo: Delete 12 triangles that mostly close to metal center atom")
 
     scl = pcl[12:]
     sal = pal[12:]
 
     # Print new plane list after unwanted plane excluded
-    print("Info: Show 8 octahedron faces after deleting 12 faces closest to metal center\n")
-    print("      List of 8 reference faces, minimum distance, and coordinates of atom on face:")
+    print("Info: Show 8 triangles (faces of octahedron) after deleting unwanted 12 triangles\n")
+    print("      Face  Atom         X           Y           Z")
+    print("      ----  ----     ---------   ---------   ---------")
 
     for i in range(len(scl)):
-        print("       {0} : {1:10.6f}".format(sal[i], scl[i][3]))
-        print("                 : {0:10.6f}, {1:10.6f}, {2:10.6f}".format(scl[i][0][0], scl[i][0][1], scl[i][0][2]))
-        print("                 : {0:10.6f}, {1:10.6f}, {2:10.6f}".format(scl[i][1][0], scl[i][1][1], scl[i][1][2]))
-        print("                 : {0:10.6f}, {1:10.6f}, {2:10.6f}".format(scl[i][2][0], scl[i][2][1], scl[i][2][2]))
+        print("              {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
+              .format(sal[i][0], scl[i][0][0], scl[i][0][1], scl[i][0][2]))
+        print("        {0}     {1}     {2:10.6f}  {3:10.6f}  {4:10.6f}"
+              .format(i+1, sal[i][1], scl[i][1][0], scl[i][1][1], scl[i][1][2]))
+        print("              {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
+              .format(sal[i][2], scl[i][2][0], scl[i][2][1], scl[i][2][2]))
+        print("      ------------------------------------------------")
 
     plane_atom_list = sal
 
-    # Remove the 4th column of distance
+    # Remove the 4th column (distance)
     plane_coord_list = np.delete(scl, 3, 1)
 
     return plane_atom_list, plane_coord_list
@@ -111,8 +117,8 @@ def find_opposite_atoms(x, cl):
     :return oppo_pal: list - atoms on the opposite plane
     :return oppo_pcl: array - coordinates of atoms on the opposite plane
     """
-    print("\nInfo: Find opposite faces")
-    print("Info: Show 8 opposite faces and coordinate of atoms on face:")
+    print("\nInfo: Find pair of opposite faces")
+    print("Info: Show 8 pairs of opposite faces")
 
     all_atom = [1, 2, 3, 4, 5, 6]
     oppo_pal = []
@@ -127,24 +133,34 @@ def find_opposite_atoms(x, cl):
                 new_pal.append(j)
         oppo_pal.append(new_pal)
 
-    print("\n      List of 8 opposite faces and coordinates of atom on face:")
+    print("\n      Pair   Reference    Opposite")
+    print("               face         face")
+    print("      ----   ---------    ---------")
 
     v = np.array(cl)
+
+    for i in range(len(oppo_pal)):
+        print("        {0}    {1}    {2}".format(i+1, x[i], oppo_pal[i]))
+
+    print("\nInfo: Show 8 opposite faces\n")
+    print("      Face  Atom         X           Y           Z")
+    print("      ----  ----     ---------   ---------   ---------")
+
     oppo_pcl = []
 
     for i in range(len(oppo_pal)):
-        print("      Reference face : {0}".format(x[i]))
         new_pcl = []
-
         for j in range(3):
             new_pcl.append([v[int(oppo_pal[i][j])][0], v[int(oppo_pal[i][j])][1], v[int(oppo_pal[i][j])]][2])
-        oppo_pcl.append(new_pcl)
+            oppo_pcl.append(new_pcl)
 
-        print("      Opposite face  : {0}".format(oppo_pal[i]))
-
-        for j in range(3):
-            print("                     : {0:10.6f}, {1:10.6f}, {2:10.6f}"
-                  .format(oppo_pcl[i][1][0], oppo_pcl[i][1][1], oppo_pcl[i][1][2]))
+        print("              {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
+              .format(oppo_pal[i][0], new_pcl[0][0], new_pcl[0][1], new_pcl[0][2]))
+        print("        {0}     {1}     {2:10.6f}  {3:10.6f}  {4:10.6f}"
+              .format(i + 1, oppo_pal[i][1], new_pcl[1][0], new_pcl[1][1], new_pcl[1][2]))
+        print("              {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
+              .format(oppo_pal[i][2], new_pcl[2][0], new_pcl[2][1], new_pcl[2][2]))
+        print("      ------------------------------------------------")
 
     return oppo_pal, oppo_pcl
 

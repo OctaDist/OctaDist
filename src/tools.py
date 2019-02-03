@@ -43,6 +43,40 @@ class ShowData:
             self.Box.insert(tk.END, "\n" + texts + "\n\n")
 
 
+class ShowFaceSet:
+    def __init__(self, master, sfa, sfc, sofa, sofc):
+        """Show info of selected 4 octahedral face
+
+        :param sfa: list_file - selected face atom
+        :param sfc: selected face coordinates
+        :param sofa: selected opposite face atom
+        :param sofc: selected opposite face coordinates
+        :return:
+        """
+        self.master = master
+        self.master.title("Selected octahedral faces")
+        self.master.geometry("550x500")
+        self.master.option_add("*Font", "Arial 10")
+        self.frame = tk.Frame(self.master)
+        self.frame.grid()
+
+        print("Info: Show selected octahedral faces of complex")
+
+        self.Box = tkscrolled.ScrolledText(self.frame, wrap="word", width="75", height="30", undo="True")
+        self.Box.grid(row=0, pady="5", padx="5")
+        self.Box.delete(1.0, tk.END)
+
+        for i in range(4):
+            texts = "Reference atoms: {0}          Opposite atoms: {1}\n".format(sfa[i], sofa[i])
+            self.Box.insert(tk.END, texts)
+            for j in range(3):
+                texts = "{0:9.6f},{1:9.6f},{2:9.6f} \t {3:9.6f},{4:9.6f},{5:9.6f}\n"\
+                    .format(sfc[i][j][0], sfc[i][j][1], sfc[i][j][2],
+                            sofc[i][j][0], sofc[i][j][1], sofc[i][j][2])
+                self.Box.insert(tk.END, texts)
+            self.Box.insert(tk.END, "\n\n")
+
+
 class ShowResults:
     def __init__(self, master, comp_result):
         """Show the computed octahedral distortion parameters of all selected files
