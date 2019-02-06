@@ -9,6 +9,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 import tkinter as tk
 from tkinter.messagebox import showinfo
+from tkinter.messagebox import showerror
+from tkinter.messagebox import showwarning
 import webbrowser
 from main import program_version
 
@@ -38,42 +40,56 @@ def nofile_error():
     """Show error when opening file twice
     """
     print("Error: No input file")
-    showinfo("Error", "No input file.")
+    showerror("Error", "No input file.")
 
 
 def nocoord_error():
     """Show error when opening file twice
     """
     print("Error: No coordinate of a molecule")
-    showinfo("Error", "No coordinate of a molecule. Please make sure the input file format is correct.")
+    showerror("Error", "No coordinate of a molecule. Please make sure the input file format is correct.")
 
 
 def nocalc_error():
     """Show error when save file but no any parameters computed
     """
     print("Error: No results")
-    showinfo("Error", "No results. Click \"Compute parameters\" to calculate octahedral distortion parameters.")
+    showerror("Error", "No results. Click \"Compute parameters\" to calculate octahedral distortion parameters.")
 
 
 def only_single_file_error():
     """Show error when user request function that not supported for multiple files mode
     """
     print("Error: This function only supports single file mode")
-    showinfo("Error", "This function only supports single input file.")
+    showerror("Error", "This function only supports single input file.")
 
 
 def only_mult_file_error():
     """Show error when user request function that not supported for single file mode
     """
     print("Error: This function only supports multiple files mode")
-    showinfo("Error", "This function only supports multiple input files.")
+    showerror("Error", "This function only supports multiple input files.")
 
 
 def wrong_format_error():
     """Show error when opening file twice
     """
     print("Error: Input file format is not supported")
-    showinfo("Error", "Input file format is not supported.")
+    showerror("Error", "Input file format is not supported.")
+
+
+def not_octahedron_error():
+    """Show error if OctaDist cannot determine the octahedron
+    """
+    print("Error: Cannot determine the octahedral structure from your input complex")
+    showerror("Error", "Cannot determine the octahedral structure from your input complex")
+
+
+def no_metal_warning():
+    """Show warning message when the first atom is not heavy metal
+    """
+    print("Warning: Neither a heavy metal nor transition metal is found")
+    showwarning("Warning", "Neither a heavy metal nor transition metal is found.")
 
 
 class ShowHelp:

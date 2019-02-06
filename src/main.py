@@ -16,14 +16,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ----------------------------------------------------------------------
 
-OctaDist version 2.1
+OctaDist version 2.2
 
 Octahedral Distortion Analysis
 Software website: www.github.com/rangsimanketkaew/octadist
-Last modified: January 2018
+Last modified: February 2019
 
-This program, we use Python 3.7.2 and TkInter as GUI maker.
-PyInstaller is used as executable compiler.
+This program is written in Python 3.7.2 binding to TkInter GUI platform.
+Program executable is compiled by PyInstaller package.
 Written and tested on PyCharm 2018.3.3 (Community Edition) program
 
 Author: Rangsiman Ketkaew
@@ -31,12 +31,11 @@ Author: Rangsiman Ketkaew
         Department of Chemistry
         Faculty of Science and Technology
         Thammasat University, Pathum Thani, 12120 Thailand
-Contact: rangsiman1993@gmail.com
-         rangsiman_k@sci.tu.ac.th
+Contact: rangsiman1993@gmail.com & rangsiman_k@sci.tu.ac.th
 Personal website: https://sites.google.com/site/rangsiman1993
 """
 
-program_version = "2.1"
+program_version = "2.2"
 
 import numpy as np
 import datetime
@@ -67,7 +66,11 @@ class OctaDist:
             |- Save as
             |-------------
             |- Exit
-            |
+            Display
+            |- Display octahedron and 8 faces
+            |- Display octahedron and selected 4 faces
+            |- Display projection planes
+            |- Display twisting triangular faces
             Tools
             |- Data summary
             |  |- Complex info
@@ -77,14 +80,9 @@ class OctaDist:
             |  |- All atoms 
             |-------------
             |- Calculate surface area 
-            |-------------
             |- Relationship plot between Σ and Θ
-            |-------------
-            |- Display octahedron and 8 faces
-            |- Display octahedron and selected 4 faces
-            |- Display projection planes
-            |- Display twisting triangular faces
-            |
+            Preference
+            |- Auto-search octahedron
             Help
             |- Program help 
             |- About program 
@@ -94,7 +92,9 @@ class OctaDist:
         # Main menu
         menu_bar = tk.Menu(self.frame)
         file_menu = tk.Menu(self.frame, tearoff=0)
+        display_menu = tk.Menu(self.frame, tearoff=0)
         tools_menu = tk.Menu(self.frame, tearoff=0)
+        pref_menu = tk.Menu(self.frame, tearoff=0)
         help_menu = tk.Menu(self.frame, tearoff=0)
 
         # Sub-menu
@@ -109,6 +109,13 @@ class OctaDist:
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=master.destroy)
 
+        # Display
+        menu_bar.add_cascade(label="Display", menu=display_menu)
+        display_menu.add_command(label="Display octahedron and 8 faces", command=show_octa_and_face)
+        display_menu.add_command(label="Display octahedron and selected 4 faces", command=show_octa_and_opt_face)
+        display_menu.add_command(label="Display projection planes", command=show_projection_plane)
+        display_menu.add_command(label="Display twisting triangular faces", command=show_twisting_face)
+
         # Tools
         menu_bar.add_cascade(menu=tools_menu, label="Tools")
         tools_menu.add_cascade(menu=data_menu, label="Data summary")
@@ -119,13 +126,22 @@ class OctaDist:
         structure_menu.add_command(label="All atoms", command=self.show_param_full)
         tools_menu.add_separator()
         tools_menu.add_command(label="Calculate surface area", command=self.show_surface_area)
-        tools_menu.add_separator()
         tools_menu.add_command(label="Relationship plot between Σ and Θ", command=show_plot_angle)
-        tools_menu.add_separator()
-        tools_menu.add_command(label="Display octahedron and 8 faces", command=show_octa_and_face)
-        tools_menu.add_command(label="Display octahedron and selected 4 faces", command=show_octa_and_opt_face)
-        tools_menu.add_command(label="Display projection planes", command=show_projection_plane)
-        tools_menu.add_command(label="Display twisting triangular faces", command=show_twisting_face)
+
+        # Setting check_button
+        self.check_search_octa = tk.BooleanVar()
+        self.check_search_octa.set(False)
+
+        def auto_search_status():
+            if self.check_search_octa.get():
+                print("Info: Auto-search octahedron enabled")
+            else:
+                print("Info: Auto-search octahedron disabled")
+
+        # Preference
+        menu_bar.add_cascade(menu=pref_menu, label="Preference")
+        pref_menu.add_checkbutton(label="Auto-search octahedron", onvalue=True, offvalue=False,
+                                  variable=self.check_search_octa, command=auto_search_status)
 
         # Help
         menu_bar.add_cascade(menu=help_menu, label="Help")
@@ -258,27 +274,39 @@ class OctaDist:
 
         try:
             open(file_list[0], 'r')
-            print("Info: The total number of file: %s \n"
-                  % len(file_list))
+            print("Info: The total number of file: %s\n" % len(file_list))
 
-            atom_coord_full, atom_coord_octa = [], []
+            atom_coord_full = []
+            atom_coord_octa = []
 
             for i in range(len(file_list)):
-                get_name = file_list[i].split('/')[-1]
-                print("Info: Open file no. {0} : {1}".format(i + 1, get_name))
-
-                texts = "File {0}: {1}\n\n" \
-                        "Atom                       Cartesian coordinate".format(i + 1, get_name)
-                self.box_coord.insert(tk.INSERT, texts)
-
-                # Get atom and coordinate
+                # Extract atoms and coordinates from input file
                 atom_full, coord_full = coord.get_coord(file_list[i])
-                atom_octa, coord_octa = coord.cut_coord(atom_full, coord_full)
+
+                # Use auto-search octahedron if requested
+                if self.check_search_octa.get():
+                    atom_octa, coord_octa = coord.auto_search_octa(atom_full, coord_full)
+                else:
+                    atom_octa = list(atom_full[:7])
+                    coord_octa = np.asarray(coord_full[:7])
 
                 # Check if input file has coordinate inside
                 if np.any(coord_octa) == 0:
                     popup.nocoord_error()
                     return 1
+
+                # Print atoms and coordinates
+                get_name = file_list[i].split('/')[-1]
+                print("Info: Open file no. {0}: {1}".format(i + 1, get_name))
+
+                if len(coord_full) > 7:
+                    coord.list_all_atom(atom_full, coord_full)
+                coord.list_octahedron_atom(atom_octa, coord_octa)
+
+                # Insert coordinates into text box
+                texts = "File {0}: {1}\n\n" \
+                        "Atom                       Cartesian coordinate".format(i + 1, get_name)
+                self.box_coord.insert(tk.INSERT, texts)
 
                 for j in range(len(atom_octa)):
                     texts = " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}" \
@@ -364,15 +392,22 @@ class OctaDist:
             print("Info: Show coordinate and compute Δ, Σ, and Θ parameters")
 
             atom_list, coord_list = atom_coord_octa[i]
-            coord.show_octahedron_atoms(atom_list, coord_list)
+            coord.list_octahedron_atom(atom_list, coord_list)
 
-            comp_delta = calc.calc_delta(atom_list, coord_list)
-            comp_sigma = calc.calc_sigma(atom_list, coord_list)
-            comp_theta, all_comp = calc.calc_theta(coord_list)
+            try:
+                comp_delta = calc.calc_delta(atom_list, coord_list)
+                comp_sigma = calc.calc_sigma(atom_list, coord_list)
+                comp_theta, all_comp = calc.calc_theta(coord_list)
 
-            all_sigma.append(comp_sigma)
-            all_theta.append(comp_theta)
-            comp_result.append([comp_delta, comp_sigma, comp_theta])
+                all_sigma.append(comp_sigma)
+                all_theta.append(comp_theta)
+                comp_result.append([comp_delta, comp_sigma, comp_theta])
+
+            except:
+                print("Error: It seems that OctaDist could not extract octahedral structure from your input")
+                print("       So, OctaDist failed to calculate octahedral distortion parameters")
+                print("       Talk to the Rangsiman Ketkaew for more details: rangsiman1993@gmail.com")
+                return 1
 
         print("Info: Show computed octahedral distortion parameters of all files\n")
         print("      ===================== Overall Summary ====================\n")
@@ -387,13 +422,14 @@ class OctaDist:
             print("         {0:2d}      {1:10.6f}    {2:10.6f}    {3:10.6f}"
                   .format(i + 1, comp_result[i][0], comp_result[i][1], comp_result[i][2]))
 
-        print("\n      ==========================================================\n")
+        print("\n      ==========================================================")
 
         if len(file_list) == 1:
             pal, pcl, ref_pal, ref_pcl, oppo_pal, oppo_pcl = all_comp
             self.box_delta.insert(tk.INSERT, '%3.6f' % comp_delta)
             self.box_sigma.insert(tk.INSERT, '%3.6f' % comp_sigma)
             self.box_theta.insert(tk.INSERT, '%3.6f' % comp_theta)
+
         else:
             self.show_results_mult()
 

@@ -27,6 +27,7 @@ def draw_all_atom(fal, fcl):
 
     fig = plt.figure()
     ax = Axes3D(fig)
+    # ax = fig.add_subplot(111, projection='3d')
 
     # Plot all atoms
     for i in range(len(fcl)):

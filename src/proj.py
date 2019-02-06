@@ -11,16 +11,15 @@ import numpy as np
 
 
 def project_atom_onto_line(p, a, b):
-    """Find the projected atom on the given line,
-    which defined by two distinct end points (two atoms)
+    """Find the point projection on the line, which defined by two distinct end points
 
     a <------> b
 
     P(x) = x1 + (p - x1).(x2 - x1)/(x2-x1).(x2-x1) * (x2-x1)
 
     :param p: point to project
-    :param a: head atom
-    :param b: tail atom
+    :param a: head atom of the line
+    :param b: tail atom of the line
     :return: the projected point on the orthogonal line
     """
     ap = p - a

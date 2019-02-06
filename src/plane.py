@@ -103,8 +103,8 @@ def find_8_faces(cl):
     return plane_atom_list, plane_coord_list
 
 
-def find_opposite_atoms(x, cl):
-    """Find the atom on the parallel opposite face (plane).
+def find_opposite_faces(x, cl):
+    """Find the atom on the parallel opposite face.
     For example,
 
     list of atom on reference plane    list of atom on opposite plane
@@ -152,7 +152,7 @@ def find_opposite_atoms(x, cl):
         new_pcl = []
         for j in range(3):
             new_pcl.append([v[int(oppo_pal[i][j])][0], v[int(oppo_pal[i][j])][1], v[int(oppo_pal[i][j])]][2])
-            oppo_pcl.append(new_pcl)
+        oppo_pcl.append(new_pcl)
 
         print("              {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
               .format(oppo_pal[i][0], new_pcl[0][0], new_pcl[0][1], new_pcl[0][2]))

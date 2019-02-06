@@ -8,7 +8,9 @@ the Free Software Foundation, either version 3 of the License, or
 """
 
 import numpy as np
+import linear
 import elements
+import popup
 
 
 def file_lines(file):
@@ -435,46 +437,93 @@ def get_coord(f):
     return atom_full, coord_full
 
 
-def cut_coord(fal, fcl):
-    """Get only first 7 atoms (octahedron)
-
-    :param fal: list - atom_full
-    :param fcl: array - coord_full
-    :return atom_list: list - atom in octahedral structure
-    :return coord_list: array - coordinates of atom in octahedral structure
+def count_metal(af, cf):
+    """Count the number of transition metal/heavy metal
+    :param af: list - atom_full
+    :return j: int - total number of metal atoms
+    :return atom_metal: list - list of metal atoms
+    :return coord_metal: list - list of coordinates of metal atoms
     """
-    # If complex has atoms > 7, print all atoms and coordinates.
-    if len(fcl) > 7:
-        show_all_atoms(fal, fcl)
+    count = 0
+    atom_metal = []
+    coord_metal = []
 
-    atom_list = np.asarray(fal[0:7])
-    coord_list = np.asarray(fcl[0:7])
+    for i in range(len(af)):
+        if elements.check_atom(af[i]) >= 21:
+            atom_metal.append(af[i])
+            coord_metal.append(cf[i])
+            count += 1
 
-    # Print 7 atoms and their coordinates
-    show_octahedron_atoms(atom_list, coord_list)
-
-    return atom_list, coord_list
+    return count, atom_metal, coord_metal
 
 
-def show_all_atoms(fal, fcl):
+def auto_search_octa(af, cf):
+    """Auto-search octahedral structure, on request.
+
+    :param af: list - atom_full
+    :param cf: coordinate_full
+    :return atom_octa:
+    :return coord_octa:
+    """
+    count, atom_metal, coord_metal = count_metal(af, cf)
+
+    if count == 0:
+        print("\nError: Neither a heavy metal nor transition metal is found")
+        popup.no_metal_warning()
+        return 1
+
+    elif count == 1:
+        print("\nInfo: Octahedral structure is found. Check the structure yourself again.")
+
+        dist_list = []
+
+        for i in range(len(af)):
+            dist = linear.distance_between(coord_metal[0], cf[i])
+            dist_list.append([af[i], cf[i], dist])
+
+        # Sort out bond distance
+        p = 0
+        while p < len(dist_list):
+            r = p
+            q = p + 1
+            while q < len(dist_list):
+                if dist_list[r][2] > dist_list[q][2]:
+                    r = q
+                q += 1
+            dist_list[p], dist_list[r] = dist_list[r], dist_list[p]
+            p += 1
+
+        # Get only first 7 atoms
+        dist_list = dist_list[:7]
+
+        # Collect atom and coordinates
+        atom_octa, coord_octa, distance = zip(*dist_list)
+
+    else:
+        print("\nInfo: The complex has more than one metal atom")
+        print("Info: Please help OctaDist to detect the metal center atom correctly")
+
+    return atom_octa, coord_octa
+
+
+def list_all_atom(af, cf):
     """Show atomic symbol and coordinates of all atoms
 
-    :param fal: list - atom_full
-    :param fcl: array - coord_full
+    :param af: list - atom_full
+    :param cf: array - coord_full
     :return:
     """
-    print("Info: Show Cartesian coordinates of all %s atoms\n" % len(fcl))
+    print("Info: Show Cartesian coordinates of all %s atoms\n" % len(cf))
     print("      Atom        X              Y             Z")
     print("      ----    ----------    ----------    ----------")
 
-    for i in range(len(fcl)):
-        print("       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
-              .format(fal[i], fcl[i][0], fcl[i][1], fcl[i][2]))
+    for i in range(len(cf)):
+        print("       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}".format(af[i], cf[i][0], cf[i][1], cf[i][2]))
 
     print("")
 
 
-def show_octahedron_atoms(al, cl):
+def list_octahedron_atom(al, cl):
     """Show selected atoms of octahedral structure
 
     :param al: list - atom_list
@@ -486,7 +535,6 @@ def show_octahedron_atoms(al, cl):
     print("      ----    ----------    ----------    ----------")
 
     for i in range(len(cl)):
-        print("       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
-              .format(al[i], cl[i][0], cl[i][1], cl[i][2]))
+        print("       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}".format(al[i], cl[i][0], cl[i][1], cl[i][2]))
 
     print("")
