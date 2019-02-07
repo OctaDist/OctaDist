@@ -8,7 +8,7 @@
 [![Github Download release 2.1](https://img.shields.io/github/downloads/rangsimanketkaew/OctaDist/v.2.1/total.svg
 )](https://github.com/rangsimanketkaew/OctaDist/releases/tag/v.2.1)
 
-# OctaDist
+## OctaDist
 
 <p align="center">
    <img alt="molecule" src="images/molecule.png" align=middle width="200pt" />
