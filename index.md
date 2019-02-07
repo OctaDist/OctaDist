@@ -1,2 +1,0 @@
-## OctaDist
-OctaDist
