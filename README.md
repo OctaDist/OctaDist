@@ -1,5 +1,5 @@
-[![Travis-CI Test](https://img.shields.io/travis/rangsimanketkaew/OctaDist/master.svg
-)](https://travis-ci.org/rangsimanketkaew/OctaDist)
+[![Travis-CI Test](https://img.shields.io/travis/OctaDist/OctaDist/master.svg
+)](https://travis-ci.org/OctaDist/OctaDist)
 [![Github release](https://img.shields.io/github/release/rangsimanketkaew/octadist.svg
 )](https://github.com/rangsimanketkaew/OctaDist/releases)
 [![Code size](https://img.shields.io/github/languages/code-size/rangsimanketkaew/OctaDist.svg)](https://github.com/rangsimanketkaew/OctaDist)
