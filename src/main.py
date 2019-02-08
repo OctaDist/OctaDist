@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 OctaDist version 2.2
 
 Octahedral Distortion Analysis
-Software website: www.github.com/rangsimanketkaew/octadist
+Software website: https://octadist.github.io
 Last modified: February 2019
 
 This program is written in Python 3.7.2 binding to TkInter GUI platform.
@@ -156,7 +156,7 @@ class OctaDist:
         self.lbl1 = tk.Label(self.frame, foreground="blue", font=("Arial", 16, "bold"), text=program_name)
         self.lbl1.config()
         self.lbl1.grid(pady="5", row=0, columnspan=4)
-        description = "Determine the structural distortion of octahedral metal complex."
+        description = "A program for determining the structural distortion of octahedral complexes"
         self.lbl2 = tk.Label(self.frame, text=description)
         self.lbl2.grid(pady="5", row=1, columnspan=4)
 
@@ -209,7 +209,7 @@ class OctaDist:
         self.lbl9 = tk.Label(self.frame, text="degree")
         self.lbl9.grid(sticky=tk.W, pady="5", row=9, column=3)
 
-        link = "https://github.com/rangsimanketkaew/OctaDist"
+        link = "https://octadist.github.io"
         self.lbl10 = tk.Label(self.frame, foreground="blue", text=link, cursor="hand2")
         self.lbl10.grid(pady="5", row=10, columnspan=4)
         self.lbl10.bind("<Button-1>", popup.callback)
@@ -344,7 +344,7 @@ class OctaDist:
             return 0
 
         f.write("OctaDist %s: Octahedral Distortion Analysis\n" % program_version)
-        f.write("https://github.com/rangsimanketkaew/OctaDist\n\n")
+        f.write("https://octadist.github.io\n\n")
         f.write("By Rangsiman Ketkaew\n")
         f.write("Computational Chemistry Research Unit\n")
         f.write("Department of Chemistry\n")

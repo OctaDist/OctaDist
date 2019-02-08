@@ -27,8 +27,8 @@ def welcome():
     print("                     OCTAHEDRAL DISTORTION ANALYSIS")
     print("                     ------------------------------")
     print("          A PROGRAM FOR DETERMINING THE STRUCTURAL DISTORTION")
-    print("                       OF THE OCTAHEDRAL STRUCTURE\n")
-    print("              https://github.com/rangsimanketkaew/OctaDist")
+    print("                       OF THE OCTAHEDRAL COMPLEXES\n")
+    print("               Official website: https://octadist.github.io")
     print("     ==============================================================\n")
 
 
@@ -170,7 +170,7 @@ def show_about():
            "\n" \
            "Contact:\n" \
            "E-mail: rangsiman1993@gmail.com\n" \
-           "Website: https://github.com/rangsimanketkaew/OctaDist" \
+           "Website: https://octadist.github.io" \
         .format(program_version)
     showinfo("About program", text)
 
