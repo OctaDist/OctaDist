@@ -22,20 +22,15 @@ Octahedral Distortion Analysis
 Software website: https://octadist.github.io
 Last modified: February 2019
 
-This program is written in Python 3.7.2 binding to TkInter GUI platform.
+This program has been written in Python 3 binding to TkInter GUI platform.
+Written and tested on PyCharm (Community Edition) program.
 Program executable is compiled by PyInstaller package.
-Written and tested on PyCharm 2018.3.3 (Community Edition) program
 
-Author: Rangsiman Ketkaew
-        Computational Chemistry Research Unit
-        Department of Chemistry
-        Faculty of Science and Technology
-        Thammasat University, Pathum Thani, 12120 Thailand
+
+Author: Rangsiman Ketkaew (Department of Chemistry, Thammasat University, Thailand)
 Contact: rangsiman1993@gmail.com & rangsiman_k@sci.tu.ac.th
 Personal website: https://sites.google.com/site/rangsiman1993
 """
-
-program_version = "2.2"
 
 import numpy as np
 import datetime
@@ -47,6 +42,8 @@ import draw
 import tkinter as tk
 from tkinter import filedialog
 import tkinter.scrolledtext as tkscrolled
+
+program_version = "2.2"
 
 
 class OctaDist:
@@ -394,20 +391,13 @@ class OctaDist:
             atom_list, coord_list = atom_coord_octa[i]
             coord.list_octahedron_atom(atom_list, coord_list)
 
-            try:
-                comp_delta = calc.calc_delta(atom_list, coord_list)
-                comp_sigma = calc.calc_sigma(atom_list, coord_list)
-                comp_theta, all_comp = calc.calc_theta(coord_list)
+            comp_delta = calc.calc_delta(atom_list, coord_list)
+            comp_sigma = calc.calc_sigma(atom_list, coord_list)
+            comp_theta, all_comp = calc.calc_theta(coord_list)
 
-                all_sigma.append(comp_sigma)
-                all_theta.append(comp_theta)
-                comp_result.append([comp_delta, comp_sigma, comp_theta])
-
-            except:
-                print("Error: It seems that OctaDist could not extract octahedral structure from your input")
-                print("       So, OctaDist failed to calculate octahedral distortion parameters")
-                print("       Talk to the Rangsiman Ketkaew for more details: rangsiman1993@gmail.com")
-                return 1
+            all_sigma.append(comp_sigma)
+            all_theta.append(comp_theta)
+            comp_result.append([comp_delta, comp_sigma, comp_theta])
 
         print("Info: Show computed octahedral distortion parameters of all files\n")
         print("      ===================== Overall Summary ====================\n")

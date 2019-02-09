@@ -136,7 +136,7 @@ class ShowHelp:
 
         self.lbl = tk.Label(self.frame, text="Example of input file is available at the following website:")
         self.lbl.grid(sticky=tk.W, row=5, columnspan=2)
-        link = "https://github.com/rangsimanketkaew/OctaDist/tree/master/test\n"
+        link = "https://github.com/OctaDist/OctaDist/tree/master/test\n"
         self.lbl_link = tk.Label(self.frame, foreground="blue", text=link, cursor="hand2")
         self.lbl_link.grid(sticky=tk.W, pady="5", row=6, columnspan=2)
         self.lbl_link.bind("<Button-1>", callback)

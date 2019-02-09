@@ -130,8 +130,8 @@ def calc_sigma(al, cl):
     return computed_sigma
 
 
-def find_6_angles_algorithm_1(face, metal, proj_list, pal, pcl):
-    """The three-lines algorithm
+def find_6_unique_angles(face, cl, pal, pcl, oppo_pal):
+    """Find 6 unique angles
 
     1. Suppose that we have an octahedron composed of one metal center atom (m).
     and 6 ligand atoms of which index 1-6.
@@ -152,107 +152,96 @@ def find_6_angles_algorithm_1(face, metal, proj_list, pal, pcl):
 
         The new location of projected atoms on the plane is [2', 4', 6']
 
-    3. Define the line segment that pass through two projected atoms.
-        In this case, the start and end points are 2' and 4'.
+    3. Define one of them is a reference atom, so the other 5 atoms are candidate atoms
+        Define the line by choosing 2 atoms out of 5 atoms.
 
-        line segment no. 1 = 2' ------ 4'
-        line segment no. 2 = 4' ------ 6'
-        line segment no. 3 = 2' ------ 6'
+        For example, suppose that atom 1 is a reference atom, atoms 4' and 6' are a candidate line
+        and the other candidate atoms are 3, 2', and 5.
 
-    4. Find the orthogonal vector of the other two atoms to the line (using projection).
-        Then, compute dot product between vectors 1--->1_l and 6'--->6'_l.
-        If dot product is negative, they are anti-parallel, which means that
-        atoms 2' and 4' are adjacent atoms of atom 1.
+        Reference atom:         1
 
-        Example, projection onto line no. 1
+        Candidate line:    4'-------6'
 
-                        2'                         2'
-               1 ------>|                1 ------->|
-                        |                          |
-               6'------>|                          |<------- 6'
-                        4'                         4'
+        Candidate atom:    3        5
+                                2
 
-                    Parallel                Anti-Parallel
-               Positive dot-product     Negative dot-product
+    4. Find the orthogonal vector of the reference and candidate atoms to the candidate line.
 
-    5. Repeat step (2) - (4) by looping over the plane and reference atoms.
+        For example,
+                            1
+                            |
+                            |
+                            v
+                   4'---------------6'
+                      ^     ^     ^
+                      |     |     |
+                      |     |     |
+                      3     |     5
+                            2'
 
-    6. Calculate the 6 unique angles.
+            Anti-Parallel (Negative dot-product)
 
-    7. Repeat step (5) - (6) for other 7 faces.
+    5. Compute dot product between reference vector and candidate vector.
+        If three candidate vectors are all anti-parallel to the reference vector,
+        the atom on the candidate line is adjacent atom of reference atom.
+
+    6. Compute two angles of reference atom and two atoms
+
+           ^               ^
+        1--m--4'   and  1--m--6'
+
+    7. Repeat step (2) - (6) by looping over the reference atom.
+
+    8. Remove duplicate angles
 
     :param face: The face number i^th
-    :param metal: projected metal center
-    :param proj_list: zipped atom and coordinate of projected points
-    :param pal: plane_atom_list
-    :param pcl: plane_coord_list
+    :param cl: coordinate of all atoms
+    :param pal: atom list of all plane
+    :param pcl: coordinate list of all plane
+    :param oppo_pal: opposite plane atom list
     :return unique_pair:
     :return unique_angle:
     """
-    o1, o2, o3, n1, n2, n3 = proj_list
+    a, b, c, d = plane.find_eq_of_plane(pcl[face][0], pcl[face][1], pcl[face][2])
+    m = proj.project_atom_onto_plane(cl[0], a, b, c, d)
 
-    # Define three lines (hard-code may be faster than using loop)
-    lal = [[o1, o2, o3],
-           [o2, o3, o1],
-           [o1, o3, o2]]
+    print("      Plane {0} : {1:9.6f}x {2:+9.6f}y {3:+9.6f}z = {4:9.6f}\n".format(face + 1, a, b, c, d))
 
-    lcl = [[n1, n2, n3],
-           [n2, n3, n1],
-           [n1, n3, n2]]
+    # atoms on reference face
+    r1 = pal[face][0]
+    r2 = pal[face][1]
+    r3 = pal[face][2]
+    # coordinate of atoms on reference face
+    cr1 = pcl[face][0]
+    cr2 = pcl[face][1]
+    cr3 = pcl[face][2]
+    # atoms on opposite face
+    o1 = int(oppo_pal[face][0])
+    o2 = int(oppo_pal[face][1])
+    o3 = int(oppo_pal[face][2])
+    # coordinate of atoms on opposite face
+    co1 = proj.project_atom_onto_plane(cl[o1], a, b, c, d)
+    co2 = proj.project_atom_onto_plane(cl[o2], a, b, c, d)
+    co3 = proj.project_atom_onto_plane(cl[o3], a, b, c, d)
 
-    unique_pair = []
-    unique_angle = []
+    print("      Projection         X           Y           Z")
+    print("      ----------     ---------   ---------   ---------")
+    print("       m --> m'      {0:9.6f}   {1:9.6f}   {2:9.6f}".format(m[0], m[1], m[2]))
+    print("       {0} --> {1}'      {2:9.6f}   {3:9.6f}   {4:9.6f}".format(o1, o1, co1[0], co1[1], co1[2]))
+    print("       {0} --> {1}'      {2:9.6f}   {3:9.6f}   {4:9.6f}".format(o2, o2, co2[0], co2[1], co2[2]))
+    print("       {0} --> {1}'      {2:9.6f}   {3:9.6f}   {4:9.6f}\n".format(o3, o3, co3[0], co3[1], co3[2]))
 
-    # loop over three atoms (vertices of triangle)
-    for i in range(3):
-        # loop over three lines
-        for j in range(3):
-            ref_on_line = proj.project_atom_onto_line(pcl[face][i], lcl[j][0], lcl[j][1])
-            can_on_line = proj.project_atom_onto_line(lcl[j][2], lcl[j][0], lcl[j][1])
-
-            # Find two vectors from reference atom and candidate atom to a line segment
-            vector_ref = ref_on_line - pcl[face][i]
-            vector_can = can_on_line - lcl[j][2]
-
-            # Compute dot product to check if two vectors are anti-parallel
-            # If so, compute two adjacent angles of the reference
-            if np.dot(vector_ref, vector_can) < 0:
-                angle_1 = linear.angle_between(metal, pcl[face][i], lcl[j][0])
-                angle_2 = linear.angle_between(metal, pcl[face][i], lcl[j][1])
-
-                unique_pair.append([pal[face][i], lal[j][0]])
-                unique_pair.append([pal[face][i], lal[j][1]])
-
-                unique_angle.append(angle_1)
-                unique_angle.append(angle_2)
-
-    return unique_pair, unique_angle
-
-
-def find_6_angles_algorithm_2(face, metal, proj_list, pal, pcl):
-    """The Five-lines algorithm
-
-    :param face: The face number i^th
-    :param metal: projected metal center
-    :param proj_list: zipped atom and coordinate of projected points
-    :param pal: plane_atom_list
-    :param pcl: plane_coord_list
-    :return unique_pair:
-    :return unique_angle:
-    """
-    o1, o2, o3, n1, n2, n3 = proj_list
-
-    # Create list which includes three reference atoms and three opposite atoms
-    six_atoms = [pal[face][0], pal[face][1], pal[face][2], o1, o2, o3]
-    six_coords = [pcl[face][0], pcl[face][1], pcl[face][2], n1, n2, n3]
+    # Create list of atoms and coordinates for the plane of interest
+    six_atoms = [r1, r2, r3, o1, o2, o3]
+    six_coords = [cr1, cr2, cr3, co1, co2, co3]
 
     # Find norm of vector from metal center atom to ligand atom
     norm_vect = []
-
-    for j in range(6):
-        norm = linear.norm_vector(six_coords[j] - metal)
+    for i in range(6):
+        norm = linear.norm_vector(six_coords[i] - m)
         norm_vect.append(norm)
 
+    all_pair = []
     unique_pair = []
     unique_angle = []
     origin = [0.0, 0.0, 0.0]
@@ -268,43 +257,52 @@ def find_6_angles_algorithm_2(face, metal, proj_list, pal, pcl):
                     prof_ref = proj.project_atom_onto_line(norm_vect[ref], norm_vect[l1], norm_vect[l2])
                     # Project three candidate atoms onto the line
                     vector_proj_can = []
-                    # proj_can_atom = []
-
                     for can in range(6):
                         if can != ref and can != l1 and can != l2:
                             can_proj = proj.project_atom_onto_line(norm_vect[can], norm_vect[l1], norm_vect[l2])
                             vector_proj_can.append(can_proj - norm_vect[can])
-                            # proj_can_atom.append(six_atoms[can])
 
+                    # Define vectors
                     vector_ref = prof_ref - norm_vect[ref]
                     vector_can_1 = vector_proj_can[0]
                     vector_can_2 = vector_proj_can[1]
                     vector_can_3 = vector_proj_can[2]
 
-                    # Calculate dot product
+                    # Calculate dot product between reference vector and candidate vector
                     dot_prod_1 = np.dot(vector_ref, vector_can_1)
                     dot_prod_2 = np.dot(vector_ref, vector_can_2)
                     dot_prod_3 = np.dot(vector_ref, vector_can_3)
 
-                    # Check if three candidate vectors are all parallel and they are anti-parallel to
-                    # the vector of reference atom. If these two conditions are true, then compute angle
+                    # If the candidate vectors are all anti-parallel to a reference vector,
+                    # the two atoms on the line of interest are adjacent to reference atom
                     if dot_prod_1 < 0 and dot_prod_2 < 0 and dot_prod_3 < 0:
-                        angle_1 = linear.angle_between(origin, norm_vect[ref], norm_vect[l1])
-                        angle_2 = linear.angle_between(origin, norm_vect[ref], norm_vect[l2])
+                        all_pair.append([ref, l1])
+                        all_pair.append([ref, l2])
 
-                        # unique_pair.append([pal[face][ref], lal[k][0]])
-                        # unique_pair.append([pal[face][ref], lal[k][1]])
+    # all_pair contains 12 pairs of adjoining atoms
+    # So we have to remove 6 duplicate pairs
+    copy_all_pair = list(all_pair)
+    all_pair = []
+    # Sort out list in list
+    for j in range(len(copy_all_pair)):
+        sorted_pair = sorted(copy_all_pair[j])
+        all_pair.append(sorted_pair)
+    # Sort out list
+    all_pair = sorted(all_pair)
+    # Remove element of which odd index
+    all_pair = all_pair[1::2]
 
-                        unique_pair.append([six_atoms[ref], six_atoms[l1]])
-                        unique_pair.append([six_atoms[ref], six_atoms[l2]])
+    # Find unique_pair and compute unique_angle
+    for i in range(6):
+        unique_pair.append([six_atoms[all_pair[i][0]], six_atoms[all_pair[i][1]]])
+        angle = linear.angle_between(origin, norm_vect[all_pair[i][0]], norm_vect[all_pair[i][1]])
+        unique_angle.append(angle)
 
-                        unique_angle.append(angle_1)
-                        unique_angle.append(angle_2)
-
-                        # ref_line_can.append([prof_ref, proj_can[0], proj_can[1], proj_can[2]])
-                        #
-                        # ref_line_can_atom.append([six_atoms[ref], six_atoms[l1], six_atoms[l2],
-                        #                           proj_can_atom[0], proj_can_atom[1], proj_can_atom[2]])
+    # Finally, check if sum of all angles in unique_angle is 360 or not
+    sum_angles = sum([unique_angle[i] for i in range(len(unique_angle))])
+    if len(unique_pair) != 6 or 359.9 <= sum_angles >= 360.1:
+        popup.not_octahedron_error()
+        return 1
 
     return unique_pair, unique_angle
 
@@ -337,109 +335,26 @@ def calc_theta(cl):
             sel_f_coord: list - coordinates of selected 4 reference faces
             sel_oppo_f_atom: list - atom number of selected 4 opposite faces
             sel_oppo_f_coord: list - coordinates of selected 4 opposite faces
-
     """
     # Find 8 reference faces and opposite faces
     pal, pcl = plane.find_8_faces(cl)
     oppo_pal, oppo_pcl = plane.find_opposite_faces(pal, cl)
 
     print("\nInfo: Find the orthogonal projection of opposite atoms onto the reference plane")
-    print("      The general form of the equation is Ax + By + Cz = D\n")
+    print("      The general form of the equation is Ax + By + Cz = D")
     print("Info: Show new coordinate of projected atoms\n")
 
     unique_6_pairs = []
     unique_6_angles = []
-    algorithm_2_list = []
-    summary_angles = []
 
     # loop over 8 faces to find 6 unique angles for each face
     for i in range(8):
-        a, b, c, d = plane.find_eq_of_plane(pcl[i][0], pcl[i][1], pcl[i][2])
-        m = proj.project_atom_onto_plane(cl[0], a, b, c, d)
-
-        print("      Plane {0} : {1:9.6f}x {2:+9.6f}y {3:+9.6f}z = {4:9.6f}\n".format(i + 1, a, b, c, d))
-
-        o1 = int(oppo_pal[i][0])
-        o2 = int(oppo_pal[i][1])
-        o3 = int(oppo_pal[i][2])
-        n1 = proj.project_atom_onto_plane(cl[o1], a, b, c, d)
-        n2 = proj.project_atom_onto_plane(cl[o2], a, b, c, d)
-        n3 = proj.project_atom_onto_plane(cl[o3], a, b, c, d)
-
-        print("      Projection         X           Y           Z")
-        print("      ----------     ---------   ---------   ---------")
-        print("       m --> m'      {0:9.6f}   {1:9.6f}   {2:9.6f}".format(m[0], m[1], m[2]))
-        print("       {0} --> {1}'      {2:9.6f}   {3:9.6f}   {4:9.6f}".format(o1, o1, n1[0], n1[1], n1[2]))
-        print("       {0} --> {1}'      {2:9.6f}   {3:9.6f}   {4:9.6f}".format(o2, o2, n2[0], n2[1], n2[2]))
-        print("       {0} --> {1}'      {2:9.6f}   {3:9.6f}   {4:9.6f}\n".format(o3, o3, n3[0], n3[1], n3[2]))
-
-        # First, use the three-line algorithm to find the 6 unique angles and store into unique_pair list
-        # Check if the face has 6 unique angles and the sum of 6 unique angles is equal to 360
-        # If one of them is false, the multiple-line algorithm is used on-the-fly
-
-        # Create proj_list for collecting the atom on the same face (plane)
-        proj_list = (o1, o2, o3, n1, n2, n3)
-
-        # The 1st algorithm is used first
-        unique_pair, unique_angle = find_6_angles_algorithm_1(i, m, proj_list, pal, pcl)
-
-        # Sum all 6 unique angles (expected results is 360.00)
-        sum_angles = sum([unique_angle[j] for j in range(len(unique_angle))])
-
-        if len(unique_pair) != 6 or 359.9 <= sum_angles >= 360.1:
-            # Collect data
-            summary_angles.append([len(unique_pair), sum_angles, 'X'])
-            algorithm_2_list.append(i)
-
-            # The 2nd algorithm is used
-            unique_pair, unique_angle = find_6_angles_algorithm_2(i, m, proj_list, pal, pcl)
-
-            # Remove redundant pair
-            copy_unique_pair = list(unique_pair)
-            unique_pair = []
-            # Sort out list in list
-            for j in range(len(copy_unique_pair)):
-                sorted_pair = sorted(copy_unique_pair[j])
-                unique_pair.append(sorted_pair)
-            # Sort list
-            unique_pair = sorted(unique_pair)
-            # Remove element of which odd index
-            unique_pair = unique_pair[1::2]
-
-            # Remove redundant angles
-            unique_angle = list(set(unique_angle))
-
-            # Sum all 6 unique angles (expected results is 360.00)
-            sum_angles = sum([unique_angle[j] for j in range(len(unique_angle))])
-
-            if len(unique_pair) != 6 or 359.9 <= sum_angles >= 360.1:
-                popup.not_octahedron_error()
-                return 1
-
-        else:
-            summary_angles.append([len(unique_pair), sum_angles, '/'])
-
+        unique_pair, unique_angle = find_6_unique_angles(i, cl, pal, pcl, oppo_pal)
         unique_6_pairs.append(unique_pair)
         unique_6_angles.append(unique_angle)
 
     print("Info: Calculate the 6 unique θ angles for each face")
-    print("Info: By default, OctaDist uses the 1st algorithm to find the 6 unique angles")
-    print("      If it fails, the 2nd algorithm will be used (on-the-fly) instead\n")
-    print("Info: Show summary of θ angles for each face computed by the 1st algorithm\n")
-    print("      Face    Unique angles    Sum of unique angles    Check")
-    print("      ----    -------------    --------------------    -----")
-
-    for i in range(len(summary_angles)):
-        print("        {0}           {1}               {2:9.6f}           {3}"
-              .format(i+1, summary_angles[i][0], summary_angles[i][1], summary_angles[i][2]))
-
-    if algorithm_2_list:
-        print("\nInfo: The 1st algorithm failed to compute the 6 unique angles for face %s" % algorithm_2_list)
-        print("Info: OctaDist switched it off and used the 2nd algorithm instead")
-    else:
-        print("\nInfo: Congrats! The 1st algorithm computed the 6 uniques angles of all faces correctly")
-
-    print("\nInfo: Show list of 6 unique θ angles for 8 face sets (°)\n")
+    print("Info: Show list of 6 unique θ angles for 8 face sets (°)\n")
     print("      Set   Atom pair     Unique angle")
     print("      ---   ---------     ------------")
 
@@ -447,12 +362,7 @@ def calc_theta(cl):
     for i in range(len(unique_6_pairs)):
         sum_angles = 0
         for j in range(len(unique_6_pairs[i])):
-            # Find the row for showing the Set number in the middle
-            set_row = len(unique_6_pairs[i])/2 - 1
-            if set_row < 0:
-                set_row = 0
-
-            if j == set_row:
+            if j == 2:
                 print("       {0}      {1} & {2}        {3:10.6f}"
                       .format(i + 1, unique_6_pairs[i][j][0], unique_6_pairs[i][j][1], unique_6_angles[i][j]))
             else:
@@ -530,4 +440,3 @@ def calc_theta(cl):
     print("      ==========================================================\n")
 
     return lowest_theta, all_comp
-
