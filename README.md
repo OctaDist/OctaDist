@@ -15,7 +15,7 @@ Octahedral Distortion Analysis: A program for determining the structural distort
    <img alt="molecule" src="images/molecule.png" align=middle width="200pt" />
 <p/>
 
-This program was written in Python 3.7.2 and tested on PyCharm 2018.3.2 (Community Edition). Program executable was compiled by Pyinstaller.
+This program was written in Python 3 and tested on PyCharm (Community Edition). Program executable was compiled by Pyinstaller.
 
 ## Team
 * [Rangsiman Ketkaew](https://sites.google.com/site/rangsiman1993) (Thammasat University) <br/>
