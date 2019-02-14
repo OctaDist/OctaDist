@@ -1,3 +1,9 @@
+'''
+Example of setup.py for compiling OctaDist using cx_Freeze compiler
+
+Author: Rangsiman Ketkaew
+'''
+
 import sys
 import os
 import cx_Freeze
@@ -24,7 +30,7 @@ executables = [cx_Freeze.Executable("main.py", base=base, icon="molecule.ico")]
 
 cx_Freeze.setup(
     name = "OctaDist",
-    version = "2.1",
+    version = "2.2",
     author = "Rangsiman Ketkaew",
     author_email = "rangsiman1993@gmail.com",
     description = "Octahedral Distortion Analysis",
