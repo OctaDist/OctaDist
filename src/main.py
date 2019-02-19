@@ -22,14 +22,13 @@ Octahedral Distortion Analysis
 Software website: https://octadist.github.io
 Last modified: February 2019
 
-This program has been written in Python 3 binding to TkInter GUI platform.
-Written and tested on PyCharm (Community Edition) program.
-Program executable is compiled by PyInstaller package.
+This program was written in Python 3 binding to TkInter GUI platform,
+tested on PyCharm (Community Edition) program, and compiled by PyInstaller.
 
-
-Author: Rangsiman Ketkaew (Department of Chemistry, Thammasat University, Thailand)
-Contact: rangsiman1993@gmail.com & rangsiman_k@sci.tu.ac.th
-Personal website: https://sites.google.com/site/rangsiman1993
+Authors:
+Rangsiman Ketkaew           Thammasat University, Thailand
+Yuthana Tantirungrotechai   Thammasat University, Thailand
+David J. Harding            Walailak University, Thailand
 """
 
 import numpy as np
@@ -46,7 +45,221 @@ import tkinter.scrolledtext as tkscrolled
 program_version = "2.2"
 
 
+def show_plot_angle():
+    """Show relationship plot Sigma and Theta parameters
+    """
+    if file_list == "":
+        popup.no_file_error()
+        return 1
+    if run_check == 0:
+        popup.no_calc_error()
+        return 1
+
+    draw.show_plot_angles(all_sigma, all_theta)
+
+
+def show_all_atom():
+    """Display full complex
+    """
+    if file_list == "":
+        popup.no_file_error()
+        return 1
+    if len(file_list) > 1:
+        popup.only_single_file_error()
+        return 1
+    if run_check == 0:
+        popup.no_calc_error()
+        return 1
+
+    atom_full, coord_full = atom_coord_full[0]
+
+    draw.draw_all_atom(atom_full, coord_full)
+
+
+def show_all_atom_and_face():
+    """Display full complex and 8 faces of octahedron
+    """
+    if file_list == "":
+        popup.no_file_error()
+        return 1
+    if len(file_list) > 1:
+        popup.only_single_file_error()
+        return 1
+    if run_check == 0:
+        popup.no_calc_error()
+        return 1
+
+    atom_full, coord_full = atom_coord_full[0]
+
+    draw.draw_all_atom_and_face(atom_full, coord_full, pcl)
+
+
+def show_octa():
+    """Display the octahedral structure
+    """
+    if file_list == "":
+        popup.no_file_error()
+        return 1
+    if len(file_list) > 1:
+        popup.only_single_file_error()
+        return 1
+    if run_check == 0:
+        popup.no_calc_error()
+        return 1
+
+    draw.draw_octahedron(atom_octa, coord_octa)
+
+
+def show_octa_and_face():
+    """Display the octahedral structure and its 8 faces
+    """
+    if file_list == "":
+        popup.no_file_error()
+        return 1
+    if len(file_list) > 1:
+        popup.only_single_file_error()
+        return 1
+    if run_check == 0:
+        popup.no_calc_error()
+        return 1
+
+    draw.draw_octahedron_and_face(atom_octa, coord_octa, pcl)
+
+
+def show_octa_and_opt_face():
+    """Display the octahedral structure and selected optimal 4 faces
+    """
+    if file_list == "":
+        popup.no_file_error()
+        return 1
+    if len(file_list) > 1:
+        popup.only_single_file_error()
+        return 1
+    if run_check == 0:
+        popup.no_calc_error()
+        return 1
+
+    draw.draw_octahedron_and_opt_face(atom_octa, coord_octa, ref_pcl)
+
+
+def show_projection_plane():
+    """Display the projection planes
+    """
+    if file_list == "":
+        popup.no_file_error()
+        return 1
+    if len(file_list) > 1:
+        popup.only_single_file_error()
+        return 1
+    if run_check == 0:
+        popup.no_calc_error()
+        return 1
+
+    draw.draw_projection_planes(atom_octa, coord_octa, ref_pcl, oppo_pcl)
+
+
+def show_twisting_face():
+    """Display the twisting triangular faces
+    """
+
+    if file_list == "":
+        popup.no_file_error()
+        return 1
+    if len(file_list) > 1:
+        popup.only_single_file_error()
+        return 1
+    if run_check == 0:
+        popup.no_calc_error()
+        return 1
+
+    draw.draw_twisting_faces(atom_octa, coord_octa, ref_pcl, oppo_pcl)
+
+
 class OctaDist:
+    def show_help(self):
+        """Open program help page
+        """
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = popup.ShowHelp(self.newWindow)
+
+    def show_results_mult(self):
+        """Open program help page
+        """
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = tools.ShowResults(self.newWindow, comp_result)
+
+    def show_data_summary(self):
+        """Show information of complex/structure
+        """
+        if file_list == "":
+            popup.no_file_error()
+            return 1
+
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = tools.ShowData(self.newWindow, file_list, atom_coord_full)
+
+    def show_face_summary(self):
+        """Show information of selected 4 faces
+        """
+        if file_list == "":
+            popup.no_file_error()
+            return 1
+        if len(file_list) > 1:
+            popup.only_single_file_error()
+            return 1
+        if run_check == 0:
+            popup.no_calc_error()
+            return 1
+
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = tools.ShowFaceSet(self.newWindow, ref_pal, ref_pcl, oppo_pal, oppo_pcl)
+
+    def show_param_octa(self):
+        """Show selected structural parameters of octahedral structure:
+        bond distance and bond angle between metal center and ligand atoms
+        """
+        if file_list == "":
+            popup.no_file_error()
+            return 1
+        if len(file_list) > 1:
+            popup.only_single_file_error()
+            return 1
+
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = tools.ShowParamOcta(self.newWindow, atom_octa, coord_octa)
+
+    def show_param_full(self):
+        """Show structural parameters of full complex:
+        bond distance and bond angle between metal center and ligand atoms
+        """
+        if file_list == "":
+            popup.no_file_error()
+            return 1
+        if len(file_list) > 1:
+            popup.only_single_file_error()
+            return 1
+
+        atom_full, coord_full = atom_coord_full[0]
+
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = tools.ShowParamFull(self.newWindow, atom_full, coord_full)
+
+    def show_surface_area(self):
+        """Show surface area of 8 faces of octahedron
+        """
+        if file_list == "":
+            popup.no_file_error()
+            return 1
+        if len(file_list) > 1:
+            popup.only_single_file_error()
+            return 1
+        if run_check == 0:
+            popup.no_calc_error()
+            return 1
+
+        self.newWindow = tk.Toplevel(self.master)
+        self.app = tools.ShowSurfaceArea(self.newWindow, pal, pcl)
+
     def __init__(self, master):
         self.master = master
         self.master.title("OctaDist")
@@ -56,10 +269,10 @@ class OctaDist:
         self.frame.grid(padx=5, pady=5, row=0, column=0)
 
         """
-        Create menu bar
+        Menu bar
             File
-            |- New 
-            |- Open 
+            |- New
+            |- Open
             |- Save as
             |-------------
             |- Exit
@@ -72,14 +285,17 @@ class OctaDist:
             |- Data summary
             |  |- Complex info
             |  |- Selected 4 faces
-            |- Show structural parameters 
+            |- Show structural parameters
             |  |- Octahedron
-            |  |- All atoms 
+            |  |- All atoms
             |-------------
             |- Calculate surface area 
             |- Relationship plot between Σ and Θ
             Preference
             |- Auto-search octahedron
+            |- Algorithm for computing Θ
+            |  |- Algorithm 1 (default)
+            |  |- Algorithm 2
             Help
             |- Program help 
             |- About program 
@@ -97,6 +313,7 @@ class OctaDist:
         # Sub-menu
         data_menu = tk.Menu(self.frame, tearoff=0)
         structure_menu = tk.Menu(self.frame, tearoff=0)
+        algorithm_selection = tk.Menu(self.frame, tearoff=0)
 
         # File
         menu_bar.add_cascade(label="File", menu=file_menu)
@@ -125,7 +342,9 @@ class OctaDist:
         tools_menu.add_command(label="Calculate surface area", command=self.show_surface_area)
         tools_menu.add_command(label="Relationship plot between Σ and Θ", command=show_plot_angle)
 
-        # Setting check_button
+        # Preference
+        menu_bar.add_cascade(menu=pref_menu, label="Preference")
+        # Setting check_button for auto-searching metal
         self.check_search_octa = tk.BooleanVar()
         self.check_search_octa.set(False)
 
@@ -135,10 +354,33 @@ class OctaDist:
             else:
                 print("Info: Auto-search octahedron disabled")
 
-        # Preference
-        menu_bar.add_cascade(menu=pref_menu, label="Preference")
         pref_menu.add_checkbutton(label="Auto-search octahedron", onvalue=True, offvalue=False,
                                   variable=self.check_search_octa, command=auto_search_status)
+
+        pref_menu.add_separator()
+
+        # Setting check_button for Theta algorithm
+        self.check_algorithm_1 = tk.BooleanVar()
+        self.check_algorithm_1.set(True)
+        self.check_algorithm_2 = tk.BooleanVar()
+        self.check_algorithm_2.set(False)
+        self.theta_algorithm = 1
+
+        def select_algorithm_1():
+            self.theta_algorithm = 1
+            self.check_algorithm_2.set(False)
+            print("Info: Algorithm 1 enabled")
+
+        def select_algorithm_2():
+            self.theta_algorithm = 2
+            self.check_algorithm_1.set(False)
+            print("Info: Algorithm 2 enabled")
+
+        pref_menu.add_cascade(menu=algorithm_selection, label="Algorithm for computing Θ")
+        algorithm_selection.add_checkbutton(label="Algorithm 1 (default)", onvalue=True, offvalue=False,
+                                            variable=self.check_algorithm_1, command=select_algorithm_1)
+        algorithm_selection.add_checkbutton(label="Algorithm 2", onvalue=True, offvalue=False,
+                                            variable=self.check_algorithm_2, command=select_algorithm_2)
 
         # Help
         menu_bar.add_cascade(menu=help_menu, label="Help")
@@ -147,7 +389,7 @@ class OctaDist:
         help_menu.add_command(label="License information", command=popup.show_license)
         self.master.config(menu=menu_bar)
 
-        popup.welcome()
+        popup.header()
 
         program_name = "Octahedral Distortion Analysis"
         self.lbl1 = tk.Label(self.frame, foreground="blue", font=("Arial", 16, "bold"), text=program_name)
@@ -256,7 +498,6 @@ class OctaDist:
         file_name = filedialog.askopenfilenames(
             title="Choose input file",
             filetypes=(("XYZ File", "*.xyz"),
-                       ("Text File", "*.txt"),
                        ("Gaussian Output File", "*.out"),
                        ("Gaussian Output File", "*.log"),
                        ("NWChem Output File", "*.out"),
@@ -271,34 +512,52 @@ class OctaDist:
 
         try:
             open(file_list[0], 'r')
-            print("Info: The total number of file: %s\n" % len(file_list))
+            print("Info: Total number of file: %s" % len(file_list))
+            print("")
 
             atom_coord_full = []
             atom_coord_octa = []
 
             for i in range(len(file_list)):
+                # Print atoms and coordinates
+                get_name = file_list[i].split('/')[-1]
+                print("Info: Open file no. {0}: {1}".format(i + 1, get_name))
+
                 # Extract atoms and coordinates from input file
                 atom_full, coord_full = coord.get_coord(file_list[i])
 
                 # Use auto-search octahedron if requested
                 if self.check_search_octa.get():
-                    atom_octa, coord_octa = coord.auto_search_octa(atom_full, coord_full)
+                    atom_octa, coord_octa = coord.auto_search_octa(self.master, atom_full, coord_full)
                 else:
                     atom_octa = list(atom_full[:7])
                     coord_octa = np.asarray(coord_full[:7])
 
                 # Check if input file has coordinate inside
                 if np.any(coord_octa) == 0:
-                    popup.nocoord_error()
+                    popup.no_coord_error()
                     return 1
 
-                # Print atoms and coordinates
-                get_name = file_list[i].split('/')[-1]
-                print("Info: Open file no. {0}: {1}".format(i + 1, get_name))
-
                 if len(coord_full) > 7:
-                    coord.list_all_atom(atom_full, coord_full)
-                coord.list_octahedron_atom(atom_octa, coord_octa)
+                    print("Info: Show Cartesian coordinates of all %s atoms" % len(coord_full))
+                    print("")
+                    print("      Atom        X             Y             Z")
+                    print("      ----    ----------    ----------    ----------")
+
+                    for j in range(len(coord_full)):
+                        print("       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
+                              .format(atom_full[j], coord_full[j][0], coord_full[j][1], coord_full[j][2]))
+                    print("")
+                else:
+                    print("Info: Show Cartesian coordinates of selected 7 atoms")
+                    print("")
+                    print("      Atom        X             Y             Z")
+                    print("      ----    ----------    ----------    ----------")
+
+                    for j in range(len(coord_octa)):
+                        print("       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
+                              .format(atom_octa[j], coord_octa[j][0], coord_octa[j][1], coord_octa[j][2]))
+                    print("")
 
                 # Insert coordinates into text box
                 texts = "File {0}: {1}\n\n" \
@@ -320,15 +579,15 @@ class OctaDist:
             file_list = ""
 
     def save_file(self):
-        """Save computed data to file. The result will be saved into .txt or .out file.
+        """Save computed data to file. The result will be saved as .txt or .out file.
         """
         print("Info: Save data to output file")
 
         if file_list == "":
-            popup.nofile_error()
+            popup.no_file_error()
             return 1
         if run_check == 0:
-            popup.nocalc_error()
+            popup.no_calc_error()
             return 1
 
         f = filedialog.asksaveasfile(mode='w', defaultextension=".txt", title="Save as",
@@ -341,27 +600,34 @@ class OctaDist:
             return 0
 
         f.write("OctaDist %s: Octahedral Distortion Analysis\n" % program_version)
-        f.write("https://octadist.github.io\n\n")
+        f.write("https://octadist.github.io\n")
+        f.write("\n")
         f.write("By Rangsiman Ketkaew\n")
         f.write("Computational Chemistry Research Unit\n")
         f.write("Department of Chemistry\n")
         f.write("Faculty of Science and Technology\n")
         f.write("Thammasat University, Pathum Thani, 12120 Thailand\n")
-        f.write("E-mail: rangsiman1993@gmail.com\n\n")
-        f.write("Date: %s\n\n" % (datetime.datetime.now()))
+        f.write("E-mail: rangsiman1993@gmail.com\n")
+        f.write("\n")
+        f.write("Date: %s\n" % (datetime.datetime.now()))
+        f.write("\n")
         for i in range(len(file_list)):
-            f.write("File       : %s\n" % int(i + 1))
+            f.write("File no.   : %s\n" % int(i + 1))
             f.write("Input file : " + file_list[i].split('/')[-1] + "\n")
-            f.write("Output file: " + f.name.split('/')[-1] + "\n\n")
+            f.write("Output file: " + f.name.split('/')[-1] + "\n")
+            f.write("\n")
             f.write("Cartesian coordinates:\n")
             for j in range(len(coord_octa)):
                 f.write("{0:2}  {1:10.6f}  {2:10.6f}  {3:10.6f}\n"
                         .format(atom_octa[j], coord_octa[j][0], coord_octa[j][1], coord_octa[j][2]))
-            f.write("\nOctahedral distortion parameters:\n")
+            f.write("\n")
+            f.write("Octahedral distortion parameters:\n")
             f.write(" - Delta = %10.6f\n" % comp_result[i][0])
             f.write(" - Sigma = %10.6f degree\n" % comp_result[i][1])
-            f.write(" - Theta = %10.6f degree\n\n" % comp_result[i][2])
-            f.write("--------------------------------------\n\n")
+            f.write(" - Theta = %10.6f degree\n" % comp_result[i][2])
+            f.write("\n")
+            f.write("--------------------------------------\n")
+            f.write("\n")
 
         f.close()
 
@@ -374,45 +640,59 @@ class OctaDist:
             comp_result, all_comp, pal, pcl, ref_pal, ref_pcl, oppo_pal, oppo_pcl
 
         if file_list == "":
-            popup.nofile_error()
+            popup.no_file_error()
             return 1
 
         run_check = 1
         self.clear_results()
+
+        print("Info: Calculate the Δ, Σ, and Θ parameters")
+        print("")
 
         all_sigma = []
         all_theta = []
         comp_result = []
 
         for i in range(len(file_list)):
-            print("      ********************** Complex %s **********************\n" % int(i + 1))
-            print("Info: Show coordinate and compute Δ, Σ, and Θ parameters")
+            print("      *********************** Complex %s ***********************" % int(i + 1))
+            print("")
 
-            atom_list, coord_list = atom_coord_octa[i]
-            coord.list_octahedron_atom(atom_list, coord_list)
+            atom_octa, coord_octa = atom_coord_octa[i]
 
-            comp_delta = calc.calc_delta(atom_list, coord_list)
-            comp_sigma = calc.calc_sigma(atom_list, coord_list)
-            comp_theta, all_comp = calc.calc_theta(coord_list)
+            # Compute Delta
+            comp_delta = calc.calc_delta(atom_octa, coord_octa)
+            # Compute Sigma
+            comp_sigma = calc.calc_sigma(atom_octa, coord_octa)
+            # Compute Theta
+            if self.theta_algorithm == 1:
+                comp_theta, all_comp = calc.calc_theta_algorithm_1(coord_octa)
+            elif self.theta_algorithm == 2:
+                print("Calculate Theta using algorithm 2 :)")
+                comp_theta, all_comp = calc.calc_theta_algorithm_2(coord_octa)
 
             all_sigma.append(comp_sigma)
             all_theta.append(comp_theta)
             comp_result.append([comp_delta, comp_sigma, comp_theta])
 
-        print("Info: Show computed octahedral distortion parameters of all files\n")
-        print("      ===================== Overall Summary ====================\n")
+        print("Info: Show computed octahedral distortion parameters of all files")
+        print("")
+        print("      ===================== Overall Summary ====================")
+        print("")
 
         for i in range(len(comp_result)):
             print("      Complex {0:2d} : {1}".format(i + 1, file_list[i].split('/')[-1]))
 
-        print("\n      Complex          Δ           Σ (°)         Θ (°)")
+        print("")
+        print("      Complex          Δ           Σ (°)         Θ (°)")
         print("      -------      --------    ----------    ----------")
 
         for i in range(len(comp_result)):
             print("         {0:2d}      {1:10.6f}    {2:10.6f}    {3:10.6f}"
                   .format(i + 1, comp_result[i][0], comp_result[i][1], comp_result[i][2]))
 
-        print("\n      ==========================================================")
+        print("")
+        print("      ==========================================================")
+        print("")
 
         if len(file_list) == 1:
             pal, pcl, ref_pal, ref_pcl, oppo_pal, oppo_pcl = all_comp
@@ -422,220 +702,6 @@ class OctaDist:
 
         else:
             self.show_results_mult()
-
-    def show_help(self):
-        """Open program help page
-        """
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = popup.ShowHelp(self.newWindow)
-
-    def show_results_mult(self):
-        """Open program help page
-        """
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = tools.ShowResults(self.newWindow, comp_result)
-
-    def show_data_summary(self):
-        """Show information of complex/structure
-        """
-        if file_list == "":
-            popup.nofile_error()
-            return 1
-
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = tools.ShowData(self.newWindow, file_list, atom_coord_full)
-
-    def show_face_summary(self):
-        """Show information of selected 4 faces
-        """
-        if file_list == "":
-            popup.nofile_error()
-            return 1
-        if len(file_list) > 1:
-            popup.only_single_file_error()
-            return 1
-        if run_check == 0:
-            popup.nocalc_error()
-            return 1
-
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = tools.ShowFaceSet(self.newWindow, ref_pal, ref_pcl, oppo_pal, oppo_pcl)
-
-    def show_param_octa(self):
-        """Show selected structural parameters of octahedral structure:
-        bond distance and bond angle between metal center and ligand atoms
-        """
-        if file_list == "":
-            popup.nofile_error()
-            return 1
-        if len(file_list) > 1:
-            popup.only_single_file_error()
-            return 1
-
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = tools.ShowParamOcta(self.newWindow, atom_octa, coord_octa)
-
-    def show_param_full(self):
-        """Show structural parameters of full complex:
-        bond distance and bond angle between metal center and ligand atoms
-        """
-        if file_list == "":
-            popup.nofile_error()
-            return 1
-        if len(file_list) > 1:
-            popup.only_single_file_error()
-            return 1
-
-        atom_full, coord_full = atom_coord_full[0]
-
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = tools.ShowParamFull(self.newWindow, atom_full, coord_full)
-
-    def show_surface_area(self):
-        """Show surface area of 8 faces of octahedron
-        """
-        if file_list == "":
-            popup.nofile_error()
-            return 1
-        if len(file_list) > 1:
-            popup.only_single_file_error()
-            return 1
-        if run_check == 0:
-            popup.nocalc_error()
-            return 1
-
-        self.newWindow = tk.Toplevel(self.master)
-        self.app = tools.ShowSurfaceArea(self.newWindow, pal, pcl)
-
-
-def show_plot_angle():
-    """Show relationship plot Sigma and Theta parameters
-    """
-    if file_list == "":
-        popup.nofile_error()
-        return 1
-    if run_check == 0:
-        popup.nocalc_error()
-        return 1
-
-    draw.show_plot_angles(all_sigma, all_theta)
-
-
-def show_all_atom():
-    """Display full complex
-    """
-    if file_list == "":
-        popup.nofile_error()
-        return 1
-    if len(file_list) > 1:
-        popup.only_single_file_error()
-        return 1
-    if run_check == 0:
-        popup.nocalc_error()
-        return 1
-
-    atom_full, coord_full = atom_coord_full[0]
-
-    draw.draw_all_atom(atom_full, coord_full)
-
-
-def show_all_atom_and_face():
-    """Display full complex and 8 faces of octahedron
-    """
-    if file_list == "":
-        popup.nofile_error()
-        return 1
-    if len(file_list) > 1:
-        popup.only_single_file_error()
-        return 1
-    if run_check == 0:
-        popup.nocalc_error()
-        return 1
-
-    atom_full, coord_full = atom_coord_full[0]
-
-    draw.draw_all_atom_and_face(atom_full, coord_full, pcl)
-
-
-def show_octa():
-    """Display the octahedral structure
-    """
-    if file_list == "":
-        popup.nofile_error()
-        return 1
-    if len(file_list) > 1:
-        popup.only_single_file_error()
-        return 1
-    if run_check == 0:
-        popup.nocalc_error()
-        return 1
-
-    draw.draw_octahedron(atom_octa, coord_octa)
-
-
-def show_octa_and_face():
-    """Display the octahedral structure and its 8 faces
-    """
-    if file_list == "":
-        popup.nofile_error()
-        return 1
-    if len(file_list) > 1:
-        popup.only_single_file_error()
-        return 1
-    if run_check == 0:
-        popup.nocalc_error()
-        return 1
-
-    draw.draw_octahedron_and_face(atom_octa, coord_octa, pcl)
-
-
-def show_octa_and_opt_face():
-    """Display the octahedral structure and selected optimal 4 faces
-    """
-    if file_list == "":
-        popup.nofile_error()
-        return 1
-    if len(file_list) > 1:
-        popup.only_single_file_error()
-        return 1
-    if run_check == 0:
-        popup.nocalc_error()
-        return 1
-
-    draw.draw_octahedron_and_opt_face(atom_octa, coord_octa, ref_pcl)
-
-
-def show_projection_plane():
-    """Display the projection planes
-    """
-    if file_list == "":
-        popup.nofile_error()
-        return 1
-    if len(file_list) > 1:
-        popup.only_single_file_error()
-        return 1
-    if run_check == 0:
-        popup.nocalc_error()
-        return 1
-
-    draw.draw_projection_planes(atom_octa, coord_octa, ref_pcl, oppo_pcl)
-
-
-def show_twisting_face():
-    """Display the twisting triangular faces
-    """
-
-    if file_list == "":
-        popup.nofile_error()
-        return 1
-    if len(file_list) > 1:
-        popup.only_single_file_error()
-        return 1
-    if run_check == 0:
-        popup.nocalc_error()
-        return 1
-
-    draw.draw_twisting_faces(atom_octa, coord_octa, ref_pcl, oppo_pcl)
 
 
 def main():

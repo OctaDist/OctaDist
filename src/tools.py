@@ -256,11 +256,9 @@ def calc_bond_distance(fal, fcl):
     global_distance_cutoff = 2.0
     hydrogen_distance_cutoff = 1.2
 
-    print("Info: Determine correct bonds for atoms pair")
-    print("Info: Global distance cutoff       : %s Angstrom"
-          % global_distance_cutoff)
-    print("Info: Distance cutoff for Hydrogen : %s Angstrom"
-          % hydrogen_distance_cutoff)
+    print("Info: Determine the correct bond for atoms pair")
+    print("Info: Global distance cutoff       : %s Angstrom" % global_distance_cutoff)
+    print("Info: Distance cutoff for Hydrogen : %s Angstrom" % hydrogen_distance_cutoff)
 
     pair_list = []
     bond_list = []
@@ -291,12 +289,11 @@ def calc_bond_distance(fal, fcl):
                 check_2_bond_list.append([check_1_bond_list[i][0], check_1_bond_list[i][1]])
         else:
             check_2_bond_list.append([check_1_bond_list[i][0], check_1_bond_list[i][1]])
+    print("")
 
-    print("\n      Total number of bonds before screening    : %5s"
-          % len(bond_list))
-    print("      Total number of bonds after 1st screening : %5s"
-          % len(check_1_bond_list))
-    print("      Total number of bonds after 2nd screening : %5s\n"
-          % len(check_2_bond_list))
+    print("      Total number of bonds before screening    : %5s" % len(bond_list))
+    print("      Total number of bonds after 1st screening : %5s" % len(check_1_bond_list))
+    print("      Total number of bonds after 2nd screening : %5s" % len(check_2_bond_list))
+    print("")
 
     return check_2_bond_list

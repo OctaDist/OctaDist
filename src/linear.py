@@ -33,7 +33,6 @@ def distance_between(a, b):
     :param b: array - cartesian coordinate of point b
     :return: float - distance
     """
-
     return sqrt(sum([pow(a[i]-b[i], 2) for i in range(len(a))]))
 
 
@@ -88,20 +87,20 @@ def triangle_area(a, b, c):
     """Calculate the area of the triangle using the following equation
 
 
-           |  AB X AC |
-    Area = | -------- |     where AB = B - A
-           |    2     |           AC = C - A
+           |  ab X ac |
+    Area = | -------- |     where ab = b - a
+           |    2     |           ac = c - a
 
     :param a: point A - (Ax, Ay, Az)
     :param b: point B - (Bx, By, Bz)
     :param c: point C - (Cx, Cy, Cz)
     :return: float - triangle area
     """
-    AB = b - a
-    AC = c - a
+    ab = b - a
+    ac = c - a
 
-    value = (pow(np.dot(AB[1], AC[2]) - np.dot(AB[2], AC[1]), 2) +
-             pow(np.dot(AB[2], AC[0]) - np.dot(AB[0], AC[2]), 2) +
-             pow(np.dot(AB[0], AC[1]) - np.dot(AB[1], AC[0]), 2))
+    value = (pow(np.dot(ab[1], ac[2]) - np.dot(ab[2], ac[1]), 2) +
+             pow(np.dot(ab[2], ac[0]) - np.dot(ab[0], ac[2]), 2) +
+             pow(np.dot(ab[0], ac[1]) - np.dot(ab[1], ac[0]), 2))
 
     return sqrt(value)/2

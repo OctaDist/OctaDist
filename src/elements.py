@@ -11,7 +11,7 @@ import numpy as np
 
 
 def check_atom(x):
-    """Convert atomic number to symbol, or symbol to atomic number: 1-109
+    """Convert atomic number to symbol and vice versa for atom 1-109
 
     :param x: If x is atomic number, return symbol, and vice versa.
     :return: symbol or atomic number, depending on input x

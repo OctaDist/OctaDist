@@ -11,6 +11,7 @@ import numpy as np
 import linear
 import elements
 import popup
+import tkinter as tk
 
 
 def file_lines(file):
@@ -54,32 +55,6 @@ def check_xyz_file(f):
         return True
 
     if file_lines(f) < 9:
-        return False
-    else:
-        return True
-
-
-def check_txt_file(f):
-    """Check if the input file
-    text file format
-    ----------------
-
-    <index 0> <X> <Y> <Z>
-    <index 1> <X> <Y> <Z>
-    ...
-    <index 6> <X> <Y> <Z>
-
-    ***The first atom must be metal center.
-
-    :param f: string - user filename
-    :return: if file is a .txt fie format, return True
-    """
-    with open(f) as f_1:
-        line = f_1.readline()
-
-    if len(line.split()) != 4:
-        return False
-    elif file_lines(f) < 7:
         return False
     else:
         return True
@@ -183,38 +158,6 @@ def get_coord_xyz(f):
 
     file = open(f, "r")
     coord_full = np.loadtxt(file, skiprows=2, usecols=[1, 2, 3])
-    file.close()
-
-    return atom_full, coord_full
-
-
-def get_coord_txt(f):
-    """Get coordinate from .txt file
-
-    :param f: string - user input file
-    :return atom_full: list - full atom list of user's complex
-    :return coord_full: array - full coordinates of all atoms of complex
-    """
-    file = open(f, "r")
-    line = file.readlines()
-    file.close()
-
-    atom_full = []
-
-    for l in line:
-        # read atom on 1st column and insert to array
-        l_strip = l.strip()
-        lst = l_strip.split(' ')[0]
-        atom_full.append(lst)
-
-    """Read file again for getting XYZ coordinate
-        We have two ways to do this, 
-        1. use >> file.seek(0) <<
-        2. use >> file = open(f, "r") <<
-    """
-
-    file = open(f, "r")
-    coord_full = np.loadtxt(file, skiprows=0, usecols=[1, 2, 3])
     file.close()
 
     return atom_full, coord_full
@@ -403,14 +346,6 @@ def get_coord(f):
             print("Error: Invalid XYZ file format")
             print("Error: Could not read data in XYZ file %s" % f)
 
-    elif f.endswith(".txt"):
-        if check_txt_file(f):
-            print("Info: Check file type: TXT file")
-            atom_full, coord_full = get_coord_txt(f)
-        else:
-            print("Error: Invalid TXT file format")
-            print("Error: Could not read data in TXT file %s" % f)
-
     elif f.endswith(".out") or f.endswith(".log"):
         if check_gaussian_file(f):
             print("Info: Check file type: Gaussian Output")
@@ -429,7 +364,7 @@ def get_coord(f):
 
     else:
         print("Error: Could not read file %s" % f)
-        print("Error: File type is not supported in current version of OctaDist")
+        print("Error: File type is not supported by the current version of OctaDist")
 
     # Remove empty string in list
     atom_full = list(filter(None, atom_full))
@@ -437,13 +372,15 @@ def get_coord(f):
     return atom_full, coord_full
 
 
-def count_metal(af, cf):
-    """Count the number of transition metal/heavy metal
+def auto_search_octa(af, cf):
+    """Auto-search octahedral structure, on request.
+
     :param af: list - atom_full
-    :return j: int - total number of metal atoms
-    :return atom_metal: list - list of metal atoms
-    :return coord_metal: list - list of coordinates of metal atoms
+    :param cf: array - coord_full
+    :return atom_octa: atom list of extracted octahedral structure
+    :return coord_octa: coord list of extracted octahedral structure
     """
+    # Determine transition metal/heavy atoms
     count = 0
     atom_metal = []
     coord_metal = []
@@ -454,27 +391,12 @@ def count_metal(af, cf):
             coord_metal.append(cf[i])
             count += 1
 
-    return count, atom_metal, coord_metal
-
-
-def auto_search_octa(af, cf):
-    """Auto-search octahedral structure, on request.
-
-    :param af: list - atom_full
-    :param cf: coordinate_full
-    :return atom_octa:
-    :return coord_octa:
-    """
-    count, atom_metal, coord_metal = count_metal(af, cf)
-
+    # Determine octahedral structure
     if count == 0:
-        print("\nError: Neither a heavy metal nor transition metal is found")
-        popup.no_metal_warning()
+        popup.no_trans_metal_warning()
         return 1
 
     elif count == 1:
-        print("\nInfo: Octahedral structure is found. Check the structure yourself again.")
-
         dist_list = []
 
         for i in range(len(af)):
@@ -499,42 +421,23 @@ def auto_search_octa(af, cf):
         # Collect atom and coordinates
         atom_octa, coord_octa, distance = zip(*dist_list)
 
-    else:
-        print("\nInfo: The complex has more than one metal atom")
-        print("Info: Please help OctaDist to detect the metal center atom correctly")
+    elif count > 1:
+        print("")
+        print("Info: The complex has more than one metal atom")
+        print("")
+        print("Info: Show transition metal/heavy atom candidates")
+        print("")
+        print("      Atom        X             Y             Z")
+        print("      ----    ----------    ----------    ----------")
+
+        for i in range(count):
+            print("       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
+                  .format(atom_metal[i], coord_metal[i][0], coord_metal[i][1], coord_metal[i][2]))
+        print("")
+
+        popup.too_many_metals_warning()
+
+        return 1
 
     return atom_octa, coord_octa
 
-
-def list_all_atom(af, cf):
-    """Show atomic symbol and coordinates of all atoms
-
-    :param af: list - atom_full
-    :param cf: array - coord_full
-    :return:
-    """
-    print("Info: Show Cartesian coordinates of all %s atoms\n" % len(cf))
-    print("      Atom        X              Y             Z")
-    print("      ----    ----------    ----------    ----------")
-
-    for i in range(len(cf)):
-        print("       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}".format(af[i], cf[i][0], cf[i][1], cf[i][2]))
-
-    print("")
-
-
-def list_octahedron_atom(al, cl):
-    """Show selected atoms of octahedral structure
-
-    :param al: list - atom_list
-    :param cl: array - coord_list
-    :return:
-    """
-    print("Info: Show Cartesian coordinates of selected 7 atoms\n")
-    print("      Atom        X              Y             Z")
-    print("      ----    ----------    ----------    ----------")
-
-    for i in range(len(cl)):
-        print("       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}".format(al[i], cl[i][0], cl[i][1], cl[i][2]))
-
-    print("")

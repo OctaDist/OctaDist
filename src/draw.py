@@ -24,6 +24,7 @@ def draw_all_atom(fal, fcl):
     :return:
     """
     print("Info: Display scattering plot of all atoms")
+    print("")
 
     fig = plt.figure()
     ax = Axes3D(fig)
@@ -89,7 +90,8 @@ def draw_all_atom_and_face(fal, fcl, pcl):
     :return:
     """
     print("Info: Display scattering plot of all atoms")
-    print("      Draw surface for all 8 faces of selected octahedron")
+    print("      Draw surface for all 8 faces of selected octahedral structure")
+    print("")
 
     fig = plt.figure()
     ax = Axes3D(fig)
@@ -168,7 +170,8 @@ def draw_octahedron(al, cl):
     :return:
     """
     print("Info: Display scattering plot of truncated octahedral structure")
-    print("      Draw surface for all 8 faces of selected octahedron")
+    print("      Draw surface for all 8 faces of selected octahedral structure")
+    print("")
 
     fig = plt.figure()
     ax = Axes3D(fig)
@@ -222,7 +225,8 @@ def draw_octahedron_and_face(al, cl, pcl):
     :return:
     """
     print("Info: Display scattering plot of truncated octahedral structure")
-    print("      Draw surface for all 8 faces of selected oatahedral")
+    print("      Draw surface for all 8 faces of selected octahedral structure")
+    print("")
 
     fig = plt.figure()
     ax = Axes3D(fig)
@@ -291,7 +295,8 @@ def draw_octahedron_and_opt_face(al, cl, ref_pcl):
     :return:
     """
     print("Info: Display scattering plot of truncated octahedral structure")
-    print("      Draw surface for all 8 faces of selected oatahedral")
+    print("      Draw surface for all 8 faces of selected octahedral structure")
+    print("")
 
     fig = plt.figure()
     ax = Axes3D(fig)
@@ -362,6 +367,7 @@ def draw_projection_planes(al, cl, vl, ovl):
     print("Info: Display the selected 4 pairs of opposite planes (faces)")
     print("      Scattering plot of all atoms")
     print("      Draw surface for 4 pairs of reference and opposite planes")
+    print("")
 
     # reference face
     ref_vertices_list = []
@@ -430,6 +436,7 @@ def draw_twisting_faces(al, cl, vl, ovl):
     print("Info: Display the reference and projected atoms")
     print("      Scattering plot of all projected atoms on the reference plane")
     print("      Draw surface for 4 pairs of two twisting triangular faces")
+    print("")
 
     ref_vertices_list = []
 
@@ -511,7 +518,8 @@ def show_plot_angles(s, t):
     :param t: array - computed Theta parameter
     :return:
     """
-    print("Info: Show relationship plot between Σ and Θ\n")
+    print("Info: Show relationship plot between Σ and Θ")
+    print("")
 
     ax = plt.subplot()
 

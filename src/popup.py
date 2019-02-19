@@ -15,42 +15,51 @@ import webbrowser
 from main import program_version
 
 
-def welcome():
+def header():
     """Show welcome message
     """
-    print("\n OctaDist Copyright (C) 2019  Rangsiman Ketkaew  (rangsiman1993@gmail.com)")
+    print("")
+    print(" OctaDist Copyright (C) 2019  Rangsiman Ketkaew  (rangsiman1993@gmail.com)")
     print(" This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.")
     print(" This is free software, and you are welcome to redistribute it under")
-    print(" certain conditions; see <https://www.gnu.org/licenses/> for details.\n")
+    print(" certain conditions; see <https://www.gnu.org/licenses/> for details.")
+    print("")
     print("     ==============================================================")
-    print("                              OctaDist %s\n" % program_version)
+    print("                              OctaDist %s" % program_version)
+    print("")
     print("                     OCTAHEDRAL DISTORTION ANALYSIS")
     print("                     ------------------------------")
     print("          A PROGRAM FOR DETERMINING THE STRUCTURAL DISTORTION")
-    print("                       OF THE OCTAHEDRAL COMPLEXES\n")
-    print("               Official website: https://octadist.github.io")
-    print("     ==============================================================\n")
+    print("                       OF THE OCTAHEDRAL COMPLEXES")
+    print("")
+    print("          Rangsiman Ketkaew            rangsiman1993@gmail.com")
+    print("          Yuthana Tantirungrotechai    yt203y@gmail.com")
+    print("          David J. Harding             hdavid@mail.wu.ac.th")
+    print("")
+    print("                       https://octadist.github.io")
+    print("     ==============================================================")
+    print("")
 
 
 def callback(event):
     webbrowser.open_new(event.widget.cget("text"))
 
 
-def nofile_error():
+def no_file_error():
     """Show error when opening file twice
     """
     print("Error: No input file")
     showerror("Error", "No input file.")
 
 
-def nocoord_error():
+def no_coord_error():
     """Show error when opening file twice
     """
     print("Error: No coordinate of a molecule")
     showerror("Error", "No coordinate of a molecule. Please make sure the input file format is correct.")
 
 
-def nocalc_error():
+def no_calc_error():
     """Show error when save file but no any parameters computed
     """
     print("Error: No results")
@@ -85,11 +94,21 @@ def not_octahedron_error():
     showerror("Error", "Cannot determine the octahedral structure from your input complex")
 
 
-def no_metal_warning():
-    """Show warning message when the first atom is not heavy metal
+def no_trans_metal_warning():
+    """Show warning message if input complex has no transition metal
     """
-    print("Warning: Neither a heavy metal nor transition metal is found")
-    showwarning("Warning", "Neither a heavy metal nor transition metal is found.")
+    print("Warning: No transition metal in your input file")
+    showwarning("Warning", "No transition metal in your input file.")
+
+
+def too_many_metals_warning():
+    """Show warning message if input complex contains many transition metal/heavy metals
+    """
+    print("Warning: The complex contains too many transition metal and/or heavy metal")
+    print("         Please clarify your structure to help OctaDist to determine metal center atom correctly")
+    showwarning("Warning", "The complex contains too many transition metal and/or heavy metal.\n\n"
+                           "Please clarify the complex to help OctaDist to determine metal center atom correctly.\n\n"
+                           "Otherwise, go to https://octadist.github.io for preparation of input file.\n")
 
 
 class ShowHelp:
