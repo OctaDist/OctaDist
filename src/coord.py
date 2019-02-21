@@ -52,9 +52,11 @@ def check_xyz_file(f):
     try:
         int(first_line)
     except ValueError:
-        return True
+        print("Error: The first line of XYZ file must be the total number of atoms")
+        return False
 
     if file_lines(f) < 9:
+        print("Error: The complex must contain at least 1 metal center and 6 ligand atoms.")
         return False
     else:
         return True

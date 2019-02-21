@@ -9,25 +9,26 @@ the Free Software Foundation, either version 3 of the License, or
 
 import numpy as np
 import linear
-import proj
+import projection
 
 
 def find_8_faces(c_octa):
-    """Find 8 faces of octahedral structure and their opposite faces
+    """Find 8 faces of octahedral structure for computing Theta parameter using algorithm 1
 
-    1) Choose 3 atoms out of 6 ligand atoms. The total number of combination is 20.
+    1) Choose 3 atoms out of 6 ligand atoms. The total number of combination is 20
     2) Orthogonally project metal center atom onto the face: m ----> m'
-    3) Calculate the shortest distance between original metal center to projected metal center atoms
+    3) Calculate the shortest distance between original metal center to its projected point
     4) Sort the 20 faces in ascending order of the shortest distance
     5) Delete 12 faces that closest to metal center atom (first 12 faces)
-    6) The remaining faces are the face of octahedral structure
-    7) Find the opposite faces of 8 reference faces.
+    6) The remaining 8 faces are the (reference) face of octahedral structure
+    7) Find 8 opposite faces
     
     For example,
 
          Reference plane            Opposite plane
             [[1 2 3]                   [[4 5 6]
              [1 2 4]        --->        [3 5 6]
+               ...                        ...
              [2 3 5]]                   [1 4 6]]
 
     :param c_octa: array - XYZ coordinate of a metal center atom and six ligand atoms
@@ -50,7 +51,7 @@ def find_8_faces(c_octa):
         for j in range(i + 1, 6):
             for k in range(j + 1, 7):
                 a, b, c, d = find_eq_of_plane(c_octa[i], c_octa[j], c_octa[k])
-                m = proj.project_atom_onto_plane(c_octa[0], a, b, c, d)
+                m = projection.project_atom_onto_plane(c_octa[0], a, b, c, d)
                 d_btw = linear.distance_between(m, c_octa[0])
                 a_ref_f.append([i, j, k])
                 c_ref_f.append([c_octa[i], c_octa[j], c_octa[k], d_btw])

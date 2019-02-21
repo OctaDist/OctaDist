@@ -8,7 +8,7 @@ the Free Software Foundation, either version 3 of the License, or
 """
 
 import plane
-import proj
+import projection
 import elements
 import tools
 import matplotlib.pyplot as plt
@@ -451,7 +451,7 @@ def draw_twisting_faces(al, cl, vl, ovl):
 
     for i in range(4):
         a, b, c, d = plane.find_eq_of_plane(vl[i][0], vl[i][1], vl[i][2])
-        m = proj.project_atom_onto_plane(cl[0], a, b, c, d)
+        m = projection.project_atom_onto_plane(cl[0], a, b, c, d)
 
         ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
         ax.set_title("Projection plane {0}".format(i + 1), fontsize='10')
@@ -469,7 +469,7 @@ def draw_twisting_faces(al, cl, vl, ovl):
                        linewidths=1, edgecolors='black', label="Reference atom")
             ax.text(vl[i][j][0] + 0.1, vl[i][j][1] + 0.1, vl[i][j][2] + 0.1, "{0}".format(j + 1), fontsize=9)
             # Project ligand atom onto the reference face
-            pl.append(proj.project_atom_onto_plane(ovl[i][j], a, b, c, d))
+            pl.append(projection.project_atom_onto_plane(ovl[i][j], a, b, c, d))
 
         # Projected opposite atoms
         for j in range(3):

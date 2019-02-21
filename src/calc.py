@@ -10,7 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 import numpy as np
 import linear
 import plane
-import proj
+import projection
 import popup
 
 
@@ -68,6 +68,7 @@ def calc_sigma(a_octa, c_octa):
     Σ = sigma < 90 - angle_i >
          i=1
 
+    where angle_i in an unique cis angle
     Ref: J. K. McCusker et al. Inorg. Chem. 1996, 35, 2100.
 
     :param a_octa: list - atoms of octahedral structure
@@ -218,7 +219,7 @@ def find_6_unique_angles(face, eq_plane, c_octa, a_ref_f, c_ref_f, a_oppo_f):
     :return unique_angle: unique angles
     """
     a, b, c, d = eq_plane
-    m = proj.project_atom_onto_plane(c_octa[0], a, b, c, d)
+    m = projection.project_atom_onto_plane(c_octa[0], a, b, c, d)
 
     # atoms on reference face
     r1 = a_ref_f[face][0]
@@ -233,9 +234,9 @@ def find_6_unique_angles(face, eq_plane, c_octa, a_ref_f, c_ref_f, a_oppo_f):
     o2 = int(a_oppo_f[face][1])
     o3 = int(a_oppo_f[face][2])
     # coordinate of atoms on opposite face
-    co1 = proj.project_atom_onto_plane(c_octa[o1], a, b, c, d)
-    co2 = proj.project_atom_onto_plane(c_octa[o2], a, b, c, d)
-    co3 = proj.project_atom_onto_plane(c_octa[o3], a, b, c, d)
+    co1 = projection.project_atom_onto_plane(c_octa[o1], a, b, c, d)
+    co2 = projection.project_atom_onto_plane(c_octa[o2], a, b, c, d)
+    co3 = projection.project_atom_onto_plane(c_octa[o3], a, b, c, d)
 
     n = face + 1
 
@@ -268,12 +269,12 @@ def find_6_unique_angles(face, eq_plane, c_octa, a_ref_f, c_ref_f, a_oppo_f):
                 # Make sure that three atoms are different
                 if ref != l1 and ref != l2 and l2 > l1:
                     # Project reference atom onto the line
-                    prof_ref = proj.project_atom_onto_line(norm_vect[ref], norm_vect[l1], norm_vect[l2])
+                    prof_ref = projection.project_atom_onto_line(norm_vect[ref], norm_vect[l1], norm_vect[l2])
                     # Project three candidate atoms onto the line
                     vector_proj_can = []
                     for can in range(6):
                         if can != ref and can != l1 and can != l2:
-                            can_proj = proj.project_atom_onto_line(norm_vect[can], norm_vect[l1], norm_vect[l2])
+                            can_proj = projection.project_atom_onto_line(norm_vect[can], norm_vect[l1], norm_vect[l2])
                             vector_proj_can.append(can_proj - norm_vect[can])
 
                     # Define vectors
@@ -293,15 +294,15 @@ def find_6_unique_angles(face, eq_plane, c_octa, a_ref_f, c_ref_f, a_oppo_f):
                         all_pair.append([ref, l1])
                         all_pair.append([ref, l2])
 
-    # all_pair contains 12 pairs of adjoining atoms.
-    # So we have to remove 6 duplicate pairs
+    # all_pair contains 12 pairs of adjoining atoms and we have to remove 6 duplicate pairs
     copy_all_pair = list(all_pair)
     all_pair = []
-    # Sort out list in list
+    # Sort list in list
     for j in range(len(copy_all_pair)):
         sorted_pair = sorted(copy_all_pair[j])
         all_pair.append(sorted_pair)
-    # Sort out list
+
+    # Sort list
     all_pair = sorted(all_pair)
     # Remove element of which odd index
     all_pair = all_pair[1::2]
@@ -314,7 +315,7 @@ def find_6_unique_angles(face, eq_plane, c_octa, a_ref_f, c_ref_f, a_oppo_f):
 
     # Finally, check if sum of all angles in unique_angle is 360 or not
     sum_angles = sum([unique_angle[i] for i in range(len(unique_angle))])
-    if len(unique_pair) != 6 or 359.9 <= sum_angles >= 360.1:
+    if len(unique_pair) != 6 or sum_angles <= 359.9 or sum_angles >= 360.1:
         popup.not_octahedron_error()
         return 1
 
@@ -324,24 +325,20 @@ def find_6_unique_angles(face, eq_plane, c_octa, a_ref_f, c_ref_f, a_oppo_f):
 def calc_theta_algorithm_1(c_octa):
     """Calculate Theta parameter
 
-    Octahedron has 4 faces, 6 angles each, thus the total number of theta angle is 24 angles.
-
           24
     Θ = sigma < 60 - angle_i >
          i=1
 
-    where angle_i is an angle between two vectors, one is vector from metal center to
-    reference atom, and another one is vector from metal center to projected atom.
-
+    where angle_i is an unique angle between two vectors of two twisting face.
     Ref: M. Marchivie et al. Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.
 
     Algorithm 1:
         This algorithm firstly determines all possible combination of 4 faces.
-    It does choose 4 faces out of 8 faces. Thus, the total number of combination is 70.
-    These combinations would give different 70 Theta values. The lowest Theta value is chosen.
+    Then, it chooses 4 faces out of 8 faces. The total number of combination is 70.
+    These combinations would give different 70 Theta values. The lowest Theta value is selected.
 
     :param c_octa: array - coordinate of octahedral structure
-    :return lowest_theta: list - the lowest Theta value
+    :return min_theta: list - the lowest Theta value
     :return all_comp: compile all results
             a_ref_f: list - atomic number of all 8 faces
             c_ref_f: list - atomic coordinates of all 8 faces
@@ -350,14 +347,14 @@ def calc_theta_algorithm_1(c_octa):
             sel_oppo_f_atom: list - atom number of selected 4 opposite faces
             sel_oppo_f_coord: list - coordinates of selected 4 opposite faces
     """
+    print("Info: Find 8 faces of octahedral structure and the equation of plane")
+    print("      The general form of the equation of plane is Ax + By + Cz = D")
+    print("")
+
     # Find 8 reference faces and 8 opposite faces
     a_ref_f, c_ref_f, a_oppo_f, c_oppo_f = plane.find_8_faces(c_octa)
 
     # Find the equation of plane
-    print("Info: Find the equation of plane of 8 faces")
-    print("      The general form of the equation of plane is Ax + By + Cz = D")
-    print("")
-
     eq_plane_set = []
 
     for i in range(8):
@@ -366,18 +363,17 @@ def calc_theta_algorithm_1(c_octa):
         eq_plane_set.append([a, b, c, d])
     print("")
 
-    # Find orthogonal projection
     print("Info: Find the orthogonal projection of opposite atoms onto the reference plane")
     print("Info: Show new coordinate of projected atoms (m is a metal center)")
     print("")
+    print("      Face    Projection         X           Y           Z")
+    print("      ----    ----------     ---------   ---------   ---------")
 
+    # Find orthogonal projection
     unique_6_pairs = []
     unique_6_angles = []
 
     # loop over 8 faces to find 6 unique angles for each face
-    print("      Face    Projection         X           Y           Z")
-    print("      ----    ----------     ---------   ---------   ---------")
-
     for i in range(8):
         eq_plane = eq_plane_set[i]
         unique_pair, unique_angle = find_6_unique_angles(i, eq_plane, c_octa, a_ref_f, c_ref_f, a_oppo_f)
@@ -407,6 +403,7 @@ def calc_theta_algorithm_1(c_octa):
                 print("       {0}       {1} & {2}        {3:10.6f}       {4:9.6f}"
                       .format(i + 1, unique_6_pairs[i][j][0], unique_6_pairs[i][j][1], unique_6_angles[i][j],
                               sum_unique_angle[i]))
+
             else:
                 print("               {0} & {1}        {2:10.6f}"
                       .format(unique_6_pairs[i][j][0], unique_6_pairs[i][j][1], unique_6_angles[i][j],
@@ -419,6 +416,7 @@ def calc_theta_algorithm_1(c_octa):
     print("")
 
     angle_list = []
+
     for i in range(len(unique_6_angles)):
         diff_angle = 0.0
         for j in range(len(unique_6_angles[i])):
@@ -437,8 +435,10 @@ def calc_theta_algorithm_1(c_octa):
                     sum_unique_angle = (angle_list[i] + angle_list[j] + angle_list[k] + angle_list[l])
                     comp_theta_list.append(sum_unique_angle)
 
-    # Find the minimum Theta angle and print all values
-    lowest_theta = min(comp_theta_list)
+    # Find the lowest, highest, and mean Theta values and print all values
+    min_theta = min(comp_theta_list)
+    max_theta = max(comp_theta_list)
+    mean_theta = (min_theta + max_theta)/2
 
     print("Info: Calculate Θ parameter for each face sets")
     print("Info: Show computed Θ parameter (°) of 70 sets of pair of opposite faces")
@@ -446,13 +446,13 @@ def calc_theta_algorithm_1(c_octa):
     print("      Set    Atom on face         Θ (°)")
     print("      ---    ------------     ----------")
 
-    no_sel_set = 0
+    number_sel_set = 0
     sel_face_set = 0
 
     for i in range(len(comp_theta_list)):
         print("      {0:2d}     {1}    {2:11.6f}".format(i + 1, plane_set[i], comp_theta_list[i]))
-        if comp_theta_list[i] == lowest_theta:
-            no_sel_set = i + 1
+        if comp_theta_list[i] == min_theta:
+            number_sel_set = i + 1
             sel_face_set = plane_set[i]
     print("")
 
@@ -473,7 +473,7 @@ def calc_theta_algorithm_1(c_octa):
 
     print("      ====================== SUMMARY of Θ ======================")
     print("")
-    print("      The face set no. %s of %s gives the lowest Θ parameter" % (no_sel_set, sel_face_set))
+    print("      The face set no. %s of %s gives the lowest Θ parameter" % (number_sel_set, sel_face_set))
     print("")
     print("      Pair   Reference    Opposite")
     print("               face         face")
@@ -483,26 +483,136 @@ def calc_theta_algorithm_1(c_octa):
         print("        {0}    {1}    {2}".format(sel_face_set[i], sel_f_atom[i], sel_oppo_f_atom[i]))
     print("")
 
-    print("      Selected Θ parameter : %11.6f" % lowest_theta)
+    print("      Minimum Θ parameter : %11.6f ***" % min_theta)
+    print("      Maximum Θ parameter : %11.6f" % max_theta)
+    print("         Mean Θ parameter : %11.6f" % mean_theta)
     print("")
     print("      ==========================================================")
     print("")
 
-    return lowest_theta, all_comp
+    return min_theta, all_comp
 
 
 def calc_theta_algorithm_2(c_octa):
-    """Calculate Theta algorithm
+    """Calculate Theta parameter
+
+          24
+    Θ = sigma < 60 - angle_i >
+         i=1
+
+    where angle_i is an angle between two vectors, one is vector from metal center to
+    reference atom, and another one is vector from metal center to projected atom.
+
+    Ref: M. Marchivie et al. Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.
 
     Algorithm 2:
-        Find the Theta value using
+        First, find the 4 faces of octahedral structure, define the vector from the center of face
+    to each ligand of face (vertices of triangle). Then, compute the 24 unique angles and Theta parameter.
+    Note that this algorithm does not use orthogonal projection.
 
     :param c_octa: array - coordinate of octahedral structure
     :return:
     """
+    print("Info: Find 8 faces of octahedral structure and the equation of plane")
+    print("      The general form of the equation of plane is Ax + By + Cz = D")
+    print("")
 
-    print(c_octa)
+    # Find 8 reference faces and 8 opposite faces
+    a_ref_f, c_ref_f, a_oppo_f, c_oppo_f = plane.find_8_faces(c_octa)
+
+    print("Info: Show selected 4 reference faces and 4 opposite faces")
+    print("")
+
+    a_ref_f
+
+    a_ref_f = a_ref_f[:4]
+    c_ref_f = c_ref_f[:4]
+    a_oppo_f = a_oppo_f[:4]
+    c_oppo_f = c_oppo_f[:4]
+
+    # Find coordinate of center of face (triangle)
+    c_center_ref = []
+    c_center_oppo = []
+
+    for i in range(4):
+        center_ref = (c_ref_f[i][0] + c_ref_f[i][1] + c_ref_f[i][2])/3
+        c_center_ref.append(center_ref)
+        center_oppo = (c_oppo_f[i][0] + c_oppo_f[i][1] + c_oppo_f[i][2])/3
+        c_center_oppo.append(center_oppo)
+
+    print("Info: Find the coordinate of center of face (triangle)")
+    print("Info: Show coordinate of center of reference and opposite faces")
+    print("")
+    print("               Center of Reference face")
+    print("      -----------------------------------------")
+    print("      Face        X           Y           Z")
+    print("      ----    ---------   ---------   ---------")
+
+    for i in range(4):
+        print("        {0}    {1:10.6f}  {2:10.6f}  {3:10.6f}"
+              .format(i + 1, c_center_ref[i][0], c_center_ref[i][1], c_center_ref[i][2]))
+    print("")
+
+    print("               Center of Opposite face")
+    print("      -----------------------------------------")
+    print("      Face        X           Y           Z")
+    print("      ----    ---------   ---------   ---------")
+
+    for i in range(4):
+        print("        {0}    {1:10.6f}  {2:10.6f}  {3:10.6f}"
+              .format(i + 1, c_center_oppo[i][0], c_center_oppo[i][1], c_center_oppo[i][2]))
+    print("")
+
+    vector_ref = []
+    vector_oppo = []
+
+    # Find vector from center to ligand atom
+    for i in range(4):
+        vector = [c_ref_f[i][0] - c_center_ref[i],
+                  c_ref_f[i][1] - c_center_ref[i],
+                  c_ref_f[i][2] - c_center_ref[i]]
+        vector_ref.append(vector)
+
+        vector = [c_oppo_f[i][0] - c_center_oppo[i],
+                  c_oppo_f[i][1] - c_center_oppo[i],
+                  c_oppo_f[i][2] - c_center_oppo[i]]
+        vector_oppo.append(vector)
+
+    print("Info: Show vector from center to ligand atom for reference and opposite faces")
+    print("")
+    print("                       Reference face")
+    print("      -------------------------------------------------")
+    print("      Face    Atom        X           Y           Z")
+    print("      ----    ----    ---------   ---------   ---------")
+
+    for i in range(4):
+        for j in range(3):
+            if j == 1:
+                print("        {0}       {1}    {2:10.6f}  {3:10.6f}  {4:10.6f}"
+                      .format(i + 1, a_ref_f[i][j], vector_ref[i][j][0], vector_ref[i][j][1], vector_ref[i][j][2]))
+            else:
+                print("                {0}    {1:10.6f}  {2:10.6f}  {3:10.6f}"
+                      .format(a_ref_f[i][j], vector_ref[i][j][0], vector_ref[i][j][1], vector_ref[i][j][2]))
+        print("      -------------------------------------------------")
+    print("")
+
+    print("                        Opposite face")
+    print("      -------------------------------------------------")
+    print("      Face    Atom        X           Y           Z")
+    print("      ----    ----    ---------   ---------   ---------")
+
+    for i in range(4):
+        for j in range(3):
+            if j == 1:
+                print("        {0}       {1}    {2:10.6f}  {3:10.6f}  {4:10.6f}"
+                      .format(i + 1, a_oppo_f[i][j], vector_oppo[i][j][0], vector_oppo[i][j][1], vector_oppo[i][j][2]))
+            else:
+                print("                {0}    {1:10.6f}  {2:10.6f}  {3:10.6f}"
+                      .format(a_oppo_f[i][j], vector_oppo[i][j][0], vector_oppo[i][j][1], vector_oppo[i][j][2]))
+        print("      -------------------------------------------------")
+    print("")
 
     computed_theta = 0
+    all_comp = 0
 
-    return computed_theta
+    return computed_theta, all_comp
