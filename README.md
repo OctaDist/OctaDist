@@ -1,12 +1,12 @@
 [![Travis-CI Test](https://img.shields.io/travis/OctaDist/OctaDist/master.svg
 )](https://travis-ci.org/OctaDist/OctaDist)
 [![Github release](https://img.shields.io/github/release/octadist/octadist.svg
-)](https://github.com/rangsimanketkaew/OctaDist/releases)
-[![Code size](https://img.shields.io/github/languages/code-size/rangsimanketkaew/OctaDist.svg)](https://github.com/rangsimanketkaew/OctaDist)
-[![Repo size](https://img.shields.io/github/repo-size/rangsimanketkaew/OctaDist.svg)](https://github.com/rangsimanketkaew/OctaDist)
-[![Github Download All releases](https://img.shields.io/github/downloads/rangsimanketkaew/octadist/total.svg)](https://github.com/rangsimanketkaew/OctaDist/releases)
-[![Github Download release 2.2](https://img.shields.io/github/downloads/rangsimanketkaew/OctaDist/v.2.2/total.svg
-)](https://github.com/rangsimanketkaew/OctaDist/releases/tag/v.2.2)
+)](https://github.com/OctaDist/OctaDist/releases)
+[![Code size](https://img.shields.io/github/languages/code-size/OctaDist/OctaDist.svg)](https://github.com/OctaDist/OctaDist)
+[![Repo size](https://img.shields.io/github/repo-size/OctaDist/OctaDist.svg)](https://github.com/OctaDist/OctaDist)
+[![Github Download All releases](https://img.shields.io/github/downloads/OctaDist/octadist/total.svg)](https://github.com/OctaDist/OctaDist/releases)
+[![Github Download release 2.2](https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.2/total.svg
+)](https://github.com/OctaDist/OctaDist/releases/tag/v.2.2)
 
 ## OctaDist
 Octahedral Distortion Analysis: A program for determining the structural distortion of the octahedral complexes. https://octadist.github.io/
