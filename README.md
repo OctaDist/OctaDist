@@ -1,6 +1,6 @@
 [![Travis-CI Test](https://img.shields.io/travis/OctaDist/OctaDist/master.svg
 )](https://travis-ci.org/OctaDist/OctaDist)
-[![Github release](https://img.shields.io/github/release/rangsimanketkaew/octadist.svg
+[![Github release](https://img.shields.io/github/release/octadist/octadist.svg
 )](https://github.com/rangsimanketkaew/OctaDist/releases)
 [![Code size](https://img.shields.io/github/languages/code-size/rangsimanketkaew/OctaDist.svg)](https://github.com/rangsimanketkaew/OctaDist)
 [![Repo size](https://img.shields.io/github/repo-size/rangsimanketkaew/OctaDist.svg)](https://github.com/rangsimanketkaew/OctaDist)
