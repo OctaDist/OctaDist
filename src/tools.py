@@ -10,6 +10,7 @@ the Free Software Foundation, either version 3 of the License, or
 import linear
 import tkinter as tk
 import tkinter.scrolledtext as tkscrolled
+import main
 
 
 class ShowData:
@@ -27,20 +28,15 @@ class ShowData:
         self.frame = tk.Frame(self.master)
         self.frame.grid()
 
-        print("Info: Show general information of all complexes")
-
         self.Box = tkscrolled.ScrolledText(self.frame, wrap="word", width="75", height="30", undo="True")
         self.Box.grid(row=0, pady="5", padx="5")
         self.Box.delete(1.0, tk.END)
 
         for i in range(len(lf)):
-            texts = "File {0:>2} : {1}".format(i + 1, lf[i].split('/')[-1])
-            self.Box.insert(tk.END, texts)
+            self.Box.insert(tk.END, "File {0:>2} : {1}\n".format(i + 1, lf[i].split('/')[-1]))
+            self.Box.insert(tk.END, ">> Number of atoms: {0}\n".format(len(facl[i][0])))
             atoms = list(set(facl[i][0]))
-            texts = ">> Number of atoms: {0}".format(len(facl[i][0]))
-            self.Box.insert(tk.END, "\n" + texts)
-            texts = ">> List of atoms: {0}".format(atoms)
-            self.Box.insert(tk.END, "\n" + texts + "\n\n")
+            self.Box.insert(tk.END, ">> List of atoms: {0}".format(atoms) + "\n\n")
 
 
 class ShowFaceSet:
@@ -59,21 +55,16 @@ class ShowFaceSet:
         self.master.option_add("*Font", "Arial 10")
         self.frame = tk.Frame(self.master)
         self.frame.grid()
-
-        print("Info: Show selected octahedral faces of complex")
-
         self.Box = tkscrolled.ScrolledText(self.frame, wrap="word", width="75", height="30", undo="True")
         self.Box.grid(row=0, pady="5", padx="5")
         self.Box.delete(1.0, tk.END)
 
         for i in range(4):
-            texts = "Reference atoms: {0}          Opposite atoms: {1}\n".format(sfa[i], sofa[i])
-            self.Box.insert(tk.END, texts)
+            self.Box.insert(tk.END, "Reference atoms: {0}          Opposite atoms: {1}\n".format(sfa[i], sofa[i]))
             for j in range(3):
-                texts = "{0:9.6f},{1:9.6f},{2:9.6f} \t {3:9.6f},{4:9.6f},{5:9.6f}\n"\
-                    .format(sfc[i][j][0], sfc[i][j][1], sfc[i][j][2],
-                            sofc[i][j][0], sofc[i][j][1], sofc[i][j][2])
-                self.Box.insert(tk.END, texts)
+                self.Box.insert(tk.END, "{0:9.6f},{1:9.6f},{2:9.6f} \t {3:9.6f},{4:9.6f},{5:9.6f}\n"
+                                .format(sfc[i][j][0], sfc[i][j][1], sfc[i][j][2],
+                                        sofc[i][j][0], sofc[i][j][1], sofc[i][j][2]))
             self.Box.insert(tk.END, "\n\n")
 
 
@@ -90,20 +81,61 @@ class ShowResults:
         self.master.option_add("*Font", "Arial 10")
         self.frame = tk.Frame(self.master)
         self.frame.grid()
-
         self.lbl = tk.Label(self.frame, text="Computed octahedral distortion parameters for all complexes")
         self.lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
         self.Box = tkscrolled.ScrolledText(self.frame, wrap="word", width="50", height="30", undo="True")
         self.Box.grid(row=1, pady="5", padx="5")
 
-        texts = "                         Δ               Σ                Θ\n" \
-                "                     -----------    -------------     ------------"
-        self.Box.insert(tk.INSERT, texts)
-
+        self.Box.insert(tk.INSERT, "                         Δ               Σ                Θ\n")
+        self.Box.insert(tk.INSERT, "                     -----------    -------------     ------------\n")
         for i in range(len(comp_result)):
-            texts = "Complex {0} : {1:10.6f}   {2:10.6f}   {3:10.6f}"\
-                .format(i + 1, comp_result[i][0], comp_result[i][1], comp_result[i][2])
-            self.Box.insert(tk.END, "\n" + texts)
+            self.Box.insert(tk.END, "Complex {0} : {1:10.6f}   {2:10.6f}   {3:10.6f}\n"
+                            .format(i + 1, comp_result[i][0], comp_result[i][1], comp_result[i][2]))
+
+
+class ShowParamFull:
+    def __init__(self, master, acf):
+        """Show structural parameters, bond distance and bond angle, of selected complex
+
+        :param acf: list - atom_coord_full
+        :return:
+        """
+        self.master = master
+        self.master.title("Results")
+        self.master.geometry("380x530")
+        self.master.option_add("*Font", "Arial 10")
+        self.frame = tk.Frame(self.master)
+        self.frame.grid()
+        self.lbl = tk.Label(self.frame, text="Structural parameters of octahedral structure")
+        self.lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
+        self.Box = tkscrolled.ScrolledText(self.frame, wrap="word", width="50", height="30", undo="True")
+        self.Box.grid(row=1, pady="5", padx="5")
+
+        fal, fcl = acf
+
+        self.Box.insert(tk.INSERT, "Bond distance (Å)")
+        for i in range(len(fcl)):
+            for j in range(i + 1, len(fcl)):
+                if i == 0:
+                    distance = linear.distance_between(fcl[i], fcl[j])
+                    texts = "{0}-{1}{2} {3:10.6f}".format(fal[i], fal[j], j, distance)
+                else:
+                    distance = linear.distance_between(fcl[i], fcl[j])
+                    texts = "{0}{1}-{2}{3} {4:10.6f}".format(fal[i], i, fal[j], j, distance)
+                self.Box.insert(tk.END, "\n" + texts)
+
+        self.Box.insert(tk.END, "\n\nBond angle (°)")
+        for i in range(len(fcl)):
+            for j in range(i + 1, len(fcl)):
+                for k in range(j + 1, len(fcl)):
+                    if i == 0:
+                        angle = linear.angle_between(self, fcl[j], fcl[i], fcl[k])
+                        texts = "{0}{1}-{2}-{3}{4} {5:10.6f}".format(fal[k], k, fal[i], fal[j], j, angle)
+                    else:
+                        angle = linear.angle_between(self, fcl[j], fcl[i], fcl[k])
+                        texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}".format(fal[k], k, fal[i], i, fal[j], j, angle)
+                    self.Box.insert(tk.END, "\n" + texts)
+        self.Box.insert(tk.END, "\n")
 
 
 class ShowParamOcta:
@@ -120,17 +152,12 @@ class ShowParamOcta:
         self.master.option_add("*Font", "Arial 10")
         self.frame = tk.Frame(self.master)
         self.frame.grid()
-
-        print("Info: Show structural parameters of truncated octahedron")
-
         self.lbl = tk.Label(self.frame, text="Structural parameters of octahedral structure")
         self.lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
         self.Box = tkscrolled.ScrolledText(self.frame, wrap="word", width="50", height="30", undo="True")
         self.Box.grid(row=1, pady="5", padx="5")
 
-        texts = "Bond distance (Å)"
-        self.Box.insert(tk.INSERT, texts)
-
+        self.Box.insert(tk.INSERT, "Bond distance (Å)")
         for i in range(len(cl)):
             for j in range(i + 1, len(cl)):
                 if i == 0:
@@ -142,74 +169,19 @@ class ShowParamOcta:
 
                 self.Box.insert(tk.END, "\n" + texts)
 
-        texts = "Bond angle (°)"
-        self.Box.insert(tk.END, "\n\n" + texts)
-
+        self.Box.insert(tk.END, "\n\nBond angle (°)")
         for i in range(len(cl)):
             for j in range(i + 1, len(cl)):
                 for k in range(j + 1, len(cl)):
                     if i == 0:
-                        angle = linear.angle_between(cl[j], cl[i], cl[k])
+                        angle = linear.angle_between(self, cl[j], cl[i], cl[k])
                         texts = "{0}{1}-{2}-{3}{4} {5:10.6f}".format(al[k], k, al[i], al[j], j, angle)
                     else:
-                        angle = linear.angle_between(cl[j], cl[i], cl[k])
+                        angle = linear.angle_between(self, cl[j], cl[i], cl[k])
                         texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}".format(al[k], k, al[i], i, al[j], j, angle)
 
                     self.Box.insert(tk.END, "\n" + texts)
         self.Box.insert(tk.END, "\n")
-
-
-class ShowParamFull:
-    def __init__(self, master, fal, fcl):
-        """Show structural parameters, bond distance and bond angle, of selected complex
-
-        :param fal: list - full_atom_list
-        :param fcl: array - full_coord_list
-        :return:
-        """
-        self.master = master
-        self.master.title("Results")
-        self.master.geometry("380x530")
-        self.master.option_add("*Font", "Arial 10")
-        self.frame = tk.Frame(self.master)
-        self.frame.grid()
-
-        print("Info: Show structural parameters of full complex")
-
-        lbl = tk.Label(self.frame, text="Structural parameters of octahedral structure")
-        lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
-        Box = tkscrolled.ScrolledText(self.frame, wrap="word", width="50", height="30", undo="True")
-        Box.grid(row=1, pady="5", padx="5")
-
-        texts = "Bond distance (Å)"
-        Box.insert(tk.INSERT, texts)
-
-        for i in range(len(fcl)):
-            for j in range(i + 1, len(fcl)):
-                if i == 0:
-                    distance = linear.distance_between(fcl[i], fcl[j])
-                    texts = "{0}-{1}{2} {3:10.6f}".format(fal[i], fal[j], j, distance)
-                else:
-                    distance = linear.distance_between(fcl[i], fcl[j])
-                    texts = "{0}{1}-{2}{3} {4:10.6f}".format(fal[i], i, fal[j], j, distance)
-
-                Box.insert(tk.END, "\n" + texts)
-
-        texts = "Bond angle (°)"
-        Box.insert(tk.END, "\n\n" + texts)
-
-        for i in range(len(fcl)):
-            for j in range(i + 1, len(fcl)):
-                for k in range(j + 1, len(fcl)):
-                    if i == 0:
-                        angle = linear.angle_between(fcl[j], fcl[i], fcl[k])
-                        texts = "{0}{1}-{2}-{3}{4} {5:10.6f}".format(fal[k], k, fal[i], fal[j], j, angle)
-                    else:
-                        angle = linear.angle_between(fcl[j], fcl[i], fcl[k])
-                        texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}".format(fal[k], k, fal[i], i, fal[j], j, angle)
-
-                    Box.insert(tk.END, "\n" + texts)
-        Box.insert(tk.END, "\n")
 
 
 class ShowSurfaceArea:
@@ -226,24 +198,18 @@ class ShowSurfaceArea:
         self.master.option_add("*Font", "Arial 10")
         self.frame = tk.Frame(self.master)
         self.frame.grid()
-
-        print("Info: Show the area of the triangular faces of truncated octahedron")
-
         self.Box = tkscrolled.ScrolledText(self.frame, wrap="word", width="50", height="30", undo="True")
         self.Box.grid(row=0, pady="5", padx="5")
-
-        texts = "                 Atoms*        Area (Å³)"
-        self.Box.insert(tk.INSERT, texts)
+        self.Box.insert(tk.INSERT, "                 Atoms*        Area (Å³)\n")
 
         for i in range(8):
             area = linear.triangle_area(pcl[i][0], pcl[i][1], pcl[i][2])
-            texts = "Face no. {0}:  {1}      {2:10.6f}".format(i + 1, pal[i], area)
-            self.Box.insert(tk.END, "\n" + texts)
+            self.Box.insert(tk.END, "Face no. {0}:  {1}      {2:10.6f}\n".format(i + 1, pal[i], area))
 
         self.Box.insert(tk.END, "\n\n\n*Three ligand atoms are vertices of triangular face.\n")
 
 
-def calc_bond_distance(fal, fcl):
+def calc_bond_distance(self, fal, fcl):
     """Show bond distance of atoms pair
     - Compute distance of all bonds
     - Screen bonds out based on global cutoff distance
@@ -256,13 +222,12 @@ def calc_bond_distance(fal, fcl):
     global_distance_cutoff = 2.0
     hydrogen_distance_cutoff = 1.2
 
-    print("Info: Determine the correct bond for atoms pair")
-    print("Info: Global distance cutoff       : %s Angstrom" % global_distance_cutoff)
-    print("Info: Distance cutoff for Hydrogen : %s Angstrom" % hydrogen_distance_cutoff)
+    main.print_stdout(self, "Info: Determine the correct bond for atoms pair")
+    main.print_stdout(self, "Info: Global distance cutoff       : {0} Angstrom".format(global_distance_cutoff))
+    main.print_stdout(self, "Info: Distance cutoff for Hydrogen : {0} Angstrom".format(hydrogen_distance_cutoff))
 
     pair_list = []
     bond_list = []
-
     for i in range(len(fcl)):
         for j in range(i + 1, len(fcl)):
             if i == 0:
@@ -275,25 +240,24 @@ def calc_bond_distance(fal, fcl):
 
     check_1_bond_list = []
     screen_1_pair_list = []
-
     for i in range(len(bond_list)):
         if bond_list[i][2] <= global_distance_cutoff:
             check_1_bond_list.append([bond_list[i][0], bond_list[i][1], bond_list[i][2]])
             screen_1_pair_list.append([pair_list[i][0], pair_list[i][1]])
 
     check_2_bond_list = []
-
     for i in range(len(check_1_bond_list)):
         if screen_1_pair_list[i][0] == "H" or screen_1_pair_list[i][1] == "H":
             if check_1_bond_list[i][2] <= hydrogen_distance_cutoff:
                 check_2_bond_list.append([check_1_bond_list[i][0], check_1_bond_list[i][1]])
         else:
             check_2_bond_list.append([check_1_bond_list[i][0], check_1_bond_list[i][1]])
-    print("")
 
-    print("      Total number of bonds before screening    : %5s" % len(bond_list))
-    print("      Total number of bonds after 1st screening : %5s" % len(check_1_bond_list))
-    print("      Total number of bonds after 2nd screening : %5s" % len(check_2_bond_list))
-    print("")
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      Total number of bonds before screening    : {0:5d}".format(len(bond_list)))
+    main.print_stdout(self, "      Total number of bonds after 1st screening : {0:5d}".format(len(check_1_bond_list)))
+    main.print_stdout(self, "      Total number of bonds after 2nd screening : {0:5d}".format(len(check_2_bond_list)))
+    main.print_stdout(self, "")
 
     return check_2_bond_list
+

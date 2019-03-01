@@ -11,7 +11,8 @@ import numpy as np
 import linear
 import elements
 import popup
-import tkinter as tk
+from operator import itemgetter
+import main
 
 
 def file_lines(file):
@@ -27,7 +28,7 @@ def file_lines(file):
     return i + 1
 
 
-def check_xyz_file(f):
+def check_xyz_file(self, f):
     """Check if the input file is .xyz file format
 
     xyz file format
@@ -52,11 +53,11 @@ def check_xyz_file(f):
     try:
         int(first_line)
     except ValueError:
-        print("Error: The first line of XYZ file must be the total number of atoms")
+        main.print_stdout(self, "Error: The first line of XYZ file must be the total number of atoms")
         return False
 
     if file_lines(f) < 9:
-        print("Error: The complex must contain at least 1 metal center and 6 ligand atoms.")
+        main.print_stdout(self, "Error: The complex must contain at least 1 metal center and 6 ligand atoms.")
         return False
     else:
         return True
@@ -70,7 +71,6 @@ def check_gaussian_file(f):
     """
     gaussian_file = open(f, "r")
     nline = gaussian_file.readlines()
-
     for i in range(len(nline)):
         if "Standard orientation:" in nline[i]:
             return True
@@ -86,7 +86,6 @@ def check_nwchem_file(f):
     """
     nwchem_file = open(f, "r")
     nline = nwchem_file.readlines()
-
     for i in range(len(nline)):
         if "No. of atoms" in nline[i]:
             if not int(nline[i].split()[4]):
@@ -107,7 +106,6 @@ def check_orca_file(f):
     """
     orca_file = open(f, "r")
     nline = orca_file.readlines()
-
     for i in range(len(nline)):
         if "CARTESIAN COORDINATES (ANGSTROEM)" in nline[i]:
             return True
@@ -124,7 +122,6 @@ def check_qchem_file(f):
 
     qchem_file = open(f, "r")
     nline = qchem_file.readlines()
-
     for i in range(len(nline)):
         if "OPTIMIZATION CONVERGED" in nline[i]:
             return True
@@ -145,18 +142,11 @@ def get_coord_xyz(f):
     file.close()
 
     atom_full = []
-
     for l in line:
-        # read atom on 1st column and insert to array
+        # read atom on 1st column and insert to list
         l_strip = l.strip()
         lst = l_strip.split(' ')[0]
         atom_full.append(lst)
-
-    """Read file again for getting XYZ coordinate
-        We have two ways to do this, 
-        1. use >> file.seek(0) <<
-        2. use >> file = open(f, "r") <<
-    """
 
     file = open(f, "r")
     coord_full = np.loadtxt(file, skiprows=2, usecols=[1, 2, 3])
@@ -177,9 +167,7 @@ def get_coord_gaussian(f):
 
     start = 0
     end = 0
-
     atom_full, coord_full = [], []
-
     for i in range(len(nline)):
         if "Standard orientation:" in nline[i]:
             start = i
@@ -195,9 +183,7 @@ def get_coord_gaussian(f):
         coord_x = float(data[3])
         coord_y = float(data[4])
         coord_z = float(data[5])
-
         data1 = elements.check_atom(data1)
-
         atom_full.append(data1)
         coord_full.append([coord_x, coord_y, coord_z])
 
@@ -218,9 +204,7 @@ def get_coord_nwchem(f):
 
     start = 0
     end = 0
-
     atom_full, coord_full = [], []
-
     for i in range(len(nline)):
         if "Optimization converged" in nline[i]:
             start = i
@@ -231,7 +215,6 @@ def get_coord_nwchem(f):
 
     start = start + 18
     end = start + end
-
     # The 1st line of coordinate is at 18 lines next to 'Optimization converged'
     for line in nline[start:end]:
         dat = line.split()
@@ -239,9 +222,7 @@ def get_coord_nwchem(f):
         coord_x = float(dat[3])
         coord_y = float(dat[4])
         coord_z = float(dat[5])
-
         dat1 = elements.check_atom(dat1)
-
         atom_full.append(dat1)
         coord_full.append([coord_x, coord_y, coord_z])
 
@@ -262,9 +243,7 @@ def get_coord_orca(f):
 
     start = 0
     end = 0
-
     atom_full, coord_full = [], []
-
     for i in range(len(nline)):
         if "CARTESIAN COORDINATES (ANGSTROEM)" in nline[i]:
             start = i
@@ -280,7 +259,6 @@ def get_coord_orca(f):
         coord_x = float(dat[1])
         coord_y = float(dat[2])
         coord_z = float(dat[3])
-
         atom_full.append(dat1)
         coord_full.append([coord_x, coord_y, coord_z])
 
@@ -301,9 +279,7 @@ def get_coord_qchem(f):
 
     start = 0
     end = 0
-
     atom_full, coord_full = [], []
-
     for i in range(len(nline)):
         if "OPTIMIZATION CONVERGED" in nline[i]:
             start = i
@@ -319,7 +295,6 @@ def get_coord_qchem(f):
         coord_x = float(dat[2])
         coord_y = float(dat[3])
         coord_z = float(dat[4])
-
         atom_full.append(dat1)
         coord_full.append([coord_x, coord_y, coord_z])
 
@@ -328,45 +303,41 @@ def get_coord_qchem(f):
     return atom_full, coord_full
 
 
-def get_coord(f):
+def get_coord(self, f):
     """Check file type, read data, extract atom and coord from input file
 
     :param f: string - user input file
     :return atom_full: list - full atom list of user's complex
     :return coord_full: array - full coordinates of all atoms of complex
     """
-    # Atom no. 1   metal center
-    #          2-7 ligand atoms
-    #          3-n other atoms
-
     # Check file extension
     if f.endswith(".xyz"):
-        if check_xyz_file(f):
-            print("Info: Check file type: XYZ file")
+        if check_xyz_file(self, f):
+            main.print_stdout(self, "Info: Check file type: XYZ file")
             atom_full, coord_full = get_coord_xyz(f)
         else:
-            print("Error: Invalid XYZ file format")
-            print("Error: Could not read data in XYZ file %s" % f)
+            main.print_stdout(self, "Error: Invalid XYZ file format")
+            main.print_stdout(self, "Error: Could not read data in XYZ file {0}".format(f))
 
     elif f.endswith(".out") or f.endswith(".log"):
         if check_gaussian_file(f):
-            print("Info: Check file type: Gaussian Output")
+            main.print_stdout(self, "Info: Check file type: Gaussian Output")
             atom_full, coord_full = get_coord_gaussian(f)
         elif check_nwchem_file(f):
-            print("Info: Check file type: NWChem Output")
+            main.print_stdout(self, "Info: Check file type: NWChem Output")
             atom_full, coord_full = get_coord_nwchem(f)
         elif check_orca_file(f):
-            print("Info: Check file type: ORCA Output")
+            main.print_stdout(self, "Info: Check file type: ORCA Output")
             atom_full, coord_full = get_coord_orca(f)
         elif check_qchem_file(f):
-            print("Info: Check file type: Q-Chem Output")
+            main.print_stdout(self, "Info: Check file type: Q-Chem Output")
             atom_full, coord_full = get_coord_qchem(f)
         else:
-            print("Error: Could not read output file %s" % f)
+            main.print_stdout(self, "Error: Could not read output file {0}".format(f))
 
     else:
-        print("Error: Could not read file %s" % f)
-        print("Error: File type is not supported by the current version of OctaDist")
+        main.print_stdout(self, "Error: Could not read file {0}".format(f))
+        main.print_stdout(self, "Error: File type is not supported by the current version of OctaDist")
 
     # Remove empty string in list
     atom_full = list(filter(None, atom_full))
@@ -374,7 +345,7 @@ def get_coord(f):
     return atom_full, coord_full
 
 
-def auto_search_octa(af, cf):
+def auto_search_octa(self, af, cf):
     """Auto-search octahedral structure, on request.
 
     :param af: list - atom_full
@@ -386,7 +357,6 @@ def auto_search_octa(af, cf):
     count = 0
     atom_metal = []
     coord_metal = []
-
     for i in range(len(af)):
         if elements.check_atom(af[i]) >= 21:
             atom_metal.append(af[i])
@@ -395,51 +365,37 @@ def auto_search_octa(af, cf):
 
     # Determine octahedral structure
     if count == 0:
-        popup.no_trans_metal_warning()
+        popup.no_trans_metal_warning(self)
         return 1
 
     elif count == 1:
         dist_list = []
-
         for i in range(len(af)):
             dist = linear.distance_between(coord_metal[0], cf[i])
             dist_list.append([af[i], cf[i], dist])
 
-        # Sort out bond distance
-        p = 0
-        while p < len(dist_list):
-            r = p
-            q = p + 1
-            while q < len(dist_list):
-                if dist_list[r][2] > dist_list[q][2]:
-                    r = q
-                q += 1
-            dist_list[p], dist_list[r] = dist_list[r], dist_list[p]
-            p += 1
-
+        # sort list of tuples by distance in ascending order
+        dist_list.sort(key=itemgetter(2))
         # Get only first 7 atoms
         dist_list = dist_list[:7]
-
         # Collect atom and coordinates
         atom_octa, coord_octa, distance = zip(*dist_list)
 
     elif count > 1:
-        print("")
-        print("Info: The complex has more than one metal atom")
-        print("")
-        print("Info: Show transition metal/heavy atom candidates")
-        print("")
-        print("      Atom        X             Y             Z")
-        print("      ----    ----------    ----------    ----------")
-
+        main.print_stdout(self, "")
+        main.print_stdout(self, "Info: The complex has more than one metal atom")
+        main.print_stdout(self, "")
+        main.print_stdout(self, "Info: Show transition metal/heavy atom candidates")
+        main.print_stdout(self, "")
+        main.print_stdout(self, "      Atom        X             Y             Z")
+        main.print_stdout(self, "      ----    ----------    ----------    ----------")
         for i in range(count):
-            print("       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
-                  .format(atom_metal[i], coord_metal[i][0], coord_metal[i][1], coord_metal[i][2]))
-        print("")
+            main.print_stdout(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
+                              .format(atom_metal[i], coord_metal[i][0], coord_metal[i][1], coord_metal[i][2]))
+        main.print_stdout(self, "")
 
-        popup.too_many_metals_warning()
+        popup.too_many_metals_warning(self)
 
         return 1
 
     return atom_octa, coord_octa
-

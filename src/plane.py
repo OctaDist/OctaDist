@@ -10,9 +10,10 @@ the Free Software Foundation, either version 3 of the License, or
 import numpy as np
 import linear
 import projection
+import main
 
 
-def find_8_faces(c_octa):
+def find_8_faces(self, c_octa):
     """Find 8 faces of octahedral structure for computing Theta parameter using algorithm 1
 
     1) Choose 3 atoms out of 6 ligand atoms. The total number of combination is 20
@@ -38,43 +39,34 @@ def find_8_faces(c_octa):
     :return c_oppo_f: array - coordinate of opposite face of octahedral structure
     """
     # Find the shortest distance from metal center to each triangle
-    print("Info: Find the reference and opposite faces of octahedral structure")
+    main.print_stdout(self, "Info: Find the reference and opposite faces of octahedral structure")
 
     #######################
     # Find reference faces
     #######################
 
+    distance = []
     a_ref_f = []
     c_ref_f = []
-
     for i in range(1, 5):
         for j in range(i + 1, 6):
             for k in range(j + 1, 7):
                 a, b, c, d = find_eq_of_plane(c_octa[i], c_octa[j], c_octa[k])
                 m = projection.project_atom_onto_plane(c_octa[0], a, b, c, d)
                 d_btw = linear.distance_between(m, c_octa[0])
+                distance.append(d_btw)
                 a_ref_f.append([i, j, k])
-                c_ref_f.append([c_octa[i], c_octa[j], c_octa[k], d_btw])
+                c_ref_f.append([c_octa[i], c_octa[j], c_octa[k]])
 
-    # Sort c_ref_f in ascending order of the shortest distance (column 4)
-    i = 0
-    while i < len(c_ref_f):
-        k = i
-        j = i + 1
-        while j < len(c_ref_f):
-            if c_ref_f[k][3] > c_ref_f[j][3]:
-                k = j
-            j += 1
-        c_ref_f[i], c_ref_f[k] = c_ref_f[k], c_ref_f[i]
-        a_ref_f[i], a_ref_f[k] = a_ref_f[k], a_ref_f[i]
-
-        i += 1
+    # Sort faces by distance in ascending order
+    dist_a_c = list(zip(distance, a_ref_f, c_ref_f))
+    dist_a_c.sort()
+    distance, a_ref_f, c_ref_f = list(zip(*dist_a_c))
+    c_ref_f = np.asarray(c_ref_f)
 
     # Remove first 12 triangles, the rest of triangles is 8 faces of octahedron
     a_ref_f = a_ref_f[12:]
     c_ref_f = c_ref_f[12:]
-    # Remove the 4th column (distance)
-    c_ref_f = np.delete(c_ref_f, 3, 1)
 
     #######################
     # Find opposite faces
@@ -82,12 +74,10 @@ def find_8_faces(c_octa):
 
     all_atom = [1, 2, 3, 4, 5, 6]
     a_oppo_f = []
-
     # loop over 4 reference planes
     for i in range(len(a_ref_f)):
         # Find atoms of opposite plane
         new_a_ref_f = []
-
         for j in all_atom:
             if j not in (a_ref_f[i][0], a_ref_f[i][1], a_ref_f[i][2]):
                 new_a_ref_f.append(j)
@@ -95,10 +85,8 @@ def find_8_faces(c_octa):
 
     v = np.array(c_octa)
     c_oppo_f = []
-
     for i in range(len(a_oppo_f)):
         coord_oppo = []
-
         for j in range(3):
             coord_oppo.append([v[int(a_oppo_f[i][j])][0], v[int(a_oppo_f[i][j])][1], v[int(a_oppo_f[i][j])]][2])
         c_oppo_f.append(coord_oppo)
@@ -106,47 +94,42 @@ def find_8_faces(c_octa):
     ################
     # Show results
     ################
-
-    print("Info: Show 8 pairs of the opposite faces")
-    print("")
-    print("      Pair   Reference    Opposite")
-    print("               face         face")
-    print("      ----   ---------    ---------")
-
+    main.print_stdout(self, "Info: Show 8 pairs of the opposite faces")
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      Pair   Reference    Opposite")
+    main.print_stdout(self, "               face         face")
+    main.print_stdout(self, "      ----   ---------    ---------")
     for i in range(len(a_oppo_f)):
-        print("        {0}    {1}    {2}".format(i + 1, a_ref_f[i], a_oppo_f[i]))
-    print("")
-
+        main.print_stdout(self, "        {0}    {1}    {2}".format(i + 1, a_ref_f[i], a_oppo_f[i]))
+    main.print_stdout(self, "")
     # Print new face list after unwanted 12 triangles plane excluded
-    print("Info: Show the reference face")
-    print("")
-    print("      Face    Atom         X           Y           Z")
-    print("      ----    ----     ---------   ---------   ---------")
-
+    main.print_stdout(self, "Info: Show the reference face")
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      Face    Atom         X           Y           Z")
+    main.print_stdout(self, "      ----    ----     ---------   ---------   ---------")
     for i in range(len(c_ref_f)):
-        print("                {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
-              .format(a_ref_f[i][0], c_ref_f[i][0][0], c_ref_f[i][0][1], c_ref_f[i][0][2]))
-        print("        {0}       {1}     {2:10.6f}  {3:10.6f}  {4:10.6f}"
-              .format(i + 1, a_ref_f[i][1], c_ref_f[i][1][0], c_ref_f[i][1][1], c_ref_f[i][1][2]))
-        print("                {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
-              .format(a_ref_f[i][2], c_ref_f[i][2][0], c_ref_f[i][2][1], c_ref_f[i][2][2]))
-        print("      --------------------------------------------------")
-    print("")
-
-    print("Info: Show the opposite faces")
-    print("")
-    print("      Face    Atom         X           Y           Z")
-    print("      ----    ----     ---------   ---------   ---------")
+        main.print_stdout(self, "                {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
+                          .format(a_ref_f[i][0], c_ref_f[i][0][0], c_ref_f[i][0][1], c_ref_f[i][0][2]))
+        main.print_stdout(self, "        {0}       {1}     {2:10.6f}  {3:10.6f}  {4:10.6f}"
+                          .format(i + 1, a_ref_f[i][1], c_ref_f[i][1][0], c_ref_f[i][1][1], c_ref_f[i][1][2]))
+        main.print_stdout(self, "                {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
+                          .format(a_ref_f[i][2], c_ref_f[i][2][0], c_ref_f[i][2][1], c_ref_f[i][2][2]))
+        main.print_stdout(self, "      --------------------------------------------------")
+    main.print_stdout(self, "")
+    main.print_stdout(self, "Info: Show the opposite faces")
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      Face    Atom         X           Y           Z")
+    main.print_stdout(self, "      ----    ----     ---------   ---------   ---------")
 
     for i in range(len(a_oppo_f)):
-        print("                {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
-              .format(a_oppo_f[i][0], c_oppo_f[i][0][0], c_oppo_f[i][0][1], c_oppo_f[i][0][2]))
-        print("        {0}       {1}     {2:10.6f}  {3:10.6f}  {4:10.6f}"
-              .format(i + 1, a_oppo_f[i][1], c_oppo_f[i][1][0], c_oppo_f[i][1][1], c_oppo_f[i][1][2]))
-        print("                {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
-              .format(a_oppo_f[i][2], c_oppo_f[i][2][0], c_oppo_f[i][2][1], c_oppo_f[i][2][2]))
-        print("      --------------------------------------------------")
-    print("")
+        main.print_stdout(self, "                {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
+                          .format(a_oppo_f[i][0], c_oppo_f[i][0][0], c_oppo_f[i][0][1], c_oppo_f[i][0][2]))
+        main.print_stdout(self, "        {0}       {1}     {2:10.6f}  {3:10.6f}  {4:10.6f}"
+                          .format(i + 1, a_oppo_f[i][1], c_oppo_f[i][1][0], c_oppo_f[i][1][1], c_oppo_f[i][1][2]))
+        main.print_stdout(self, "                {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
+                          .format(a_oppo_f[i][2], c_oppo_f[i][2][0], c_oppo_f[i][2][1], c_oppo_f[i][2][2]))
+        main.print_stdout(self, "      --------------------------------------------------")
+    main.print_stdout(self, "")
 
     return a_ref_f, c_ref_f, a_oppo_f, c_oppo_f
 
@@ -166,10 +149,9 @@ def find_eq_of_plane(x, y, z):
     :param z: array - point 3
     :return a, b, c, d: float - coefficients of the equation of the given plane
     """
-    XZ = z - x
-    XY = y - x
-
-    cross_vector = np.cross(XZ, XY)
+    xz = z - x
+    xy = y - x
+    cross_vector = np.cross(xz, xy)
     a, b, c = cross_vector
     d = np.dot(cross_vector, z)
 
