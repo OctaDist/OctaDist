@@ -12,105 +12,76 @@ from tkinter.messagebox import showinfo
 from tkinter.messagebox import showerror
 from tkinter.messagebox import showwarning
 import webbrowser
-from main import program_version
+import main
 
 
-def header():
-    """Show welcome message
+def header(self):
+    """Show welcome message when program is opened
     """
-    print("")
-    print(" OctaDist Copyright (C) 2019  Rangsiman Ketkaew  (rangsiman1993@gmail.com)")
-    print(" This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.")
-    print(" This is free software, and you are welcome to redistribute it under")
-    print(" certain conditions; see <https://www.gnu.org/licenses/> for details.")
-    print("")
-    print("     ==============================================================")
-    print("                              OctaDist %s" % program_version)
-    print("")
-    print("                     OCTAHEDRAL DISTORTION ANALYSIS")
-    print("                     ------------------------------")
-    print("          A PROGRAM FOR DETERMINING THE STRUCTURAL DISTORTION")
-    print("                       OF THE OCTAHEDRAL COMPLEXES")
-    print("")
-    print("      Rangsiman Ketkaew            Thammasat University, Thailand")
-    print("      Yuthana Tantirungrotechai    Thammasat University, Thailand")
-    print("      David J. Harding             Walailak University, Thailand")
-    print("      Phimphaka Harding            Walailak University, Thailand")
-    print("      Mathieu Marchivie            Université de Bordeaux, France")
-    print("")
-    print("                       https://octadist.github.io")
-    print("     ==============================================================")
-    print("")
+    main.print_stdout(self, "==========================================================")
+    main.print_stdout(self, "OctaDist {0} : https://octadist.github.io".format(main.program_version))
+    main.print_stdout(self, "A Program for determining the structural distortion of the octahedral complexes")
+    main.print_stdout(self, "==========================================================")
+    main.print_stdout(self, "")
 
 
 def callback(event):
     webbrowser.open_new(event.widget.cget("text"))
 
 
-def no_file_error():
-    """Show error when opening file twice
-    """
-    print("Error: No input file")
+def no_file_error(self):
+    main.print_stdout(self, "Error: No input file")
     showerror("Error", "No input file.")
 
 
-def no_coord_error():
-    """Show error when opening file twice
-    """
-    print("Error: No coordinate of a molecule")
+def no_coord_error(self):
+    main.print_stdout(self, "Error: No coordinate of a molecule")
     showerror("Error", "No coordinate of a molecule. Please make sure the input file format is correct.")
 
 
-def no_calc_error():
-    """Show error when save file but no any parameters computed
-    """
-    print("Error: No results")
+def no_calc_error(self):
+    main.print_stdout(self, "Error: No results")
     showerror("Error", "No results. Click \"Compute parameters\" to calculate octahedral distortion parameters.")
 
 
-def only_single_file_error():
-    """Show error when user request function that not supported for multiple files mode
-    """
-    print("Error: This function only supports single file mode")
-    showerror("Error", "This function only supports single input file.")
+def only_one_file_error(self):
+    main.print_stdout(self, "Error: You must load only one input file")
+    showerror("Error", "You must load only one input file.")
 
 
-def only_mult_file_error():
-    """Show error when user request function that not supported for single file mode
-    """
-    print("Error: This function only supports multiple files mode")
-    showerror("Error", "This function only supports multiple input files.")
+def only_two_files_error(self):
+    main.print_stdout(self, "Error: Only two input files must be loaded")
+    showerror("Error", "Only two input files must be loaded.")
 
 
-def wrong_format_error():
-    """Show error when opening file twice
-    """
-    print("Error: Input file format is not supported")
+def at_least_one_file_error(self):
+    main.print_stdout(self, "Error: At least one input file must be loaded")
+    showerror("Error", "At least one input file must be loaded.")
+
+
+def wrong_format_error(self):
+    main.print_stdout(self, "Error: Input file format is not supported")
     showerror("Error", "Input file format is not supported.")
 
 
-def not_octahedron_error():
-    """Show error if OctaDist cannot determine the octahedron
-    """
-    print("Error: Cannot determine the octahedral structure from your input complex")
+def not_octahedron_error(self):
+    main.print_stdout(self, "Error: Cannot determine the octahedral structure from your input complex")
     showerror("Error", "Cannot determine the octahedral structure from your input complex")
 
 
-def no_trans_metal_warning():
-    """Show warning message if input complex has no transition metal
-    """
-    print("Warning: No transition metal in your input file")
+def no_trans_metal_warning(self):
+    main.print_stdout(self, "Warning: No transition metal in your input file")
     showwarning("Warning", "No transition metal in your input file.")
 
 
-def too_many_metals_warning():
-    """Show warning message if input complex contains many transition metal/heavy metals
-    """
-    print("Warning: The complex contains too many transition metal and/or heavy metal")
-    print("         Please clarify your structure to help OctaDist to determine metal center atom correctly")
-    showwarning("Warning", "The complex contains too many transition metal and/or heavy metal.\n\n"
-                           "Please clarify the complex to help OctaDist to determine metal center atom correctly.\n\n"
-                           "Otherwise, go to https://octadist.github.io for preparation of input file.\n")
+def too_many_metals_warning(self):
+    main.print_stdout(self, "Warning: The complex contains too many transition metal and/or heavy metal")
+    main.print_stdout(self, "         Please clarify your complex carefully.")
+    main.print_stdout(self, "         It would help OctaDist to determine the metal center atom correctly.")
+    showwarning("Warning",
+                "The complex contains too many transition metal and/or heavy metal.\n\n"       
+                "Please clarify the complex to help OctaDist to determine metal center atom correctly.\n\n"
+                "Otherwise, go to https://octadist.github.io for preparation of input file.\n")
 
 
 class ShowHelp:
@@ -119,29 +90,25 @@ class ShowHelp:
         """
         self.master = master
         self.master.title("Program Help")
-        self.master.geometry("550x600")
+        self.master.geometry("550x550")
         self.master.option_add("*Font", "Arial 10")
         self.frame = tk.Frame(self.master)
         self.frame.grid()
 
-        print("Info: Show program help")
-
         # Usage
         self.lbl = tk.Label(self.frame, text="Usage:")
         self.lbl.grid(sticky=tk.W, row=0)
-        msg_help_1 = "1. Browse file\n" \
-                     "2. Compute parameters\n" \
+        msg_help_1 = "1. Browse input file\n" \
+                     "2. Compute distortion parameters\n" \
                      "3. Check results\n" \
                      "4. File → Save as\n"
         self.msg = tk.Message(self.frame, text=msg_help_1, width="450")
         self.msg.grid(sticky=tk.W, row=1)
 
         # XYZ file format
-        self.lbl = tk.Label(self.frame, text="Supported input formats:")
+        self.lbl = tk.Label(self.frame, text="Supported input: XYZ file format (*.xyz)")
         self.lbl.grid(sticky=tk.W, row=2)
-        self.lbl = tk.Label(self.frame, text="XYZ file format (*.xyz):")
-        self.lbl.grid(sticky=tk.W, row=3, column=0)
-        msg_help_2 = " <number of atoms\n" \
+        msg_help_2 = " <number of atoms>\n" \
                      " comment line\n" \
                      " <Metal center 0>  <X>  <Y>  <Z>\n" \
                      " <Ligand atom 1>  <X>  <Y>  <Z>\n" \
@@ -153,7 +120,7 @@ class ShowHelp:
                      " <optional>\n" \
                      " ...\n"
         self.msg = tk.Message(self.frame, text=msg_help_2, width="450")
-        self.msg.grid(sticky=tk.W, row=4, column=0)
+        self.msg.grid(sticky=tk.W, row=3, column=0)
 
         self.lbl = tk.Label(self.frame, text="Example of input file is available at the following website:")
         self.lbl.grid(sticky=tk.W, row=5, columnspan=2)
@@ -175,33 +142,29 @@ class ShowHelp:
         self.msg.grid(sticky=tk.W, row=8, columnspan=2)
 
 
-def show_about():
+def show_about(self):
     """Show author info
     """
-    print("Info: Show program information")
+    main.print_stdout(self, "Info: Show program information")
 
-    text = "OctaDist version {}\n" \
+    text = "OctaDist version {0}\n" \
            "\n" \
-           "Programming:\n" \
-           "Rangsiman Ketkaew\n" \
-           "Computational Chemistry Research Unit\n" \
-           "Department of Chemistry\n" \
-           "Faculty of Science and Technology\n" \
-           "Thammasat University, Pathum Thani, 12120 Thailand\n" \
+           "Authors: Rangsiman Ketkaew, Yuthana Tantirungrotechai,\n" \
+           "David J. Harding, Phimphaka Harding, and Mathieu Marchivie.\n" \
            "\n" \
-           "Contact:\n" \
-           "E-mail: rangsiman1993@gmail.com\n" \
-           "Website: https://octadist.github.io" \
-        .format(program_version)
+           "Website: https://octadist.github.io\n" \
+           "\n" \
+           "Please cite this project if you use OctaDist for scientific publication." \
+        .format(main.program_version)
     showinfo("About program", text)
 
 
-def show_license():
+def show_license(self):
     """Show license info
     """
-    print("Info: Show program license information")
+    main.print_stdout(self, "Info: Show program license information")
 
-    text = "OctaDist {} Copyright (C) 2019  Rangsiman Ketkaew\n\n" \
+    text = "OctaDist {0} Copyright (C) 2019  Rangsiman Ketkaew et al.\n\n" \
            "This program is free software: you can redistribute it " \
            "and/or modify it under the terms of the GNU General Public " \
            "License as published by the Free Software Foundation, either " \
@@ -212,5 +175,5 @@ def show_license():
            "See the GNU General Public License for more details.\n\n" \
            "You should have received a copy of the GNU General Public License " \
            "along with this program. If not, see <https://www.gnu.org/licenses/>." \
-        .format(program_version)
+        .format(main.program_version)
     showinfo("License", text)

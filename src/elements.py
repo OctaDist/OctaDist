@@ -42,10 +42,9 @@ def check_atom(x):
 
 def check_radii(x):
     """Convert atomic number (index) to atom radii in Angstroms: 1-119
-    Skip 0th index
 
     :param x: atomic number
-    :return:
+    :return: atomic radii
     """
     atom_radii = np.array([0,
                            230, 930, 680, 350, 830, 680, 680, 680, 640,
@@ -72,10 +71,8 @@ def check_color(x):
     """Convert atomic number to color: 1-109
     Ref: http://jmol.sourceforge.net/jscolors/
 
-    Skip 0th index
-
     :param x: atomic number
-    :return:
+    :return: atomic color
     """
     atom_color = ['0',
                   '#FFFFFF', '#D9FFFF', '#CC80FF', '#C2FF00', '#FFB5B5',
