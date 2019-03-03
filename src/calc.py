@@ -1,5 +1,5 @@
 """
-OctaDist  Copyright (C) 2019  Rangsiman Ketkaew
+OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -297,7 +297,7 @@ def find_6_unique_angles(self, face, eq_plane, c_octa, a_ref_f, c_ref_f, a_oppo_
     # Finally, check if sum of all angles in unique_angle is 360 or not
     sum_angles = sum([unique_angle[i] for i in range(len(unique_angle))])
     if len(unique_pair) != 6 or sum_angles <= 359.9 or sum_angles >= 360.1:
-        popup.not_octahedron_error(self)
+        popup.err_not_octa(self)
         return 1
 
     return unique_pair, unique_angle

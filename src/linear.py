@@ -1,5 +1,5 @@
 """
-OctaDist  Copyright (C) 2019  Rangsiman Ketkaew
+OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@ def norm_vector(self, v):
     """
     if np.linalg.norm(v) == 0:
         main.print_stdout(self, "Error: Norm of vector {0} is 0".format(v))
+        main.print_stdout(self, "")
 
     return v/np.linalg.norm(v)
 

@@ -1,5 +1,5 @@
 """
-OctaDist  Copyright (C) 2019  Rangsiman Ketkaew
+OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -494,32 +494,4 @@ def draw_twisting_faces(self, al, cl, vl, ovl):
     # plt.legend(bbox_to_anchor=(1.05, 1), loc=2)
     # plt.axis('equal')
     plt.tight_layout()
-    plt.show()
-
-
-def show_plot_angles(self, s, t):
-    """Plot graph between Sigma and Theta parameters for multiple files
-
-    :param s: array - computed Sigma parameter
-    :param t: array - computed Theta parameter
-    :return:
-    """
-    main.print_stdout(self, "Info: Show relationship plot between Σ and Θ")
-    main.print_stdout(self, "")
-
-    ax = plt.subplot()
-    for i in range(len(s)):
-        ax.scatter(s, t, label='Complex {0}'.format(i + 1))
-        ax.text(s[i] + 0.2, t[i] + 0.2, i + 1, fontsize=9)
-
-    # Shrink current axis's height by 10% on the bottom
-    box = ax.get_position()
-    ax.set_position([box.x0, box.y0 + box.height * 0.1, box.width, box.height * 0.9])
-
-    # Put a legend below current axis
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), fancybox=True, shadow=True, ncol=5)
-
-    plt.title("Relationship plot between $\Sigma$ and $\Theta$")
-    plt.xlabel(r'$\Sigma$')
-    plt.ylabel(r'$\Theta$')
     plt.show()

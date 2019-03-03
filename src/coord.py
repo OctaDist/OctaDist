@@ -1,5 +1,5 @@
 """
-OctaDist  Copyright (C) 2019  Rangsiman Ketkaew
+OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -365,7 +365,7 @@ def auto_search_octa(self, af, cf):
 
     # Determine octahedral structure
     if count == 0:
-        popup.no_trans_metal_warning(self)
+        popup.warn_no_metal(self)
         return 1
 
     elif count == 1:
@@ -394,7 +394,7 @@ def auto_search_octa(self, af, cf):
                               .format(atom_metal[i], coord_metal[i][0], coord_metal[i][1], coord_metal[i][2]))
         main.print_stdout(self, "")
 
-        popup.too_many_metals_warning(self)
+        popup.warn_many_metals(self)
 
         return 1
 
