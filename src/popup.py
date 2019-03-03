@@ -1,5 +1,5 @@
 """
-OctaDist  Copyright (C) 2019  Rangsiman Ketkaew
+OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,52 +29,42 @@ def callback(event):
     webbrowser.open_new(event.widget.cget("text"))
 
 
-def no_file_error(self):
-    main.print_stdout(self, "Error: No input file")
-    showerror("Error", "No input file.")
+def err_no_file(self):
+    main.print_stdout(self, "Error: No input file. At least one input file must be loaded.")
+    showerror("Error", "No input file. At least one input file must be loaded.")
 
 
-def no_coord_error(self):
-    main.print_stdout(self, "Error: No coordinate of a molecule")
+def err_no_coord(self):
+    main.print_stdout(self, "Error: No coordinate of a molecule.")
     showerror("Error", "No coordinate of a molecule. Please make sure the input file format is correct.")
 
 
-def no_calc_error(self):
-    main.print_stdout(self, "Error: No results")
+def err_no_calc(self):
+    main.print_stdout(self, "Error: No computational results.")
     showerror("Error", "No results. Click \"Compute parameters\" to calculate octahedral distortion parameters.")
 
 
-def only_one_file_error(self):
-    main.print_stdout(self, "Error: You must load only one input file")
+def err_many_files(self):
+    main.print_stdout(self, "Error: You must load only one input file.")
     showerror("Error", "You must load only one input file.")
 
 
-def only_two_files_error(self):
-    main.print_stdout(self, "Error: Only two input files must be loaded")
-    showerror("Error", "Only two input files must be loaded.")
-
-
-def at_least_one_file_error(self):
-    main.print_stdout(self, "Error: At least one input file must be loaded")
-    showerror("Error", "At least one input file must be loaded.")
-
-
 def wrong_format_error(self):
-    main.print_stdout(self, "Error: Input file format is not supported")
+    main.print_stdout(self, "Error: Input file format is not supported.")
     showerror("Error", "Input file format is not supported.")
 
 
-def not_octahedron_error(self):
-    main.print_stdout(self, "Error: Cannot determine the octahedral structure from your input complex")
-    showerror("Error", "Cannot determine the octahedral structure from your input complex")
+def err_not_octa(self):
+    main.print_stdout(self, "Error: Cannot determine the octahedral structure from your input complex.")
+    showerror("Error", "Cannot determine the octahedral structure from your input complex.")
 
 
-def no_trans_metal_warning(self):
-    main.print_stdout(self, "Warning: No transition metal in your input file")
+def warn_no_metal(self):
+    main.print_stdout(self, "Warning: No transition metal in your input file.")
     showwarning("Warning", "No transition metal in your input file.")
 
 
-def too_many_metals_warning(self):
+def warn_many_metals(self):
     main.print_stdout(self, "Warning: The complex contains too many transition metal and/or heavy metal")
     main.print_stdout(self, "         Please clarify your complex carefully.")
     main.print_stdout(self, "         It would help OctaDist to determine the metal center atom correctly.")
