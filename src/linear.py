@@ -15,6 +15,7 @@ import main
 def norm_vector(self, v):
     """Returns the unit vector of the vector v
 
+    :param self: master frame
     :param v: array - vector
     :return: array - normalized vector
     """
@@ -69,6 +70,7 @@ def angle_between(self, p1, p2, p3):
     angle (in radian) = arccos | ----------------------------------------- |
                                \               |p2| * |p3|                /
 
+    :param self: master frame
     :param p1: array - coordinate of atom 1
     :param p2: array - coordinate of atom 2
     :param p3: array - coordinate of atom 3

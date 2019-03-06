@@ -12,6 +12,8 @@ import linear
 import plane
 import projection
 import popup
+import tkinter as tk
+import tools
 import main
 
 
@@ -86,7 +88,7 @@ def calc_sigma(self, a_octa, c_octa):
     angle_sigma = []
     k = 1
     for i in range(1, 7):
-        for j in range(i + 1, 7):
+        for j in range(i+1, 7):
             angle = linear.angle_between(self, c_octa[0], c_octa[i], c_octa[j])
             main.print_stdout(self, "      {0:>2}     {1:>2} and {2:>2}      {3:10.6f}"
                               .format(k, a_octa[i], a_octa[j], angle))
@@ -117,7 +119,7 @@ def calc_sigma(self, a_octa, c_octa):
     main.print_stdout(self, "      No.    Atom pair        Angle")
     main.print_stdout(self, "      ---    ---------     -----------")
     for i in range(len(angle_sigma)):
-        main.print_stdout(self, "      {0:>2}     {1:>2} and {2:>2}      {3:10.6f}".format(i + 1, la[i][0], la[i][1], angle_sigma[i]))
+        main.print_stdout(self, "      {0:>2}     {1:>2} and {2:>2}      {3:10.6f}".format(i+1, la[i][0], la[i][1], angle_sigma[i]))
     main.print_stdout(self, "")
 
     computed_sigma = 0
@@ -227,7 +229,7 @@ def find_6_unique_angles(self, face, eq_plane, c_octa, a_ref_f, c_ref_f, a_oppo_
     co2 = projection.project_atom_onto_plane(c_octa[o2], a, b, c, d)
     co3 = projection.project_atom_onto_plane(c_octa[o3], a, b, c, d)
 
-    n = face + 1
+    n = face+1
     main.print_stdout(self, "               m --> m'      {0:9.6f}   {1:9.6f}   {2:9.6f}".format(m[0], m[1], m[2]))
     main.print_stdout(self, "        {0}      {1} --> {2}'      {3:9.6f}   {4:9.6f}   {5:9.6f}".format(n, o1, o1, co1[0], co1[1], co1[2]))
     main.print_stdout(self, "               {0} --> {1}'      {2:9.6f}   {3:9.6f}   {4:9.6f}".format(o2, o2, co2[0], co2[1], co2[2]))
@@ -341,7 +343,7 @@ def calc_theta(self, c_octa):
     eq_plane_set = []
     for i in range(8):
         a, b, c, d = plane.find_eq_of_plane(c_ref_f[i][0], c_ref_f[i][1], c_ref_f[i][2])
-        main.print_stdout(self, "      Plane {0} : {1:9.6f}x {2:+9.6f}y {3:+9.6f}z = {4:9.6f}".format(i + 1, a, b, c, d))
+        main.print_stdout(self, "      Plane {0} : {1:9.6f}x {2:+9.6f}y {3:+9.6f}z = {4:9.6f}".format(i+1, a, b, c, d))
         eq_plane_set.append([a, b, c, d])
     main.print_stdout(self, "")
 
@@ -381,7 +383,7 @@ def calc_theta(self, c_octa):
         for j in range(len(unique_6_pairs[i])):
             if j == 2:
                 main.print_stdout(self, "       {0}       {1} & {2}      {3:10.6f}       {4:9.6f}"
-                      .format(i + 1, unique_6_pairs[i][j][0], unique_6_pairs[i][j][1], unique_6_angles[i][j],
+                      .format(i+1, unique_6_pairs[i][j][0], unique_6_pairs[i][j][1], unique_6_angles[i][j],
                               abs(60 - unique_6_angles[i][j])))
             else:
                 main.print_stdout(self, "               {0} & {1}      {2:10.6f}       {3:9.6f}"
@@ -406,17 +408,17 @@ def calc_theta(self, c_octa):
     main.print_stdout(self, "      Plane     Θ parameter")
     main.print_stdout(self, "      -----     -----------")
     for i in range(8):
-        main.print_stdout(self, "        {0:d}       {1:11.6f}".format(i + 1, theta_angle_list[i]))
+        main.print_stdout(self, "        {0:d}       {1:11.6f}".format(i+1, theta_angle_list[i]))
     main.print_stdout(self, "")
 
     plane_set = []
     comp_theta_list = []
     # loop over choosing 4 planes out of 8 planes
     for i in range(0, 5):
-        for j in range(i + 1, 6):
-            for k in range(j + 1, 7):
-                for l in range(k + 1, 8):
-                    plane_set.append([i + 1, j + 1, k + 1, l + 1])
+        for j in range(i+1, 6):
+            for k in range(j+1, 7):
+                for l in range(k+1, 8):
+                    plane_set.append([i+1, j+1, k+1, l+1])
                     sum_unique_angle = (theta_angle_list[i] +
                                         theta_angle_list[j] +
                                         theta_angle_list[k] +
@@ -437,9 +439,9 @@ def calc_theta(self, c_octa):
     number_sel_set = 0
     sel_face_set = 0
     for i in range(len(comp_theta_list)):
-        main.print_stdout(self, "      {0:2d}     {1}    {2:11.6f}".format(i + 1, plane_set[i], comp_theta_list[i]))
+        main.print_stdout(self, "      {0:2d}     {1}    {2:11.6f}".format(i+1, plane_set[i], comp_theta_list[i]))
         if comp_theta_list[i] == min_theta:
-            number_sel_set = i + 1
+            number_sel_set = i+1
             sel_face_set = plane_set[i]
     main.print_stdout(self, "")
 
@@ -476,3 +478,60 @@ def calc_theta(self, c_octa):
     main.print_stdout(self, "")
 
     return min_theta, max_theta, mean_theta, all_comp
+
+
+def calc_all(self, file_list, atom_coord_octa):
+    """Calculate Delta, Sigma, and Theta.
+
+    :param self:
+    :param file_list:
+    :param atom_coord_octa:
+    :return:
+    """
+    main.print_stdout(self, "Info: Calculate the Δ, Σ, and Θ parameters")
+    main.print_stdout(self, "")
+
+    all_sigma = []
+    all_theta = []
+    comp_result = []
+    for i in range(len(atom_coord_octa)):
+        main.print_stdout(self, "      *********************** Complex {0} ***********************".format(i + 1))
+        main.print_stdout(self, "")
+
+        # Calculate distortion parameters
+        atom_octa, coord_octa = atom_coord_octa[i]
+        delta = calc_delta(self, atom_octa, coord_octa)
+        sigma = calc_sigma(self, atom_octa, coord_octa)
+        theta_min, theta_max, theta_mean, all_comp = calc_theta(self, coord_octa)
+        # Collect results
+        all_sigma.append(sigma)
+        all_theta.append(theta_min)
+        comp_result.append([delta, sigma, theta_min, theta_max, theta_mean])
+
+    if len(file_list) == 1:
+        # pal, pcl, ref_pal, ref_pcl, oppo_pal, oppo_pcl = all_comp
+        self.box_delta.insert(tk.INSERT, "{0:3.6f}".format(delta))
+        self.box_sigma.insert(tk.INSERT, "{0:3.6f}".format(sigma))
+        self.box_theta_min.insert(tk.INSERT, "{0:3.6f}".format(theta_min))
+        self.box_theta_max.insert(tk.INSERT, "{0:3.6f}".format(theta_max))
+        self.box_theta_mean.insert(tk.INSERT, "{0:3.6f}".format(theta_mean))
+    elif len(file_list) > 1:
+        tools.multi_results(self, comp_result)
+
+    main.print_stdout(self, "Info: Show computed octahedral distortion parameters of all files")
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      ==================== Overall Summary ====================")
+    main.print_stdout(self, "")
+    for i in range(len(comp_result)):
+        main.print_stdout(self, "      Complex {0:2d} : {1}".format(i + 1, file_list[i].split('/')[-1]))
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      Complex          Δ           Σ (°)         Θ (°)")
+    main.print_stdout(self, "      -------      --------    ----------    ----------")
+    for i in range(len(comp_result)):
+        main.print_stdout(self, "      {0:2d}      {1:10.6f}    {2:10.6f}    {3:10.6f}"
+                          .format(i + 1, comp_result[i][0], comp_result[i][1], comp_result[i][2]))
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      =========================================================")
+    main.print_stdout(self, "")
+
+    return all_sigma, all_theta, comp_result, all_comp

@@ -7,6 +7,7 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 """
 
+import popup
 import plane
 import projection
 import elements
@@ -17,13 +18,21 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import main
 
 
-def draw_all_atom(self, acf):
+def all_atom(self, acf):
     """Display 3D structure of octahedral complex with label for each atoms
 
+    :param self: master frame
     :param acf: list - atom_coord_full
     :return:
     """
-    fal, fcl = acf
+    if len(acf) == 0:
+        popup.err_no_file(self)
+        return 1
+    elif len(acf) > 1:
+        popup.err_many_files(self)
+        return 1
+
+    fal, fcl = acf[0]
 
     main.print_stdout(self, "Info: Display scattering plot of all atoms")
     main.print_stdout(self, "")
@@ -81,18 +90,29 @@ def draw_all_atom(self, acf):
     plt.show()
 
 
-def draw_all_atom_and_face(self, acf, pcl):
+def all_atom_and_face(self, acf, pcl):
     """Display 3D structure of octahedral complex with label for each atoms
 
+    :param self: master frame
     :param acf: list - atom_coord_full
     :param pcl: array - coordinate of atom in selected plane list
     :return:
     """
+    if len(acf) == 0:
+        popup.err_no_file(self)
+        return 1
+    elif len(acf) > 1:
+        popup.err_many_files(self)
+        return 1
+    if len(pcl) == 0:
+        popup.err_no_calc(self)
+        return 1
+
     main.print_stdout(self, "Info: Display scattering plot of all atoms")
     main.print_stdout(self, "      Draw surface for all 8 faces of selected octahedral structure")
     main.print_stdout(self, "")
 
-    fal, fcl = acf
+    fal, fcl = acf[0]
 
     fig = plt.figure()
     ax = Axes3D(fig)
@@ -159,13 +179,21 @@ def draw_all_atom_and_face(self, acf, pcl):
     plt.show()
 
 
-def draw_octahedron(self, al, cl):
+def octahedron(self, ao, co):
     """Display 3D structure of octahedral complex
 
-    :param al: list - atom_list
-    :param cl: array - coord_list
+    :param self: master frame
+    :param ao: list - atom_octa
+    :param co: array - coord_octa
     :return:
     """
+    if len(ao) == 0:
+        popup.err_no_calc(self)
+        return 1
+    elif len(ao) > 1:
+        popup.err_many_files(self)
+        return 1
+
     main.print_stdout(self, "Info: Display scattering plot of truncated octahedral structure")
     main.print_stdout(self, "      Draw surface for all 8 faces of selected octahedral structure")
     main.print_stdout(self, "")
@@ -174,15 +202,15 @@ def draw_octahedron(self, al, cl):
     ax = Axes3D(fig)
 
     # Plot atoms
-    for i in range(len(cl)):
+    for i in range(len(co)):
         # Determine atomic number
-        n = elements.check_atom(al[i])
-        ax.scatter(cl[i][0], cl[i][1], cl[i][2], marker='o', linewidths=0.5, edgecolors='black',
-                   color=elements.check_color(n), label="{}".format(al[i]), s=elements.check_radii(n) * 300)
+        n = elements.check_atom(ao[i])
+        ax.scatter(co[i][0], co[i][1], co[i][2], marker='o', linewidths=0.5, edgecolors='black',
+                   color=elements.check_color(n), label="{}".format(ao[i]), s=elements.check_radii(n) * 300)
 
     # Draw line
-    for i in range(1, len(cl)):
-        merge = list(zip(cl[0], cl[i]))
+    for i in range(1, len(co)):
+        merge = list(zip(co[0], co[i]))
         x, y, z = merge
         ax.plot(x, y, z, 'k-', color="black", linewidth=2)
 
@@ -213,14 +241,22 @@ def draw_octahedron(self, al, cl):
     plt.show()
 
 
-def draw_octahedron_and_face(self, al, cl, pcl):
+def octa_and_face(self, ao, co, pcl):
     """Display 3D structure of octahedral complex with 8 faces
 
-    :param al: list - atom_list
-    :param cl: array - coord_list
+    :param self: master frame
+    :param ao: list - atom_octa
+    :param co: array - coord_octa
     :param pcl: array - coordinate of atom of 8 faces list
     :return:
     """
+    if len(ao) == 0:
+        popup.err_no_calc(self)
+        return 1
+    elif len(ao) > 1:
+        popup.err_many_files(self)
+        return 1
+    
     main.print_stdout(self, "Info: Display scattering plot of truncated octahedral structure")
     main.print_stdout(self, "      Draw surface for all 8 faces of selected octahedral structure")
     main.print_stdout(self, "")
@@ -236,11 +272,11 @@ def draw_octahedron_and_face(self, al, cl, pcl):
         vertices_list.append(vertices)
 
     # Plot atoms
-    for i in range(len(cl)):
+    for i in range(len(co)):
         # Determine atomic number
-        n = elements.check_atom(al[i])
-        ax.scatter(cl[i][0], cl[i][1], cl[i][2], marker='o', linewidths=0.5, edgecolors='black',
-                   color=elements.check_color(n), label="{}".format(al[i]), s=elements.check_radii(n) * 300)
+        n = elements.check_atom(ao[i])
+        ax.scatter(co[i][0], co[i][1], co[i][2], marker='o', linewidths=0.5, edgecolors='black',
+                   color=elements.check_color(n), label="{}".format(ao[i]), s=elements.check_radii(n) * 300)
 
     # Draw plane
     color_list = ["red", "blue", "green", "yellow",
@@ -249,8 +285,8 @@ def draw_octahedron_and_face(self, al, cl, pcl):
         ax.add_collection3d(Poly3DCollection(vertices_list[i], alpha=0.5, color=color_list[i]))
 
     # Draw line
-    for i in range(1, len(cl)):
-        merge = list(zip(cl[0], cl[i]))
+    for i in range(1, len(co)):
+        merge = list(zip(co[0], co[i]))
         x, y, z = merge
         ax.plot(x, y, z, 'k-', color="black", linewidth=2)
 
@@ -281,14 +317,22 @@ def draw_octahedron_and_face(self, al, cl, pcl):
     plt.show()
 
 
-def draw_octahedron_and_opt_face(self, al, cl, ref_pcl):
+def octa_and_4_face(self, ao, co, ref_pcl):
     """Display 3D structure of octahedral complex with 8 faces
 
-    :param al: list - atom_list
-    :param cl: array - coord_list
+    :param self: master frame
+    :param ao: list - atom_octa
+    :param co: array - coord_octa
     :param ref_pcl: array - coordinate of atom in selected optimal 4 faces
     :return:
     """
+    if len(ao) == 0:
+        popup.err_no_calc(self)
+        return 1
+    elif len(ao) > 1:
+        popup.err_many_files(self)
+        return 1
+    
     main.print_stdout(self, "Info: Display scattering plot of truncated octahedral structure")
     main.print_stdout(self, "      Draw surface for all 8 faces of selected octahedral structure")
     main.print_stdout(self, "")
@@ -304,11 +348,11 @@ def draw_octahedron_and_opt_face(self, al, cl, ref_pcl):
         vertices_list.append(vertices)
 
     # Plot atoms
-    for i in range(len(cl)):
+    for i in range(len(co)):
         # Determine atomic number
-        n = elements.check_atom(al[i])
-        ax.scatter(cl[i][0], cl[i][1], cl[i][2], marker='o', linewidths=0.5, edgecolors='black',
-                   color=elements.check_color(n), label="{}".format(al[i]), s=elements.check_radii(n) * 300)
+        n = elements.check_atom(ao[i])
+        ax.scatter(co[i][0], co[i][1], co[i][2], marker='o', linewidths=0.5, edgecolors='black',
+                   color=elements.check_color(n), label="{}".format(ao[i]), s=elements.check_radii(n) * 300)
 
     # Draw plane
     color_list = ["red", "blue", "green", "yellow"]
@@ -316,8 +360,8 @@ def draw_octahedron_and_opt_face(self, al, cl, ref_pcl):
         ax.add_collection3d(Poly3DCollection(vertices_list[i], alpha=0.5, color=color_list[i]))
 
     # Draw line
-    for i in range(1, len(cl)):
-        merge = list(zip(cl[0], cl[i]))
+    for i in range(1, len(co)):
+        merge = list(zip(co[0], co[i]))
         x, y, z = merge
         ax.plot(x, y, z, 'k-', color="black", linewidth=2)
 
@@ -348,15 +392,23 @@ def draw_octahedron_and_opt_face(self, al, cl, ref_pcl):
     plt.show()
 
 
-def draw_projection_planes(self, al, cl, vl, ovl):
+def proj_planes(self, ao, co, vl, ovl):
     """Display the selected 4 faces of octahedral complex
 
-    :param al: list - atom_list
-    :param cl: array - coord_list
+    :param self: master frame
+    :param ao: list - atom_octa
+    :param co: array - coord_octa
     :param vl: array - ref_pcl
     :param ovl: array - oppo_pcl
     :return:
     """
+    if len(ao) == 0:
+        popup.err_no_calc(self)
+        return 1
+    elif len(ao) > 1:
+        popup.err_many_files(self)
+        return 1
+
     main.print_stdout(self, "Info: Display the selected 4 pairs of opposite planes (faces)")
     main.print_stdout(self, "      Scattering plot of all atoms")
     main.print_stdout(self, "      Draw surface for 4 pairs of reference and opposite planes")
@@ -384,16 +436,16 @@ def draw_projection_planes(self, al, cl, vl, ovl):
     color_list_1 = ["red", "blue", "orange", "magenta"]
     color_list_2 = ["green", "yellow", "cyan", "brown"]
     for i in range(4):
-        ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
-        ax.set_title("Pair {}".format(i + 1))
-        ax.scatter(cl[0][0], cl[0][1], cl[0][2], color='yellow', marker='o', s=100,
+        ax = fig.add_subplot(2, 2, int(i+1), projection='3d')
+        ax.set_title("Pair {}".format(i+1))
+        ax.scatter(co[0][0], co[0][1], co[0][2], color='yellow', marker='o', s=100,
                    linewidths=1, edgecolors='black', label="Metal center")
-        ax.text(cl[0][0] + 0.1, cl[0][1] + 0.1, cl[0][2] + 0.1, al[0], fontsize=9)
+        ax.text(co[0][0] + 0.1, co[0][1] + 0.1, co[0][2] + 0.1, ao[0], fontsize=9)
 
         for j in range(1, 7):
-            ax.scatter(cl[j][0], cl[j][1], cl[j][2], color='red', marker='o', s=50,
+            ax.scatter(co[j][0], co[j][1], co[j][2], color='red', marker='o', s=50,
                        linewidths=1, edgecolors='black', label="Ligand atoms")
-            ax.text(cl[j][0] + 0.1, cl[j][1] + 0.1, cl[j][2] + 0.1, "{0},{1}".format(al[j], j), fontsize=9)
+            ax.text(co[j][0] + 0.1, co[j][1] + 0.1, co[j][2] + 0.1, "{0},{1}".format(ao[j], j), fontsize=9)
 
         # Draw plane
         ax.add_collection3d(Poly3DCollection(ref_vertices_list[i], alpha=0.5, color=color_list_1[i]))
@@ -414,15 +466,23 @@ def draw_projection_planes(self, al, cl, vl, ovl):
     plt.show()
 
 
-def draw_twisting_faces(self, al, cl, vl, ovl):
+def twisting_faces(self, ao, co, vl, ovl):
     """Display twisting triangular faces and vector projection
 
-    :param al: list - atom_list
-    :param cl: array - coord_list
+    :param self: master frame
+    :param ao: list - atom_octa
+    :param co: array - coord_octa
     :param vl: array - ref_pcl - reference plane list
     :param ovl: array - oppo_pcl - opposite plane list
     :return:
     """
+    if len(ao) == 0:
+        popup.err_no_calc(self)
+        return 1
+    elif len(ao) > 1:
+        popup.err_many_files(self)
+        return 1
+
     main.print_stdout(self, "Info: Display the reference and projected atoms")
     main.print_stdout(self, "      Scattering plot of all projected atoms on the reference plane")
     main.print_stdout(self, "      Draw surface for 4 pairs of two twisting triangular faces")
@@ -440,21 +500,21 @@ def draw_twisting_faces(self, al, cl, vl, ovl):
 
     for i in range(4):
         a, b, c, d = plane.find_eq_of_plane(vl[i][0], vl[i][1], vl[i][2])
-        m = projection.project_atom_onto_plane(cl[0], a, b, c, d)
-        ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
-        ax.set_title("Projection plane {0}".format(i + 1), fontsize='10')
+        m = projection.project_atom_onto_plane(co[0], a, b, c, d)
+        ax = fig.add_subplot(2, 2, int(i+1), projection='3d')
+        ax.set_title("Projection plane {0}".format(i+1), fontsize='10')
 
         # Projected metal center atom
         ax.scatter(m[0], m[1], m[2], color='orange', s=100, marker='o',
                    linewidths=1, edgecolors='black', label="Metal center")
-        ax.text(m[0] + 0.1, m[1] + 0.1, m[2] + 0.1, "{0}'".format(al[0]), fontsize=9)
+        ax.text(m[0] + 0.1, m[1] + 0.1, m[2] + 0.1, "{0}'".format(ao[0]), fontsize=9)
 
         # Reference atoms
         pl = []
         for j in range(3):
             ax.scatter(vl[i][j][0], vl[i][j][1], vl[i][j][2], color='red', s=50, marker='o',
                        linewidths=1, edgecolors='black', label="Reference atom")
-            ax.text(vl[i][j][0] + 0.1, vl[i][j][1] + 0.1, vl[i][j][2] + 0.1, "{0}".format(j + 1), fontsize=9)
+            ax.text(vl[i][j][0] + 0.1, vl[i][j][1] + 0.1, vl[i][j][2] + 0.1, "{0}".format(j+1), fontsize=9)
             # Project ligand atom onto the reference face
             pl.append(projection.project_atom_onto_plane(ovl[i][j], a, b, c, d))
 
@@ -462,7 +522,7 @@ def draw_twisting_faces(self, al, cl, vl, ovl):
         for j in range(3):
             ax.scatter(pl[j][0], pl[j][1], pl[j][2], color='blue', s=50, marker='o',
                        linewidths=1, edgecolors='black', label="Projected ligand atom")
-            ax.text(pl[j][0] + 0.1, pl[j][1] + 0.1, pl[j][2] + 0.1, "{0}'".format(j + 1), fontsize=9)
+            ax.text(pl[j][0] + 0.1, pl[j][1] + 0.1, pl[j][2] + 0.1, "{0}'".format(j+1), fontsize=9)
 
         # Draw plane
         x, y, z = zip(*pl)

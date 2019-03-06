@@ -29,6 +29,12 @@ def callback(event):
     webbrowser.open_new(event.widget.cget("text"))
 
 
+def info_save_file(self, file):
+    main.print_stdout(self, "Info: coordinate of selected octahedron has been saved to {0}".format(file))
+    showinfo("Info", "Coordinate of selected octahedron has been saved to {0}.\n\n"
+                     "Please load this file and calculate distortion parameters.".format(file))
+
+
 def err_no_file(self):
     main.print_stdout(self, "Error: No input file. At least one input file must be loaded.")
     showerror("Error", "No input file. At least one input file must be loaded.")
@@ -41,7 +47,7 @@ def err_no_coord(self):
 
 def err_no_calc(self):
     main.print_stdout(self, "Error: No computational results.")
-    showerror("Error", "No results. Click \"Compute parameters\" to calculate octahedral distortion parameters.")
+    showerror("Error", "No results. Click \"Compute\" to calculate octahedral distortion parameters.")
 
 
 def err_many_files(self):
@@ -65,39 +71,36 @@ def warn_no_metal(self):
 
 
 def warn_many_metals(self):
-    main.print_stdout(self, "Warning: The complex contains too many transition metal and/or heavy metal")
-    main.print_stdout(self, "         Please clarify your complex carefully.")
-    main.print_stdout(self, "         It would help OctaDist to determine the metal center atom correctly.")
+    main.print_stdout(self, "Warning: The complex contains too many transition metal")
+    main.print_stdout(self, "         Please select the metal center atom of the octahedral structure.")
     showwarning("Warning",
-                "The complex contains too many transition metal and/or heavy metal.\n\n"       
-                "Please clarify the complex to help OctaDist to determine metal center atom correctly.\n\n"
-                "Otherwise, go to https://octadist.github.io for preparation of input file.\n")
+                "The complex contains too many transition metal.\n\n"       
+                "Please select the metal center atom of the octahedral structure.\n\n")
 
 
-class ShowHelp:
-    def __init__(self, master):
+def show_help(self):
         """Show program help
         """
-        self.master = master
-        self.master.title("Program Help")
-        self.master.geometry("550x550")
-        self.master.option_add("*Font", "Arial 10")
-        self.frame = tk.Frame(self.master)
-        self.frame.grid()
+        master = tk.Toplevel(self)
+        master.title("Program Help")
+        master.geometry("550x550")
+        master.option_add("*Font", "Arial 10")
+        frame = tk.Frame(master)
+        frame.grid()
 
         # Usage
-        self.lbl = tk.Label(self.frame, text="Usage:")
-        self.lbl.grid(sticky=tk.W, row=0)
+        lbl = tk.Label(frame, text="Usage:")
+        lbl.grid(sticky=tk.W, row=0)
         msg_help_1 = "1. Browse input file\n" \
                      "2. Compute distortion parameters\n" \
                      "3. Check results\n" \
                      "4. File → Save as\n"
-        self.msg = tk.Message(self.frame, text=msg_help_1, width="450")
-        self.msg.grid(sticky=tk.W, row=1)
+        msg = tk.Message(frame, text=msg_help_1, width="450")
+        msg.grid(sticky=tk.W, row=1)
 
         # XYZ file format
-        self.lbl = tk.Label(self.frame, text="Supported input: XYZ file format (*.xyz)")
-        self.lbl.grid(sticky=tk.W, row=2)
+        lbl = tk.Label(frame, text="Supported input: XYZ file format (*.xyz)")
+        lbl.grid(sticky=tk.W, row=2)
         msg_help_2 = " <number of atoms>\n" \
                      " comment line\n" \
                      " <Metal center 0>  <X>  <Y>  <Z>\n" \
@@ -109,27 +112,27 @@ class ShowHelp:
                      " <Ligand atom 6>  <X>  <Y>  <Z>\n" \
                      " <optional>\n" \
                      " ...\n"
-        self.msg = tk.Message(self.frame, text=msg_help_2, width="450")
-        self.msg.grid(sticky=tk.W, row=3, column=0)
+        msg = tk.Message(frame, text=msg_help_2, width="450")
+        msg.grid(sticky=tk.W, row=3, column=0)
 
-        self.lbl = tk.Label(self.frame, text="Example of input file is available at the following website:")
-        self.lbl.grid(sticky=tk.W, row=5, columnspan=2)
+        lbl = tk.Label(frame, text="Example of input file is available at the following website:")
+        lbl.grid(sticky=tk.W, row=5, columnspan=2)
         link = "https://github.com/OctaDist/OctaDist/tree/master/test\n"
-        self.lbl_link = tk.Label(self.frame, foreground="blue", text=link, cursor="hand2")
-        self.lbl_link.grid(sticky=tk.W, pady="5", row=6, columnspan=2)
-        self.lbl_link.bind("<Button-1>", callback)
+        lbl_link = tk.Label(frame, foreground="blue", text=link, cursor="hand2")
+        lbl_link.grid(sticky=tk.W, pady="5", row=6, columnspan=2)
+        lbl_link.bind("<Button-1>", callback)
 
         # References
-        self.lbl = tk.Label(self.frame, text="References:")
-        self.lbl.grid(sticky=tk.W, row=7, columnspan=2)
+        lbl = tk.Label(frame, text="References:")
+        lbl.grid(sticky=tk.W, row=7, columnspan=2)
         msg_help_3 = "1. J. A. Alonso, M. J. Martı´nez-Lope, M. T. Casais, M. T. Ferna´ndez-Dı´az\n" \
                      "   Inorg. Chem. 2000, 39, 917-923\n" \
                      "2. J. K. McCusker, A. L. Rheingold, D. N. Hendrickson\n" \
                      "   Inorg. Chem. 1996, 35, 2100.\n" \
                      "3. M. Marchivie, P. Guionneau, J. F. Letard, D. Chasseau\n" \
                      "   Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.\n"
-        self.msg = tk.Message(self.frame, text=msg_help_3, width="450")
-        self.msg.grid(sticky=tk.W, row=8, columnspan=2)
+        msg = tk.Message(frame, text=msg_help_3, width="450")
+        msg.grid(sticky=tk.W, row=8, columnspan=2)
 
 
 def show_about(self):
