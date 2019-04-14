@@ -8,6 +8,8 @@
 [![Github Download release 2.2](https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.2/total.svg
 )](https://github.com/OctaDist/OctaDist/releases/tag/v.2.2)
 
+forked from [https://github.com/OctaDist/OctaDist](https://github.com/OctaDist/OctaDist)
+
 ## OctaDist
 Octahedral Distortion Analysis: A program for determining the structural distortion of the octahedral complexes. https://octadist.github.io/
 
