@@ -17,6 +17,10 @@ from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 import main
 
+# import tkinter as tk
+# from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
+# from matplotlib.figure import Figure
+
 
 def all_atom(self, acf):
     """Display 3D structure of octahedral complex with label for each atoms
@@ -84,6 +88,23 @@ def all_atom(self, acf):
     ax.set_zlabel(r'Z', fontsize=15)
     ax.set_title('Full complex', fontsize="12")
     ax.grid(True)
+
+    ###############
+
+    # root = tk.Toplevel(self.master)
+    # root.wm_title("All atom")
+    #
+    # # fig = Figure(figsize=(5, 4), dpi=1000)
+    #
+    # canvas = FigureCanvasTkAgg(fig, root)  # A tk.DrawingArea.
+    # canvas.draw()
+    # canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+    #
+    # toolbar = NavigationToolbar2Tk(canvas, root)
+    # toolbar.update()
+    # canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
+    ###############
 
     # plt.axis('equal')
     # plt.axis('off')
@@ -476,12 +497,12 @@ def twisting_faces(self, ao, co, vl, ovl):
     :param ovl: array - oppo_pcl - opposite plane list
     :return:
     """
-    if len(ao) == 0:
-        popup.err_no_calc(self)
-        return 1
-    elif len(ao) > 1:
-        popup.err_many_files(self)
-        return 1
+    # if len(ao) == 0:
+    #     popup.err_no_calc(self)
+    #     return 1
+    # elif len(ao) > 1:
+    #     popup.err_many_files(self)
+    #     return 1
 
     main.print_stdout(self, "Info: Display the reference and projected atoms")
     main.print_stdout(self, "      Scattering plot of all projected atoms on the reference plane")

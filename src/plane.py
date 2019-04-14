@@ -15,7 +15,6 @@ import main
 
 def find_8_faces(self, c_octa):
     """Find 8 faces of octahedral structure for computing Theta parameter using algorithm 1
-
     1) Choose 3 atoms out of 6 ligand atoms. The total number of combination is 20
     2) Orthogonally project metal center atom onto the face: m ----> m'
     3) Calculate the shortest distance between original metal center to its projected point
@@ -23,15 +22,13 @@ def find_8_faces(self, c_octa):
     5) Delete 12 faces that closest to metal center atom (first 12 faces)
     6) The remaining 8 faces are the (reference) face of octahedral structure
     7) Find 8 opposite faces
-    
-    For example,
 
+    For example,
          Reference plane            Opposite plane
             [[1 2 3]                   [[4 5 6]
              [1 2 4]        --->        [3 5 6]
                ...                        ...
              [2 3 5]]                   [1 4 6]]
-
     :param self: master frame
     :param c_octa: array - XYZ coordinate of a metal center atom and six ligand atoms
     :return a_ref_f: list - atom of reference face of octahedral structure
@@ -50,8 +47,8 @@ def find_8_faces(self, c_octa):
     a_ref_f = []
     c_ref_f = []
     for i in range(1, 5):
-        for j in range(i+1, 6):
-            for k in range(j+1, 7):
+        for j in range(i + 1, 6):
+            for k in range(j + 1, 7):
                 a, b, c, d = find_eq_of_plane(c_octa[i], c_octa[j], c_octa[k])
                 m = projection.project_atom_onto_plane(c_octa[0], a, b, c, d)
                 d_btw = linear.distance_between(m, c_octa[0])
@@ -101,7 +98,7 @@ def find_8_faces(self, c_octa):
     main.print_stdout(self, "               face         face")
     main.print_stdout(self, "      ----   ---------    ---------")
     for i in range(len(a_oppo_f)):
-        main.print_stdout(self, "        {0}    {1}    {2}".format(i+1, a_ref_f[i], a_oppo_f[i]))
+        main.print_stdout(self, "        {0}    {1}    {2}".format(i + 1, a_ref_f[i], a_oppo_f[i]))
     main.print_stdout(self, "")
     # Print new face list after unwanted 12 triangles plane excluded
     main.print_stdout(self, "Info: Show the reference face")
@@ -112,7 +109,7 @@ def find_8_faces(self, c_octa):
         main.print_stdout(self, "                {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
                           .format(a_ref_f[i][0], c_ref_f[i][0][0], c_ref_f[i][0][1], c_ref_f[i][0][2]))
         main.print_stdout(self, "        {0}       {1}     {2:10.6f}  {3:10.6f}  {4:10.6f}"
-                          .format(i+1, a_ref_f[i][1], c_ref_f[i][1][0], c_ref_f[i][1][1], c_ref_f[i][1][2]))
+                          .format(i + 1, a_ref_f[i][1], c_ref_f[i][1][0], c_ref_f[i][1][1], c_ref_f[i][1][2]))
         main.print_stdout(self, "                {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
                           .format(a_ref_f[i][2], c_ref_f[i][2][0], c_ref_f[i][2][1], c_ref_f[i][2][2]))
         main.print_stdout(self, "      --------------------------------------------------")
@@ -126,7 +123,7 @@ def find_8_faces(self, c_octa):
         main.print_stdout(self, "                {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
                           .format(a_oppo_f[i][0], c_oppo_f[i][0][0], c_oppo_f[i][0][1], c_oppo_f[i][0][2]))
         main.print_stdout(self, "        {0}       {1}     {2:10.6f}  {3:10.6f}  {4:10.6f}"
-                          .format(i+1, a_oppo_f[i][1], c_oppo_f[i][1][0], c_oppo_f[i][1][1], c_oppo_f[i][1][2]))
+                          .format(i + 1, a_oppo_f[i][1], c_oppo_f[i][1][0], c_oppo_f[i][1][1], c_oppo_f[i][1][2]))
         main.print_stdout(self, "                {0}     {1:10.6f}  {2:10.6f}  {3:10.6f}"
                           .format(a_oppo_f[i][2], c_oppo_f[i][2][0], c_oppo_f[i][2][1], c_oppo_f[i][2][2]))
         main.print_stdout(self, "      --------------------------------------------------")

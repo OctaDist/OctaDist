@@ -16,11 +16,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ----------------------------------------------------------------------
 
-OctaDist version 2.3
+OctaDist version 2.3 (beta)
 
 Octahedral Distortion Analysis
 Software website: https://octadist.github.io
-Last modified: February 2019
+Last modified: April 2019
 
 This program was written in Python 3 binding to TkInter GUI platform,
 tested on PyCharm (Community Edition) program, and compiled by PyInstaller.
@@ -44,6 +44,7 @@ from tkinter import filedialog
 import tkinter.scrolledtext as tkscrolled
 
 program_version = "2.3"
+program_revision = "April 2019"
 
 
 def print_stdout(self, text):
@@ -252,7 +253,12 @@ class OctaDist:
         self.box_stdout = tkscrolled.ScrolledText(self.frame5, height="30", width="70", wrap="word", undo="True")
         self.box_stdout.grid(sticky=tk.N, pady="5", row=1)
 
-        print_coord(self, "Welcome to OctaDist {0}".format(program_version))
+        print_coord(self, "Welcome to OctaDist {0} {1}".format(program_version, program_revision))
+        print_coord(self, "")
+        print_coord(self, "Created by Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, "
+                          "Phimphaka Harding, and Mathieu Marchivie.")
+        print_coord(self, "")
+        print_coord(self, "https://octadist.github.io/")
         popup.header(self)
 
     def clear_cache(self):
@@ -422,7 +428,7 @@ class OctaDist:
         self.all_sigma, self.all_theta, self.comp_result, self.all_comp = \
             calc.calc_all(self, self.file_list, self.atom_coord_octa)
 
-        self.pal, self.pcl, self.ref_pal, self.ref_pcl, self.oppo_pal, self.oppo_pcl = self.all_comp
+        # self.pal, self.pcl, self.ref_pal, self.ref_pcl, self.oppo_pal, self.oppo_pcl = self.all_comp
 
 
 if __name__ == '__main__':

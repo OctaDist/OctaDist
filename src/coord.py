@@ -340,7 +340,7 @@ def get_coord(self, f):
     else:
         main.print_stdout(self, "Error: Could not read file {0}".format(f))
         main.print_stdout(self, "Error: File type is not supported by the current version of OctaDist")
-        popup.wrong_format_error(self)
+        popup.error_wrong_format(self)
 
     # Remove empty string in list
     atom_full = list(filter(None, atom_full))

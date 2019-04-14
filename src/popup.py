@@ -55,14 +55,9 @@ def err_many_files(self):
     showerror("Error", "You must load only one input file.")
 
 
-def wrong_format_error(self):
+def error_wrong_format(self):
     main.print_stdout(self, "Error: Input file format is not supported.")
     showerror("Error", "Input file format is not supported.")
-
-
-def err_not_octa(self):
-    main.print_stdout(self, "Error: Cannot determine the octahedral structure from your input complex.")
-    showerror("Error", "Cannot determine the octahedral structure from your input complex.")
 
 
 def warn_no_metal(self):

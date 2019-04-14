@@ -63,7 +63,53 @@ def midpoint_of_line(a, b):
     return np.array([(a[0] + b[0])/2, (a[1] + b[1])/2, (a[2] + b[2])/2])
 
 
-def angle_between(self, p1, p2, p3):
+def angles_sign(v1, v2, direct):
+    """Compute angle between two vectors with sign
+
+    :param v1:
+    :param v2:
+    :param direct:
+    :return:
+    """
+    Mod1 = np.sqrt((pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2)))
+    Mod2 = np.sqrt((pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2)))
+
+    Sca1 = v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]
+
+    leCos = Sca1 / (Mod1 * Mod2)
+    if -1 <= leCos <= 1:
+        result = ((np.arccos(leCos)) / np.pi) * 180
+    else:
+        result = 0
+    matD = np.array([v1, v2, direct])  # "direct" is a vector defined in the program core that define the
+    detD = np.linalg.det(matD)  # orientation of the plane to know the sign of the angles.
+
+    if detD < 0:
+        result = result * -1
+    return float(result)
+
+
+def angle_btw_2vec(v1, v2):
+    """Compute angle between two vectors
+
+    :param v1:
+    :param v2:
+    :return:
+    """
+    Mod1 = sqrt((pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2)))
+    Mod2 = sqrt((pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2)))
+
+    Sca1 = v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]
+
+    leCos = Sca1 / (Mod1 * Mod2)
+    if -1 <= leCos <= 1:
+        result = ((np.arccos(leCos)) / np.pi) * 180
+    else:
+        result = 0
+    return float(result)
+
+
+def angle_btw_3vec(self, p1, p2, p3):
     """Compute the angle between vector p2 - p1 and p3 - p1
 
                                 / p2_x * p3_x + p2_y * p3_y + p2_z * p3_z  \
