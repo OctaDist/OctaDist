@@ -154,7 +154,11 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
     :param a_octa: list - atom of octahedral structure
     :param c_octa: array - coordinate of octahedral structure
     :param max_indi_sigma: maximum individual cis angle
-    :return min_theta: list - the lowest Theta value
+    :return mean_theta: mean Theta value
+    :return min_theta: minimum Theta value
+    :return max_theta: maximum Theta value
+    :return min_theta_new: new minimum Theta value
+    :return max_theta_new: new maximum Theta value
     :return all_comp: compile all results
             a_ref_f: list - atomic number of all 8 faces
             c_ref_f: list - atomic coordinates of all 8 faces
@@ -441,9 +445,9 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
 
     main.print_stdout(self, "      ====================== SUMMARY of Θ ======================")
     main.print_stdout(self, "")
-    main.print_stdout(self, "      Minimum Θ parameter : {0:11.6f} degree ***".format(min_theta))
+    main.print_stdout(self, "      Minimum Θ parameter : {0:11.6f} degree".format(min_theta))
     main.print_stdout(self, "      Maximum Θ parameter : {0:11.6f} degree".format(max_theta))
-    main.print_stdout(self, "         Mean Θ parameter : {0:11.6f} degree".format(mean_theta))
+    main.print_stdout(self, "         Mean Θ parameter : {0:11.6f} degree ***".format(mean_theta))
     main.print_stdout(self, "")
     main.print_stdout(self, "      ==========================================================")
     main.print_stdout(self, "")

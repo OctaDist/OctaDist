@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ----------------------------------------------------------------------
 
-OctaDist version 2.3 (beta)
+OctaDist version 2.3 (Full version)
 
 Octahedral Distortion Analysis
 Software website: https://octadist.github.io
@@ -66,6 +66,7 @@ def print_coord(self, text):
 
 class OctaDist:
     def __init__(self, master):
+
         # Default settings
         self.file_list = ""
         self.atom_octa = []

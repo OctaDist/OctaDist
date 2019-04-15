@@ -69,65 +69,65 @@ def warn_many_metals(self):
     main.print_stdout(self, "Warning: The complex contains too many transition metal")
     main.print_stdout(self, "         Please select the metal center atom of the octahedral structure.")
     showwarning("Warning",
-                "The complex contains too many transition metal.\n\n"       
+                "The complex contains too many transition metal.\n\n"
                 "Please select the metal center atom of the octahedral structure.\n\n")
 
 
 def show_help(self):
-        """Show program help
-        """
-        master = tk.Toplevel(self)
-        master.title("Program Help")
-        master.geometry("550x550")
-        master.option_add("*Font", "Arial 10")
-        frame = tk.Frame(master)
-        frame.grid()
+    """Show program help
+    """
+    master = tk.Toplevel(self)
+    master.title("Program Help")
+    master.geometry("550x550")
+    master.option_add("*Font", "Arial 10")
+    frame = tk.Frame(master)
+    frame.grid()
 
-        # Usage
-        lbl = tk.Label(frame, text="Usage:")
-        lbl.grid(sticky=tk.W, row=0)
-        msg_help_1 = "1. Browse input file\n" \
-                     "2. Compute distortion parameters\n" \
-                     "3. Check results\n" \
-                     "4. File → Save as\n"
-        msg = tk.Message(frame, text=msg_help_1, width="450")
-        msg.grid(sticky=tk.W, row=1)
+    # Usage
+    lbl = tk.Label(frame, text="Usage:")
+    lbl.grid(sticky=tk.W, row=0)
+    msg_help_1 = "1. Browse input file\n" \
+                 "2. Compute distortion parameters\n" \
+                 "3. Check results\n" \
+                 "4. File → Save as\n"
+    msg = tk.Message(frame, text=msg_help_1, width="450")
+    msg.grid(sticky=tk.W, row=1)
 
-        # XYZ file format
-        lbl = tk.Label(frame, text="Supported input: XYZ file format (*.xyz)")
-        lbl.grid(sticky=tk.W, row=2)
-        msg_help_2 = " <number of atoms>\n" \
-                     " comment line\n" \
-                     " <Metal center 0>  <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 1>  <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 2>  <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 3>  <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 4>  <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 5>  <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 6>  <X>  <Y>  <Z>\n" \
-                     " <optional>\n" \
-                     " ...\n"
-        msg = tk.Message(frame, text=msg_help_2, width="450")
-        msg.grid(sticky=tk.W, row=3, column=0)
+    # XYZ file format
+    lbl = tk.Label(frame, text="Supported input: XYZ file format (*.xyz)")
+    lbl.grid(sticky=tk.W, row=2)
+    msg_help_2 = " <number of atoms>\n" \
+                 " comment line\n" \
+                 " <Metal center 0>  <X>  <Y>  <Z>\n" \
+                 " <Ligand atom 1>  <X>  <Y>  <Z>\n" \
+                 " <Ligand atom 2>  <X>  <Y>  <Z>\n" \
+                 " <Ligand atom 3>  <X>  <Y>  <Z>\n" \
+                 " <Ligand atom 4>  <X>  <Y>  <Z>\n" \
+                 " <Ligand atom 5>  <X>  <Y>  <Z>\n" \
+                 " <Ligand atom 6>  <X>  <Y>  <Z>\n" \
+                 " <optional>\n" \
+                 " ...\n"
+    msg = tk.Message(frame, text=msg_help_2, width="450")
+    msg.grid(sticky=tk.W, row=3, column=0)
 
-        lbl = tk.Label(frame, text="Example of input file is available at the following website:")
-        lbl.grid(sticky=tk.W, row=5, columnspan=2)
-        link = "https://github.com/OctaDist/OctaDist/tree/master/test\n"
-        lbl_link = tk.Label(frame, foreground="blue", text=link, cursor="hand2")
-        lbl_link.grid(sticky=tk.W, pady="5", row=6, columnspan=2)
-        lbl_link.bind("<Button-1>", callback)
+    lbl = tk.Label(frame, text="Example of input file is available at the following website:")
+    lbl.grid(sticky=tk.W, row=5, columnspan=2)
+    link = "https://github.com/OctaDist/OctaDist/tree/master/test\n"
+    lbl_link = tk.Label(frame, foreground="blue", text=link, cursor="hand2")
+    lbl_link.grid(sticky=tk.W, pady="5", row=6, columnspan=2)
+    lbl_link.bind("<Button-1>", callback)
 
-        # References
-        lbl = tk.Label(frame, text="References:")
-        lbl.grid(sticky=tk.W, row=7, columnspan=2)
-        msg_help_3 = "1. J. A. Alonso, M. J. Martı´nez-Lope, M. T. Casais, M. T. Ferna´ndez-Dı´az\n" \
-                     "   Inorg. Chem. 2000, 39, 917-923\n" \
-                     "2. J. K. McCusker, A. L. Rheingold, D. N. Hendrickson\n" \
-                     "   Inorg. Chem. 1996, 35, 2100.\n" \
-                     "3. M. Marchivie, P. Guionneau, J. F. Letard, D. Chasseau\n" \
-                     "   Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.\n"
-        msg = tk.Message(frame, text=msg_help_3, width="450")
-        msg.grid(sticky=tk.W, row=8, columnspan=2)
+    # References
+    lbl = tk.Label(frame, text="References:")
+    lbl.grid(sticky=tk.W, row=7, columnspan=2)
+    msg_help_3 = "1. J. A. Alonso, M. J. Martı´nez-Lope, M. T. Casais, M. T. Ferna´ndez-Dı´az\n" \
+                 "   Inorg. Chem. 2000, 39, 917-923\n" \
+                 "2. J. K. McCusker, A. L. Rheingold, D. N. Hendrickson\n" \
+                 "   Inorg. Chem. 1996, 35, 2100.\n" \
+                 "3. M. Marchivie, P. Guionneau, J. F. Letard, D. Chasseau\n" \
+                 "   Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.\n"
+    msg = tk.Message(frame, text=msg_help_3, width="450")
+    msg.grid(sticky=tk.W, row=8, columnspan=2)
 
 
 def show_about(self):
@@ -135,7 +135,7 @@ def show_about(self):
     """
     main.print_stdout(self, "Info: Show program information")
 
-    text = "OctaDist version {0}\n" \
+    text = "OctaDist version {0} {1}\n" \
            "\n" \
            "Authors: Rangsiman Ketkaew, Yuthana Tantirungrotechai,\n" \
            "David J. Harding, Phimphaka Harding, and Mathieu Marchivie.\n" \
@@ -143,7 +143,7 @@ def show_about(self):
            "Website: https://octadist.github.io\n" \
            "\n" \
            "Please cite this project if you use OctaDist for scientific publication." \
-        .format(main.program_version)
+        .format(main.program_version, main.program_revision)
     showinfo("About program", text)
 
 
