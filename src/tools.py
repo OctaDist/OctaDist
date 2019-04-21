@@ -83,31 +83,6 @@ def data_face(self, sfa, sfc, sofa, sofc):
         box.insert(tk.END, "\n\n")
 
 
-def multi_results(self, comp_result):
-    """Show the computed octahedral distortion parameters of all complexes
-
-    :param self: master frame
-    :param comp_result: list - computed Delta, Sigma, and Theta values
-    :return:
-    """
-    master = tk.Toplevel(self.master)
-    master.title("Results")
-    master.geometry("380x330")
-    master.option_add("*Font", "Arial 10")
-    frame = tk.Frame(master)
-    frame.grid()
-    lbl = tk.Label(frame, text="Computed octahedral distortion parameters for all complexes")
-    lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
-    box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
-    box.grid(row=1, pady="5", padx="5")
-
-    box.insert(tk.INSERT, "                         Δ               Σ                Θ\n")
-    box.insert(tk.INSERT, "                     -----------    -------------     ------------\n")
-    for i in range(len(comp_result)):
-        box.insert(tk.END, "Complex {0} : {1:10.6f}   {2:10.6f}   {3:10.6f}\n"
-                   .format(i+1, comp_result[i][0], comp_result[i][1], comp_result[i][2]))
-
-
 def param_octa(self, al, cl):
     """Show structural parameters of selected octahedral structure
 

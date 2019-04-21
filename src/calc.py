@@ -12,55 +12,121 @@ import linear
 import plane
 import projection
 import tkinter as tk
-import tools
 import main
 
 
-def calc_delta(self, a_octa, c_octa):
-    """Calculate Delta parameter
-                                      2
-                 1         / d_i - d \
-    delta(d) =  --- * sum | -------- |
-                 6        \    d    /
-
-    where d_i is individual M-X distance and d is mean M-X distance.
-    Ref: DOI: 10.1107/S0108768103026661  Acta Cryst. (2004). B60, 10-20
+def calc_d_mean(self, a_octa, c_octa):
+    """Calculate mean distance parameter
 
     :param self: master frame
-    :param a_octa: list - atoms of octahedral structure
+    :param a_octa: list - atom labels of octahedral structure
     :param c_octa: array - coordinate of octahedral structure
-    :return computed_delta: float - delta parameter (unitless quantity)
-    :return unique_distance: list - list of unique distances
+    :return d_mean: float - mean distance
+    :return bond_dist: list - individual bond distance
     """
+    main.print_stdout(self, "Info: Calculate D_mean parameter")
+    main.print_stdout(self, "")
     main.print_stdout(self, "Info: Calculate distance between metal center (M) and ligand atoms")
     main.print_stdout(self, "Info: Show 6 unique bond distances (Angstrom)")
     main.print_stdout(self, "")
     main.print_stdout(self, "      No.     Bond       Distance")
     main.print_stdout(self, "      ---    -------     --------")
 
-    unique_distance = []
+    bond_dist = []
     for i in range(1, 7):
         distance = linear.distance_between(c_octa[0], c_octa[i])
         main.print_stdout(self, "      {0:>2}     {1:>2} - {2:>2}   {3:10.6f}"
                           .format(i, a_octa[0], a_octa[i], distance))
-        unique_distance.append(distance)
+        bond_dist.append(distance)
     main.print_stdout(self, "")
 
-    computed_distance_avg = linear.distance_avg(c_octa)
-    computed_delta = 0
-    for i in range(6):
-        diff_dist = (unique_distance[i] - computed_distance_avg) / computed_distance_avg
-        computed_delta = ((diff_dist * diff_dist) / 6) + computed_delta
+    i = 0
+    sum_distance = 0
+    while i < 6:
+        sum_distance += bond_dist[i]
+        i += 1
 
-    main.print_stdout(self, "      ====================== SUMMARY of Δ ======================")
+    d_mean = sum_distance / 6
+
+    main.print_stdout(self, "      =================== SUMMARY of D<mean> ===================")
     main.print_stdout(self, "")
-    main.print_stdout(self, "      Average distance     : {0:10.6f} Angstrom".format(computed_distance_avg))
-    main.print_stdout(self, "      Computed Δ parameter : {0:10.6f}".format(computed_delta))
+    main.print_stdout(self, "      D<mean> : {0:10.6f}".format(d_mean))
     main.print_stdout(self, "")
     main.print_stdout(self, "      ==========================================================")
     main.print_stdout(self, "")
 
-    return computed_delta
+    return d_mean, bond_dist
+
+
+def calc_zeta(self, d_mean, bond_dist):
+    """Calculate Zeta parameter
+
+         6
+    ζ = sum(|dist_i - d_mean|)
+        i=1
+
+    Ref: Phys. Rev. B 85, 064114
+
+    :param self: master frame
+    :param d_mean: float - mean distance
+    :param bond_dist: list - individual bond distance
+    :return zeta: float - zeta parameter in degree
+    """
+    main.print_stdout(self, "Info: Calculate ζ parameter")
+    main.print_stdout(self, "      This parameter is deviation from the average bond length")
+    main.print_stdout(self, "")
+    main.print_stdout(self, "Info: Show diff distance (Angstrom)")
+    main.print_stdout(self, "")
+
+    diff_dist = []
+    for i in range(6):
+        diff_dist.append(abs(bond_dist[i] - d_mean))
+        main.print_stdout(self, "      Bond {0} : {1:10.6f}".format(i, diff_dist[i]))
+
+    zeta = sum(diff_dist[i] for i in range(6)) / 6
+
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      ====================== SUMMARY of ζ ======================")
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      Computed ζ parameter : {0:10.6f}".format(zeta))
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      ==========================================================")
+    main.print_stdout(self, "")
+
+    return zeta
+
+
+def calc_delta(self, d_mean, bond_dist):
+    """Calculate Delta parameter
+                               2
+          1         / d_i - d \
+    Δ =  --- * sum | -------- |
+          6        \    d    /
+
+    where d_i is individual M-X distance and d is mean M-X distance.
+    Ref: DOI: 10.1107/S0108768103026661  Acta Cryst. (2004). B60, 10-20
+
+    :param self: master frame
+    :param d_mean: float - mean distance
+    :param bond_dist: list - individual bond distance
+    :return delta: float - delta parameter (unitless quantity)
+    """
+    main.print_stdout(self, "Info: Calculate Δ parameter")
+    main.print_stdout(self, "")
+
+    delta = 0
+    for i in range(6):
+        diff_dist = (bond_dist[i] - d_mean) / d_mean
+        delta += (diff_dist * diff_dist) / 6
+
+    main.print_stdout(self, "      ====================== SUMMARY of Δ ======================")
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      Computed Δ parameter : {0:10.6f}".format(delta))
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      ==========================================================")
+    main.print_stdout(self, "")
+
+    return delta
 
 
 def calc_sigma(self, a_octa, c_octa):
@@ -74,11 +140,13 @@ def calc_sigma(self, a_octa, c_octa):
     Ref: J. K. McCusker et al. Inorg. Chem. 1996, 35, 2100.
 
     :param self: master frame
-    :param a_octa: list - atoms of octahedral structure
+    :param a_octa: list - atom labels of octahedral structure
     :param c_octa: array - coordinate of octahedral structure
-    :return computed_sigma: float - sigma parameter in degree
+    :return sigma: float - sigma parameter in degree
     :return angle_sigma: list - list of 12 unique angles
     """
+    main.print_stdout(self, "Info: Calculate Σ parameter")
+    main.print_stdout(self, "")
     main.print_stdout(self, "Info: Calculate angle between ligand atoms (including cis and trans angles)")
     main.print_stdout(self, "Info: Show 15 unique bond angles (°) before sorting")
     main.print_stdout(self, "")
@@ -115,7 +183,7 @@ def calc_sigma(self, a_octa, c_octa):
     la = la[:-3]
     angle_sigma = angle_sigma[:-3]
 
-    max_indi_sigma = angle_sigma[-1]
+    max_angle = angle_sigma[-1]
 
     main.print_stdout(self, "Info: Show 12 cis angles after deleting trans angles")
     main.print_stdout(self, "")
@@ -126,21 +194,21 @@ def calc_sigma(self, a_octa, c_octa):
                           .format(i + 1, la[i][0], la[i][1], angle_sigma[i]))
     main.print_stdout(self, "")
 
-    computed_sigma = 0
+    sigma = 0
     for i in range(len(angle_sigma)):
-        computed_sigma = abs(90.0 - angle_sigma[i]) + computed_sigma
+        sigma = abs(90.0 - angle_sigma[i]) + sigma
 
     main.print_stdout(self, "      ====================== SUMMARY of Σ ======================")
     main.print_stdout(self, "")
-    main.print_stdout(self, "      Computed Σ parameter : {0:10.6f} degree".format(computed_sigma))
+    main.print_stdout(self, "      Computed Σ parameter : {0:10.6f} degree".format(sigma))
     main.print_stdout(self, "")
     main.print_stdout(self, "      ==========================================================")
     main.print_stdout(self, "")
 
-    return computed_sigma, max_indi_sigma
+    return sigma, max_angle
 
 
-def calc_theta(self, a_octa, c_octa, max_indi_sigma):
+def calc_theta(self, a_octa, c_octa, max_angle):
     """Calculate Theta parameter
 
           24
@@ -151,14 +219,10 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
     Ref: M. Marchivie et al. Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.
 
     :param self: master frame
-    :param a_octa: list - atom of octahedral structure
+    :param a_octa: list - atom labels of octahedral structure
     :param c_octa: array - coordinate of octahedral structure
-    :param max_indi_sigma: maximum individual cis angle
-    :return mean_theta: mean Theta value
-    :return min_theta: minimum Theta value
-    :return max_theta: maximum Theta value
-    :return min_theta_new: new minimum Theta value
-    :return max_theta_new: new maximum Theta value
+    :param max_angle: maximum individual cis angle
+    :return theta_mean: mean Theta value
     :return all_comp: compile all results
             a_ref_f: list - atomic number of all 8 faces
             c_ref_f: list - atomic coordinates of all 8 faces
@@ -167,7 +231,7 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
             sel_oppo_f_atom: list - atom number of selected 4 opposite faces
             sel_oppo_f_coord: list - coordinates of selected 4 opposite faces
     """
-    main.print_stdout(self, "Info: Calculate the Theta parameter")
+    main.print_stdout(self, "Info: Calculate Θ parameter")
     main.print_stdout(self, "")
     main.print_stdout(self, "Info: The following items will be computed")
     main.print_stdout(self, "      1. 8 faces of octahedral structure")
@@ -199,6 +263,13 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
 
     ligands_vec = [_MN1, _MN2, _MN3, _MN4, _MN5, _MN6]
 
+    main.print_stdout(self, "Info: Show vector from metal center to each ligand atom")
+    main.print_stdout(self, "")
+    for i in range(6):
+        main.print_stdout(self, "      M --> N{0} : ({1:8.5f}, {2:8.5f}, {3:8.5f})"
+                          .format(i + 1, ligands_vec[i][0], ligands_vec[i][1], ligands_vec[i][2]))
+    main.print_stdout(self, "")
+
     ###########################################
     # Determine the order of atoms in complex #
     ###########################################
@@ -206,14 +277,14 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
     def_change = 6
     for n in range(6):  # This loop is used to identify which N is in line with N1
         test = linear.angle_btw_2vec(ligands_vec[0], ligands_vec[n])
-        if test > (max_indi_sigma - 1):
+        if test > (max_angle - 1):
             def_change = n
 
-    testMax = 0
+    test_max = 0
     for n in range(6):
         test = linear.angle_btw_2vec(ligands_vec[0], ligands_vec[n])
-        if test > testMax:
-            testMax = test
+        if test > test_max:
+            test_max = test
             new_change = n
 
     if def_change != new_change:
@@ -242,18 +313,19 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
     _MN5 = N5 - _M
     _MN6 = N6 - _M
 
+    # update the ligands_vec list that contains M-N vector
     ligands_vec = [_MN1, _MN2, _MN3, _MN4, _MN5, _MN6]
 
     for n in range(6):  # This loop is used to identify which N is in line with N2
         test = linear.angle_btw_2vec(ligands_vec[1], ligands_vec[n])
-        if test > (max_indi_sigma - 1):
+        if test > (max_angle - 1):
             def_change = n
 
-    testMax = 0
+    test_max = 0
     for n in range(6):  # This loop is used to identify which N is in line with N2
         test = linear.angle_btw_2vec(ligands_vec[1], ligands_vec[n])
-        if test > testMax:
-            testMax = test
+        if test > test_max:
+            test_max = test
             new_change = n
 
     if def_change != new_change:
@@ -283,18 +355,18 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
     _MN5 = N5 - _M
     _MN6 = N6 - _M
 
-    ligands_vec = [_MN1, _MN2, _MN3, _MN4, _MN5, _MN6]  # update the ligands_vec list that contains M-N vector
+    ligands_vec = [_MN1, _MN2, _MN3, _MN4, _MN5, _MN6]
 
     for n in range(6):  # This loop is used to identify which N is in line with N3
         test = linear.angle_btw_2vec(ligands_vec[2], ligands_vec[n])
-        if test > (max_indi_sigma - 1):
+        if test > (max_angle - 1):
             def_change = n
 
-    testMax = 0
+    test_max = 0
     for n in range(6):  # This loop is used to identify which N is in line with N3
         test = linear.angle_btw_2vec(ligands_vec[2], ligands_vec[n])
-        if test > testMax:
-            testMax = test
+        if test > test_max:
+            test_max = test
             new_change = n
 
     if def_change != new_change:
@@ -316,15 +388,34 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
     N5 = ligands[4]
     N6 = ligands[5]
 
+    updated_lig = [N1, N2, N3, N4, N5, N6]
+
+    main.print_stdout(self, "Info: Show the updated numbering atoms")
+    main.print_stdout(self, "")
+    # Front face: N1, N2, N3
+    for i in range(3):
+        main.print_stdout(self, "      N{0} : ({1:8.5f}, {2:8.5f}, {3:8.5f})"
+                          .format(i + 1, updated_lig[i][0], updated_lig[i][1], updated_lig[i][2]))
+    main.print_stdout(self, "      ------------------------------------------")
+    # Back face: N4, N5, N6
+    for i in range(3, 6):
+        main.print_stdout(self, "      N{0} : ({1:8.5f}, {2:8.5f}, {3:8.5f})"
+                          .format(i + 1, updated_lig[i][0], updated_lig[i][1], updated_lig[i][2]))
+    main.print_stdout(self, "")
+
     #####################################################
     # Calculate the Theta parameter ans its derivatives #
     #####################################################
 
-    ThetaValues = []  # list gathering the 6 theta angles
+    eqOfPlane = []
+    indiTheta = []
+    allTheta = []  # list gathering the 6 theta angles
+
     # loop over 8 faces
     for proj in range(8):
         # Find the equation of the plane
         a, b, c, d = plane.find_eq_of_plane(N1, N2, N3)
+        eqOfPlane.append([a, b, c, d])
 
         # Calculation of projection of M, N4, N5 and N6 onto the plane defined by N1, N2, N3
         _MP = projection.project_atom_onto_plane(_M, a, b, c, d)
@@ -344,23 +435,25 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
         a12 = linear.angle_btw_2vec(VTh1, VTh2)
         a13 = linear.angle_btw_2vec(VTh1, VTh3)
         if a12 < a13:
-            CrossDirect = np.cross(VTh1, VTh2)
+            crossDirect = np.cross(VTh1, VTh2)
         else:
-            CrossDirect = np.cross(VTh3, VTh1)
+            crossDirect = np.cross(VTh3, VTh1)
 
-        theta1 = linear.angles_sign(VTh1, VTh4, CrossDirect)
-        theta2 = linear.angles_sign(VTh4, VTh2, CrossDirect)
-        theta3 = linear.angles_sign(VTh2, VTh5, CrossDirect)
-        theta4 = linear.angles_sign(VTh5, VTh3, CrossDirect)
-        theta5 = linear.angles_sign(VTh3, VTh6, CrossDirect)
-        theta6 = linear.angles_sign(VTh6, VTh1, CrossDirect)
+        theta1 = linear.angles_sign(VTh1, VTh4, crossDirect)
+        theta2 = linear.angles_sign(VTh4, VTh2, crossDirect)
+        theta3 = linear.angles_sign(VTh2, VTh5, crossDirect)
+        theta4 = linear.angles_sign(VTh5, VTh3, crossDirect)
+        theta5 = linear.angles_sign(VTh3, VTh6, crossDirect)
+        theta6 = linear.angles_sign(VTh6, VTh1, crossDirect)
+
+        indiTheta.append([theta1, theta2, theta3, theta4, theta5, theta6])
 
         # sum individual Theta for 1 projection plane
         sumTheta = abs(theta1 - 60) + abs(theta2 - 60) + abs(theta3 - 60) + \
                    abs(theta4 - 60) + abs(theta5 - 60) + abs(theta6 - 60)
 
-        # update Theta into ThetaValues list
-        ThetaValues.append(sumTheta)
+        # update Theta into allTheta list
+        allTheta.append(sumTheta)
 
         tp = N2
         N2 = N4
@@ -398,6 +491,20 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
 
         # End of the loop that calculate the 8 projections.
 
+    main.print_stdout(self, "Info: Show the equation of the plane")
+    main.print_stdout(self, "")
+    for i in range(8):
+        main.print_stdout(self, "      Plane {0}: {1:8.5f}x {2:+8.5f}y {3:+8.5f}z = {4:8.5f}"
+                          .format(i + 1, eqOfPlane[i][0], eqOfPlane[i][1], eqOfPlane[i][2], eqOfPlane[i][3]))
+    main.print_stdout(self, "")
+    main.print_stdout(self, "Info: Show 6 individual Theta of 8 projection planes")
+    main.print_stdout(self, "")
+    for i in range(8):
+        main.print_stdout(self, "      Plane {0}: {1:5.2f}, {2:5.2f}, {3:5.2f}, {4:5.2f}, {5:5.2f}, {6:5.2f}"
+                          .format(i + 1, indiTheta[i][0], indiTheta[i][1], indiTheta[i][2],
+                                  indiTheta[i][3], indiTheta[i][4], indiTheta[i][5]))
+    main.print_stdout(self, "")
+
     ##################################
     # Summary of computed parameters #
     ##################################
@@ -407,47 +514,47 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
     main.print_stdout(self, "      Plane     Θ parameter")
     main.print_stdout(self, "      -----     -----------")
     for i in range(8):
-        main.print_stdout(self, "        {0:d}       {1:11.6f}".format(i + 1, ThetaValues[i]))
+        main.print_stdout(self, "        {0:d}       {1:11.6f}".format(i + 1, allTheta[i]))
     main.print_stdout(self, "")
 
-    mean_theta = 0
+    theta_mean = 0
     for n in range(8):
-        mean_theta = mean_theta + ThetaValues[n]
+        theta_mean += allTheta[n]
 
-    mean_theta = mean_theta / 2
+    theta_mean = theta_mean / 2
 
     # this list contains the sorted values of Theta from min to max
-    sorted_Theta = sorted(ThetaValues)
+    sorted_Theta = sorted(allTheta)
 
-    min_theta = 0
+    theta_min = 0
     for n in range(4):
-        min_theta = min_theta + sorted_Theta[n]
+        theta_min += sorted_Theta[n]
 
-    max_theta = 0
+    theta_max = 0
     for n in range(4, 8):
-        max_theta = max_theta + sorted_Theta[n]
+        theta_max += sorted_Theta[n]
 
     NewMinTheta = []
     NewMaxTheta = []
     for n in range(4):
-        if ThetaValues[n] < ThetaValues[n + 4]:
-            NewMinTheta.append(ThetaValues[n])
-            NewMaxTheta.append(ThetaValues[n + 4])
+        if allTheta[n] < allTheta[n + 4]:
+            NewMinTheta.append(allTheta[n])
+            NewMaxTheta.append(allTheta[n + 4])
         else:
-            NewMaxTheta.append(ThetaValues[n])
-            NewMinTheta.append(ThetaValues[n + 4])
+            NewMaxTheta.append(allTheta[n])
+            NewMinTheta.append(allTheta[n + 4])
 
     min_theta_new = 0
     max_theta_new = 0
     for n in range(4):
-        min_theta_new = min_theta_new + NewMinTheta[n]
-        max_theta_new = max_theta_new + NewMaxTheta[n]
+        min_theta_new += NewMinTheta[n]
+        max_theta_new += NewMaxTheta[n]
 
     main.print_stdout(self, "      ====================== SUMMARY of Θ ======================")
     main.print_stdout(self, "")
-    main.print_stdout(self, "      Minimum Θ parameter : {0:11.6f} degree".format(min_theta))
-    main.print_stdout(self, "      Maximum Θ parameter : {0:11.6f} degree".format(max_theta))
-    main.print_stdout(self, "         Mean Θ parameter : {0:11.6f} degree ***".format(mean_theta))
+    main.print_stdout(self, "      Minimum Θ parameter : {0:11.6f} degree".format(theta_min))
+    main.print_stdout(self, "      Maximum Θ parameter : {0:11.6f} degree".format(theta_max))
+    main.print_stdout(self, "         Mean Θ parameter : {0:11.6f} degree ***".format(theta_mean))
     main.print_stdout(self, "")
     main.print_stdout(self, "      ==========================================================")
     main.print_stdout(self, "")
@@ -461,7 +568,7 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
     #
     # sel_face_set = 0
     # for i in range(8):
-    #     if ThetaValues[i] == min_theta:
+    #     if allTheta[i] == theta_min:
     #         sel_face_set = plane_set[i]
     #
     # sel_f_atom = []
@@ -481,15 +588,14 @@ def calc_theta(self, a_octa, c_octa, max_indi_sigma):
 
     all_comp = ()
 
-    return mean_theta, min_theta, max_theta, min_theta_new, max_theta_new, all_comp
+    return theta_mean, all_comp
 
 
-def calc_all(self, file_list, atom_coord_octa):
+def calc_all(self, atom_coord_octa):
     """Calculate Delta, Sigma, and Theta.
 
     :param self: master frame
-    :param file_list:
-    :param atom_coord_octa:
+    :param atom_coord_octa: list of label and coordinate of octahedral structure
     :return:
     """
     main.print_stdout(self, "Info: Calculate the Δ, Σ, and Θ parameters")
@@ -503,41 +609,53 @@ def calc_all(self, file_list, atom_coord_octa):
         main.print_stdout(self, "      *********************** Complex {0} ***********************".format(i + 1))
         main.print_stdout(self, "")
 
+        num_file, num_metal, atom_octa, coord_octa = atom_coord_octa[i]
+
         # Calculate distortion parameters
-        atom_octa, coord_octa = atom_coord_octa[i]
-        delta = calc_delta(self, atom_octa, coord_octa)
-        sigma, max_indi_sigma = calc_sigma(self, atom_octa, coord_octa)
-        mean_theta, min_theta, max_theta, min_theta_new, max_theta_new, all_comp \
-            = calc_theta(self, atom_octa, coord_octa, max_indi_sigma)
+        d_mean, bond_dist = calc_d_mean(self, atom_octa, coord_octa)
+        zeta = calc_zeta(self, d_mean, bond_dist)
+        delta = calc_delta(self, d_mean, bond_dist)
+        sigma, max_angle = calc_sigma(self, atom_octa, coord_octa)
+        theta_mean, all_comp = calc_theta(self, atom_octa, coord_octa, max_angle)
 
         # Collect results
         all_sigma.append(sigma)
-        all_theta.append(min_theta)
-        comp_result.append([delta, sigma, min_theta, max_theta, mean_theta])
+        all_theta.append(theta_mean)
+        comp_result.append([num_file, num_metal, d_mean, zeta, delta, sigma, theta_mean])
 
-    if len(file_list) == 1:
+    if len(atom_coord_octa) == 1:
         # pal, pcl, ref_pal, ref_pcl, oppo_pal, oppo_pcl = all_comp
+        self.box_d_mean.insert(tk.INSERT, "{0:3.6f}".format(d_mean))
+        self.box_zeta.insert(tk.INSERT, "{0:3.6f}".format(zeta))
         self.box_delta.insert(tk.INSERT, "{0:3.6f}".format(delta))
         self.box_sigma.insert(tk.INSERT, "{0:3.6f}".format(sigma))
-        self.box_theta_min.insert(tk.INSERT, "{0:3.6f}".format(min_theta))
-        self.box_theta_max.insert(tk.INSERT, "{0:3.6f}".format(max_theta))
-        self.box_theta_mean.insert(tk.INSERT, "{0:3.6f}".format(mean_theta))
+        self.box_theta_mean.insert(tk.INSERT, "{0:3.6f}".format(theta_mean))
 
-    elif len(file_list) > 1:
-        tools.multi_results(self, comp_result)
+    elif len(atom_coord_octa) > 1:
+        # tools.multi_results(self, comp_result)
+        main.print_result(self, "Computed octahedral distortion parameters for all complexes")
+        main.print_result(self, "")
+        main.print_result(self, "Complex   Metal       <D>      Zeta      Delta      Sigma      Theta")
+        main.print_result(self, "  ---------     -------       -----      ------      -------      -------     -------")
+        main.print_result(self, "")
+        for i in range(len(comp_result)):
+            main.print_result(self, " {0:2d}  -  {1} :  {2:9.4f}  {3:9.6f}  {4:9.6f}  {5:9.4f}  {6:9.4f}"
+                              .format(comp_result[i][0], comp_result[i][1], comp_result[i][2], comp_result[i][3],
+                                      comp_result[i][4], comp_result[i][5], comp_result[i][6]))
+        main.print_result(self, "")
 
     main.print_stdout(self, "Info: Show computed octahedral distortion parameters of all files")
     main.print_stdout(self, "")
     main.print_stdout(self, "      ==================== Overall Summary ====================")
     main.print_stdout(self, "")
-    for i in range(len(comp_result)):
-        main.print_stdout(self, "      Complex {0:2d} : {1}".format(i + 1, file_list[i].split('/')[-1]))
+    main.print_stdout(self, "      Complex   Metal       <D>      Zeta      Delta      Sigma      Theta")
+    main.print_stdout(self, "      ---------     -------       -----      ------      -------      -------     -------")
     main.print_stdout(self, "")
-    main.print_stdout(self, "      Complex          Δ           Σ (°)         Θ (°)")
-    main.print_stdout(self, "      -------      --------    ----------    ----------")
     for i in range(len(comp_result)):
-        main.print_stdout(self, "      {0:2d}      {1:10.6f}    {2:10.6f}    {3:10.6f}"
-                          .format(i + 1, comp_result[i][0], comp_result[i][1], comp_result[i][2]))
+        main.print_stdout(self, "       {0:2d}  -  {1} :  {2:9.4f}  {3:9.6f}  {4:9.6f}  {5:9.4f}  {6:9.4f}"
+                          .format(comp_result[i][0], comp_result[i][1], comp_result[i][2], comp_result[i][3],
+                                  comp_result[i][4], comp_result[i][5], comp_result[i][6]))
+    main.print_stdout(self, "")
     main.print_stdout(self, "")
     main.print_stdout(self, "      =========================================================")
     main.print_stdout(self, "")

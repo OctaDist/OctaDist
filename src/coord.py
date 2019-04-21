@@ -12,7 +12,6 @@ import linear
 import elements
 import popup
 from operator import itemgetter
-import tkinter as tk
 import main
 
 
@@ -348,127 +347,58 @@ def get_coord(self, f):
     return atom_full, coord_full
 
 
-def find_ligand_atoms(af, cf, cm):
-    """Find 6 ligand atoms around the metal center of interest
+def count_metal(self, af, cf):
+    """Count the number of metal center atom in complex
 
-    :param af: atom_full
-    :param cf: coord_full
-    :param cm: coord_metal
-    :return ao: atom_octa
-    :return co: coord_octa
-    :return dist: distance
+    :param self: master frame
+    :param af: the list of label of full complex
+    :param cf: the list of coordinate of full complex
+    :return count: the total number of metal center atom
+    :return atom_metal: the list of label of metal center atom
+    :return coord_metal: the list of label of metal center atom
+    """
+    count = 0
+    atom_metal = []
+    coord_metal = []
+
+    for i in range(len(af)):
+        number = elements.check_atom(af[i])
+        if 21 <= number <= 30 or 39 <= number <= 48 or 57 <= number <= 80 or 89 <= number <= 109:
+            count += 1
+            atom_metal.append(af[i])
+            coord_metal.append(cf[i])
+
+    main.print_stdout(self, "Info: The complex has {0} metal center atom".format(count))
+    main.print_stdout(self, "")
+    main.print_stdout(self, "Info: Show the coordinates of transition metal in complex")
+    main.print_stdout(self, "")
+    main.print_stdout(self, "      Atom        X             Y             Z")
+    main.print_stdout(self, "      ----    ----------    ----------    ----------")
+    for i in range(count):
+        main.print_stdout(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
+                          .format(atom_metal[i], coord_metal[i][0], coord_metal[i][1], coord_metal[i][2]))
+    main.print_stdout(self, "")
+
+    return count, atom_metal, coord_metal
+
+
+def search_octa(af, cf, cm):
+    """Search the octahedral structure in complex
+
+    :param af: the list of label of full complex
+    :param cf: the list of coordinate of full complex
+    :param cm: the list of coordinate of metal center atom
+    :return atom_octa: atom list of extracted octahedral structure
+    :return coord_octa: coord list of extracted octahedral structure
     """
     dist_list = []
     for i in range(len(af)):
         dist = linear.distance_between(cm, cf[i])
         dist_list.append([af[i], cf[i], dist])
 
-    # sort list of tuples by distance in ascending order
-    dist_list.sort(key=itemgetter(2))
-    # Get only first 7 atoms
-    dist_list = dist_list[:7]
-    # Collect atom and coordinates
-    ao, co, dist = zip(*dist_list)
+    dist_list.sort(key=itemgetter(2))  # sort list of tuples by distance in ascending order
+    dist_list = dist_list[:7]  # Get only first 7 atoms
+    atom_octa, coord_octa, distance = zip(*dist_list)  # Collect atom and coordinates
 
-    return ao, co, dist
+    return atom_octa, coord_octa
 
-
-def save_octa(self, master, file, v, af, cf, coord_metal):
-    master.destroy()
-
-    name = file.split('/')[-1]
-    metal = int(v.get())
-    ao, co, dist = find_ligand_atoms(af, cf, coord_metal[metal])
-
-    # Write file
-    f = open(file[:-4] + "-" + ao[0] + "-octa.xyz", 'w')
-    f.write(str(len(ao)) + "\n")
-    f.write("coordinate of octahedron extracted from {0} by OctaDist {1}\n".format(name, main.program_version))
-    for i in range(len(co)):
-        f.write(str(ao[i]) + "  " + str(co[i][0]) + "  " + str(co[i][1]) + "  " + str(co[i][2]) + "\n")
-    f.close()
-
-    main.print_coord(self, "Selected octahedron coordinate has been saved to {0}".format(f.name))
-    popup.info_save_file(self, f.name)
-
-
-def search_octa(self, file, af, cf):
-    """Auto-search octahedral structure, on request.
-
-    :param self: master frame
-    :param file: string - input file
-    :param af: list - atom_full
-    :param cf: array - coord_full
-    :return atom_octa: atom list of extracted octahedral structure
-    :return coord_octa: coord list of extracted octahedral structure
-    """
-    # Determine transition metal/heavy atoms
-    atom_metal = []
-    coord_metal = []
-    count = 0
-    for i in range(len(af)):
-        number = elements.check_atom(af[i])
-        if 21 <= number <= 30 or 39 <= number <= 48 or 57 <= number <= 80 or 89 <= number <= 109:
-            atom_metal.append(af[i])
-            coord_metal.append(cf[i])
-            count += 1
-
-    if count == 0:
-        popup.warn_no_metal(self)
-        return 1
-
-    elif count == 1:
-        atom_octa, coord_octa, distance = find_ligand_atoms(af, cf, coord_metal[0])
-        return atom_octa, coord_octa
-
-    elif count > 1:
-        main.print_stdout(self, "")
-        main.print_stdout(self, "Info: The complex has more than one metal atom")
-        main.print_stdout(self, "")
-        main.print_stdout(self, "Info: Show the coordinates of transition metal in complex")
-        main.print_stdout(self, "")
-        main.print_stdout(self, "      Atom        X             Y             Z")
-        main.print_stdout(self, "      ----    ----------    ----------    ----------")
-        for i in range(count):
-            main.print_stdout(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
-                              .format(atom_metal[i], coord_metal[i][0], coord_metal[i][1], coord_metal[i][2]))
-        main.print_stdout(self, "")
-
-        popup.warn_many_metals(self)
-
-        master = tk.Toplevel(self.master)
-        master.title("Select metal center atom")
-
-        lbl = tk.Label(master, text="Select the metal center of octahedron of interest", width=40)
-        lbl.grid(padx=5, pady=5, row=0, columnspan=2)
-
-        lbl = tk.Label(master, text="Metal atom")
-        lbl.grid(padx=5, pady=5, row=1, column=0)
-        lbl = tk.Label(master, text="Ligand atoms")
-        lbl.grid(padx=5, pady=5, row=1, column=1)
-
-        # Create list of metal center
-        index_metal = [str(i) for i in range(len(atom_metal))]
-        metals = list(zip(atom_metal, index_metal))
-
-        v = tk.StringVar()
-        v.set("0")  # initialize default
-        j = 1
-        for i, metal in enumerate(metals):
-            # Add metal as a choice
-            btn = tk.Radiobutton(master, text=metal[0], variable=v, value=metal[1])
-            btn.grid(row=int(i + 2), column=0)
-            # Find metal's 6 ligand atoms
-            ao, co, dist = find_ligand_atoms(af, cf, coord_metal[i])
-            lbl = tk.Label(master, text=ao[1:7])
-            lbl.grid(row=int(i + 2), column=1)
-            j += 1
-
-        btn = tk.Button(master, text="OK", command=lambda: save_octa(self, master, file, v, af, cf, coord_metal))
-        btn.grid(padx=5, pady=5, row=int(j + 1), column=0)
-        btn = tk.Button(master, text="Cancel", command=lambda: master.destroy())
-        btn.grid(padx=5, pady=5, row=int(j + 1), column=1)
-
-        master.mainloop()
-
-        return 1

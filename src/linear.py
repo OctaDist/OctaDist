@@ -23,7 +23,7 @@ def norm_vector(self, v):
         main.print_stdout(self, "Error: Norm of vector {0} is 0".format(v))
         main.print_stdout(self, "")
 
-    return v/np.linalg.norm(v)
+    return v / np.linalg.norm(v)
 
 
 def distance_between(a, b):
@@ -36,21 +36,7 @@ def distance_between(a, b):
     :param b: array - cartesian coordinate of point b
     :return: float - distance
     """
-    return sqrt(sum([pow(a[i]-b[i], 2) for i in range(len(a))]))
-
-
-def distance_avg(x):
-    """Calculate average bond distance
-
-    :param x: array - coordinates of ligand atoms
-    :return: float - average bond distance
-    """
-    dist_list = []
-    for i in range(1, 7):
-        dist = distance_between(x[i], x[0])
-        dist_list.append(dist)
-
-    return sum([dist_list[i] for i in range(6)])/6
+    return sqrt(sum([pow(a[i] - b[i], 2) for i in range(len(a))]))
 
 
 def midpoint_of_line(a, b):
@@ -60,7 +46,7 @@ def midpoint_of_line(a, b):
     :param b: array - cartesian coordinate of tail atom
     :return: array - midpoint of line segment
     """
-    return np.array([(a[0] + b[0])/2, (a[1] + b[1])/2, (a[2] + b[2])/2])
+    return np.array([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2])
 
 
 def angles_sign(v1, v2, direct):
@@ -74,7 +60,7 @@ def angles_sign(v1, v2, direct):
     Mod1 = np.sqrt((pow(v1[0], 2) + pow(v1[1], 2) + pow(v1[2], 2)))
     Mod2 = np.sqrt((pow(v2[0], 2) + pow(v2[1], 2) + pow(v2[2], 2)))
 
-    Sca1 = v1[0]*v2[0] + v1[1]*v2[1] + v1[2]*v2[2]
+    Sca1 = v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]
 
     leCos = Sca1 / (Mod1 * Mod2)
     if -1 <= leCos <= 1:
@@ -149,4 +135,4 @@ def triangle_area(a, b, c):
              pow(np.dot(ab[2], ac[0]) - np.dot(ab[0], ac[2]), 2) +
              pow(np.dot(ab[0], ac[1]) - np.dot(ab[1], ac[0]), 2))
 
-    return sqrt(value)/2
+    return sqrt(value) / 2

@@ -29,10 +29,9 @@ def callback(event):
     webbrowser.open_new(event.widget.cget("text"))
 
 
-def info_save_file(self, file):
-    main.print_stdout(self, "Info: coordinate of selected octahedron has been saved to {0}".format(file))
-    showinfo("Info", "Coordinate of selected octahedron has been saved to {0}.\n\n"
-                     "Please load this file and calculate distortion parameters.".format(file))
+def info_save_results(self, file):
+    main.print_stdout(self, "Info: Data has been saved to \"{0}\"".format(file))
+    showinfo("Info", "Data has been saved to {0}".format(file))
 
 
 def err_no_file(self):
@@ -65,20 +64,12 @@ def warn_no_metal(self):
     showwarning("Warning", "No transition metal in your input file.")
 
 
-def warn_many_metals(self):
-    main.print_stdout(self, "Warning: The complex contains too many transition metal")
-    main.print_stdout(self, "         Please select the metal center atom of the octahedral structure.")
-    showwarning("Warning",
-                "The complex contains too many transition metal.\n\n"
-                "Please select the metal center atom of the octahedral structure.\n\n")
-
-
 def show_help(self):
     """Show program help
     """
     master = tk.Toplevel(self)
     master.title("Program Help")
-    master.geometry("550x550")
+    master.geometry("550x600")
     master.option_add("*Font", "Arial 10")
     frame = tk.Frame(master)
     frame.grid()
@@ -89,7 +80,7 @@ def show_help(self):
     msg_help_1 = "1. Browse input file\n" \
                  "2. Compute distortion parameters\n" \
                  "3. Check results\n" \
-                 "4. File → Save as\n"
+                 "4. File → Save results\n"
     msg = tk.Message(frame, text=msg_help_1, width="450")
     msg.grid(sticky=tk.W, row=1)
 
@@ -120,11 +111,14 @@ def show_help(self):
     # References
     lbl = tk.Label(frame, text="References:")
     lbl.grid(sticky=tk.W, row=7, columnspan=2)
-    msg_help_3 = "1. J. A. Alonso, M. J. Martı´nez-Lope, M. T. Casais, M. T. Ferna´ndez-Dı´az\n" \
-                 "   Inorg. Chem. 2000, 39, 917-923\n" \
-                 "2. J. K. McCusker, A. L. Rheingold, D. N. Hendrickson\n" \
+    msg_help_3 = "1. M. Buron-Le Cointe, J. H´ebert, C. Bald´e, N. Moisan, L. Toupet,\n" \
+                 "   P. Guionneau, J. F. L´etard, E. Freysz, H. Cailleau, and E. Collet\n" \
+                 "   Physical Review B 2012, 85, 064114.\n" \
+                 "2. J. A. Alonso, M. J. Martı´nez-Lope, M. T. Casais, M. T. Ferna´ndez-Dı´az\n" \
+                 "   Inorg. Chem. 2000, 39, 917-923.\n" \
+                 "3. J. K. McCusker, A. L. Rheingold, D. N. Hendrickson\n" \
                  "   Inorg. Chem. 1996, 35, 2100.\n" \
-                 "3. M. Marchivie, P. Guionneau, J. F. Letard, D. Chasseau\n" \
+                 "4. M. Marchivie, P. Guionneau, J. F. Letard, D. Chasseau\n" \
                  "   Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.\n"
     msg = tk.Message(frame, text=msg_help_3, width="450")
     msg.grid(sticky=tk.W, row=8, columnspan=2)

@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ----------------------------------------------------------------------
 
-OctaDist version 2.3 (Full version)
+OctaDist version 2.4
 
 Octahedral Distortion Analysis
 Software website: https://octadist.github.io
@@ -43,7 +43,7 @@ import tkinter as tk
 from tkinter import filedialog
 import tkinter.scrolledtext as tkscrolled
 
-program_version = "2.3"
+program_version = "2.4"
 program_revision = "April 2019"
 
 
@@ -57,11 +57,11 @@ def print_stdout(self, text):
         return 0
 
 
-def print_coord(self, text):
+def print_result(self, text):
     """Insert text to Coordinate box
     """
-    self.box_coord.insert(tk.INSERT, text + "\n")
-    self.box_coord.see(tk.END)
+    self.box_result.insert(tk.INSERT, text + "\n")
+    self.box_result.see(tk.END)
 
 
 class OctaDist:
@@ -111,7 +111,7 @@ class OctaDist:
         menu_bar.add_cascade(label="File", menu=file_menu)
         file_menu.add_command(label="New", command=lambda: self.clear_cache())
         file_menu.add_command(label="Open", command=lambda: self.open_file())
-        file_menu.add_command(label="Save as", command=lambda: self.save_file())
+        file_menu.add_command(label="Save results", command=lambda: self.save_results())
         file_menu.add_separator()
         file_menu.add_command(label="Exit", command=lambda: master.destroy())
 
@@ -124,8 +124,7 @@ class OctaDist:
         display_menu.add_command(label="Octahedral complex",
                                  command=lambda: draw.octahedron(self, self.atom_octa, self.coord_octa))
         display_menu.add_command(label="Octahedron and 8 faces",
-                                 command=lambda: draw.octa_and_face(self, self.atom_octa,
-                                                                    self.coord_octa, self.pcl))
+                                 command=lambda: draw.octa_and_face(self, self.atom_octa, self.coord_octa, self.pcl))
         display_menu.add_command(label="Octahedron and selected 4 faces",
                                  command=lambda: draw.octa_and_4_face(self, self.atom_octa,
                                                                       self.coord_octa, self.ref_pcl))
@@ -173,13 +172,14 @@ class OctaDist:
         self.frame5 = tk.Frame(self.master)
         self.frame5.grid(padx=5, pady=5, row=0, column=2, rowspan=3)
 
-        # Frame 1
+        ######### Frame 1 #########
+
         title = "Octahedral Distortion Analysis"
-        self.lbl1 = tk.Label(self.frame1, foreground="blue", font=("Arial", 16, "bold"), text=title)
-        self.lbl1.grid(pady="5", row=0, columnspan=4)
+        self.lbl = tk.Label(self.frame1, foreground="blue", font=("Arial", 16, "bold"), text=title)
+        self.lbl.grid(pady="5", row=0, columnspan=4)
         description = "A program for determining the structural distortion of the octahedral complexes"
-        self.lbl2 = tk.Label(self.frame1, text=description)
-        self.lbl2.grid(pady="5", row=1, columnspan=4)
+        self.lbl = tk.Label(self.frame1, text=description)
+        self.lbl.grid(pady="5", row=1, columnspan=4)
 
         self.show_stdout = tk.BooleanVar()
         self.show_stdout.set(False)
@@ -190,76 +190,90 @@ class OctaDist:
             else:
                 self.master.geometry("520x535")
 
-        # Frame 2
+        ######### Frame 2 #########
+
         self.lbl = tk.Label(self.frame2, text="Program console")
         self.lbl.grid(sticky=tk.N, pady="5", row=0)
+
         self.btn_openfile = tk.Button(self.frame2, text="Browse file", command=self.open_file)
         self.btn_openfile.config(width=12, relief=tk.RAISED)
         self.btn_openfile.grid(padx="10", pady="5", row=1)
+
         self.btn_run = tk.Button(self.frame2, text="Compute", command=self.calc_all_param)
         self.btn_run.config(width=12, relief=tk.RAISED)
         self.btn_run.grid(padx="10", pady="5", row=2)
+
         self.btn_clear = tk.Button(self.frame2, text="Clear cache", command=self.clear_cache)
         self.btn_clear.config(width=12, relief=tk.RAISED)
         self.btn_clear.grid(padx="10", pady="5", row=3)
+
         self.btn_show_stdout = tk.Checkbutton(self.frame2, text="STDOUT logs", onvalue=True, offvalue=False,
                                               variable=self.show_stdout, command=select_stdout_window)
         self.btn_show_stdout.config(width=12, relief="raised")
         self.btn_show_stdout.grid(padx="10", pady="5", row=4)
 
-        # Frame 3
-        self.lbl1 = tk.Label(self.frame3, text="Octahedral distortion parameters")
-        self.lbl1.grid(pady="5", row=0, columnspan=3)
+        ######### Frame 3 #########
+
+        self.lbl = tk.Label(self.frame3, text="Octahedral distortion parameters")
+        self.lbl.grid(pady="5", row=0, columnspan=3)
+
+        # D_mean
+        self.lbl_d_mean = tk.Label(self.frame3, text="<D>   =   ")
+        self.lbl_d_mean.grid(sticky=tk.E, pady="5", row=1, column=0)
+        self.box_d_mean = tk.Text(self.frame3, height="1", width="12", wrap="word")
+        self.box_d_mean.grid(row=1, column=1)
+        self.lbl_degree = tk.Label(self.frame3, text="  degree")
+        self.lbl_degree.grid(pady="5", row=1, column=2)
+
+        # Zeta
+        self.lbl_zeta = tk.Label(self.frame3, text="ζ   =   ")
+        self.lbl_zeta.grid(sticky=tk.E, pady="5", row=2, column=0)
+        self.box_zeta = tk.Text(self.frame3, height="1", width="12", wrap="word")
+        self.box_zeta.grid(row=2, column=1)
+        self.lbl_degree = tk.Label(self.frame3, text="  degree")
+        self.lbl_degree.grid(pady="5", row=2, column=2)
+
         # Delta
-        self.lbl2 = tk.Label(self.frame3, text="Δ = ")
-        self.lbl2.grid(sticky=tk.E, pady="5", row=1, column=0)
-        self.box_delta = tk.Text(self.frame3, height="1", width="15", wrap="word")
-        self.box_delta.grid(row=1, column=1)
+        self.lbl_delta = tk.Label(self.frame3, text="Δ   =   ")
+        self.lbl_delta.grid(sticky=tk.E, pady="5", row=3, column=0)
+        self.box_delta = tk.Text(self.frame3, height="1", width="12", wrap="word")
+        self.box_delta.grid(row=3, column=1)
+
         # Sigma
-        self.lbl3 = tk.Label(self.frame3, text="Σ = ")
-        self.lbl3.grid(sticky=tk.E, pady="5", row=2, column=0)
-        self.box_sigma = tk.Text(self.frame3, height="1", width="15", wrap="word")
-        self.box_sigma.grid(row=2, column=1)
-        self.lbl4 = tk.Label(self.frame3, text="degree")
-        self.lbl4.grid(pady="5", row=2, column=2)
-        # Min theta
-        self.lbl_theta_min = tk.Label(self.frame3, text="Θ (min) = ")
-        self.lbl_theta_min.grid(sticky=tk.E, pady="5", row=3, column=0)
-        self.box_theta_min = tk.Text(self.frame3, height="1", width="15", wrap="word")
-        self.box_theta_min.grid(row=3, column=1)
-        self.lbl_theta_mean = tk.Label(self.frame3, text="degree")
-        self.lbl_theta_mean.grid(pady="5", row=3, column=2)
-        # Max theta
-        self.lbl_theta_max = tk.Label(self.frame3, text="Θ (max) = ")
-        self.lbl_theta_max.grid(sticky=tk.E, pady="5", row=4, column=0)
-        self.box_theta_max = tk.Text(self.frame3, height="1", width="15", wrap="word")
-        self.box_theta_max.grid(row=4, column=1)
-        self.lbl_theta_mean = tk.Label(self.frame3, text="degree")
-        self.lbl_theta_mean.grid(pady="5", row=4, column=2)
-        # Mean theta
-        self.lbl_theta_mean = tk.Label(self.frame3, text="Θ (mean) = ")
+        self.lbl_sigma = tk.Label(self.frame3, text="Σ   =   ")
+        self.lbl_sigma.grid(sticky=tk.E, pady="5", row=4, column=0)
+        self.box_sigma = tk.Text(self.frame3, height="1", width="12", wrap="word")
+        self.box_sigma.grid(row=4, column=1)
+        self.lbl_degree = tk.Label(self.frame3, text="  degree")
+        self.lbl_degree.grid(pady="5", row=4, column=2)
+
+        # Theta_mean
+        self.lbl_theta_mean = tk.Label(self.frame3, text="Θ   =   ")
         self.lbl_theta_mean.grid(sticky=tk.E, pady="5", row=5, column=0)
-        self.box_theta_mean = tk.Text(self.frame3, height="1", width="15", wrap="word")
+        self.box_theta_mean = tk.Text(self.frame3, height="1", width="12", wrap="word")
         self.box_theta_mean.grid(row=5, column=1)
-        self.lbl_theta_mean = tk.Label(self.frame3, text="degree")
-        self.lbl_theta_mean.grid(pady="5", row=5, column=2)
+        self.lbl_degree = tk.Label(self.frame3, text="  degree")
+        self.lbl_degree.grid(pady="5", row=5, column=2)
 
-        # Frame 4
-        self.box_coord = tkscrolled.ScrolledText(self.frame4, height="14", width="70", wrap="word", undo="True")
-        self.box_coord.grid(row=0)
+        ######### Frame 4 #########
 
-        # Frame 5
+        self.box_result = tkscrolled.ScrolledText(self.frame4, height="14", width="70", wrap="word", undo="True")
+        self.box_result.grid(row=0)
+
+        ######### Frame 5 #########
+
         self.lbl = tk.Label(self.frame5, text="Standard Output/Error Information")
         self.lbl.grid(row=0)
+
         self.box_stdout = tkscrolled.ScrolledText(self.frame5, height="30", width="70", wrap="word", undo="True")
         self.box_stdout.grid(sticky=tk.N, pady="5", row=1)
 
-        print_coord(self, "Welcome to OctaDist {0} {1}".format(program_version, program_revision))
-        print_coord(self, "")
-        print_coord(self, "Created by Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, "
-                          "Phimphaka Harding, and Mathieu Marchivie.")
-        print_coord(self, "")
-        print_coord(self, "https://octadist.github.io/")
+        print_result(self, "Welcome to OctaDist {0} {1}".format(program_version, program_revision))
+        print_result(self, "")
+        print_result(self, "Created by Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, "
+                           "Phimphaka Harding, and Mathieu Marchivie.")
+        print_result(self, "")
+        print_result(self, "https://octadist.github.io")
         popup.header(self)
 
     def clear_cache(self):
@@ -269,7 +283,7 @@ class OctaDist:
             if not name.startswith('_'):
                 del locals()[name]
 
-        self.file_list = ""
+        self.file_list = []
         self.atom_octa = []
         self.coord_octa = []
         self.atom_coord_full = []
@@ -293,12 +307,12 @@ class OctaDist:
         """
         self.box_delta.delete(1.0, tk.END)
         self.box_sigma.delete(1.0, tk.END)
-        self.box_theta_min.delete(1.0, tk.END)
-        self.box_theta_max.delete(1.0, tk.END)
+        self.box_d_mean.delete(1.0, tk.END)
+        self.box_zeta.delete(1.0, tk.END)
         self.box_theta_mean.delete(1.0, tk.END)
 
     def clear_info_box(self):
-        self.box_coord.delete(1.0, tk.END)
+        self.box_result.delete(1.0, tk.END)
         self.box_stdout.delete(1.0, tk.END)
 
     def open_file(self):
@@ -307,6 +321,7 @@ class OctaDist:
         # self.clear_results_box()
         # self.clear_info_box()
         self.clear_cache()
+
         print_stdout(self, "Info: Browse input file")
 
         try:
@@ -329,16 +344,15 @@ class OctaDist:
                 open(self.file_list[0], 'r')
                 print_stdout(self, "Info: Total number of file: {0}".format(len(self.file_list)))
 
-                self.atom_coord_full = []
-                self.atom_coord_octa = []
                 for i in range(len(self.file_list)):
                     file_name = self.file_list[i].split('/')[-1]
-                    print_stdout(self, "Info: Open file no. {0}: {1}".format(i+1, file_name))
+                    print_stdout(self, "Info: Open file no. {0}: {1}".format(i + 1, file_name))
 
-                    # Extract the atoms and the coordinates from input file
+                    # Check and read the atoms and coordinates of full complex
                     atom_full, coord_full = coord.get_coord(self, self.file_list[i])
+                    self.atom_coord_full.append([atom_full, coord_full])
 
-                    # Print full structure on stdout box
+                    # Print full structure to stdout box
                     print_stdout(self, "Info: Show Cartesian coordinates of all {0} atoms".format(len(atom_full)))
                     print_stdout(self, "")
                     print_stdout(self, "      Atom        X             Y             Z")
@@ -348,74 +362,112 @@ class OctaDist:
                                      .format(atom_full[j], coord_full[j][0], coord_full[j][1], coord_full[j][2]))
                     print_stdout(self, "")
 
-                    self.atom_octa, self.coord_octa = coord.search_octa(self, self.file_list[i], atom_full, coord_full)
+                    # Count the number of metal center atom
+                    count, atom_metal, coord_metal = coord.count_metal(self, atom_full, coord_full)
 
-                    # Check if input file has coordinate inside
-                    if np.any(self.coord_octa) == 0:
-                        popup.err_no_coord(self)
-                        return 1
-
-                    self.atom_coord_full.append([atom_full, coord_full])
-                    self.atom_coord_octa.append([self.atom_octa, self.coord_octa])
+                    if count == 0:
+                        popup.warn_no_metal(self)
+                        continue
 
                     if i == 0:
-                        print_coord(self, "XYZ coordinate of extracted octahedral structure")
-                    # Print octahedral structure on coord box
-                    print_coord(self, "File {0}: {1}".format(i+1, file_name))
-                    print_coord(self, "Atom                       Cartesian coordinate")
-                    for j in range(len(self.atom_octa)):
-                        print_coord(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                                    .format(self.atom_octa[j],
-                                            self.coord_octa[j][0], self.coord_octa[j][1], self.coord_octa[j][2]))
-                    print_coord(self, "")
+                        print_result(self, "XYZ coordinates of extracted octahedral structure")
 
-                    # Print octahedral structure on stdout box
-                    print_stdout(self, "Info: Show Cartesian coordinates of extracted octahedral structure")
-                    print_stdout(self, "")
-                    print_stdout(self, "      Atom        X             Y             Z")
-                    print_stdout(self, "      ----    ----------    ----------    ----------")
-                    for j in range(len(self.atom_octa)):
-                        print_stdout(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
-                                     .format(self.atom_octa[j],
-                                             self.coord_octa[j][0], self.coord_octa[j][1], self.coord_octa[j][2]))
-                    print_stdout(self, "")
+                    # loop over metal center atoms
+                    for j in range(count):
+                        # Extract the octahedral structure from the complex
+                        self.atom_octa, self.coord_octa = coord.search_octa(atom_full, coord_full, coord_metal[j-1])
+
+                        # Check if input file has coordinate inside
+                        if np.any(self.coord_octa) == 0:
+                            popup.err_no_coord(self)
+                            return 1
+
+                        # gather octahedral structure into atom_coord_octa
+                        self.atom_coord_octa.append([i + 1, atom_metal[j], self.atom_octa, self.coord_octa])
+
+                        # Print octahedral structure to coord box and stdout box (on request)
+                        if count == 1:
+                            print_result(self, "File {0}: {1}".format(i + 1, file_name))
+                            print_result(self, "Atom                       Cartesian coordinate")
+                            for k in range(len(self.atom_octa)):
+                                print_result(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
+                                             .format(self.atom_octa[k], self.coord_octa[k][0], self.coord_octa[k][1],
+                                                     self.coord_octa[k][2]))
+                            print_result(self, "")
+
+                            print_stdout(self, "Info: Show Cartesian coordinates of extracted octahedral structure")
+                            print_stdout(self, "")
+                            print_stdout(self, "      Atom        X             Y             Z")
+                            print_stdout(self, "      ----    ----------    ----------    ----------")
+                            for k in range(len(self.atom_octa)):
+                                print_stdout(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
+                                             .format(self.atom_octa[k], self.coord_octa[k][0], self.coord_octa[k][1],
+                                                     self.coord_octa[k][2]))
+                            print_stdout(self, "")
+
+                        elif count > 1:
+                            print_result(self, "File {0}: {1}".format(i + 1, file_name))
+                            print_result(self, "Metal no. {0} : {1}".format(j + 1, atom_metal[j]))
+                            print_result(self, "Atom                       Cartesian coordinate")
+                            for k in range(len(self.atom_octa)):
+                                print_result(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
+                                             .format(self.atom_octa[k], self.coord_octa[k][0], self.coord_octa[k][1],
+                                                     self.coord_octa[k][2]))
+                            print_result(self, "")
+
+                            print_stdout(self, "Metal no. {0} : {1}".format(j + 1, atom_metal[j]))
+                            print_stdout(self, "Info: Show Cartesian coordinates of extracted octahedral structure")
+                            print_stdout(self, "")
+                            print_stdout(self, "      Atom        X             Y             Z")
+                            print_stdout(self, "      ----    ----------    ----------    ----------")
+                            for k in range(len(self.atom_octa)):
+                                print_stdout(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
+                                             .format(self.atom_octa[k], self.coord_octa[k][0], self.coord_octa[k][1],
+                                                     self.coord_octa[k][2]))
+                            print_stdout(self, "")
 
             except UnboundLocalError:
                 print_stdout(self, "Error: No input file")
                 # self.clear_cache()
-                print_coord(self, "Error: Could not open file \"{0}\"".format(file_name))
-                print_coord(self, "Please carefully check the accuracy of the complex again!")
+                print_result(self, "Error: Could not open file \"{0}\"".format(file_name))
+                print_result(self, "Please carefully check the accuracy of the complex again!")
                 return 1
 
         except IndexError:
             print_stdout(self, "Error: No input file")
             return 1
 
-    def save_file(self):
-        """Save structures as .xyz or .out file.
+    def save_results(self):
+        """Save results as output file
         """
-        print_stdout(self, "Info: Save data as an output file")
+        print_stdout(self, "Info: Save results as an output file")
 
-        f = filedialog.asksaveasfile(mode='w', defaultextension=".xyz", title="Save as",
-                                     filetypes=(("XYZ File", "*.xyz"),
+        f = filedialog.asksaveasfile(mode='w', defaultextension=".txt", title="Save results",
+                                     filetypes=(("TXT File", "*.txt"),
                                                 ("All Files", "*.*")))
 
         if f is None:
             print_stdout(self, "Warning: Cancelled save file")
             return 0
 
-        f.write("7\n")
-        f.write("XYZ coordinate generated by OctaDist {0} < https://octadist.github.io >\n".format(program_version))
-
-        get_text = self.box_coord.get(1.0, tk.END)
-        # split and get only xyz
-        split_text = get_text.split('\n')[3:10]
-        # join text in list
-        xyz_coord = '\n'.join(split_text)
-        f.write(xyz_coord)
+        f.write("OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.\n")
+        f.write("This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.\n")
+        f.write("This is free software, and you are welcome to redistribute it under\n")
+        f.write("certain conditions; see <https://www.gnu.org/licenses/> for details.\n")
+        f.write("\n")
+        f.write("OctaDist {0} {1}: Octahedral Distortion Analysis\n".format(program_version, program_revision))
+        f.write("https://octadist.github.io\n")
+        f.write("\n")
+        f.write("================ Start of the Output file =================\n")
+        f.write("\n")
+        get_result = self.box_result.get('1.0', tk.END+'-1c')
+        f.write(get_result)
+        f.write("\n")
+        f.write("================= End of the output file ==================\n")
+        f.write("\n")
         f.close()
 
-        print_stdout(self, "Info: Data has been saved to \"{0}\"".format(f.name))
+        popup.info_save_results(self, f.name)
 
     def calc_all_param(self):
         """Calculate octahedral distortion parameters
@@ -426,8 +478,7 @@ class OctaDist:
             popup.err_no_file(self)
             return 1
 
-        self.all_sigma, self.all_theta, self.comp_result, self.all_comp = \
-            calc.calc_all(self, self.file_list, self.atom_coord_octa)
+        self.all_sigma, self.all_theta, self.comp_result, self.all_comp = calc.calc_all(self, self.atom_coord_octa)
 
         # self.pal, self.pcl, self.ref_pal, self.ref_pcl, self.oppo_pal, self.oppo_pcl = self.all_comp
 
