@@ -379,7 +379,7 @@ def count_metal(self, af, cf):
                           .format(atom_metal[i], coord_metal[i][0], coord_metal[i][1], coord_metal[i][2]))
     main.print_stdout(self, "")
 
-    return count, atom_metal, coord_metal
+    return count, coord_metal
 
 
 def search_octa(af, cf, cm):

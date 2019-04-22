@@ -363,7 +363,7 @@ class OctaDist:
                     print_stdout(self, "")
 
                     # Count the number of metal center atom
-                    count, atom_metal, coord_metal = coord.count_metal(self, atom_full, coord_full)
+                    count, coord_metal = coord.count_metal(self, atom_full, coord_full)
 
                     if count == 0:
                         popup.warn_no_metal(self)
@@ -383,7 +383,7 @@ class OctaDist:
                             return 1
 
                         # gather octahedral structure into atom_coord_octa
-                        self.atom_coord_octa.append([i + 1, atom_metal[j], self.atom_octa, self.coord_octa])
+                        self.atom_coord_octa.append([i + 1, self.atom_octa[0], self.atom_octa, self.coord_octa])
 
                         # Print octahedral structure to coord box and stdout box (on request)
                         if count == 1:
@@ -407,7 +407,7 @@ class OctaDist:
 
                         elif count > 1:
                             print_result(self, "File {0}: {1}".format(i + 1, file_name))
-                            print_result(self, "Metal no. {0} : {1}".format(j + 1, atom_metal[j]))
+                            print_result(self, "Metal center atom no. {0} : {1}".format(j + 1, self.atom_octa[0]))
                             print_result(self, "Atom                       Cartesian coordinate")
                             for k in range(len(self.atom_octa)):
                                 print_result(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
@@ -415,7 +415,7 @@ class OctaDist:
                                                      self.coord_octa[k][2]))
                             print_result(self, "")
 
-                            print_stdout(self, "Metal no. {0} : {1}".format(j + 1, atom_metal[j]))
+                            print_stdout(self, "File {0}: {1}".format(i + 1, file_name))
                             print_stdout(self, "Info: Show Cartesian coordinates of extracted octahedral structure")
                             print_stdout(self, "")
                             print_stdout(self, "      Atom        X             Y             Z")
