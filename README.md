@@ -11,7 +11,7 @@
 forked from [https://github.com/OctaDist/OctaDist](https://github.com/OctaDist/OctaDist)
 
 ## OctaDist
-Octahedral Distortion Analysis: A program for determining the structural distortion of the octahedral complexes. https://octadist.github.io/
+Octahedral Distortion calculator: A program for determining the structural distortion of the octahedral complexes. https://octadist.github.io/
 
 <p align="center">
    <img alt="molecule" src="images/molecule.png" align=middle width="200pt" />
