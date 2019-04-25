@@ -83,7 +83,7 @@ def calc_zeta(self, d_mean, bond_dist):
         diff_dist.append(abs(bond_dist[i] - d_mean))
         main.print_stdout(self, "      Bond {0} : {1:10.6f}".format(i, diff_dist[i]))
 
-    zeta = sum(diff_dist[i] for i in range(6)) / 6
+    zeta = sum(diff_dist[i] for i in range(6))
 
     main.print_stdout(self, "")
     main.print_stdout(self, "      ====================== SUMMARY of ζ ======================")
