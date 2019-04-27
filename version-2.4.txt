@@ -15,7 +15,7 @@ VSVersionInfo(
       StringTable(
         u'040904B0',
         [StringStruct(u'CompanyName', u'OctaDist'),
-        StringStruct(u'FileDescription', u'Octahedral Distortion Analysis'),
+        StringStruct(u'FileDescription', u'Octahedral Distortion Calculator'),
         StringStruct(u'FileVersion', u'2.4.0.0'),
         StringStruct(u'InternalName', u'octadist'),
         StringStruct(u'LegalCopyright', u'Copyright (C) 2019 Rangsiman Ketkaew et al.'),
