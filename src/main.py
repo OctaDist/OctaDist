@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ----------------------------------------------------------------------
 
-OctaDist version 2.4
+OctaDist version 2.5
 
 Octahedral Distortion Analysis
 Software website: https://octadist.github.io
@@ -43,7 +43,7 @@ import tkinter as tk
 from tkinter import filedialog
 import tkinter.scrolledtext as tkscrolled
 
-program_version = "2.4"
+program_version = "2.5 (dev)"
 program_revision = "April 2019"
 
 
@@ -128,6 +128,7 @@ class OctaDist:
         display_menu.add_command(label="Octahedron and selected 4 faces",
                                  command=lambda: draw.octa_and_4_face(self, self.atom_octa,
                                                                       self.coord_octa, self.ref_pcl))
+        display_menu.add_separator()
         display_menu.add_command(label="Projection planes",
                                  command=lambda: draw.proj_planes(self, self.atom_octa, self.coord_octa,
                                                                   self.ref_pcl, self.oppo_pcl))
@@ -149,10 +150,13 @@ class OctaDist:
         structure_menu.add_command(label="Octahedron",
                                    command=lambda: tools.param_octa(self, self.atom_octa, self.coord_octa))
         tools_menu.add_separator()
-        tools_menu.add_command(label="Calculate surface area",
-                               command=lambda: tools.show_surface_area(self, self.pal, self.pcl))
         tools_menu.add_command(label="Relationship plot between Σ and Θ",
-                               command=lambda: tools.show_plot_angles(self, self.all_sigma, self.all_theta))
+                               command=lambda: tools.plot_sigma_theta(self, self.all_sigma, self.all_theta))
+        tools_menu.add_separator()
+        tools_menu.add_command(label="Calculate surface area",
+                               command=lambda: tools.calc_surface_area(self, self.pal, self.pcl))
+        tools_menu.add_command(label="Calculate Jahn-Teller distortion parameter",
+                               command=lambda: tools.calc_jahn_teller(self, self.atom_coord_full))
 
         # Help
         menu_bar.add_cascade(menu=help_menu, label="Help")
@@ -220,7 +224,7 @@ class OctaDist:
         # D_mean
         self.lbl_d_mean = tk.Label(self.frame3, text="<D>   =   ")
         self.lbl_d_mean.grid(sticky=tk.E, pady="5", row=1, column=0)
-        self.box_d_mean = tk.Text(self.frame3, height="1", width="12", wrap="word")
+        self.box_d_mean = tk.Entry(self.frame3, width="12", justify='center')
         self.box_d_mean.grid(row=1, column=1)
         self.lbl_degree = tk.Label(self.frame3, text="  degree")
         self.lbl_degree.grid(pady="5", row=1, column=2)
@@ -228,7 +232,7 @@ class OctaDist:
         # Zeta
         self.lbl_zeta = tk.Label(self.frame3, text="ζ   =   ")
         self.lbl_zeta.grid(sticky=tk.E, pady="5", row=2, column=0)
-        self.box_zeta = tk.Text(self.frame3, height="1", width="12", wrap="word")
+        self.box_zeta = tk.Entry(self.frame3, width="12", justify='center')
         self.box_zeta.grid(row=2, column=1)
         self.lbl_degree = tk.Label(self.frame3, text="  degree")
         self.lbl_degree.grid(pady="5", row=2, column=2)
@@ -236,13 +240,13 @@ class OctaDist:
         # Delta
         self.lbl_delta = tk.Label(self.frame3, text="Δ   =   ")
         self.lbl_delta.grid(sticky=tk.E, pady="5", row=3, column=0)
-        self.box_delta = tk.Text(self.frame3, height="1", width="12", wrap="word")
+        self.box_delta = tk.Entry(self.frame3, width="12", justify='center')
         self.box_delta.grid(row=3, column=1)
 
         # Sigma
         self.lbl_sigma = tk.Label(self.frame3, text="Σ   =   ")
         self.lbl_sigma.grid(sticky=tk.E, pady="5", row=4, column=0)
-        self.box_sigma = tk.Text(self.frame3, height="1", width="12", wrap="word")
+        self.box_sigma = tk.Entry(self.frame3, width="12", justify='center')
         self.box_sigma.grid(row=4, column=1)
         self.lbl_degree = tk.Label(self.frame3, text="  degree")
         self.lbl_degree.grid(pady="5", row=4, column=2)
@@ -250,7 +254,7 @@ class OctaDist:
         # Theta_mean
         self.lbl_theta_mean = tk.Label(self.frame3, text="Θ   =   ")
         self.lbl_theta_mean.grid(sticky=tk.E, pady="5", row=5, column=0)
-        self.box_theta_mean = tk.Text(self.frame3, height="1", width="12", wrap="word")
+        self.box_theta_mean = tk.Entry(self.frame3, width="12", justify='center')
         self.box_theta_mean.grid(row=5, column=1)
         self.lbl_degree = tk.Label(self.frame3, text="  degree")
         self.lbl_degree.grid(pady="5", row=5, column=2)
@@ -305,11 +309,11 @@ class OctaDist:
     def clear_results_box(self):
         """Clear result box
         """
-        self.box_delta.delete(1.0, tk.END)
-        self.box_sigma.delete(1.0, tk.END)
-        self.box_d_mean.delete(1.0, tk.END)
-        self.box_zeta.delete(1.0, tk.END)
-        self.box_theta_mean.delete(1.0, tk.END)
+        self.box_delta.delete(0, tk.END)
+        self.box_sigma.delete(0, tk.END)
+        self.box_d_mean.delete(0, tk.END)
+        self.box_zeta.delete(0, tk.END)
+        self.box_theta_mean.delete(0, tk.END)
 
     def clear_info_box(self):
         self.box_result.delete(1.0, tk.END)
