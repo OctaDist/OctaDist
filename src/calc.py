@@ -661,4 +661,3 @@ def calc_all(self, atom_coord_octa):
     main.print_stdout(self, "")
 
     return all_sigma, all_theta, comp_result, all_comp
-

@@ -8,7 +8,7 @@ the Free Software Foundation, either version 3 of the License, or
 """
 
 import numpy as np
-from math import sqrt, pow, degrees, acos
+from math import sqrt, pow
 import main
 
 
@@ -114,21 +114,6 @@ def angle_btw_3vec(self, p1, p2, p3):
     nv2 = norm_vector(self, v2)
 
     return np.degrees(np.arccos(np.clip(np.dot(nv1, nv2), -1.0, 1.0)))
-
-
-def angle_btw_planes(a1, b1, c1, a2, b2, c2):
-    """Find the angle between 2 planes in 3D
-
-    :param a1, b1, c1, a2, b2, c2:
-    :return:
-    """
-    d = (a1 * a2 + b1 * b2 + c1 * c2)
-    e1 = sqrt(a1 * a1 + b1 * b1 + c1 * c1)
-    e2 = sqrt(a2 * a2 + b2 * b2 + c2 * c2)
-    d = d / (e1 * e2)
-    angle = degrees(acos(d))
-
-    return angle
 
 
 def triangle_area(a, b, c):

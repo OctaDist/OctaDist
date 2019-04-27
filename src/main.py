@@ -16,7 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ----------------------------------------------------------------------
 
-OctaDist version 2.5
+OctaDist version 2.4
 
 Octahedral Distortion Analysis
 Software website: https://octadist.github.io
@@ -43,7 +43,7 @@ import tkinter as tk
 from tkinter import filedialog
 import tkinter.scrolledtext as tkscrolled
 
-program_version = "2.5 (dev)"
+program_version = "2.4"
 program_revision = "April 2019"
 
 
@@ -128,7 +128,6 @@ class OctaDist:
         display_menu.add_command(label="Octahedron and selected 4 faces",
                                  command=lambda: draw.octa_and_4_face(self, self.atom_octa,
                                                                       self.coord_octa, self.ref_pcl))
-        display_menu.add_separator()
         display_menu.add_command(label="Projection planes",
                                  command=lambda: draw.proj_planes(self, self.atom_octa, self.coord_octa,
                                                                   self.ref_pcl, self.oppo_pcl))
@@ -150,13 +149,10 @@ class OctaDist:
         structure_menu.add_command(label="Octahedron",
                                    command=lambda: tools.param_octa(self, self.atom_octa, self.coord_octa))
         tools_menu.add_separator()
-        tools_menu.add_command(label="Relationship plot between Σ and Θ",
-                               command=lambda: tools.plot_sigma_theta(self, self.all_sigma, self.all_theta))
-        tools_menu.add_separator()
         tools_menu.add_command(label="Calculate surface area",
-                               command=lambda: tools.calc_surface_area(self, self.pal, self.pcl))
-        tools_menu.add_command(label="Calculate Jahn-Teller distortion parameter",
-                               command=lambda: tools.calc_jahn_teller(self, self.atom_coord_full))
+                               command=lambda: tools.show_surface_area(self, self.pal, self.pcl))
+        tools_menu.add_command(label="Relationship plot between Σ and Θ",
+                               command=lambda: tools.show_plot_angles(self, self.all_sigma, self.all_theta))
 
         # Help
         menu_bar.add_cascade(menu=help_menu, label="Help")
