@@ -15,6 +15,7 @@ import main
 
 def find_8_faces(self, c_octa):
     """Find 8 faces of octahedral structure for computing Theta parameter using algorithm 1
+
     1) Choose 3 atoms out of 6 ligand atoms. The total number of combination is 20
     2) Orthogonally project metal center atom onto the face: m ----> m'
     3) Calculate the shortest distance between original metal center to its projected point
@@ -29,6 +30,7 @@ def find_8_faces(self, c_octa):
              [1 2 4]        --->        [3 5 6]
                ...                        ...
              [2 3 5]]                   [1 4 6]]
+
     :param self: master frame
     :param c_octa: array - XYZ coordinate of a metal center atom and six ligand atoms
     :return a_ref_f: list - atom of reference face of octahedral structure
@@ -36,13 +38,13 @@ def find_8_faces(self, c_octa):
     :return a_oppo_f: list - atom of opposite face of octahedral structure
     :return c_oppo_f: array - coordinate of opposite face of octahedral structure
     """
-    # Find the shortest distance from metal center to each triangle
+    ########################
+    # Find reference faces #
+    ########################
+
     main.print_stdout(self, "Info: Find the reference and opposite faces of octahedral structure")
 
-    #######################
-    # Find reference faces
-    #######################
-
+    # Find the shortest distance from metal center to each triangle
     distance = []
     a_ref_f = []
     c_ref_f = []
@@ -67,7 +69,7 @@ def find_8_faces(self, c_octa):
     c_ref_f = c_ref_f[12:]
 
     #######################
-    # Find opposite faces
+    # Find opposite faces #
     #######################
 
     all_atom = [1, 2, 3, 4, 5, 6]
@@ -90,8 +92,9 @@ def find_8_faces(self, c_octa):
         c_oppo_f.append(coord_oppo)
 
     ################
-    # Show results
+    # Show results #
     ################
+
     main.print_stdout(self, "Info: Show 8 pairs of the opposite faces")
     main.print_stdout(self, "")
     main.print_stdout(self, "      Pair   Reference    Opposite")

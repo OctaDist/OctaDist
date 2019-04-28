@@ -88,60 +88,6 @@ def data_face(self, sfa, sfc, sofa, sofc):
         box.insert(tk.END, "\n\n")
 
 
-def param_octa(self, al, cl):
-    """Show structural parameters of selected octahedral structure
-
-    :param self: master frame
-    :param al: list - atom_list
-    :param cl: array - coord_list
-    :return:
-    """
-    if len(al) == 0:
-        popup.err_no_calc(self)
-        return 1
-    elif len(al) > 1:
-        popup.err_many_files(self)
-        return 1
-
-    main.print_stdout(self, "Info: Show structural parameters of selected octahedral structure")
-    main.print_stdout(self, "")
-
-    master = tk.Toplevel(self.master)
-    master.title("Results")
-    master.geometry("380x530")
-    master.option_add("*Font", "Arial 10")
-    frame = tk.Frame(master)
-    frame.grid()
-    lbl = tk.Label(frame, text="Structural parameters of octahedral structure")
-    lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
-    box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
-    box.grid(row=1, pady="5", padx="5")
-
-    box.insert(tk.INSERT, "Bond distance (Å)")
-    for i in range(len(cl)):
-        for j in range(i+1, len(cl)):
-            if i == 0:
-                distance = linear.distance_between(cl[i], cl[j])
-                texts = "{0}-{1}{2} {3:10.6f}".format(al[i], al[j], j, distance)
-            else:
-                distance = linear.distance_between(cl[i], cl[j])
-                texts = "{0}{1}-{2}{3} {4:10.6f}".format(al[i], i, al[j], j, distance)
-            box.insert(tk.END, "\n" + texts)
-
-    box.insert(tk.END, "\n\nBond angle (°)")
-    for i in range(len(cl)):
-        for j in range(i+1, len(cl)):
-            for k in range(j+1, len(cl)):
-                if i == 0:
-                    angle = linear.angle_btw_3vec(self, cl[j], cl[i], cl[k])
-                    texts = "{0}{1}-{2}-{3}{4} {5:10.6f}".format(al[k], k, al[i], al[j], j, angle)
-                else:
-                    angle = linear.angle_btw_3vec(self, cl[j], cl[i], cl[k])
-                    texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}".format(al[k], k, al[i], i, al[j], j, angle)
-                box.insert(tk.END, "\n" + texts)
-    box.insert(tk.END, "\n")
-
-
 def param_complex(self, acf):
     """Show structural parameters of the complex
 
@@ -197,15 +143,72 @@ def param_complex(self, acf):
     box.insert(tk.END, "\n")
 
 
-def calc_surface_area(self, pal, pcl):
+def param_octa(self, atom_coord_octa):
+    """Show structural parameters of selected octahedral structure
+
+    :param self: master frame
+    :param atom_coord_octa: list of label and coordinate of octahedral structure
+    :return:
+    """
+    aco = atom_coord_octa
+
+    if len(aco) == 0:
+        popup.err_no_file(self)
+        return 1
+
+    main.print_stdout(self, "Info: Show structural parameters of selected octahedral structure")
+    main.print_stdout(self, "")
+
+    master = tk.Toplevel(self.master)
+    master.title("Results")
+    master.geometry("380x530")
+    master.option_add("*Font", "Arial 10")
+    frame = tk.Frame(master)
+    frame.grid()
+    lbl = tk.Label(frame, text="Structural parameters of octahedral structure")
+    lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
+    box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
+    box.grid(row=1, pady="5", padx="5")
+
+    for n in range(len(aco)):
+        if n > 0:   # separator between files
+            box.insert(tk.END, "\n\n=================================\n\n")
+
+        box.insert(tk.INSERT, "File : {0}".format(aco[n][0]))
+        box.insert(tk.END, "\nMetal: {0}".format(aco[n][1]))
+        box.insert(tk.END, "\nBond distance (Å)")
+        for i in range(7):
+            for j in range(i+1, 7):
+                if i == 0:
+                    distance = linear.distance_between(aco[n][3][i], aco[n][3][j])
+                    texts = "{0}-{1}{2} {3:10.6f}".format(aco[n][2][i], aco[n][2][j], j, distance)
+                else:
+                    distance = linear.distance_between(aco[n][3][i], aco[n][3][j])
+                    texts = "{0}{1}-{2}{3} {4:10.6f}".format(aco[n][2][i], i, aco[n][2][j], j, distance)
+                box.insert(tk.END, "\n" + texts)
+
+        box.insert(tk.END, "\n\nBond angle (°)")
+        for i in range(7):
+            for j in range(i+1, 7):
+                for k in range(j+1, 7):
+                    if i == 0:
+                        angle = linear.angle_btw_3vec(self, aco[n][3][j], aco[n][3][i], aco[n][3][k])
+                        texts = "{0}{1}-{2}-{3}{4} {5:10.6f}".format(aco[n][2][k], k, aco[n][2][i], aco[n][2][j], j, angle)
+                    else:
+                        angle = linear.angle_btw_3vec(self, aco[n][3][j], aco[n][3][i], aco[n][3][k])
+                        texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}".format(aco[n][2][k], k, aco[n][2][i], i, aco[n][2][j], j, angle)
+                    box.insert(tk.END, "\n" + texts)
+        box.insert(tk.END, "\n")
+
+
+def calc_surface_area(self, all_face):
     """Calculate the area of triangular face
 
     :param self: master frame
-    :param pal: list - plane_atom_list
-    :param pcl: array - plane_coord_list
+    :param all_face: list - atomic labels and coordinates of 8 faces
     :return:
     """
-    if len(pal) == 0:
+    if len(all_face) == 0:
         popup.err_no_calc(self)
         return 1
 
@@ -220,12 +223,21 @@ def calc_surface_area(self, pal, pcl):
     frame.grid()
     box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
     box.grid(row=0, pady="5", padx="5")
-    box.insert(tk.INSERT, "                 Atoms*        Area (Å³)\n")
-    for i in range(8):
-        area = linear.triangle_area(pcl[i][0], pcl[i][1], pcl[i][2])
-        box.insert(tk.END, "Face no. {0}:  {1}      {2:10.6f}\n".format(i+1, pal[i], area))
 
-    box.insert(tk.END, "\n\n\n*Three ligand atoms are vertices of triangular face.\n")
+    for n in range(len(all_face)):
+        if n > 0:
+            box.insert(tk.END, "\n==============================\n\n")
+
+        face_data = all_face[n]
+        a_ref, c_ref, a_oppo, c_oppo = face_data
+
+        box.insert(tk.INSERT, "Octahedral structure no. {0}\n".format(n + 1))
+        box.insert(tk.END, "                 Atoms*        Area (Å³)\n")
+        for i in range(8):
+            area = linear.triangle_area(c_ref[i][0], c_ref[i][1], c_ref[i][2])
+            box.insert(tk.END, "Face no. {0}:  {1}      {2:10.6f}\n".format(i+1, a_ref[i], area))
+
+        box.insert(tk.END, "\n*Three ligand atoms are vertices of triangular face.\n")
 
 
 def plot_sigma_theta(self, s, t):

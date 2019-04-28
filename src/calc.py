@@ -16,7 +16,7 @@ import main
 
 
 def calc_d_mean(self, a_octa, c_octa):
-    """Calculate mean distance parameter
+    """Calculate mean distance parameter (in Angstrom)
 
     :param self: master frame
     :param a_octa: list - atom labels of octahedral structure
@@ -59,7 +59,7 @@ def calc_d_mean(self, a_octa, c_octa):
 
 
 def calc_zeta(self, d_mean, bond_dist):
-    """Calculate Zeta parameter
+    """Calculate Zeta parameter (in Angstrom)
 
          6
     ζ = sum(|dist_i - d_mean|)
@@ -221,15 +221,9 @@ def calc_theta(self, a_octa, c_octa, max_angle):
     :param self: master frame
     :param a_octa: list - atom labels of octahedral structure
     :param c_octa: array - coordinate of octahedral structure
-    :param max_angle: maximum individual cis angle
-    :return theta_mean: mean Theta value
-    :return all_comp: compile all results
-            a_ref_f: list - atomic number of all 8 faces
-            c_ref_f: list - atomic coordinates of all 8 faces
-            sel_f_atom: list - atom number of selected 4 reference faces
-            sel_f_coord: list - coordinates of selected 4 reference faces
-            sel_oppo_f_atom: list - atom number of selected 4 opposite faces
-            sel_oppo_f_coord: list - coordinates of selected 4 opposite faces
+    :param max_angle: float - maximum individual cis angle
+    :return theta_mean: float - mean Theta value
+    :return face_data: list - atomic labels and coordinates of 8 faces
     """
     main.print_stdout(self, "Info: Calculate Θ parameter")
     main.print_stdout(self, "")
@@ -563,48 +557,36 @@ def calc_theta(self, a_octa, c_octa, max_angle):
     # Find selected reference and opposite faces for displaying #
     #############################################################
 
-    # # Find 8 reference faces and 8 opposite faces
-    # a_ref_f, c_ref_f, a_oppo_f, c_oppo_f = plane.find_8_faces(self, c_octa)
-    #
-    # sel_face_set = 0
-    # for i in range(8):
-    #     if allTheta[i] == theta_min:
-    #         sel_face_set = plane_set[i]
-    #
-    # sel_f_atom = []
-    # sel_f_coord = []
-    # sel_oppo_f_atom = []
-    # sel_oppo_f_coord = []
-    #
-    # # Get the data of optimal faces from selected face set
-    # for i in range(len(sel_face_set)):
-    #     p = sel_face_set[i]
-    #     sel_f_atom.append(a_ref_f[p - 1])
-    #     sel_f_coord.append(c_ref_f[p - 1])
-    #     sel_oppo_f_atom.append(a_oppo_f[p - 1])
-    #     sel_oppo_f_coord.append(c_oppo_f[p - 1])
-    #
-    # all_comp = (a_ref_f, c_ref_f, sel_f_atom, sel_f_coord, sel_oppo_f_atom, sel_oppo_f_coord)
+    # Find 8 reference faces and 8 opposite faces
+    a_ref_f, c_ref_f, a_oppo_f, c_oppo_f = plane.find_8_faces(self, c_octa)
 
-    all_comp = ()
+    face_data = [a_ref_f, c_ref_f, a_oppo_f, c_oppo_f]
 
-    return theta_mean, all_comp
+    return theta_mean, face_data
 
 
 def calc_all(self, atom_coord_octa):
-    """Calculate Delta, Sigma, and Theta.
+    """Calculate Zeta, Delta, Sigma, and Theta parameters
 
     :param self: master frame
-    :param atom_coord_octa: list of label and coordinate of octahedral structure
-    :return:
+    :param atom_coord_octa: list - atomic labels and coordinates of octahedral structure
+    :return all_zeta: list - computed zeta
+    :return all_delta: list - computed delta
+    :return all_sigma: list - computed sigma
+    :return all_theta: list - computed theta
+    :return all_face: list - 8 faces of octahedral structures
     """
     main.print_stdout(self, "Info: Calculate the Δ, Σ, and Θ parameters")
     main.print_stdout(self, "")
 
+    all_zeta = []
+    all_delta = []
     all_sigma = []
     all_theta = []
+    all_face = []
     comp_result = []
 
+    # loop over number of metal complexes
     for i in range(len(atom_coord_octa)):
         main.print_stdout(self, "      *********************** Complex {0} ***********************".format(i + 1))
         main.print_stdout(self, "")
@@ -616,11 +598,14 @@ def calc_all(self, atom_coord_octa):
         zeta = calc_zeta(self, d_mean, bond_dist)
         delta = calc_delta(self, d_mean, bond_dist)
         sigma, max_angle = calc_sigma(self, atom_octa, coord_octa)
-        theta_mean, all_comp = calc_theta(self, atom_octa, coord_octa, max_angle)
+        theta_mean, face_data = calc_theta(self, atom_octa, coord_octa, max_angle)
 
         # Collect results
+        all_zeta.append(zeta)
+        all_delta.append(delta)
         all_sigma.append(sigma)
         all_theta.append(theta_mean)
+        all_face.append(face_data)
         comp_result.append([num_file, num_metal, d_mean, zeta, delta, sigma, theta_mean])
 
     if len(atom_coord_octa) == 1:
@@ -660,5 +645,5 @@ def calc_all(self, atom_coord_octa):
     main.print_stdout(self, "      =========================================================")
     main.print_stdout(self, "")
 
-    return all_sigma, all_theta, comp_result, all_comp
+    return all_zeta, all_delta, all_sigma, all_theta, all_face
 

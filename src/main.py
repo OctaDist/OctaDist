@@ -68,25 +68,14 @@ class OctaDist:
     def __init__(self, master):
 
         # Default settings
-        self.file_list = ""
-        self.atom_octa = []
-        self.coord_octa = []
-        self.atom_coord_full = []
-        self.atom_coord_octa = []
-        self.pal = []
-        self.pcl = []
-        self.ref_pal = []
-        self.ref_pcl = []
-        self.oppo_pal = []
-        self.oppo_pcl = []
-        self.comp_result = []
-        self.all_sigma = []
-        self.all_theta = []
-        self.delta = 0
-        self.sigma = 0
-        self.theta_min = 0
-        self.theta_max = 0
-        self.theta_mean = 0
+        self.file_list = []             # input files
+        self.atom_coord_full = []       # atomic labels and coordinates of metal complex
+        self.atom_coord_octa = []       # atomic labels and coordinates of octahedral structures
+        self.all_zeta = []              # computed zeta of all octahedral structures
+        self.all_delta = []             # computed delta of all octahedral structures
+        self.all_sigma = []             # computed sigma of all octahedral structures
+        self.all_theta = []             # computed theta of all octahedral structures
+        self.all_face = []              # atomic labels and coordinates of 8 faces and their opposite faces
 
         # Windows GUI
         self.master = master
@@ -120,41 +109,33 @@ class OctaDist:
         display_menu.add_command(label="All atoms",
                                  command=lambda: draw.all_atom(self, self.atom_coord_full))
         display_menu.add_command(label="All atoms and faces",
-                                 command=lambda: draw.all_atom_and_face(self, self.atom_coord_full, self.pcl))
+                                 command=lambda: draw.all_atom_and_face(self, self.atom_coord_full, self.all_face))
         display_menu.add_command(label="Octahedral complex",
-                                 command=lambda: draw.octahedron(self, self.atom_octa, self.coord_octa))
+                                 command=lambda: draw.octahedron(self, self.atom_coord_octa))
         display_menu.add_command(label="Octahedron and 8 faces",
-                                 command=lambda: draw.octa_and_face(self, self.atom_octa, self.coord_octa, self.pcl))
-        display_menu.add_command(label="Octahedron and selected 4 faces",
-                                 command=lambda: draw.octa_and_4_face(self, self.atom_octa,
-                                                                      self.coord_octa, self.ref_pcl))
+                                 command=lambda: draw.octa_and_face(self, self.atom_coord_octa, self.all_face))
         display_menu.add_separator()
         display_menu.add_command(label="Projection planes",
-                                 command=lambda: draw.proj_planes(self, self.atom_octa, self.coord_octa,
-                                                                  self.ref_pcl, self.oppo_pcl))
+                                 command=lambda: draw.proj_planes(self, self.atom_coord_octa, self.all_face))
         display_menu.add_command(label="Twisting triangular faces",
-                                 command=lambda: draw.twisting_faces(self, self.atom_octa, self.coord_octa,
-                                                                     self.ref_pcl, self.oppo_pcl))
+                                 command=lambda: draw.twisting_faces(self, self.atom_coord_octa, self.all_face))
 
         # Tools
         menu_bar.add_cascade(menu=tools_menu, label="Tools")
         tools_menu.add_cascade(menu=data_menu, label="Data summary")
         data_menu.add_cascade(label="Complex info",
                               command=lambda: tools.data_complex(self, self.file_list, self.atom_coord_full))
-        data_menu.add_cascade(label="Selected 4 faces",
-                              command=lambda: tools.data_face(self, self.ref_pal, self.ref_pcl,
-                                                              self.oppo_pal, self.oppo_pcl))
         tools_menu.add_cascade(menu=structure_menu, label="Show structural parameter")
         structure_menu.add_command(label="All atoms",
                                    command=lambda: tools.param_complex(self, self.atom_coord_full))
         structure_menu.add_command(label="Octahedron",
-                                   command=lambda: tools.param_octa(self, self.atom_octa, self.coord_octa))
+                                   command=lambda: tools.param_octa(self, self.atom_coord_octa))
         tools_menu.add_separator()
         tools_menu.add_command(label="Relationship plot between Σ and Θ",
                                command=lambda: tools.plot_sigma_theta(self, self.all_sigma, self.all_theta))
         tools_menu.add_separator()
         tools_menu.add_command(label="Calculate surface area",
-                               command=lambda: tools.calc_surface_area(self, self.pal, self.pcl))
+                               command=lambda: tools.calc_surface_area(self, self.all_face))
         tools_menu.add_command(label="Calculate Jahn-Teller distortion parameter",
                                command=lambda: tools.calc_jahn_teller(self, self.atom_coord_full))
 
@@ -226,16 +207,16 @@ class OctaDist:
         self.lbl_d_mean.grid(sticky=tk.E, pady="5", row=1, column=0)
         self.box_d_mean = tk.Entry(self.frame3, width="12", justify='center')
         self.box_d_mean.grid(row=1, column=1)
-        self.lbl_degree = tk.Label(self.frame3, text="  degree")
-        self.lbl_degree.grid(pady="5", row=1, column=2)
+        self.lbl_unit = tk.Label(self.frame3, text="  Angstrom")
+        self.lbl_unit.grid(pady="5", row=1, column=2)
 
         # Zeta
         self.lbl_zeta = tk.Label(self.frame3, text="ζ   =   ")
         self.lbl_zeta.grid(sticky=tk.E, pady="5", row=2, column=0)
         self.box_zeta = tk.Entry(self.frame3, width="12", justify='center')
         self.box_zeta.grid(row=2, column=1)
-        self.lbl_degree = tk.Label(self.frame3, text="  degree")
-        self.lbl_degree.grid(pady="5", row=2, column=2)
+        self.lbl_unit = tk.Label(self.frame3, text="  Angstrom")
+        self.lbl_unit.grid(pady="5", row=2, column=2)
 
         # Delta
         self.lbl_delta = tk.Label(self.frame3, text="Δ   =   ")
@@ -248,16 +229,16 @@ class OctaDist:
         self.lbl_sigma.grid(sticky=tk.E, pady="5", row=4, column=0)
         self.box_sigma = tk.Entry(self.frame3, width="12", justify='center')
         self.box_sigma.grid(row=4, column=1)
-        self.lbl_degree = tk.Label(self.frame3, text="  degree")
-        self.lbl_degree.grid(pady="5", row=4, column=2)
+        self.lbl_unit = tk.Label(self.frame3, text="  degree")
+        self.lbl_unit.grid(pady="5", row=4, column=2)
 
         # Theta_mean
         self.lbl_theta_mean = tk.Label(self.frame3, text="Θ   =   ")
         self.lbl_theta_mean.grid(sticky=tk.E, pady="5", row=5, column=0)
         self.box_theta_mean = tk.Entry(self.frame3, width="12", justify='center')
         self.box_theta_mean.grid(row=5, column=1)
-        self.lbl_degree = tk.Label(self.frame3, text="  degree")
-        self.lbl_degree.grid(pady="5", row=5, column=2)
+        self.lbl_unit = tk.Label(self.frame3, text="  degree")
+        self.lbl_unit.grid(pady="5", row=5, column=2)
 
         ######### Frame 4 #########
 
@@ -288,18 +269,13 @@ class OctaDist:
                 del locals()[name]
 
         self.file_list = []
-        self.atom_octa = []
-        self.coord_octa = []
         self.atom_coord_full = []
         self.atom_coord_octa = []
+        self.all_zeta = []
+        self.all_delta = []
         self.all_sigma = []
         self.all_theta = []
-        self.comp_result = []
-        self.delta = 0
-        self.sigma = 0
-        self.theta_min = 0
-        self.theta_max = 0
-        self.theta_mean = 0
+        self.all_face = []
 
         self.clear_results_box()
         self.clear_info_box()
@@ -379,44 +355,45 @@ class OctaDist:
                     # loop over metal center atoms
                     for j in range(count):
                         # Extract the octahedral structure from the complex
-                        self.atom_octa, self.coord_octa = coord.search_octa(atom_full, coord_full, coord_metal[j-1])
+                        atom_octa, coord_octa = coord.search_octa(atom_full, coord_full, coord_metal[j - 1])
 
                         # Check if input file has coordinate inside
-                        if np.any(self.coord_octa) == 0:
+                        if np.any(coord_octa) == 0:
                             popup.err_no_coord(self)
                             return 1
 
                         # gather octahedral structure into atom_coord_octa
-                        self.atom_coord_octa.append([i + 1, self.atom_octa[0], self.atom_octa, self.coord_octa])
+                        # [ number of file, metal atom, atomic labels, and atomic coordinates ]
+                        self.atom_coord_octa.append([i + 1, atom_octa[0], atom_octa, coord_octa])
 
                         # Print octahedral structure to coord box and stdout box (on request)
                         if count == 1:
                             print_result(self, "File {0}: {1}".format(i + 1, file_name))
                             print_result(self, "Atom                       Cartesian coordinate")
-                            for k in range(len(self.atom_octa)):
+                            for k in range(len(atom_octa)):
                                 print_result(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                                             .format(self.atom_octa[k], self.coord_octa[k][0], self.coord_octa[k][1],
-                                                     self.coord_octa[k][2]))
+                                             .format(atom_octa[k], coord_octa[k][0], coord_octa[k][1],
+                                                     coord_octa[k][2]))
                             print_result(self, "")
 
                             print_stdout(self, "Info: Show Cartesian coordinates of extracted octahedral structure")
                             print_stdout(self, "")
                             print_stdout(self, "      Atom        X             Y             Z")
                             print_stdout(self, "      ----    ----------    ----------    ----------")
-                            for k in range(len(self.atom_octa)):
+                            for k in range(len(atom_octa)):
                                 print_stdout(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
-                                             .format(self.atom_octa[k], self.coord_octa[k][0], self.coord_octa[k][1],
-                                                     self.coord_octa[k][2]))
+                                             .format(atom_octa[k], coord_octa[k][0], coord_octa[k][1],
+                                                     coord_octa[k][2]))
                             print_stdout(self, "")
 
                         elif count > 1:
                             print_result(self, "File {0}: {1}".format(i + 1, file_name))
-                            print_result(self, "Metal center atom no. {0} : {1}".format(j + 1, self.atom_octa[0]))
+                            print_result(self, "Metal center atom no. {0} : {1}".format(j + 1, atom_octa[0]))
                             print_result(self, "Atom                       Cartesian coordinate")
-                            for k in range(len(self.atom_octa)):
+                            for k in range(len(atom_octa)):
                                 print_result(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                                             .format(self.atom_octa[k], self.coord_octa[k][0], self.coord_octa[k][1],
-                                                     self.coord_octa[k][2]))
+                                             .format(atom_octa[k], coord_octa[k][0], coord_octa[k][1],
+                                                     coord_octa[k][2]))
                             print_result(self, "")
 
                             print_stdout(self, "File {0}: {1}".format(i + 1, file_name))
@@ -424,10 +401,10 @@ class OctaDist:
                             print_stdout(self, "")
                             print_stdout(self, "      Atom        X             Y             Z")
                             print_stdout(self, "      ----    ----------    ----------    ----------")
-                            for k in range(len(self.atom_octa)):
+                            for k in range(len(atom_octa)):
                                 print_stdout(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
-                                             .format(self.atom_octa[k], self.coord_octa[k][0], self.coord_octa[k][1],
-                                                     self.coord_octa[k][2]))
+                                             .format(atom_octa[k], coord_octa[k][0], coord_octa[k][1],
+                                                     coord_octa[k][2]))
                             print_stdout(self, "")
 
             except UnboundLocalError:
@@ -482,9 +459,8 @@ class OctaDist:
             popup.err_no_file(self)
             return 1
 
-        self.all_sigma, self.all_theta, self.comp_result, self.all_comp = calc.calc_all(self, self.atom_coord_octa)
-
-        # self.pal, self.pcl, self.ref_pal, self.ref_pcl, self.oppo_pal, self.oppo_pcl = self.all_comp
+        self.all_zeta, self.all_delta, self.all_sigma, self.all_theta, self.all_face = \
+            calc.calc_all(self, self.atom_coord_octa)
 
 
 if __name__ == '__main__':
