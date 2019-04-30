@@ -1,40 +1,62 @@
-'''
-Example of setup.py for compiling OctaDist using cx_Freeze compiler
+#!/usr/bin/env python
 
-Author: Rangsiman Ketkaew
-'''
+# Metadata file for distribution of OctaDist software on PyPI
+# https://packaging.python.org/guides/distributing-packages-using-setuptools/
 
-import sys
-import os
-import cx_Freeze
-import matplotlib
+import setuptools
+from octadist import main
 
-os.environ['TCL_LIBRARY'] = r'C:\Program Files\Python37\tcl\tcl8.6'
-os.environ['TK_LIBRARY'] = r'C:\Program Files\Python37\tcl\tK8.6'
+__version__ = main.program_version
 
-# Dependencies are automatically detected, but it might need fine tuning.
-build_exe_options = {"packages": ["os", "tkinter", "matplotlib"],
-                     "include_files": ["main.py", "calc.py",
-                                       "coord.py", "draw.py", "elements.py",
-                                       "linear.py", "plane.py", "popup.py",
-                                       "proj.py", "tools.py", "molecule.ico"]}
+with open("README.md", "r", encoding="utf-8") as f:
+    long_description = f.read()
 
-# GUI applications require a different base on Windows (the default is for a
-# console application).
-base = None
+description = "Octahedral distortion calculator for coordination complexes"
 
-if sys.platform == "win32":
-    base = "Win32GUI"
-
-executables = [cx_Freeze.Executable("main.py", base=base, icon="molecule.ico")]
-
-cx_Freeze.setup(
-    name = "OctaDist",
-    version = "2.2",
-    author = "Rangsiman Ketkaew",
-    author_email = "rangsiman1993@gmail.com",
-    description = "Octahedral Distortion Analysis",
-    options = {"build_exe": build_exe_options},
-    executables = executables
-    )
-
+setuptools.setup(
+    name="octadist",
+    version=__version__,
+    author="Rangsiman Ketkaew",
+    author_email="rangsiman1993@gmail.com",
+    description=description,
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://octadist.github.io",
+    download_url="https://github.com/OctaDist/OctaDist/releases",
+    project_urls={
+        'Documentation': 'https://octadist.github.io/manual.html',
+        'Source': 'https://github.com/OctaDist/OctaDist',
+        'Tracker': 'https://github.com/OctaDist/OctaDist/issues',
+    },
+    packages=setuptools.find_packages(),
+    install_requires=[
+        'numpy',
+        'scipy',
+        'matplotlib'
+    ],
+    classifiers=[
+        "Programming Language :: Python",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Development Status :: 5 - Production/Stable",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+        "Operating System :: OS Independent",
+        "Intended Audience :: Science/Research",
+        "Intended Audience :: Developers",
+        "Intended Audience :: End Users/Desktop",
+        "Intended Audience :: Other Audience",
+        "Natural Language :: English",
+        "Topic :: Scientific/Engineering :: Chemistry",
+        "Topic :: Scientific/Engineering :: Mathematics",
+        "Topic :: Scientific/Engineering :: Visualization",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Topic :: Multimedia :: Graphics :: 3D Modeling",
+    ],
+    keywords=[
+        'octahedral distortion',
+        'crystallography',
+        'chemistry'
+    ],
+    python_requires='>=3',
+)
