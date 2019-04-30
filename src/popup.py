@@ -12,7 +12,7 @@ from tkinter.messagebox import showinfo
 from tkinter.messagebox import showerror
 from tkinter.messagebox import showwarning
 import webbrowser
-import main
+from src import main
 
 
 def header(self):

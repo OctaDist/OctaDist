@@ -9,7 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 import numpy as np
 from math import sqrt, pow, degrees, acos
-import main
+from src import main
 
 
 def norm_vector(self, v):

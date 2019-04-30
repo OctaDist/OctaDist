@@ -8,16 +8,13 @@ the Free Software Foundation, either version 3 of the License, or
 """
 
 import numpy as np
-import popup
-import linear
 import tkinter as tk
 import tkinter.scrolledtext as tkscrolled
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-import elements
+from src import elements, linear, popup, main
 import scipy.optimize
 import functools
-import main
 
 
 def data_complex(self, fl, facl):

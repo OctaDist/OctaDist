@@ -8,11 +8,8 @@ the Free Software Foundation, either version 3 of the License, or
 """
 
 import numpy as np
-import linear
-import plane
-import projection
+from src import plane, projection, linear, main
 import tkinter as tk
-import main
 
 
 def calc_d_mean(self, a_octa, c_octa):

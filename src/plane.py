@@ -8,9 +8,7 @@ the Free Software Foundation, either version 3 of the License, or
 """
 
 import numpy as np
-import linear
-import projection
-import main
+from src import projection, linear, main
 
 
 def find_8_faces(self, c_octa):

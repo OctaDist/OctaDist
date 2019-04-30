@@ -7,15 +7,11 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 """
 
-import popup
-import plane
-import projection
-import elements
-import tools
+from src import plane, elements, projection, tools, popup, main
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-import main
+
 
 # import tkinter as tk
 # from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)

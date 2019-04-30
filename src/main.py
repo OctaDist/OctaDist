@@ -34,11 +34,7 @@ Mathieu Marchivie            Université de Bordeaux, France    mathieu.marchiv
 """
 
 import numpy as np
-import popup
-import coord
-import calc
-import tools
-import draw
+from src import draw, calc, coord, tools, popup
 import tkinter as tk
 from tkinter import filedialog
 import tkinter.scrolledtext as tkscrolled

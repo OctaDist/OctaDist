@@ -8,11 +8,8 @@ the Free Software Foundation, either version 3 of the License, or
 """
 
 import numpy as np
-import linear
-import elements
-import popup
+from src import elements, linear, popup, main
 from operator import itemgetter
-import main
 
 
 def file_lines(file):
