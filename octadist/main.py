@@ -16,11 +16,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ----------------------------------------------------------------------
 
-OctaDist version 2.5.0
+OctaDist version 2.5.1 (GUI version)
 
 Octahedral Distortion Analysis
 Software website: https://octadist.github.io
-Last modified: April 2019
+Last modified: May 1st, 2019
 
 This program was written in Python 3 binding to TkInter GUI platform,
 tested on PyCharm (Community Edition) program, and compiled by PyInstaller.
@@ -40,8 +40,8 @@ import tkinter as tk
 from tkinter import filedialog
 import tkinter.scrolledtext as tkscrolled
 
-program_version = "2.5.0"
-program_revision = "April 2019"
+program_version = "2.5.1"
+program_revision = "May 2019"
 
 
 def print_stdout(self, text):

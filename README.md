@@ -5,8 +5,8 @@
 [![Code size](https://img.shields.io/github/languages/code-size/OctaDist/OctaDist.svg)](https://github.com/OctaDist/OctaDist)
 [![Repo size](https://img.shields.io/github/repo-size/OctaDist/OctaDist.svg)](https://github.com/OctaDist/OctaDist)
 [![Github Download All releases](https://img.shields.io/github/downloads/OctaDist/octadist/total.svg)](https://github.com/OctaDist/OctaDist/releases)
-[![Github Download release 2.4](https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.4/total.svg
-)](https://github.com/OctaDist/OctaDist/releases/tag/v.2.4)
+[![Github Download release 2.5.1](https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.5.1/total.svg
+)](https://github.com/OctaDist/OctaDist/releases/tag/v.2.5.1)
 
 ## OctaDist
 
