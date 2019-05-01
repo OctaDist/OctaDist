@@ -10,11 +10,13 @@ python:
   - "3.7"  # 3.7 development branch
   
 install:
-  - pip install -r requirements.txt
+  - pip install pyinstaller
+  - pip install numpy
+  - pip install scipy
+  - pip install matplotlib
 
 script:
-  - cd src/
-  - pyinstaller --onefile main.py
+  - cd octadist/
+  - pyinstaller --onefile --windowed --version-file=../version.txt -n OctaDist-run main.py
 #  - python src/main.py
-
 
