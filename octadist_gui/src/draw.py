@@ -18,10 +18,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-import octadist_gui.src.popup
-import octadist_gui.src.tools
-from octadist_gui import main
-from octadist_gui.src import elements
+from octadist_gui.src import echo_logs, elements, popup, tools
 
 
 # import tkinter as tk
@@ -37,16 +34,16 @@ def all_atom(self, acf):
     :type acf: list
     """
     if len(acf) == 0:
-        octadist_gui.src.popup.err_no_file(self)
+        popup.err_no_file(self)
         return 1
     elif len(acf) > 1:
-        octadist_gui.src.popup.err_many_files(self)
+        popup.err_many_files(self)
         return 1
 
     fal, fcl = acf[0]
 
-    main.print_stdout(self, "Info: Display scattering plot of all atoms")
-    main.print_stdout(self, "")
+    echo_logs(self, "Info: Display scattering plot of all atoms")
+    echo_logs(self, "")
 
     fig = plt.figure()
     ax = Axes3D(fig)
@@ -60,7 +57,7 @@ def all_atom(self, acf):
                    color=elements.check_color(n), label="{}".format(fal[i]), s=elements.check_radii(n) * 300)
 
     # Calculate distance
-    bond_list = octadist_gui.src.tools.find_bonds(self, fal, fcl)
+    bond_list = tools.find_bonds(self, fal, fcl)
     atoms_pair = []
     for i in range(len(bond_list)):
         get_atoms = bond_list[i]
@@ -128,18 +125,18 @@ def all_atom_and_face(self, acf, all_face):
     :type all_face: list
     """
     if len(acf) == 0:
-        octadist_gui.src.popup.err_no_file(self)
+        popup.err_no_file(self)
         return 1
     elif len(acf) > 1:
-        octadist_gui.src.popup.err_many_files(self)
+        popup.err_many_files(self)
         return 1
     if len(all_face) == 0:
-        octadist_gui.src.popup.err_no_calc(self)
+        popup.err_no_calc(self)
         return 1
 
-    main.print_stdout(self, "Info: Display scattering plot of all atoms")
-    main.print_stdout(self, "      Draw surface for all 8 faces of selected octahedral structure")
-    main.print_stdout(self, "")
+    echo_logs(self, "Info: Display scattering plot of all atoms")
+    echo_logs(self, "      Draw surface for all 8 faces of selected octahedral structure")
+    echo_logs(self, "")
 
     fal, fcl = acf[0]
     face_data = all_face[0]
@@ -169,7 +166,7 @@ def all_atom_and_face(self, acf, all_face):
         ax.add_collection3d(Poly3DCollection(vertices_list[i], alpha=0.5, color=color_list[i]))
 
     # Calculate distance
-    bond_list = octadist_gui.src.tools.find_bonds(self, fal, fcl)
+    bond_list = tools.find_bonds(self, fal, fcl)
     atoms_pair = []
     for i in range(len(bond_list)):
         get_atoms = bond_list[i]
@@ -218,15 +215,15 @@ def octa(self, aco):
     :type aco: list
     """
     if len(aco) == 0:
-        octadist_gui.src.popup.err_no_calc(self)
+        popup.err_no_calc(self)
         return 1
     elif len(aco) > 1:
-        octadist_gui.src.popup.err_many_files(self)
+        popup.err_many_files(self)
         return 1
 
-    main.print_stdout(self, "Info: Display scattering plot of truncated octahedral structure")
-    main.print_stdout(self, "      Draw surface for all 8 faces of selected octahedral structure")
-    main.print_stdout(self, "")
+    echo_logs(self, "Info: Display scattering plot of truncated octahedral structure")
+    echo_logs(self, "      Draw surface for all 8 faces of selected octahedral structure")
+    echo_logs(self, "")
 
     num, metal, ao, co = aco[0]
     # num = number of file, metal = metal center
@@ -285,15 +282,15 @@ def octa_and_face(self, aco, all_face):
     :type all_face: list
     """
     if len(aco) == 0:
-        octadist_gui.src.popup.err_no_calc(self)
+        popup.err_no_calc(self)
         return 1
     elif len(aco) > 1:
-        octadist_gui.src.popup.err_many_files(self)
+        popup.err_many_files(self)
         return 1
 
-    main.print_stdout(self, "Info: Display scattering plot of truncated octahedral structure")
-    main.print_stdout(self, "      Draw surface for all 8 faces of selected octahedral structure")
-    main.print_stdout(self, "")
+    echo_logs(self, "Info: Display scattering plot of truncated octahedral structure")
+    echo_logs(self, "      Draw surface for all 8 faces of selected octahedral structure")
+    echo_logs(self, "")
 
     num, metal, ao, co = aco[0]
     # num = number of file, metal = metal center

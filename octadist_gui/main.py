@@ -25,32 +25,7 @@ from urllib.request import urlopen
 import numpy as np
 
 import octadist_gui
-from octadist_gui.src import calc, coord, draw, plane, plot, popup, tools, util
-
-
-def print_stdout(self, text):
-    """Insert stdout & stderr to log box
-
-    :param self: master frame
-    :param text: text
-    :type text: str
-    """
-    if self.show_stdout.get():
-        self.box_stdout.insert(tk.INSERT, text + "\n")
-        self.box_stdout.see(tk.END)
-    else:
-        return 0
-
-
-def print_result(self, text):
-    """Insert text to result box
-
-    :param self: master frame
-    :param text: text
-    :type text: str
-    """
-    self.box_result.insert(tk.INSERT, text + "\n")
-    self.box_result.see(tk.END)
+from octadist_gui.src import echo_logs, echo_outs, calc, coord, draw, plane, plot, popup, tools, util
 
 
 class OctaDist:
@@ -137,11 +112,13 @@ class OctaDist:
         # Help
         menu_bar.add_cascade(menu=help_menu, label="Help")
         help_menu.add_command(label="Quick Help", command=lambda: popup.show_help(self.master))
-        help_menu.add_command(label="Getting Started", command=lambda: webbrowser.open_new_tab(octadist_gui.__website__ + "/manual.html"))
+        help_menu.add_command(label="Getting Started",
+                              command=lambda: webbrowser.open_new_tab(octadist_gui.__website__ + "/manual.html"))
         help_menu.add_separator()
         submit_issue = "https://github.com/OctaDist/OctaDist/issues"
         help_menu.add_command(label="Submit a Bug Report", command=lambda: webbrowser.open_new_tab(submit_issue))
-        help_menu.add_command(label="Github Repository", command=lambda: webbrowser.open_new_tab(octadist_gui.__github__))
+        help_menu.add_command(label="Github Repository",
+                              command=lambda: webbrowser.open_new_tab(octadist_gui.__github__))
         help_menu.add_command(label="Homepage", command=lambda: webbrowser.open_new_tab(octadist_gui.__website__))
         help_menu.add_separator()
         help_menu.add_command(label="Check for Updates", command=self.check_update)
@@ -256,12 +233,12 @@ class OctaDist:
         self.box_stdout = tkscrolled.ScrolledText(self.frame5, height="30", width="70", wrap="word", undo="True")
         self.box_stdout.grid(sticky=tk.N, pady="5", row=1)
 
-        print_result(self, "Welcome to OctaDist {0} {1}".format(octadist_gui.__version__, octadist_gui.__release__))
-        print_result(self, "")
-        print_result(self, "Created by Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, "
-                           "Phimphaka Harding, and Mathieu Marchivie.")
-        print_result(self, "")
-        print_result(self, "https://octadist.github.io")
+        echo_outs(self, "Welcome to OctaDist {0} {1}".format(octadist_gui.__version__, octadist_gui.__release__))
+        echo_outs(self, "")
+        echo_outs(self, "Created by Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, "
+                        "Phimphaka Harding, and Mathieu Marchivie.")
+        echo_outs(self, "")
+        echo_outs(self, "https://octadist.github.io")
         popup.header(self)
 
     def clear_cache(self):
@@ -284,7 +261,7 @@ class OctaDist:
         self.clear_param_box()
         self.clear_result_box()
 
-        print_stdout(self, "Clear cache")
+        echo_logs(self, "Clear cache")
 
     def clear_param_box(self):
         """Clear parameter box
@@ -322,13 +299,16 @@ class OctaDist:
             MsgBox = messagebox.askquestion("Updates available", text, icon="warning")
             if MsgBox == 'yes':
                 if os_name == "Windows":
-                    link_windows = "https://github.com/OctaDist/OctaDist/releases/download/v.{0}/OctaDist-{1}-Win-x86-64.exe".format(new_ver, new_ver)
+                    link_windows = "https://github.com/OctaDist/OctaDist/releases/download/v.{0}/OctaDist-{1}-Win-x86-64.exe".format(
+                        new_ver, new_ver)
                     webbrowser.open_new_tab(link_windows)
                 elif os_name == "Darwin":
-                    link_mac = "https://github.com/OctaDist/OctaDist/releases/download/v.{0}/OctaDist-{1}-macOS-x86-64".format(new_ver, new_ver)
+                    link_mac = "https://github.com/OctaDist/OctaDist/releases/download/v.{0}/OctaDist-{1}-macOS-x86-64".format(
+                        new_ver, new_ver)
                     webbrowser.open_new_tab(link_mac)
                 elif os_name == "Linux":
-                    link_linux = "https://github.com/OctaDist/OctaDist/releases/download/v.{0}/OctaDist-{1}-Linux-x86-64.tar.gz".format(new_ver, new_ver)
+                    link_linux = "https://github.com/OctaDist/OctaDist/releases/download/v.{0}/OctaDist-{1}-Linux-x86-64.tar.gz".format(
+                        new_ver, new_ver)
                     webbrowser.open_new_tab(link_linux)
                 else:
                     popup.err_cannot_update(self)
@@ -348,7 +328,7 @@ class OctaDist:
         # self.clear_info_box()
         self.clear_cache()
 
-        print_stdout(self, "Info: Browse input file")
+        echo_logs(self, "Info: Browse input file")
 
         try:
             input_file = filedialog.askopenfilenames(
@@ -368,11 +348,11 @@ class OctaDist:
 
             try:
                 open(self.file_list[0], 'r')
-                print_stdout(self, "Info: Total number of file: {0}".format(len(self.file_list)))
+                echo_logs(self, "Info: Total number of file: {0}".format(len(self.file_list)))
 
                 for i in range(len(self.file_list)):
                     file_name = self.file_list[i].split('/')[-1]
-                    print_stdout(self, "Info: Open file no. {0}: {1}".format(i + 1, file_name))
+                    echo_logs(self, "Info: Open file no. {0}: {1}".format(i + 1, file_name))
 
                     ###########################
                     # Read file and pull data #
@@ -386,14 +366,14 @@ class OctaDist:
                         continue
 
                     # Print full structure to stdout box
-                    print_stdout(self, "Info: Show Cartesian coordinates of all {0} atoms".format(len(atom_full)))
-                    print_stdout(self, "")
-                    print_stdout(self, "      Atom        X             Y             Z")
-                    print_stdout(self, "      ----    ----------    ----------    ----------")
+                    echo_logs(self, "Info: Show Cartesian coordinates of all {0} atoms".format(len(atom_full)))
+                    echo_logs(self, "")
+                    echo_logs(self, "      Atom        X             Y             Z")
+                    echo_logs(self, "      ----    ----------    ----------    ----------")
                     for j in range(len(atom_full)):
-                        print_stdout(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
-                                     .format(atom_full[j], coord_full[j][0], coord_full[j][1], coord_full[j][2]))
-                    print_stdout(self, "")
+                        echo_logs(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
+                                  .format(atom_full[j], coord_full[j][0], coord_full[j][1], coord_full[j][2]))
+                    echo_logs(self, "")
 
                     #########################################
                     # Count the number of metal center atom #
@@ -407,14 +387,14 @@ class OctaDist:
                         self.is_it_octa = False
 
                         if i == 0:
-                            print_result(self, "XYZ coordinates of extracted octahedral structure")
+                            echo_outs(self, "XYZ coordinates of extracted octahedral structure")
 
-                        print_result(self, "File {0}: {1}".format(i + 1, file_name))
-                        print_result(self, "Atom                       Cartesian coordinate")
+                        echo_outs(self, "File {0}: {1}".format(i + 1, file_name))
+                        echo_outs(self, "Atom                       Cartesian coordinate")
                         for k in range(len(atom_full)):
-                            print_result(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                                         .format(atom_full[k], coord_full[k][0], coord_full[k][1], coord_full[k][2]))
-                        print_result(self, "")
+                            echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
+                                      .format(atom_full[k], coord_full[k][0], coord_full[k][1], coord_full[k][2]))
+                        echo_outs(self, "")
 
                         continue  # continue to next file
 
@@ -424,7 +404,7 @@ class OctaDist:
                     ########################################################
 
                     if i == 0:
-                        print_result(self, "XYZ coordinates of extracted octahedral structure")
+                        echo_outs(self, "XYZ coordinates of extracted octahedral structure")
 
                     # loop over metal center atoms
                     for j in range(count):
@@ -442,63 +422,63 @@ class OctaDist:
 
                         # Print octahedral structure to coord box and stdout box (on request)
                         if count == 1:
-                            print_result(self, "File {0}: {1}".format(i + 1, file_name))
-                            print_result(self, "Atom                       Cartesian coordinate")
+                            echo_outs(self, "File {0}: {1}".format(i + 1, file_name))
+                            echo_outs(self, "Atom                       Cartesian coordinate")
                             for k in range(len(atom_octa)):
-                                print_result(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                                             .format(atom_octa[k], coord_octa[k][0], coord_octa[k][1], coord_octa[k][2]))
-                            print_result(self, "")
+                                echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
+                                          .format(atom_octa[k], coord_octa[k][0], coord_octa[k][1], coord_octa[k][2]))
+                            echo_outs(self, "")
 
-                            print_stdout(self, "Info: Show Cartesian coordinates of extracted octahedral structure")
-                            print_stdout(self, "")
-                            print_stdout(self, "      Atom        X             Y             Z")
-                            print_stdout(self, "      ----    ----------    ----------    ----------")
+                            echo_logs(self, "Info: Show Cartesian coordinates of extracted octahedral structure")
+                            echo_logs(self, "")
+                            echo_logs(self, "      Atom        X             Y             Z")
+                            echo_logs(self, "      ----    ----------    ----------    ----------")
                             for k in range(len(atom_octa)):
-                                print_stdout(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
-                                             .format(atom_octa[k], coord_octa[k][0], coord_octa[k][1], coord_octa[k][2]))
-                            print_stdout(self, "")
+                                echo_logs(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
+                                          .format(atom_octa[k], coord_octa[k][0], coord_octa[k][1], coord_octa[k][2]))
+                            echo_logs(self, "")
 
                         elif count > 1:
-                            print_result(self, "File {0}: {1}".format(i + 1, file_name))
-                            print_result(self, "Metal center atom no. {0} : {1}".format(j + 1, atom_octa[0]))
-                            print_result(self, "Atom                       Cartesian coordinate")
+                            echo_outs(self, "File {0}: {1}".format(i + 1, file_name))
+                            echo_outs(self, "Metal center atom no. {0} : {1}".format(j + 1, atom_octa[0]))
+                            echo_outs(self, "Atom                       Cartesian coordinate")
                             for k in range(len(atom_octa)):
-                                print_result(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                                             .format(atom_octa[k], coord_octa[k][0], coord_octa[k][1], coord_octa[k][2]))
-                            print_result(self, "")
+                                echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
+                                          .format(atom_octa[k], coord_octa[k][0], coord_octa[k][1], coord_octa[k][2]))
+                            echo_outs(self, "")
 
-                            print_stdout(self, "File {0}: {1}".format(i + 1, file_name))
-                            print_stdout(self, "Info: Show Cartesian coordinates of extracted octahedral structure")
-                            print_stdout(self, "")
-                            print_stdout(self, "      Atom        X             Y             Z")
-                            print_stdout(self, "      ----    ----------    ----------    ----------")
+                            echo_logs(self, "File {0}: {1}".format(i + 1, file_name))
+                            echo_logs(self, "Info: Show Cartesian coordinates of extracted octahedral structure")
+                            echo_logs(self, "")
+                            echo_logs(self, "      Atom        X             Y             Z")
+                            echo_logs(self, "      ----    ----------    ----------    ----------")
                             for k in range(len(atom_octa)):
-                                print_stdout(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
-                                             .format(atom_octa[k], coord_octa[k][0], coord_octa[k][1], coord_octa[k][2]))
-                            print_stdout(self, "")
+                                echo_logs(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
+                                          .format(atom_octa[k], coord_octa[k][0], coord_octa[k][1], coord_octa[k][2]))
+                            echo_logs(self, "")
 
             except UnboundLocalError:
-                print_stdout(self, "Error: No input file")
+                echo_logs(self, "Error: No input file")
                 # self.clear_cache()
-                # print_result(self, "Error: Could not open file \"{0}\"".format(file_name))
-                # print_result(self, "Please carefully check the accuracy of the complex again!")
+                # echo_outs(self, "Error: Could not open file \"{0}\"".format(file_name))
+                # echo_outs(self, "Please carefully check the accuracy of the complex again!")
                 return 1
 
         except IndexError:
-            print_stdout(self, "Error: No input file")
+            echo_logs(self, "Error: No input file")
             return 1
 
     def save_results(self):
         """Save results as output file (*txt)
         """
-        print_stdout(self, "Info: Save results as an output file")
+        echo_logs(self, "Info: Save results as an output file")
 
         f = filedialog.asksaveasfile(mode='w', defaultextension=".txt", title="Save results",
                                      filetypes=(("TXT File", "*.txt"),
                                                 ("All Files", "*.*")))
 
         if f is None:
-            print_stdout(self, "Warning: Cancelled save file")
+            echo_logs(self, "Warning: Cancelled save file")
             return 0
 
         f.write("OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.\n")
@@ -506,7 +486,8 @@ class OctaDist:
         f.write("This is free software, and you are welcome to redistribute it under\n")
         f.write("certain conditions; see <https://www.gnu.org/licenses/> for details.\n")
         f.write("\n")
-        f.write("OctaDist {0} {1}: Octahedral Distortion Analysis\n".format(octadist_gui.__version__, octadist_gui.__release__))
+        f.write("OctaDist {0} {1}: Octahedral Distortion Analysis\n".format(octadist_gui.__version__,
+                                                                            octadist_gui.__release__))
         f.write("https://octadist.github.io\n")
         f.write("\n")
         f.write("================ Start of the Output file =================\n")

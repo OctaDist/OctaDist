@@ -24,10 +24,7 @@ import scipy.optimize
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-import octadist_gui.src.popup
-import octadist_gui.src.tools
-from octadist_gui import main
-from octadist_gui.src import linear, elements
+from octadist_gui.src import echo_logs, elements, linear, popup, tools
 
 
 def insert_text(self, text, coord, group):
@@ -156,8 +153,8 @@ def plot_fit_plane(self, acf):
     # Find eq of the plane #
     ########################
 
-    main.print_stdout(self, "Info: Find the best fit plane to the given set of ligands")
-    main.print_stdout(self, "")
+    echo_logs(self, "Info: Find the best fit plane to the given set of ligands")
+    echo_logs(self, "")
 
     xx, yy, z, abcd = calc_fit_plane(self.coord_A)
     plane_A = (xx, yy, z)
@@ -165,11 +162,11 @@ def plot_fit_plane(self, acf):
 
     self.box_eq1.insert(tk.INSERT, "{0:8.5f}x {1:+8.5f}y {2:+8.5f}z {3:+8.5f} = 0".format(a1, b1, c1, d1))
 
-    main.print_stdout(self, "Info: Plane A")
-    main.print_stdout(self, "         xx : {0} {1}".format(xx[0], xx[1]))
-    main.print_stdout(self, "         yy : {0} {1}".format(yy[0], xx[1]))
-    main.print_stdout(self, "          z : {0} {1}".format(z[0], z[1]))
-    main.print_stdout(self, "")
+    echo_logs(self, "Info: Plane A")
+    echo_logs(self, "         xx : {0} {1}".format(xx[0], xx[1]))
+    echo_logs(self, "         yy : {0} {1}".format(yy[0], xx[1]))
+    echo_logs(self, "          z : {0} {1}".format(z[0], z[1]))
+    echo_logs(self, "")
 
     xx, yy, z, abcd = calc_fit_plane(self.coord_B)
     plane_B = (xx, yy, z)
@@ -177,18 +174,18 @@ def plot_fit_plane(self, acf):
 
     self.box_eq2.insert(tk.INSERT, "{0:8.5f}x {1:+8.5f}y {2:+8.5f}z {3:+8.5f} = 0".format(a2, b2, c2, d2))
 
-    main.print_stdout(self, "Info: Plane B")
-    main.print_stdout(self, "         xx : {0} {1}".format(xx[0], xx[1]))
-    main.print_stdout(self, "         yy : {0} {1}".format(yy[0], xx[1]))
-    main.print_stdout(self, "          z : {0} {1}".format(z[0], z[1]))
-    main.print_stdout(self, "")
+    echo_logs(self, "Info: Plane B")
+    echo_logs(self, "         xx : {0} {1}".format(xx[0], xx[1]))
+    echo_logs(self, "         yy : {0} {1}".format(yy[0], xx[1]))
+    echo_logs(self, "          z : {0} {1}".format(z[0], z[1]))
+    echo_logs(self, "")
 
     ####################################
     # Calculate angle between 2 planes #
     ####################################
 
-    main.print_stdout(self, "Info: Calculate the angle between two planes in 3D")
-    main.print_stdout(self, "")
+    echo_logs(self, "Info: Calculate the angle between two planes in 3D")
+    echo_logs(self, "")
 
     angle = linear.angle_btw_planes(a1, b1, c1, a2, b2, c2)
     self.box_angle1.insert(tk.INSERT, "{0:10.6f}".format(angle))  # insert to box
@@ -196,20 +193,20 @@ def plot_fit_plane(self, acf):
     sup_angle = abs(180 - angle)  # supplementary angle
     self.box_angle2.insert(tk.INSERT, "{0:10.6f}".format(sup_angle))  # insert to box
 
-    main.print_stdout(self, "      ======= Summary of angular Jahn-Teller distortion =======")
-    main.print_stdout(self, "")
-    main.print_stdout(self, "      Supplementary angle 1 : = {0:10.6f} degree".format(angle))
-    main.print_stdout(self, "      Supplementary angle 2 : = {0:10.6f} degree".format(sup_angle))
-    main.print_stdout(self, "")
-    main.print_stdout(self, "      =========================================================")
-    main.print_stdout(self, "")
+    echo_logs(self, "      ======= Summary of angular Jahn-Teller distortion =======")
+    echo_logs(self, "")
+    echo_logs(self, "      Supplementary angle 1 : = {0:10.6f} degree".format(angle))
+    echo_logs(self, "      Supplementary angle 2 : = {0:10.6f} degree".format(sup_angle))
+    echo_logs(self, "")
+    echo_logs(self, "      =========================================================")
+    echo_logs(self, "")
 
     ###############
     # Plot planes #
     ###############
 
-    main.print_stdout(self, "Info: Display scatter plots of the lease squares planes of group A & B")
-    main.print_stdout(self, "")
+    echo_logs(self, "Info: Display scatter plots of the lease squares planes of group A & B")
+    echo_logs(self, "")
 
     fal, fcl = acf[0]
 
@@ -226,7 +223,7 @@ def plot_fit_plane(self, acf):
                    color=elements.check_color(n), label="{}".format(fal[i]), s=elements.check_radii(n) * 300)
 
     # Calculate distance
-    bond_list = octadist_gui.src.tools.find_bonds(self, fal, fcl)
+    bond_list = tools.find_bonds(self, fal, fcl)
     atoms_pair = []
     for i in range(len(bond_list)):
         get_atoms = bond_list[i]
@@ -290,8 +287,8 @@ def pick_atom(self, acf, group):
     """
     fal, fcl = acf[0]
 
-    main.print_stdout(self, "Info: Pick atoms for group {0}".format(group))
-    main.print_stdout(self, "")
+    echo_logs(self, "Info: Pick atoms for group {0}".format(group))
+    echo_logs(self, "")
 
     fig = plt.figure()
     # fig = plt.figure(figsize=(5, 4), dpi=100)
@@ -306,7 +303,7 @@ def pick_atom(self, acf, group):
                    color=elements.check_color(n), label="{}".format(fal[i]), s=elements.check_radii(n) * 300)
 
     # Calculate distance
-    bond_list = octadist_gui.src.tools.find_bonds(self, fal, fcl)
+    bond_list = tools.find_bonds(self, fal, fcl)
     atoms_pair = []
     for i in range(len(bond_list)):
         get_atoms = bond_list[i]
@@ -379,18 +376,18 @@ def calc_jahn_teller(self, acf):
     :param acf: atomic labels and coordinates of full complex
     :type acf: list
     """
-    main.print_stdout(self, "Info: Calculate angular Jahn-Teller distortion parameter")
-    main.print_stdout(self, "      Find least squares planes of two sets of ligands in molecule")
-    main.print_stdout(self, "      A scipy.optimize.minimize package will be used to fit the plane to atoms")
-    main.print_stdout(self, "")
+    echo_logs(self, "Info: Calculate angular Jahn-Teller distortion parameter")
+    echo_logs(self, "      Find least squares planes of two sets of ligands in molecule")
+    echo_logs(self, "      A scipy.optimize.minimize package will be used to fit the plane to atoms")
+    echo_logs(self, "")
 
     self.acf = acf
 
     if len(self.acf) == 0:
-        octadist_gui.src.popup.err_no_file(self)
+        popup.err_no_file(self)
         return 1
     elif len(self.acf) > 1:
-        octadist_gui.src.popup.err_many_files(self)
+        popup.err_many_files(self)
         return 1
 
     root = tk.Toplevel(self.master)
@@ -466,13 +463,13 @@ def calc_rmsd(self, acf):
     :param acf: atomic labels and coordinates of full complex
     :type acf: list
     """
-    main.print_stdout(self, "Info: Calculate root mean squared displacement of atoms in complex, RMSD")
-    main.print_stdout(self, "")
+    echo_logs(self, "Info: Calculate root mean squared displacement of atoms in complex, RMSD")
+    echo_logs(self, "")
 
     self.acf = acf
 
     if len(self.acf) != 2:
-        octadist_gui.src.popup.err_only_2_files(self)
+        popup.err_only_2_files(self)
         return 1
 
     print(rmsd.__version__)
