@@ -125,7 +125,7 @@ def angle_btw_2vec(v1, v2):
     return angle
 
 
-def angle_btw_3vec(self, p1, p2, p3):
+def angle_btw_3points(self, p1, p2, p3):
     """Compute the angle between vector p2 - p1 and p3 - p1
 
                     / p2_x * p3_x + p2_y * p3_y + p2_z * p3_z  \

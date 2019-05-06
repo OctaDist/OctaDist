@@ -171,6 +171,16 @@ def err_only_2_files(self):
     showerror("Error", "You must load only two complexes for computing RMSD.")
 
 
+def err_not_equal_atom(self):
+    echo_logs(self, "Error: The number of atoms in structure 1 and structure 2 are not the same.")
+    showerror("Error", "The number of atoms in structure 1 and structure 2 are not the same.")
+
+
+def err_atom_not_match(self, line):
+    echo_logs(self, "Error: Atomic symbol not match at line {0}.".format(line))
+    showerror("Error", "Atomic symbol not match at line {0}.".format(line))
+
+
 def err_many_files(self):
     echo_logs(self, "Error: You must load only one input file.")
     showerror("Error", "You must load only one input file.")

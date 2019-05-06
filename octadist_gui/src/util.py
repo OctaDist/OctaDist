@@ -459,9 +459,14 @@ def calc_jahn_teller(self, acf):
 def calc_rmsd(self, acf):
     """Calculate root mean squared displacement of atoms in complex, RMSD
 
+    Ack: https://github.com/charnley/rmsd
+
     :param self: master
     :param acf: atomic labels and coordinates of full complex
     :type acf: list
+    :return rmsd_normal: Normal RMSD
+    :return rmsd_translate: Translate RMSD (re-centered)
+    :return rmsd_rotate: Kabsch RMSD (ro-tated)
     """
     echo_logs(self, "Info: Calculate root mean squared displacement of atoms in complex, RMSD")
     echo_logs(self, "")
@@ -472,4 +477,35 @@ def calc_rmsd(self, acf):
         popup.err_only_2_files(self)
         return 1
 
-    print(rmsd.__version__)
+    strct_1 = acf[0]
+    strct_2 = acf[1]
+
+    atom_strc_1, coord_strct_1 = strct_1
+    atom_strc_2, coord_strct_2 = strct_2
+
+    if len(atom_strc_1) != len(atom_strc_2):
+        popup.err_not_equal_atom(self)
+        return 1
+
+    for i in range(len(atom_strc_1)):
+        if atom_strc_1[i] != atom_strc_2[i]:
+            popup.err_atom_not_match(self, i+1)
+            return 1
+
+    rmsd_normal = rmsd.rmsd(coord_strct_1, coord_strct_2)
+
+    # Manipulate recenter
+    coord_strct_1 -= rmsd.centroid(coord_strct_1)
+    coord_strct_2 -= rmsd.centroid(coord_strct_2)
+
+    rmsd_translate = rmsd.rmsd(coord_strct_1, coord_strct_2)
+
+    # Rotate
+    U = rmsd.kabsch(coord_strct_1, coord_strct_2)
+    coord_strct_1 = np.dot(coord_strct_1, U)
+
+    rmsd_rotate = rmsd.rmsd(coord_strct_1, coord_strct_2)
+
+    print(rmsd_normal, rmsd_translate, rmsd_rotate)
+
+    return rmsd_normal, rmsd_translate, rmsd_rotate

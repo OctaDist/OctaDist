@@ -21,21 +21,17 @@ import numpy as np
 from octadist_gui.src import echo_logs, echo_outs, linear, popup, projection, tools
 
 
-def calc_d_mean(self, a_octa, c_octa):
-    """Calculate mean distance parameter and return value in Angstrom
+def calc_d_bond(self, a_octa, c_octa):
+    """Calculate metal-ligand bond distance and return value in Angstrom
 
     :param self: master frame
     :param a_octa: atomic labels of octahedral structure
     :param c_octa: atomic coordinates of octahedral structure
     :type a_octa: list
     :type c_octa: list, array, tuple
-    :return d_mean: mean metal-ligand bond distance
     :return bond_dist: individual metal-ligand bond distance
-    :rtype d_mean: float
     :rtype bond_dist: list
     """
-    echo_logs(self, "Info: Calculate D_mean parameter")
-    echo_logs(self, "")
     echo_logs(self, "Info: Calculate distance between metal center (M) and ligand atoms")
     echo_logs(self, "Info: Show 6 unique bond distances (Angstrom)")
     echo_logs(self, "")
@@ -48,6 +44,26 @@ def calc_d_mean(self, a_octa, c_octa):
         echo_logs(self, "      {0:>2}     {1:>2} - {2:>2}   {3:10.6f}".format(i, a_octa[0], a_octa[i], distance))
         bond_dist.append(distance)
     echo_logs(self, "")
+
+    return bond_dist
+
+
+def calc_d_mean(self, a_octa, c_octa):
+    """Calculate mean distance parameter and return value in Angstrom
+
+    :param self: master frame
+    :param a_octa: atomic labels of octahedral structure
+    :param c_octa: atomic coordinates of octahedral structure
+    :type a_octa: list
+    :type c_octa: list, array, tuple
+    :return d_mean: mean metal-ligand bond distance
+    :rtype d_mean: float
+    """
+    echo_logs(self, "Info: Calculate D_mean parameter")
+    echo_logs(self, "")
+
+    # calculate bond distances
+    bond_dist = calc_d_bond(self, a_octa, c_octa)
 
     i = 0
     sum_distance = 0
@@ -64,10 +80,10 @@ def calc_d_mean(self, a_octa, c_octa):
     echo_logs(self, "      ==========================================================")
     echo_logs(self, "")
 
-    return d_mean, bond_dist
+    return d_mean
 
 
-def calc_zeta(self, d_mean, bond_dist):
+def calc_zeta(self, a_octa, c_octa):
     """Calculate Zeta parameter and return value in Angstrom
 
          6
@@ -77,16 +93,21 @@ def calc_zeta(self, d_mean, bond_dist):
     Ref: Phys. Rev. B 85, 064114
 
     :param self: master frame
-    :param d_mean: mean metal-ligand bond distance
-    :param bond_dist: individual metal-ligand bond distance
-    :type d_mean: float
-    :type bond_dist: list
+    :param a_octa: atomic labels of octahedral structure
+    :param c_octa: atomic coordinates of octahedral structure
+    :type a_octa: list
+    :type c_octa: list, array, tuple
     :return zeta: Zeta parameter
     :rtype zeta: float
     """
     echo_logs(self, "Info: Calculate ζ parameter")
     echo_logs(self, "      This parameter is deviation from the average bond length")
     echo_logs(self, "")
+
+    # calculate bond distances and mean distance
+    bond_dist = calc_d_bond(self, a_octa, c_octa)
+    d_mean = calc_d_mean(self, a_octa, c_octa)
+
     echo_logs(self, "Info: Show diff distance (Angstrom)")
     echo_logs(self, "")
 
@@ -108,7 +129,7 @@ def calc_zeta(self, d_mean, bond_dist):
     return zeta
 
 
-def calc_delta(self, d_mean, bond_dist):
+def calc_delta(self, a_octa, c_octa):
     """Calculate Delta parameter (Tilting distortion parameter)
 
           1
@@ -119,15 +140,19 @@ def calc_delta(self, d_mean, bond_dist):
     Ref: DOI: 10.1107/S0108768103026661  Acta Cryst. (2004). B60, 10-20
 
     :param self: master frame
-    :param d_mean: mean metal-ligand bond distance
-    :param bond_dist: individual metal-ligand bond distance
-    :type d_mean: float
-    :type bond_dist: list
+    :param a_octa: atomic labels of octahedral structure
+    :param c_octa: atomic coordinates of octahedral structure
+    :type a_octa: list
+    :type c_octa: list, array, tuple
     :return delta: Delta parameter
     :rtype delta: float
     """
     echo_logs(self, "Info: Calculate Δ parameter")
     echo_logs(self, "")
+
+    # calculate bond distances and mean distance
+    bond_dist = calc_d_bond(self, a_octa, c_octa)
+    d_mean = calc_d_mean(self, a_octa, c_octa)
 
     delta = 0
     for i in range(6):
@@ -142,6 +167,68 @@ def calc_delta(self, d_mean, bond_dist):
     echo_logs(self, "")
 
     return delta
+
+
+def calc_bond_angle(self, a_octa, c_octa):
+    """Calculate 12 cis and 3 trans unique angles in octahedral structure
+
+    :param self: master frame
+    :param a_octa: atomic labels of octahedral structure
+    :param c_octa: atomic coordinates of octahedral structure
+    :type a_octa: list
+    :type c_octa: list, array, tuple
+    :return cis_angle: list of 12 cis angles
+    :rtype cis_angle: list
+    :return trans_angle: list of 3 trans angles
+    :rtype trans_angle: list
+    """
+    echo_logs(self, "Info: Calculate angle between ligand atoms (including cis and trans angles)")
+    echo_logs(self, "Info: Show 15 unique bond angles (°) before sorting")
+    echo_logs(self, "")
+    echo_logs(self, "      No.    Atom pair        Angle")
+    echo_logs(self, "      ---    ---------     -----------")
+
+    la = []
+    all_angle = []
+    k = 1
+    for i in range(1, 7):
+        for j in range(i + 1, 7):
+            angle = linear.angle_btw_3points(self, c_octa[0], c_octa[i], c_octa[j])
+            echo_logs(self, "      {0:>2}     {1:>2} and {2:>2}      {3:10.6f}".format(k, a_octa[i], a_octa[j], angle))
+            la.append([a_octa[i], a_octa[j]])
+            all_angle.append(angle)
+            k += 1
+    echo_logs(self, "")
+
+    # Sort the angle from the lowest to the highest
+    all_angle.sort()
+
+    # Get cis angles
+    cis_angle = [all_angle[i] for i in range(12)]
+
+    # Get trans angles
+    trans_angle = [all_angle[i] for i in range(12, 15)]
+
+    # Show cis angles
+    echo_logs(self, "Info: Show 12 cis angles")
+    echo_logs(self, "")
+    echo_logs(self, "      No.    Atom pair        Angle")
+    echo_logs(self, "      ---    ---------     -----------")
+    for i in range(12):
+        echo_logs(self, "      {0:>2}     {1:>2} and {2:>2}      {3:10.6f}".format(i, la[i][0], la[i][1], cis_angle[i]))
+    echo_logs(self, "")
+
+    # Show trans angles
+    echo_logs(self, "Info: Show 3 trans angles")
+    echo_logs(self, "")
+    echo_logs(self, "      No.    Atom pair        Angle")
+    echo_logs(self, "      ---    ---------     -----------")
+    for i in range(3):
+        echo_logs(self,
+                  "      {0:>2}     {1:>2} and {2:>2}      {3:10.6f}".format(-i, la[-i][0], la[-i][1], trans_angle[i]))
+    echo_logs(self, "")
+
+    return cis_angle, trans_angle
 
 
 def calc_sigma(self, a_octa, c_octa):
@@ -166,55 +253,12 @@ def calc_sigma(self, a_octa, c_octa):
     """
     echo_logs(self, "Info: Calculate Σ parameter")
     echo_logs(self, "")
-    echo_logs(self, "Info: Calculate angle between ligand atoms (including cis and trans angles)")
-    echo_logs(self, "Info: Show 15 unique bond angles (°) before sorting")
-    echo_logs(self, "")
-    echo_logs(self, "      No.    Atom pair        Angle")
-    echo_logs(self, "      ---    ---------     -----------")
 
-    la = []
-    angle_sigma = []
-    k = 1
-    for i in range(1, 7):
-        for j in range(i + 1, 7):
-            angle = linear.angle_btw_3vec(self, c_octa[0], c_octa[i], c_octa[j])
-            echo_logs(self, "      {0:>2}     {1:>2} and {2:>2}      {3:10.6f}".format(k, a_octa[i], a_octa[j], angle))
-            la.append([a_octa[i], a_octa[j]])
-            angle_sigma.append(angle)
-            k += 1
-    echo_logs(self, "")
-
-    # Sort the angle from the lowest to the highest
-    angle_sigma.sort()
-
-    # Show trans angles (the last three angles)
-    echo_logs(self, "Info: Show 3 trans angles")
-    echo_logs(self, "")
-    echo_logs(self, "      No.    Atom pair        Angle")
-    echo_logs(self, "      ---    ---------     -----------")
-    for i in range(-1, -4, -1):
-        echo_logs(self,
-                  "      {0:>2}     {1:>2} and {2:>2}      {3:10.6f}".format(-i, la[i][0], la[i][1], angle_sigma[i]))
-    echo_logs(self, "")
-
-    # Remove 3 trans angles (last three angles)
-    la = la[:-3]
-    angle_sigma = angle_sigma[:-3]
-
-    max_angle = angle_sigma[-1]
-
-    echo_logs(self, "Info: Show 12 cis angles after deleting trans angles")
-    echo_logs(self, "")
-    echo_logs(self, "      No.    Atom pair        Angle")
-    echo_logs(self, "      ---    ---------     -----------")
-    for i in range(len(angle_sigma)):
-        echo_logs(self,
-                  "      {0:>2}     {1:>2} and {2:>2}      {3:10.6f}".format(i + 1, la[i][0], la[i][1], angle_sigma[i]))
-    echo_logs(self, "")
+    cis_angle, _ = calc_bond_angle(self, a_octa, c_octa)
 
     sigma = 0
-    for i in range(len(angle_sigma)):
-        sigma = abs(90.0 - angle_sigma[i]) + sigma
+    for i in range(len(cis_angle)):
+        sigma = abs(90.0 - cis_angle[i]) + sigma
 
     echo_logs(self, "      ====================== SUMMARY of Σ ======================")
     echo_logs(self, "")
@@ -223,10 +267,10 @@ def calc_sigma(self, a_octa, c_octa):
     echo_logs(self, "      ==========================================================")
     echo_logs(self, "")
 
-    return sigma, max_angle
+    return sigma
 
 
-def calc_theta(self, a_octa, c_octa, max_angle):
+def calc_theta(self, a_octa, c_octa):
     """Calculate Theta parameter and value in degree
 
           24
@@ -239,10 +283,8 @@ def calc_theta(self, a_octa, c_octa, max_angle):
     :param self: master frame
     :param a_octa: atomic labels of octahedral structure
     :param c_octa: atomic coordinates of octahedral structure
-    :param max_angle: maximum individual cis angle
     :type a_octa: list
     :type c_octa: list, array, tuple
-    :type max_angle: float
     :return theta_mean: mean Theta value
     :rtype theta_mean: float
     """
@@ -277,7 +319,6 @@ def calc_theta(self, a_octa, c_octa, max_angle):
     _MN6 = N6 - _M
 
     ligands_vec = [_MN1, _MN2, _MN3, _MN4, _MN5, _MN6]
-    for y in range(6): print(ligands_vec[y])
 
     echo_logs(self, "Info: Show vector from metal center to each ligand atom")
     echo_logs(self, "")
@@ -290,10 +331,13 @@ def calc_theta(self, a_octa, c_octa, max_angle):
     # Determine the order of atoms in complex #
     ###########################################
 
+    _, trans_angle = calc_bond_angle(self, a_octa, c_octa)
+
+    max_angle = trans_angle[0]
+
     def_change = 6
     for n in range(6):  # This loop is used to identify which N is in line with N1
         test = linear.angle_btw_2vec(ligands_vec[0], ligands_vec[n])
-        print(test)
         if test > (max_angle - 1):
             def_change = n
 
@@ -348,7 +392,6 @@ def calc_theta(self, a_octa, c_octa, max_angle):
         if test > test_max:
             test_max = test
             new_change = n
-    print(geometry)
 
     if def_change != new_change:
         geometry = True
@@ -391,7 +434,6 @@ def calc_theta(self, a_octa, c_octa, max_angle):
         if test > test_max:
             test_max = test
             new_change = n
-    print(geometry)
 
     if def_change != new_change:
         geometry = True
@@ -582,10 +624,11 @@ def calc_theta(self, a_octa, c_octa, max_angle):
     echo_logs(self, "      Maximum Θ parameter : {0:11.6f} degree".format(theta_max))
     echo_logs(self, "         Mean Θ parameter : {0:11.6f} degree ***".format(theta_mean))
     echo_logs(self, "")
+    if geometry:
+        echo_logs(self, "      !!! Non-octahedral structure detected !!!")
+        echo_logs(self, "")
     echo_logs(self, "      ==========================================================")
     echo_logs(self, "")
-
-    print(geometry)
 
     # If geometry is True, the structure is non-octahedron
     if geometry:
@@ -638,11 +681,11 @@ def calc_all(self, a_c_octa):
         num_file, num_metal, atom_octa, coord_octa = a_c_octa[i]
 
         # Calculate distortion parameters
-        d_mean, bond_dist = calc_d_mean(self, atom_octa, coord_octa)
-        zeta = calc_zeta(self, d_mean, bond_dist)
-        delta = calc_delta(self, d_mean, bond_dist)
-        sigma, max_angle = calc_sigma(self, atom_octa, coord_octa)
-        theta_mean = calc_theta(self, atom_octa, coord_octa, max_angle)
+        d_mean = calc_d_mean(self, atom_octa, coord_octa)
+        zeta = calc_zeta(self, atom_octa, coord_octa)
+        delta = calc_delta(self, atom_octa, coord_octa)
+        sigma = calc_sigma(self, atom_octa, coord_octa)
+        theta_mean = calc_theta(self, atom_octa, coord_octa)
 
         # Find 8 reference faces and 8 opposite faces
         a_ref_f, c_ref_f, a_oppo_f, c_oppo_f = tools.find_faces_octa(self, coord_octa)
@@ -656,25 +699,33 @@ def calc_all(self, a_c_octa):
         all_face.append(face_data)
         comp_result.append([num_file, num_metal, d_mean, zeta, delta, sigma, theta_mean])
 
+    # Print results to each unique box
     if len(a_c_octa) == 1:
         self.box_d_mean.insert(tk.INSERT, "{0:3.6f}".format(d_mean))
         self.box_zeta.insert(tk.INSERT, "{0:3.6f}".format(zeta))
         self.box_delta.insert(tk.INSERT, "{0:3.6f}".format(delta))
         self.box_sigma.insert(tk.INSERT, "{0:3.6f}".format(sigma))
         self.box_theta_mean.insert(tk.INSERT, "{0:3.6f}".format(theta_mean))
+    else:
+        self.box_d_mean.insert(tk.INSERT, "See below")
+        self.box_zeta.insert(tk.INSERT, "See below")
+        self.box_delta.insert(tk.INSERT, "See below")
+        self.box_sigma.insert(tk.INSERT, "See below")
+        self.box_theta_mean.insert(tk.INSERT, "See below")
 
-    elif len(a_c_octa) > 1:
-        echo_outs(self, "Computed octahedral distortion parameters for all complexes")
-        echo_outs(self, "")
-        echo_outs(self, "Complex   Metal       <D>      Zeta      Delta      Sigma      Theta")
-        echo_outs(self, "  ---------     -------       -----      ------      -------      -------     -------")
-        echo_outs(self, "")
-        for i in range(len(comp_result)):
-            echo_outs(self, " {0:2d}  -  {1} :  {2:9.4f}  {3:9.6f}  {4:9.6f}  {5:9.4f}  {6:9.4f}"
-                      .format(comp_result[i][0], comp_result[i][1], comp_result[i][2], comp_result[i][3],
-                              comp_result[i][4], comp_result[i][5], comp_result[i][6]))
-        echo_outs(self, "")
+    # Print results to result box
+    echo_outs(self, "Computed octahedral distortion parameters for all complexes")
+    echo_outs(self, "")
+    echo_outs(self, "Complex   Metal       <D>      Zeta      Delta      Sigma      Theta")
+    echo_outs(self, "  ---------     -------       -----      ------      -------      -------     -------")
+    echo_outs(self, "")
+    for i in range(len(comp_result)):
+        echo_outs(self, " {0:2d}  -  {1} :  {2:9.4f}  {3:9.6f}  {4:9.6f}  {5:9.4f}  {6:9.4f}"
+                  .format(comp_result[i][0], comp_result[i][1], comp_result[i][2], comp_result[i][3],
+                          comp_result[i][4], comp_result[i][5], comp_result[i][6]))
+    echo_outs(self, "")
 
+    # Print results to stdout log box
     echo_logs(self, "Info: Show computed octahedral distortion parameters of all files")
     echo_logs(self, "")
     echo_logs(self, "      ==================== Overall Summary ====================")

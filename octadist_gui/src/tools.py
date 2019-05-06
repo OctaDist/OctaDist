@@ -140,10 +140,10 @@ def param_complex(self, acf):
         for j in range(i + 1, len(fcl)):
             for k in range(j + 1, len(fcl)):
                 if i == 0:
-                    angle = linear.angle_btw_3vec(self, fcl[j], fcl[i], fcl[k])
+                    angle = linear.angle_btw_3points(self, fcl[j], fcl[i], fcl[k])
                     texts = "{0}{1}-{2}-{3}{4} {5:10.6f}".format(fal[k], k, fal[i], fal[j], j, angle)
                 else:
-                    angle = linear.angle_btw_3vec(self, fcl[j], fcl[i], fcl[k])
+                    angle = linear.angle_btw_3points(self, fcl[j], fcl[i], fcl[k])
                     texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}".format(fal[k], k, fal[i], i, fal[j], j, angle)
                 box.insert(tk.END, "\n" + texts)
     box.insert(tk.END, "\n")
@@ -196,11 +196,11 @@ def param_octa(self, aco):
             for j in range(i + 1, 7):
                 for k in range(j + 1, 7):
                     if i == 0:
-                        angle = linear.angle_btw_3vec(self, aco[n][3][j], aco[n][3][i], aco[n][3][k])
+                        angle = linear.angle_btw_3points(self, aco[n][3][j], aco[n][3][i], aco[n][3][k])
                         texts = "{0}{1}-{2}-{3}{4} {5:10.6f}".format(aco[n][2][k], k, aco[n][2][i], aco[n][2][j], j,
                                                                      angle)
                     else:
-                        angle = linear.angle_btw_3vec(self, aco[n][3][j], aco[n][3][i], aco[n][3][k])
+                        angle = linear.angle_btw_3points(self, aco[n][3][j], aco[n][3][i], aco[n][3][k])
                         texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}".format(aco[n][2][k], k, aco[n][2][i], i, aco[n][2][j],
                                                                         j, angle)
                     box.insert(tk.END, "\n" + texts)

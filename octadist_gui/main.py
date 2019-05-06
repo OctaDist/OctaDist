@@ -44,7 +44,7 @@ class OctaDist:
         self.all_sigma = []  # computed sigma of all octahedral structures
         self.all_theta = []  # computed theta of all octahedral structures
         self.all_face = []  # atomic labels and coordinates of 8 faces and their opposite faces
-        self.is_it_octa = True  # tell us if the structure is octahedron or not
+        self.check_metal = True  # True if the structure is octahedron or not, False if it does not
 
         # Master frame configuration
         self.master = master
@@ -57,13 +57,13 @@ class OctaDist:
         menu_bar = tk.Menu(self.master)
         self.master.config(menu=menu_bar)
         file_menu = tk.Menu(self.master, tearoff=0)
-        display_menu = tk.Menu(self.master, tearoff=0)
+        disp_menu = tk.Menu(self.master, tearoff=0)
         tools_menu = tk.Menu(self.master, tearoff=0)
         help_menu = tk.Menu(self.master, tearoff=0)
 
         # Sub-menu
         data_menu = tk.Menu(self.master, tearoff=0)
-        structure_menu = tk.Menu(self.master, tearoff=0)
+        strct_menu = tk.Menu(self.master, tearoff=0)
 
         # File
         menu_bar.add_cascade(label="File", menu=file_menu)
@@ -74,32 +74,34 @@ class OctaDist:
         file_menu.add_command(label="Exit", command=lambda: master.destroy())
 
         # Display
-        menu_bar.add_cascade(label="Display", menu=display_menu)
-        display_menu.add_command(label="All Atoms",
-                                 command=lambda: draw.all_atom(self, self.atom_coord_full))
-        display_menu.add_command(label="All Atoms and Faces",
-                                 command=lambda: draw.all_atom_and_face(self, self.atom_coord_full, self.all_face))
-        display_menu.add_command(label="Octahedral Complex",
-                                 command=lambda: draw.octa(self, self.atom_coord_octa))
-        display_menu.add_command(label="Octahedron and 8 Faces",
-                                 command=lambda: draw.octa_and_face(self, self.atom_coord_octa, self.all_face))
-        display_menu.add_separator()
-        display_menu.add_command(label="Projection Planes",
-                                 command=lambda: plane.proj_planes(self, self.atom_coord_octa, self.all_face))
-        display_menu.add_command(label="Twisting Triangular Faces",
-                                 command=lambda: plane.twisting_faces(self, self.atom_coord_octa, self.all_face))
+        menu_bar.add_cascade(label="Display", menu=disp_menu)
+        disp_menu.add_command(label="All Atoms",
+                              command=lambda: draw.all_atom(self, self.atom_coord_full))
+        disp_menu.add_command(label="All Atoms and Faces",
+                              command=lambda: draw.all_atom_and_face(self, self.atom_coord_full, self.all_face))
+        disp_menu.add_command(label="Octahedral Complex",
+                              command=lambda: draw.octa(self, self.atom_coord_octa))
+        disp_menu.add_command(label="Octahedron and 8 Faces",
+                              command=lambda: draw.octa_and_face(self, self.atom_coord_octa, self.all_face))
+        disp_menu.add_separator()
+        disp_menu.add_command(label="Projection Planes",
+                              command=lambda: plane.proj_planes(self, self.atom_coord_octa, self.all_face))
+        disp_menu.add_command(label="Twisting Triangular Faces",
+                              command=lambda: plane.twisting_faces(self, self.atom_coord_octa, self.all_face))
 
         # Tools
         menu_bar.add_cascade(menu=tools_menu, label="Tools")
         tools_menu.add_cascade(menu=data_menu, label="Data Summary")
         data_menu.add_cascade(label="Complex Info",
                               command=lambda: tools.data_complex(self, self.file_list, self.atom_coord_full))
-        tools_menu.add_cascade(menu=structure_menu, label="Show Structural Parameter")
-        structure_menu.add_command(label="All Atoms",
-                                   command=lambda: tools.param_complex(self, self.atom_coord_full))
-        structure_menu.add_command(label="Octahedral Structure",
-                                   command=lambda: tools.param_octa(self, self.atom_coord_octa))
+        tools_menu.add_cascade(menu=strct_menu, label="Show Structural Parameter")
+        strct_menu.add_command(label="All Atoms",
+                               command=lambda: tools.param_complex(self, self.atom_coord_full))
+        strct_menu.add_command(label="Octahedral Structure",
+                               command=lambda: tools.param_octa(self, self.atom_coord_octa))
         tools_menu.add_separator()
+        tools_menu.add_command(label="Relationship Plot between ζ and Σ",
+                               command=lambda: plot.plot_zeta_sigma(self, self.all_zeta, self.all_sigma))
         tools_menu.add_command(label="Relationship Plot between Σ and Θ",
                                command=lambda: plot.plot_sigma_theta(self, self.all_sigma, self.all_theta))
         tools_menu.add_separator()
@@ -256,7 +258,7 @@ class OctaDist:
         self.all_sigma = []
         self.all_theta = []
         self.all_face = []
-        self.is_it_octa = True
+        self.check_metal = True
 
         self.clear_param_box()
         self.clear_result_box()
@@ -286,29 +288,30 @@ class OctaDist:
         data = data.decode('utf-8')
         data = data.split()
 
-        new_ver = data[1]
-        new_rev = float(data[3])  # code version
-        old_rev = float(octadist_gui.__revision__)
+        user_rev = float(octadist_gui.__revision__)
+        server_ver = data[1]
+        server_rev = float(data[3])  # code version
+
         os_name = platform.system()  # find the OS name
 
-        if new_rev > old_rev:
+        if server_rev > user_rev:
             print("Updates available!")
             popup.info_update(self)
 
-            text = "A new version {0} is ready for download.\n\nDo you want to download now?".format(new_ver)
+            text = "A new version {0} is ready for download.\n\nDo you want to download now?".format(server_ver)
             MsgBox = messagebox.askquestion("Updates available", text, icon="warning")
             if MsgBox == 'yes':
                 if os_name == "Windows":
                     link_windows = "https://github.com/OctaDist/OctaDist/releases/download/v.{0}/OctaDist-{1}-Win-x86-64.exe".format(
-                        new_ver, new_ver)
+                        server_ver, server_ver)
                     webbrowser.open_new_tab(link_windows)
                 elif os_name == "Darwin":
                     link_mac = "https://github.com/OctaDist/OctaDist/releases/download/v.{0}/OctaDist-{1}-macOS-x86-64".format(
-                        new_ver, new_ver)
+                        server_ver, server_ver)
                     webbrowser.open_new_tab(link_mac)
                 elif os_name == "Linux":
                     link_linux = "https://github.com/OctaDist/OctaDist/releases/download/v.{0}/OctaDist-{1}-Linux-x86-64.tar.gz".format(
-                        new_ver, new_ver)
+                        server_ver, server_ver)
                     webbrowser.open_new_tab(link_linux)
                 else:
                     popup.err_cannot_update(self)
@@ -384,7 +387,7 @@ class OctaDist:
                     # If molecule has no transition metal, insert full atomic coordinates into result box.
                     if count == 0:
                         popup.warn_no_metal(self)
-                        self.is_it_octa = False
+                        self.check_metal = False
 
                         if i == 0:
                             echo_outs(self, "XYZ coordinates of extracted octahedral structure")
@@ -504,7 +507,7 @@ class OctaDist:
     def calc_all_param(self):
         """Calculate distortion parameters
         """
-        if not self.is_it_octa:
+        if not self.check_metal:
             popup.err_no_metal(self)
             return 1
 

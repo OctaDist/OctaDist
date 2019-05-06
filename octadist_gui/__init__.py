@@ -49,4 +49,3 @@ from .src.calc import calc_delta
 from .src.calc import calc_sigma
 from .src.calc import calc_theta
 from .src.calc import calc_all
-
