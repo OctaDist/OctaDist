@@ -3,7 +3,7 @@
 echo "Compile OctaDist using PyInstaller"
 echo "=================================="
 
-pyinstaller -F -w -i molecule.ico --version-file version.txt -n OctaDist-2.5-Win-x86-64
+pyinstaller -F -w -i molecule.ico --version-file version.txt -n OctaDist-2.5.2-Win-x86-64 main.py
 
 # Optional
 # --onefile		or -F	(compile as a standalone executable)
