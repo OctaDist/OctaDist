@@ -3,7 +3,8 @@
 
 ## OctaDist - Nightly build
 
-Octahedral distortion calculator: A program for determining the structural distortion of the octahedral complexes. https://octadist.github.io/
+Octahedral distortion calculator: A tool for calculating distortion parameters in coordination complexes. 
+https://octadist.github.io/
 
 ## Project team
 
