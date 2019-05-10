@@ -1,7 +1,7 @@
 VSVersionInfo(
   ffi=FixedFileInfo(
-    filevers=(2, 5, 1, 0),
-    prodvers=(2, 5, 1, 0),
+    filevers=(2, 5, 2, 0),
+    prodvers=(2, 5, 2, 0),
     mask=0x3f,
     flags=0x0,
     OS=0x40004,
@@ -16,12 +16,12 @@ VSVersionInfo(
         u'040904B0',
         [StringStruct(u'CompanyName', u'OctaDist'),
         StringStruct(u'FileDescription', u'Octahedral Distortion Calculator'),
-        StringStruct(u'FileVersion', u'2.5.1.0'),
+        StringStruct(u'FileVersion', u'2.5.2.0'),
         StringStruct(u'InternalName', u'octadist'),
         StringStruct(u'LegalCopyright', u'Copyright (C) 2019 Rangsiman Ketkaew et al.'),
-        StringStruct(u'OriginalFilename', u'OctaDist-2.5.1-Win-x86-64.exe'),
+        StringStruct(u'OriginalFilename', u'OctaDist-2.5.2-Win-x86-64.exe'),
         StringStruct(u'ProductName', u'OctaDist'),
-        StringStruct(u'ProductVersion', u'2.5.1.0')])
+        StringStruct(u'ProductVersion', u'2.5.2.0')])
       ]), 
     VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
   ]
