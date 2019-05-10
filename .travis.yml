@@ -4,7 +4,7 @@ dist: xenial
 
 branches:
   only:
-    - master
+    - nightly-build
 
 python:
   - "3.7"  # 3.7 development branch
@@ -14,9 +14,10 @@ install:
   - pip install numpy
   - pip install scipy
   - pip install matplotlib
+  - pip install rmsd
 
 script:
-  - cd octadist/
-  - pyinstaller --onefile --windowed --version-file=../version.txt -n OctaDist-run main.py
+  - cd octadist_gui/
+  - pyinstaller --onefile --windowed --version-file=../version.txt -n OctaDist-Run-Test main.py
 #  - python src/main.py
 
