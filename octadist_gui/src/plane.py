@@ -21,13 +21,20 @@ from octadist_gui.src import echo_logs, linear, popup, projection
 
 
 def proj_planes(self, aco, all_face):
-    """Display the selected 4 faces of octahedral complex
+    """
+    Display the selected 4 faces of octahedral complex.
 
-    :param self: master frame
-    :param aco: atomic labels and coordinates of octahedral structure
-    :param all_face: atomic labels and coordinates of 8 faces
-    :type aco: list
-    :type all_face: list
+    Parameters
+    ----------
+    aco : list
+        Atomic labels and coordinates of octahedral structure.
+    all_face : list
+        Atomic labels and coordinates of 8 faces.
+
+    Returns
+    -------
+    None
+
     """
     if len(aco) == 0:
         popup.err_no_calc(self)
@@ -101,13 +108,20 @@ def proj_planes(self, aco, all_face):
 
 
 def twisting_faces(self, aco, all_face):
-    """Display twisting triangular faces and vector projection
+    """
+    Display twisting triangular faces and vector projection.
 
-    :param self: master frame
-    :param aco: atomic labels and coordinates of octahedral structure
-    :param all_face: atomic labels and coordinates of 8 faces
-    :type aco: list
-    :type all_face: list
+    Parameters
+    ----------
+    aco : list
+        Atomic labels and coordinates of octahedral structure.
+    all_face : list
+        Atomic labels and coordinates of 8 faces.
+
+    Returns
+    -------
+    None
+
     """
     if len(aco) == 0:
         popup.err_no_calc(self)

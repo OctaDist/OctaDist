@@ -23,13 +23,20 @@ from octadist_gui.src import echo_logs, linear, popup, projection
 
 
 def data_complex(self, fl, facl):
-    """Show info of input complex
+    """
+    Show info of input complex.
 
-    :param self: master frame
-    :param fl: list containing the names of all input files
-    :param facl: atomic labels and coordinates of full complex
-    :type fl: list
-    :type facl: list
+    Parameters
+    ----------
+    fl : list
+        List containing the names of all input files.
+    facl : list
+        Atomic labels and coordinates of full complex.
+
+    Returns
+    -------
+    None
+
     """
     if len(fl) == 0:
         popup.err_no_file(self)
@@ -57,17 +64,24 @@ def data_complex(self, fl, facl):
 
 
 def data_face(self, sfa, sfc, sofa, sofc):
-    """Show info of selected 4 octahedral faces
+    """
+    Show info of selected 4 octahedral faces.
 
-    :param self: master frame
-    :param sfa: selected face atom
-    :param sfc: selected face coordinates
-    :param sofa: selected opposite face atom
-    :param sofc: selected opposite face coordinates
-    :type sfa: list
-    :type sfc: list
-    :type sofa: list
-    :type sofc: list
+    Parameters
+    ----------
+    sfa : list
+        Selected face atom.
+    sfc : list
+        Selected face coordinates.
+    sofa : list
+        Selected opposite face atom.
+    sofc : list
+        Selected opposite face coordinates.
+
+    Returns
+    -------
+    None
+
     """
     if len(sfa) == 0:
         popup.err_no_calc(self)
@@ -95,11 +109,18 @@ def data_face(self, sfa, sfc, sofa, sofc):
 
 
 def param_complex(self, acf):
-    """Show structural parameters of the complex
+    """
+    Show structural parameters of the complex.
 
-    :param self: master frame
-    :param acf: atomic labels and coordinates of full complex
-    :type acf: list
+    Parameters
+    ----------
+    acf : list
+        Atomic labels and coordinates of full complex.
+
+    Returns
+    -------
+    None
+
     """
     if len(acf) == 0:
         popup.err_no_file(self)
@@ -140,21 +161,32 @@ def param_complex(self, acf):
         for j in range(i + 1, len(fcl)):
             for k in range(j + 1, len(fcl)):
                 if i == 0:
-                    angle = linear.angle_btw_3points(self, fcl[j], fcl[i], fcl[k])
+                    vec1 = fcl[i] - fcl[j]
+                    vec2 = fcl[k] - fcl[j]
+                    angle = linear.angle_btw_2vec(vec1, vec2)
                     texts = "{0}{1}-{2}-{3}{4} {5:10.6f}".format(fal[k], k, fal[i], fal[j], j, angle)
                 else:
-                    angle = linear.angle_btw_3points(self, fcl[j], fcl[i], fcl[k])
+                    vec1 = fcl[i] - fcl[j]
+                    vec2 = fcl[k] - fcl[j]
+                    angle = linear.angle_btw_2vec(vec1, vec2)
                     texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}".format(fal[k], k, fal[i], i, fal[j], j, angle)
                 box.insert(tk.END, "\n" + texts)
     box.insert(tk.END, "\n")
 
 
 def param_octa(self, aco):
-    """Show structural parameters of selected octahedral structure
+    """
+    Show structural parameters of selected octahedral structure.
 
-    :param self: master frame
-    :param aco: atomic labels and coordinates of octahedral structure
-    :type aco: list
+    Parameters
+    ----------
+    aco : list
+        Atomic labels and coordinates of octahedral structure.
+
+    Returns
+    -------
+    None
+
     """
     if len(aco) == 0:
         popup.err_no_file(self)
@@ -196,31 +228,39 @@ def param_octa(self, aco):
             for j in range(i + 1, 7):
                 for k in range(j + 1, 7):
                     if i == 0:
-                        angle = linear.angle_btw_3points(self, aco[n][3][j], aco[n][3][i], aco[n][3][k])
-                        texts = "{0}{1}-{2}-{3}{4} {5:10.6f}".format(aco[n][2][k], k, aco[n][2][i], aco[n][2][j], j,
-                                                                     angle)
+                        vec1 = aco[n][3][i] - aco[n][3][j]
+                        vec2 = aco[n][3][k] - aco[n][3][j]
+                        angle = linear.angle_btw_2vec(vec1, vec2)
+                        texts = "{0}{1}-{2}-{3}{4} {5:10.6f}".format(aco[n][2][k], k, aco[n][2][i], aco[n][2][j], j, angle)
                     else:
-                        angle = linear.angle_btw_3points(self, aco[n][3][j], aco[n][3][i], aco[n][3][k])
-                        texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}".format(aco[n][2][k], k, aco[n][2][i], i, aco[n][2][j],
-                                                                        j, angle)
+                        vec1 = aco[n][3][i] - aco[n][3][j]
+                        vec2 = aco[n][3][k] - aco[n][3][j]
+                        angle = linear.angle_btw_2vec(vec1, vec2)
+                        texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}".format(aco[n][2][k], k, aco[n][2][i], i, aco[n][2][j], j, angle)
                     box.insert(tk.END, "\n" + texts)
         box.insert(tk.END, "\n")
 
 
 def find_bonds(self, fal, fcl):
-    """Find all bond distance and filter the possible bonds
+    """
+    Find all bond distance and filter the possible bonds.
 
     - Compute distance of all bonds
     - Screen bonds out based on global cutoff distance
     - Screen H bonds out based on local cutoff distance
 
-    :param self: master frame
-    :param fal: list of atomic labels of full complex
-    :param fcl: list of atomic coordinates of full complex
-    :type fal: list
-    :type fcl: list
-    :return check_2_bond_list: selected bonds
-    :rtype check_2_bond_list: list
+    Parameters
+    ----------
+    fal : list
+        List of atomic labels of full complex.
+    fcl : list
+        List of atomic coordinates of full complex.
+
+    Returns
+    -------
+    check_2_bond_list: list
+        Selected bonds.
+
     """
     global_distance_cutoff = 2.0
     hydrogen_distance_cutoff = 1.2
@@ -265,34 +305,43 @@ def find_bonds(self, fal, fcl):
 
 
 def find_faces_octa(self, c_octa):
-    """Find the eight faces of octahedral structure
+    """
+    Find the eight faces of octahedral structure.
 
-    1) Choose 3 atoms out of 6 ligand atoms. The total number of combination is 20
-    2) Orthogonally project metal center atom onto the face: m ----> m'
-    3) Calculate the shortest distance between original metal center to its projected point
-    4) Sort the 20 faces in ascending order of the shortest distance
-    5) Delete 12 faces that closest to metal center atom (first 12 faces)
-    6) The remaining 8 faces are the (reference) face of octahedral structure
-    7) Find 8 opposite faces
+    1) Choose 3 atoms out of 6 ligand atoms.
+        The total number of combination is 20.
+    2) Orthogonally project metal center atom onto the face:
+        m ----> m'
+    3) Calculate the shortest distance between original metal center to its projected point.
+    4) Sort the 20 faces in ascending order of the shortest distance.
+    5) Delete 12 faces that closest to metal center atom (first 12 faces).
+    6) The remaining 8 faces are the (reference) face of octahedral structure.
+    7) Find 8 opposite faces.
 
-    For example,
-         Reference plane            Opposite plane
-            [[1 2 3]                   [[4 5 6]
-             [1 2 4]        --->        [3 5 6]
-               ...                        ...
-             [2 3 5]]                   [1 4 6]]
+    Parameters
+    ----------
+    c_octa : array
+        Atomic coordinates of octahedral structure.
 
-    :param self: master frame
-    :param c_octa: atomic coordinates of octahedral structure
-    :type c_octa: list, array, tuple    :return a_ref_f: list - atomic labels of reference face
-    :return a_ref_f: atomic labels of reference face
-    :return c_ref_f: atomic coordinates of reference face
-    :return a_oppo_f: atomic labels of opposite face
-    :return c_oppo_f: atomic coordinates of opposite face
-    :rtype a_ref_f: list
-    :rtype c_ref_f: array
-    :rtype a_oppo_f: list
-    :rtype c_oppo_f: array
+    Returns
+    -------
+    a_ref_f : list
+        Atomic labels of reference face.
+    c_ref_f : array
+        Atomic coordinates of reference face.
+    a_oppo_f : list
+        Atomic labels of opposite face.
+    c_oppo_f : array
+        Atomic coordinates of opposite face.
+
+    Examples
+    --------
+    Reference plane             Opposite plane
+        [[1 2 3]                   [[4 5 6]
+        [1 2 4]        --->        [3 5 6]
+          ...                        ...
+        [2 3 5]]                   [1 4 6]]
+
     """
     ########################
     # Find reference faces #
@@ -392,11 +441,18 @@ def find_faces_octa(self, c_octa):
 
 
 def find_surface_area(self, all_face):
-    """Calculate the area of eight triangular faces of octahedral structure
+    """
+    Calculate the area of eight triangular faces of octahedral structure.
 
-    :param self: master frame
-    :param all_face: atomic labels and coordinates of 8 faces
-    :type all_face: list
+    Parameters
+    ----------
+    all_face : list
+        Atomic labels and coordinates of 8 faces.
+
+    Returns
+    -------
+    None
+
     """
     if len(all_face) == 0:
         popup.err_no_calc(self)

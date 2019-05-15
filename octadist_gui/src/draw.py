@@ -27,11 +27,18 @@ from octadist_gui.src import echo_logs, elements, popup, tools
 
 
 def all_atom(self, acf):
-    """Display 3D structure of octahedral complex with label for each atoms
+    """
+    Display 3D structure of octahedral complex with label for each atoms.
 
-    :param self: master frame
-    :param acf: atomic labels and coordinates of full complex
-    :type acf: list
+    Parameters
+    ----------
+    acf : list
+        Atomic labels and coordinates of full complex.
+
+    Returns
+    -------
+    None
+
     """
     if len(acf) == 0:
         popup.err_no_file(self)
@@ -116,13 +123,20 @@ def all_atom(self, acf):
 
 
 def all_atom_and_face(self, acf, all_face):
-    """Display 3D structure of octahedral complex with label for each atoms
+    """
+    Display 3D structure of octahedral complex with label for each atoms.
 
-    :param self: master frame
-    :param acf: atomic labels and coordinates of full complex
-    :param all_face: atomic labels and coordinates of 8 faces
-    :type acf: list
-    :type all_face: list
+    Parameters
+    ----------
+    acf : list
+        Atomic labels and coordinates of full complex.
+    all_face : list
+        Atomic labels and coordinates of 8 faces.
+
+    Returns
+    -------
+    None
+
     """
     if len(acf) == 0:
         popup.err_no_file(self)
@@ -208,11 +222,18 @@ def all_atom_and_face(self, acf, all_face):
 
 
 def octa(self, aco):
-    """Display 3D structure of octahedral complex
+    """
+    Display 3D structure of octahedral complex.
 
-    :param self: master frame
-    :param aco: atomic labels and coordinates of octahedral structure
-    :type aco: list
+    Parameters
+    ----------
+    aco : list
+        Atomic labels and coordinates of octahedral structure.
+
+    Returns
+    -------
+    None
+
     """
     if len(aco) == 0:
         popup.err_no_calc(self)
@@ -273,13 +294,20 @@ def octa(self, aco):
 
 
 def octa_and_face(self, aco, all_face):
-    """Display 3D structure of octahedral complex with 8 faces
+    """
+    Display 3D structure of octahedral complex with 8 faces.
 
-    :param self: master frame
-    :param aco: atomic labels and coordinates of octahedral structure
-    :param all_face: atomic labels and coordinates of 8 faces
-    :type aco: list
-    :type all_face: list
+    Parameters
+    ----------
+    aco : list
+        Atomic labels and coordinates of octahedral structure.
+    all_face : list
+        Atomic labels and coordinates of 8 faces.
+
+    Returns
+    -------
+    None
+
     """
     if len(aco) == 0:
         popup.err_no_calc(self)

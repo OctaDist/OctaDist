@@ -22,22 +22,18 @@ import octadist_gui
 from octadist_gui.src import echo_logs
 
 
-def header(self):
-    """Show welcome message when program starts
-    """
-    echo_logs(self, "==========================================================")
-    echo_logs(self, "OctaDist {0} : https://octadist.github.io".format(octadist_gui.__version__))
-    echo_logs(self, "A Program for determining the structural distortion of the octahedral complexes")
-    echo_logs(self, "==========================================================")
-    echo_logs(self, "")
-
-
 def callback(event):
     webbrowser.open_new(event.widget.cget("text"))
 
 
 def show_help(self):
-    """Show program help
+    """
+    Show program help.
+
+    1. Simple usage
+    2. XYZ file format
+    3. References
+
     """
     master = tk.Toplevel(self)
     master.title("Program Help")
@@ -97,24 +93,33 @@ def show_help(self):
 
 
 def show_about(self):
-    """Show author info
+    """
+    Show author info
+
+    1. Name of authors
+    2. Official program website
+    3. Citation
+
     """
     echo_logs(self, "Info: Show program information")
-
     text = "OctaDist version {0} ({1})\n" \
            "\n" \
-           "Authors: Rangsiman Ketkaew, Yuthana Tantirungrotechai,\n" \
-           "David J. Harding, Phimphaka Harding, and Mathieu Marchivie.\n" \
+           "Authors: {2}\n" \
            "\n" \
-           "Website: https://octadist.github.io\n" \
+           "Website: {3}\n" \
            "\n" \
-           "Please cite this project if you use OctaDist for scientific publication." \
-        .format(octadist_gui.__version__, octadist_gui.__release__)
+           "Please cite this project if you use OctaDist for scientific publication."\
+        .format(octadist_gui.__version__, octadist_gui.__release__,
+                octadist_gui.__author_full__, octadist_gui.__website__)
     showinfo("About program", text)
 
 
 def show_license(self):
-    """Show license info
+    """
+    Show license info.
+
+    GNU General Public License version 3.0.
+
     """
     echo_logs(self, "Info: Show program license information")
 
@@ -139,11 +144,20 @@ def err_no_file(self):
 
 
 def err_invalid_ftype(self, ftype):
-    """Show error popup: invalid file type
+    """
+    Show error popup:
 
-    :param self: master frame
-    :param ftype: file type
-    :type ftype: str
+    Show this error popup when file type is not supported by the program.
+
+    Parameters
+    ----------
+    ftype : str
+        File type of submitted file.
+
+    Returns
+    -------
+    None
+
     """
     echo_logs(self, "Error: Invalid XYZ file format")
     showerror("Error", "Invalid {0} file format.\n\n"
@@ -177,6 +191,21 @@ def err_not_equal_atom(self):
 
 
 def err_atom_not_match(self, line):
+    """
+    Show error popup:
+
+    show this error popup when atomic symbol of two similar complexes does not match.
+
+    Parameters
+    ----------
+    line : int
+        The line number that atomic symbol does not match.
+
+    Returns
+    -------
+    None
+
+    """
     echo_logs(self, "Error: Atomic symbol not match at line {0}.".format(line))
     showerror("Error", "Atomic symbol not match at line {0}.".format(line))
 
@@ -198,12 +227,27 @@ def err_cannot_update(self):
 
 
 def info_save_results(self, file):
+    """
+    Show info popup:
+
+    show this info popup when output file has been saved successfully.
+
+    Parameters
+    ----------
+    file : str
+        Absolute or full path of saved output file.
+
+    Returns
+    -------
+    None
+
+    """
     echo_logs(self, "Info: Data has been saved to \"{0}\"".format(file))
     showinfo("Info", "Data has been saved to {0}".format(file))
 
 
 def info_update(self):
-    echo_logs(self, "Info: Updates available.")
+    echo_logs(self, "Info: New version of OctaDist is available for update now!")
     echo_logs(self, "      Visit {0} for downloading a new version of OctaDist.".format(octadist_gui.__website__))
     showinfo("Info", "New updates available!")
 

@@ -28,15 +28,22 @@ from octadist_gui.src import echo_logs, elements, linear, popup, tools
 
 
 def insert_text(self, text, coord, group):
-    """Insert text in boxes
+    """
+    Insert text in boxes.
 
-    :param self: root
-    :param text: text
-    :param coord: coordinates
-    :param group: group A or B
-    :type text: str
-    :type coord: list, array
-    :type group: str
+    Parameters
+    ----------
+    text : str
+        Text.
+    coord : list or array
+        Coordinates.
+    group : str
+        Group A or B.
+
+    Returns
+    -------
+    None
+
     """
     if group == "A":
         self.box_1.insert(tk.INSERT, text + "\n")
@@ -52,9 +59,17 @@ def insert_text(self, text, coord, group):
 
 
 def clear_text(self):
-    """Clear text in box A & B
+    """
+    Clear text in box A & B.
 
-    :param self: root
+    Parameters
+    ----------
+    None
+
+    Returns
+    -------
+    None
+
     """
     self.box_1.delete(1.0, tk.END)
     self.box_2.delete(1.0, tk.END)
@@ -70,14 +85,44 @@ def clear_text(self):
 
 
 def calc_fit_plane(coord):
-    """Find best fit plane to the given data points (atoms)
+    """
+    Find best fit plane to the given data points (atoms).
 
-    scipy.optimize.minimize is used to find the least-square plane
+    scipy.optimize.minimize is used to find the least-square plane.
 
-    :param coord: coordinates of selected atom chunk
-    :type coord: list, array
-    :return xx, yy, z, abcd: the equation of the plane
-    :rtype xx, yy, z, abcd: list, array, tuple
+    Parameters
+    ----------
+    coord : list or array
+        Coordinates of selected atom chunk.
+
+    Returns
+    -------
+    xx, yy, z : float
+        Coefficient of the surface.
+    abcd : tuple
+        Coefficient of the equation of the plane.
+
+    Notes
+    -----
+
+
+    Examples
+    --------
+    Example of set of coordinate of atoms.
+
+    points = [(1.1, 2.1, 8.1),
+              (3.2, 4.2, 8.0),
+              (5.3, 1.3, 8.2),
+              (3.4, 2.4, 8.3),
+              (1.5, 4.5, 8.0),
+              (5.5, 6.7, 4.5)]
+    
+    To plot the plane, run following commands:
+              
+    >> map coordinates for scattering plot
+    >> xs, ys, zs = zip(*points)
+    >> ax.scatter(xs, ys, zs)
+
     """
 
     def plane(x, y, params):
@@ -100,14 +145,6 @@ def calc_fit_plane(coord):
                 a[2] * b[0] - a[0] * b[2],
                 a[0] * b[1] - a[1] * b[0]]
 
-    # Example of set of coordinate of atoms
-    # points = [(1.1, 2.1, 8.1),
-    #           (3.2, 4.2, 8.0),
-    #           (5.3, 1.3, 8.2),
-    #           (3.4, 2.4, 8.3),
-    #           (1.5, 4.5, 8.0),
-    #           (5.5, 6.7, 4.5)]
-
     points = coord
 
     fun = functools.partial(error, points=points)
@@ -117,10 +154,6 @@ def calc_fit_plane(coord):
     a = res.x[0]
     b = res.x[1]
     c = res.x[2]
-
-    # map coordinates for scattering plot
-    # xs, ys, zs = zip(*points)
-    # ax.scatter(xs, ys, zs)
 
     point = np.array([0.0, 0.0, c])
     normal = np.array(cross([1, 0, a], [0, 1, b]))
@@ -134,11 +167,18 @@ def calc_fit_plane(coord):
 
 
 def plot_fit_plane(self, acf):
-    """Display complex and two fit planes of two sets of ligand in molecule
+    """
+    Display complex and two fit planes of two sets of ligand in molecule.
 
-    :param self: root
-    :param acf: atomic labels and coordinates of full complex
-    :type acf: list
+    Parameters
+    ----------
+    acf : list
+        Atomic labels and coordinates of full complex.
+    
+    Returns
+    -------
+    None
+    
     """
     ###############
     # Clear boxes #
@@ -277,13 +317,20 @@ def plot_fit_plane(self, acf):
 
 
 def pick_atom(self, acf, group):
-    """On-mouse pick atom and get XYZ coordinate
+    """
+    On-mouse pick atom and get XYZ coordinate.
 
-    :param self: root
-    :param acf: atomic labels and coordinates of full complex
-    :param group: group A or B
-    :type acf: list
-    :type group: str
+    Parameters
+    ----------
+    acf : list
+        Atomic labels and coordinates of full complex.
+    group : str
+        Group A or B.
+    
+    Returns
+    -------
+    None
+    
     """
     fal, fcl = acf[0]
 
@@ -370,11 +417,18 @@ def pick_atom(self, acf, group):
 
 
 def calc_jahn_teller(self, acf):
-    """Calculate angular Jahn-Teller distortion parameter
+    """
+    Calculate angular Jahn-Teller distortion parameter.
 
-    :param self: master
-    :param acf: atomic labels and coordinates of full complex
-    :type acf: list
+    Parameters
+    ----------
+    acf : list
+        Atomic labels and coordinates of full complex.
+    
+    Returns
+    -------
+    None
+    
     """
     echo_logs(self, "Info: Calculate angular Jahn-Teller distortion parameter")
     echo_logs(self, "      Find least squares planes of two sets of ligands in molecule")
@@ -457,16 +511,27 @@ def calc_jahn_teller(self, acf):
 
 
 def calc_rmsd(self, acf):
-    """Calculate root mean squared displacement of atoms in complex, RMSD
+    """
+    Calculate root mean squared displacement of atoms in complex, RMSD.
 
-    Ack: https://github.com/charnley/rmsd
-
-    :param self: master
-    :param acf: atomic labels and coordinates of full complex
-    :type acf: list
-    :return rmsd_normal: Normal RMSD
-    :return rmsd_translate: Translate RMSD (re-centered)
-    :return rmsd_rotate: Kabsch RMSD (ro-tated)
+    Parameters
+    ----------
+    acf : list
+        Atomic labels and coordinates of full complex.
+        
+    Returns
+    -------
+    rmsd_normal : int or float
+        Normal RMSD,
+    rmsd_translate : int or float
+        Translate RMSD (re-centered),
+    rmsd_rotate : int or float
+        Kabsch RMSD (rotated),
+    
+    References
+    ----------
+    https://github.com/charnley/rmsd
+    
     """
     echo_logs(self, "Info: Calculate root mean squared displacement of atoms in complex, RMSD")
     echo_logs(self, "")
@@ -489,7 +554,7 @@ def calc_rmsd(self, acf):
 
     for i in range(len(atom_strc_1)):
         if atom_strc_1[i] != atom_strc_2[i]:
-            popup.err_atom_not_match(self, i+1)
+            popup.err_atom_not_match(self, i + 1)
             return 1
 
     rmsd_normal = rmsd.rmsd(coord_strct_1, coord_strct_2)

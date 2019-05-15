@@ -20,13 +20,20 @@ from octadist_gui.src import echo_logs, popup
 
 
 def plot_zeta_sigma(self, zeta, sigma):
-    """Relationship plot between Zeta and Sigma parameters
+    """
+    Relationship plot between Zeta and Sigma parameters.
 
-    :param self: master frame
-    :param zeta: Zeta parameter
-    :param sigma: Sigma parameter
-    :type zeta: list
-    :type sigma: list
+    Parameters
+    ----------
+    zeta : list
+        List of Zeta parameters.
+    sigma : list
+        List of Sigma parameters.
+
+    Returns
+    -------
+    None
+
     """
     if len(zeta) == 0:
         popup.err_no_calc(self)
@@ -54,13 +61,20 @@ def plot_zeta_sigma(self, zeta, sigma):
 
 
 def plot_sigma_theta(self, sigma, theta):
-    """Relationship plot between Sigma and Theta parameters
+    """
+    Relationship plot between Sigma and Theta parameters.
 
-    :param self: master frame
-    :param sigma: Sigma parameter
-    :param theta: Theta parameter
-    :type sigma: list
-    :type theta: list
+    Parameters
+    ----------
+    sigma : list
+        List of Sigma parameters.
+    theta : list
+        List of Theta parameters.
+
+    Returns
+    -------
+    None
+
     """
     if len(sigma) == 0:
         popup.err_no_calc(self)

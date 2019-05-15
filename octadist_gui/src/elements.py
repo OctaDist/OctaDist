@@ -18,10 +18,22 @@ import numpy as np
 
 
 def check_atom(x):
-    """Convert atomic number to symbol and vice versa for atom 1-109
+    """
+    Convert atomic number to symbol and vice versa for atom 1-109.
 
-    :param x: If x is atomic number, return symbol, and vice-versa
-    :return: symbol or atomic number, depending on input x
+    Parameters
+    ----------
+    x : str or int
+        symbol or atomic number.
+
+    Returns
+    -------
+    atom[x] : str
+        If x is atomic number, return symbol.
+
+    atom.index(i) : int
+        If x is symbol, return atomic number.
+
     """
     atoms = ['0',
              'H', 'He', 'Li', 'Be', 'B', 'C', 'N', 'O',
@@ -48,10 +60,19 @@ def check_atom(x):
 
 
 def check_radii(x):
-    """Convert atomic number (index) to atom radii in Angstroms: 1-119
+    """
+    Convert atomic number (index) to atom radii in Angstroms: 1-119.
 
-    :param x: atomic number
-    :return: atomic radii
+    Parameters
+    ----------
+    x : int
+        Atomic number.
+
+    Returns
+    -------
+    atom_radii[x] : int
+        Atomic radius.
+
     """
     atom_radii = np.array([0,
                            230, 930, 680, 350, 830, 680, 680, 680, 640,
@@ -75,12 +96,23 @@ def check_radii(x):
 
 
 def check_color(x):
-    """Convert atomic number to color: 1-109
+    """
+    Convert atomic number to color: 1-109.
 
-    Ref: http://jmol.sourceforge.net/jscolors/
+    Parameters
+    ----------
+    x : int
+        Atomic number.
 
-    :param x: atomic number
-    :return: atomic color
+    Returns
+    -------
+    atomic color[x] : str
+        Atomic color.
+
+    References
+    ----------
+    http://jmol.sourceforge.net/jscolors/
+
     """
     atom_color = ['0',
                   '#FFFFFF', '#D9FFFF', '#CC80FF', '#C2FF00', '#FFB5B5',

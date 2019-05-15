@@ -22,15 +22,21 @@ from octadist_gui.src import echo_logs, echo_outs, linear, popup, projection, to
 
 
 def calc_d_bond(self, a_octa, c_octa):
-    """Calculate metal-ligand bond distance and return value in Angstrom
+    """
+    Calculate metal-ligand bond distance and return value in Angstrom.
 
-    :param self: master frame
-    :param a_octa: atomic labels of octahedral structure
-    :param c_octa: atomic coordinates of octahedral structure
-    :type a_octa: list
-    :type c_octa: list, array, tuple
-    :return bond_dist: individual metal-ligand bond distance
-    :rtype bond_dist: list
+    Parameters
+    ----------
+    a_octa : list
+        Atomic labels of octahedral structure.
+    c_octa : array
+        Atomic coordinates of octahedral structure.
+
+    Returns
+    -------
+    bond_dist : list
+        Individual metal-ligand bond distance.
+
     """
     echo_logs(self, "Info: Calculate distance between metal center (M) and ligand atoms")
     echo_logs(self, "Info: Show 6 unique bond distances (Angstrom)")
@@ -49,15 +55,21 @@ def calc_d_bond(self, a_octa, c_octa):
 
 
 def calc_d_mean(self, a_octa, c_octa):
-    """Calculate mean distance parameter and return value in Angstrom
+    """
+    Calculate mean distance parameter and return value in Angstrom.
 
-    :param self: master frame
-    :param a_octa: atomic labels of octahedral structure
-    :param c_octa: atomic coordinates of octahedral structure
-    :type a_octa: list
-    :type c_octa: list, array, tuple
-    :return d_mean: mean metal-ligand bond distance
-    :rtype d_mean: float
+    Parameters
+    ----------
+    a_octa : list
+        Atomic labels of octahedral structure.
+    c_octa : array
+        Atomic coordinates of octahedral structure.
+
+    Returns
+    -------
+    d_mean : float
+        Mean metal-ligand distance.
+
     """
     echo_logs(self, "Info: Calculate D_mean parameter")
     echo_logs(self, "")
@@ -84,21 +96,31 @@ def calc_d_mean(self, a_octa, c_octa):
 
 
 def calc_zeta(self, a_octa, c_octa):
-    """Calculate Zeta parameter and return value in Angstrom
+    """
+    Calculate Zeta parameter and return value in Angstrom.
 
+    Parameters
+    ----------
+    a_octa : list
+        Atomic labels of octahedral structure.
+    c_octa : array
+        Atomic coordinates of octahedral structure.
+
+    Returns
+    -------
+    zeta : float
+        Zeta parameter.
+
+    References
+    ----------
+    Phys. Rev. B 85, 064114
+    
+    Notes
+    -----
          6
     ζ = sum(|dist_i - d_mean|)
         i=1
 
-    Ref: Phys. Rev. B 85, 064114
-
-    :param self: master frame
-    :param a_octa: atomic labels of octahedral structure
-    :param c_octa: atomic coordinates of octahedral structure
-    :type a_octa: list
-    :type c_octa: list, array, tuple
-    :return zeta: Zeta parameter
-    :rtype zeta: float
     """
     echo_logs(self, "Info: Calculate ζ parameter")
     echo_logs(self, "      This parameter is deviation from the average bond length")
@@ -130,22 +152,34 @@ def calc_zeta(self, a_octa, c_octa):
 
 
 def calc_delta(self, a_octa, c_octa):
-    """Calculate Delta parameter (Tilting distortion parameter)
+    """
+    Calculate Delta parameter, also known as Tilting distortion parameter.
 
+    Parameters
+    ----------
+    a_octa : list
+        Atomic labels of octahedral structure.
+    c_octa : array
+        Atomic coordinates of octahedral structure.
+
+    Returns
+    -------
+    delta : float
+        Delta parameter.
+
+    References
+    ----------
+    DOI: 10.1107/S0108768103026661
+    Acta Cryst. (2004). B60, 10-20
+
+    Notes
+    -----
           1
     Δ =  ---*sum((d_i - d)/d)^2
           6
 
     where d_i is individual M-X distance and d is mean M-X distance.
-    Ref: DOI: 10.1107/S0108768103026661  Acta Cryst. (2004). B60, 10-20
 
-    :param self: master frame
-    :param a_octa: atomic labels of octahedral structure
-    :param c_octa: atomic coordinates of octahedral structure
-    :type a_octa: list
-    :type c_octa: list, array, tuple
-    :return delta: Delta parameter
-    :rtype delta: float
     """
     echo_logs(self, "Info: Calculate Δ parameter")
     echo_logs(self, "")
@@ -170,17 +204,23 @@ def calc_delta(self, a_octa, c_octa):
 
 
 def calc_bond_angle(self, a_octa, c_octa):
-    """Calculate 12 cis and 3 trans unique angles in octahedral structure
+    """
+    Calculate 12 cis and 3 trans unique angles in octahedral structure.
 
-    :param self: master frame
-    :param a_octa: atomic labels of octahedral structure
-    :param c_octa: atomic coordinates of octahedral structure
-    :type a_octa: list
-    :type c_octa: list, array, tuple
-    :return cis_angle: list of 12 cis angles
-    :rtype cis_angle: list
-    :return trans_angle: list of 3 trans angles
-    :rtype trans_angle: list
+    Parameters
+    ----------
+    a_octa : list
+        Atomic labels of octahedral structure.
+    c_octa : array
+        Atomic coordinates of octahedral structure.
+
+    Returns
+    -------
+    cis_angle : list
+        List of 12 cis angles.
+    trans_angle : list
+        List of 3 trans angles.
+
     """
     echo_logs(self, "Info: Calculate angle between ligand atoms (including cis and trans angles)")
     echo_logs(self, "Info: Show 15 unique bond angles (°) before sorting")
@@ -193,7 +233,9 @@ def calc_bond_angle(self, a_octa, c_octa):
     k = 1
     for i in range(1, 7):
         for j in range(i + 1, 7):
-            angle = linear.angle_btw_3points(self, c_octa[0], c_octa[i], c_octa[j])
+            vec1 = c_octa[i] - c_octa[0]
+            vec2 = c_octa[j] - c_octa[0]
+            angle = linear.angle_btw_2vec(vec1, vec2)
             echo_logs(self, "      {0:>2}     {1:>2} and {2:>2}      {3:10.6f}".format(k, a_octa[i], a_octa[j], angle))
             la.append([a_octa[i], a_octa[j]])
             all_angle.append(angle)
@@ -232,24 +274,35 @@ def calc_bond_angle(self, a_octa, c_octa):
 
 
 def calc_sigma(self, a_octa, c_octa):
-    """Calculate Sigma parameter and return value in degree
+    """
+    Calculate Sigma parameter and return value in degree.
 
+    Parameters
+    ----------
+    a_octa : list
+        Atomic labels of octahedral structure.
+    c_octa : array
+        Atomic coordinates of octahedral structure.
+
+    Returns
+    -------
+    sigma : float
+        Sigma parameter.
+    angle_sigma : list of float
+        List of 12 unique cis angles.
+
+    Notes
+    -----
           12
     Σ = sigma < 90 - angle_i >
          i=1
 
-    where angle_i in an unique cis angle
-    Ref: J. K. McCusker et al. Inorg. Chem. 1996, 35, 2100.
+    where angle_i in an unique cis angle.
 
-    :param self: master frame
-    :param a_octa: atomic labels of octahedral structure
-    :param c_octa: atomic coordinates of octahedral structure
-    :type a_octa: list
-    :type c_octa: list, array, tuple
-    :return sigma: Sigma parameter
-    :return angle_sigma: list of 12 unique cis angles
-    :rtype sigma: float
-    :rtype angle_sigma: list
+    References
+    ----------
+    J. K. McCusker et al. Inorg. Chem. 1996, 35, 2100.
+
     """
     echo_logs(self, "Info: Calculate Σ parameter")
     echo_logs(self, "")
@@ -271,22 +324,34 @@ def calc_sigma(self, a_octa, c_octa):
 
 
 def calc_theta(self, a_octa, c_octa):
-    """Calculate Theta parameter and value in degree
+    """
+    Calculate Theta parameter and value in degree.
+
+    Parameters
+    ----------
+    a_octa : list
+        Atomic labels of octahedral structure.
+    c_octa : array
+        Atomic coordinates of octahedral structure.
+
+    Returns
+    -------
+    theta_mean : float
+        Mean Theta value.
+
+    Notes
+    -----
 
           24
     Θ = sigma < 60 - angle_i >
          i=1
 
     where angle_i is an unique angle between two vectors of two twisting face.
-    Ref: M. Marchivie et al. Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.
 
-    :param self: master frame
-    :param a_octa: atomic labels of octahedral structure
-    :param c_octa: atomic coordinates of octahedral structure
-    :type a_octa: list
-    :type c_octa: list, array, tuple
-    :return theta_mean: mean Theta value
-    :rtype theta_mean: float
+    References
+    ----------
+    M. Marchivie et al. Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.
+
     """
     echo_logs(self, "Info: Calculate Θ parameter")
     echo_logs(self, "")
@@ -640,21 +705,26 @@ def calc_theta(self, a_octa, c_octa):
 def calc_all(self, a_c_octa):
     """Calculate all distortion parameters:
 
-    d_mean, Zeta, Delta, Sigma, and Theta_mean parameters
+    Zeta, Delta, Sigma, and Theta_mean parameters.
 
-    :param self: master frame
-    :param a_c_octa: atomic labels and coordinates of octahedral structure
-    :type: list
-    :return all_zeta: list of Zeta parameters
-    :return all_delta: list of Delta parameters
-    :return all_sigma: list of Sigma parameters
-    :return all_theta: list of Theta parameters
-    :return all_face: list of 8 faces of octahedral structures
-    :rtype all_zeta: list
-    :rtype all_delta: list
-    :rtype all_sigma: list
-    :rtype all_theta: list
-    :rtype all_face: list
+    Parameters
+    ----------
+    a_c_octa : list
+        Atomic labels and coordinates of octahedral structure.
+
+    Returns
+    -------
+    all_zeta : list of float
+        List of Zeta parameters.
+    all_delta : list of float
+        List of Delta parameters.
+    all_sigma : list of float
+        List of Sigma parameters.
+    all_theta : list of float
+        List of Theta parameters.
+    all_face : list
+        List of 8 faces of octahedral structures.
+
     """
     echo_logs(self, "Info: Calculate the Δ, Σ, and Θ parameters")
     echo_logs(self, "")
