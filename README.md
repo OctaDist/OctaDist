@@ -37,29 +37,43 @@ https://octadist.github.io/
 
 OctaDist is written entirely in Python 3 binding to Tkinter toolkit (GUI version). 
 It is cross-platform program and works on multiple operating systems. 
-The stable version and development build of OctaDist is [here](https://github.com/OctaDist/OctaDist/releases).
-A standalone GUI and source code for CLI for OctaDist are available for following platform:
+The stable version and development build of OctaDist is [here][release-link].
+A standalone executable for graphical user interface (GUI) and source code for command line interface (CLI) 
+for OctaDist are available for following platform:
 
-| Platform  | Description |
-|-----------|-------------|
-| Windows   | A GUI OctaDist |
-| Linux     | OctaDist as a Python package |
-| macOS     | Same as Linux |
-| PyPI library   | This project is solely maintained at [OctaDist-PyPI repository](https://github.com/OctaDist/OctaDist-PyPI)|
-| Anaconda cloud | [OctaDist on Anaconda](https://anaconda.org/rangsiman/octadist) is being imported from PyPI|
+[release-link]: https://github.com/OctaDist/OctaDist/releases
+
+| Platform  | Description | Usability |
+|-----------|-------------|-----------|
+| Windows   | A standalone executable | GUI |
+| Linux     | Source code as a Python package | GUI & CLI |
+| macOS     | Source code as a Python package | CLI |
+| PyPI library   | [OctaDist on PyPI library][PyPI-link]| CLI |
+| Anaconda cloud | [OctaDist on Anaconda cloud][Conda-link]| CLI |
+
+[PyPI-link]: https://github.com/OctaDist/OctaDist-PyPI
+[Conda-link]: https://anaconda.org/rangsiman/octadist
+
+
+## Manual
+Full program manual for the end-user is available at [here][manual-link].
+
+[manual-link]: https://octadist.github.io/manual.html
 
 ## Citation
 
 Please cite this project when you use OctaDist for scientific publication.
 
 ```
-OctaDist - A program for determining the structural distortion of the octahedral complexes.
+OctaDist - A tool for calculating distortion parameters in coordination complexes.
 https://octadist.github.io
 ```
 
 ## Bug report
 
-If you found issues in OctaDist, please report it to us at [here](https://github.com/OctaDist/OctaDist/issues).
+If you found issues in OctaDist, please report it to us at [here][submit-issues].
+
+[submit-issues]: https://github.com/OctaDist/OctaDist/issues
 
 ## Project team
 
