@@ -1,7 +1,9 @@
-[![Travis-CI Test](https://img.shields.io/travis/OctaDist/OctaDist/nightly-build.svg
-)](https://travis-ci.org/OctaDist/OctaDist)
+[![Travis-CI Test][Dev-badge]][Dev-link]
 
-## OctaDist - Nightly build
+[Dev-badge]: https://img.shields.io/travis/OctaDist/OctaDist/nightly-build.svg
+[Dev-link]: https://travis-ci.org/OctaDist/OctaDist
+
+## Nightly development build for OctaDist
 
 Octahedral distortion calculator: A tool for calculating distortion parameters in coordination complexes. 
 https://octadist.github.io/
