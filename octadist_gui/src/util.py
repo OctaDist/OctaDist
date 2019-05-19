@@ -24,7 +24,7 @@ import scipy.optimize
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-from octadist_gui.src import echo_logs, elements, linear, popup, tools
+from octadist_gui.src import echo_outs, elements, linear, popup, tools
 
 
 def insert_text(self, text, coord, group):
@@ -61,10 +61,6 @@ def insert_text(self, text, coord, group):
 def clear_text(self):
     """
     Clear text in box A & B.
-
-    Parameters
-    ----------
-    None
 
     Returns
     -------
@@ -193,39 +189,23 @@ def plot_fit_plane(self, acf):
     # Find eq of the plane #
     ########################
 
-    echo_logs(self, "Info: Find the best fit plane to the given set of ligands")
-    echo_logs(self, "")
-
     xx, yy, z, abcd = calc_fit_plane(self.coord_A)
     plane_A = (xx, yy, z)
     a1, b1, c1, d1 = abcd
 
-    self.box_eq1.insert(tk.INSERT, "{0:8.5f}x {1:+8.5f}y {2:+8.5f}z {3:+8.5f} = 0".format(a1, b1, c1, d1))
-
-    echo_logs(self, "Info: Plane A")
-    echo_logs(self, "         xx : {0} {1}".format(xx[0], xx[1]))
-    echo_logs(self, "         yy : {0} {1}".format(yy[0], xx[1]))
-    echo_logs(self, "          z : {0} {1}".format(z[0], z[1]))
-    echo_logs(self, "")
+    self.box_eq1.insert(tk.INSERT, "{0:8.5f}x {1:+8.5f}y {2:+8.5f}z {3:+8.5f} = 0"
+                        .format(a1, b1, c1, d1))
 
     xx, yy, z, abcd = calc_fit_plane(self.coord_B)
     plane_B = (xx, yy, z)
     a2, b2, c2, d2 = abcd
 
-    self.box_eq2.insert(tk.INSERT, "{0:8.5f}x {1:+8.5f}y {2:+8.5f}z {3:+8.5f} = 0".format(a2, b2, c2, d2))
-
-    echo_logs(self, "Info: Plane B")
-    echo_logs(self, "         xx : {0} {1}".format(xx[0], xx[1]))
-    echo_logs(self, "         yy : {0} {1}".format(yy[0], xx[1]))
-    echo_logs(self, "          z : {0} {1}".format(z[0], z[1]))
-    echo_logs(self, "")
+    self.box_eq2.insert(tk.INSERT, "{0:8.5f}x {1:+8.5f}y {2:+8.5f}z {3:+8.5f} = 0"
+                        .format(a2, b2, c2, d2))
 
     ####################################
     # Calculate angle between 2 planes #
     ####################################
-
-    echo_logs(self, "Info: Calculate the angle between two planes in 3D")
-    echo_logs(self, "")
 
     angle = linear.angle_btw_planes(a1, b1, c1, a2, b2, c2)
     self.box_angle1.insert(tk.INSERT, "{0:10.6f}".format(angle))  # insert to box
@@ -233,20 +213,9 @@ def plot_fit_plane(self, acf):
     sup_angle = abs(180 - angle)  # supplementary angle
     self.box_angle2.insert(tk.INSERT, "{0:10.6f}".format(sup_angle))  # insert to box
 
-    echo_logs(self, "      ======= Summary of angular Jahn-Teller distortion =======")
-    echo_logs(self, "")
-    echo_logs(self, "      Supplementary angle 1 : = {0:10.6f} degree".format(angle))
-    echo_logs(self, "      Supplementary angle 2 : = {0:10.6f} degree".format(sup_angle))
-    echo_logs(self, "")
-    echo_logs(self, "      =========================================================")
-    echo_logs(self, "")
-
     ###############
     # Plot planes #
     ###############
-
-    echo_logs(self, "Info: Display scatter plots of the lease squares planes of group A & B")
-    echo_logs(self, "")
 
     fal, fcl = acf[0]
 
@@ -259,8 +228,10 @@ def plot_fit_plane(self, acf):
     for i in range(len(fcl)):
         # Determine atomic number
         n = elements.check_atom(fal[i])
-        ax.scatter(fcl[i][0], fcl[i][1], fcl[i][2], marker='o', linewidths=0.5, edgecolors='black', picker=5,
-                   color=elements.check_color(n), label="{}".format(fal[i]), s=elements.check_radii(n) * 300)
+        ax.scatter(fcl[i][0], fcl[i][1], fcl[i][2],
+                   marker='o', linewidths=0.5, edgecolors='black', picker=5,
+                   color=elements.check_color(n), label="{}"
+                   .format(fal[i]), s=elements.check_radii(n) * 300)
 
     # Calculate distance
     bond_list = tools.find_bonds(self, fal, fcl)
@@ -286,7 +257,8 @@ def plot_fit_plane(self, acf):
         if label not in label_list:
             handle_list.append(handle)
             label_list.append(label)
-    leg = fig.legend(handle_list, label_list, loc="lower left", scatterpoints=1, fontsize=12)
+    leg = fig.legend(handle_list, label_list,
+                     loc="lower left", scatterpoints=1, fontsize=12)
     # Fixed size of point in legend
     # Ref. https://stackoverflow.com/a/24707567/6596684
     for i in range(len(leg.legendHandles)):
@@ -334,9 +306,6 @@ def pick_atom(self, acf, group):
     """
     fal, fcl = acf[0]
 
-    echo_logs(self, "Info: Pick atoms for group {0}".format(group))
-    echo_logs(self, "")
-
     fig = plt.figure()
     # fig = plt.figure(figsize=(5, 4), dpi=100)
     ax = Axes3D(fig)
@@ -346,8 +315,10 @@ def pick_atom(self, acf, group):
     for i in range(len(fcl)):
         # Determine atomic number
         n = elements.check_atom(fal[i])
-        ax.scatter(fcl[i][0], fcl[i][1], fcl[i][2], marker='o', linewidths=0.5, edgecolors='black', picker=5,
-                   color=elements.check_color(n), label="{}".format(fal[i]), s=elements.check_radii(n) * 300)
+        ax.scatter(fcl[i][0], fcl[i][1], fcl[i][2],
+                   marker='o', linewidths=0.5, edgecolors='black', picker=5,
+                   color=elements.check_color(n), label="{}"
+                   .format(fal[i]), s=elements.check_radii(n) * 300)
 
     # Calculate distance
     bond_list = tools.find_bonds(self, fal, fcl)
@@ -373,7 +344,8 @@ def pick_atom(self, acf, group):
         if label not in label_list:
             handle_list.append(handle)
             label_list.append(label)
-    leg = fig.legend(handle_list, label_list, loc="lower left", scatterpoints=1, fontsize=12)
+    leg = fig.legend(handle_list, label_list,
+                     loc="lower left", scatterpoints=1, fontsize=12)
     # Fixed size of point in legend
     # Ref. https://stackoverflow.com/a/24707567/6596684
     for i in range(len(leg.legendHandles)):
@@ -405,7 +377,9 @@ def pick_atom(self, acf, group):
         insert_text(self, results, coord, group)
         # Highlight selected atom
         index = elements.check_atom(atom)
-        ax.scatter(x[ind], y[ind], z[ind], marker='o', linewidths=0.5, edgecolors='orange', picker=5, alpha=0.5,
+        ax.scatter(x[ind], y[ind], z[ind],
+                   marker='o', linewidths=0.5,
+                   edgecolors='orange', picker=5, alpha=0.5,
                    color='yellow', s=elements.check_radii(index) * 400)
         # print(i+1, atom, x[ind], y[ind], z[ind])
 
@@ -430,18 +404,11 @@ def calc_jahn_teller(self, acf):
     None
     
     """
-    echo_logs(self, "Info: Calculate angular Jahn-Teller distortion parameter")
-    echo_logs(self, "      Find least squares planes of two sets of ligands in molecule")
-    echo_logs(self, "      A scipy.optimize.minimize package will be used to fit the plane to atoms")
-    echo_logs(self, "")
-
-    self.acf = acf
-
-    if len(self.acf) == 0:
-        popup.err_no_file(self)
+    if len(acf) == 0:
+        popup.err_no_file()
         return 1
-    elif len(self.acf) > 1:
-        popup.err_many_files(self)
+    elif len(acf) > 1:
+        popup.err_many_files()
         return 1
 
     root = tk.Toplevel(self.master)
@@ -533,13 +500,8 @@ def calc_rmsd(self, acf):
     https://github.com/charnley/rmsd
     
     """
-    echo_logs(self, "Info: Calculate root mean squared displacement of atoms in complex, RMSD")
-    echo_logs(self, "")
-
-    self.acf = acf
-
-    if len(self.acf) != 2:
-        popup.err_only_2_files(self)
+    if len(acf) != 2:
+        popup.err_only_2_files()
         return 1
 
     strct_1 = acf[0]
@@ -549,12 +511,12 @@ def calc_rmsd(self, acf):
     atom_strc_2, coord_strct_2 = strct_2
 
     if len(atom_strc_1) != len(atom_strc_2):
-        popup.err_not_equal_atom(self)
+        popup.err_not_equal_atom()
         return 1
 
     for i in range(len(atom_strc_1)):
         if atom_strc_1[i] != atom_strc_2[i]:
-            popup.err_atom_not_match(self, i + 1)
+            popup.err_atom_not_match(i + 1)
             return 1
 
     rmsd_normal = rmsd.rmsd(coord_strct_1, coord_strct_2)
@@ -571,6 +533,11 @@ def calc_rmsd(self, acf):
 
     rmsd_rotate = rmsd.rmsd(coord_strct_1, coord_strct_2)
 
-    print(rmsd_normal, rmsd_translate, rmsd_rotate)
+    echo_outs(self, "RMSD between two complexes")
+    echo_outs(self, "**************************")
+    echo_outs(self, "Normal RMSD     : {0:3.6f}".format(rmsd_normal))
+    echo_outs(self, "Re-centered RMSD: {0:3.6f}".format(rmsd_translate))
+    echo_outs(self, "Rotated RMSD    : {0:3.6f}".format(rmsd_rotate))
+    echo_outs(self, "")
 
     return rmsd_normal, rmsd_translate, rmsd_rotate

@@ -16,10 +16,10 @@
 
 from matplotlib import pyplot as plt
 
-from octadist_gui.src import echo_logs, popup
+from octadist_gui.src import popup
 
 
-def plot_zeta_sigma(self, zeta, sigma):
+def plot_zeta_sigma(zeta, sigma):
     """
     Relationship plot between Zeta and Sigma parameters.
 
@@ -36,11 +36,8 @@ def plot_zeta_sigma(self, zeta, sigma):
 
     """
     if len(zeta) == 0:
-        popup.err_no_calc(self)
+        popup.err_no_calc()
         return 1
-
-    echo_logs(self, "Info: Show relationship plot between ζ and Σ")
-    echo_logs(self, "")
 
     ax = plt.subplot()
     for i in range(len(zeta)):
@@ -49,10 +46,12 @@ def plot_zeta_sigma(self, zeta, sigma):
 
     # Shrink current axis's height by 10% on the bottom
     box = ax.get_position()
-    ax.set_position([box.x0, box.y0 + box.height * 0.1, box.width, box.height * 0.9])
+    ax.set_position([box.x0, box.y0 + box.height * 0.1,
+                     box.width, box.height * 0.9])
 
     # Put a legend below current axis
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), fancybox=True, shadow=True, ncol=5)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1),
+              fancybox=True, shadow=True, ncol=5)
 
     plt.title("Relationship plot between $\zeta$ and $\Sigma$")
     plt.xlabel(r'$\zeta$')
@@ -60,7 +59,7 @@ def plot_zeta_sigma(self, zeta, sigma):
     plt.show()
 
 
-def plot_sigma_theta(self, sigma, theta):
+def plot_sigma_theta(sigma, theta):
     """
     Relationship plot between Sigma and Theta parameters.
 
@@ -77,11 +76,8 @@ def plot_sigma_theta(self, sigma, theta):
 
     """
     if len(sigma) == 0:
-        popup.err_no_calc(self)
+        popup.err_no_calc()
         return 1
-
-    echo_logs(self, "Info: Show relationship plot between Σ and Θ")
-    echo_logs(self, "")
 
     ax = plt.subplot()
     for i in range(len(sigma)):
@@ -90,10 +86,12 @@ def plot_sigma_theta(self, sigma, theta):
 
     # Shrink current axis's height by 10% on the bottom
     box = ax.get_position()
-    ax.set_position([box.x0, box.y0 + box.height * 0.1, box.width, box.height * 0.9])
+    ax.set_position([box.x0, box.y0 + box.height * 0.1,
+                     box.width, box.height * 0.9])
 
     # Put a legend below current axis
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1), fancybox=True, shadow=True, ncol=5)
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1),
+              fancybox=True, shadow=True, ncol=5)
 
     plt.title("Relationship plot between $\Sigma$ and $\Theta$")
     plt.xlabel(r'$\Sigma$')

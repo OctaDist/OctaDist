@@ -18,7 +18,8 @@ from operator import itemgetter
 
 import numpy as np
 
-from octadist_gui.src import echo_logs, echo_outs, elements, linear, popup
+from octadist_gui.src import echo_outs, elements, linear, popup
+from octadist_gui import main
 
 
 def count_line(file):
@@ -73,46 +74,37 @@ def get_coord(self, f):
 
     # Check file extension
     if f.endswith(".xyz"):
-        if check_xyz_file(self, f):
-            echo_logs(self, "Info: Check file type: XYZ file")
+        if check_xyz_file(f):
             a_full, c_full = get_coord_xyz(f)
 
         else:
             ftype = "XYZ"
-            popup.err_invalid_ftype(self, ftype)
-            echo_logs(self, "Error: Could not read data in XYZ file {0}".format(f))
+            popup.err_invalid_ftype(ftype)
             check = False
 
     elif f.endswith(".out") or f.endswith(".log"):
         if check_gaussian_file(f):
-            echo_logs(self, "Info: Check file type: Gaussian Output")
             a_full, c_full = get_coord_gaussian(f)
 
         elif check_nwchem_file(f):
-            echo_logs(self, "Info: Check file type: NWChem Output")
             a_full, c_full = get_coord_nwchem(f)
 
         elif check_orca_file(f):
-            echo_logs(self, "Info: Check file type: ORCA Output")
             a_full, c_full = get_coord_orca(f)
 
         elif check_qchem_file(f):
-            echo_logs(self, "Info: Check file type: Q-Chem Output")
             a_full, c_full = get_coord_qchem(f)
 
         else:
-            echo_logs(self, "Error: Could not read output file {0}".format(f))
             check = False
 
     else:
         text1 = "Error: Could not read file {0}".format(f)
         echo_outs(self, text1)
-        echo_logs(self, text1)
         text2 = "Error: File type is not supported by the current version of OctaDist\n"
         echo_outs(self, text2)
-        echo_logs(self, text2)
 
-        popup.err_wrong_format(self)
+        popup.err_wrong_format()
         check = False
 
     # return values
@@ -125,7 +117,7 @@ def get_coord(self, f):
         return a_full, c_full
 
 
-def count_metal(self, a_full, c_full):
+def count_metal(a_full, c_full):
     """
     Count the number of metal center atom in complex.
 
@@ -152,26 +144,20 @@ def count_metal(self, a_full, c_full):
 
     for i in range(len(a_full)):
         number = elements.check_atom(a_full[i])
-        if 21 <= number <= 30 or 39 <= number <= 48 or 57 <= number <= 80 or 89 <= number <= 109:
+
+        if 21 <= number <= 30 or \
+                39 <= number <= 48 or \
+                57 <= number <= 80 or \
+                89 <= number <= 109:
+
             count += 1
             a_metal.append(a_full[i])
             c_metal.append(c_full[i])
 
-    echo_logs(self, "Info: The complex has {0} metal center atom".format(count))
-    echo_logs(self, "")
-    echo_logs(self, "Info: Show the coordinates of transition metal found in complex")
-    echo_logs(self, "")
-    echo_logs(self, "      Atom        X             Y             Z")
-    echo_logs(self, "      ----    ----------    ----------    ----------")
-    for i in range(count):
-        echo_logs(self, "       {0:>2}   {1:12.8f}  {2:12.8f}  {3:12.8f}"
-                  .format(a_metal[i], c_metal[i][0], c_metal[i][1], c_metal[i][2]))
-    echo_logs(self, "")
-
     return count, a_metal, c_metal
 
 
-def search_octa(a_full, c_full, c_metal):
+def search_octa(self, a_full, c_full, c_metal):
     """
     Search the octahedral structure in complex.
 
@@ -192,10 +178,15 @@ def search_octa(a_full, c_full, c_metal):
         Atomic coordinates of octahedral structure.
 
     """
+    cutoff_metal_ligand_ = main.OctaDist.cutoff_metal_ligand(self)
+
     dist_list = []
     for i in range(len(a_full)):
-        dist = linear.distance_bwn_points(c_metal, c_full[i])
-        dist_list.append([a_full[i], c_full[i], dist])
+        dist = linear.euclidean_dist(c_metal, c_full[i])
+        if dist <= cutoff_metal_ligand_:
+            dist_list.append([a_full[i], c_full[i], dist])
+        else:
+            break
 
     # sort list of tuples by distance in ascending order
     dist_list.sort(key=itemgetter(2))
@@ -212,7 +203,7 @@ def search_octa(a_full, c_full, c_metal):
     return a_octa, c_octa
 
 
-def check_xyz_file(self, f):
+def check_xyz_file(f):
     """
     Check if the input file is .xyz file format.
 
@@ -256,11 +247,9 @@ def check_xyz_file(self, f):
     try:
         int(first_line)
     except ValueError:
-        echo_logs(self, "Error: The first line of XYZ file must be the total number of atoms")
         return False
 
     if count_line(f) < 9:
-        echo_logs(self, "Error: The complex must contain at least 1 metal center and 6 ligand atoms.")
         return False
     else:
         return True
@@ -542,7 +531,6 @@ def check_qchem_file(f):
         If file is Q-Chem output file, return True.
 
     """
-
     qchem_file = open(f, "r")
     nline = qchem_file.readlines()
     for i in range(len(nline)):

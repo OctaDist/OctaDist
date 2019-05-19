@@ -38,7 +38,7 @@ def norm_vector(v):
     return norm
 
 
-def distance_bwn_points(a, b):
+def euclidean_dist(a, b):
     """
     Find Euclidean distance between two points:
 
@@ -60,27 +60,7 @@ def distance_bwn_points(a, b):
     return sqrt(sum([pow(a[i] - b[i], 2) for i in range(len(a))]))
 
 
-def midpoint_of_line(a, b):
-    """
-    Find the midpoint of line segment, a = (x1,y1,z1) and b = (x2,y2,z2).
-
-    Parameters
-    ----------
-    a : list
-        Cartesian coordinate of point a (head atom)
-    b : list
-        Cartesian coordinate of point b (tail atom)
-
-    Returns
-    -------
-    array
-        Midpoint of line segment
-
-    """
-    return np.array([(a[0] + b[0]) / 2, (a[1] + b[1]) / 2, (a[2] + b[2]) / 2])
-
-
-def angles_sign(v1, v2, direct):
+def angle_sign(v1, v2, direct):
     """
     Compute angle between two vectors with sign and return value in degree.
 
@@ -116,7 +96,7 @@ def angles_sign(v1, v2, direct):
     return angle
 
 
-def angle_btw_2vec(v1, v2):
+def angle_btw_vectors(v1, v2):
     """
     Compute angle between two vectors and return value in degree.
 
@@ -202,56 +182,9 @@ def triangle_area(a, b, c):
     ac = c - a
     value = (pow(np.dot(ab[1], ac[2]) - np.dot(ab[2], ac[1]), 2) +
              pow(np.dot(ab[2], ac[0]) - np.dot(ab[0], ac[2]), 2) +
-             pow(np.dot(ab[0], ac[1]) - np.dot(ab[1], ac[0]), 2))
+             pow(np.dot(ab[0], ac[1]) - np.dot(ab[1], ac[0]), 2)
+             )
 
     area = sqrt(value) / 2
 
     return area
-
-
-def find_eq_of_plane(x, y, z):
-    """
-    Find the equation of plane of given three points using cross product
-
-    The general form of plane equation:
-    Ax + By + Cz = D
-
-    where A, B, C, and D are coefficient.
-
-    Parameters
-    ----------
-    x : list or array
-        3D Coordinate of point.
-    y : list or array
-        3D Coordinate of point.
-    z : list or array
-        3D Coordinate of point.
-
-    Returns
-    -------
-    a : int or float
-        Coefficient of the equation of the plane.
-    b : int or float
-        Coefficient of the equation of the plane.
-    c : int or float
-        Coefficient of the equation of the plane.
-    d : int or float
-        Coefficient of the equation of the plane.
-
-    Notes
-    -----
-    -->    -->
-    XZ  X  XY = (a, b, c)
-
-    d = (a, b, c).Z
-
-    """
-    xz = z - x
-    xy = y - x
-
-    cross_vector = np.cross(xz, xy)
-    a, b, c = cross_vector
-
-    d = np.dot(cross_vector, z)
-
-    return a, b, c, d
