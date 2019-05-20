@@ -178,15 +178,13 @@ def search_octa(self, a_full, c_full, c_metal):
         Atomic coordinates of octahedral structure.
 
     """
-    cutoff_metal_ligand_ = main.OctaDist.cutoff_metal_ligand(self)
+    cutoff_metal_ligand = main.OctaDist.cutoff_metal_ligand(self)
 
     dist_list = []
     for i in range(len(a_full)):
         dist = linear.euclidean_dist(c_metal, c_full[i])
-        if dist <= cutoff_metal_ligand_:
+        if dist <= cutoff_metal_ligand:
             dist_list.append([a_full[i], c_full[i], dist])
-        else:
-            break
 
     # sort list of tuples by distance in ascending order
     dist_list.sort(key=itemgetter(2))
@@ -308,6 +306,7 @@ def check_gaussian_file(f):
     """
     gaussian_file = open(f, "r")
     nline = gaussian_file.readlines()
+
     for i in range(len(nline)):
         if "Standard orientation:" in nline[i]:
             return True
@@ -381,6 +380,7 @@ def check_nwchem_file(f):
     """
     nwchem_file = open(f, "r")
     nline = nwchem_file.readlines()
+
     for i in range(len(nline)):
         if "No. of atoms" in nline[i]:
             if not int(nline[i].split()[4]):
@@ -533,6 +533,7 @@ def check_qchem_file(f):
     """
     qchem_file = open(f, "r")
     nline = qchem_file.readlines()
+
     for i in range(len(nline)):
         if "OPTIMIZATION CONVERGED" in nline[i]:
             return True

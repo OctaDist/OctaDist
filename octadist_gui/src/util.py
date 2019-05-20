@@ -432,11 +432,11 @@ def calc_jahn_teller(self, acf):
     self.box_2 = tkscrolled.ScrolledText(root, height="12", width="40", wrap="word", undo="True")
     self.box_2.grid(padx="5", pady="5", row=1, column=2, columnspan=2)
 
-    self.btn = tk.Button(root, text="Select ligand set A", command=lambda: pick_atom(self, self.acf, group="A"))
+    self.btn = tk.Button(root, text="Select ligand set A", command=lambda: pick_atom(self, acf, group="A"))
     self.btn.config(width=15, relief=tk.RAISED)
     self.btn.grid(padx="10", pady="5", row=2, column=0, columnspan=2)
 
-    self.btn = tk.Button(root, text="Select ligand set B", command=lambda: pick_atom(self, self.acf, group="B"))
+    self.btn = tk.Button(root, text="Select ligand set B", command=lambda: pick_atom(self, acf, group="B"))
     self.btn.config(width=15, relief=tk.RAISED)
     self.btn.grid(padx="10", pady="5", row=2, column=2, columnspan=2)
 

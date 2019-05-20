@@ -21,6 +21,7 @@ import tkinter.scrolledtext as tkscrolled
 import webbrowser
 from tkinter import filedialog
 from tkinter import messagebox
+from tkinter import ttk
 from urllib.request import urlopen
 
 import numpy as np
@@ -80,7 +81,6 @@ class OctaDist:
             True if the structure is octahedron or not, False if it does not.
 
         """
-        # Default settings
         self.file_list = []
         self.atom_coord_full = []
         self.atom_coord_octa = []
@@ -99,18 +99,28 @@ class OctaDist:
         # Default executable
         self.text_editor = "notepad.exe"
 
+        # Default display settings
+        self.show_title = True
+        self.show_axis = True
+        self.show_grid = True
+
         # Backup default setting values
         self.backup_1 = self.cutoff_metal_ligand
         self.backup_2 = self.cutoff_global
         self.backup_3 = self.cutoff_hydrogen
         self.backup_4 = self.text_editor
+        self.backup_5 = self.show_title
+        self.backup_6 = self.show_axis
+        self.backup_7 = self.show_grid
 
-        # Master frame configuration
+        ##############################
+        # Master frame configuration #
+        ##############################
+
         self.master = master
         self.master.title("OctaDist {0}".format(octadist_gui.__version__))
         font = "Arial 10"
         self.master.option_add("*Font", font)
-        self.master.geometry("520x605")
 
         # Main menu
         menu_bar = tk.Menu(self.master)
@@ -131,6 +141,7 @@ class OctaDist:
         file_menu.add_command(label="New", command=lambda: self.clear_cache())
         file_menu.add_command(label="Open...", command=lambda: self.open_file())
         file_menu.add_command(label="Save Results", command=lambda: self.save_results())
+        file_menu.add_command(label="Save Coordinates", command=lambda: self.save_coord())
         file_menu.add_separator()
         file_menu.add_command(label="Settings", command=lambda: self.settings())
         file_menu.add_separator()
@@ -156,16 +167,16 @@ class OctaDist:
                               command=lambda: draw.all_atom_and_face(self, self.atom_coord_full,
                                                                      self.all_face))
         disp_menu.add_command(label="Octahedral Complex",
-                              command=lambda: draw.octa(self.atom_coord_octa))
+                              command=lambda: draw.octa(self, self.atom_coord_octa))
         disp_menu.add_command(label="Octahedron and 8 Faces",
-                              command=lambda: draw.octa_and_face(self.atom_coord_octa,
+                              command=lambda: draw.octa_and_face(self, self.atom_coord_octa,
                                                                  self.all_face))
         disp_menu.add_separator()
         disp_menu.add_command(label="Projection Planes",
-                              command=lambda: octadist_gui.src.draw.proj_planes(self.atom_coord_octa,
+                              command=lambda: octadist_gui.src.draw.proj_planes(self, self.atom_coord_octa,
                                                                                 self.all_face))
         disp_menu.add_command(label="Twisting Triangular Faces",
-                              command=lambda: octadist_gui.src.draw.twisting_faces(self.atom_coord_octa,
+                              command=lambda: octadist_gui.src.draw.twisting_faces(self, self.atom_coord_octa,
                                                                                    self.all_face))
 
         # Tools
@@ -208,105 +219,122 @@ class OctaDist:
         help_menu.add_command(label="Check for Updates...", command=self.check_update)
         help_menu.add_command(label="About Program", command=lambda: popup.show_about())
 
-        # Setting layout under master
-        self.frame1 = tk.Frame(self.master)
-        self.frame1.grid(padx=5, pady=5, row=0, column=0, columnspan=2)
-        self.frame2 = tk.Frame(self.master)
-        self.frame2.grid(padx=5, pady=5, row=1, column=0)
-        self.frame3 = tk.Frame(self.master)
-        self.frame3.grid(padx=5, pady=5, row=1, column=1)
-        self.frame4 = tk.Frame(self.master)
-        self.frame4.grid(padx=5, pady=5, row=2, column=0, columnspan=2)
+        ####################
+        # my own ttk style #
+        ####################
+
+        gui_ttk = ttk.Style()
+        gui_ttk.configure("TButton", relief="sunken", padding=5)
+        gui_ttk.configure("My.TLabel", foreground="black")
+        gui_ttk.configure("My.TLabelframe", foreground="brown")
 
         ###########
         # Frame 1 #
         ###########
 
-        title = octadist_gui.__title__
-        self.lbl = tk.Label(self.frame1, foreground="blue", font=("Arial", 16, "bold"), text=title)
-        self.lbl.grid(pady="5", row=0, columnspan=4)
-        description = octadist_gui.__description__
+        self.frame1 = tk.Frame(self.master)
+        self.frame1.grid(padx=5, pady=5, row=0, column=0, columnspan=2)
 
+        title = octadist_gui.__title__
+        self.lbl = tk.Label(self.frame1, text=title)
+        self.lbl.configure(foreground="blue", font=("Arial", 16, "bold"))
+        self.lbl.grid(pady="5", row=0, columnspan=4)
+
+        description = octadist_gui.__description__
         self.lbl = tk.Label(self.frame1, text=description)
         self.lbl.grid(pady="5", row=1, columnspan=4)
-
-        self.show_stdout = tk.BooleanVar()
-        self.show_stdout.set(False)
 
         ###########
         # Frame 2 #
         ###########
 
-        self.lbl = tk.Label(self.frame2, text="Program console")
-        self.lbl.grid(sticky=tk.N, pady="5", row=0)
+        self.frame2 = tk.LabelFrame(self.master, text="Program Console")
+        self.frame2.grid(padx=5, pady=5, ipadx=2, ipady=2, sticky=tk.N, row=1, column=0)
 
-        self.btn_openfile = tk.Button(self.frame2, text="Browse file", command=self.open_file)
-        self.btn_openfile.config(width=14, relief=tk.RAISED)
-        self.btn_openfile.grid(padx="10", pady="5", row=1)
+        self.btn_openfile = ttk.Button(self.frame2, text="Browse file", command=self.open_file)
+        self.btn_openfile.config(width=14)
+        self.btn_openfile.grid(padx="10", pady="5", row=0)
 
-        self.btn_run = tk.Button(self.frame2, text="Compute", command=self.calc_all_param)
-        self.btn_run.config(width=14, relief=tk.RAISED)
-        self.btn_run.grid(padx="10", pady="5", row=2)
+        self.btn_run = ttk.Button(self.frame2, text="Compute", command=self.calc_all_param)
+        self.btn_run.config(width=14)
+        self.btn_run.grid(padx="10", pady="5", row=1)
 
-        self.btn_clear = tk.Button(self.frame2, text="Clear cache", command=self.clear_cache)
-        self.btn_clear.config(width=14, relief=tk.RAISED)
-        self.btn_clear.grid(padx="10", pady="5", row=3)
+        self.btn_clear = ttk.Button(self.frame2, text="Clear cache", command=self.clear_cache)
+        self.btn_clear.config(width=14)
+        self.btn_clear.grid(padx="10", pady="5", row=2)
 
-        self.btn_save = tk.Button(self.frame2, text="Save Results", command=self.save_results)
-        self.btn_save.config(width=14, relief=tk.RAISED)
-        self.btn_save.grid(padx="10", pady="5", row=4)
+        self.btn_save = ttk.Button(self.frame2, text="Save Results", command=self.save_results)
+        self.btn_save.config(width=14)
+        self.btn_save.grid(padx="10", pady="5", row=3)
 
         ###########
         # Frame 3 #
         ###########
 
-        self.lbl = tk.Label(self.frame3, text="Octahedral distortion parameters")
-        self.lbl.grid(pady="5", row=0, columnspan=3)
+        self.frame3 = tk.LabelFrame(self.master, text="Distortion Parameters")
+        self.frame3.grid(padx=5, pady=5, ipadx=3, ipady=2, sticky=tk.N, row=1, column=1)
 
         # D_mean
         self.lbl_d_mean = tk.Label(self.frame3, text="<D>   =   ")
-        self.lbl_d_mean.grid(sticky=tk.E, pady="5", row=1, column=0)
-        self.box_d_mean = tk.Entry(self.frame3, width="12", justify='center')
-        self.box_d_mean.grid(row=1, column=1)
+        self.lbl_d_mean.grid(sticky=tk.E, pady="5", row=0, column=0)
+
+        self.box_d_mean = tk.Entry(self.frame3)
+        self.box_d_mean.configure(width="12", justify='center')
+        self.box_d_mean.grid(row=0, column=1)
+
         self.lbl_unit = tk.Label(self.frame3, text="  Angstrom")
-        self.lbl_unit.grid(pady="5", row=1, column=2)
+        self.lbl_unit.grid(pady="5", row=0, column=2)
 
         # Zeta
         self.lbl_zeta = tk.Label(self.frame3, text="ζ   =   ")
-        self.lbl_zeta.grid(sticky=tk.E, pady="5", row=2, column=0)
-        self.box_zeta = tk.Entry(self.frame3, width="12", justify='center')
-        self.box_zeta.grid(row=2, column=1)
+        self.lbl_zeta.grid(sticky=tk.E, pady="5", row=1, column=0)
+
+        self.box_zeta = tk.Entry(self.frame3)
+        self.box_zeta.configure(width="12", justify='center')
+        self.box_zeta.grid(row=1, column=1)
+
         self.lbl_unit = tk.Label(self.frame3, text="  Angstrom")
-        self.lbl_unit.grid(pady="5", row=2, column=2)
+        self.lbl_unit.grid(pady="5", row=1, column=2)
 
         # Delta
         self.lbl_delta = tk.Label(self.frame3, text="Δ   =   ")
-        self.lbl_delta.grid(sticky=tk.E, pady="5", row=3, column=0)
-        self.box_delta = tk.Entry(self.frame3, width="12", justify='center')
-        self.box_delta.grid(row=3, column=1)
+        self.lbl_delta.grid(sticky=tk.E, pady="5", row=2, column=0)
+
+        self.box_delta = tk.Entry(self.frame3)
+        self.box_delta.configure(width="12", justify='center')
+        self.box_delta.grid(row=2, column=1)
 
         # Sigma
         self.lbl_sigma = tk.Label(self.frame3, text="Σ   =   ")
-        self.lbl_sigma.grid(sticky=tk.E, pady="5", row=4, column=0)
-        self.box_sigma = tk.Entry(self.frame3, width="12", justify='center')
-        self.box_sigma.grid(row=4, column=1)
+        self.lbl_sigma.grid(sticky=tk.E, pady="5", row=3, column=0)
+
+        self.box_sigma = tk.Entry(self.frame3)
+        self.box_sigma.configure(width="12", justify='center')
+        self.box_sigma.grid(row=3, column=1)
+
         self.lbl_unit = tk.Label(self.frame3, text="  degree")
-        self.lbl_unit.grid(pady="5", row=4, column=2)
+        self.lbl_unit.grid(pady="5", row=3, column=2)
 
         # Theta_mean
         self.lbl_theta_mean = tk.Label(self.frame3, text="Θ   =   ")
-        self.lbl_theta_mean.grid(sticky=tk.E, pady="5", row=5, column=0)
-        self.box_theta_mean = tk.Entry(self.frame3, width="12", justify='center')
-        self.box_theta_mean.grid(row=5, column=1)
+        self.lbl_theta_mean.grid(sticky=tk.E, pady="5", row=4, column=0)
+
+        self.box_theta_mean = tk.Entry(self.frame3)
+        self.box_theta_mean.configure(width="12", justify='center')
+        self.box_theta_mean.grid(row=4, column=1)
+
         self.lbl_unit = tk.Label(self.frame3, text="  degree")
-        self.lbl_unit.grid(pady="5", row=5, column=2)
+        self.lbl_unit.grid(pady="5", row=4, column=2)
 
         ###########
         # Frame 4 #
         ###########
 
-        self.box_result = tkscrolled.ScrolledText(self.frame4, height="19", width="70",
-                                                  wrap="word", undo="True")
+        self.frame4 = tk.Frame(self.master)
+        self.frame4.grid(padx=5, pady=10, row=2, column=0, columnspan=2)
+
+        self.box_result = tkscrolled.ScrolledText(self.frame4)
+        self.box_result.configure(height="19", width="70", wrap="word", undo="True")
         self.box_result.grid(row=0)
 
         ###########
@@ -332,6 +360,15 @@ class OctaDist:
 
     def text_editor(self):
         return self.text_editor
+
+    def show_title(self):
+        return self.show_title
+
+    def show_axis(self):
+        return self.show_axis
+
+    def show_grid(self):
+        return self.show_grid
 
     def copy_name(self):
         """
@@ -409,7 +446,7 @@ class OctaDist:
             return 1
 
         results = "Zeta, Delta, Sigma, Gamma\n" \
-                  "{0:3.6f}, {1:3.6f}, {2:3.6f}, {3:3.6f}"\
+                  "{0:3.6f}, {1:3.6f}, {2:3.6f}, {3:3.6f}" \
             .format(self.all_zeta[0], self.all_delta[0], self.all_sigma[0], self.all_theta[0])
 
         clip = tk.Tk()
@@ -493,15 +530,39 @@ class OctaDist:
             except IndexError:
                 return 1
 
+        def check_title():
+            if var_title.get():
+                var_title.set(True)
+            else:
+                var_title.set(False)
+
+        def check_axis():
+            if var_axis.get():
+                var_axis.set(True)
+            else:
+                var_axis.set(False)
+
+        def check_grid():
+            if var_grid.get():
+                var_grid.set(True)
+            else:
+                var_grid.set(False)
+
         def restore_settings(self):
             self.cutoff_metal_ligand = self.backup_1
             self.cutoff_global = self.backup_2
             self.cutoff_hydrogen = self.backup_3
             self.text_editor = self.backup_4
+            self.show_title = self.backup_5
+            self.show_axis = self.backup_6
+            self.show_grid = self.backup_7
 
             var_1.set(self.cutoff_metal_ligand)
             var_2.set(self.cutoff_global)
             var_3.set(self.cutoff_hydrogen)
+            var_title.set(self.show_title)
+            var_axis.set(self.show_axis)
+            var_grid.set(self.show_grid)
 
             entry_exe.delete(0, tk.END)
             entry_exe.insert(tk.INSERT, self.text_editor)
@@ -511,6 +572,9 @@ class OctaDist:
             self.cutoff_global = float(var_2.get())
             self.cutoff_hydrogen = float(var_3.get())
             self.text_editor = str(entry_exe.get())
+            self.show_title = bool(var_title.get())
+            self.show_axis = bool(var_axis.get())
+            self.show_grid = bool(var_grid.get())
 
             echo_outs(self, "Updated program settings")
             echo_outs(self, "************************")
@@ -519,6 +583,10 @@ class OctaDist:
             echo_outs(self, "Hydrogen bond cutoff     : {0}".format(self.cutoff_hydrogen))
             echo_outs(self, "------------------------")
             echo_outs(self, "Text editor : {0}".format(self.text_editor))
+            echo_outs(self, "------------------------")
+            echo_outs(self, "Show Title  : {0}".format(self.show_title))
+            echo_outs(self, "Show Axis   : {0}".format(self.show_axis))
+            echo_outs(self, "Show Grid   : {0}".format(self.show_grid))
             echo_outs(self, "")
 
             master.destroy()
@@ -528,83 +596,112 @@ class OctaDist:
 
         master = tk.Toplevel(self.master)
         master.title("Program settings")
-        master.geometry("650x240")
         master.option_add("*Font", "Arial 10")
+
         frame = tk.Frame(master)
         frame.grid()
 
-        #######################
-        # Metal-Ligand cutoff #
-        #######################
+        ##########
+        # cutoff #
+        ##########
 
-        label = tk.Label(frame, text="Metal-Ligand Bond cutoff")
-        label.grid(padx="10", pady="5", row=0, column=0)
+        cutoff = tk.LabelFrame(frame, text="Bond Cutoff:")
+        cutoff.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=0, columnspan=4)
+
+        label_1 = tk.Label(cutoff, text="Metal-Ligand Bond")
+        label_1.grid(padx="10", pady="5", ipadx="10", row=0, column=0)
+
         var_1 = tk.DoubleVar()
         var_1.set(self.cutoff_metal_ligand)
-        scale_1 = tk.Scale(frame, orient="horizontal", variable=var_1, to=5,
-                           resolution=0.1, width=20, length=100)
-        scale_1.grid(padx="10", pady="5", row=1, column=0)
 
-        ##########################
-        # Global distance cutoff #
-        ##########################
+        scale_1 = tk.Scale(cutoff, orient="horizontal", variable=var_1, to=5, resolution=0.1)
+        scale_1.configure(width=20, length=100)
+        scale_1.grid(padx="10", pady="5", ipadx="10", row=1, column=0)
 
-        label = tk.Label(frame, text="Global distance cutoff")
-        label.grid(padx="10", pady="5", row=0, column=1)
+        label_2 = tk.Label(cutoff, text="Global Distance")
+        label_2.grid(padx="10", pady="5", ipadx="10", row=0, column=1)
+
         var_2 = tk.DoubleVar()
         var_2.set(self.cutoff_global)
-        scale_2 = tk.Scale(frame, orient="horizontal", variable=var_2, to=5,
-                           resolution=0.1, width=20, length=100)
-        scale_2.grid(padx="10", pady="5", row=1, column=1)
 
-        ############################
-        # Hydrogen distance cutoff #
-        ############################
+        scale_2 = tk.Scale(cutoff, orient="horizontal", variable=var_2, to=5, resolution=0.1)
+        scale_2.configure(width=20, length=100)
+        scale_2.grid(padx="10", pady="5", ipadx="10", row=1, column=1)
 
-        label = tk.Label(frame, text="Hydrogen distance cutoff")
-        label.grid(padx="10", pady="5", row=0, column=2)
+        label_3 = tk.Label(cutoff, text="Hydrogen Distance")
+        label_3.grid(padx="10", pady="5", ipadx="10", row=0, column=2)
+
         var_3 = tk.DoubleVar()
         var_3.set(self.cutoff_hydrogen)
-        scale_3 = tk.Scale(frame, orient="horizontal", variable=var_3, to=5,
-                           resolution=0.1, width=20, length=100)
-        scale_3.grid(padx="10", pady="5", row=1, column=2)
 
-        ######
-        label = tk.Label(frame, text="")
-        label.grid(row=2)
-        ######
+        scale_3 = tk.Scale(cutoff, orient="horizontal", variable=var_3, to=5, resolution=0.1)
+        scale_3.configure(width=20, length=100)
+        scale_3.grid(padx="10", pady="5", ipadx="10", row=1, column=2)
 
         ###############
         # Text editor #
         ###############
 
-        label = tk.Label(frame, text="Text editor executable:")
-        label.grid(padx="10", sticky=tk.W, row=6, column=0)
-        entry_exe = tk.Entry(frame, bd=2, width=60)
-        entry_exe.grid(row=6, column=1, columnspan=2)
-        button = tk.Button(frame, text="...", command=open_exe)
-        button.grid(padx="5", pady="10", row=6, column=3)
+        text_editor = tk.LabelFrame(frame, text="Text editor:")
+        text_editor.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=1, columnspan=4)
+
+        label = tk.Label(text_editor, text="Enter the EXE:")
+        label.grid(padx="5", sticky=tk.E, row=0, column=0)
+
+        entry_exe = tk.Entry(text_editor, bd=2, width=60)
+        entry_exe.grid(row=0, column=1)
+
+        button = tk.Button(text_editor, text="Browse...", command=open_exe)
+        button.grid(padx="5", pady="5", sticky=tk.W, row=0, column=2)
 
         entry_exe.insert(tk.INSERT, self.text_editor)
 
-        ######
-        label = tk.Label(frame, text="")
-        label.grid(row=7)
-        ######
+        ############
+        # Displays #
+        ############
+
+        displays = tk.LabelFrame(frame, text="Displays:")
+        displays.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=2, columnspan=4)
+
+        # Show title of plot?
+        var_title = tk.BooleanVar()
+        var_title.set(self.show_title)
+
+        show_title = ttk.Checkbutton(displays, text="Show Figure Title", onvalue=True, offvalue=False,
+                                     variable=var_title, command=lambda: check_title())
+        show_title.grid(padx="5", pady="5", ipadx="25", sticky=tk.E, row=0, column=0)
+
+        # Show axis?
+        var_axis = tk.BooleanVar()
+        var_axis.set(self.show_axis)
+
+        show_axis = ttk.Checkbutton(displays, text="Show Axes", onvalue=True, offvalue=False,
+                                    variable=var_axis, command=lambda: check_axis())
+        show_axis.grid(padx="5", pady="5", ipadx="25", sticky=tk.E, row=0, column=1)
+
+        # Show grid?
+        var_grid = tk.BooleanVar()
+        var_grid.set(self.show_grid)
+
+        show_grid = ttk.Checkbutton(displays, text="Show Gridlines", onvalue=True, offvalue=False,
+                                    variable=var_grid, command=lambda: check_grid())
+        show_grid.grid(padx="5", pady="5", ipadx="5", sticky=tk.E, row=0, column=2)
 
         ###########
         # Console #
         ###########
 
-        button = tk.Button(frame, text="Restore settings", width=15,
-                           command=lambda: restore_settings(self))
-        button.grid(padx="10", pady="10", sticky=tk.W, row=8, column=0)
-        button = tk.Button(frame, text="OK", width=10,
-                           command=lambda: commit_ok(self))
-        button.grid(padx="5", pady="10", sticky=tk.E, row=8, column=1)
-        button = tk.Button(frame, text="Cancel", width=10,
-                           command=lambda: commit_cancel())
-        button.grid(padx="5", pady="10", row=8, column=2)
+        button = tk.Button(frame, text="Restore settings", command=lambda: restore_settings(self))
+        button.configure(width=15)
+        button.grid(padx="10", pady="10", sticky=tk.W, row=3, column=0)
+
+        button = tk.Button(frame, text="OK", command=lambda: commit_ok(self))
+        button.configure(width=15)
+        button.grid(padx="5", pady="10", sticky=tk.E, row=3, column=2)
+
+        button = tk.Button(frame, text="Cancel", command=lambda: commit_cancel())
+        button.configure(width=15)
+        button.grid(padx="5", pady="10", row=3, column=3)
 
         frame.mainloop()
 
@@ -811,6 +908,10 @@ class OctaDist:
                             popup.err_no_coord()
                             return 1
 
+                        if len(coord_octa) < 7:
+                            popup.err_less_ligands()
+                            return 1
+
                         # gather octahedral structure into atom_coord_octa
                         # [ number of file, metal atom, atomic labels, and atomic coordinates ]
                         self.atom_coord_octa.append([i + 1, atom_octa[0], atom_octa, coord_octa])
@@ -876,6 +977,47 @@ class OctaDist:
         f.write(get_result)
         f.write("\n")
         f.write("================= End of the output file ==================\n")
+        f.write("\n")
+        f.close()
+
+        popup.info_save_results(f.name)
+
+    def save_coord(self):
+        """
+        Save atomic coordinates (Cartesian coordinate) of octahedral structure
+        as XYZ file.
+
+        Returns
+        -------
+        None
+
+        """
+        if len(self.file_list) == 0:
+            popup.err_no_file()
+            return 1
+
+        if len(self.file_list) > 1:
+            popup.err_many_files()
+            return 1
+
+        f = filedialog.asksaveasfile(mode='w', defaultextension=".xyz", title="Save atomic coordinates",
+                                     filetypes=(("XYZ File", "*.xyz"),
+                                                ("TXT File", "*.txt"),
+                                                ("All Files", "*.*")))
+
+        if f is None:
+            return 0
+
+        file_name = self.file_list[0].split('/')[-1]
+        atoms = self.atom_coord_octa[0][2]
+        coord = self.atom_coord_octa[0][3]
+
+        f.write("7\n")
+        f.write("{0} : this file was generated by OctaDist {1} {2}.\n".
+                format(file_name, octadist_gui.__version__, octadist_gui.__release__))
+        for i in range(7):
+            f.write("{0:2s}   {1:9.6f}  {2:9.6f}  {3:9.6f}\n"
+                    .format(atoms[i], coord[i][0], coord[i][1], coord[i][2]))
         f.write("\n")
         f.close()
 

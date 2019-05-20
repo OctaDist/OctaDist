@@ -390,14 +390,10 @@ def find_faces_octa(c_octa):
     all_atom = [1, 2, 3, 4, 5, 6]
     a_oppo_f = []
 
-    # loop over 4 reference planes
     for i in range(len(a_ref_f)):
-        # Find atoms of opposite plane
         new_a_ref_f = []
         for j in all_atom:
-            if j not in (a_ref_f[i][0],
-                         a_ref_f[i][1],
-                         a_ref_f[i][2]):
+            if j not in (a_ref_f[i][0], a_ref_f[i][1], a_ref_f[i][2]):
                 new_a_ref_f.append(j)
         a_oppo_f.append(new_a_ref_f)
 

@@ -135,13 +135,19 @@ def show_license():
 
 
 def err_no_file():
+    """
+    Show error when no any input files is loaded into program.
+
+    Returns
+    -------
+    None
+
+    """
     showerror("Error", "No input file. At least one input file must be loaded.")
 
 
 def err_invalid_ftype(ftype):
     """
-    Show error popup:
-
     Show this error popup when file type is not supported by the program.
 
     Parameters
@@ -160,6 +166,11 @@ def err_invalid_ftype(ftype):
 
 def err_no_coord():
     showerror("Error", "No coordinate of a molecule. Please make sure the input file format is correct.")
+
+
+def err_less_ligands():
+    showerror("Error", "Number of ligand atoms is less than 6. Please check the metal-ligand bond cutoff "
+                       "to see if the value is set properly.")
 
 
 def err_no_metal():

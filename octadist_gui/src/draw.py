@@ -19,6 +19,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from octadist_gui.src import elements, popup, tools, plane, projection
+from octadist_gui import main
 
 
 def all_atom(self, acf):
@@ -98,7 +99,18 @@ def all_atom(self, acf):
     ax.grid(True)
 
     # plt.axis('equal')
-    # plt.axis('off')
+
+    show_title = main.OctaDist.show_title(self)
+    show_axis = main.OctaDist.show_axis(self)
+    show_grid = main.OctaDist.show_grid(self)
+
+    if not show_title:
+        ax.set_title('')
+    if not show_axis:
+        plt.axis('off')
+    if not show_grid:
+        ax.grid(False)
+
     plt.show()
 
 
@@ -118,14 +130,11 @@ def all_atom_and_face(self, acf, all_face):
     None
 
     """
-    if len(acf) == 0:
+    if len(acf) == 0 or len(all_face) == 0:
         popup.err_no_file()
         return 1
     elif len(acf) > 1:
         popup.err_many_files()
-        return 1
-    if len(all_face) == 0:
-        popup.err_no_calc()
         return 1
 
     fal, fcl = acf[0]
@@ -200,11 +209,22 @@ def all_atom_and_face(self, acf, all_face):
     ax.grid(True)
 
     # plt.axis('equal')
-    # plt.axis('off')
+
+    show_title = main.OctaDist.show_title(self)
+    show_axis = main.OctaDist.show_axis(self)
+    show_grid = main.OctaDist.show_grid(self)
+
+    if not show_title:
+        ax.set_title('')
+    if not show_axis:
+        plt.axis('off')
+    if not show_grid:
+        ax.grid(False)
+
     plt.show()
 
 
-def octa(aco):
+def octa(self, aco):
     """
     Display 3D structure of octahedral complex.
 
@@ -273,11 +293,22 @@ def octa(aco):
     ax.grid(True)
 
     # plt.axis('equal')
-    # plt.axis('off')
+
+    show_title = main.OctaDist.show_title(self)
+    show_axis = main.OctaDist.show_axis(self)
+    show_grid = main.OctaDist.show_grid(self)
+
+    if not show_title:
+        ax.set_title('')
+    if not show_axis:
+        plt.axis('off')
+    if not show_grid:
+        ax.grid(False)
+
     plt.show()
 
 
-def octa_and_face(aco, all_face):
+def octa_and_face(self, aco, all_face):
     """
     Display 3D structure of octahedral complex with 8 faces.
 
@@ -293,7 +324,7 @@ def octa_and_face(aco, all_face):
     None
 
     """
-    if len(aco) == 0:
+    if len(aco) == 0 or len(all_face) == 0:
         popup.err_no_calc()
         return 1
     elif len(aco) > 1:
@@ -364,11 +395,22 @@ def octa_and_face(aco, all_face):
     ax.grid(True)
 
     # plt.axis('equal')
-    # plt.axis('off')
+
+    show_title = main.OctaDist.show_title(self)
+    show_axis = main.OctaDist.show_axis(self)
+    show_grid = main.OctaDist.show_grid(self)
+
+    if not show_title:
+        ax.set_title('')
+    if not show_axis:
+        plt.axis('off')
+    if not show_grid:
+        ax.grid(False)
+
     plt.show()
 
 
-def proj_planes(aco, all_face):
+def proj_planes(self, aco, all_face):
     """
     Display the selected 4 faces of octahedral complex.
 
@@ -384,7 +426,7 @@ def proj_planes(aco, all_face):
     None
 
     """
-    if len(aco) == 0:
+    if len(aco) == 0 or len(all_face) == 0:
         popup.err_no_calc()
         return 1
     elif len(aco) > 1:
@@ -459,16 +501,26 @@ def proj_planes(aco, all_face):
         ax.set_zlabel(r'Z', fontsize=10)
         ax.grid(True)
 
+        show_title = main.OctaDist.show_title(self)
+        show_axis = main.OctaDist.show_axis(self)
+        show_grid = main.OctaDist.show_grid(self)
+
+        if not show_title:
+            ax.set_title('')
+        if not show_axis:
+            plt.axis('off')
+        if not show_grid:
+            ax.grid(False)
+
     # Shift subplots down
     st.set_y(1.0)
     fig.subplots_adjust(top=0.25)
 
-    # plt.axis('equal')
     plt.tight_layout()
     plt.show()
 
 
-def twisting_faces(aco, all_face):
+def twisting_faces(self, aco, all_face):
     """
     Display twisting triangular faces and vector projection.
 
@@ -484,7 +536,7 @@ def twisting_faces(aco, all_face):
     None
 
     """
-    if len(aco) == 0:
+    if len(aco) == 0 or len(all_face) == 0:
         popup.err_no_calc()
         return 1
     elif len(aco) > 1:
@@ -581,11 +633,21 @@ def twisting_faces(aco, all_face):
         ax.set_zlabel(r'Z', fontsize=10)
         ax.grid(True)
 
+        show_title = main.OctaDist.show_title(self)
+        show_axis = main.OctaDist.show_axis(self)
+        show_grid = main.OctaDist.show_grid(self)
+
+        if not show_title:
+            ax.set_title('')
+        if not show_axis:
+            plt.axis('off')
+        if not show_grid:
+            ax.grid(False)
+
     # Shift subplots down
     st.set_y(1.0)
     fig.subplots_adjust(top=0.25)
 
     # plt.legend(bbox_to_anchor=(1.05, 1), loc=2)
-    # plt.axis('equal')
     plt.tight_layout()
     plt.show()
