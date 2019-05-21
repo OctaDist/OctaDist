@@ -350,24 +350,90 @@ class OctaDist:
         echo_outs(self, "")
 
     def cutoff_metal_ligand(self):
+        """
+        Fetch cutoff_metal_ligand and return value.
+
+        Returns
+        -------
+        cutoff_metal_ligand : float
+            Cutoff distance for metal-ligand bond screening.
+
+        """
         return self.cutoff_metal_ligand
 
     def cutoff_global(self):
+        """
+        Fetch cutoff_global and return value.
+
+        Returns
+        -------
+        cutoff_global : float
+            Cutoff global distance for bond screening.
+
+        """
         return self.cutoff_global
 
     def cutoff_hydrogen(self):
+        """
+        Fetch cutoff_hydrogen and return value.
+
+        Returns
+        -------
+        cutoff_hydrogen : float
+            Cutoff distance for hydrogen bond screening.
+
+        """
         return self.cutoff_hydrogen
 
     def text_editor(self):
+        """
+        Text editor for editing file.
+
+        Returns
+        -------
+        text_editor : str
+            Name or absolute path of text editor that user specified.
+
+        """
         return self.text_editor
 
     def show_title(self):
+        """
+        Show figure title.
+
+        Returns
+        -------
+        show_title : bool
+            True if user want matplotlib to show figure title.
+            False if user does not.
+
+        """
         return self.show_title
 
     def show_axis(self):
+        """
+        Show figure axes.
+
+        Returns
+        -------
+        show_axis : bool
+            True if user want matplotlib to show figure axis.
+            False if user does not.
+
+        """
         return self.show_axis
 
     def show_grid(self):
+        """
+        Show figure gridlines.
+
+        Returns
+        -------
+        show_grid : bool
+            True if user want matplotlib to show figure gridlines.
+            False if user does not.
+
+        """
         return self.show_grid
 
     def copy_name(self):
