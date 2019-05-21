@@ -1054,7 +1054,7 @@ class OctaDist:
             zeta = calc.calc_zeta(coord_octa)
             delta = calc.calc_delta(coord_octa)
             sigma = calc.calc_sigma(coord_octa)
-            theta_mean = calc.calc_theta(atom_octa, coord_octa)
+            theta_mean = calc.calc_theta(coord_octa)
 
             # Find 8 reference faces and 8 opposite faces
             a_ref_f, c_ref_f, a_oppo_f, c_oppo_f = tools.find_faces_octa(coord_octa)
