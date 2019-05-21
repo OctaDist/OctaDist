@@ -1,8 +1,0 @@
-=====
-Usage
-=====
-
-Normal program usage
-
-
-
