@@ -13,6 +13,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import re
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 # sys.path.insert(0, os.path.abspath('.'))
@@ -47,10 +48,17 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
-    'sphinx.ext.napoleon'
+    'sphinx.ext.napoleon',
 ]
 
+import numpydoc
+release = numpydoc.__version__
+version = re.sub(r'(\d+\.\d+)\.\d+(.*)', r'\1\2', numpydoc.__version__)
+version = re.sub(r'(\.dev\d+).*?$', r'\1', version)
+
+
 napoleon_numpy_docstring = True
+napoleon_include_special_with_doc = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -99,6 +107,28 @@ html_theme = 'sphinx_rtd_theme'
 # html_theme_options = {}
 
 html_theme_path = ['.']
+
+# Theme options
+html_theme_options = {
+    # 'typekit_id': 'hiw1hhg',
+    # 'analytics_id': '',
+    # 'sticky_navigation': True  # Set to False to disable the sticky nav while scrolling.
+    'logo_only': True,  # if we have a html_logo below, this shows /only/ the logo with no title text
+    'collapse_navigation': False,  # Collapse navigation (False makes it tree-like)
+    # 'display_version': True,  # Display the docs version
+    # 'navigation_depth': 4,  # Depth of the headers shown in the navigation bar
+}
+
+# VCS options: https://docs.readthedocs.io/en/latest/vcs.html#github
+html_context = {
+    "display_github": True, # Integrate GitHub
+    "github_user": "octadist", # Username
+    "github_repo": "OctaDist", # Repo name
+    "github_version": "master", # Version
+    "conf_py_path": "/", # Path in the checkout to the docs root
+}
+
+html_logo = '../images/molecule.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

@@ -24,7 +24,7 @@ from octadist_gui import main
 
 def count_line(file):
     """
-    Count line in input file.
+    Count lines in an input file.
 
     Parameters
     ----------
@@ -46,14 +46,7 @@ def count_line(file):
 
 def get_coord(self, f):
     """
-    Check file type, read data, extract atom and coord from input file.
-
-    The following is the file type that OctaDist supports:
-    - XYZ
-    - Gaussian
-    - NWChem
-    - ORCA
-    - Q-Chem
+    Check file type, read data, extract atom and coord from an input file.
 
     Parameters
     ----------
@@ -66,6 +59,17 @@ def get_coord(self, f):
         Full atomic labels of complex.
     c_full : list or array
         Full atomic coordinates of complex.
+
+    Notes
+    -----
+    The following is the file type that OctaDist supports:
+
+    - ``XYZ``
+    - ``Gaussian``
+    - ``NWChem``
+    - ``ORCA``
+    - ``Q-Chem``
+    
 
     """
     a_full = []
@@ -217,6 +221,9 @@ def check_xyz_file(f):
 
     Notes
     -----
+    XYZ file format is like following:
+
+    >>> 
     <number of atom>
     comment
     <index 0> <X> <Y> <Z>
@@ -226,6 +233,7 @@ def check_xyz_file(f):
 
     Examples
     --------
+    >>> example.xyz 
     7
     Comment: From Excel file
     Fe  6.251705    9.063211    5.914842
@@ -235,6 +243,7 @@ def check_xyz_file(f):
     N   4.350474    9.106286    6.356091
     O   5.789096    7.796326    4.611355
     O   6.686381    7.763872    7.209699
+    
 
     """
     file = open(f, "r")

@@ -836,7 +836,7 @@ class OctaDist:
 
         References
         ----------
-        File: "www.github.com/OctaDist/OctaDist/version_update.txt".
+        File: www.github.com/OctaDist/OctaDist/version_update.txt
 
         """
         data = urlopen("https://raw.githubusercontent.com/OctaDist/OctaDist/master/version_update.txt").read()
