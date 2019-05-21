@@ -14,12 +14,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-import tkinter as tk
-
 import numpy as np
 
 import octadist_gui.src.plane
-from octadist_gui.src import echo_outs, linear, popup, projection, tools
+from octadist_gui.src import linear, popup, projection
 
 
 def calc_d_bond(c_octa):
@@ -208,14 +206,12 @@ def calc_sigma(c_octa):
     return sigma
 
 
-def calc_theta(a_octa, c_octa):
+def calc_theta(c_octa):
     """
     Calculate Theta parameter and value in degree.
 
     Parameters
     ----------
-    a_octa : list
-        Atomic labels of octahedral structure.
     c_octa : array
         Atomic coordinates of octahedral structure.
 
@@ -238,7 +234,6 @@ def calc_theta(a_octa, c_octa):
     M. Marchivie et al. Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.
 
     """
-    labels = list(a_octa[1:])
     ligands = list(c_octa[1:])
 
     TM = c_octa[0]
@@ -292,10 +287,6 @@ def calc_theta(a_octa, c_octa):
     ligands[4] = ligands[def_change]
     ligands[def_change] = tp
 
-    tp = labels[4]
-    labels[4] = labels[def_change]
-    labels[def_change] = tp
-
     N1 = ligands[0]
     N2 = ligands[1]
     N3 = ligands[2]
@@ -303,7 +294,6 @@ def calc_theta(a_octa, c_octa):
     N5 = ligands[4]
     N6 = ligands[5]
 
-    # Update vector from metal to each ligand atom
     TMN1 = N1 - TM
     TMN2 = N2 - TM
     TMN3 = N3 - TM
@@ -311,7 +301,6 @@ def calc_theta(a_octa, c_octa):
     TMN5 = N5 - TM
     TMN6 = N6 - TM
 
-    # Update the ligands_vec list that contains M-N vector
     ligands_vec = [TMN1, TMN2, TMN3, TMN4, TMN5, TMN6]
 
     # This loop is used to identify which N is in line with N2
@@ -337,10 +326,6 @@ def calc_theta(a_octa, c_octa):
     ligands[5] = ligands[def_change]
     ligands[def_change] = tp
 
-    tp = labels[5]
-    labels[5] = labels[def_change]
-    labels[def_change] = tp
-
     # New atom order is stored into the N1 - N6 lists
     N1 = ligands[0]
     N2 = ligands[1]
@@ -349,7 +334,6 @@ def calc_theta(a_octa, c_octa):
     N5 = ligands[4]
     N6 = ligands[5]
 
-    # Update vector from metal to each ligand atom
     TMN1 = N1 - TM
     TMN2 = N2 - TM
     TMN3 = N3 - TM
@@ -382,19 +366,13 @@ def calc_theta(a_octa, c_octa):
     ligands[3] = ligands[def_change]
     ligands[def_change] = tp
 
-    tp = labels[3]
-    labels[3] = labels[def_change]
-    labels[def_change] = tp
-
-    # New atom order is stored into the N1 - N6 lists.
+    # New atom order is stored into the N1 - N6 lists
     N1 = ligands[0]
     N2 = ligands[1]
     N3 = ligands[2]
     N4 = ligands[3]
     N5 = ligands[4]
     N6 = ligands[5]
-
-    updated_lig = [N1, N2, N3, N4, N5, N6]
 
     #####################################################
     # Calculate the Theta parameter ans its derivatives #
@@ -409,13 +387,12 @@ def calc_theta(a_octa, c_octa):
         a, b, c, d = octadist_gui.src.plane.find_eq_of_plane(N1, N2, N3)
         eqOfPlane.append([a, b, c, d])
 
-        # Projecting M, N4, N5, and N6 onto the plane defined by N1, N2, and N3
+        # Project M, N4, N5, and N6 onto the plane defined by N1, N2, and N3
         TMP = projection.project_atom_onto_plane(TM, a, b, c, d)
         N4P = projection.project_atom_onto_plane(N4, a, b, c, d)
         N5P = projection.project_atom_onto_plane(N5, a, b, c, d)
         N6P = projection.project_atom_onto_plane(N6, a, b, c, d)
 
-        # Calculate vector from projected metal to projected ligand
         VTh1 = N1 - TMP
         VTh2 = N2 - TMP
         VTh3 = N3 - TMP
@@ -423,7 +400,6 @@ def calc_theta(a_octa, c_octa):
         VTh5 = N5P - TMP
         VTh6 = N6P - TMP
 
-        # Calculate 6 theta angles for 1 projection
         a12 = linear.angle_btw_vectors(VTh1, VTh2)
         a13 = linear.angle_btw_vectors(VTh1, VTh3)
         if a12 < a13:
@@ -440,10 +416,8 @@ def calc_theta(a_octa, c_octa):
 
         indiTheta.append([theta1, theta2, theta3, theta4, theta5, theta6])
 
-        # Sum individual Theta for 1 projection plane
         sum_theta = sum(abs(indiTheta[proj][i] - 60) for i in range(6))
 
-        # Update Theta into allTheta list
         allTheta.append(sum_theta)
 
         tp = N2
@@ -451,12 +425,6 @@ def calc_theta(a_octa, c_octa):
         N4 = N6
         N6 = N3
         N3 = tp
-
-        tp = labels[1]
-        labels[1] = labels[3]
-        labels[3] = labels[5]
-        labels[5] = labels[2]
-        labels[2] = tp
 
         # If the proj = 3, permutation face will be switched from N1N2N3
         # to N1N4N2, to N1N6N4, then to N1N3N6, and then back to N1N2N3
@@ -470,15 +438,6 @@ def calc_theta(a_octa, c_octa):
             tp = N3
             N3 = N4
             N4 = tp
-            tp = labels[0]
-            labels[0] = labels[4]
-            labels[4] = tp
-            tp = labels[1]
-            labels[1] = labels[5]
-            labels[5] = tp
-            tp = labels[2]
-            labels[2] = labels[3]
-            labels[3] = tp
 
         # End of the loop that calculate the 8 projections.
 
@@ -491,122 +450,43 @@ def calc_theta(a_octa, c_octa):
     return theta_mean
 
 
-def calc_theta_max_min(allTheta):
+def calc_theta_min(allTheta):
     """
+    Calculate minimum Theta parameter and return value in degree.
 
     Parameters
     ----------
-    allTheta
+    allTheta : list
+        List of individual Theta angles.
 
     Returns
     -------
+    theta_min : float
+        Minimum Theta parameter.
 
     """
     sorted_theta = sorted(allTheta)
     theta_min = sum(sorted_theta[i] for i in range(4))
+
+    return theta_min
+
+
+def calc_theta_max(allTheta):
+    """
+    Calculate maximum Theta parameter and return value in degree.
+
+    Parameters
+    ----------
+    allTheta : list
+        List of individual Theta angles.
+
+    Returns
+    -------
+    theta_max : float
+        Maximum Theta parameter.
+
+    """
+    sorted_theta = sorted(allTheta)
     theta_max = sum(sorted_theta[i] for i in range(4, 8))
 
-    return theta_min, theta_max
-
-
-# def calc_all(self, a_c_octa):
-#     """Calculate all distortion parameters:
-#
-#     Zeta, Delta, Sigma, and Theta_mean parameters.
-#
-#     Parameters
-#     ----------
-#     a_c_octa : list
-#         Atomic labels and coordinates of octahedral structure.
-#
-#     Returns
-#     -------
-#     all_zeta : list of float
-#         List of Zeta parameters.
-#     all_delta : list of float
-#         List of Delta parameters.
-#     all_sigma : list of float
-#         List of Sigma parameters.
-#     all_theta : list of float
-#         List of Theta parameters.
-#     all_face : list
-#         List of 8 faces of octahedral structures.
-#
-#     """
-#     d_mean = 0
-#     zeta = 0
-#     delta = 0
-#     sigma = 0
-#     theta_mean = 0
-#
-#     all_zeta = []
-#     all_delta = []
-#     all_sigma = []
-#     all_theta = []
-#     all_face = []
-#     comp_result = []
-#
-#     # loop over number of metal complexes
-#     for i in range(len(a_c_octa)):
-#         num_file, num_metal, atom_octa, coord_octa = a_c_octa[i]
-#
-#         # Calculate distortion parameters
-#         d_mean = calc_d_mean(coord_octa)
-#         zeta = calc_zeta(coord_octa)
-#         delta = calc_delta(coord_octa)
-#         sigma = calc_sigma(coord_octa)
-#         theta_mean = calc_theta(atom_octa, coord_octa)
-#
-#         # Find 8 reference faces and 8 opposite faces
-#         a_ref_f, c_ref_f, a_oppo_f, c_oppo_f = tools.find_faces_octa(coord_octa)
-#
-#         face_data = [a_ref_f, c_ref_f, a_oppo_f, c_oppo_f]
-#
-#         # Collect results
-#         all_zeta.append(zeta)
-#         all_delta.append(delta)
-#         all_sigma.append(sigma)
-#         all_theta.append(theta_mean)
-#         all_face.append(face_data)
-#
-#         comp_result.append([num_file,
-#                             num_metal,
-#                             d_mean,
-#                             zeta,
-#                             delta,
-#                             sigma,
-#                             theta_mean
-#                             ])
-#
-#     # Print results to each unique box
-#     if len(a_c_octa) == 1:
-#         self.box_d_mean.insert(tk.INSERT, "{0:3.6f}".format(d_mean))
-#         self.box_zeta.insert(tk.INSERT, "{0:3.6f}".format(zeta))
-#         self.box_delta.insert(tk.INSERT, "{0:3.6f}".format(delta))
-#         self.box_sigma.insert(tk.INSERT, "{0:3.6f}".format(sigma))
-#         self.box_theta_mean.insert(tk.INSERT, "{0:3.6f}".format(theta_mean))
-#     else:
-#         self.box_d_mean.insert(tk.INSERT, "See below")
-#         self.box_zeta.insert(tk.INSERT, "See below")
-#         self.box_delta.insert(tk.INSERT, "See below")
-#         self.box_sigma.insert(tk.INSERT, "See below")
-#         self.box_theta_mean.insert(tk.INSERT, "See below")
-#
-#     # Print results to result box
-#     echo_outs(self, "Computed octahedral distortion parameters for all complexes")
-#     echo_outs(self, "")
-#     echo_outs(self, "Complex   Metal      <D>      Zeta      Delta      Sigma      Theta")
-#     echo_outs(self, "*******************************************************************")
-#     echo_outs(self, "")
-#     for i in range(len(comp_result)):
-#         echo_outs(self, " {0:2d}  -  {1} :  {2:9.4f}  {3:9.6f}  {4:9.6f}  {5:9.4f}  {6:9.4f}"
-#                   .format(comp_result[i][0],
-#                           comp_result[i][1],
-#                           comp_result[i][2],
-#                           comp_result[i][3],
-#                           comp_result[i][4],
-#                           comp_result[i][5],
-#                           comp_result[i][6]))
-#     echo_outs(self, "")
-#
-#     return all_zeta, all_delta, all_sigma, all_theta, all_face
+    return theta_max
