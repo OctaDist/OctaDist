@@ -19,27 +19,19 @@ __src__ = "source code"
 import tkinter as tk
 
 
-def echo_logs(self, text):
-    """Insert stdout & stderr to log box
-
-    :param self: master frame
-    :param text: text
-    :type text: str
-    """
-    if self.show_stdout.get():
-        self.box_stdout.insert(tk.INSERT, text + "\n")
-        self.box_stdout.see(tk.END)
-    else:
-        return 0
-
-
 def echo_outs(self, text):
-    """Insert text to result box
+    """
+    Insert text to result box
 
-    :param self: master frame
-    :param text: text
-    :type text: str
+    Parameters
+    ----------
+    text : str
+        Text
+
+    Returns
+    -------
+    None
+
     """
     self.box_result.insert(tk.INSERT, text + "\n")
     self.box_result.see(tk.END)
-

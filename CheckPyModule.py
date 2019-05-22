@@ -14,7 +14,7 @@ if sys.version_info < (3,):
     print("OctaDist supports only for Python 3.\n")
     print("Please upgrade your Python to version 3 (Python 3.7 is recommended).")
 
-module = ["numpy", "scipy", "matplotlib"]
+module = ["numpy", "scipy", "matplotlib", "rmsd"]
 
 S = False
 
