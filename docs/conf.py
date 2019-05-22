@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'OctaDist'
-copyright = '2019, Rangsiman Ketkaew'
+copyright = '2019, Rangsiman Ketkaew et al.'
 author = 'Rangsiman Ketkaew'
 
 # The short X.Y version
@@ -57,6 +57,8 @@ extensions = [
 # version = re.sub(r'(\d+\.\d+)\.\d+(.*)', r'\1\2', numpydoc.__version__)
 # version = re.sub(r'(\.dev\d+).*?$', r'\1', version)
 
+# numpydoc is required in requirements.txt file.
+
 
 napoleon_numpy_docstring = True
 napoleon_include_special_with_doc = True
@@ -90,7 +92,6 @@ pygments_style = 'sphinx'
 
 todo_include_todos = False
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -101,8 +102,6 @@ html_theme = 'sphinx_rtd_theme'
 # html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
-
-
 html_theme_path = ['.']
 
 # Theme options
