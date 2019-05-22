@@ -1,6 +1,6 @@
-==============
-OctaDist coord
-==============
+==================
+octadist_gui.coord
+==================
 
 .. automodule:: octadist_gui.src.coord
    :members:

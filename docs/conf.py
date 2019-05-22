@@ -12,22 +12,25 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-#import os
-#import sys
-#sys.path.insert(0, os.path.abspath('..'))
+import os
+import sys
+sys.path.insert(0, os.path.abspath('..'))
+# sys.path.insert(0, os.path.abspath('.'))
+# sys.path.insert(0, os.path.abspath('../src'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'octadist_gui'
-copyright = '2019, Rangsiman Ketkaew'
+project = 'OctaDist'
+copyright = '2019, Rangsiman Ketkaew et al.'
 author = 'Rangsiman Ketkaew'
 
 # The short X.Y version
-version = '2.5.2'
+version = '2.5.3'
 # The full version, including alpha/beta/rc tags
-release = '2.5.2'
+release = '2.5.3'
 
+# autodoc_mock_imports = ['_tkinter']
 
 # -- General configuration ---------------------------------------------------
 
@@ -44,7 +47,21 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.githubpages',
+    'sphinx.ext.napoleon',
 ]
+
+# import numpydoc
+# import re
+#
+# release = numpydoc.__version__
+# version = re.sub(r'(\d+\.\d+)\.\d+(.*)', r'\1\2', numpydoc.__version__)
+# version = re.sub(r'(\.dev\d+).*?$', r'\1', version)
+
+# numpydoc is required in requirements.txt file.
+
+
+napoleon_numpy_docstring = True
+napoleon_include_special_with_doc = True
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -71,27 +88,51 @@ language = None
 exclude_patterns = ['_build']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = None
+pygments_style = 'sphinx'
 
+todo_include_todos = False
 
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'default'
-#html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
+# html_theme = 'default'
+# html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
+html_theme_path = ['.']
+
+# Theme options
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    # 'typekit_id': 'hiw1hhg',
+    # 'analytics_id': '',
+    # 'sticky_navigation': True  # Set to False to disable the sticky nav while scrolling.
+    'logo_only': True,  # if we have a html_logo below, this shows /only/ the logo with no title text
+    'collapse_navigation': False,  # Collapse navigation (False makes it tree-like)
+    # 'display_version': True,  # Display the docs version
+    # 'navigation_depth': 4,  # Depth of the headers shown in the navigation bar
+}
+
+# VCS options: https://docs.readthedocs.io/en/latest/vcs.html#github
+html_context = {
+    "display_github": True, # Integrate GitHub
+    "github_user": "octadist", # Username
+    "github_repo": "OctaDist", # Repo name
+    "github_version": "master", # Version
+    "conf_py_path": "/", # Path in the checkout to the docs root
+}
+
+html_logo = '../images/molecule.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-#html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

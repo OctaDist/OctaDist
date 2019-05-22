@@ -19,17 +19,6 @@ import webbrowser
 from tkinter.messagebox import showinfo, showerror, showwarning
 
 import octadist_gui
-from octadist_gui.src import echo_logs
-
-
-def header(self):
-    """Show welcome message when program starts
-    """
-    echo_logs(self, "==========================================================")
-    echo_logs(self, "OctaDist {0} : https://octadist.github.io".format(octadist_gui.__version__))
-    echo_logs(self, "A Program for determining the structural distortion of the octahedral complexes")
-    echo_logs(self, "==========================================================")
-    echo_logs(self, "")
 
 
 def callback(event):
@@ -37,7 +26,13 @@ def callback(event):
 
 
 def show_help(self):
-    """Show program help
+    """
+    Show program help.
+
+    1. Simple usage
+    2. XYZ file format
+    3. References
+
     """
     master = tk.Toplevel(self)
     master.title("Program Help")
@@ -96,28 +91,34 @@ def show_help(self):
     msg.grid(sticky=tk.W, row=8, columnspan=2)
 
 
-def show_about(self):
-    """Show author info
+def show_about():
     """
-    echo_logs(self, "Info: Show program information")
+    Show author info
 
+    1. Name of authors
+    2. Official program website
+    3. Citation
+
+    """
     text = "OctaDist version {0} ({1})\n" \
            "\n" \
-           "Authors: Rangsiman Ketkaew, Yuthana Tantirungrotechai,\n" \
-           "David J. Harding, Phimphaka Harding, and Mathieu Marchivie.\n" \
+           "Authors: {2}\n" \
            "\n" \
-           "Website: https://octadist.github.io\n" \
+           "Website: {3}\n" \
            "\n" \
-           "Please cite this project if you use OctaDist for scientific publication." \
-        .format(octadist_gui.__version__, octadist_gui.__release__)
+           "Please cite this project if you use OctaDist for scientific publication."\
+        .format(octadist_gui.__version__, octadist_gui.__release__,
+                octadist_gui.__author_full__, octadist_gui.__website__)
     showinfo("About program", text)
 
 
-def show_license(self):
-    """Show license info
+def show_license():
     """
-    echo_logs(self, "Info: Show program license information")
+    Show license info.
 
+    GNU General Public License version 3.0.
+
+    """
     text = "OctaDist {0} Copyright (C) 2019  Rangsiman Ketkaew et al.\n\n" \
            "This program is free software: you can redistribute it " \
            "and/or modify it under the terms of the GNU General Public " \
@@ -133,91 +134,124 @@ def show_license(self):
     showinfo("License", text)
 
 
-def err_no_file(self):
-    echo_logs(self, "Error: No input file. At least one input file must be loaded.")
+def err_no_file():
+    """
+    Show error when no any input files is loaded into program.
+
+    Returns
+    -------
+    None
+
+    """
     showerror("Error", "No input file. At least one input file must be loaded.")
 
 
-def err_invalid_ftype(self, ftype):
-    """Show error popup: invalid file type
-
-    :param self: master frame
-    :param ftype: file type
-    :type ftype: str
+def err_invalid_ftype(ftype):
     """
-    echo_logs(self, "Error: Invalid XYZ file format")
+    Show this error popup when file type is not supported by the program.
+
+    Parameters
+    ----------
+    ftype : str
+        File type of submitted file.
+
+    Returns
+    -------
+    None
+
+    """
     showerror("Error", "Invalid {0} file format.\n\n"
                        "The complex must have at least 1 metal atom and 6 ligand atoms.".format(ftype))
 
 
-def err_no_coord(self):
-    echo_logs(self, "Error: No coordinate of a molecule.")
+def err_no_coord():
     showerror("Error", "No coordinate of a molecule. Please make sure the input file format is correct.")
 
 
-def err_no_metal(self):
-    echo_logs(self, "Error: Cannot calculate parameters.")
+def err_less_ligands():
+    showerror("Error", "Number of ligand atoms is less than 6. Please check the metal-ligand bond cutoff "
+                       "to see if the value is set properly.")
+
+
+def err_no_metal():
     showerror("Error", "Cannot calculate parameters. Your current structure has no metal atom.\n\n"
                        "Please upload new input structure that has at least one metal to proceed the calculation.")
 
 
-def err_no_calc(self):
-    echo_logs(self, "Error: No computational results.")
+def err_no_calc():
     showerror("Error", "No results. Click \"Compute\" to calculate octahedral distortion parameters.")
 
 
-def err_only_2_files(self):
-    echo_logs(self, "Error: You must load only two complexes for computing RMSD.")
+def err_only_2_files():
     showerror("Error", "You must load only two complexes for computing RMSD.")
 
 
-def err_not_equal_atom(self):
-    echo_logs(self, "Error: The number of atoms in structure 1 and structure 2 are not the same.")
+def err_not_equal_atom():
     showerror("Error", "The number of atoms in structure 1 and structure 2 are not the same.")
 
 
-def err_atom_not_match(self, line):
-    echo_logs(self, "Error: Atomic symbol not match at line {0}.".format(line))
+def err_atom_not_match(line):
+    """
+    Show error popup:
+
+    show this error popup when atomic symbol of two similar complexes does not match.
+
+    Parameters
+    ----------
+    line : int
+        The line number that atomic symbol does not match.
+
+    Returns
+    -------
+    None
+
+    """
     showerror("Error", "Atomic symbol not match at line {0}.".format(line))
 
 
-def err_many_files(self):
-    echo_logs(self, "Error: You must load only one input file.")
+def err_many_files():
     showerror("Error", "You must load only one input file.")
 
 
-def err_wrong_format(self):
-    echo_logs(self, "Error: Input file format is not supported.")
+def err_wrong_format():
     showerror("Error", "Input file format is not supported.")
 
 
-def err_cannot_update(self):
-    echo_logs(self, "Error: Cannot download an installer of a new version.")
+def err_cannot_update():
     showerror("Error", "Cannot download an installer of a new version.\n\n"
                        "Please contact OctaDist development team for further help.")
 
 
-def info_save_results(self, file):
-    echo_logs(self, "Info: Data has been saved to \"{0}\"".format(file))
+def info_save_results(file):
+    """
+    Show info popup:
+
+    show this info popup when output file has been saved successfully.
+
+    Parameters
+    ----------
+    file : str
+        Absolute or full path of saved output file.
+
+    Returns
+    -------
+    None
+
+    """
     showinfo("Info", "Data has been saved to {0}".format(file))
 
 
-def info_update(self):
-    echo_logs(self, "Info: Updates available.")
-    echo_logs(self, "      Visit {0} for downloading a new version of OctaDist.".format(octadist_gui.__website__))
+def info_update():
     showinfo("Info", "New updates available!")
 
 
-def info_no_update(self):
-    echo_logs(self, "Info: You already have the latest version of OctaDist.")
+def info_no_update():
     showinfo("Info", "You already have the latest version of OctaDist.")
 
 
-def warn_no_metal(self):
-    echo_logs(self, "Warning: No transition metal in your input file.")
+def warn_no_metal():
     showwarning("Warning", "No transition metal in your input file.")
 
 
-def warn_not_octa(self):
-    echo_logs(self, "Warning: The complex is non-octahedral complex")
+def warn_not_octa():
     showwarning("Warning", "Non-octahedral complex detected.")
