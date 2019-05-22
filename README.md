@@ -4,7 +4,7 @@
 ![Repo size][Repo-size]
 
 [![Github Download All releases][DL-all-badge]][DL-all-link]
-[![Github Download release 2.5.2][DL-latest-badge]][DL-latest-link]
+[![Github Download Latest version][DL-latest-badge]][DL-latest-link]
 
 [Py-ver-badge]: https://img.shields.io/pypi/pyversions/octadist.svg
 [Py-wheel-badge]: https://img.shields.io/pypi/wheel/octadist.svg
