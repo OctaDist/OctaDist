@@ -13,7 +13,6 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
-import re
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 # sys.path.insert(0, os.path.abspath('.'))
@@ -31,7 +30,7 @@ version = '2.5.3'
 # The full version, including alpha/beta/rc tags
 release = '2.5.3'
 
-#autodoc_mock_imports = ['_tkinter']
+# autodoc_mock_imports = ['_tkinter']
 
 # -- General configuration ---------------------------------------------------
 
@@ -51,10 +50,12 @@ extensions = [
     'sphinx.ext.napoleon',
 ]
 
-import numpydoc
-release = numpydoc.__version__
-version = re.sub(r'(\d+\.\d+)\.\d+(.*)', r'\1\2', numpydoc.__version__)
-version = re.sub(r'(\.dev\d+).*?$', r'\1', version)
+# import numpydoc
+# import re
+#
+# release = numpydoc.__version__
+# version = re.sub(r'(\d+\.\d+)\.\d+(.*)', r'\1\2', numpydoc.__version__)
+# version = re.sub(r'(\.dev\d+).*?$', r'\1', version)
 
 
 napoleon_numpy_docstring = True
@@ -96,19 +97,18 @@ todo_include_todos = False
 # a list of builtin themes.
 #
 html_theme = 'sphinx_rtd_theme'
-#html_theme = 'default'
-#html_theme = 'alabaster'
+# html_theme = 'default'
+# html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 
-# further.  For a list of options available for each theme, see the
-# documentation.
-#
-# html_theme_options = {}
 
 html_theme_path = ['.']
 
 # Theme options
+# further.  For a list of options available for each theme, see the
+# documentation.
+#
 html_theme_options = {
     # 'typekit_id': 'hiw1hhg',
     # 'analytics_id': '',
@@ -133,7 +133,7 @@ html_logo = '../images/molecule.png'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-#html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
