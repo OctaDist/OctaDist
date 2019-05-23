@@ -38,6 +38,8 @@ __all__ = \
      'calc_delta',
      'calc_sigma',
      'calc_theta',
+     'calc_theta_min',
+     'calc_theta_max'
      ]
 
 # Bring sub-modules and methods to top-level directory
@@ -50,3 +52,5 @@ from .src.calc import calc_zeta
 from .src.calc import calc_delta
 from .src.calc import calc_sigma
 from .src.calc import calc_theta
+from .src.calc import calc_theta_min
+from .src.calc import calc_theta_max
