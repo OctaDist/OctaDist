@@ -114,7 +114,7 @@ def all_atom(self, acf):
     plt.show()
 
 
-def all_atom_and_face(self, acf, all_face):
+def all_atom_and_face(self, acf, aco):
     """
     Display 3D structure of octahedral complex with label for each atoms.
 
@@ -122,15 +122,15 @@ def all_atom_and_face(self, acf, all_face):
     ----------
     acf : list
         Atomic labels and coordinates of full complex.
-    all_face : list
-        Atomic labels and coordinates of 8 faces.
+    aco : list
+        Atomic labels and coordinates of octahedral structure.
 
     Returns
     -------
     None : None
 
     """
-    if len(acf) == 0 or len(all_face) == 0:
+    if len(acf) == 0:
         popup.err_no_file()
         return 1
     elif len(acf) > 1:
@@ -138,18 +138,9 @@ def all_atom_and_face(self, acf, all_face):
         return 1
 
     fal, fcl = acf[0]
-    face_data = all_face[0]
-    a_ref, c_ref, a_oppo, c_oppo = face_data
 
     fig = plt.figure()
     ax = Axes3D(fig)
-    vertices_list = []
-    # Create array of vertices for 8 faces
-    for i in range(8):
-        get_vertices = c_ref[i].tolist()
-        x, y, z = zip(*get_vertices)
-        vertices = [list(zip(x, y, z))]
-        vertices_list.append(vertices)
 
     # Plot all atoms
     for i in range(len(fcl)):
@@ -162,13 +153,28 @@ def all_atom_and_face(self, acf, all_face):
                    color=elements.check_color(n), label=f"{fal[i]}",
                    s=elements.check_radii(n) * 300)
 
-    # Draw plane
-    color_list = ["red", "blue", "green", "yellow",
-                  "violet", "cyan", "brown", "grey"]
-    for i in range(len(vertices_list)):
-        ax.add_collection3d(Poly3DCollection(vertices_list[i],
-                                             alpha=0.5,
-                                             color=color_list[i]))
+    # Draw 8 faces
+    # loop over octahedral structures
+    for n in range(len(aco)):
+        # Get atomic coordinates of octahedron
+        _, _, _, coord = aco[n]
+        _, c_ref, _, _ = tools.find_faces_octa(coord)
+
+        # Create array of vertices for 8 faces
+        vertices_list = []
+        for i in range(8):
+            get_vertices = c_ref[i].tolist()
+            x, y, z = zip(*get_vertices)
+            vertices = [list(zip(x, y, z))]
+            vertices_list.append(vertices)
+
+        # Added faces
+        color_list = ["red", "blue", "green", "yellow",
+                      "violet", "cyan", "brown", "grey"]
+        for i in range(len(vertices_list)):
+            ax.add_collection3d(Poly3DCollection(vertices_list[i],
+                                                 alpha=0.5,
+                                                 color=color_list[i]))
 
     # Calculate distance
     bond_list = tools.find_bonds(self, fal, fcl)
@@ -239,15 +245,13 @@ def octa(self, aco):
 
     """
     if len(aco) == 0:
-        popup.err_no_calc()
+        popup.err_no_file()
         return 1
     elif len(aco) > 1:
         popup.err_many_files()
         return 1
 
-    num, metal, ao, co = aco[0]
-    # num = number of file, metal = metal center
-    # ao = atomic labels, co = atomic coordinates
+    _, _, ao, co = aco[0]
 
     fig = plt.figure()
     ax = Axes3D(fig)
@@ -308,7 +312,7 @@ def octa(self, aco):
     plt.show()
 
 
-def octa_and_face(self, aco, all_face):
+def octa_and_face(self, aco):
     """
     Display 3D structure of octahedral complex with 8 faces.
 
@@ -316,16 +320,14 @@ def octa_and_face(self, aco, all_face):
     ----------
     aco : list
         Atomic labels and coordinates of octahedral structure.
-    all_face : list
-        Atomic labels and coordinates of 8 faces.
 
     Returns
     -------
     None : None
 
     """
-    if len(aco) == 0 or len(all_face) == 0:
-        popup.err_no_calc()
+    if len(aco) == 0:
+        popup.err_no_file()
         return 1
     elif len(aco) > 1:
         popup.err_many_files()
@@ -333,18 +335,8 @@ def octa_and_face(self, aco, all_face):
 
     _, _, ao, co = aco[0]
 
-    face_data = all_face[0]
-    a_ref, c_ref, a_oppo, c_oppo = face_data
-
     fig = plt.figure()
     ax = Axes3D(fig)
-    vertices_list = []
-    # Create array of vertices for 8 faces
-    for i in range(8):
-        get_vertices = c_ref[i].tolist()
-        x, y, z = zip(*get_vertices)
-        vertices = [list(zip(x, y, z))]
-        vertices_list.append(vertices)
 
     # Plot atoms
     for i in range(len(co)):
@@ -357,13 +349,28 @@ def octa_and_face(self, aco, all_face):
                    color=elements.check_color(n), label=f"{ao[i]}",
                    s=elements.check_radii(n) * 300)
 
-    # Draw plane
-    color_list = ["red", "blue", "green", "yellow",
-                  "violet", "cyan", "brown", "grey"]
-    for i in range(len(vertices_list)):
-        ax.add_collection3d(Poly3DCollection(vertices_list[i],
-                                             alpha=0.5,
-                                             color=color_list[i]))
+    # Draw 8 faces
+    # loop over octahedral structures
+    for n in range(len(aco)):
+        # Get atomic coordinates of octahedron
+        _, _, _, coord = aco[n]
+        _, c_ref, _, _ = tools.find_faces_octa(coord)
+
+        # Create array of vertices for 8 faces
+        vertices_list = []
+        for i in range(8):
+            get_vertices = c_ref[i].tolist()
+            x, y, z = zip(*get_vertices)
+            vertices = [list(zip(x, y, z))]
+            vertices_list.append(vertices)
+
+        # Added faces
+        color_list = ["red", "blue", "green", "yellow",
+                      "violet", "cyan", "brown", "grey"]
+        for i in range(len(vertices_list)):
+            ax.add_collection3d(Poly3DCollection(vertices_list[i],
+                                                 alpha=0.5,
+                                                 color=color_list[i]))
 
     # Draw line
     for i in range(1, len(co)):
@@ -410,7 +417,7 @@ def octa_and_face(self, aco, all_face):
     plt.show()
 
 
-def proj_planes(self, aco, all_face):
+def proj_planes(self, aco):
     """
     Display the selected 4 faces of octahedral complex.
 
@@ -418,25 +425,21 @@ def proj_planes(self, aco, all_face):
     ----------
     aco : list
         Atomic labels and coordinates of octahedral structure.
-    all_face : list
-        Atomic labels and coordinates of 8 faces.
 
     Returns
     -------
     None : None
 
     """
-    if len(aco) == 0 or len(all_face) == 0:
-        popup.err_no_calc()
+    if len(aco) == 0:
+        popup.err_no_file()
         return 1
     elif len(aco) > 1:
         popup.err_many_files()
         return 1
 
     _, _, ao, co = aco[0]
-
-    face_data = all_face[0]
-    a_ref, c_ref, a_oppo, c_oppo = face_data
+    _, c_ref, _, c_oppo = tools.find_faces_octa(co)
 
     # reference face
     ref_vertices_list = []
@@ -520,7 +523,7 @@ def proj_planes(self, aco, all_face):
     plt.show()
 
 
-def twisting_faces(self, aco, all_face):
+def twisting_faces(self, aco):
     """
     Display twisting triangular faces and vector projection.
 
@@ -528,25 +531,21 @@ def twisting_faces(self, aco, all_face):
     ----------
     aco : list
         Atomic labels and coordinates of octahedral structure.
-    all_face : list
-        Atomic labels and coordinates of 8 faces.
 
     Returns
     -------
     None : None
 
     """
-    if len(aco) == 0 or len(all_face) == 0:
-        popup.err_no_calc()
+    if len(aco) == 0:
+        popup.err_no_file()
         return 1
     elif len(aco) > 1:
         popup.err_many_files()
         return 1
 
     _, _, ao, co = aco[0]
-
-    face_data = all_face[0]
-    a_ref, c_ref, a_oppo, c_oppo = face_data
+    _, c_ref, _, c_oppo = tools.find_faces_octa(co)
 
     ref_vertices_list = []
     for i in range(4):

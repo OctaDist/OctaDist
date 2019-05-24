@@ -164,16 +164,17 @@ class OctaDist:
         disp_menu.add_command(label="All Atoms",
                               command=lambda: draw.all_atom(self, self.atom_coord_full))
         disp_menu.add_command(label="All Atoms and Faces",
-                              command=lambda: draw.all_atom_and_face(self, self.atom_coord_full, self.all_face))
+                              command=lambda: draw.all_atom_and_face(self, self.atom_coord_full, self.atom_coord_octa))
+        disp_menu.add_separator()
         disp_menu.add_command(label="Octahedral Complex",
                               command=lambda: draw.octa(self, self.atom_coord_octa))
         disp_menu.add_command(label="Octahedron and 8 Faces",
-                              command=lambda: draw.octa_and_face(self, self.atom_coord_octa, self.all_face))
+                              command=lambda: draw.octa_and_face(self, self.atom_coord_octa))
         disp_menu.add_separator()
         disp_menu.add_command(label="Projection Planes",
-                              command=lambda: draw.proj_planes(self, self.atom_coord_octa, self.all_face))
+                              command=lambda: draw.proj_planes(self, self.atom_coord_octa))
         disp_menu.add_command(label="Twisting Triangular Faces",
-                              command=lambda: draw.twisting_faces(self, self.atom_coord_octa, self.all_face))
+                              command=lambda: draw.twisting_faces(self, self.atom_coord_octa))
 
         # Tools
         menu_bar.add_cascade(label="Tools", menu=tools_menu)
@@ -824,9 +825,8 @@ class OctaDist:
 
     def check_update(self):
         """
-        Check program update.
-
-        Compare version of program user is using with that of the latest release on github.
+        Check program update by comparing version of program user is using with
+        that of the latest version released on github.
 
         Returns
         -------
@@ -885,8 +885,7 @@ class OctaDist:
 
     def open_file(self):
         """
-        Open file dialog in which user can browse to input file
-        and upload it to program.
+        Open file dialog in which user can browse to input file and upload it to program.
 
         Returns
         -------

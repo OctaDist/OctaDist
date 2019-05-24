@@ -41,7 +41,7 @@ def find_bonds(self, fal, fcl):
 
     Returns
     -------
-    check_2_bond_list: list
+    check_2_bond_list : list
         Selected bonds.
 
     """
