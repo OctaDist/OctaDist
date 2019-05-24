@@ -55,7 +55,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         Notes
         -----
@@ -445,7 +445,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         See Also
         --------
@@ -472,7 +472,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         See Also
         --------
@@ -497,7 +497,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         See Also
         --------
@@ -530,7 +530,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         See Also
         --------
@@ -555,7 +555,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         See Also
         --------
@@ -582,7 +582,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         """
         def open_exe():
@@ -781,7 +781,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         """
         for name in dir():
@@ -807,7 +807,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         """
         self.box_delta.delete(0, tk.END)
@@ -822,7 +822,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         """
         self.box_result.delete(1.0, tk.END)
@@ -835,7 +835,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         References
         ----------
@@ -895,7 +895,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         """
         self.clear_cache()
@@ -1018,7 +1018,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         """
         f = filedialog.asksaveasfile(mode='w', defaultextension=".txt", title="Save results",
@@ -1055,7 +1055,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         """
         if len(self.file_list) == 0:
@@ -1097,7 +1097,7 @@ class OctaDist:
 
         Returns
         -------
-        None
+        None : None
 
         """
         if not self.check_metal:

@@ -33,7 +33,7 @@ def all_atom(self, acf):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(acf) == 0:
@@ -127,7 +127,7 @@ def all_atom_and_face(self, acf, all_face):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(acf) == 0 or len(all_face) == 0:
@@ -235,7 +235,7 @@ def octa(self, aco):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(aco) == 0:
@@ -321,7 +321,7 @@ def octa_and_face(self, aco, all_face):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(aco) == 0 or len(all_face) == 0:
@@ -423,7 +423,7 @@ def proj_planes(self, aco, all_face):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(aco) == 0 or len(all_face) == 0:
@@ -533,7 +533,7 @@ def twisting_faces(self, aco, all_face):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(aco) == 0 or len(all_face) == 0:

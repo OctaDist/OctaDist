@@ -142,7 +142,7 @@ def err_no_file():
 
     Returns
     -------
-    None
+    None : None
 
     """
     showerror("Error", "No input file. At least one input file must be loaded.")
@@ -159,7 +159,7 @@ def err_invalid_ftype(ftype):
 
     Returns
     -------
-    None
+    None : None
 
     """
     showerror("Error", f"Invalid {ftype} file format.\n\n"
@@ -205,7 +205,7 @@ def err_atom_not_match(line):
 
     Returns
     -------
-    None
+    None : None
 
     """
     showerror("Error", f"Atomic symbol not match at line {line}.")
@@ -237,7 +237,7 @@ def info_save_results(file):
 
     Returns
     -------
-    None
+    None : None
 
     """
     showinfo("Info", f"Data has been saved to {file}")

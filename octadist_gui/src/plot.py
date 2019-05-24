@@ -32,7 +32,7 @@ def plot_zeta_sigma(zeta, sigma):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(zeta) == 0:
@@ -72,7 +72,7 @@ def plot_sigma_theta(sigma, theta):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(sigma) == 0:
