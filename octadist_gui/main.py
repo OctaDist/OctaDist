@@ -164,27 +164,22 @@ class OctaDist:
         disp_menu.add_command(label="All Atoms",
                               command=lambda: draw.all_atom(self, self.atom_coord_full))
         disp_menu.add_command(label="All Atoms and Faces",
-                              command=lambda: draw.all_atom_and_face(self, self.atom_coord_full,
-                                                                     self.all_face))
+                              command=lambda: draw.all_atom_and_face(self, self.atom_coord_full, self.all_face))
         disp_menu.add_command(label="Octahedral Complex",
                               command=lambda: draw.octa(self, self.atom_coord_octa))
         disp_menu.add_command(label="Octahedron and 8 Faces",
-                              command=lambda: draw.octa_and_face(self, self.atom_coord_octa,
-                                                                 self.all_face))
+                              command=lambda: draw.octa_and_face(self, self.atom_coord_octa, self.all_face))
         disp_menu.add_separator()
         disp_menu.add_command(label="Projection Planes",
-                              command=lambda: octadist_gui.src.draw.proj_planes(self, self.atom_coord_octa,
-                                                                                self.all_face))
+                              command=lambda: draw.proj_planes(self, self.atom_coord_octa, self.all_face))
         disp_menu.add_command(label="Twisting Triangular Faces",
-                              command=lambda: octadist_gui.src.draw.twisting_faces(self, self.atom_coord_octa,
-                                                                                   self.all_face))
+                              command=lambda: draw.twisting_faces(self, self.atom_coord_octa, self.all_face))
 
         # Tools
         menu_bar.add_cascade(label="Tools", menu=tools_menu)
         tools_menu.add_cascade(label="Data Summary", menu=data_menu)
         data_menu.add_cascade(label="Complex Info",
-                              command=lambda: tools.data_complex(self, self.file_list,
-                                                                 self.atom_coord_full))
+                              command=lambda: tools.data_complex(self, self.file_list, self.atom_coord_full))
         data_menu.add_cascade(label="Faces Info",
                               command=lambda: tools.data_face(self, self.atom_coord_octa))
         tools_menu.add_cascade(menu=strct_menu, label="Show Structural Parameter")
