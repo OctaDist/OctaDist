@@ -918,28 +918,28 @@ class OctaDist:
 
             try:
                 open(self.file_list[0], 'r')
-
                 for i in range(len(self.file_list)):
-                    file_name = self.file_list[i].split('/')[-1]
 
                     ###########################
                     # Read file and pull data #
                     ###########################
 
+                    file_name = self.file_list[i].split('/')[-1]
+
                     atom_full, coord_full = coord.get_coord(self, self.file_list[i])
                     self.atom_coord_full.append([atom_full, coord_full])
 
-                    # If atom_full or coord_full is empty, it will continue to next file
+                    # If either lists is empty, then continue to next file
                     if len(atom_full) == 0 or len(coord_full) == 0:
                         continue
 
-                    #########################################
-                    # Count the number of metal center atom #
-                    #########################################
+                    ###############################################
+                    # Determine metal center atoms in the complex #
+                    ###############################################
 
                     count, atom_metal, coord_metal = coord.count_metal(atom_full, coord_full)
 
-                    # If molecule has no transition metal, insert full atomic coordinates into result box.
+                    # If molecule has no transition metal, show full atomic coordinates instead
                     if count == 0:
                         popup.warn_no_metal()
                         self.check_metal = False
@@ -959,17 +959,15 @@ class OctaDist:
 
                         continue  # continue to next file
 
-                    ########################################################
-                    # 1. Extract octahedral structure                      #
-                    # 2. Show atomic symbols and coordinates of octahedron #
-                    ########################################################
+                    #################################################
+                    # Extract octahedral structure from the complex #
+                    #################################################
 
                     if i == 0:
                         echo_outs(self, "XYZ coordinates of extracted octahedral structure")
 
                     # loop over metal center atoms
                     for j in range(count):
-                        # Extract the octahedral structure from the complex
                         atom_octa, coord_octa = coord.search_octa(self, atom_full, coord_full, coord_metal[j - 1])
 
                         # If no atomic coordinates inside, it will return error
@@ -981,11 +979,10 @@ class OctaDist:
                             popup.err_less_ligands()
                             return 1
 
-                        # gather octahedral structure into atom_coord_octa
+                        # Gather octahedral structure into atom_coord_octa
                         # [ number of file, metal atom, atomic labels, and atomic coordinates ]
                         self.atom_coord_octa.append([i + 1, atom_octa[0], atom_octa, coord_octa])
 
-                        # Print octahedral structure to coord box and stdout box (on request)
                         if count == 1:
                             echo_outs(self, f"File {i + 1}: {file_name}")
                             echo_outs(self, "Atom                       Cartesian coordinate")
