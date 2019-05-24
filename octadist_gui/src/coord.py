@@ -103,10 +103,8 @@ def get_coord(self, f):
             check = False
 
     else:
-        text1 = "Error: Could not read file {0}".format(f)
-        echo_outs(self, text1)
-        text2 = "Error: File type is not supported by the current version of OctaDist\n"
-        echo_outs(self, text2)
+        echo_outs(self, f"Error: Could not read file {f}.")
+        echo_outs(self, "Error: File type is not supported by the current version of OctaDist.\n")
 
         popup.err_wrong_format()
         check = False

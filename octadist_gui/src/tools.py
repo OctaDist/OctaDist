@@ -24,234 +24,6 @@ from octadist_gui.src import linear, popup, projection
 from octadist_gui import main
 
 
-def data_complex(self, fl, facl):
-    """
-    Show info of input complex.
-
-    Parameters
-    ----------
-    fl : list
-        List containing the names of all input files.
-    facl : list
-        Atomic labels and coordinates of full complex.
-
-    Returns
-    -------
-    None
-
-    """
-    if len(fl) == 0:
-        popup.err_no_file()
-        return 1
-
-    master = tk.Toplevel(self.master)
-    master.title("Complex info")
-    master.geometry("550x500")
-    master.option_add("*Font", "Arial 10")
-    frame = tk.Frame(master)
-    frame.grid()
-
-    box = tkscrolled.ScrolledText(frame, wrap="word", width="75", height="30", undo="True")
-    box.grid(row=0, pady="5", padx="5")
-    box.delete(1.0, tk.END)
-
-    for i in range(len(fl)):
-        box.insert(tk.END, "File {0:>2} : {1}\n".format(i + 1, fl[i].split('/')[-1]))
-        box.insert(tk.END, ">> Number of atoms: {0}\n".format(len(facl[i][0])))
-        atoms = list(set(facl[i][0]))
-        box.insert(tk.END, ">> List of atoms: {0}".format(atoms) + "\n\n")
-
-
-def data_face(self, sfa, sfc, sofa, sofc):
-    """
-    Show info of selected 4 octahedral faces.
-
-    Parameters
-    ----------
-    sfa : list
-        Selected face atom.
-    sfc : list
-        Selected face coordinates.
-    sofa : list
-        Selected opposite face atom.
-    sofc : list
-        Selected opposite face coordinates.
-
-    Returns
-    -------
-    None
-
-    """
-    if len(sfa) == 0:
-        popup.err_no_calc()
-        return 1
-
-    master = tk.Toplevel(self.master)
-    master.title("Selected octahedral faces")
-    master.geometry("550x500")
-    master.option_add("*Font", "Arial 10")
-    frame = tk.Frame(master)
-    frame.grid()
-    box = tkscrolled.ScrolledText(frame, wrap="word", width="75", height="30", undo="True")
-    box.grid(row=0, pady="5", padx="5")
-    box.delete(1.0, tk.END)
-
-    for i in range(4):
-        box.insert(tk.END, "Reference atoms: {0}          Opposite atoms: {1}\n"
-                   .format(sfa[i], sofa[i]))
-        for j in range(3):
-
-            box.insert(tk.END, "{0:9.6f},{1:9.6f},{2:9.6f} \t "
-                               "{3:9.6f},{4:9.6f},{5:9.6f}\n"
-                       .format(sfc[i][j][0], sfc[i][j][1], sfc[i][j][2],
-                               sofc[i][j][0], sofc[i][j][1], sofc[i][j][2]))
-
-        box.insert(tk.END, "\n\n")
-
-
-def param_complex(self, acf):
-    """
-    Show structural parameters of the complex.
-
-    Parameters
-    ----------
-    acf : list
-        Atomic labels and coordinates of full complex.
-
-    Returns
-    -------
-    None
-
-    """
-    if len(acf) == 0:
-        popup.err_no_file()
-        return 1
-    elif len(acf) > 1:
-        popup.err_many_files()
-        return 1
-
-    master = tk.Toplevel(self.master)
-    master.title("Results")
-    master.geometry("380x530")
-    master.option_add("*Font", "Arial 10")
-    frame = tk.Frame(master)
-    frame.grid()
-    lbl = tk.Label(frame, text="Structural parameters of octahedral structure")
-    lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
-    box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
-    box.grid(row=1, pady="5", padx="5")
-    box.insert(tk.INSERT, "Bond distance (Å)")
-
-    fal, fcl = acf[0]
-    for i in range(len(fcl)):
-        for j in range(i + 1, len(fcl)):
-            distance = linear.euclidean_dist(fcl[i], fcl[j])
-
-            if i == 0:
-                texts = "{0}-{1}{2} {3:10.6f}"\
-                    .format(fal[i], fal[j], j, distance)
-
-            else:
-                texts = "{0}{1}-{2}{3} {4:10.6f}"\
-                    .format(fal[i], i, fal[j], j, distance)
-
-            box.insert(tk.END, "\n" + texts)
-
-    box.insert(tk.END, "\n\nBond angle (°)")
-
-    for i in range(len(fcl)):
-        for j in range(i + 1, len(fcl)):
-            for k in range(j + 1, len(fcl)):
-                vec1 = fcl[i] - fcl[j]
-                vec2 = fcl[k] - fcl[j]
-                angle = linear.angle_btw_vectors(vec1, vec2)
-
-                if i == 0:
-                    texts = "{0}{1}-{2}-{3}{4} {5:10.6f}"\
-                        .format(fal[k], k, fal[i], fal[j], j, angle)
-
-                else:
-                    texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}"\
-                        .format(fal[k], k, fal[i], i, fal[j], j, angle)
-
-                box.insert(tk.END, "\n" + texts)
-
-    box.insert(tk.END, "\n")
-
-
-def param_octa(self, aco):
-    """
-    Show structural parameters of selected octahedral structure.
-
-    Parameters
-    ----------
-    aco : list
-        Atomic labels and coordinates of octahedral structure.
-
-    Returns
-    -------
-    None
-
-    """
-    if len(aco) == 0:
-        popup.err_no_file()
-        return 1
-
-    master = tk.Toplevel(self.master)
-    master.title("Results")
-    master.geometry("380x530")
-    master.option_add("*Font", "Arial 10")
-    frame = tk.Frame(master)
-    frame.grid()
-    lbl = tk.Label(frame, text="Structural parameters of octahedral structure")
-    lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
-    box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
-    box.grid(row=1, pady="5", padx="5")
-
-    for n in range(len(aco)):
-        if n > 0:  # separator between files
-            box.insert(tk.END, "\n\n=================================\n\n")
-
-        box.insert(tk.INSERT, "File : {0}".format(aco[n][0]))
-        box.insert(tk.END, "\nMetal: {0}".format(aco[n][1]))
-        box.insert(tk.END, "\nBond distance (Å)")
-
-        for i in range(7):
-            for j in range(i + 1, 7):
-                distance = linear.euclidean_dist(aco[n][3][i], aco[n][3][j])
-
-                if i == 0:
-                    texts = "{0}-{1}{2} {3:10.6f}"\
-                        .format(aco[n][2][i], aco[n][2][j], j, distance)
-
-                else:
-                    texts = "{0}{1}-{2}{3} {4:10.6f}"\
-                        .format(aco[n][2][i], i, aco[n][2][j], j, distance)
-
-                box.insert(tk.END, "\n" + texts)
-
-        box.insert(tk.END, "\n\nBond angle (°)")
-
-        for i in range(7):
-            for j in range(i + 1, 7):
-                for k in range(j + 1, 7):
-                    vec1 = aco[n][3][i] - aco[n][3][j]
-                    vec2 = aco[n][3][k] - aco[n][3][j]
-                    angle = linear.angle_btw_vectors(vec1, vec2)
-
-                    if i == 0:
-                        texts = "{0}{1}-{2}-{3}{4} {5:10.6f}"\
-                            .format(aco[n][2][k], k, aco[n][2][i], aco[n][2][j], j, angle)
-
-                    else:
-                        texts = "{0}{1}-{2}{3}-{4}{5} {6:10.6f}"\
-                            .format(aco[n][2][k], k, aco[n][2][i], i, aco[n][2][j], j, angle)
-
-                    box.insert(tk.END, "\n" + texts)
-
-        box.insert(tk.END, "\n")
-
-
 def find_bonds(self, fal, fcl):
     """
     Find all bond distance and filter the possible bonds.
@@ -411,22 +183,22 @@ def find_faces_octa(c_octa):
     return a_ref_f, c_ref_f, a_oppo_f, c_oppo_f
 
 
-def find_surface_area(self, all_face):
+def find_surface_area(self, aco):
     """
     Calculate the area of eight triangular faces of octahedral structure.
 
     Parameters
     ----------
-    all_face : list
-        Atomic labels and coordinates of 8 faces.
+    aco : list
+        Atomic labels and coordinates of octahedral structure.
 
     Returns
     -------
     None
 
     """
-    if len(all_face) == 0:
-        popup.err_no_calc()
+    if len(aco) == 0:
+        popup.err_no_file()
         return 1
 
     master = tk.Toplevel(self.master)
@@ -438,24 +210,243 @@ def find_surface_area(self, all_face):
     box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
     box.grid(row=0, pady="5", padx="5")
 
-    for n in range(len(all_face)):
+    for n in range(len(aco)):
         if n > 0:
             box.insert(tk.END, "\n==============================\n\n")
 
-        face_data = all_face[n]
-        a_ref, c_ref, a_oppo, c_oppo = face_data
+        num, metal, _, coord = aco[n]
+        a_ref, c_ref, a_oppo, c_oppo = find_faces_octa(coord)
 
-        box.insert(tk.INSERT, "Octahedral structure no. {0}\n".format(n + 1))
+        box.insert(tk.INSERT, f"Entry: {n + 1}\n")
+        box.insert(tk.INSERT, f"Complex no. {num} - Metal: {metal}\n")
         box.insert(tk.END, "                 Atoms*        Area (Å³)\n")
 
         totalArea = 0
         for i in range(8):
             area = linear.triangle_area(c_ref[i][0], c_ref[i][1], c_ref[i][2])
-            box.insert(tk.END, "Face no. {0}:  {1}      {2:10.6f}\n"
-                       .format(i + 1, a_ref[i], area))
+            box.insert(tk.END, f"Face no. {i + 1}:  {a_ref[i]}      {area:10.6f}\n")
             totalArea += area
 
-        box.insert(tk.END, "\nThe total surface area:   {0:10.6f}\n"
-                   .format(totalArea))
+        box.insert(tk.END, f"\nThe total surface area:   {totalArea:10.6f}\n")
 
     box.insert(tk.END, "\n*Three ligand atoms are vertices of triangular face.\n")
+
+
+def data_complex(self, files, acf):
+    """
+    Show info of input complex.
+
+    Parameters
+    ----------
+    files : list
+        List containing the names of all input files.
+    acf : list
+        Atomic labels and coordinates of full complex.
+
+    Returns
+    -------
+    None
+
+    """
+    if len(files) == 0:
+        popup.err_no_file()
+        return 1
+
+    master = tk.Toplevel(self.master)
+    master.title("Complex info")
+    master.geometry("550x500")
+    master.option_add("*Font", "Arial 10")
+    frame = tk.Frame(master)
+    frame.grid()
+
+    box = tkscrolled.ScrolledText(frame, wrap="word", width="75", height="30", undo="True")
+    box.grid(row=0, pady="5", padx="5")
+    box.delete(1.0, tk.END)
+
+    for i in range(len(files)):
+        box.insert(tk.END, f"File {i + 1:>2} : {files[i].split('/')[-1]}\n")
+        box.insert(tk.END, f">> Number of atoms: {len(acf[i][0])}\n")
+        atoms = list(set(acf[i][0]))
+        box.insert(tk.END, f">> List of atoms: {atoms}\n")
+        box.insert(tk.END, "\n")
+
+
+def data_face(self, aco):
+    """
+    Show info of selected 4 octahedral faces.
+
+    Parameters
+    ----------
+    aco : list
+        Atomic labels and coordinates of octahedral structure.
+
+    Returns
+    -------
+    None
+
+    """
+    if len(aco) == 0:
+        popup.err_no_calc()
+        return 1
+
+    master = tk.Toplevel(self.master)
+    master.title("Selected octahedral faces")
+    master.geometry("550x500")
+    master.option_add("*Font", "Arial 10")
+    frame = tk.Frame(master)
+    frame.grid()
+    box = tkscrolled.ScrolledText(frame, wrap="word", width="75", height="30", undo="True")
+    box.grid(row=0, pady="5", padx="5")
+    box.delete(1.0, tk.END)
+
+    for n in range(len(aco)):
+        if n > 0:
+            box.insert(tk.END, "==============================\n\n")
+
+        num, metal, _, coord = aco[n]
+        a_ref, c_ref, a_oppo, c_oppo = find_faces_octa(coord)
+
+        box.insert(tk.INSERT, f"Entry: {n + 1}\n")
+        box.insert(tk.INSERT, f"Complex no. {num} - Metal: {metal}\n")
+        for i in range(4):
+            box.insert(tk.END, f"Reference atoms: {a_ref[i]}          Opposite atoms: {a_oppo[i]}\n")
+            for j in range(3):
+                box.insert(tk.END, f"{c_ref[i][j][0]:9.6f},{c_ref[i][j][1]:9.6f},{c_ref[i][j][2]:9.6f} \t "
+                                   f"{c_oppo[i][j][0]:9.6f},{c_oppo[i][j][1]:9.6f},{c_oppo[i][j][2]:9.6f}\n")
+
+            box.insert(tk.END, "\n")
+
+
+def param_complex(self, acf):
+    """
+    Show structural parameters of the complex.
+
+    Parameters
+    ----------
+    acf : list
+        Atomic labels and coordinates of full complex.
+
+    Returns
+    -------
+    None
+
+    """
+    if len(acf) == 0:
+        popup.err_no_file()
+        return 1
+    elif len(acf) > 1:
+        popup.err_many_files()
+        return 1
+
+    master = tk.Toplevel(self.master)
+    master.title("Results")
+    master.geometry("380x530")
+    master.option_add("*Font", "Arial 10")
+    frame = tk.Frame(master)
+    frame.grid()
+    lbl = tk.Label(frame, text="Structural parameters of octahedral structure")
+    lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
+    box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
+    box.grid(row=1, pady="5", padx="5")
+    box.insert(tk.INSERT, "Bond distance (Å)")
+
+    fal, fcl = acf[0]
+    for i in range(len(fcl)):
+        for j in range(i + 1, len(fcl)):
+            distance = linear.euclidean_dist(fcl[i], fcl[j])
+
+            if i == 0:
+                texts = f"{fal[i]}-{fal[j]}{j} {distance:10.6f}"
+
+            else:
+                texts = f"{fal[i]}{i}-{fal[j]}{j} {distance:10.6f}"
+
+            box.insert(tk.END, "\n" + texts)
+
+    box.insert(tk.END, "\n\nBond angle (°)")
+
+    for i in range(len(fcl)):
+        for j in range(i + 1, len(fcl)):
+            for k in range(j + 1, len(fcl)):
+                vec1 = fcl[i] - fcl[j]
+                vec2 = fcl[k] - fcl[j]
+                angle = linear.angle_btw_vectors(vec1, vec2)
+
+                if i == 0:
+                    texts = f"{fal[k]}{k}-{fal[i]}-{fal[j]}{j} {angle:10.6f}"
+
+                else:
+                    texts = f"{fal[k]}{k}-{fal[i]}{i}-{fal[j]}{j} {angle:10.6f}"
+
+                box.insert(tk.END, "\n" + texts)
+
+    box.insert(tk.END, "\n")
+
+
+def param_octa(self, aco):
+    """
+    Show structural parameters of selected octahedral structure.
+
+    Parameters
+    ----------
+    aco : list
+        Atomic labels and coordinates of octahedral structure.
+
+    Returns
+    -------
+    None
+
+    """
+    if len(aco) == 0:
+        popup.err_no_file()
+        return 1
+
+    master = tk.Toplevel(self.master)
+    master.title("Results")
+    master.geometry("380x530")
+    master.option_add("*Font", "Arial 10")
+    frame = tk.Frame(master)
+    frame.grid()
+    lbl = tk.Label(frame, text="Structural parameters of octahedral structure")
+    lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
+    box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
+    box.grid(row=1, pady="5", padx="5")
+
+    for n in range(len(aco)):
+        if n > 0:  # separator between files
+            box.insert(tk.END, "\n\n=================================\n\n")
+
+        box.insert(tk.INSERT, f"File : {aco[n][0]}\n")
+        box.insert(tk.END, f"Metal: {aco[n][1]}\n")
+        box.insert(tk.END, "Bond distance (Å)")
+
+        for i in range(7):
+            for j in range(i + 1, 7):
+                distance = linear.euclidean_dist(aco[n][3][i], aco[n][3][j])
+
+                if i == 0:
+                    texts = f"{aco[n][2][i]}-{aco[n][2][j]}{j} {distance:10.6f}"
+
+                else:
+                    texts = f"{aco[n][2][i]}{i}-{aco[n][2][j]}{j} {distance:10.6f}"
+
+                box.insert(tk.END, "\n" + texts)
+
+        box.insert(tk.END, "\n\nBond angle (°)")
+
+        for i in range(7):
+            for j in range(i + 1, 7):
+                for k in range(j + 1, 7):
+                    vec1 = aco[n][3][i] - aco[n][3][j]
+                    vec2 = aco[n][3][k] - aco[n][3][j]
+                    angle = linear.angle_btw_vectors(vec1, vec2)
+
+                    if i == 0:
+                        texts = f"{aco[n][2][k]}{k}-{aco[n][2][i]}-{aco[n][2][j]}{j} {angle:10.6f}"
+
+                    else:
+                        texts = f"{aco[n][2][k]}{k}-{aco[n][2][i]}{i}-{aco[n][2][j]}{j} {angle:10.6f}"
+
+                    box.insert(tk.END, "\n" + texts)
+
+        box.insert(tk.END, "\n")

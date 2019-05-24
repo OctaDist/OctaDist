@@ -57,8 +57,8 @@ def all_atom(self, acf):
                    fcl[i][1],
                    fcl[i][2],
                    marker='o', linewidths=0.5, edgecolors='black',
-                   color=elements.check_color(n), label="{}"
-                   .format(fal[i]), s=elements.check_radii(n) * 300)
+                   color=elements.check_color(n), label=f"{fal[i]}",
+                   s=elements.check_radii(n) * 300)
 
     # Calculate distance
     bond_list = tools.find_bonds(self, fal, fcl)
@@ -159,8 +159,8 @@ def all_atom_and_face(self, acf, all_face):
                    fcl[i][1],
                    fcl[i][2],
                    marker='o', linewidths=0.5, edgecolors='black',
-                   color=elements.check_color(n), label="{}"
-                   .format(fal[i]), s=elements.check_radii(n) * 300)
+                   color=elements.check_color(n), label=f"{fal[i]}",
+                   s=elements.check_radii(n) * 300)
 
     # Draw plane
     color_list = ["red", "blue", "green", "yellow",
@@ -260,8 +260,8 @@ def octa(self, aco):
                    co[i][1],
                    co[i][2],
                    marker='o', linewidths=0.5, edgecolors='black',
-                   color=elements.check_color(n), label="{}"
-                   .format(ao[i]), s=elements.check_radii(n) * 300)
+                   color=elements.check_color(n), label=f"{ao[i]}",
+                   s=elements.check_radii(n) * 300)
 
     # Draw line
     for i in range(1, len(co)):
@@ -354,8 +354,8 @@ def octa_and_face(self, aco, all_face):
                    co[i][1],
                    co[i][2],
                    marker='o', linewidths=0.5, edgecolors='black',
-                   color=elements.check_color(n), label="{}"
-                   .format(ao[i]), s=elements.check_radii(n) * 300)
+                   color=elements.check_color(n), label=f"{ao[i]}",
+                   s=elements.check_radii(n) * 300)
 
     # Draw plane
     color_list = ["red", "blue", "green", "yellow",
@@ -462,7 +462,7 @@ def proj_planes(self, aco, all_face):
 
     for i in range(4):
         ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
-        ax.set_title("Pair {}".format(i + 1))
+        ax.set_title(f"Pair {i + 1}")
         ax.scatter(co[0][0],
                    co[0][1],
                    co[0][2],
@@ -484,7 +484,7 @@ def proj_planes(self, aco, all_face):
             ax.text(co[j][0] + 0.1,
                     co[j][1] + 0.1,
                     co[j][2] + 0.1,
-                    "{0},{1}".format(ao[j], j), fontsize=9)
+                    f"{ao[j]},{j}", fontsize=9)
 
         # Draw plane
         ax.add_collection3d(Poly3DCollection(ref_vertices_list[i],
@@ -562,7 +562,7 @@ def twisting_faces(self, aco, all_face):
         a, b, c, d = plane.find_eq_of_plane(c_ref[i][0], c_ref[i][1], c_ref[i][2])
         m = projection.project_atom_onto_plane(co[0], a, b, c, d)
         ax = fig.add_subplot(2, 2, int(i + 1), projection='3d')
-        ax.set_title("Projection plane {0}".format(i + 1), fontsize='10')
+        ax.set_title(f"Projection plane {i + 1}", fontsize='10')
 
         # Projected metal center atom
         ax.scatter(m[0],
@@ -574,7 +574,7 @@ def twisting_faces(self, aco, all_face):
         ax.text(m[0] + 0.1,
                 m[1] + 0.1,
                 m[2] + 0.1,
-                "{0}'".format(ao[0]), fontsize=9)
+                f"{ao[0]}'", fontsize=9)
 
         # Reference atoms
         pl = []
@@ -588,7 +588,7 @@ def twisting_faces(self, aco, all_face):
             ax.text(c_ref[i][j][0] + 0.1,
                     c_ref[i][j][1] + 0.1,
                     c_ref[i][j][2] + 0.1,
-                    "{0}".format(j + 1), fontsize=9)
+                    f"{j + 1}", fontsize=9)
 
             # Project ligand atom onto the reference face
             pl.append(projection.project_atom_onto_plane(c_oppo[i][j], a, b, c, d))
@@ -604,7 +604,7 @@ def twisting_faces(self, aco, all_face):
             ax.text(pl[j][0] + 0.1,
                     pl[j][1] + 0.1,
                     pl[j][2] + 0.1,
-                    "{0}'".format(j + 1), fontsize=9)
+                    f"{j + 1}'", fontsize=9)
 
         # Draw plane
         x, y, z = zip(*pl)

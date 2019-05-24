@@ -100,15 +100,14 @@ def show_about():
     3. Citation
 
     """
-    text = "OctaDist version {0} ({1})\n" \
-           "\n" \
-           "Authors: {2}\n" \
-           "\n" \
-           "Website: {3}\n" \
-           "\n" \
-           "Please cite this project if you use OctaDist for scientific publication."\
-        .format(octadist_gui.__version__, octadist_gui.__release__,
-                octadist_gui.__author_full__, octadist_gui.__website__)
+    text = f"OctaDist version {octadist_gui.__version__} ({octadist_gui.__release__})\n" \
+           f"\n" \
+           f"Authors: {octadist_gui.__author_full__}.\n" \
+           f"\n" \
+           f"Website: {octadist_gui.__website__}\n" \
+           f"\n" \
+           f"Please cite this project if you use OctaDist for scientific publication."
+
     showinfo("About program", text)
 
 
@@ -119,17 +118,20 @@ def show_license():
     GNU General Public License version 3.0.
 
     """
-    text = "OctaDist {0} Copyright (C) 2019  Rangsiman Ketkaew et al.\n\n" \
+    text = "OctaDist {0} Copyright (C) 2019  Rangsiman Ketkaew et al.\n" \
+           "\n" \
            "This program is free software: you can redistribute it " \
            "and/or modify it under the terms of the GNU General Public " \
            "License as published by the Free Software Foundation, either " \
-           "version 3 of the License, or (at your option) any later version.\n\n" \
+           "version 3 of the License, or (at your option) any later version.\n" \
+           "\n" \
            "This program is distributed in the hope that it will be useful, " \
            "but WITHOUT ANY WARRANTY; without even the implied warranty " \
            "of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. " \
-           "See the GNU General Public License for more details.\n\n" \
+           "See the GNU General Public License for more details.\n" \
+           "\n" \
            "You should have received a copy of the GNU General Public License " \
-           "along with this program. If not, see <https://www.gnu.org/licenses/>." \
+           "along with this program. If not, see <https://www.gnu.org/licenses/>."\
         .format(octadist_gui.__version__)
     showinfo("License", text)
 
@@ -160,8 +162,8 @@ def err_invalid_ftype(ftype):
     None
 
     """
-    showerror("Error", "Invalid {0} file format.\n\n"
-                       "The complex must have at least 1 metal atom and 6 ligand atoms.".format(ftype))
+    showerror("Error", f"Invalid {ftype} file format.\n\n"
+                       "The complex must have at least 1 metal atom and 6 ligand atoms.")
 
 
 def err_no_coord():
@@ -206,7 +208,7 @@ def err_atom_not_match(line):
     None
 
     """
-    showerror("Error", "Atomic symbol not match at line {0}.".format(line))
+    showerror("Error", f"Atomic symbol not match at line {line}.")
 
 
 def err_many_files():
@@ -238,7 +240,7 @@ def info_save_results(file):
     None
 
     """
-    showinfo("Info", "Data has been saved to {0}".format(file))
+    showinfo("Info", f"Data has been saved to {file}")
 
 
 def info_update():

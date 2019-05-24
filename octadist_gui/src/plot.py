@@ -41,7 +41,7 @@ def plot_zeta_sigma(zeta, sigma):
 
     ax = plt.subplot()
     for i in range(len(zeta)):
-        ax.scatter(zeta, sigma, label='Complex {0}'.format(i + 1))
+        ax.scatter(zeta, sigma, label=f'Complex {i + 1}')
         ax.text(zeta[i] + 0.2, sigma[i] + 0.2, i + 1, fontsize=9)
 
     # Shrink current axis's height by 10% on the bottom
@@ -81,7 +81,7 @@ def plot_sigma_theta(sigma, theta):
 
     ax = plt.subplot()
     for i in range(len(sigma)):
-        ax.scatter(sigma, theta, label='Complex {0}'.format(i + 1))
+        ax.scatter(sigma, theta, label=f'Complex {i + 1}')
         ax.text(sigma[i] + 0.2, theta[i] + 0.2, i + 1, fontsize=9)
 
     # Shrink current axis's height by 10% on the bottom

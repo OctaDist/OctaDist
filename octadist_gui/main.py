@@ -118,7 +118,7 @@ class OctaDist:
         ##############################
 
         self.master = master
-        self.master.title("OctaDist {0}".format(octadist_gui.__version__))
+        self.master.title(f"OctaDist {octadist_gui.__version__}")
         font = "Arial 10"
         self.master.option_add("*Font", font)
 
@@ -185,6 +185,8 @@ class OctaDist:
         data_menu.add_cascade(label="Complex Info",
                               command=lambda: tools.data_complex(self, self.file_list,
                                                                  self.atom_coord_full))
+        data_menu.add_cascade(label="Faces Info",
+                              command=lambda: tools.data_face(self, self.atom_coord_octa))
         tools_menu.add_cascade(menu=strct_menu, label="Show Structural Parameter")
         strct_menu.add_command(label="All Atoms",
                                command=lambda: tools.param_complex(self, self.atom_coord_full))
@@ -197,7 +199,7 @@ class OctaDist:
                                command=lambda: plot.plot_sigma_theta(self.all_sigma, self.all_theta))
         tools_menu.add_separator()
         tools_menu.add_command(label="Calculate Surface Area",
-                               command=lambda: tools.find_surface_area(self, self.all_face))
+                               command=lambda: tools.find_surface_area(self, self.atom_coord_octa))
         tools_menu.add_command(label="Calculate Jahn-Teller Distortion Parameter",
                                command=lambda: util.calc_jahn_teller(self, self.atom_coord_full))
         tools_menu.add_command(label="Calculate RMSD", command=lambda: util.calc_rmsd(self, self.atom_coord_full))
@@ -341,10 +343,11 @@ class OctaDist:
         # Welcome #
         ###########
 
-        echo_outs(self, "Welcome to OctaDist {0} {1}".format(octadist_gui.__version__,
-                                                             octadist_gui.__release__))
+        full_version = octadist_gui.__version__ + octadist_gui.__release__
+
+        echo_outs(self, f"Welcome to OctaDist {full_version}")
         echo_outs(self, "")
-        echo_outs(self, "Developed by " + octadist_gui.__author_full__ + ".")
+        echo_outs(self, f"Developed by {octadist_gui.__author_full__}.")
         echo_outs(self, "")
         echo_outs(self, octadist_gui.__website__)
         echo_outs(self, "")
@@ -644,15 +647,15 @@ class OctaDist:
 
             echo_outs(self, "Updated program settings")
             echo_outs(self, "************************")
-            echo_outs(self, "Metal-Ligand bond cutoff : {0}".format(self.cutoff_metal_ligand))
-            echo_outs(self, "Global bond cutoff       : {0}".format(self.cutoff_global))
-            echo_outs(self, "Hydrogen bond cutoff     : {0}".format(self.cutoff_hydrogen))
+            echo_outs(self, f"Metal-Ligand bond cutoff : {self.cutoff_metal_ligand}")
+            echo_outs(self, f"Global bond cutoff       : {self.cutoff_global}")
+            echo_outs(self, f"Hydrogen bond cutoff     : {self.cutoff_hydrogen}")
             echo_outs(self, "------------------------")
-            echo_outs(self, "Text editor : {0}".format(self.text_editor))
+            echo_outs(self, f"Text editor : {self.text_editor}")
             echo_outs(self, "------------------------")
-            echo_outs(self, "Show Title  : {0}".format(self.show_title))
-            echo_outs(self, "Show Axis   : {0}".format(self.show_axis))
-            echo_outs(self, "Show Grid   : {0}".format(self.show_grid))
+            echo_outs(self, f"Show Title  : {self.show_title}")
+            echo_outs(self, f"Show Axis   : {self.show_axis}")
+            echo_outs(self, f"Show Grid   : {self.show_grid}")
             echo_outs(self, "")
 
             master.destroy()
@@ -853,8 +856,8 @@ class OctaDist:
         if server_rev > user_rev:
             popup.info_update()
 
-            text = "A new version {0} is ready for download.\n\n" \
-                   "Do you want to download now?".format(server_ver)
+            text = f"A new version {server_ver} is ready for download.\n\n" \
+                   "Do you want to download now?"
             MsgBox = messagebox.askquestion("Updates available", text, icon="warning")
 
             if MsgBox == 'yes':
@@ -944,7 +947,7 @@ class OctaDist:
                         if i == 0:
                             echo_outs(self, "XYZ coordinates of extracted octahedral structure")
 
-                        echo_outs(self, "File {0}: {1}".format(i + 1, file_name))
+                        echo_outs(self, f"File {i + 1}: {file_name}")
                         echo_outs(self, "Atom                       Cartesian coordinate")
                         for k in range(len(atom_full)):
                             echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
@@ -984,7 +987,7 @@ class OctaDist:
 
                         # Print octahedral structure to coord box and stdout box (on request)
                         if count == 1:
-                            echo_outs(self, "File {0}: {1}".format(i + 1, file_name))
+                            echo_outs(self, f"File {i + 1}: {file_name}")
                             echo_outs(self, "Atom                       Cartesian coordinate")
                             for k in range(len(atom_octa)):
                                 echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
@@ -995,8 +998,8 @@ class OctaDist:
                             echo_outs(self, "")
 
                         elif count > 1:
-                            echo_outs(self, "File {0}: {1}".format(i + 1, file_name))
-                            echo_outs(self, "Metal center atom no. {0} : {1}".format(j + 1, atom_octa[0]))
+                            echo_outs(self, f"File {i + 1}: {file_name}")
+                            echo_outs(self, f"Metal center atom no. {j + 1} : {atom_octa[0]}")
                             echo_outs(self, "Atom                       Cartesian coordinate")
                             for k in range(len(atom_octa)):
                                 echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
@@ -1033,9 +1036,9 @@ class OctaDist:
         f.write("This is free software, and you are welcome to redistribute it under\n")
         f.write("certain conditions; see <https://www.gnu.org/licenses/> for details.\n")
         f.write("\n")
-        f.write("OctaDist {0} {1}: Octahedral Distortion Analysis\n".
-                format(octadist_gui.__version__, octadist_gui.__release__))
-        f.write("https://octadist.github.io\n")
+        f.write(f"OctaDist {octadist_gui.__version__} {octadist_gui.__release__}.\n")
+        f.write("Octahedral Distortion Calculator\n")
+        f.write(f"{octadist_gui.__website__}\n")
         f.write("\n")
         f.write("================ Start of the Output file =================\n")
         f.write("\n")
@@ -1078,9 +1081,10 @@ class OctaDist:
         atoms = self.atom_coord_octa[0][2]
         coord = self.atom_coord_octa[0][3]
 
+        full_version = octadist_gui.__version__ + octadist_gui.__release__
+
         f.write("7\n")
-        f.write("{0} : this file was generated by OctaDist {1} {2}.\n".
-                format(file_name, octadist_gui.__version__, octadist_gui.__release__))
+        f.write(f"{file_name} : this file was generated by OctaDist {full_version}.\n")
         for i in range(7):
             f.write("{0:2s}   {1:9.6f}  {2:9.6f}  {3:9.6f}\n"
                     .format(atoms[i], coord[i][0], coord[i][1], coord[i][2]))
@@ -1134,19 +1138,16 @@ class OctaDist:
             self.all_face.append(face_data)
 
             comp_result.append([num_file, num_metal,
-                                d_mean,
-                                zeta,
-                                delta,
-                                sigma,
-                                theta_mean])
+                                d_mean, zeta, delta, sigma, theta_mean
+                                ])
 
         # Print results to each unique box
         if len(self.atom_coord_octa) == 1:
-            self.box_d_mean.insert(tk.INSERT, "{0:3.6f}".format(d_mean))
-            self.box_zeta.insert(tk.INSERT, "{0:3.6f}".format(zeta))
-            self.box_delta.insert(tk.INSERT, "{0:3.6f}".format(delta))
-            self.box_sigma.insert(tk.INSERT, "{0:3.6f}".format(sigma))
-            self.box_theta_mean.insert(tk.INSERT, "{0:3.6f}".format(theta_mean))
+            self.box_d_mean.insert(tk.INSERT, f"{d_mean:3.6f}")
+            self.box_zeta.insert(tk.INSERT, f"{zeta:3.6f}")
+            self.box_delta.insert(tk.INSERT, f"{delta:3.6f}")
+            self.box_sigma.insert(tk.INSERT, f"{sigma:3.6f}")
+            self.box_theta_mean.insert(tk.INSERT, f"{theta_mean:3.6f}")
         else:
             self.box_d_mean.insert(tk.INSERT, "See below")
             self.box_zeta.insert(tk.INSERT, "See below")

@@ -193,25 +193,23 @@ def plot_fit_plane(self, acf):
     plane_A = (xx, yy, z)
     a1, b1, c1, d1 = abcd
 
-    self.box_eq1.insert(tk.INSERT, "{0:8.5f}x {1:+8.5f}y {2:+8.5f}z {3:+8.5f} = 0"
-                        .format(a1, b1, c1, d1))
+    self.box_eq1.insert(tk.INSERT, f"{a1:8.5f}x {b1:+8.5f}y {c1:+8.5f}z {d1:+8.5f} = 0")
 
     xx, yy, z, abcd = calc_fit_plane(self.coord_B)
     plane_B = (xx, yy, z)
     a2, b2, c2, d2 = abcd
 
-    self.box_eq2.insert(tk.INSERT, "{0:8.5f}x {1:+8.5f}y {2:+8.5f}z {3:+8.5f} = 0"
-                        .format(a2, b2, c2, d2))
+    self.box_eq2.insert(tk.INSERT, f"{a2:8.5f}x {b2:+8.5f}y {c2:+8.5f}z {d2:+8.5f} = 0")
 
     ####################################
     # Calculate angle between 2 planes #
     ####################################
 
     angle = linear.angle_btw_planes(a1, b1, c1, a2, b2, c2)
-    self.box_angle1.insert(tk.INSERT, "{0:10.6f}".format(angle))  # insert to box
+    self.box_angle1.insert(tk.INSERT, f"{angle:10.6f}")  # insert to box
 
     sup_angle = abs(180 - angle)  # supplementary angle
-    self.box_angle2.insert(tk.INSERT, "{0:10.6f}".format(sup_angle))  # insert to box
+    self.box_angle2.insert(tk.INSERT, f"{sup_angle:10.6f}")  # insert to box
 
     ###############
     # Plot planes #
@@ -230,8 +228,8 @@ def plot_fit_plane(self, acf):
         n = elements.check_atom(fal[i])
         ax.scatter(fcl[i][0], fcl[i][1], fcl[i][2],
                    marker='o', linewidths=0.5, edgecolors='black', picker=5,
-                   color=elements.check_color(n), label="{}"
-                   .format(fal[i]), s=elements.check_radii(n) * 300)
+                   color=elements.check_color(n), label=f"{fal[i]}",
+                   s=elements.check_radii(n) * 300)
 
     # Calculate distance
     bond_list = tools.find_bonds(self, fal, fcl)
@@ -317,8 +315,8 @@ def pick_atom(self, acf, group):
         n = elements.check_atom(fal[i])
         ax.scatter(fcl[i][0], fcl[i][1], fcl[i][2],
                    marker='o', linewidths=0.5, edgecolors='black', picker=5,
-                   color=elements.check_color(n), label="{}"
-                   .format(fal[i]), s=elements.check_radii(n) * 300)
+                   color=elements.check_color(n), label=f"{fal[i]}",
+                   s=elements.check_radii(n) * 300)
 
     # Calculate distance
     bond_list = tools.find_bonds(self, fal, fcl)
@@ -372,7 +370,8 @@ def pick_atom(self, acf, group):
                     if z[ind] == fcl[i][2]:
                         atom = fal[i]
                         break
-        results = "{0}  {1}  :  {2} {3} {4}".format(i + 1, atom, x[ind], y[ind], z[ind])
+
+        results = f"{i + 1}  {atom}  :  {x[ind]} {y[ind]} {z[ind]}"
         coord = [x[ind], y[ind], z[ind]]
         insert_text(self, results, coord, group)
         # Highlight selected atom
@@ -535,9 +534,9 @@ def calc_rmsd(self, acf):
 
     echo_outs(self, "RMSD between two complexes")
     echo_outs(self, "**************************")
-    echo_outs(self, "Normal RMSD     : {0:3.6f}".format(rmsd_normal))
-    echo_outs(self, "Re-centered RMSD: {0:3.6f}".format(rmsd_translate))
-    echo_outs(self, "Rotated RMSD    : {0:3.6f}".format(rmsd_rotate))
+    echo_outs(self, f"Normal RMSD     : {rmsd_normal:3.6f}")
+    echo_outs(self, f"Re-centered RMSD: {rmsd_translate:3.6f}")
+    echo_outs(self, f"Rotated RMSD    : {rmsd_rotate:3.6f}")
     echo_outs(self, "")
 
     return rmsd_normal, rmsd_translate, rmsd_rotate
