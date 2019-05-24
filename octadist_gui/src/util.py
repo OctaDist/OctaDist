@@ -42,7 +42,7 @@ def insert_text(self, text, coord, group):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if group == "A":
@@ -64,7 +64,7 @@ def clear_text(self):
 
     Returns
     -------
-    None
+    None : None
 
     """
     self.box_1.delete(1.0, tk.END)
@@ -173,7 +173,7 @@ def plot_fit_plane(self, acf):
     
     Returns
     -------
-    None
+    None : None
     
     """
     ###############
@@ -299,7 +299,7 @@ def pick_atom(self, acf, group):
     
     Returns
     -------
-    None
+    None : None
     
     """
     fal, fcl = acf[0]
@@ -400,7 +400,7 @@ def calc_jahn_teller(self, acf):
     
     Returns
     -------
-    None
+    None : None
     
     """
     if len(acf) == 0:

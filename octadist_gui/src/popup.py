@@ -27,11 +27,15 @@ def callback(event):
 
 def show_help(self):
     """
-    Show program help.
+    Show program help on a sub-window.
 
     1. Simple usage
     2. XYZ file format
     3. References
+
+    Returns
+    -------
+    None : None
 
     """
     master = tk.Toplevel(self)
@@ -93,11 +97,15 @@ def show_help(self):
 
 def show_about():
     """
-    Show author info
+    Show author details on a sub-window.
 
     1. Name of authors
     2. Official program website
     3. Citation
+
+    Returns
+    -------
+    None : None
 
     """
     text = f"OctaDist version {octadist_gui.__version__} ({octadist_gui.__release__})\n" \
@@ -113,9 +121,13 @@ def show_about():
 
 def show_license():
     """
-    Show license info.
+    Show license details on a sub-window.
 
     GNU General Public License version 3.0.
+
+    Returns
+    -------
+    None : None
 
     """
     text = "OctaDist {0} Copyright (C) 2019  Rangsiman Ketkaew et al.\n" \
@@ -138,7 +150,7 @@ def show_license():
 
 def err_no_file():
     """
-    Show error when no any input files is loaded into program.
+    Show this error when having no any input files is loaded into program.
 
     Returns
     -------
@@ -167,35 +179,86 @@ def err_invalid_ftype(ftype):
 
 
 def err_no_coord():
+    """
+    Show this error popup when the program cannot read the atomic coordinates of complex
+    inside the file or cannot extract the coordinates from the complex.
+
+    This will happen only if the input has no the proper format of atomic coordinates.
+
+    Returns
+    -------
+    None : None
+
+    """
     showerror("Error", "No coordinate of a molecule. Please make sure the input file format is correct.")
 
 
 def err_less_ligands():
-    showerror("Error", "Number of ligand atoms is less than 6. Please check the metal-ligand bond cutoff "
-                       "to see if the value is set properly.")
+    """
+    Show this error popup when the complex has ligand atoms less that six.
+
+    Returns
+    -------
+    None : None
+
+    """
+    showerror("Error", "Number of ligand atoms in the complex is less than six. "
+                       "Please check the metal-ligand bond cutoff if the value is set properly.")
 
 
 def err_no_metal():
-    showerror("Error", "Cannot calculate parameters. Your current structure has no metal atom.\n\n"
-                       "Please upload new input structure that has at least one metal to proceed the calculation.")
+    """
+    Show this error popup when the complex has no transition metal atom.
+
+    Returns
+    -------
+    None : None
+
+    """
+    showerror("Error", "Cannot proceed calculation. Your current structure has no metal atom.\n\n"
+                       "The complex must have at least one metal.")
 
 
 def err_no_calc():
+    """
+    Show this error popup when the user requests function that the results are required,
+    but the results have not been computed yet.
+
+    Returns
+    -------
+    None : None
+
+    """
     showerror("Error", "No results. Click \"Compute\" to calculate octahedral distortion parameters.")
 
 
 def err_only_2_files():
+    """
+    Show this error popup when having not uploaded two complexes
+    for using the RMSD function.
+
+    Returns
+    -------
+    None : None
+
+    """
     showerror("Error", "You must load only two complexes for computing RMSD.")
 
 
 def err_not_equal_atom():
+    """
+    Show this error popup when the total number of atoms of two complexes are not equal.
+
+    Returns
+    -------
+    None : None
+
+    """
     showerror("Error", "The number of atoms in structure 1 and structure 2 are not the same.")
 
 
 def err_atom_not_match(line):
     """
-    Show error popup:
-
     show this error popup when atomic symbol of two similar complexes does not match.
 
     Parameters
@@ -212,14 +275,39 @@ def err_atom_not_match(line):
 
 
 def err_many_files():
+    """
+    Show this error popup when user has loaded too many files.
+
+    Returns
+    -------
+    None : None
+
+    """
     showerror("Error", "You must load only one input file.")
 
 
 def err_wrong_format():
+    """
+    Show this error popup when user has loaded the file that is not supported by OctaDist.
+
+    Returns
+    -------
+    None : None
+
+    """
     showerror("Error", "Input file format is not supported.")
 
 
 def err_cannot_update():
+    """
+    Show this error popup when the program cannot detect the operating system of
+    the machine that user is using.
+
+    Returns
+    -------
+    None : None
+
+    """
     showerror("Error", "Cannot download an installer of a new version.\n\n"
                        "Please contact OctaDist development team for further help.")
 
@@ -244,16 +332,48 @@ def info_save_results(file):
 
 
 def info_update():
+    """
+    Show this info popup when new version is available for update.
+
+    Returns
+    -------
+    None : None
+
+    """
     showinfo("Info", "New updates available!")
 
 
 def info_no_update():
+    """
+    Show this info popup if program is the latest version.
+
+    Returns
+    -------
+    None : None
+
+    """
     showinfo("Info", "You already have the latest version of OctaDist.")
 
 
 def warn_no_metal():
+    """
+    Show this warning popup if no transition metal was found.
+
+    Returns
+    -------
+    None : None
+
+    """
     showwarning("Warning", "No transition metal in your input file.")
 
 
 def warn_not_octa():
+    """
+    Show this warning popup if the complex is non-octahedral structure.
+
+    Returns
+    -------
+    None : None
+
+    """
     showwarning("Warning", "Non-octahedral complex detected.")

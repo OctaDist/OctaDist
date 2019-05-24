@@ -194,7 +194,7 @@ def find_surface_area(self, aco):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(aco) == 0:
@@ -245,7 +245,7 @@ def data_complex(self, files, acf):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(files) == 0:
@@ -282,7 +282,7 @@ def data_face(self, aco):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(aco) == 0:
@@ -328,7 +328,7 @@ def param_complex(self, acf):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(acf) == 0:
@@ -394,7 +394,7 @@ def param_octa(self, aco):
 
     Returns
     -------
-    None
+    None : None
 
     """
     if len(aco) == 0:
