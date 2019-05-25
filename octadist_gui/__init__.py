@@ -15,8 +15,6 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 __author__ = "R. Ketkaew, Y. Tantirungrotechai, D. J. Harding, P. Harding, and M. Marchivie"
-__author_full__ = "Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, " \
-                  "Phimphaka Harding, and Mathieu Marchivie"
 __maintainer__ = "Rangsiman Ketkaew"
 __copyright__ = "OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al."
 __license__ = "GNU v3"
@@ -39,7 +37,19 @@ __all__ = \
      'calc_sigma',
      'calc_theta',
      'calc_theta_min',
-     'calc_theta_max'
+     'calc_theta_max',
+     'count_line',
+     'count_metal',
+     'check_xyz_file',
+     'check_gaussian_file',
+     'check_nwchem_file',
+     'check_orca_file',
+     'check_qchem_file',
+     'get_coord_xyz',
+     'get_coord_gaussian',
+     'get_coord_nwchem',
+     'get_coord_orca',
+     'get_coord_qchem'
      ]
 
 # Bring sub-modules and methods to top-level directory
@@ -54,3 +64,17 @@ from .src.calc import calc_sigma
 from .src.calc import calc_theta
 from .src.calc import calc_theta_min
 from .src.calc import calc_theta_max
+
+from .src.coord import count_line
+from .src.coord import count_metal
+from .src.coord import check_xyz_file
+from .src.coord import check_gaussian_file
+from .src.coord import check_nwchem_file
+from .src.coord import check_orca_file
+from .src.coord import check_qchem_file
+
+from .src.coord import get_coord_xyz
+from .src.coord import get_coord_gaussian
+from .src.coord import get_coord_nwchem
+from .src.coord import get_coord_orca
+from .src.coord import get_coord_qchem
