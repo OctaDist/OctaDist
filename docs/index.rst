@@ -24,15 +24,17 @@ Status
 =============         =======   ======
 Release               Version   Status
 =============         =======   ======
-Stable                2.5.2     Active
-Nightly-build         2.5.3     Active
+Stable                2.5.3     Active
+Nightly-build         2.5.4     Active
 =============         =======   ======
 
 .. note::
-   OctaDist software is open-source and freely redistributed under The GNU General Public License v3.0.
+   OctaDist is open-source computer software and freely distributed under
+   The GNU General Public License v3.0.
 
 .. tip::
-   This is reference document. For the end-user, we strongly suggest you that visit an user-friendly document
+   This document is a reference code of nightly development build of OctaDist.
+   For the end-user, we strongly suggest you visit the user-friendly document
    at https://octadist.github.io/manual.html.
 
 .. toctree::
