@@ -1,5 +1,3 @@
-.. currentmodule:: octadist_gui.src.calc
-
 =================
 octadist_gui.calc
 =================
