@@ -21,12 +21,12 @@ the metal complex such as perovskite and metal-organic framework (MOF).
 Status
 ------
 
-=============         =======   ======
-Release               Version   Status
-=============         =======   ======
-Stable                2.5.3     Active
-Nightly-build         2.5.4     Active
-=============         =======   ======
+=============         ===========   ======
+Release               Version       Status
+=============         ===========   ======
+Stable                2.5.3         Active
+Nightly-build         2.5.4 (dev)   Active
+=============         ===========   ======
 
 .. note::
    OctaDist is open-source computer software and freely distributed under
