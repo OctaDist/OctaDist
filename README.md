@@ -8,6 +8,14 @@
 Octahedral distortion calculator: A tool for calculating distortion parameters in coordination complexes. 
 https://octadist.github.io/
 
+## Document
+
+A reference document of development build: [HTML][HTML-Link] / [PDF][PDF-Link] / [Epub][Epub-Link]
+
+[HTML-Link]: https://octadist.readthedocs.io/en/nightly-build/
+[PDF-Link]: https://buildmedia.readthedocs.org/media/pdf/octadist/nightly-build/octadist.pdf
+[Epub-Link]: https://readthedocs.org/projects/octadist/downloads/epub/nightly-build/
+
 ## Project team
 
 - [Rangsiman Ketkaew](https://sites.google.com/site/rangsiman1993) (Thammasat University, Thailand) <br/>
