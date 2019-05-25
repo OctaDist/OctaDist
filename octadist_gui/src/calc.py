@@ -34,6 +34,24 @@ def calc_d_bond(c_octa):
     bond_dist : list
         Individual metal-ligand bond distance.
 
+    Examples
+    --------
+    >>> coord
+    [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
+     [1.885657000, 4.804777000, 6.183726000],
+     [1.747515000, 6.960963000, 7.932784000],
+     [4.094380000, 5.807257000, 7.588689000],
+     [0.539005000, 4.482809000, 8.460004000],
+     [2.812425000, 3.266553000, 8.131637000],
+     [2.886404000, 5.392925000, 9.848966000]]
+    >>> calc_d_bond(coord)
+    [1.869580869461656,
+     1.8820188587261812,
+     1.9465848640994314,
+     1.9479642654866642,
+     1.9702004656851546,
+     1.9805587036803534]
+
     """
     bond_dist = [linear.euclidean_dist(c_octa[0], c_octa[i]) for i in range(1, 7)]
 
@@ -54,6 +72,19 @@ def calc_d_mean(c_octa):
     d_mean : float
         Mean metal-ligand distance.
 
+    Examples
+    --------
+    >>> coord
+    [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
+     [1.885657000, 4.804777000, 6.183726000],
+     [1.747515000, 6.960963000, 7.932784000],
+     [4.094380000, 5.807257000, 7.588689000],
+     [0.539005000, 4.482809000, 8.460004000],
+     [2.812425000, 3.266553000, 8.131637000],
+     [2.886404000, 5.392925000, 9.848966000]]
+    >>> calc_d_mean(coord)
+    1.93281800452324
+
     """
     bond_dist = calc_d_bond(c_octa)
     bond_dist = np.asarray(bond_dist)
@@ -66,6 +97,10 @@ def calc_d_mean(c_octa):
 def calc_zeta(c_octa):
     """
     Calculate Zeta parameter and return value in Angstrom.
+
+         6
+    ζ = sum(|dist_i - d_mean|)
+        i=1
 
     Parameters
     ----------
@@ -81,11 +116,18 @@ def calc_zeta(c_octa):
     ----------
     Phys. Rev. B 85, 064114
     
-    Notes
-    -----
-         6
-    ζ = sum(|dist_i - d_mean|)
-        i=1
+    Examples
+    --------
+    >>> coord
+    [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
+     [1.885657000, 4.804777000, 6.183726000],
+     [1.747515000, 6.960963000, 7.932784000],
+     [4.094380000, 5.807257000, 7.588689000],
+     [0.539005000, 4.482809000, 8.460004000],
+     [2.812425000, 3.266553000, 8.131637000],
+     [2.886404000, 5.392925000, 9.848966000]]
+    >>> calc_zeta(coord)
+    0.22807256171728651
 
     """
     bond_dist = calc_d_bond(c_octa)
@@ -104,6 +146,12 @@ def calc_delta(c_octa):
     """
     Calculate Delta parameter, also known as Tilting distortion parameter.
 
+          1
+    Δ =  ---*sum((d_i - d)/d)^2
+          6
+
+    where d_i is individual M-X distance and d is mean M-X distance.
+
     Parameters
     ----------
     c_octa : array
@@ -119,13 +167,18 @@ def calc_delta(c_octa):
     DOI: 10.1107/S0108768103026661
     Acta Cryst. (2004). B60, 10-20
 
-    Notes
-    -----
-          1
-    Δ =  ---*sum((d_i - d)/d)^2
-          6
-
-    where d_i is individual M-X distance and d is mean M-X distance.
+    Examples
+    --------
+    >>> coord
+    [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
+     [1.885657000, 4.804777000, 6.183726000],
+     [1.747515000, 6.960963000, 7.932784000],
+     [4.094380000, 5.807257000, 7.588689000],
+     [0.539005000, 4.482809000, 8.460004000],
+     [2.812425000, 3.266553000, 8.131637000],
+     [2.886404000, 5.392925000, 9.848966000]]
+    >>> calc_delta(coord)
+    0.0004762517834704151
 
     """
     bond_dist = calc_d_bond(c_octa)
@@ -144,7 +197,7 @@ def calc_bond_angle(c_octa):
 
     Parameters
     ----------
-    c_octa : array
+    c_octa : array or list
         Atomic coordinates of octahedral structure.
 
     Returns
@@ -154,7 +207,31 @@ def calc_bond_angle(c_octa):
     trans_angle : list
         List of 3 trans angles.
 
+    Examples
+    --------
+    >>> coord
+    [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
+     [1.885657000, 4.804777000, 6.183726000],
+     [1.747515000, 6.960963000, 7.932784000],
+     [4.094380000, 5.807257000, 7.588689000],
+     [0.539005000, 4.482809000, 8.460004000],
+     [2.812425000, 3.266553000, 8.131637000],
+     [2.886404000, 5.392925000, 9.848966000]]
+    >>> cis, trans = calc_bond_angle(coord)
+    >>> cis
+    [82.75749025175044, 83.11074412601039, 87.07433386260743,
+     87.217426970301, 87.59010057569893, 88.49485029114034,
+     89.71529920540053, 94.09217259687905, 94.2481644447923,
+     94.51379613736219, 95.40490801797102, 95.62773246517462]
+    >>> trans
+    [173.8820603662232, 176.07966588060893, 176.58468599461276]
+
     """
+    if type(c_octa) == np.ndarray:
+        pass
+    else:
+        c_octa = np.asarray(c_octa)
+
     all_angle = []
     for i in range(1, 7):
         for j in range(i + 1, 7):
@@ -175,6 +252,12 @@ def calc_sigma(c_octa):
     """
     Calculate Sigma parameter and return value in degree.
 
+          12
+    Σ = sigma < 90 - angle_i >
+         i=1
+
+    where angle_i in an unique cis angle.
+
     Parameters
     ----------
     c_octa : array
@@ -184,20 +267,23 @@ def calc_sigma(c_octa):
     -------
     sigma : float
         Sigma parameter.
-    angle_sigma : list of float
-        List of 12 unique cis angles.
-
-    Notes
-    -----
-          12
-    Σ = sigma < 90 - angle_i >
-         i=1
-
-    where angle_i in an unique cis angle.
 
     References
     ----------
     J. K. McCusker et al. Inorg. Chem. 1996, 35, 2100.
+
+    Examples
+    --------
+    >>> coord
+    [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
+     [1.885657000, 4.804777000, 6.183726000],
+     [1.747515000, 6.960963000, 7.932784000],
+     [4.094380000, 5.807257000, 7.588689000],
+     [0.539005000, 4.482809000, 8.460004000],
+     [2.812425000, 3.266553000, 8.131637000],
+     [2.886404000, 5.392925000, 9.848966000]]
+    >>> calc_sigma(coord)
+    47.926528379270124
 
     """
     cis_angle, _ = calc_bond_angle(c_octa)
@@ -210,9 +296,15 @@ def calc_theta(c_octa):
     """
     Calculate Theta parameter and value in degree.
 
+          24
+    Θ = sigma < 60 - angle_i >
+         i=1
+
+    where angle_i is an unique angle between two vectors of two twisting face.
+
     Parameters
     ----------
-    c_octa : array
+    c_octa : array or list
         Atomic coordinates of octahedral structure.
 
     Returns
@@ -220,20 +312,29 @@ def calc_theta(c_octa):
     theta_mean : float
         Mean Theta value.
 
-    Notes
-    -----
-
-          24
-    Θ = sigma < 60 - angle_i >
-         i=1
-
-    where angle_i is an unique angle between two vectors of two twisting face.
-
     References
     ----------
     M. Marchivie et al. Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.
 
+    Examples
+    --------
+    >>> coord
+    [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
+     [1.885657000, 4.804777000, 6.183726000],
+     [1.747515000, 6.960963000, 7.932784000],
+     [4.094380000, 5.807257000, 7.588689000],
+     [0.539005000, 4.482809000, 8.460004000],
+     [2.812425000, 3.266553000, 8.131637000],
+     [2.886404000, 5.392925000, 9.848966000]]
+    >>> calc_theta(coord)
+    122.68897277454599
+
     """
+    if type(c_octa) == np.ndarray:
+        pass
+    else:
+        c_octa = np.asarray(c_octa)
+
     ligands = list(c_octa[1:])
 
     TM = c_octa[0]
@@ -464,6 +565,16 @@ def calc_theta_min(allTheta):
     theta_min : float
         Minimum Theta parameter.
 
+    Examples
+    --------
+    >>> allTheta
+    [36.62587317261202, 28.85054807796844,
+     21.798434925314737, 28.57216604448481,
+     41.292681064753346, 42.444094866386344,
+     22.378910890588678, 23.41523650698359]
+    >>> calc_theta_min(allTheta)
+    96.16474836737183
+
     """
     sorted_theta = sorted(allTheta)
     theta_min = sum(sorted_theta[i] for i in range(4))
@@ -484,6 +595,16 @@ def calc_theta_max(allTheta):
     -------
     theta_max : float
         Maximum Theta parameter.
+
+    Examples
+    --------
+    >>> allTheta
+    [36.62587317261202, 28.85054807796844,
+     21.798434925314737, 28.57216604448481,
+     41.292681064753346, 42.444094866386344,
+     22.378910890588678, 23.41523650698359]
+    >>> calc_theta_max(allTheta)
+    149.21319718172015
 
     """
     sorted_theta = sorted(allTheta)
