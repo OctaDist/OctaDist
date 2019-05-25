@@ -22,6 +22,18 @@ import octadist_gui
 
 
 def callback(event):
+    """
+    On-clink open web browser.
+
+    Parameters
+    ----------
+    event
+
+    Returns
+    -------
+    None : None
+
+    """
     webbrowser.open_new(event.widget.cget("text"))
 
 
