@@ -26,6 +26,11 @@ def find_eq_of_plane(x, y, z):
 
     where A, B, C, and D are coefficient.
 
+    -->    -->
+    XZ  X  XY = (a, b, c)
+
+    d = (a, b, c).Z
+
     Parameters
     ----------
     x : list or array
@@ -45,13 +50,6 @@ def find_eq_of_plane(x, y, z):
         Coefficient of the equation of the plane.
     d : int or float
         Coefficient of the equation of the plane.
-
-    Notes
-    -----
-    -->    -->
-    XZ  X  XY = (a, b, c)
-
-    d = (a, b, c).Z
 
     """
     xz = z - x
