@@ -15,12 +15,14 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 __author__ = "R. Ketkaew, Y. Tantirungrotechai, D. J. Harding, P. Harding, and M. Marchivie"
+__author_full__ = "Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, " \
+                  "Phimphaka Harding, and Mathieu Marchivie"
 __maintainer__ = "Rangsiman Ketkaew"
 __copyright__ = "OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al."
 __license__ = "GNU v3"
 __credit__ = "OctaDist Development Team"
 __email__ = "rangsiman1993@gmail.com"
-__version__ = "2.5.4"
+__version__ = "2.5.4 (dev)"
 __revision__ = "2019.254"
 __release__ = "May 2019"
 __status__ = "stable"
