@@ -26,7 +26,7 @@ Requirements
 ------------
 
 OctaDist is written entirely in Python 3 binding to Tkinter GUI toolkit.
-The following 3rd party library and pakcage are used in OctaDist for specific functions.
+The following 3rd party library and package are used in OctaDist for specific functions.
 
 .. code-block:: bash
 
