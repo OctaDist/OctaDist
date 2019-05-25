@@ -337,6 +337,21 @@ def get_coord_gaussian(f):
     c_full : array
         Full atomic coordinates of complex.
 
+    Examples
+    --------
+    >>> gaussian.log
+                                Standard orientation:
+    ---------------------------------------------------------------------
+    Center     Atomic      Atomic             Coordinates (Angstroms)
+    Number     Number       Type             X           Y           Z
+    ---------------------------------------------------------------------
+         1         26           0        0.000163    1.364285   -0.000039
+         2          8           0        0.684192    0.084335   -1.192008
+         3          8           0       -0.683180    0.083251    1.191173
+         4          7           0        1.639959    1.353157    1.006941
+         5          7           0       -0.563377    2.891083    1.435925
+    ...
+
     """
     gaussian_file = open(f, "r")
     nline = gaussian_file.readlines()
@@ -416,6 +431,23 @@ def get_coord_nwchem(f):
     c_full : array
         Full atomic coordinates of complex.
 
+    Examples
+    --------
+    >>> nwchem.out
+      ----------------------
+      Optimization converged
+      ----------------------
+    ...
+    ...
+     No.       Tag          Charge          X              Y              Z
+    ---- ---------------- ---------- -------------- -------------- --------------
+       1 Ru(Fragment=1)      44.0000    -3.04059115    -0.08558108    -0.07699482
+       2 C(Fragment=1)        6.0000    -1.62704660     2.40971357     0.63980357
+       3 C(Fragment=1)        6.0000    -0.61467778     0.59634595     1.68841986
+       4 C(Fragment=1)        6.0000     0.31519183     1.41684566     2.30745116
+       5 C(Fragment=1)        6.0000     0.28773462     2.80126911     2.08006241
+    ...
+
     """
     nwchem_file = open(f, "r")
     nline = nwchem_file.readlines()
@@ -491,6 +523,19 @@ def get_coord_orca(f):
     c_full : array
         Full atomic coordinates of complex.
 
+    Examples
+    --------
+    >>> orca.out
+    ---------------------------------
+    CARTESIAN COORDINATES (ANGSTROEM)
+    ---------------------------------
+      C      0.009657    0.000000    0.005576
+      C      0.009657   -0.000000    1.394424
+      C      1.212436   -0.000000    2.088849
+      C      2.415214    0.000000    1.394425
+      C      2.415214   -0.000000    0.005575
+    ...
+
     """
     orca_file = open(f, "r")
     nline = orca_file.readlines()
@@ -563,6 +608,21 @@ def get_coord_qchem(f):
         Full atomic labels of complex.
     c_full : array
         Full atomic coordinates of complex.
+
+    Examples
+    --------
+    >>> qchem.out
+    ******************************
+    **  OPTIMIZATION CONVERGED  **
+    ******************************
+                               Coordinates (Angstroms)
+        ATOM                X               Y               Z
+         1  C         0.2681746845   -0.8206222796   -0.3704019386
+         2  C        -1.1809302341   -0.5901746612   -0.6772716414
+         3  H        -1.6636318262   -1.5373167851   -0.9496501352
+         4  H        -1.2829834971    0.0829227646   -1.5389938241
+         5  C        -1.9678565203    0.0191922768    0.5346693165
+    ...
 
     """
     orca_file = open(f, "r")
