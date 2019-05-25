@@ -19,7 +19,7 @@ the `Switchable Molecules and Materials
         E-mail: hdavid@mail.wu.ac.th
 * Phimphaka Harding (Walailak University, Thailand)
         E-mail: kphimpha@mail.wu.ac.th
-* Mathieu Marchivie (Université de Bordeaux, France)
+* Mathieu Marchivie (University of Bordeaux, France)
         E-mail: mathieu.marchivie@icmcb.cnrs.fr
 
 

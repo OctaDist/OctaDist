@@ -26,5 +26,5 @@ A reference document of development build: [HTML][HTML-Link] / [PDF][PDF-Link] /
   - E-mail: hdavid@mail.wu.ac.th
 - [Phimphaka Harding](https://www.funtechwu.com/phimphaka-harding) (Walailak University, Thailand)
   - E-mail: kphimpha@mail.wu.ac.th
-- [Mathieu Marchivie](http://www.icmcb-bordeaux.cnrs.fr/spip.php?article562&lang=fr) (Université de Bordeaux, France)
+- [Mathieu Marchivie](http://www.icmcb-bordeaux.cnrs.fr/spip.php?article562&lang=fr) (University of Bordeaux, France)
   - E-mail: mathieu.marchivie@icmcb.cnrs.fr
