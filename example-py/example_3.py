@@ -2,7 +2,7 @@
 # Example 3 for running the test on OctaDist PyPI #
 ###################################################
 
-from octadist import coord, calc
+import octadist as oc
 
 # You can also import your input file, like this:
 
@@ -11,10 +11,13 @@ file = r"../example-input/Multiple-metals.xyz"
 # Then use coord.extract_file to extract all atomic symbols and coordinates,
 # and then use coord.extract_octa for taking the octahedral structure.
 
-atom_full, coor_full = coord.extract_file(file)
-atom_octa, coor_octa = coord.extract_octa(atom_full, coor_full)
+atom_full, coord_full = oc.coord.extract_file(file)
+atom, coord = oc.coord.extract_octa(atom_full, coord_full)
 
-zeta, delta, sigma, theta = calc.calc_all(coor_octa)
+zeta = oc.calc.calc_zeta(coord)             # Zeta
+delta = oc.calc.calc_delta(coord)           # Delta
+sigma = oc.calc.calc_sigma(coord)           # Sigma
+theta = oc.calc.calc_theta(coord)           # Theta
 
 print("\nAll computed parameters")
 print("-----------------------")

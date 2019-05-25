@@ -2,20 +2,23 @@
 # Example 4 for running the test on OctaDist PyPI #
 ###################################################
 
-from octadist import coord, calc
+import octadist as oc
 
 file = r"../example-input/Multiple-metals.xyz"
 
-atom_full, coor_full = coord.extract_file(file)
+atom_full, coor_full = oc.coord.extract_file(file)
 
 # If complex contains metal center more than one, you can specify the index metal
 # whose octahedral structure will be computed.
 # For example, this complex contains three metal atoms: Fe, Ru, and Rd.
 # I add "2" as a second argument for choosing Ru as metal of interest.
 
-atom_octa, coor_octa = coord.extract_octa(atom_full, coor_full, 2)
+atom, coord = oc.coord.extract_octa(atom_full, coor_full, 2)
 
-zeta, delta, sigma, theta = calc.calc_all(coor_octa)
+zeta = oc.calc.calc_zeta(coord)             # Zeta
+delta = oc.calc.calc_delta(coord)           # Delta
+sigma = oc.calc.calc_sigma(coord)           # Sigma
+theta = oc.calc.calc_theta(coord)           # Theta
 
 print("\nAll computed parameters")
 print("-----------------------")
