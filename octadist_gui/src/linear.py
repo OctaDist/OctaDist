@@ -157,11 +157,9 @@ def triangle_area(a, b, c):
     """
     Calculate the area of the triangle using the cross product:
 
-           |  ab X ac |
-    Area = | -------- |
-           |    2     |
+    Area = abs(ab X ac)/2
 
-    where ab = b - a and ac = c - a.
+    where vector ab = b - a and vector ac = c - a.
 
     Parameters
     ----------
