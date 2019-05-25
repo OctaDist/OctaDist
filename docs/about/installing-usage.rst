@@ -78,6 +78,7 @@ The end-user can use `pip`, a Python package-management system,
 to find and install OctaDist and other dependencies on OS at the same time.
 
 The following commands might be useful:
+
 - Install program::
 
    pip install octadist
@@ -86,9 +87,9 @@ The following commands might be useful:
 
    pip install --upgrade octadist
 
-- Downgrade to a certain version, for example, version 2.5.1::
+- Upgrade/downgrade to a certain version, for example, version 2.5.3::
 
-   pip install --upgrade octadist==2.5.1
+   pip install --upgrade octadist==2.5.3
 
 More details on installing Python package can be found its official website: 
 https://packaging.python.org/tutorials/installing-packages.
