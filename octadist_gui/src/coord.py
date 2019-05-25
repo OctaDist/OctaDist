@@ -180,7 +180,7 @@ def search_octa(self, a_full, c_full, c_metal):
         Atomic coordinates of octahedral structure.
 
     """
-    cutoff_metal_ligand = main.OctaDist.cutoff_metal_ligand(self)
+    cutoff_metal_ligand = main.OctaDist.get_cutoff_metal_ligand(self)
 
     dist_list = []
     for i in range(len(a_full)):

@@ -27,7 +27,6 @@ from urllib.request import urlopen
 import numpy as np
 
 import octadist_gui
-import octadist_gui.src.draw
 from octadist_gui.src import (
     echo_outs, calc, coord, draw, plot, popup, tools, util
 )
@@ -179,9 +178,9 @@ class OctaDist:
         # Tools
         menu_bar.add_cascade(label="Tools", menu=tools_menu)
         tools_menu.add_cascade(label="Data Summary", menu=data_menu)
-        data_menu.add_cascade(label="Complex Info",
+        data_menu.add_cascade(label="Complex",
                               command=lambda: tools.data_complex(self, self.file_list, self.atom_coord_full))
-        data_menu.add_cascade(label="Faces Info",
+        data_menu.add_cascade(label="Faces of Octahedral Structure",
                               command=lambda: tools.data_face(self, self.atom_coord_octa))
         tools_menu.add_cascade(menu=strct_menu, label="Show Structural Parameter")
         strct_menu.add_command(label="All Atoms",
@@ -348,7 +347,7 @@ class OctaDist:
         echo_outs(self, octadist_gui.__website__)
         echo_outs(self, "")
 
-    def cutoff_metal_ligand(self):
+    def get_cutoff_metal_ligand(self):
         """
         Fetch cutoff_metal_ligand and return value.
 
@@ -360,7 +359,7 @@ class OctaDist:
         """
         return self.cutoff_metal_ligand
 
-    def cutoff_global(self):
+    def get_cutoff_global(self):
         """
         Fetch cutoff_global and return value.
 
@@ -372,7 +371,7 @@ class OctaDist:
         """
         return self.cutoff_global
 
-    def cutoff_hydrogen(self):
+    def get_cutoff_hydrogen(self):
         """
         Fetch cutoff_hydrogen and return value.
 
@@ -970,6 +969,7 @@ class OctaDist:
                             return 1
 
                         if len(coord_octa) < 7:
+                            self.clear_result_box()
                             popup.err_less_ligands()
                             return 1
 

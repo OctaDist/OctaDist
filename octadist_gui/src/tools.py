@@ -45,8 +45,8 @@ def find_bonds(self, fal, fcl):
         Selected bonds.
 
     """
-    cutoff_global = main.OctaDist.cutoff_global(self)
-    cutoff_hydrogen = main.OctaDist.cutoff_hydrogen(self)
+    cutoff_global = main.OctaDist.get_cutoff_global(self)
+    cutoff_hydrogen = main.OctaDist.get_cutoff_hydrogen(self)
 
     pair_list = []
     bond_list = []
