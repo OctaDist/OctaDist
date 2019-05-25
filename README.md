@@ -56,8 +56,8 @@ for OctaDist are available for following platform:
 [Dev-link]: https://travis-ci.org/OctaDist/OctaDist
 
 
-## Manual
-Full program manual for the end-user is available at [here][manual-link].
+## Document
+User manual is available at [https://octadist.github.io/manual.html][manual-link].
 
 [manual-link]: https://octadist.github.io/manual.html
 
