@@ -57,9 +57,14 @@ for OctaDist are available for following platform:
 
 
 ## Document
-User manual is available at [https://octadist.github.io/manual.html][manual-link].
+User manual : [https://octadist.github.io/manual.html][manual-link].
+
+Reference manual : [HTML][GUI-HTML-Link] / [PDF][GUI-PDF-Link] / [Epub][GUI-Epub-Link]
 
 [manual-link]: https://octadist.github.io/manual.html
+[GUI-HTML-Link]: https://octadist.readthedocs.io/en/latest/
+[GUI-PDF-Link]: https://readthedocs.org/projects/octadist/downloads/pdf/latest/
+[GUI-Epub-Link]: https://readthedocs.org/projects/octadist/downloads/epub/latest/
 
 ## Citation
 
