@@ -57,6 +57,7 @@ for OctaDist are available for following platform:
 
 
 ## Document
+
 User manual : [https://octadist.github.io/manual.html][manual-link].
 
 Reference manual : [HTML][GUI-HTML-Link] / [PDF][GUI-PDF-Link] / [Epub][GUI-Epub-Link]
