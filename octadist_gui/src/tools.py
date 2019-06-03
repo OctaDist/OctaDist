@@ -202,6 +202,7 @@ def find_surface_area(self, aco):
         return 1
 
     master = tk.Toplevel(self.master)
+    master.wm_iconbitmap(r"..\images\molecule.ico")
     master.title("The area of triangular face")
     master.geometry("380x500")
     master.option_add("*Font", "Arial 10")
@@ -253,6 +254,7 @@ def data_complex(self, files, acf):
         return 1
 
     master = tk.Toplevel(self.master)
+    master.wm_iconbitmap(r"..\images\molecule.ico")
     master.title("Complex info")
     master.geometry("550x500")
     master.option_add("*Font", "Arial 10")
@@ -290,6 +292,7 @@ def data_face(self, aco):
         return 1
 
     master = tk.Toplevel(self.master)
+    master.wm_iconbitmap(r"..\images\molecule.ico")
     master.title("Selected octahedral faces")
     master.geometry("550x500")
     master.option_add("*Font", "Arial 10")
@@ -339,6 +342,7 @@ def param_complex(self, acf):
         return 1
 
     master = tk.Toplevel(self.master)
+    master.wm_iconbitmap(r"..\images\molecule.ico")
     master.title("Results")
     master.geometry("380x530")
     master.option_add("*Font", "Arial 10")
@@ -402,6 +406,7 @@ def param_octa(self, aco):
         return 1
 
     master = tk.Toplevel(self.master)
+    master.wm_iconbitmap(r"..\images\molecule.ico")
     master.title("Results")
     master.geometry("380x530")
     master.option_add("*Font", "Arial 10")

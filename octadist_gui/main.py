@@ -33,53 +33,54 @@ from octadist_gui.src import (
 
 
 class OctaDist:
+    """
+    Program interface is structured as below:
+
+    +-------------------+
+    +   Program menu    +
+    +-------------------+
+    +     Frame 1       +
+    +-------------------+
+    + Frame 2 + Frame 3 +
+    +-------------------+
+    +     Frame 4       +
+    +-------------------+
+
+    Parameters
+    ----------
+    master
+        Master frame of program GUI.
+
+    Returns
+    -------
+    None : None
+
+    Notes
+    -----
+    Initialize default parameters.
+
+    file_list : list of str
+        Input files
+    atom_coord_full : array
+        Atomic labels and coordinates of metal complex.
+    atom_coord_octa : array
+        Atomic labels and coordinates of octahedral structures.
+    all_zeta : list of float
+        Computed zeta of all octahedral structures.
+    all_delta : list of float
+        Computed delta of all octahedral structures.
+    all_sigma : list of float
+        Computed sigma of all octahedral structures.
+    all_theta : list of float
+        Computed theta of all octahedral structures.
+    all_face : list of str
+        Atomic labels and coordinates of 8 faces and their opposite faces.
+    check_metal : bool
+        True if the structure is octahedron or not, False if it does not.
+
+    """
     def __init__(self, master):
-        """
-        Program interface is structured as below:
-
-        +-------------------+
-        +   Program menu    +
-        +-------------------+
-        +     Frame 1       +
-        +-------------------+
-        + Frame 2 + Frame 3 +
-        +-------------------+
-        +     Frame 4       +
-        +-------------------+
-
-        Parameters
-        ----------
-        master
-            Master frame of program GUI.
-
-        Returns
-        -------
-        None : None
-
-        Notes
-        -----
-        Initialize default parameters.
-
-        file_list : list of str
-            Input files
-        atom_coord_full : array
-            Atomic labels and coordinates of metal complex.
-        atom_coord_octa : array
-            Atomic labels and coordinates of octahedral structures.
-        all_zeta : list of float
-            Computed zeta of all octahedral structures.
-        all_delta : list of float
-            Computed delta of all octahedral structures.
-        all_sigma : list of float
-            Computed sigma of all octahedral structures.
-        all_theta : list of float
-            Computed theta of all octahedral structures.
-        all_face : list of str
-            Atomic labels and coordinates of 8 faces and their opposite faces.
-        check_metal : bool
-            True if the structure is octahedron or not, False if it does not.
-
-        """
+        # Initialize parameters
         self.file_list = []
         self.atom_coord_full = []
         self.atom_coord_octa = []
@@ -117,6 +118,7 @@ class OctaDist:
         ##############################
 
         self.master = master
+        self.master.wm_iconbitmap(r"..\images\molecule.ico")
         self.master.title(f"OctaDist {octadist_gui.__version__}")
         font = "Arial 10"
         self.master.option_add("*Font", font)
@@ -155,6 +157,7 @@ class OctaDist:
         copy_menu.add_command(label="Coordinates of Octahedral Structure", command=lambda: self.copy_octa())
         edit_menu.add_separator()
         edit_menu.add_command(label="Edit File", command=lambda: self.edit_file())
+        edit_menu.add_command(label="Run Program Scripting", command=lambda: self.script_start())
         edit_menu.add_separator()
         edit_menu.add_command(label="Clear All Results", command=lambda: self.clear_cache())
 
@@ -434,6 +437,10 @@ class OctaDist:
         """
         return self.show_grid
 
+    #################
+    # Copy and Edit #
+    #################
+
     def copy_name(self):
         """
         Copy input file name to clipboard.
@@ -570,6 +577,109 @@ class OctaDist:
         except FileNotFoundError:
             return 1
 
+    #############
+    # Scripting #
+    #############
+
+    def script_show_var(self, args):
+        for i in range(len(args)):
+            self.box_script.insert(tk.INSERT, f">>> {args[i]}")
+
+    def script_set_var(self, param, new_value):
+        self.all_var = {'cutoff_metal_ligand': self.cutoff_metal_ligand,
+                        'cutoff_global': self.cutoff_global,
+                        'cutoff_hydrogen': self.cutoff_hydrogen
+                        }
+
+        for key, value in self.all_var.items():
+            print(key, value)
+            if param == key:
+                self.all_var[key] = new_value
+
+    def script_run_command(self, event):
+        self.get_var = self.entry_script.get().strip().split()
+
+        if len(self.get_var) == 0:
+            self.box_script.insert(tk.INSERT, ">>>\n")
+            self.box_script.see(tk.END)
+            return 1
+
+        self.entry_script.delete(0, tk.END)
+
+        command = self.get_var[0].lower()
+        args = self.get_var[1:]
+
+        if command == "help":
+            help_msg = ">>> This is an interactive code console for internal scripting.\n" \
+                       ">>> \n" \
+                       ">>> Commands\n" \
+                       ">>> --------\n" \
+                       ">>> help     - Show this help info.\n" \
+                       ">>> list     - List all commands.\n" \
+                       ">>> info     - Show info of program.\n" \
+                       ">>> doc      - Show docstring of this function.\n" \
+                       ">>> show     - Show values of parameter.\n" \
+                       "               Usage: show arg1 [arg2] [arg3] [..]\n" \
+                       ">>> set      - Set new value to parameter.\n" \
+                       "               Usage: set param new_value\n" \
+                       ">>> clear    - Clear stdout/stderr.\n" \
+                       ">>> clean    - Clear stdout/stderr.\n" \
+                       ">>> restore  - Restore program settings.\n"
+            self.box_script.insert(tk.INSERT, help_msg + "\n")
+        elif command == "list":
+            all_command = "help, list, info, doc, show, set, clear, clean, restore"
+            self.box_script.insert(tk.INSERT, f">>> {all_command}\n")
+        elif command == "info":
+            self.box_script.insert(tk.INSERT, f">>> {octadist_gui.__description__}\n")
+        elif command == "doc":
+            self.box_script.insert(tk.INSERT, f">>> {self.__doc__ }\n")
+        elif command == "show":
+            try:
+                self.script_show_var(self, args)
+            except TypeError:
+                self.box_script.insert(tk.INSERT, f">>> show command needs 1 parameter\n")
+        elif command == "set":
+            try:
+                self.script_set_var(self, args[0], args[1])
+            except TypeError:
+                self.box_script.insert(tk.INSERT, f">>> set command needs 2 parameters\n")
+        elif command == "clear" or command == "clean":
+            self.box_script.delete(1.0, tk.END)
+        elif command == "restore" or command == "clean":
+            self.box_script.insert(tk.INSERT, f">>> Restore all settings")
+        else:
+            self.box_script.insert(tk.INSERT, f">>> Command \"{command}\" not found\n")
+
+        self.box_script.see(tk.END)
+
+    def script_start(self):
+        wd = tk.Toplevel(self.master)
+        wd.wm_iconbitmap(r"..\images\molecule.ico")
+        wd.title("Run Scripting")
+        wd.bind('<Return>', self.script_run_command)
+
+        self.lbl1 = tk.Label(wd, text="Output:")
+        self.lbl1.grid(padx="5", pady="5", sticky=tk.W, row=0, column=0)
+        self.box_script = tk.Text(wd, width=70, height=20)
+        self.box_script.grid(padx="5", pady="5", row=1, column=0, columnspan=2)
+        self.lbl2 = tk.Label(wd, text="Input:")
+        self.lbl2.grid(padx="5", pady="5", sticky=tk.W, row=2, column=0)
+        self.entry_script = tk.Entry(wd, width=62)
+        self.entry_script.grid(padx="5", pady="5", sticky=tk.W, row=3, column=0)
+        self.btn_script = tk.Button(wd, text="Run")
+        self.btn_script.bind('<Button-1>', self.script_run_command)
+        self.btn_script.grid(padx="5", pady="5", row=3, column=1)
+
+        self.box_script.insert(tk.INSERT, ">>> Enter your script commands\n")
+        self.box_script.insert(tk.INSERT, ">>> If you have no idea about scripting, "
+                                          "type \"help\" for getting started.\n")
+
+        wd.mainloop()
+
+    ###################
+    # Program Setting #
+    ###################
+
     def settings(self):
         """
         Program settings. User can set and adjust default values of distance parameters
@@ -653,21 +763,26 @@ class OctaDist:
             echo_outs(self, f"Show Grid   : {self.show_grid}")
             echo_outs(self, "")
 
-            master.destroy()
+            wd.destroy()
 
         def commit_cancel():
-            master.destroy()
+            wd.destroy()
 
-        master = tk.Toplevel(self.master)
-        master.title("Program settings")
-        master.option_add("*Font", "Arial 10")
+        ###################
+        # Setting: Widget #
+        ###################
 
-        frame = tk.Frame(master)
+        wd = tk.Toplevel(self.master)
+        wd.wm_iconbitmap(r"..\images\molecule.ico")
+        wd.title("Program settings")
+        wd.option_add("*Font", "Arial 10")
+
+        frame = tk.Frame(wd)
         frame.grid()
 
-        ##########
-        # cutoff #
-        ##########
+        ###################
+        # Setting: Cutoff #
+        ###################
 
         cutoff = tk.LabelFrame(frame, text="Bond Cutoff:")
         cutoff.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=0, columnspan=4)
@@ -702,9 +817,9 @@ class OctaDist:
         scale_3.configure(width=20, length=100)
         scale_3.grid(padx="10", pady="5", ipadx="10", row=1, column=2)
 
-        ###############
-        # Text editor #
-        ###############
+        ########################
+        # Setting: Text editor #
+        ########################
 
         text_editor = tk.LabelFrame(frame, text="Text editor:")
         text_editor.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=1, columnspan=4)
@@ -720,9 +835,9 @@ class OctaDist:
 
         entry_exe.insert(tk.INSERT, self.text_editor)
 
-        ############
-        # Displays #
-        ############
+        #####################
+        # Setting: Displays #
+        #####################
 
         displays = tk.LabelFrame(frame, text="Displays:")
         displays.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=2, columnspan=4)
@@ -751,9 +866,9 @@ class OctaDist:
                                     variable=var_grid, command=lambda: check_grid())
         show_grid.grid(padx="5", pady="5", ipadx="5", sticky=tk.E, row=0, column=2)
 
-        ###########
-        # Console #
-        ###########
+        ####################
+        # Setting: Console #
+        ####################
 
         button = tk.Button(frame, text="Restore settings", command=lambda: restore_settings(self))
         button.configure(width=15)
@@ -768,6 +883,10 @@ class OctaDist:
         button.grid(padx="5", pady="10", row=3, column=3)
 
         frame.mainloop()
+
+    ###################
+    # Clear All Cache #
+    ###################
 
     def clear_cache(self):
         """
@@ -822,6 +941,10 @@ class OctaDist:
         """
         self.box_result.delete(1.0, tk.END)
 
+    ################
+    # Check Update #
+    ################
+
     def check_update(self):
         """
         Check program update by comparing version of program user is using with
@@ -848,13 +971,13 @@ class OctaDist:
         os_name = platform.system()  # find the OS name
 
         if server_rev > user_rev:
-            popup.info_update()
+            popup.info_new_update()
 
             text = f"A new version {server_ver} is ready for download.\n\n" \
                    "Do you want to download now?"
-            MsgBox = messagebox.askquestion("Updates available", text, icon="warning")
+            msg_box = messagebox.askquestion("Updates available", text, icon="warning")
 
-            if MsgBox == 'yes':
+            if msg_box == 'yes':
 
                 dl_link = "https://github.com/OctaDist/OctaDist/releases/download/"
                 main_link = dl_link + "v." + server_ver + "/OctaDist-" + server_ver
@@ -879,8 +1002,16 @@ class OctaDist:
 
             else:
                 pass
+
+        elif server_rev < user_rev:
+            popup.info_using_dev()
+
         else:
             popup.info_no_update()
+
+    #####################
+    # Manipulating File #
+    #####################
 
     def open_file(self):
         """
@@ -1104,6 +1235,11 @@ class OctaDist:
             popup.err_no_file()
             return 1
 
+        d_mean = 0
+        zeta = 0
+        delta = 0
+        sigma = 0
+        theta_mean = 0
         comp_result = []
 
         # loop over number of metal complexes
@@ -1165,9 +1301,9 @@ class OctaDist:
 
 
 def main():
-    masters = tk.Tk()
-    App = OctaDist(masters)
-    masters.mainloop()
+    root = tk.Tk()
+    app = OctaDist(root)
+    root.mainloop()
 
 
 if __name__ == '__main__':

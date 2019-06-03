@@ -410,70 +410,71 @@ def calc_jahn_teller(self, acf):
         popup.err_many_files()
         return 1
 
-    root = tk.Toplevel(self.master)
-    root.title("Calculate Jahn-Teller distortion parameter")
-    root.geometry("630x550")
+    master = tk.Toplevel(self.master)
+    master.wm_iconbitmap(r"..\images\molecule.ico")
+    master.title("Calculate Jahn-Teller distortion parameter")
+    master.geometry("630x550")
 
     self.coord_A = []
     self.coord_B = []
 
-    self.lbl = tk.Label(root, text="Group A")
+    self.lbl = tk.Label(master, text="Group A")
     self.lbl.config(width=12)
     self.lbl.grid(padx="10", pady="5", row=0, column=0, columnspan=2)
 
-    self.lbl = tk.Label(root, text="Group B")
+    self.lbl = tk.Label(master, text="Group B")
     self.lbl.config(width=12)
     self.lbl.grid(padx="10", pady="5", row=0, column=2, columnspan=2)
 
-    self.box_1 = tkscrolled.ScrolledText(root, height="12", width="40", wrap="word", undo="True")
+    self.box_1 = tkscrolled.ScrolledText(master, height="12", width="40", wrap="word", undo="True")
     self.box_1.grid(padx="5", pady="5", row=1, column=0, columnspan=2)
 
-    self.box_2 = tkscrolled.ScrolledText(root, height="12", width="40", wrap="word", undo="True")
+    self.box_2 = tkscrolled.ScrolledText(master, height="12", width="40", wrap="word", undo="True")
     self.box_2.grid(padx="5", pady="5", row=1, column=2, columnspan=2)
 
-    self.btn = tk.Button(root, text="Select ligand set A", command=lambda: pick_atom(self, acf, group="A"))
+    self.btn = tk.Button(master, text="Select ligand set A", command=lambda: pick_atom(self, acf, group="A"))
     self.btn.config(width=15, relief=tk.RAISED)
     self.btn.grid(padx="10", pady="5", row=2, column=0, columnspan=2)
 
-    self.btn = tk.Button(root, text="Select ligand set B", command=lambda: pick_atom(self, acf, group="B"))
+    self.btn = tk.Button(master, text="Select ligand set B", command=lambda: pick_atom(self, acf, group="B"))
     self.btn.config(width=15, relief=tk.RAISED)
     self.btn.grid(padx="10", pady="5", row=2, column=2, columnspan=2)
 
-    self.btn = tk.Button(root, text="Calculate parameter", command=lambda: plot_fit_plane(self, self.acf))
+    self.btn = tk.Button(master, text="Calculate parameter", command=lambda: plot_fit_plane(self, self.acf))
     self.btn.config(width=15, relief=tk.RAISED)
     self.btn.grid(padx="10", pady="5", row=3, column=0, columnspan=2)
 
-    self.btn = tk.Button(root, text="Clear all", command=lambda: clear_text(self))
+    self.btn = tk.Button(master, text="Clear all", command=lambda: clear_text(self))
     self.btn.config(width=15, relief=tk.RAISED)
     self.btn.grid(padx="10", pady="5", row=3, column=2, columnspan=2)
 
-    self.lbl = tk.Label(root, text="Supplementary angles between two planes (in degree)")
+    self.lbl = tk.Label(master, text="Supplementary angles between two planes (in degree)")
     self.lbl.grid(pady="10", row=4, columnspan=4)
 
-    self.lbl_angle1 = tk.Label(root, text="Angle 1")
+    self.lbl_angle1 = tk.Label(master, text="Angle 1")
     self.lbl_angle1.grid(pady="5", row=5, column=0)
-    self.box_angle1 = tk.Entry(root, width="20", justify='center')
+    self.box_angle1 = tk.Entry(master, width="20", justify='center')
     self.box_angle1.grid(row=5, column=1, sticky=tk.W)
 
-    self.lbl_angle2 = tk.Label(root, text="Angle 2")
+    self.lbl_angle2 = tk.Label(master, text="Angle 2")
     self.lbl_angle2.grid(pady="5", row=6, column=0)
-    self.box_angle2 = tk.Entry(root, width="20", justify='center')
+    self.box_angle2 = tk.Entry(master, width="20", justify='center')
     self.box_angle2.grid(row=6, column=1, sticky=tk.W)
 
-    self.lbl = tk.Label(root, text="The equation of the planes")
+    self.lbl = tk.Label(master, text="The equation of the planes")
     self.lbl.grid(pady="10", row=7, columnspan=4)
 
-    self.lbl_eq1 = tk.Label(root, text="Plane A ")
+    self.lbl_eq1 = tk.Label(master, text="Plane A ")
     self.lbl_eq1.grid(pady="5", row=8, column=0)
-    self.box_eq1 = tk.Entry(root, width="60", justify='center')
+    self.box_eq1 = tk.Entry(master, width="60", justify='center')
     self.box_eq1.grid(pady="5", row=8, column=1, columnspan=2, sticky=tk.W)
 
-    self.lbl_eq2 = tk.Label(root, text="Plane B ")
+    self.lbl_eq2 = tk.Label(master, text="Plane B ")
     self.lbl_eq2.grid(pady="5", row=9, column=0)
-    self.box_eq2 = tk.Entry(root, width="60", justify='center')
+    self.box_eq2 = tk.Entry(master, width="60", justify='center')
     self.box_eq2.grid(pady="5", row=9, column=1, columnspan=2, sticky=tk.W)
 
-    root.mainloop()
+    master.mainloop()
 
 
 def calc_rmsd(self, acf):

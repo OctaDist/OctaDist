@@ -51,6 +51,7 @@ def show_help(self):
 
     """
     master = tk.Toplevel(self)
+    master.wm_iconbitmap(r"..\images\molecule.ico")
     master.title("Program Help")
     master.geometry("550x600")
     master.option_add("*Font", "Arial 10")
@@ -343,7 +344,7 @@ def info_save_results(file):
     showinfo("Info", f"Data has been saved to {file}")
 
 
-def info_update():
+def info_new_update():
     """
     Show this info popup when new version is available for update.
 
@@ -355,6 +356,18 @@ def info_update():
     showinfo("Info", "New updates available!")
 
 
+def info_using_dev():
+    """
+    Show this info popup if user is using a development build version.
+
+    Returns
+    -------
+    None : None
+
+    """
+    showinfo("Info", "You are using a development build version!")
+
+
 def info_no_update():
     """
     Show this info popup if program is the latest version.
@@ -364,7 +377,7 @@ def info_no_update():
     None : None
 
     """
-    showinfo("Info", "You already have the latest version of OctaDist.")
+    showinfo("Info", "You already have the latest version.")
 
 
 def warn_no_metal():
