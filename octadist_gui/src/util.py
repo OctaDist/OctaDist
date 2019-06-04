@@ -546,24 +546,13 @@ class CalcRMSD:
     Rotated RMSD      : 1.592468
 
     """
-    def __init__(self, self_octadist, acf):
+    def __init__(self, self_octadist, strct1, strct2):
         self.self_octadist = self_octadist
-        self.acf = acf
-        self.strct_1 = self.acf[0]
-        self.strct_2 = self.acf[1]
+        self.strct_1 = strct1
+        self.strct_2 = strct2
 
-    def prepare_coord(self):
         self.atom_strc_1, self.coord_strct_1 = self.strct_1
         self.atom_strc_2, self.coord_strct_2 = self.strct_2
-
-        if len(self.atom_strc_1) != len(self.atom_strc_2):
-            popup.err_not_equal_atom()
-            return 1
-
-        for i in range(len(self.atom_strc_1)):
-            if self.atom_strc_1[i] != self.atom_strc_2[i]:
-                popup.err_atom_not_match(i + 1)
-                return 1
 
     def calc_rmsd_normal(self):
         self.rmsd_normal = rmsd.rmsd(self.coord_strct_1, self.coord_strct_2)
@@ -648,8 +637,22 @@ def calc_rmsd(self_octadist, acf):
         popup.err_only_2_files()
         return 1
 
-    run_rmsd = CalcRMSD(self_octadist, acf)
-    run_rmsd.prepare_coord()
+    strct1 = acf[0]
+    strct2 = acf[1]
+
+    atom_strc_1, coord_strct_1 = strct1
+    atom_strc_2, coord_strct_2 = strct2
+
+    if len(atom_strc_1) != len(atom_strc_2):
+        popup.err_not_equal_atom()
+        return 1
+
+    for i in range(len(atom_strc_1)):
+        if atom_strc_1[i] != atom_strc_2[i]:
+            popup.err_atom_not_match(i + 1)
+            return 1
+
+    run_rmsd = CalcRMSD(self_octadist, strct1, strct2)
     run_rmsd.calc_rmsd_normal()
     run_rmsd.calc_rmsd_translate()
     run_rmsd.calc_rmsd_rotate()
