@@ -497,38 +497,7 @@ class CalcJahnTeller:
         self.wd.mainloop()
 
 
-def calc_jahn_teller(self_octadist, master, acf):
-    """
-    Calculate Jahn-Teller distortion parameter
-
-    Parameters
-    ----------
-    self_octadist : None
-        Self reference having passed from OctaDist class.
-    master : None
-        Master frame of main program.
-    acf : list
-        Atomic labels and coordinates of full complex.
-
-    Returns
-    -------
-    None : None
-
-    """
-    if len(acf) == 0:
-        popup.err_no_file()
-        return 1
-    elif len(acf) > 1:
-        popup.err_many_files()
-        return 1
-
-    run_jt = CalcJahnTeller(self_octadist, master, acf)
-    run_jt.find_bond()
-    run_jt.create_widget()
-    run_jt.start()
-
-
-def calc_rmsd(self, acf):
+class CalcRMSD:
     """
     Calculate root mean squared displacement of atoms in complex, RMSD.
 
@@ -540,11 +509,11 @@ def calc_rmsd(self, acf):
     Returns
     -------
     rmsd_normal : int or float
-        Normal RMSD,
+        Normal RMSD.
     rmsd_translate : int or float
-        Translate RMSD (re-centered),
+        Translate RMSD (re-centered).
     rmsd_rotate : int or float
-        Kabsch RMSD (rotated),
+        Kabsch RMSD (rotated).
     
     References
     ----------
@@ -577,44 +546,112 @@ def calc_rmsd(self, acf):
     Rotated RMSD      : 1.592468
 
     """
+    def __init__(self, self_octadist, acf):
+        self.self_octadist = self_octadist
+        self.acf = acf
+        self.strct_1 = self.acf[0]
+        self.strct_2 = self.acf[1]
+
+    def prepare_coord(self):
+        self.atom_strc_1, self.coord_strct_1 = self.strct_1
+        self.atom_strc_2, self.coord_strct_2 = self.strct_2
+
+        if len(self.atom_strc_1) != len(self.atom_strc_2):
+            popup.err_not_equal_atom()
+            return 1
+
+        for i in range(len(self.atom_strc_1)):
+            if self.atom_strc_1[i] != self.atom_strc_2[i]:
+                popup.err_atom_not_match(i + 1)
+                return 1
+
+    def calc_rmsd_normal(self):
+        self.rmsd_normal = rmsd.rmsd(self.coord_strct_1, self.coord_strct_2)
+
+    def calc_rmsd_translate(self):
+        # Manipulate recenter
+        self.coord_strct_1 -= rmsd.centroid(self.coord_strct_1)
+        self.coord_strct_2 -= rmsd.centroid(self.coord_strct_2)
+
+        self.rmsd_translate = rmsd.rmsd(self.coord_strct_1, self.coord_strct_2)
+
+        # Rotate
+        U = rmsd.kabsch(self.coord_strct_1, self.coord_strct_2)
+        self.coord_strct_1 = np.dot(self.coord_strct_1, U)
+
+    def calc_rmsd_rotate(self):
+        self.rmsd_rotate = rmsd.rmsd(self.coord_strct_1, self.coord_strct_2)
+
+    def show_result(self):
+        echo_outs(self.self_octadist, "RMSD between two complexes")
+        echo_outs(self.self_octadist, "**************************")
+        echo_outs(self.self_octadist, f"Normal RMSD       : {self.rmsd_normal:3.6f}")
+        echo_outs(self.self_octadist, f"Re-centered RMSD  : {self.rmsd_translate:3.6f}")
+        echo_outs(self.self_octadist, f"Rotated RMSD      : {self.rmsd_rotate:3.6f}")
+        echo_outs(self.self_octadist, "")
+
+    def get_result(self):
+        return self.rmsd_normal, self.rmsd_translate, self.rmsd_rotate
+
+
+def calc_jahn_teller(self_octadist, master, acf):
+    """
+    Calculate Jahn-Teller distortion parameter
+
+    Parameters
+    ----------
+    self_octadist : None
+        Self reference having passed from OctaDist class.
+    master : None
+        Master frame of main program.
+    acf : list
+        Atomic labels and coordinates of full complex.
+
+    Returns
+    -------
+    None : None
+
+    """
+    if len(acf) == 0:
+        popup.err_no_file()
+        return 1
+    elif len(acf) > 1:
+        popup.err_many_files()
+        return 1
+
+    run_jt = CalcJahnTeller(self_octadist, master, acf)
+    run_jt.find_bond()
+    run_jt.create_widget()
+    run_jt.start()
+
+
+def calc_rmsd(self_octadist, acf):
+    """
+    Calculate root mean squared displacement of atoms in complex, RMSD.
+
+    Parameters
+    ----------
+    acf : list
+        Atomic labels and coordinates of full complex.
+
+    Returns
+    -------
+    rmsd_normal : int or float
+        Normal RMSD.
+    rmsd_translate : int or float
+        Translate RMSD (re-centered).
+    rmsd_rotate : int or float
+        Kabsch RMSD (rotated).
+
+    """
     if len(acf) != 2:
         popup.err_only_2_files()
         return 1
 
-    strct_1 = acf[0]
-    strct_2 = acf[1]
+    run_rmsd = CalcRMSD(self_octadist, acf)
+    run_rmsd.prepare_coord()
+    run_rmsd.calc_rmsd_normal()
+    run_rmsd.calc_rmsd_translate()
+    run_rmsd.calc_rmsd_rotate()
+    run_rmsd.show_result()
 
-    atom_strc_1, coord_strct_1 = strct_1
-    atom_strc_2, coord_strct_2 = strct_2
-
-    if len(atom_strc_1) != len(atom_strc_2):
-        popup.err_not_equal_atom()
-        return 1
-
-    for i in range(len(atom_strc_1)):
-        if atom_strc_1[i] != atom_strc_2[i]:
-            popup.err_atom_not_match(i + 1)
-            return 1
-
-    rmsd_normal = rmsd.rmsd(coord_strct_1, coord_strct_2)
-
-    # Manipulate recenter
-    coord_strct_1 -= rmsd.centroid(coord_strct_1)
-    coord_strct_2 -= rmsd.centroid(coord_strct_2)
-
-    rmsd_translate = rmsd.rmsd(coord_strct_1, coord_strct_2)
-
-    # Rotate
-    U = rmsd.kabsch(coord_strct_1, coord_strct_2)
-    coord_strct_1 = np.dot(coord_strct_1, U)
-
-    rmsd_rotate = rmsd.rmsd(coord_strct_1, coord_strct_2)
-
-    echo_outs(self, "RMSD between two complexes")
-    echo_outs(self, "**************************")
-    echo_outs(self, f"Normal RMSD       : {rmsd_normal:3.6f}")
-    echo_outs(self, f"Re-centered RMSD  : {rmsd_translate:3.6f}")
-    echo_outs(self, f"Rotated RMSD      : {rmsd_rotate:3.6f}")
-    echo_outs(self, "")
-
-    return rmsd_normal, rmsd_translate, rmsd_rotate
