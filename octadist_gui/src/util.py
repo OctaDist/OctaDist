@@ -27,32 +27,124 @@ from mpl_toolkits.mplot3d import Axes3D
 from octadist_gui.src import echo_outs, elements, linear, popup, tools
 
 
-def calc_jahn_teller(self, acf):
+class CalcJahnTeller:
     """
     Calculate angular Jahn-Teller distortion parameter.
 
     Parameters
     ----------
+    self_octadist : None
+        Self reference having passed from OctaDist class.
+    master : None
+        Master frame of main program.
     acf : list
         Atomic labels and coordinates of full complex.
-    
+
     Returns
     -------
     None : None
-    
+
     """
+    def __init__(self, self_octadist, master, acf):
+        self.self_octadist = self_octadist
+        self.master = master
+
+        # prepare atomic symbols and coordinates
+        self.acf = acf
+        self.fal = self.acf[0][0]
+        self.fcl = self.acf[0][1]
+
+        self.bond_list = []
+        self.coord_A = []
+        self.coord_B = []
+
+        self.find_bond()
+        self.create_widget()
+        self.start()
+
+    def create_widget(self):
+        self.wd = tk.Toplevel(self.master)
+        self.wd.wm_iconbitmap(r"..\images\molecule.ico")
+        self.wd.title("Calculate Jahn-Teller distortion parameter")
+        self.wd.geometry("630x550")
+
+        self.lbl = tk.Label(self.wd, text="Group A")
+        self.lbl.config(width=12)
+        self.lbl.grid(padx="10", pady="5", row=0, column=0, columnspan=2)
+
+        self.lbl = tk.Label(self.wd, text="Group B")
+        self.lbl.config(width=12)
+        self.lbl.grid(padx="10", pady="5", row=0, column=2, columnspan=2)
+
+        self.box_1 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
+        self.box_1.grid(padx="5", pady="5", row=1, column=0, columnspan=2)
+
+        self.box_2 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
+        self.box_2.grid(padx="5", pady="5", row=1, column=2, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Select ligand set A", command=lambda: self.pick_atom(group="A"))
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=2, column=0, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Select ligand set B", command=lambda: self.pick_atom(group="B"))
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=2, column=2, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Calculate parameter", command=lambda: self.plot_fit_plane(self.acf))
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=3, column=0, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Clear all", command=lambda: self.clear_text())
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=3, column=2, columnspan=2)
+
+        self.lbl = tk.Label(self.wd, text="Supplementary angles between two planes (in degree)")
+        self.lbl.grid(pady="10", row=4, columnspan=4)
+
+        self.lbl_angle1 = tk.Label(self.wd, text="Angle 1")
+        self.lbl_angle1.grid(pady="5", row=5, column=0)
+        self.box_angle1 = tk.Entry(self.wd, width="20", justify='center')
+        self.box_angle1.grid(row=5, column=1, sticky=tk.W)
+
+        self.lbl_angle2 = tk.Label(self.wd, text="Angle 2")
+        self.lbl_angle2.grid(pady="5", row=6, column=0)
+        self.box_angle2 = tk.Entry(self.wd, width="20", justify='center')
+        self.box_angle2.grid(row=6, column=1, sticky=tk.W)
+
+        self.lbl = tk.Label(self.wd, text="The equation of the planes")
+        self.lbl.grid(pady="10", row=7, columnspan=4)
+
+        self.lbl_eq1 = tk.Label(self.wd, text="Plane A ")
+        self.lbl_eq1.grid(pady="5", row=8, column=0)
+        self.box_eq1 = tk.Entry(self.wd, width="60", justify='center')
+        self.box_eq1.grid(pady="5", row=8, column=1, columnspan=2, sticky=tk.W)
+
+        self.lbl_eq2 = tk.Label(self.wd, text="Plane B ")
+        self.lbl_eq2.grid(pady="5", row=9, column=0)
+        self.box_eq2 = tk.Entry(self.wd, width="60", justify='center')
+        self.box_eq2.grid(pady="5", row=9, column=1, columnspan=2, sticky=tk.W)
+
+    def find_bond(self):
+        """
+        Find bonds
+
+        Returns
+        -------
+        None : None
+
+        """
+        self.bond_list = tools.find_bonds(self.self_octadist, self.fal, self.fcl)
+
     #################
     # Picking atoms #
     #################
 
-    def pick_atom(self, acf, group):
+    def pick_atom(self, group):
         """
         On-mouse pick atom and get XYZ coordinate.
 
         Parameters
         ----------
-        acf : list
-            Atomic labels and coordinates of full complex.
         group : str
             Group A or B.
 
@@ -61,27 +153,23 @@ def calc_jahn_teller(self, acf):
         None : None
 
         """
-        fal, fcl = acf[0]
-
         fig = plt.figure()
         # fig = plt.figure(figsize=(5, 4), dpi=100)
         ax = Axes3D(fig)
         # ax = fig.add_subplot(111, projection='3d')
 
         # Plot all atoms
-        for i in range(len(fcl)):
+        for i in range(len(self.fcl)):
             # Determine atomic number
-            n = elements.check_atom(fal[i])
-            ax.scatter(fcl[i][0], fcl[i][1], fcl[i][2],
+            n = elements.check_atom(self.fal[i])
+            ax.scatter(self.fcl[i][0], self.fcl[i][1], self.fcl[i][2],
                        marker='o', linewidths=0.5, edgecolors='black', picker=5,
-                       color=elements.check_color(n), label=f"{fal[i]}",
+                       color=elements.check_color(n), label=f"{self.fal[i]}",
                        s=elements.check_radii(n) * 300)
 
-        # Calculate distance
-        bond_list = tools.find_bonds(self, fal, fcl)
         atoms_pair = []
-        for i in range(len(bond_list)):
-            get_atoms = bond_list[i]
+        for i in range(len(self.bond_list)):
+            get_atoms = self.bond_list[i]
             x, y, z = zip(*get_atoms)
             atoms = list(zip(x, y, z))
             atoms_pair.append(atoms)
@@ -115,7 +203,7 @@ def calc_jahn_teller(self, acf):
         ax.set_title('Full complex', fontsize="12")
         ax.grid(True)
 
-        def insert_text(self, text, coord, group):
+        def insert_text(text, coord, group):
             """
             Insert text in boxes.
 
@@ -153,16 +241,16 @@ def calc_jahn_teller(self, acf):
         def on_pick(event):
             ind = event.ind[0]
             x, y, z = event.artist._offsets3d
-            for i in range(len(fal)):
-                if x[ind] == fcl[i][0]:
-                    if y[ind] == fcl[i][1]:
-                        if z[ind] == fcl[i][2]:
-                            atom = fal[i]
+            for i in range(len(self.fal)):
+                if x[ind] == self.fcl[i][0]:
+                    if y[ind] == self.fcl[i][1]:
+                        if z[ind] == self.fcl[i][2]:
+                            atom = self.fal[i]
                             break
 
             results = f"{i + 1}  {atom}  :  {x[ind]} {y[ind]} {z[ind]}"
             coord = [x[ind], y[ind], z[ind]]
-            insert_text(self, results, coord, group)
+            insert_text(results, coord, group)
             # Highlight selected atom
             index = elements.check_atom(atom)
             ax.scatter(x[ind], y[ind], z[ind],
@@ -181,7 +269,7 @@ def calc_jahn_teller(self, acf):
     # Find best fit plane to selected atoms #
     #########################################
 
-    def find_fit_plane(coord):
+    def find_fit_plane(self, coord):
         """
         Find best fit plane to the given data points (atoms).
 
@@ -199,14 +287,9 @@ def calc_jahn_teller(self, acf):
         abcd : tuple
             Coefficient of the equation of the plane.
 
-        Notes
-        -----
-
-
         Examples
         --------
-        Example of set of coordinate of atoms.
-
+        >>> Example of set of coordinate of atoms.
         points = [(1.1, 2.1, 8.1),
                   (3.2, 4.2, 8.0),
                   (5.3, 1.3, 8.2),
@@ -221,7 +304,6 @@ def calc_jahn_teller(self, acf):
         >> ax.scatter(xs, ys, zs)
 
         """
-
         def plane(x, y, params):
             a = params[0]
             b = params[1]
@@ -293,13 +375,13 @@ def calc_jahn_teller(self, acf):
         # Find eq of the plane #
         ########################
 
-        xx, yy, z, abcd = find_fit_plane(self.coord_A)
+        xx, yy, z, abcd = self.find_fit_plane(self.coord_A)
         plane_A = (xx, yy, z)
         a1, b1, c1, d1 = abcd
 
         self.box_eq1.insert(tk.INSERT, f"{a1:8.5f}x {b1:+8.5f}y {c1:+8.5f}z {d1:+8.5f} = 0")
 
-        xx, yy, z, abcd = find_fit_plane(self.coord_B)
+        xx, yy, z, abcd = self.find_fit_plane(self.coord_B)
         plane_B = (xx, yy, z)
         a2, b2, c2, d2 = abcd
 
@@ -319,27 +401,23 @@ def calc_jahn_teller(self, acf):
         # Plot planes #
         ###############
 
-        fal, fcl = acf[0]
-
         fig = plt.figure()
         # fig = plt.figure(figsize=(5, 4), dpi=100)
         ax = Axes3D(fig)
         # ax = fig.add_subplot(111, projection='3d')
 
         # Plot all atoms
-        for i in range(len(fcl)):
+        for i in range(len(self.fcl)):
             # Determine atomic number
-            n = elements.check_atom(fal[i])
-            ax.scatter(fcl[i][0], fcl[i][1], fcl[i][2],
+            n = elements.check_atom(self.fal[i])
+            ax.scatter(self.fcl[i][0], self.fcl[i][1], self.fcl[i][2],
                        marker='o', linewidths=0.5, edgecolors='black', picker=5,
-                       color=elements.check_color(n), label=f"{fal[i]}",
+                       color=elements.check_color(n), label=f"{self.fal[i]}",
                        s=elements.check_radii(n) * 300)
 
-        # Calculate distance
-        bond_list = tools.find_bonds(self, fal, fcl)
         atoms_pair = []
-        for i in range(len(bond_list)):
-            get_atoms = bond_list[i]
+        for i in range(len(self.bond_list)):
+            get_atoms = self.bond_list[i]
             x, y, z = zip(*get_atoms)
             atoms = list(zip(x, y, z))
             atoms_pair.append(atoms)
@@ -414,78 +492,20 @@ def calc_jahn_teller(self, acf):
         self.coord_A = []
         self.coord_B = []
 
-    if len(acf) == 0:
-        popup.err_no_file()
-        return 1
-    elif len(acf) > 1:
-        popup.err_many_files()
-        return 1
+        try:
+            plt.close("all")
+        except AttributeError:
+            pass
 
-    master = tk.Toplevel(self.master)
-    master.wm_iconbitmap(r"..\images\molecule.ico")
-    master.title("Calculate Jahn-Teller distortion parameter")
-    master.geometry("630x550")
+    def start(self):
+        if len(self.acf) == 0:
+            popup.err_no_file()
+            return 1
+        elif len(self.acf) > 1:
+            popup.err_many_files()
+            return 1
 
-    self.coord_A = []
-    self.coord_B = []
-
-    self.lbl = tk.Label(master, text="Group A")
-    self.lbl.config(width=12)
-    self.lbl.grid(padx="10", pady="5", row=0, column=0, columnspan=2)
-
-    self.lbl = tk.Label(master, text="Group B")
-    self.lbl.config(width=12)
-    self.lbl.grid(padx="10", pady="5", row=0, column=2, columnspan=2)
-
-    self.box_1 = tkscrolled.ScrolledText(master, height="12", width="40", wrap="word", undo="True")
-    self.box_1.grid(padx="5", pady="5", row=1, column=0, columnspan=2)
-
-    self.box_2 = tkscrolled.ScrolledText(master, height="12", width="40", wrap="word", undo="True")
-    self.box_2.grid(padx="5", pady="5", row=1, column=2, columnspan=2)
-
-    self.btn = tk.Button(master, text="Select ligand set A", command=lambda: pick_atom(self, acf, group="A"))
-    self.btn.config(width=15, relief=tk.RAISED)
-    self.btn.grid(padx="10", pady="5", row=2, column=0, columnspan=2)
-
-    self.btn = tk.Button(master, text="Select ligand set B", command=lambda: pick_atom(self, acf, group="B"))
-    self.btn.config(width=15, relief=tk.RAISED)
-    self.btn.grid(padx="10", pady="5", row=2, column=2, columnspan=2)
-
-    self.btn = tk.Button(master, text="Calculate parameter", command=lambda: plot_fit_plane(self, acf))
-    self.btn.config(width=15, relief=tk.RAISED)
-    self.btn.grid(padx="10", pady="5", row=3, column=0, columnspan=2)
-
-    self.btn = tk.Button(master, text="Clear all", command=lambda: clear_text(self))
-    self.btn.config(width=15, relief=tk.RAISED)
-    self.btn.grid(padx="10", pady="5", row=3, column=2, columnspan=2)
-
-    self.lbl = tk.Label(master, text="Supplementary angles between two planes (in degree)")
-    self.lbl.grid(pady="10", row=4, columnspan=4)
-
-    self.lbl_angle1 = tk.Label(master, text="Angle 1")
-    self.lbl_angle1.grid(pady="5", row=5, column=0)
-    self.box_angle1 = tk.Entry(master, width="20", justify='center')
-    self.box_angle1.grid(row=5, column=1, sticky=tk.W)
-
-    self.lbl_angle2 = tk.Label(master, text="Angle 2")
-    self.lbl_angle2.grid(pady="5", row=6, column=0)
-    self.box_angle2 = tk.Entry(master, width="20", justify='center')
-    self.box_angle2.grid(row=6, column=1, sticky=tk.W)
-
-    self.lbl = tk.Label(master, text="The equation of the planes")
-    self.lbl.grid(pady="10", row=7, columnspan=4)
-
-    self.lbl_eq1 = tk.Label(master, text="Plane A ")
-    self.lbl_eq1.grid(pady="5", row=8, column=0)
-    self.box_eq1 = tk.Entry(master, width="60", justify='center')
-    self.box_eq1.grid(pady="5", row=8, column=1, columnspan=2, sticky=tk.W)
-
-    self.lbl_eq2 = tk.Label(master, text="Plane B ")
-    self.lbl_eq2.grid(pady="5", row=9, column=0)
-    self.box_eq2 = tk.Entry(master, width="60", justify='center')
-    self.box_eq2.grid(pady="5", row=9, column=1, columnspan=2, sticky=tk.W)
-
-    master.mainloop()
+        self.wd.mainloop()
 
 
 def calc_rmsd(self, acf):

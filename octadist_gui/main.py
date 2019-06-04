@@ -199,7 +199,7 @@ class OctaDist:
         tools_menu.add_command(label="Calculate Surface Area",
                                command=lambda: tools.find_surface_area(self, self.atom_coord_octa))
         tools_menu.add_command(label="Calculate Jahn-Teller Distortion Parameter",
-                               command=lambda: util.calc_jahn_teller(self, self.atom_coord_full))
+                               command=lambda: util.CalcJahnTeller(self, self.master, self.atom_coord_full))
         tools_menu.add_command(label="Calculate RMSD", command=lambda: util.calc_rmsd(self, self.atom_coord_full))
 
         # Help

@@ -50,12 +50,12 @@ def show_help(self):
     None : None
 
     """
-    master = tk.Toplevel(self)
-    master.wm_iconbitmap(r"..\images\molecule.ico")
-    master.title("Program Help")
-    master.geometry("550x600")
-    master.option_add("*Font", "Arial 10")
-    frame = tk.Frame(master)
+    wd = tk.Toplevel(self)
+    wd.wm_iconbitmap(r"..\images\molecule.ico")
+    wd.title("Program Help")
+    wd.geometry("550x600")
+    wd.option_add("*Font", "Arial 10")
+    frame = tk.Frame(wd)
     frame.grid()
 
     # Usage
