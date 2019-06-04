@@ -58,72 +58,6 @@ class CalcJahnTeller:
         self.coord_A = []
         self.coord_B = []
 
-        self.find_bond()
-        self.create_widget()
-        self.start()
-
-    def create_widget(self):
-        self.wd = tk.Toplevel(self.master)
-        self.wd.wm_iconbitmap(r"..\images\molecule.ico")
-        self.wd.title("Calculate Jahn-Teller distortion parameter")
-        self.wd.geometry("630x550")
-
-        self.lbl = tk.Label(self.wd, text="Group A")
-        self.lbl.config(width=12)
-        self.lbl.grid(padx="10", pady="5", row=0, column=0, columnspan=2)
-
-        self.lbl = tk.Label(self.wd, text="Group B")
-        self.lbl.config(width=12)
-        self.lbl.grid(padx="10", pady="5", row=0, column=2, columnspan=2)
-
-        self.box_1 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
-        self.box_1.grid(padx="5", pady="5", row=1, column=0, columnspan=2)
-
-        self.box_2 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
-        self.box_2.grid(padx="5", pady="5", row=1, column=2, columnspan=2)
-
-        self.btn = tk.Button(self.wd, text="Select ligand set A", command=lambda: self.pick_atom(group="A"))
-        self.btn.config(width=15, relief=tk.RAISED)
-        self.btn.grid(padx="10", pady="5", row=2, column=0, columnspan=2)
-
-        self.btn = tk.Button(self.wd, text="Select ligand set B", command=lambda: self.pick_atom(group="B"))
-        self.btn.config(width=15, relief=tk.RAISED)
-        self.btn.grid(padx="10", pady="5", row=2, column=2, columnspan=2)
-
-        self.btn = tk.Button(self.wd, text="Calculate parameter", command=lambda: self.plot_fit_plane(self.acf))
-        self.btn.config(width=15, relief=tk.RAISED)
-        self.btn.grid(padx="10", pady="5", row=3, column=0, columnspan=2)
-
-        self.btn = tk.Button(self.wd, text="Clear all", command=lambda: self.clear_text())
-        self.btn.config(width=15, relief=tk.RAISED)
-        self.btn.grid(padx="10", pady="5", row=3, column=2, columnspan=2)
-
-        self.lbl = tk.Label(self.wd, text="Supplementary angles between two planes (in degree)")
-        self.lbl.grid(pady="10", row=4, columnspan=4)
-
-        self.lbl_angle1 = tk.Label(self.wd, text="Angle 1")
-        self.lbl_angle1.grid(pady="5", row=5, column=0)
-        self.box_angle1 = tk.Entry(self.wd, width="20", justify='center')
-        self.box_angle1.grid(row=5, column=1, sticky=tk.W)
-
-        self.lbl_angle2 = tk.Label(self.wd, text="Angle 2")
-        self.lbl_angle2.grid(pady="5", row=6, column=0)
-        self.box_angle2 = tk.Entry(self.wd, width="20", justify='center')
-        self.box_angle2.grid(row=6, column=1, sticky=tk.W)
-
-        self.lbl = tk.Label(self.wd, text="The equation of the planes")
-        self.lbl.grid(pady="10", row=7, columnspan=4)
-
-        self.lbl_eq1 = tk.Label(self.wd, text="Plane A ")
-        self.lbl_eq1.grid(pady="5", row=8, column=0)
-        self.box_eq1 = tk.Entry(self.wd, width="60", justify='center')
-        self.box_eq1.grid(pady="5", row=8, column=1, columnspan=2, sticky=tk.W)
-
-        self.lbl_eq2 = tk.Label(self.wd, text="Plane B ")
-        self.lbl_eq2.grid(pady="5", row=9, column=0)
-        self.box_eq2 = tk.Entry(self.wd, width="60", justify='center')
-        self.box_eq2.grid(pady="5", row=9, column=1, columnspan=2, sticky=tk.W)
-
     def find_bond(self):
         """
         Find bonds
@@ -497,15 +431,101 @@ class CalcJahnTeller:
         except AttributeError:
             pass
 
-    def start(self):
-        if len(self.acf) == 0:
-            popup.err_no_file()
-            return 1
-        elif len(self.acf) > 1:
-            popup.err_many_files()
-            return 1
+    def create_widget(self):
+        self.wd = tk.Toplevel(self.master)
+        self.wd.wm_iconbitmap(r"..\images\molecule.ico")
+        self.wd.title("Calculate Jahn-Teller distortion parameter")
+        self.wd.geometry("630x550")
 
+        self.lbl = tk.Label(self.wd, text="Group A")
+        self.lbl.config(width=12)
+        self.lbl.grid(padx="10", pady="5", row=0, column=0, columnspan=2)
+
+        self.lbl = tk.Label(self.wd, text="Group B")
+        self.lbl.config(width=12)
+        self.lbl.grid(padx="10", pady="5", row=0, column=2, columnspan=2)
+
+        self.box_1 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
+        self.box_1.grid(padx="5", pady="5", row=1, column=0, columnspan=2)
+
+        self.box_2 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
+        self.box_2.grid(padx="5", pady="5", row=1, column=2, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Select ligand set A", command=lambda: self.pick_atom(group="A"))
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=2, column=0, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Select ligand set B", command=lambda: self.pick_atom(group="B"))
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=2, column=2, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Calculate parameter", command=lambda: self.plot_fit_plane(self.acf))
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=3, column=0, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Clear all", command=lambda: self.clear_text())
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=3, column=2, columnspan=2)
+
+        self.lbl = tk.Label(self.wd, text="Supplementary angles between two planes (in degree)")
+        self.lbl.grid(pady="10", row=4, columnspan=4)
+
+        self.lbl_angle1 = tk.Label(self.wd, text="Angle 1")
+        self.lbl_angle1.grid(pady="5", row=5, column=0)
+        self.box_angle1 = tk.Entry(self.wd, width="20", justify='center')
+        self.box_angle1.grid(row=5, column=1, sticky=tk.W)
+
+        self.lbl_angle2 = tk.Label(self.wd, text="Angle 2")
+        self.lbl_angle2.grid(pady="5", row=6, column=0)
+        self.box_angle2 = tk.Entry(self.wd, width="20", justify='center')
+        self.box_angle2.grid(row=6, column=1, sticky=tk.W)
+
+        self.lbl = tk.Label(self.wd, text="The equation of the planes")
+        self.lbl.grid(pady="10", row=7, columnspan=4)
+
+        self.lbl_eq1 = tk.Label(self.wd, text="Plane A ")
+        self.lbl_eq1.grid(pady="5", row=8, column=0)
+        self.box_eq1 = tk.Entry(self.wd, width="60", justify='center')
+        self.box_eq1.grid(pady="5", row=8, column=1, columnspan=2, sticky=tk.W)
+
+        self.lbl_eq2 = tk.Label(self.wd, text="Plane B ")
+        self.lbl_eq2.grid(pady="5", row=9, column=0)
+        self.box_eq2 = tk.Entry(self.wd, width="60", justify='center')
+        self.box_eq2.grid(pady="5", row=9, column=1, columnspan=2, sticky=tk.W)
+
+    def start(self):
         self.wd.mainloop()
+
+
+def calc_jahn_teller(self_octadist, master, acf):
+    """
+    Calculate Jahn-Teller distortion parameter
+
+    Parameters
+    ----------
+    self_octadist : None
+        Self reference having passed from OctaDist class.
+    master : None
+        Master frame of main program.
+    acf : list
+        Atomic labels and coordinates of full complex.
+
+    Returns
+    -------
+    None : None
+
+    """
+    if len(acf) == 0:
+        popup.err_no_file()
+        return 1
+    elif len(acf) > 1:
+        popup.err_many_files()
+        return 1
+
+    run_jt = CalcJahnTeller(self_octadist, master, acf)
+    run_jt.find_bond()
+    run_jt.create_widget()
+    run_jt.start()
 
 
 def calc_rmsd(self, acf):
