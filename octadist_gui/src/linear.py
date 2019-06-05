@@ -66,9 +66,9 @@ def angle_sign(v1, v2, direct):
 
     Parameters
     ----------
-    v1 : array
+    v1 : list or array
         Vector in 3D space.
-    v2 : array
+    v2 : list or array
         Vector in 3D space.
     direct : array
         Vector that refers to orientation of the plane.
@@ -87,7 +87,7 @@ def angle_sign(v1, v2, direct):
 
     angle = np.degrees(np.arccos(np.clip(np.dot(v1, v2), -1.0, 1.0)))
 
-    matD = np.array([v1, v2, direct])
+    matD = np.array([v1, v2, direct], dtype=np.float64)
     detD = np.linalg.det(matD)
 
     if detD < 0:
@@ -102,9 +102,9 @@ def angle_btw_vectors(v1, v2):
 
     Parameters
     ----------
-    v1 : array
+    v1 : list or array
         Vector in 3D space.
-    v2 : array
+    v2 : list or array
         Vector in 3D space.
 
     Returns
