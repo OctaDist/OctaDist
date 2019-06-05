@@ -172,7 +172,7 @@ class DrawComplex:
         Ref.https://stackoverflow.com/a/26550501/6596684
 
         Fix size of point in legend.
-        #Ref. https://stackoverflow.com/a/24707567/6596684
+        Ref. https://stackoverflow.com/a/24707567/6596684
 
         """
         # remove duplicate labels
