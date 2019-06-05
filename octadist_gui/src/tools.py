@@ -24,7 +24,7 @@ from octadist_gui.src import linear, popup, projection
 from octadist_gui import main
 
 
-def find_bonds(self, fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
+def find_bonds(fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
     """
     Find all bond distance and filter the possible bonds.
 
@@ -38,6 +38,11 @@ def find_bonds(self, fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
         List of atomic labels of full complex.
     fcl : list
         List of atomic coordinates of full complex.
+    cutoff_global : int or float
+        Global cutoff for screening bonds.
+        Default value is 2.0.
+    cutoff_hydrogen : int or float
+        Default value is 1.2.
 
     Returns
     -------
@@ -45,11 +50,9 @@ def find_bonds(self, fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
         Selected bonds.
 
     """
-    # cutoff_global = main.OctaDist.get_cutoff_global(self)
-    # cutoff_hydrogen = main.OctaDist.get_cutoff_hydrogen(self)
-
     pair_list = []
     bond_list = []
+
     for i in range(len(fcl)):
         for j in range(i + 1, len(fcl)):
             if i == 0:
@@ -62,6 +65,7 @@ def find_bonds(self, fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
 
     check_1_bond_list = []
     screen_1_pair_list = []
+
     for i in range(len(bond_list)):
         if bond_list[i][2] <= cutoff_global:
             check_1_bond_list.append([bond_list[i][0],
@@ -72,6 +76,7 @@ def find_bonds(self, fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
                                        pair_list[i][1]])
 
     check_2_bond_list = []
+
     for i in range(len(check_1_bond_list)):
         if screen_1_pair_list[i][0] == "H" or screen_1_pair_list[i][1] == "H":
             if check_1_bond_list[i][2] <= cutoff_hydrogen:
@@ -130,6 +135,7 @@ def find_faces_octa(c_octa):
     distance = []
     a_ref_f = []
     c_ref_f = []
+
     for i in range(1, 5):
         for j in range(i + 1, 6):
             for k in range(j + 1, 7):
@@ -169,7 +175,7 @@ def find_faces_octa(c_octa):
                 new_a_ref_f.append(j)
         a_oppo_f.append(new_a_ref_f)
 
-    v = np.array(c_octa)
+    v = np.asarray(c_octa, dtype=np.float64)
     c_oppo_f = []
 
     for i in range(len(a_oppo_f)):

@@ -124,7 +124,7 @@ class DrawComplex:
         None : None
 
         """
-        self.bond_list = tools.find_bonds(self, self.atom, self.coord)
+        self.bond_list = tools.find_bonds(self.atom, self.coord)
         for i in range(len(self.bond_list)):
             get_atoms = self.bond_list[i]
             x, y, z = zip(*get_atoms)
