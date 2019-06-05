@@ -9,17 +9,18 @@ Program structure of OctaDist
 Function    Description
 ==========  ================================
 main        Main program
-coord       Manipulating atomic coordinates
-elements    Atomic properties
 calc        Calculating distortion parameters
-linear      Built-in mathematical functions
-projection  2D & 3D vector projections
-plot        Plotting graph and chart
-plane       Manipulate projection plane
+coord       Manipulating atomic coordinates
 draw        Displaying molecule
-tools       3rd-party library
-util        Utilities
+elements    Atomic properties
+linear      Built-in mathematical functions
+plane       Manipulate projection plane
+plot        Plotting graph and chart
 popup       Error, warning, and info messages
+projection  2D & 3D vector projections
+structure   Finding physical parameters e.g. bond and angle
+tools       Showing data of complex
+util        Utilities by 3rd party libraries
 ==========  ================================
 
 Requirements
