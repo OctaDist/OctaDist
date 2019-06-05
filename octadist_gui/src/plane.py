@@ -49,9 +49,9 @@ def find_eq_of_plane(x, y, z):
         Coefficient of the equation of the plane.
 
     """
-    x = np.asarray(x)
-    y = np.asarray(y)
-    z = np.asarray(z)
+    x = np.asarray(x, dtype=np.float64)
+    y = np.asarray(y, dtype=np.float64)
+    z = np.asarray(z, dtype=np.float64)
 
     xz = z - x
     xy = y - x

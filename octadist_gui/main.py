@@ -36,15 +36,15 @@ class OctaDist:
     """
     Program interface is structured as below:
 
-    +-------------------+
-    +   Program menu    +
-    +-------------------+
-    +     Frame 1       +
-    +-------------------+
-    + Frame 2 + Frame 3 +
-    +-------------------+
-    +     Frame 4       +
-    +-------------------+
+    |-------------------|
+    |   Program menu    |
+    |-------------------|
+    |     Frame 1       |
+    |-------------------|
+    | Frame 2 | Frame 3 |
+    |-------------------|
+    |     Frame 4       |
+    |-------------------|
 
     Parameters
     ----------
@@ -97,7 +97,7 @@ class OctaDist:
         self.cutoff_global = 2.0
         self.cutoff_hydrogen = 1.2
 
-        # Default executable
+        # Default executable of text editor
         self.text_editor = "notepad.exe"
 
         # Default display settings
@@ -105,25 +105,21 @@ class OctaDist:
         self.show_axis = True
         self.show_grid = True
 
-        # Backup default setting values
-        self.backup_1 = self.cutoff_metal_ligand
-        self.backup_2 = self.cutoff_global
-        self.backup_3 = self.cutoff_hydrogen
-        self.backup_4 = self.text_editor
-        self.backup_5 = self.show_title
-        self.backup_6 = self.show_axis
-        self.backup_7 = self.show_grid
-
-        ##############################
-        # Master frame configuration #
-        ##############################
-
+        # Create master frame, sub-frames, add menu, and add widgets
         self.master = master
+        self.start_master()
+        self.add_menu()
+        self.add_widgets()
+        self.welcome_msg()
+        self.backup_var()
+
+    def start_master(self):
         self.master.wm_iconbitmap(r"..\images\molecule.ico")
         self.master.title(f"OctaDist {octadist_gui.__version__}")
         font = "Arial 10"
         self.master.option_add("*Font", font)
 
+    def add_menu(self):
         # Main menu
         menu_bar = tk.Menu(self.master)
         self.master.config(menu=menu_bar)
@@ -147,7 +143,7 @@ class OctaDist:
         file_menu.add_separator()
         file_menu.add_command(label="Settings", command=lambda: self.settings())
         file_menu.add_separator()
-        file_menu.add_command(label="Exit", command=lambda: master.destroy())
+        file_menu.add_command(label="Exit", command=lambda: self.master.destroy())
 
         # Edit
         menu_bar.add_cascade(label="Edit", menu=edit_menu)
@@ -186,15 +182,12 @@ class OctaDist:
         strct_menu.add_command(label="Octahedral Structure",
                                command=lambda: tools.param_octa(self, self.atom_coord_octa))
         tools_menu.add_separator()
-        tools_menu.add_command(label="Relationship Plot between ζ and Σ",
-                               command=lambda: plot.plot_zeta_sigma(self.all_zeta, self.all_sigma))
-        tools_menu.add_command(label="Relationship Plot between Σ and Θ",
-                               command=lambda: plot.plot_sigma_theta(self.all_sigma, self.all_theta))
+        tools_menu.add_command(label="Relationship Plot between ζ and Σ", command=lambda: self.plot_zeta_sigma())
+        tools_menu.add_command(label="Relationship Plot between Σ and Θ", command=lambda: self.plot_sigma_theta())
         tools_menu.add_separator()
         tools_menu.add_command(label="Calculate Surface Area",
                                command=lambda: tools.find_surface_area(self, self.atom_coord_octa))
         tools_menu.add_command(label="Calculate Jahn-Teller Distortion Parameter",
-                               #command=lambda: util.CalcJahnTeller(self, self.master, self.atom_coord_full))
                                command=lambda: util.calc_jahn_teller(self, self.master, self.atom_coord_full))
         tools_menu.add_command(label="Calculate RMSD", command=lambda: util.calc_rmsd(self, self.atom_coord_full))
 
@@ -215,10 +208,8 @@ class OctaDist:
         help_menu.add_command(label="Check for Updates...", command=self.check_update)
         help_menu.add_command(label="About Program", command=lambda: popup.show_about())
 
-        ####################
-        # my own ttk style #
-        ####################
-
+    def add_widgets(self):
+        # my personal ttk style #
         gui_ttk = ttk.Style()
         gui_ttk.configure("TButton", relief="sunken", padding=5)
         gui_ttk.configure("My.TLabel", foreground="black")
@@ -333,11 +324,16 @@ class OctaDist:
         self.box_result.configure(height="19", width="70", wrap="word", undo="True")
         self.box_result.grid(row=0)
 
-        ###########
-        # Welcome #
-        ###########
+    def welcome_msg(self):
+        """
+        Show welcome message in result box.
 
-        full_version = octadist_gui.__version__ + octadist_gui.__release__
+        Returns
+        -------
+        None : None
+
+        """
+        full_version = octadist_gui.__version__ + " " + octadist_gui.__release__
 
         echo_outs(self, f"Welcome to OctaDist {full_version}")
         echo_outs(self, "")
@@ -345,6 +341,15 @@ class OctaDist:
         echo_outs(self, "")
         echo_outs(self, octadist_gui.__website__)
         echo_outs(self, "")
+
+    def backup_var(self):
+        self.backup_1 = self.cutoff_metal_ligand
+        self.backup_2 = self.cutoff_global
+        self.backup_3 = self.cutoff_hydrogen
+        self.backup_4 = self.text_editor
+        self.backup_5 = self.show_title
+        self.backup_6 = self.show_axis
+        self.backup_7 = self.show_grid
 
     def get_cutoff_metal_ligand(self):
         """
@@ -578,10 +583,38 @@ class OctaDist:
     #############
 
     def script_show_var(self, args):
+        """
+        Show value of variable that user requests.
+
+        Parameters
+        ----------
+        args : str
+            Variable.
+
+        Returns
+        -------
+        None : None
+
+        """
         for i in range(len(args)):
             self.box_script.insert(tk.INSERT, f">>> {args[i]}")
 
     def script_set_var(self, param, new_value):
+        """
+        Set new value to variable.
+
+        Parameters
+        ----------
+        param : str
+            Variable to be assigned.
+        new_value : str
+            New value to assign.
+
+        Returns
+        -------
+        None : None
+
+        """
         self.all_var = {'cutoff_metal_ligand': self.cutoff_metal_ligand,
                         'cutoff_global': self.cutoff_global,
                         'cutoff_hydrogen': self.cutoff_hydrogen
@@ -593,6 +626,18 @@ class OctaDist:
                 self.all_var[key] = new_value
 
     def script_run(self, event):
+        """
+        Execute scripting command.
+
+        Parameters
+        ----------
+        event : None
+
+        Returns
+        -------
+        None : None
+
+        """
         self.get_var = self.entry_script.get().strip().split()
 
         if len(self.get_var) == 0:
@@ -649,6 +694,14 @@ class OctaDist:
         self.box_script.see(tk.END)
 
     def start_script(self):
+        """
+        Start scripting box.
+
+        Returns
+        -------
+        None : None
+
+        """
         wd = tk.Toplevel(self.master)
         wd.wm_iconbitmap(r"..\images\molecule.ico")
         wd.title("Run Scripting")
@@ -677,6 +730,14 @@ class OctaDist:
     ##################
 
     def draw_all_atom(self):
+        """
+        Display 3D complex.
+
+        Returns
+        -------
+        None : None
+
+        """
         if len(self.atom_coord_full) == 0:
             popup.err_no_file()
             return 1
@@ -686,17 +747,25 @@ class OctaDist:
 
         atom_full, coord_full = self.atom_coord_full[0]
 
-        plot = draw.DrawComplex(atom=atom_full, coord=coord_full)
-        plot.add_atom()
-        plot.add_bond()
-        plot.add_legend()
-        # plot.add_symbol()
-        # plot.config_plot(title_size=20)
-        # plot.config_plot(title_name="OK", title_size=50)
-        # plot.config_plot()
-        plot.show_plot()
+        my_plot = draw.DrawComplex(atom=atom_full, coord=coord_full)
+        my_plot.add_atom()
+        my_plot.add_bond()
+        my_plot.add_legend()
+        # my_plot.add_symbol()
+        # my_plot.config_plot(title_size=20)
+        # my_plot.config_plot(title_name="OK", title_size=50)
+        # my_plot.config_plot()
+        my_plot.show_plot()
 
     def draw_all_atom_and_face(self):
+        """
+        Display 3D complex with the faces.
+
+        Returns
+        -------
+        None : None
+
+        """
         if len(self.atom_coord_full) == 0:
             popup.err_no_file()
             return 1
@@ -706,18 +775,26 @@ class OctaDist:
 
         atom_full, coord_full = self.atom_coord_full[0]
 
-        plot = draw.DrawComplex(atom=atom_full, coord=coord_full)
-        plot.add_atom()
-        plot.add_bond()
+        my_plot = draw.DrawComplex(atom=atom_full, coord=coord_full)
+        my_plot.add_atom()
+        my_plot.add_bond()
 
         for i in range(len(self.atom_coord_octa)):
             _, _, _, coord_octa = self.atom_coord_octa[i]
-            plot.add_face(coord_octa)
+            my_plot.add_face(coord_octa)
 
-        plot.add_legend()
-        plot.show_plot()
+        my_plot.add_legend()
+        my_plot.show_plot()
 
     def draw_octa(self):
+        """
+        Display 3D octahedral structure.
+
+        Returns
+        -------
+        None : None
+
+        """
         if len(self.atom_coord_octa) == 0:
             popup.err_no_file()
             return 1
@@ -727,17 +804,25 @@ class OctaDist:
 
         _, _, atom_octa, coord_octa = self.atom_coord_octa[0]
 
-        plot = draw.DrawComplex(atom=atom_octa, coord=coord_octa)
-        plot.add_atom()
-        plot.add_bond()
-        plot.add_legend()
-        # plot.add_symbol()
-        # plot.config_plot(title_size=20)
-        # plot.config_plot(title_name="OK", title_size=50)
-        # plot.config_plot()
-        plot.show_plot()
+        my_plot = draw.DrawComplex(atom=atom_octa, coord=coord_octa)
+        my_plot.add_atom()
+        my_plot.add_bond()
+        my_plot.add_legend()
+        # my_plot.add_symbol()
+        # my_plot.config_plot(title_size=20)
+        # my_plot.config_plot(title_name="OK", title_size=50)
+        # my_plot.config_plot()
+        my_plot.show_plot()
 
     def draw_octa_and_face(self):
+        """
+        Display 3D octahedral structure with the faces.
+
+        Returns
+        -------
+        None : None
+
+        """
         if len(self.atom_coord_octa) == 0:
             popup.err_no_file()
             return 1
@@ -747,17 +832,25 @@ class OctaDist:
 
         _, _, atom_octa, coord_octa = self.atom_coord_octa[0]
 
-        plot = draw.DrawComplex(atom=atom_octa, coord=coord_octa)
-        plot.add_atom()
-        plot.add_bond()
-        plot.add_legend()
+        my_plot = draw.DrawComplex(atom=atom_octa, coord=coord_octa)
+        my_plot.add_atom()
+        my_plot.add_bond()
+        my_plot.add_legend()
 
         for i in range(len(self.atom_coord_octa)):
             _, _, _, coord = self.atom_coord_octa[i]
-            plot.add_face(coord)
-        plot.show_plot()
+            my_plot.add_face(coord)
+        my_plot.show_plot()
 
     def draw_projection(self):
+        """
+        Draw projection planes.
+
+        Returns
+        -------
+        None : None
+
+        """
         if len(self.atom_coord_full) == 0:
             popup.err_no_file()
             return 1
@@ -767,13 +860,21 @@ class OctaDist:
 
         atom_full, coord_full = self.atom_coord_full[0]
 
-        plot = draw.DrawProjection(atom=atom_full, coord=coord_full)
-        plot.add_atom()
-        plot.add_plane()
-        plot.add_symbol()
-        plot.show_plot()
+        my_plot = draw.DrawProjection(atom=atom_full, coord=coord_full)
+        my_plot.add_atom()
+        my_plot.add_plane()
+        my_plot.add_symbol()
+        my_plot.show_plot()
 
     def draw_twisting_plane(self):
+        """
+        Draw twisting triangular planes.
+
+        Returns
+        -------
+        None : None
+
+        """
         if len(self.atom_coord_full) == 0:
             popup.err_no_file()
             return 1
@@ -783,11 +884,53 @@ class OctaDist:
 
         atom_full, coord_full = self.atom_coord_full[0]
 
-        plot = draw.DrawTwistingPlane(atom=atom_full, coord=coord_full)
-        plot.add_plane()
-        plot.add_bond()
-        plot.add_symbol()
-        plot.show_plot()
+        my_plot = draw.DrawTwistingPlane(atom=atom_full, coord=coord_full)
+        my_plot.add_plane()
+        my_plot.add_bond()
+        my_plot.add_symbol()
+        my_plot.show_plot()
+
+    ##############################
+    # Plot between two data sets #
+    ##############################
+
+    def plot_zeta_sigma(self):
+        """
+        Plot relationship between zeta and sigma.
+
+        Returns
+        -------
+        None : None
+
+        """
+        if len(self.all_sigma) == 0:
+            popup.err_no_calc()
+            return 1
+
+        my_plot = plot.Plot(self.all_zeta, self.all_sigma, name1="zeta", name2="sigma")
+        my_plot.add_point()
+        my_plot.add_text()
+        my_plot.add_legend()
+        my_plot.show_plot()
+
+    def plot_sigma_theta(self):
+        """
+        Plot relationship between sigma and theta.
+
+        Returns
+        -------
+        None : None
+
+        """
+        if len(self.all_sigma) == 0:
+            popup.err_no_calc()
+            return 1
+
+        my_plot = plot.Plot(self.all_sigma, self.all_theta, name1="sigma", name2="theta")
+        my_plot.add_point()
+        my_plot.add_text()
+        my_plot.add_legend()
+        my_plot.show_plot()
 
     ###################
     # Program Setting #
@@ -1123,6 +1266,100 @@ class OctaDist:
         else:
             popup.info_no_update()
 
+    ###################################
+    # Calculate distortion parameters #
+    ###################################
+
+    def calc_all_param(self):
+        """
+        Calculate all distortion parameters:
+        Zeta, Delta, Sigma, and Theta_mean parameters.
+
+        Returns
+        -------
+        None : None
+
+        """
+        if not self.check_metal:
+            popup.err_no_metal()
+            return 1
+
+        if len(self.atom_coord_octa) >= 1:
+            self.clear_param_box()
+        else:
+            popup.err_no_file()
+            return 1
+
+        # loop over number of metal complexes
+        for i in range(len(self.atom_coord_octa)):
+            num_file, num_metal, atom_octa, coord_octa = self.atom_coord_octa[i]
+
+            # Calculate distortion parameters
+            calc_dist = calc.CalcDistortion(coord_octa)
+            calc_dist.calc_zeta()
+            calc_dist.calc_delta()
+            calc_dist.calc_sigma()
+            calc_dist.calc_theta()
+
+            d_mean = calc_dist.get_d_mean()
+            zeta = calc_dist.get_zeta()
+            delta = calc_dist.get_delta()
+            sigma = calc_dist.get_sigma()
+            theta_mean = calc_dist.get_theta_mean()
+
+            # Collect results
+            self.all_zeta.append(zeta)
+            self.all_delta.append(delta)
+            self.all_sigma.append(sigma)
+            self.all_theta.append(theta_mean)
+
+            self.file_index.append([num_file, num_metal])
+            self.comp_result.append([d_mean, zeta, delta, sigma, theta_mean])
+
+        self.show_result()
+
+    def show_result(self):
+        """
+        Print results to each unique box
+
+        Returns
+        -------
+        None : None
+
+        """
+        if len(self.atom_coord_octa) == 1:
+            d_mean, zeta, delta, sigma, theta_mean = self.comp_result[0]
+
+            self.box_d_mean.insert(tk.INSERT, f"{d_mean:3.6f}")
+            self.box_zeta.insert(tk.INSERT, f"{zeta:3.6f}")
+            self.box_delta.insert(tk.INSERT, f"{delta:3.6f}")
+            self.box_sigma.insert(tk.INSERT, f"{sigma:3.6f}")
+            self.box_theta_mean.insert(tk.INSERT, f"{theta_mean:3.6f}")
+        else:
+            self.box_d_mean.insert(tk.INSERT, "See below")
+            self.box_zeta.insert(tk.INSERT, "See below")
+            self.box_delta.insert(tk.INSERT, "See below")
+            self.box_sigma.insert(tk.INSERT, "See below")
+            self.box_theta_mean.insert(tk.INSERT, "See below")
+
+        # Print results to result box
+        echo_outs(self, "Computed octahedral distortion parameters for all complexes")
+        echo_outs(self, "")
+        echo_outs(self, "Complex - Metal :    <D>      Zeta      Delta      Sigma      Theta")
+        echo_outs(self, "*******************************************************************")
+        echo_outs(self, "")
+        for i in range(len(self.comp_result)):
+            echo_outs(self, "{0:2d} - {1} : {2:9.4f}  {3:9.6f}  {4:9.6f}  {5:9.4f}  {6:9.4f}"
+                      .format(self.file_index[i][0],
+                              self.file_index[i][0],
+                              self.comp_result[i][0],
+                              self.comp_result[i][1],
+                              self.comp_result[i][2],
+                              self.comp_result[i][3],
+                              self.comp_result[i][4]))
+
+        echo_outs(self, "")
+
     #####################
     # Manipulating File #
     #####################
@@ -1328,96 +1565,6 @@ class OctaDist:
         f.close()
 
         popup.info_save_results(f.name)
-
-    def calc_all_param(self):
-        """
-        Calculate all distortion parameters:
-        Zeta, Delta, Sigma, and Theta_mean parameters.
-
-        Returns
-        -------
-        None : None
-
-        """
-        if not self.check_metal:
-            popup.err_no_metal()
-            return 1
-
-        if len(self.atom_coord_octa) >= 1:
-            self.clear_param_box()
-        else:
-            popup.err_no_file()
-            return 1
-
-        # loop over number of metal complexes
-        for i in range(len(self.atom_coord_octa)):
-            num_file, num_metal, atom_octa, coord_octa = self.atom_coord_octa[i]
-
-            # Calculate distortion parameters
-            calc_dist = calc.CalcDistortion(coord_octa)
-            calc_dist.calc_zeta()
-            calc_dist.calc_delta()
-            calc_dist.calc_sigma()
-            calc_dist.calc_theta()
-
-            d_mean = calc_dist.get_d_mean()
-            zeta = calc_dist.get_zeta()
-            delta = calc_dist.get_delta()
-            sigma = calc_dist.get_sigma()
-            theta_mean = calc_dist.get_theta_mean()
-
-            # Collect results
-            self.all_zeta.append(zeta)
-            self.all_delta.append(delta)
-            self.all_sigma.append(sigma)
-            self.all_theta.append(theta_mean)
-
-            self.file_index.append([num_file, num_metal])
-            self.comp_result.append([d_mean, zeta, delta, sigma, theta_mean])
-
-        self.show_result()
-
-    def show_result(self):
-        """
-        Print results to each unique box
-
-        Returns
-        -------
-        None : None
-
-        """
-        if len(self.atom_coord_octa) == 1:
-            d_mean, zeta, delta, sigma, theta_mean = self.comp_result[0]
-
-            self.box_d_mean.insert(tk.INSERT, f"{d_mean:3.6f}")
-            self.box_zeta.insert(tk.INSERT, f"{zeta:3.6f}")
-            self.box_delta.insert(tk.INSERT, f"{delta:3.6f}")
-            self.box_sigma.insert(tk.INSERT, f"{sigma:3.6f}")
-            self.box_theta_mean.insert(tk.INSERT, f"{theta_mean:3.6f}")
-        else:
-            self.box_d_mean.insert(tk.INSERT, "See below")
-            self.box_zeta.insert(tk.INSERT, "See below")
-            self.box_delta.insert(tk.INSERT, "See below")
-            self.box_sigma.insert(tk.INSERT, "See below")
-            self.box_theta_mean.insert(tk.INSERT, "See below")
-
-        # Print results to result box
-        echo_outs(self, "Computed octahedral distortion parameters for all complexes")
-        echo_outs(self, "")
-        echo_outs(self, "Complex - Metal :    <D>      Zeta      Delta      Sigma      Theta")
-        echo_outs(self, "*******************************************************************")
-        echo_outs(self, "")
-        for i in range(len(self.comp_result)):
-            echo_outs(self, "{0:2d} - {1} : {2:9.4f}  {3:9.6f}  {4:9.6f}  {5:9.4f}  {6:9.4f}"
-                      .format(self.file_index[i][0],
-                              self.file_index[i][0],
-                              self.comp_result[i][0],
-                              self.comp_result[i][1],
-                              self.comp_result[i][2],
-                              self.comp_result[i][3],
-                              self.comp_result[i][4]))
-
-        echo_outs(self, "")
 
 
 def main():

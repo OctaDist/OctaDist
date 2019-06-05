@@ -19,81 +19,62 @@ from matplotlib import pyplot as plt
 from octadist_gui.src import popup
 
 
-def plot_zeta_sigma(zeta, sigma):
+class Plot:
     """
     Relationship plot between Zeta and Sigma parameters.
 
     Parameters
     ----------
-    zeta : list
-        List of Zeta parameters.
-    sigma : list
-        List of Sigma parameters.
+    self.data1 : List
+        List of data set 1.
+    self.data2 = data2
+        List of data set 2.
+    self.name1 = name1
+        Name of data set 1.
+    self.name2 = name2
+        Name of data set 2.
 
     Returns
     -------
     None : None
 
     """
-    if len(zeta) == 0:
-        popup.err_no_calc()
-        return 1
+    def __init__(self, data1, data2, name1="Var1", name2="Var2"):
+        self.data1 = data1
+        self.data2 = data2
+        self.name1 = name1
+        self.name2 = name2
 
-    ax = plt.subplot()
-    for i in range(len(zeta)):
-        ax.scatter(zeta, sigma, label=f'Complex {i + 1}')
-        ax.text(zeta[i] + 0.2, sigma[i] + 0.2, i + 1, fontsize=9)
+        self.start_plot()
+        self.config_plot()
+        self.set_label()
 
-    # Shrink current axis's height by 10% on the bottom
-    box = ax.get_position()
-    ax.set_position([box.x0, box.y0 + box.height * 0.1,
-                     box.width, box.height * 0.9])
+    def start_plot(self):
+        self.ax = plt.subplot()
 
-    # Put a legend below current axis
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1),
-              fancybox=True, shadow=True, ncol=5)
+    def add_point(self):
+        for i in range(len(self.data1)):
+            self.ax.scatter(self.data1, self.data2, label=f'Complex {i + 1}')
 
-    plt.title("Relationship plot between $\zeta$ and $\Sigma$")
-    plt.xlabel(r'$\zeta$')
-    plt.ylabel(r'$\Sigma$')
-    plt.show()
+    def add_text(self):
+        for i in range(len(self.data1)):
+            self.ax.text(self.data1[i] + 0.2, self.data2[i] + 0.2, i + 1, fontsize=9)
 
+    def add_legend(self):
+        # Put a legend below current axis
+        self.ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1),
+                       fancybox=True, shadow=True, ncol=5)
 
-def plot_sigma_theta(sigma, theta):
-    """
-    Relationship plot between Sigma and Theta parameters.
+    def config_plot(self):
+        # Shrink current axis's height by 10% on the bottom
+        box = self.ax.get_position()
+        self.ax.set_position([box.x0, box.y0 + box.height * 0.1, box.width, box.height * 0.9])
 
-    Parameters
-    ----------
-    sigma : list
-        List of Sigma parameters.
-    theta : list
-        List of Theta parameters.
+    def set_label(self):
+        plt.title(f"Relationship plot between {self.name1} and {self.name2}")
+        plt.xlabel(f"{self.name1}")
+        plt.ylabel(f"{self.name2}")
 
-    Returns
-    -------
-    None : None
+    def show_plot(self):
+        plt.show()
 
-    """
-    if len(sigma) == 0:
-        popup.err_no_calc()
-        return 1
-
-    ax = plt.subplot()
-    for i in range(len(sigma)):
-        ax.scatter(sigma, theta, label=f'Complex {i + 1}')
-        ax.text(sigma[i] + 0.2, theta[i] + 0.2, i + 1, fontsize=9)
-
-    # Shrink current axis's height by 10% on the bottom
-    box = ax.get_position()
-    ax.set_position([box.x0, box.y0 + box.height * 0.1,
-                     box.width, box.height * 0.9])
-
-    # Put a legend below current axis
-    ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1),
-              fancybox=True, shadow=True, ncol=5)
-
-    plt.title("Relationship plot between $\Sigma$ and $\Theta$")
-    plt.xlabel(r'$\Sigma$')
-    plt.ylabel(r'$\Theta$')
-    plt.show()

@@ -149,7 +149,7 @@ def find_faces_octa(c_octa):
     dist_a_c = list(zip(distance, a_ref_f, c_ref_f))
     dist_a_c.sort()
     distance, a_ref_f, c_ref_f = list(zip(*dist_a_c))
-    c_ref_f = np.asarray(c_ref_f)
+    c_ref_f = np.asarray(c_ref_f, dtype=np.float64)
 
     # Remove first 12 triangles, the rest of triangles is 8 faces of octahedron
     a_ref_f = a_ref_f[12:]

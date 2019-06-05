@@ -198,7 +198,7 @@ def search_octa(self, a_full, c_full, c_metal):
     a_octa, c_octa, distance = zip(*dist_list)
 
     # list --> array
-    c_octa = np.asarray(c_octa)
+    c_octa = np.asarray(c_octa, dtype=np.float64)
 
     return a_octa, c_octa
 
@@ -380,7 +380,7 @@ def get_coord_gaussian(f):
 
     gaussian_file.close()
 
-    c_full = np.asarray(c_full)
+    c_full = np.asarray(c_full, dtype=np.float64)
 
     return a_full, c_full
 
@@ -478,7 +478,7 @@ def get_coord_nwchem(f):
 
     nwchem_file.close()
 
-    c_full = np.asarray(c_full)
+    c_full = np.asarray(c_full, dtype=np.float64)
 
     return a_full, c_full
 
@@ -563,7 +563,7 @@ def get_coord_orca(f):
 
     orca_file.close()
 
-    c_full = np.asarray(c_full)
+    c_full = np.asarray(c_full, dtype=np.float64)
 
     return a_full, c_full
 
@@ -651,6 +651,6 @@ def get_coord_qchem(f):
 
     orca_file.close()
 
-    c_full = np.asarray(c_full)
+    c_full = np.asarray(c_full, dtype=np.float64)
 
     return a_full, c_full

@@ -79,8 +79,8 @@ def angle_sign(v1, v2, direct):
         Angle between two vectors with sign.
 
     """
-    v1 = np.asarray(v1)
-    v2 = np.asarray(v2)
+    v1 = np.asarray(v1, dtype=np.float64)
+    v2 = np.asarray(v2, dtype=np.float64)
 
     v1 = norm_vector(v1)
     v2 = norm_vector(v2)
@@ -113,8 +113,8 @@ def angle_btw_vectors(v1, v2):
         Angle between two vectors.
 
     """
-    v1 = np.asarray(v1)
-    v2 = np.asarray(v2)
+    v1 = np.asarray(v1, dtype=np.float64)
+    v2 = np.asarray(v2, dtype=np.float64)
 
     v1 = norm_vector(v1)
     v2 = norm_vector(v2)
