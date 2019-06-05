@@ -32,48 +32,33 @@ __doc__ = "https://octadist.github.io/manual.html"
 __website__ = "https://octadist.github.io"
 __github__ = "https://github.com/OctaDist/OctaDist"
 
-# __all__ = \
-#     ['calc_d_mean',
-#      'calc_zeta',
-#      'calc_delta',
-#      'calc_sigma',
-#      'calc_theta',
-#      'calc_theta_min',
-#      'calc_theta_max',
-#      'count_line',
-#      'count_metal',
-#      'check_xyz_file',
-#      'check_gaussian_file',
-#      'check_nwchem_file',
-#      'check_orca_file',
-#      'check_qchem_file',
-#      'get_coord_xyz',
-#      'get_coord_gaussian',
-#      'get_coord_nwchem',
-#      'get_coord_orca',
-#      'get_coord_qchem'
-#      ]
-#
+__all__ = \
+    ['count_line',
+     'count_metal',
+     'check_xyz_file',
+     'check_gaussian_file',
+     'check_nwchem_file',
+     'check_orca_file',
+     'check_qchem_file',
+     'get_coord_xyz',
+     'get_coord_gaussian',
+     'get_coord_nwchem',
+     'get_coord_orca',
+     'get_coord_qchem'
+     ]
+
 # Bring sub-modules and methods to top-level directory
 
 from octadist_gui import src
 from .src import __src__
 
-# from .src.calc import calc_d_mean
-# from .src.calc import calc_zeta
-# from .src.calc import calc_delta
-# from .src.calc import calc_sigma
-# from .src.calc import calc_theta
-# from .src.calc import calc_theta_min
-# from .src.calc import calc_theta_max
-#
-# from .src.coord import count_line
-# from .src.coord import count_metal
-# from .src.coord import check_xyz_file
-# from .src.coord import check_gaussian_file
-# from .src.coord import check_nwchem_file
-# from .src.coord import check_orca_file
-# from .src.coord import check_qchem_file
+from .src.coord import count_line
+from .src.coord import count_metal
+from .src.coord import check_xyz_file
+from .src.coord import check_gaussian_file
+from .src.coord import check_nwchem_file
+from .src.coord import check_orca_file
+from .src.coord import check_qchem_file
 
 from .src.coord import get_coord_xyz
 from .src.coord import get_coord_gaussian
