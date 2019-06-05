@@ -25,7 +25,7 @@ from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 import octadist_gui.src.structure
-from octadist_gui.src import echo_outs, elements, linear
+from octadist_gui.src import elements, linear
 
 
 class CalcJahnTeller:
