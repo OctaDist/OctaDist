@@ -24,7 +24,8 @@ import scipy.optimize
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-from octadist_gui.src import echo_outs, elements, linear, popup, tools
+import octadist_gui.src.structure
+from octadist_gui.src import echo_outs, elements, linear
 
 
 class CalcJahnTeller:
@@ -33,30 +34,92 @@ class CalcJahnTeller:
 
     Parameters
     ----------
-    self_octadist : None
-        Self reference having passed from OctaDist class.
-    master : None
-        Master frame of main program.
     acf : list
         Atomic labels and coordinates of full complex.
+    master : None or not None
+        If None, use tk.Tk().
+        If not None, use tk.Toplevel(master).
 
     Returns
     -------
     None : None
 
     """
-    def __init__(self, self_octadist, master, acf):
-        self.self_octadist = self_octadist
-        self.master = master
-
-        # prepare atomic symbols and coordinates
+    def __init__(self, acf, master=None):
         self.acf = acf
         self.fal = self.acf[0][0]
         self.fcl = self.acf[0][1]
 
+        if master is None:
+            self.wd = tk.Tk()
+        else:
+            self.wd = tk.Toplevel(master)
+
         self.bond_list = []
         self.coord_A = []
         self.coord_B = []
+
+    def start_app(self):
+        self.wd.wm_iconbitmap(r"..\images\molecule.ico")
+        self.wd.title("Calculate Jahn-Teller distortion parameter")
+        self.wd.geometry("630x550")
+
+    def create_widget(self):
+        self.lbl = tk.Label(self.wd, text="Group A")
+        self.lbl.config(width=12)
+        self.lbl.grid(padx="10", pady="5", row=0, column=0, columnspan=2)
+
+        self.lbl = tk.Label(self.wd, text="Group B")
+        self.lbl.config(width=12)
+        self.lbl.grid(padx="10", pady="5", row=0, column=2, columnspan=2)
+
+        self.box_1 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
+        self.box_1.grid(padx="5", pady="5", row=1, column=0, columnspan=2)
+
+        self.box_2 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
+        self.box_2.grid(padx="5", pady="5", row=1, column=2, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Select ligand set A", command=lambda: self.pick_atom(group="A"))
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=2, column=0, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Select ligand set B", command=lambda: self.pick_atom(group="B"))
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=2, column=2, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Calculate parameter", command=lambda: self.plot_fit_plane(self.acf))
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=3, column=0, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Clear all", command=lambda: self.clear_text())
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=3, column=2, columnspan=2)
+
+        self.lbl = tk.Label(self.wd, text="Supplementary angles between two planes (in degree)")
+        self.lbl.grid(pady="10", row=4, columnspan=4)
+
+        self.lbl_angle1 = tk.Label(self.wd, text="Angle 1")
+        self.lbl_angle1.grid(pady="5", row=5, column=0)
+        self.box_angle1 = tk.Entry(self.wd, width="20", justify='center')
+        self.box_angle1.grid(row=5, column=1, sticky=tk.W)
+
+        self.lbl_angle2 = tk.Label(self.wd, text="Angle 2")
+        self.lbl_angle2.grid(pady="5", row=6, column=0)
+        self.box_angle2 = tk.Entry(self.wd, width="20", justify='center')
+        self.box_angle2.grid(row=6, column=1, sticky=tk.W)
+
+        self.lbl = tk.Label(self.wd, text="The equation of the planes")
+        self.lbl.grid(pady="10", row=7, columnspan=4)
+
+        self.lbl_eq1 = tk.Label(self.wd, text="Plane A ")
+        self.lbl_eq1.grid(pady="5", row=8, column=0)
+        self.box_eq1 = tk.Entry(self.wd, width="60", justify='center')
+        self.box_eq1.grid(pady="5", row=8, column=1, columnspan=2, sticky=tk.W)
+
+        self.lbl_eq2 = tk.Label(self.wd, text="Plane B ")
+        self.lbl_eq2.grid(pady="5", row=9, column=0)
+        self.box_eq2 = tk.Entry(self.wd, width="60", justify='center')
+        self.box_eq2.grid(pady="5", row=9, column=1, columnspan=2, sticky=tk.W)
 
     def find_bond(self):
         """
@@ -67,7 +130,7 @@ class CalcJahnTeller:
         None : None
 
         """
-        self.bond_list = tools.find_bonds(self.fal, self.fcl)
+        self.bond_list = octadist_gui.src.structure.find_bonds(self.fal, self.fcl)
 
     #################
     # Picking atoms #
@@ -299,6 +362,7 @@ class CalcJahnTeller:
         ###############
         # Clear boxes #
         ###############
+
         self.box_angle1.delete(0, tk.END)
         self.box_angle2.delete(0, tk.END)
 
@@ -431,69 +495,7 @@ class CalcJahnTeller:
         except AttributeError:
             pass
 
-    def create_widget(self):
-        self.wd = tk.Toplevel(self.master)
-        self.wd.wm_iconbitmap(r"..\images\molecule.ico")
-        self.wd.title("Calculate Jahn-Teller distortion parameter")
-        self.wd.geometry("630x550")
-
-        self.lbl = tk.Label(self.wd, text="Group A")
-        self.lbl.config(width=12)
-        self.lbl.grid(padx="10", pady="5", row=0, column=0, columnspan=2)
-
-        self.lbl = tk.Label(self.wd, text="Group B")
-        self.lbl.config(width=12)
-        self.lbl.grid(padx="10", pady="5", row=0, column=2, columnspan=2)
-
-        self.box_1 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
-        self.box_1.grid(padx="5", pady="5", row=1, column=0, columnspan=2)
-
-        self.box_2 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
-        self.box_2.grid(padx="5", pady="5", row=1, column=2, columnspan=2)
-
-        self.btn = tk.Button(self.wd, text="Select ligand set A", command=lambda: self.pick_atom(group="A"))
-        self.btn.config(width=15, relief=tk.RAISED)
-        self.btn.grid(padx="10", pady="5", row=2, column=0, columnspan=2)
-
-        self.btn = tk.Button(self.wd, text="Select ligand set B", command=lambda: self.pick_atom(group="B"))
-        self.btn.config(width=15, relief=tk.RAISED)
-        self.btn.grid(padx="10", pady="5", row=2, column=2, columnspan=2)
-
-        self.btn = tk.Button(self.wd, text="Calculate parameter", command=lambda: self.plot_fit_plane(self.acf))
-        self.btn.config(width=15, relief=tk.RAISED)
-        self.btn.grid(padx="10", pady="5", row=3, column=0, columnspan=2)
-
-        self.btn = tk.Button(self.wd, text="Clear all", command=lambda: self.clear_text())
-        self.btn.config(width=15, relief=tk.RAISED)
-        self.btn.grid(padx="10", pady="5", row=3, column=2, columnspan=2)
-
-        self.lbl = tk.Label(self.wd, text="Supplementary angles between two planes (in degree)")
-        self.lbl.grid(pady="10", row=4, columnspan=4)
-
-        self.lbl_angle1 = tk.Label(self.wd, text="Angle 1")
-        self.lbl_angle1.grid(pady="5", row=5, column=0)
-        self.box_angle1 = tk.Entry(self.wd, width="20", justify='center')
-        self.box_angle1.grid(row=5, column=1, sticky=tk.W)
-
-        self.lbl_angle2 = tk.Label(self.wd, text="Angle 2")
-        self.lbl_angle2.grid(pady="5", row=6, column=0)
-        self.box_angle2 = tk.Entry(self.wd, width="20", justify='center')
-        self.box_angle2.grid(row=6, column=1, sticky=tk.W)
-
-        self.lbl = tk.Label(self.wd, text="The equation of the planes")
-        self.lbl.grid(pady="10", row=7, columnspan=4)
-
-        self.lbl_eq1 = tk.Label(self.wd, text="Plane A ")
-        self.lbl_eq1.grid(pady="5", row=8, column=0)
-        self.box_eq1 = tk.Entry(self.wd, width="60", justify='center')
-        self.box_eq1.grid(pady="5", row=8, column=1, columnspan=2, sticky=tk.W)
-
-        self.lbl_eq2 = tk.Label(self.wd, text="Plane B ")
-        self.lbl_eq2.grid(pady="5", row=9, column=0)
-        self.box_eq2 = tk.Entry(self.wd, width="60", justify='center')
-        self.box_eq2.grid(pady="5", row=9, column=1, columnspan=2, sticky=tk.W)
-
-    def start(self):
+    def show_app(self):
         self.wd.mainloop()
 
 
@@ -503,8 +505,10 @@ class CalcRMSD:
 
     Parameters
     ----------
-    acf : list
-        Atomic labels and coordinates of full complex.
+    self.coord_1 : list or array
+        Atomic labels and coordinates of structure 1.
+    self.coord_2 : list or array
+        Atomic labels and coordinates of structure 2.
         
     Returns
     -------
@@ -546,115 +550,40 @@ class CalcRMSD:
     Rotated RMSD      : 1.592468
 
     """
-    def __init__(self, self_octadist, strct1, strct2):
-        self.self_octadist = self_octadist
-        self.strct_1 = strct1
-        self.strct_2 = strct2
+    def __init__(self, coord_1, coord_2):
+        self.coord_1 = np.asarray(coord_1, dtype=np.float64)
+        self.coord_2 = np.asarray(coord_2, dtype=np.float64)
 
-        self.atom_strc_1, self.coord_strct_1 = self.strct_1
-        self.atom_strc_2, self.coord_strct_2 = self.strct_2
+        self.rmsd_normal = 0
+        self.rmsd_translate = 0
+        self.rmsd_rotate = 0
+
+        self.calc_rmsd_normal()
+        self.calc_rmsd_translate()
+        self.calc_rmsd_rotate()
 
     def calc_rmsd_normal(self):
-        self.rmsd_normal = rmsd.rmsd(self.coord_strct_1, self.coord_strct_2)
+        self.rmsd_normal = rmsd.rmsd(self.coord_1, self.coord_2)
 
     def calc_rmsd_translate(self):
         # Manipulate recenter
-        self.coord_strct_1 -= rmsd.centroid(self.coord_strct_1)
-        self.coord_strct_2 -= rmsd.centroid(self.coord_strct_2)
+        self.coord_1 -= rmsd.centroid(self.coord_1)
+        self.coord_2 -= rmsd.centroid(self.coord_2)
 
-        self.rmsd_translate = rmsd.rmsd(self.coord_strct_1, self.coord_strct_2)
+        self.rmsd_translate = rmsd.rmsd(self.coord_1, self.coord_2)
 
         # Rotate
-        U = rmsd.kabsch(self.coord_strct_1, self.coord_strct_2)
-        self.coord_strct_1 = np.dot(self.coord_strct_1, U)
+        U = rmsd.kabsch(self.coord_1, self.coord_2)
+        self.coord_1 = np.dot(self.coord_1, U)
 
     def calc_rmsd_rotate(self):
-        self.rmsd_rotate = rmsd.rmsd(self.coord_strct_1, self.coord_strct_2)
+        self.rmsd_rotate = rmsd.rmsd(self.coord_1, self.coord_2)
 
-    def show_result(self):
-        echo_outs(self.self_octadist, "RMSD between two complexes")
-        echo_outs(self.self_octadist, "**************************")
-        echo_outs(self.self_octadist, f"Normal RMSD       : {self.rmsd_normal:3.6f}")
-        echo_outs(self.self_octadist, f"Re-centered RMSD  : {self.rmsd_translate:3.6f}")
-        echo_outs(self.self_octadist, f"Rotated RMSD      : {self.rmsd_rotate:3.6f}")
-        echo_outs(self.self_octadist, "")
+    def get_rmsd_normal(self):
+        return self.rmsd_normal
 
-    def get_result(self):
-        return self.rmsd_normal, self.rmsd_translate, self.rmsd_rotate
+    def get_rmsd_translate(self):
+        return self.rmsd_translate
 
-
-def calc_jahn_teller(self_octadist, master, acf):
-    """
-    Calculate Jahn-Teller distortion parameter
-
-    Parameters
-    ----------
-    self_octadist : None
-        Self reference having passed from OctaDist class.
-    master : None
-        Master frame of main program.
-    acf : list
-        Atomic labels and coordinates of full complex.
-
-    Returns
-    -------
-    None : None
-
-    """
-    if len(acf) == 0:
-        popup.err_no_file()
-        return 1
-    elif len(acf) > 1:
-        popup.err_many_files()
-        return 1
-
-    run_jt = CalcJahnTeller(self_octadist, master, acf)
-    run_jt.find_bond()
-    run_jt.create_widget()
-    run_jt.start()
-
-
-def calc_rmsd(self_octadist, acf):
-    """
-    Calculate root mean squared displacement of atoms in complex, RMSD.
-
-    Parameters
-    ----------
-    acf : list
-        Atomic labels and coordinates of full complex.
-
-    Returns
-    -------
-    rmsd_normal : int or float
-        Normal RMSD.
-    rmsd_translate : int or float
-        Translate RMSD (re-centered).
-    rmsd_rotate : int or float
-        Kabsch RMSD (rotated).
-
-    """
-    if len(acf) != 2:
-        popup.err_only_2_files()
-        return 1
-
-    strct1 = acf[0]
-    strct2 = acf[1]
-
-    atom_strc_1, coord_strct_1 = strct1
-    atom_strc_2, coord_strct_2 = strct2
-
-    if len(atom_strc_1) != len(atom_strc_2):
-        popup.err_not_equal_atom()
-        return 1
-
-    for i in range(len(atom_strc_1)):
-        if atom_strc_1[i] != atom_strc_2[i]:
-            popup.err_atom_not_match(i + 1)
-            return 1
-
-    run_rmsd = CalcRMSD(self_octadist, strct1, strct2)
-    run_rmsd.calc_rmsd_normal()
-    run_rmsd.calc_rmsd_translate()
-    run_rmsd.calc_rmsd_rotate()
-    run_rmsd.show_result()
-
+    def get_rmsd_rotate(self):
+        return self.rmsd_rotate

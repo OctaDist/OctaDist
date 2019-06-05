@@ -176,6 +176,10 @@ def triangle_area(a, b, c):
         The triangle area.
 
     """
+    a = np.asarray(a, dtype=np.float64)
+    b = np.asarray(b, dtype=np.float64)
+    c = np.asarray(c, dtype=np.float64)
+
     ab = b - a
     ac = c - a
     value = (pow(np.dot(ab[1], ac[2]) - np.dot(ab[2], ac[1]), 2) +

@@ -18,6 +18,7 @@ from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
+import octadist_gui.src.structure
 from octadist_gui.src import elements, tools, plane, projection
 
 
@@ -124,7 +125,7 @@ class DrawComplex:
         None : None
 
         """
-        self.bond_list = tools.find_bonds(self.atom, self.coord)
+        self.bond_list = octadist_gui.src.structure.find_bonds(self.atom, self.coord)
         for i in range(len(self.bond_list)):
             get_atoms = self.bond_list[i]
             x, y, z = zip(*get_atoms)
@@ -145,7 +146,7 @@ class DrawComplex:
         None : None
 
         """
-        _, c_ref, _, _ = tools.find_faces_octa(coord)
+        _, c_ref, _, _ = octadist_gui.src.structure.find_faces_octa(coord)
 
         # Added faces
         color_list = ["red", "blue", "green", "yellow",
@@ -354,7 +355,7 @@ class DrawProjection:
         None : None
 
         """
-        _, c_ref, _, c_oppo = tools.find_faces_octa(self.coord)
+        _, c_ref, _, c_oppo = octadist_gui.src.structure.find_faces_octa(self.coord)
 
         color_1 = ["red", "blue", "orange", "magenta"]
         color_2 = ["green", "yellow", "cyan", "brown"]
@@ -446,7 +447,7 @@ class DrawTwistingPlane:
         None : None
 
         """
-        _, c_ref, _, c_oppo = tools.find_faces_octa(self.coord)
+        _, c_ref, _, c_oppo = octadist_gui.src.structure.find_faces_octa(self.coord)
 
         for i in range(4):
             ax = self.fig.add_subplot(2, 2, int(i + 1), projection='3d')

@@ -28,7 +28,7 @@ import numpy as np
 
 import octadist_gui
 from octadist_gui.src import (
-    echo_outs, calc, coord, draw, plot, popup, tools, util
+    echo_outs, calc, coord, draw, plot, popup, structure, tools, util
 )
 
 
@@ -79,7 +79,9 @@ class OctaDist:
         True if the structure is octahedron or not, False if it does not.
 
     """
-    def __init__(self):
+    def __init__(self, master):
+        self.master = master
+
         # Initialize parameters
         self.file_list = []
         self.atom_coord_full = []
@@ -105,9 +107,7 @@ class OctaDist:
         self.show_axis = True
         self.show_grid = True
 
-    def config_all(self):
         # Create master frame, sub-frames, add menu, and add widgets
-        self.master = tk.Tk()
         self.start_master()
         self.add_menu()
         self.add_widgets()
@@ -119,6 +119,7 @@ class OctaDist:
         self.master.title(f"OctaDist {octadist_gui.__version__}")
         font = "Arial 10"
         self.master.option_add("*Font", font)
+        self.master.resizable(0, 0)
 
     def add_menu(self):
         # Main menu
@@ -187,10 +188,9 @@ class OctaDist:
         tools_menu.add_command(label="Relationship Plot between Σ and Θ", command=lambda: self.plot_sigma_theta())
         tools_menu.add_separator()
         tools_menu.add_command(label="Calculate Surface Area",
-                               command=lambda: tools.find_surface_area(self, self.atom_coord_octa))
-        tools_menu.add_command(label="Calculate Jahn-Teller Distortion Parameter",
-                               command=lambda: util.calc_jahn_teller(self, self.master, self.atom_coord_full))
-        tools_menu.add_command(label="Calculate RMSD", command=lambda: util.calc_rmsd(self, self.atom_coord_full))
+                               command=lambda: structure.find_surface_area(self, self.atom_coord_octa))
+        tools_menu.add_command(label="Calculate Jahn-Teller Distortion", command=lambda: self.calc_jahn_teller())
+        tools_menu.add_command(label="Calculate RMSD", command=lambda: self.calc_rmsd())
 
         # Help
         menu_bar.add_cascade(label="Help", menu=help_menu)
@@ -933,6 +933,92 @@ class OctaDist:
         my_plot.add_legend()
         my_plot.show_plot()
 
+    def calc_jahn_teller(self):
+        """
+        Calculate Jahn-Teller distortion parameter
+
+        Parameters
+        ----------
+        self_octadist : None
+            Self reference having passed from OctaDist class.
+        master : None
+            Master frame of main program.
+        acf : list
+            Atomic labels and coordinates of full complex.
+
+        Returns
+        -------
+        None : None
+
+        """
+        if len(self.atom_coord_full) == 0:
+            popup.err_no_file()
+            return 1
+        elif len(self.atom_coord_full) > 1:
+            popup.err_many_files()
+            return 1
+
+        run_jt = util.CalcJahnTeller(self.atom_coord_full, master=self.master)
+        run_jt.start_app()
+        run_jt.create_widget()
+        run_jt.find_bond()
+        run_jt.show_app()
+
+    def calc_rmsd(self):
+        """
+        Calculate root mean squared displacement of atoms in complex, RMSD.
+
+        Parameters
+        ----------
+        coord_complex_1 : list or array
+            Atomic coordinates of structure 1.
+        coord_complex_2 : list or array
+            Atomic coordinates of structure 2.
+
+        Returns
+        -------
+        None : None
+
+        """
+        if len(self.atom_coord_full) != 2:
+            popup.err_only_2_files()
+            return 1
+
+        strct1 = self.atom_coord_full[0]
+        strct2 = self.atom_coord_full[1]
+
+        atom_complex_1, coord_complex_1 = strct1
+        atom_complex_2, coord_complex_2 = strct2
+
+        if len(atom_complex_1) != len(atom_complex_2):
+            popup.err_not_equal_atom()
+            return 1
+
+        for i in range(len(atom_complex_1)):
+            if atom_complex_1[i] != atom_complex_2[i]:
+                popup.err_atom_not_match(i + 1)
+                return 1
+
+        run_rmsd = util.CalcRMSD(coord_complex_1, coord_complex_2)
+
+        run_rmsd.calc_rmsd_normal()
+        run_rmsd.calc_rmsd_translate()
+        run_rmsd.calc_rmsd_rotate()
+
+        self.rmsd_normal = run_rmsd.get_rmsd_normal()
+        self.rmsd_translate = run_rmsd.get_rmsd_translate()
+        self.rmsd_rotate = run_rmsd.get_rmsd_rotate()
+
+        self.show_rmsd()
+
+    def show_rmsd(self):
+        echo_outs(self, "RMSD between two complexes")
+        echo_outs(self, "**************************")
+        echo_outs(self, f"Normal RMSD       : {self.rmsd_normal:3.6f}")
+        echo_outs(self, f"Re-centered RMSD  : {self.rmsd_translate:3.6f}")
+        echo_outs(self, f"Rotated RMSD      : {self.rmsd_rotate:3.6f}")
+        echo_outs(self, "")
+
     ###################
     # Program Setting #
     ###################
@@ -1317,9 +1403,9 @@ class OctaDist:
             self.file_index.append([num_file, num_metal])
             self.comp_result.append([d_mean, zeta, delta, sigma, theta_mean])
 
-        self.show_result()
+        self.show_all_param()
 
-    def show_result(self):
+    def show_all_param(self):
         """
         Print results to each unique box
 
@@ -1567,14 +1653,11 @@ class OctaDist:
 
         popup.info_save_results(f.name)
 
-    def run_now(self):
-        self.master.mainloop()
-
 
 def main():
-    app = OctaDist()
-    app.config_all()
-    app.run_now()
+    root = tk.Tk()
+    app = OctaDist(root)
+    root.mainloop()
 
 
 if __name__ == '__main__':
