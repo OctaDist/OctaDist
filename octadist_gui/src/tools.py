@@ -20,6 +20,7 @@ from tkinter import scrolledtext as tkscrolled
 import numpy as np
 
 import octadist_gui.src.plane
+from octadist_gui import main
 from octadist_gui.src import linear, popup, projection
 
 

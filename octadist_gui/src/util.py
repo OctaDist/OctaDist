@@ -67,7 +67,7 @@ class CalcJahnTeller:
         None : None
 
         """
-        self.bond_list = tools.find_bonds(self.self_octadist, self.fal, self.fcl)
+        self.bond_list = tools.find_bonds(self.fal, self.fcl)
 
     #################
     # Picking atoms #

@@ -79,7 +79,7 @@ class OctaDist:
         True if the structure is octahedron or not, False if it does not.
 
     """
-    def __init__(self, master):
+    def __init__(self):
         # Initialize parameters
         self.file_list = []
         self.atom_coord_full = []
@@ -105,8 +105,9 @@ class OctaDist:
         self.show_axis = True
         self.show_grid = True
 
+    def config_all(self):
         # Create master frame, sub-frames, add menu, and add widgets
-        self.master = master
+        self.master = tk.Tk()
         self.start_master()
         self.add_menu()
         self.add_widgets()
@@ -1566,11 +1567,14 @@ class OctaDist:
 
         popup.info_save_results(f.name)
 
+    def run_now(self):
+        self.master.mainloop()
+
 
 def main():
-    root = tk.Tk()
-    app = OctaDist(root)
-    root.mainloop()
+    app = OctaDist()
+    app.config_all()
+    app.run_now()
 
 
 if __name__ == '__main__':
