@@ -21,7 +21,6 @@ import numpy as np
 
 import octadist_gui.src.plane
 from octadist_gui.src import linear, popup, projection
-from octadist_gui import main
 
 
 def find_bonds(fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
