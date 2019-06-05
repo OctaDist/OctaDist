@@ -24,7 +24,7 @@ from octadist_gui.src import linear, popup, projection
 from octadist_gui import main
 
 
-def find_bonds(self, fal, fcl):
+def find_bonds(self, fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
     """
     Find all bond distance and filter the possible bonds.
 
@@ -45,8 +45,8 @@ def find_bonds(self, fal, fcl):
         Selected bonds.
 
     """
-    cutoff_global = main.OctaDist.get_cutoff_global(self)
-    cutoff_hydrogen = main.OctaDist.get_cutoff_hydrogen(self)
+    # cutoff_global = main.OctaDist.get_cutoff_global(self)
+    # cutoff_hydrogen = main.OctaDist.get_cutoff_hydrogen(self)
 
     pair_list = []
     bond_list = []
