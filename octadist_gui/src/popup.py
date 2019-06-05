@@ -308,7 +308,8 @@ def err_wrong_format():
     None : None
 
     """
-    showerror("Error", "Input file format is not supported.")
+    showerror("Error", "Could not read file.\n\n"
+                       "Input file format is not supported by the current version of OctaDist.")
 
 
 def err_cannot_update():
