@@ -925,10 +925,6 @@ class OctaDist:
 
         run_rmsd = octadist_gui.src.tools.CalcRMSD(coord_complex_1, coord_complex_2)
 
-        run_rmsd.calc_rmsd_normal()
-        run_rmsd.calc_rmsd_translate()
-        run_rmsd.calc_rmsd_rotate()
-
         self.rmsd_normal = run_rmsd.get_rmsd_normal()
         self.rmsd_translate = run_rmsd.get_rmsd_translate()
         self.rmsd_rotate = run_rmsd.get_rmsd_rotate()
