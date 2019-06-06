@@ -40,6 +40,10 @@ def project_atom_onto_line(p, a, b):
         The projected point on the orthogonal line.
 
     """
+    p = np.asarray(p, dtype=np.float64)
+    a = np.asarray(a, dtype=np.float64)
+    b = np.asarray(b, dtype=np.float64)
+
     ap = p - a
     ab = b - a
 
@@ -77,7 +81,7 @@ def project_atom_onto_plane(p, a, b, c, d):
         The projected point on the orthogonal plane.
 
     """
-    plane = np.array([a, b, c])
+    plane = np.array([a, b, c], dtype=np.float64)
     lambda_plane = (d - (a * p[0] + b * p[1] + c * p[2])) / np.dot(plane, plane)
     projected_point = p + lambda_plane * plane
 
