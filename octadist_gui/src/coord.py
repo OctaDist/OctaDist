@@ -69,7 +69,6 @@ def get_coord(self, f):
     - ``NWChem``
     - ``ORCA``
     - ``Q-Chem``
-    
 
     """
     a_full = []
@@ -238,7 +237,6 @@ def check_xyz_file(f):
     N   4.350474    9.106286    6.356091
     O   5.789096    7.796326    4.611355
     O   6.686381    7.763872    7.209699
-    
 
     """
     file = open(f, "r")
