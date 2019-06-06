@@ -26,12 +26,8 @@ class CalcDistortion:
 
     Parameters
     ----------
-    self.coord : array or list or tuple
+    coord : array or list or tuple
         Atomic coordinates of octahedral structure.
-
-    Returns
-    -------
-    None : None
 
     """
     def __init__(self, coord):
@@ -65,13 +61,8 @@ class CalcDistortion:
 
         Parameters
         ----------
-        self.coord : array
+        coord : array
             Atomic coordinates of octahedral structure.
-
-        Returns
-        -------
-        self.bond_dist : array
-            Individual metal-ligand bond distance.
 
         Examples
         --------
@@ -101,13 +92,8 @@ class CalcDistortion:
 
         Parameters
         ----------
-        self.coord : array
+        coord : array
             Atomic coordinates of octahedral structure.
-
-        Returns
-        -------
-        self.d_mean : float
-            Mean metal-ligand distance.
 
         Examples
         --------
@@ -131,15 +117,8 @@ class CalcDistortion:
 
         Parameters
         ----------
-        self.coord : array
+        coord : array
             Atomic coordinates of octahedral structure.
-
-        Returns
-        -------
-        cis_angle : list
-            List of 12 cis angles.
-        trans_angle : list
-            List of 3 trans angles.
 
         Examples
         --------
@@ -184,13 +163,8 @@ class CalcDistortion:
 
         Parameters
         ----------
-        self.coord : array
+        coord : array
             Atomic coordinates of octahedral structure.
-
-        Returns
-        -------
-        self.zeta : float
-            Zeta parameter.
 
         References
         ----------
@@ -227,13 +201,8 @@ class CalcDistortion:
 
         Parameters
         ----------
-        self.coord : array
+        coord : array
             Atomic coordinates of octahedral structure.
-
-        Returns
-        -------
-        delta : float
-            Delta parameter.
 
         References
         ----------
@@ -269,13 +238,8 @@ class CalcDistortion:
 
         Parameters
         ----------
-        self.coord : array
+        coord : array
             Atomic coordinates of octahedral structure.
-
-        Returns
-        -------
-        sigma : float
-            Sigma parameter.
 
         References
         ----------
@@ -309,13 +273,8 @@ class CalcDistortion:
 
         Parameters
         ----------
-        self.coord : array or list
+        coord : array or list
             Atomic coordinates of octahedral structure.
-
-        Returns
-        -------
-        theta_mean : float
-            Mean Theta value.
 
         References
         ----------
@@ -551,13 +510,8 @@ class CalcDistortion:
 
         Parameters
         ----------
-        self.allTheta : list
+        allTheta : list
             List of individual Theta angles.
-
-        Returns
-        -------
-        theta_min : float
-            Minimum Theta parameter.
 
         Examples
         --------
@@ -579,13 +533,8 @@ class CalcDistortion:
 
         Parameters
         ----------
-        self.allTheta : list
+        allTheta : list
             List of individual Theta angles.
-
-        Returns
-        -------
-        self.theta_max : float
-            Maximum Theta parameter.
 
         Examples
         --------
@@ -602,31 +551,121 @@ class CalcDistortion:
         self.theta_max = sum(sorted_theta[i] for i in range(4, 8))
 
     def get_bond_dist(self):
+        """
+        Return list of individual metal-ligand bonds.
+
+        Returns
+        -------
+        bond_dist : list
+            List if individual metal-ligand bonds.
+
+        """
         return self.bond_dist
 
     def get_d_mean(self):
+        """
+        Return mean distance of metal-ligand bonds.
+
+        Returns
+        -------
+        d_mean : float
+            Mean distance of metal-ligand bonds.
+
+        """
         return self.d_mean
 
     def get_cis_angle(self):
+        """
+        Return list of cis angles.
+
+        Returns
+        -------
+        cis_angle : list
+            List if cis angles.
+
+        """
         return self.cis_angle
 
     def get_trans_angle(self):
+        """
+        Return list of trans angles.
+
+        Returns
+        -------
+        trans_angle : list
+            List if trans angles.
+
+        """
         return self.trans_angle
 
     def get_zeta(self):
+        """
+        Return Zeta parameter.
+
+        Returns
+        -------
+        zeta : float
+            Computed Zeta parameter.
+
+        """
         return self.zeta
 
     def get_delta(self):
+        """
+        Return Delta parameter.
+
+        Returns
+        -------
+        delta : float
+            Computed Delta parameter.
+
+        """
         return self.delta
 
     def get_sigma(self):
+        """
+        Return Sigma parameter.
+
+        Returns
+        -------
+        sigma : float
+            Computed Sigma parameter.
+
+        """
         return self.sigma
 
     def get_theta_mean(self):
+        """
+        Return mean Theta parameter.
+
+        Returns
+        -------
+        theta_mean : float
+            Computed mean Theta parameter.
+
+        """
         return self.theta_mean
 
     def get_theta_min(self):
+        """
+        Return min Theta parameter.
+
+        Returns
+        -------
+        theta_min : float
+            Computed min Theta parameter.
+
+        """
         return self.theta_min
 
     def get_theta_max(self):
+        """
+        Return max Theta parameter.
+
+        Returns
+        -------
+        theta_max : float
+            Computed max Theta parameter.
+
+        """
         return self.theta_max

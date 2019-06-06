@@ -36,24 +36,25 @@ class OctaDist:
     """
     Program interface is structured as below:
 
-    |-------------------|
-    |   Program menu    |
-    |-------------------|
+    +-------------------+
+    |   Program Menu    |
+    +-------------------+
     |     Frame 1       |
-    |-------------------|
+    +---------+---------+
     | Frame 2 | Frame 3 |
-    |-------------------|
+    +---------+---------+
     |     Frame 4       |
-    |-------------------|
+    +-------------------+
+
+    Frame 1 : Program name and short description
+    Frame 2 : Program console
+    Frame 3 : Textbox for showing summary output
+    Frame 4 : textbox for showing detailed output
 
     Parameters
     ----------
-    master
+    master : object
         Master frame of program GUI.
-
-    Returns
-    -------
-    None : None
 
     Notes
     -----
@@ -329,9 +330,14 @@ class OctaDist:
         """
         Show welcome message in result box.
 
-        Returns
-        -------
-        None : None
+        Examples
+        --------
+        >>> Welcome to OctaDist 2.5.4 (dev) May 2019
+
+        Developed by Rangsiman Ketkaew, Yuthana Tantirungrotechai,
+        David J. Harding, Phimphaka Harding, and Mathieu Marchivie.
+
+        https://octadist.github.io
 
         """
         full_version = octadist_gui.__version__ + " " + octadist_gui.__release__
@@ -447,10 +453,6 @@ class OctaDist:
         """
         Copy input file name to clipboard.
 
-        Returns
-        -------
-        None : None
-
         See Also
         --------
         copy_path
@@ -474,10 +476,6 @@ class OctaDist:
         """
         Copy absolute path of input file to clipboard.
 
-        Returns
-        -------
-        None : None
-
         See Also
         --------
         copy_name
@@ -498,10 +496,6 @@ class OctaDist:
     def copy_results(self):
         """
         Copy the results and computed distortion parameters to clipboard.
-
-        Returns
-        -------
-        None : None
 
         See Also
         --------
@@ -532,10 +526,6 @@ class OctaDist:
         """
         Copy atomic coordinates of octahedral structure to clipboard.
 
-        Returns
-        -------
-        None : None
-
         See Also
         --------
         copy_name
@@ -556,10 +546,6 @@ class OctaDist:
     def edit_file(self):
         """
         Edit file by specified text editor on Windows
-
-        Returns
-        -------
-        None : None
 
         See Also
         --------
@@ -592,10 +578,6 @@ class OctaDist:
         args : str
             Variable.
 
-        Returns
-        -------
-        None : None
-
         """
         for i in range(len(args)):
             self.box_script.insert(tk.INSERT, f">>> {args[i]}")
@@ -610,10 +592,6 @@ class OctaDist:
             Variable to be assigned.
         new_value : str
             New value to assign.
-
-        Returns
-        -------
-        None : None
 
         """
         self.all_var = {'cutoff_metal_ligand': self.cutoff_metal_ligand,
@@ -632,11 +610,8 @@ class OctaDist:
 
         Parameters
         ----------
-        event : None
-
-        Returns
-        -------
-        None : None
+        event : object
+            Object for button interaction
 
         """
         self.get_var = self.entry_script.get().strip().split()
@@ -698,9 +673,16 @@ class OctaDist:
         """
         Start scripting box.
 
-        Returns
-        -------
-        None : None
+        +------------+
+        | Output box |
+        +------------+
+        | Input box  |
+        +------------+
+
+        Parameters
+        ----------
+        master : object
+            Master frame of program.
 
         """
         wd = tk.Toplevel(self.master)
@@ -734,10 +716,6 @@ class OctaDist:
         """
         Display 3D complex.
 
-        Returns
-        -------
-        None : None
-
         """
         if len(self.atom_coord_full) == 0:
             popup.err_no_file()
@@ -752,19 +730,11 @@ class OctaDist:
         my_plot.add_atom()
         my_plot.add_bond()
         my_plot.add_legend()
-        # my_plot.add_symbol()
-        # my_plot.config_plot(title_size=20)
-        # my_plot.config_plot(title_name="OK", title_size=50)
-        # my_plot.config_plot()
         my_plot.show_plot()
 
     def draw_all_atom_and_face(self):
         """
         Display 3D complex with the faces.
-
-        Returns
-        -------
-        None : None
 
         """
         if len(self.atom_coord_full) == 0:
@@ -791,10 +761,6 @@ class OctaDist:
         """
         Display 3D octahedral structure.
 
-        Returns
-        -------
-        None : None
-
         """
         if len(self.atom_coord_octa) == 0:
             popup.err_no_file()
@@ -809,19 +775,11 @@ class OctaDist:
         my_plot.add_atom()
         my_plot.add_bond()
         my_plot.add_legend()
-        # my_plot.add_symbol()
-        # my_plot.config_plot(title_size=20)
-        # my_plot.config_plot(title_name="OK", title_size=50)
-        # my_plot.config_plot()
         my_plot.show_plot()
 
     def draw_octa_and_face(self):
         """
         Display 3D octahedral structure with the faces.
-
-        Returns
-        -------
-        None : None
 
         """
         if len(self.atom_coord_octa) == 0:
@@ -847,10 +805,6 @@ class OctaDist:
         """
         Draw projection planes.
 
-        Returns
-        -------
-        None : None
-
         """
         if len(self.atom_coord_full) == 0:
             popup.err_no_file()
@@ -870,10 +824,6 @@ class OctaDist:
     def draw_twisting_plane(self):
         """
         Draw twisting triangular planes.
-
-        Returns
-        -------
-        None : None
 
         """
         if len(self.atom_coord_full) == 0:
@@ -899,10 +849,6 @@ class OctaDist:
         """
         Plot relationship between zeta and sigma.
 
-        Returns
-        -------
-        None : None
-
         """
         if len(self.all_sigma) == 0:
             popup.err_no_calc()
@@ -918,10 +864,6 @@ class OctaDist:
         """
         Plot relationship between sigma and theta.
 
-        Returns
-        -------
-        None : None
-
         """
         if len(self.all_sigma) == 0:
             popup.err_no_calc()
@@ -935,20 +877,7 @@ class OctaDist:
 
     def calc_jahn_teller(self):
         """
-        Calculate Jahn-Teller distortion parameter
-
-        Parameters
-        ----------
-        self_octadist : None
-            Self reference having passed from OctaDist class.
-        master : None
-            Master frame of main program.
-        acf : list
-            Atomic labels and coordinates of full complex.
-
-        Returns
-        -------
-        None : None
+        Calculate Jahn-Teller distortion parameter.
 
         """
         if len(self.atom_coord_full) == 0:
@@ -968,28 +897,18 @@ class OctaDist:
         """
         Calculate root mean squared displacement of atoms in complex, RMSD.
 
-        Parameters
-        ----------
-        coord_complex_1 : list or array
-            Atomic coordinates of structure 1.
-        coord_complex_2 : list or array
-            Atomic coordinates of structure 2.
-
-        Returns
-        -------
-        None : None
-
         """
         if len(self.atom_coord_full) != 2:
             popup.err_only_2_files()
             return 1
 
-        strct1 = self.atom_coord_full[0]
-        strct2 = self.atom_coord_full[1]
+        complex_1 = self.atom_coord_full[0]
+        complex_2 = self.atom_coord_full[1]
 
-        atom_complex_1, coord_complex_1 = strct1
-        atom_complex_2, coord_complex_2 = strct2
+        atom_complex_1, coord_complex_1 = complex_1
+        atom_complex_2, coord_complex_2 = complex_2
 
+        # Check if two complexes are consistent
         if len(atom_complex_1) != len(atom_complex_2):
             popup.err_not_equal_atom()
             return 1
@@ -1012,6 +931,10 @@ class OctaDist:
         self.show_rmsd()
 
     def show_rmsd(self):
+        """
+        Show RMSD output in output box of main program.
+
+        """
         echo_outs(self, "RMSD between two complexes")
         echo_outs(self, "**************************")
         echo_outs(self, f"Normal RMSD       : {self.rmsd_normal:3.6f}")
@@ -1025,15 +948,16 @@ class OctaDist:
 
     def settings(self):
         """
-        Program settings. User can set and adjust default values of distance parameters
-        for example, distance cutoff for screening out bond distance between atoms.
-
-        Returns
-        -------
-        None : None
+        Program settings. This setting allows the user to set and
+        adjust the default values of initial variables.
+        For example, cutoff distance for screening bond distance between atoms.
 
         """
         def open_exe():
+            """
+            Program setting: Open dialog in which the user will choose text editor.
+
+            """
             try:
                 input_file = filedialog.askopenfilename(
                     title="Choose text editor executable",
@@ -1048,24 +972,40 @@ class OctaDist:
                 return 1
 
         def check_title():
+            """
+            Check if title of figure will be set to show or not.
+
+            """
             if var_title.get():
                 var_title.set(True)
             else:
                 var_title.set(False)
 
         def check_axis():
+            """
+            Check if axis of figure will be set to show or not.
+
+            """
             if var_axis.get():
                 var_axis.set(True)
             else:
                 var_axis.set(False)
 
         def check_grid():
+            """
+            Check if grid of figure will be set to show or not.
+
+            """
             if var_grid.get():
                 var_grid.set(True)
             else:
                 var_grid.set(False)
 
         def restore_settings(self):
+            """
+            Restore all settings.
+
+            """
             self.cutoff_metal_ligand = self.backup_1
             self.cutoff_global = self.backup_2
             self.cutoff_hydrogen = self.backup_3
@@ -1085,6 +1025,10 @@ class OctaDist:
             entry_exe.insert(tk.INSERT, self.text_editor)
 
         def commit_ok(self):
+            """
+            If the user click OK, save all settings and show info in output box.
+
+            """
             self.cutoff_metal_ligand = float(var_1.get())
             self.cutoff_global = float(var_2.get())
             self.cutoff_hydrogen = float(var_3.get())
@@ -1109,6 +1053,10 @@ class OctaDist:
             wd.destroy()
 
         def commit_cancel():
+            """
+            If the user click CANCEL, close window.
+
+            """
             wd.destroy()
 
         ###################
@@ -1236,10 +1184,6 @@ class OctaDist:
         Clear program cache by nullifying all default variables
         and clear both of parameter and result boxes.
 
-        Returns
-        -------
-        None : None
-
         """
         for name in dir():
             if not name.startswith('_'):
@@ -1263,10 +1207,6 @@ class OctaDist:
         """
         Clear parameter box.
 
-        Returns
-        -------
-        None : None
-
         """
         self.box_delta.delete(0, tk.END)
         self.box_sigma.delete(0, tk.END)
@@ -1277,10 +1217,6 @@ class OctaDist:
     def clear_result_box(self):
         """
         Clear result box.
-
-        Returns
-        -------
-        None : None
 
         """
         self.box_result.delete(1.0, tk.END)
@@ -1293,10 +1229,6 @@ class OctaDist:
         """
         Check program update by comparing version of program user is using with
         that of the latest version released on github.
-
-        Returns
-        -------
-        None : None
 
         References
         ----------
@@ -1362,10 +1294,6 @@ class OctaDist:
         Calculate all distortion parameters:
         Zeta, Delta, Sigma, and Theta_mean parameters.
 
-        Returns
-        -------
-        None : None
-
         """
         if not self.check_metal:
             popup.err_no_metal()
@@ -1407,11 +1335,7 @@ class OctaDist:
 
     def show_all_param(self):
         """
-        Print results to each unique box
-
-        Returns
-        -------
-        None : None
+        Print results to each unique box.
 
         """
         if len(self.atom_coord_octa) == 1:
@@ -1453,11 +1377,7 @@ class OctaDist:
 
     def open_file(self):
         """
-        Open file dialog in which user can browse to input file and upload it to program.
-
-        Returns
-        -------
-        None : None
+        Open file dialog in which the user will select input file and upload it to program.
 
         """
         self.clear_cache()
@@ -1577,11 +1497,7 @@ class OctaDist:
 
     def save_results(self):
         """
-        Save results as output file (*txt).
-
-        Returns
-        -------
-        None : None
+        Save results as output file. Default file extension is *.txt.
 
         """
         f = filedialog.asksaveasfile(mode='w', defaultextension=".txt", title="Save results",
@@ -1613,12 +1529,8 @@ class OctaDist:
 
     def save_coord(self):
         """
-        Save atomic coordinates (Cartesian coordinate) of octahedral structure
-        as XYZ file.
-
-        Returns
-        -------
-        None : None
+        Save atomic coordinates (Cartesian coordinate) of octahedral structure.
+        Default file extension is *xyz.
 
         """
         if len(self.file_list) == 0:
