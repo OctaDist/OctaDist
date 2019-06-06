@@ -890,7 +890,9 @@ class OctaDist:
             popup.err_many_files()
             return 1
 
-        run_jt = tools.CalcJahnTeller(self.atom_coord_full, master=self.master)
+        atom, coord = self.atom_coord_full[0]
+
+        run_jt = tools.CalcJahnTeller(atom=atom, coord=coord, master=self.master)
         run_jt.start_app()
         run_jt.create_widget()
         run_jt.find_bond()
@@ -921,7 +923,7 @@ class OctaDist:
                 popup.err_atom_not_match(i + 1)
                 return 1
 
-        run_rmsd = tools.CalcRMSD(coord_complex_1, coord_complex_2)
+        run_rmsd = tools.CalcRMSD(coord_1=coord_complex_1, coord_2=coord_complex_2)
 
         self.rmsd_normal = run_rmsd.get_rmsd_normal()
         self.rmsd_translate = run_rmsd.get_rmsd_translate()

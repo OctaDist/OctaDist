@@ -33,17 +33,36 @@ class CalcJahnTeller:
 
     Parameters
     ----------
-    acf : list
-        Atomic labels and coordinates of full complex.
+    atom : array_like
+        Atomic labels of full complex.
+    coord : array_like
+        Atomic coordinates of full complex.
     master : None, object
         If None, use tk.Tk().
         If not None, use tk.Toplevel(master).
 
+    Examples
+    --------
+    >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
+
+    >>> coord = [[2.298354000, 5.161785000, 7.971898000],
+                 [1.885657000, 4.804777000, 6.183726000],
+                 [1.747515000, 6.960963000, 7.932784000],
+                 [4.094380000, 5.807257000, 7.588689000],
+                 [0.539005000, 4.482809000, 8.460004000],
+                 [2.812425000, 3.266553000, 8.131637000],
+                 [2.886404000, 5.392925000, 9.848966000]]
+
+    >>> test = CalcJahnTeller(atom=atom, coord=coord)
+    >>> test.start_app()
+    >>> test.create_widget()
+    >>> test.find_bond()
+    >>> test.show_app()
+
     """
-    def __init__(self, acf, master=None):
-        self.acf = acf
-        self.fal = self.acf[0][0]
-        self.fcl = self.acf[0][1]
+    def __init__(self, atom, coord, master=None):
+        self.fal = atom
+        self.fcl = coord
 
         if master is None:
             self.wd = tk.Tk()
@@ -90,7 +109,7 @@ class CalcJahnTeller:
         self.btn.config(width=15, relief=tk.RAISED)
         self.btn.grid(padx="10", pady="5", row=2, column=2, columnspan=2)
 
-        self.btn = tk.Button(self.wd, text="Calculate parameter", command=lambda: self.plot_fit_plane(self.acf))
+        self.btn = tk.Button(self.wd, text="Calculate parameter", command=lambda: self.plot_fit_plane())
         self.btn.config(width=15, relief=tk.RAISED)
         self.btn.grid(padx="10", pady="5", row=3, column=0, columnspan=2)
 
@@ -346,14 +365,9 @@ class CalcJahnTeller:
     # Plot fit plant to the selected atoms #
     ########################################
 
-    def plot_fit_plane(self, acf):
+    def plot_fit_plane(self):
         """
         Display complex and two fit planes of two sets of ligand in molecule.
-
-        Parameters
-        ----------
-        acf : list
-            Atomic labels and coordinates of full complex.
 
         """
         ###############
@@ -502,18 +516,18 @@ class CalcRMSD:
 
     Parameters
     ----------
-    self.coord_1 : list or array
+    coord_1 : array_list
         Atomic labels and coordinates of structure 1.
-    self.coord_2 : list or array
+    coord_2 : array_list
         Atomic labels and coordinates of structure 2.
 
     Returns
     -------
-    rmsd_normal : int or float
+    rmsd_normal : float
         Normal RMSD.
-    rmsd_translate : int or float
+    rmsd_translate : float
         Translate RMSD (re-centered).
-    rmsd_rotate : int or float
+    rmsd_rotate : float
         Kabsch RMSD (rotated).
 
     References
@@ -523,28 +537,40 @@ class CalcRMSD:
     Examples
     --------
     >>> comp1.xyz
-    Fe        10.187300000     5.746300000     5.615000000
+    Fe       10.187300000     5.746300000     5.615000000
     O         8.494000000     5.973500000     4.809100000
     O         9.652600000     6.422900000     7.307900000
     N        10.803800000     7.531900000     5.176200000
     N         9.622900000     3.922100000     6.008300000
     N        12.006500000     5.556200000     6.349700000
     N        10.804600000     4.947100000     3.921900000
+
     >>> comp2.xyz
-    Fe        12.093762780     2.450541280     3.420711630
+    Fe       12.093762780     2.450541280     3.420711630
     O        12.960362780     2.295241280     1.728611630
     O        13.487662780     1.618241280     4.423011630
     N        12.852262780     4.317441280     3.989411630
     N        10.930762780     0.769741280     2.931511630
     N        10.787862780     2.298741280     5.107111630
     N        10.677362780     3.796041280     2.542411630
-    >>> complex = [comp1, comp2]  # comp1 and comp2 are lists of coordinates of two complex
-    >>> calc_rmsd(complex)
-    RMSD between two complexes
-    **************************
-    Normal RMSD       : 5.015001
-    Re-centered RMSD  : 2.665076
-    Rotated RMSD      : 1.592468
+
+    >>> comp1_xyz = get_octa(comp1.xyz)
+    >>> comp2_xyz = get_octa(comp2.xyz)
+
+    >>> test = CalcRMSD(coord_1=comp1_xyz, coord_2=comp2_xyz)
+
+    >>> rmsd_normal = test.get_rmsd_normal()
+    >>> rmsd_translate = test.get_rmsd_translate()
+    >>> rmsd_rotate = test.get_rmsd_rotate()
+
+    >>> rmsd_normal
+    6.758144
+
+    >>> rmsd_translate
+    0.305792
+
+    >>> rmsd_rotate
+    0.277988
 
     """
     def __init__(self, coord_1, coord_2):

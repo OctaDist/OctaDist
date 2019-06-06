@@ -32,6 +32,18 @@ class Plot:
     name2 = str, optional
         Name of data set 2.
 
+    Examples
+    --------
+    >>> data1 = [1, 2, 3, 4, 5]
+
+    >>> data2 = [1, 2, 3, 4, 5]
+
+    >>> test = Plot(data1, data2, name1="Data 1", name2="Data 2")
+    >>> test.add_point()
+    >>> test.add_text()
+    >>> test.add_legend()
+    >>> test.show_plot()
+
     """
     def __init__(self, *args, name1="Var1", name2="Var2"):
         try:
