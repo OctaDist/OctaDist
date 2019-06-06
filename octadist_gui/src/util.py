@@ -40,10 +40,6 @@ class CalcJahnTeller:
         If None, use tk.Tk().
         If not None, use tk.Toplevel(master).
 
-    Returns
-    -------
-    None : None
-
     """
     def __init__(self, acf, master=None):
         self.acf = acf
@@ -60,11 +56,19 @@ class CalcJahnTeller:
         self.coord_B = []
 
     def start_app(self):
+        """
+        Start application.
+
+        """
         self.wd.wm_iconbitmap(r"..\images\molecule.ico")
         self.wd.title("Calculate Jahn-Teller distortion parameter")
         self.wd.geometry("630x550")
 
     def create_widget(self):
+        """
+        Create widgets.
+
+        """
         self.lbl = tk.Label(self.wd, text="Group A")
         self.lbl.config(width=12)
         self.lbl.grid(padx="10", pady="5", row=0, column=0, columnspan=2)
@@ -123,11 +127,7 @@ class CalcJahnTeller:
 
     def find_bond(self):
         """
-        Find bonds
-
-        Returns
-        -------
-        None : None
+        Find bonds.
 
         """
         self.bond_list = octadist_gui.src.structure.find_bonds(self.fal, self.fcl)
@@ -144,10 +144,6 @@ class CalcJahnTeller:
         ----------
         group : str
             Group A or B.
-
-        Returns
-        -------
-        None : None
 
         """
         fig = plt.figure()
@@ -213,10 +209,6 @@ class CalcJahnTeller:
             group : str
                 Group A or B.
 
-            Returns
-            -------
-            None : None
-
             """
             if group == "A":
                 self.box_1.insert(tk.INSERT, text + "\n")
@@ -230,12 +222,22 @@ class CalcJahnTeller:
 
                 self.coord_B.append(coord)
 
-        # def on_pick(event):
-        #     ind = event.ind
-        #     print("on_pick scatter:", ind, np.take(x, ind), np.take(y, ind))
-
-        # Pick point and get XYZ data
         def on_pick(event):
+            """
+            Pick point and get XYZ data
+
+            Parameters
+            ----------
+            event : object
+                Event object for on-pick function.
+
+            Examples
+            --------
+            >>> def on_pick(event):
+            >>> ... ind = event.ind
+            >>> ... print("on_pick scatter:", ind, np.take(x, ind), np.take(y, ind))
+
+            """
             ind = event.ind[0]
             x, y, z = event.artist._offsets3d
             for i in range(len(self.fal)):
@@ -293,9 +295,7 @@ class CalcJahnTeller:
                   (3.4, 2.4, 8.3),
                   (1.5, 4.5, 8.0),
                   (5.5, 6.7, 4.5)]
-
         To plot the plane, run following commands:
-
         >> map coordinates for scattering plot
         >> xs, ys, zs = zip(*points)
         >> ax.scatter(xs, ys, zs)
@@ -353,10 +353,6 @@ class CalcJahnTeller:
         ----------
         acf : list
             Atomic labels and coordinates of full complex.
-
-        Returns
-        -------
-        None : None
 
         """
         ###############
@@ -473,10 +469,6 @@ class CalcJahnTeller:
         """
         Clear text in box A & B.
 
-        Returns
-        -------
-        None : None
-
         """
         self.box_1.delete(1.0, tk.END)
         self.box_2.delete(1.0, tk.END)
@@ -496,6 +488,10 @@ class CalcJahnTeller:
             pass
 
     def show_app(self):
+        """
+        Show application.
+
+        """
         self.wd.mainloop()
 
 
@@ -563,9 +559,17 @@ class CalcRMSD:
         self.calc_rmsd_rotate()
 
     def calc_rmsd_normal(self):
+        """
+        Calculate normal RMSD.
+
+        """
         self.rmsd_normal = rmsd.rmsd(self.coord_1, self.coord_2)
 
     def calc_rmsd_translate(self):
+        """
+        Calculate translate RMSD.
+
+        """
         # Manipulate recenter
         self.coord_1 -= rmsd.centroid(self.coord_1)
         self.coord_2 -= rmsd.centroid(self.coord_2)
@@ -577,13 +581,29 @@ class CalcRMSD:
         self.coord_1 = np.dot(self.coord_1, U)
 
     def calc_rmsd_rotate(self):
+        """
+        Calculate rotate RMSD.
+
+        """
         self.rmsd_rotate = rmsd.rmsd(self.coord_1, self.coord_2)
 
     def get_rmsd_normal(self):
+        """
+        Get normal RMSD.
+
+        """
         return self.rmsd_normal
 
     def get_rmsd_translate(self):
+        """
+        Get translate RMSD.
+
+        """
         return self.rmsd_translate
 
     def get_rmsd_rotate(self):
+        """
+        Get rotate RMSD.
+
+        """
         return self.rmsd_rotate
