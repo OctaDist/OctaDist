@@ -14,216 +14,599 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+import functools
 import tkinter as tk
 from tkinter import scrolledtext as tkscrolled
 
-from octadist_gui.src import linear, popup
-from octadist_gui.src.structure import find_faces_octa
+import numpy as np
+import rmsd
+import scipy.optimize
+from matplotlib import pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+import octadist_gui.src
+import octadist_gui.src.util
+from octadist_gui.src import linear, elements
+from octadist_gui.src.util import find_faces_octa
 
 
-def data_complex(self, files, acf):
+class CalcJahnTeller:
     """
-    Show info of input complex.
-
-    Parameters
-    ----------
-    files : list
-        List containing the names of all input files.
-    acf : list
-        Atomic labels and coordinates of full complex.
-
-    """
-    if len(files) == 0:
-        popup.err_no_file()
-        return 1
-
-    wd = tk.Toplevel(self.master)
-    wd.wm_iconbitmap(r"..\images\molecule.ico")
-    wd.title("Complex info")
-    wd.geometry("550x500")
-    wd.option_add("*Font", "Arial 10")
-    frame = tk.Frame(wd)
-    frame.grid()
-
-    box = tkscrolled.ScrolledText(frame, wrap="word", width="75", height="30", undo="True")
-    box.grid(row=0, pady="5", padx="5")
-    box.delete(1.0, tk.END)
-
-    for i in range(len(files)):
-        box.insert(tk.END, f"File {i + 1:>2} : {files[i].split('/')[-1]}\n")
-        box.insert(tk.END, f">> Number of atoms: {len(acf[i][0])}\n")
-        atoms = list(set(acf[i][0]))
-        box.insert(tk.END, f">> List of atoms: {atoms}\n")
-        box.insert(tk.END, "\n")
-
-
-def data_face(self, aco):
-    """
-    Show info of selected 4 octahedral faces.
-
-    Parameters
-    ----------
-    aco : list
-        Atomic labels and coordinates of octahedral structure.
-
-    """
-    if len(aco) == 0:
-        popup.err_no_calc()
-        return 1
-
-    wd = tk.Toplevel(self.master)
-    wd.wm_iconbitmap(r"..\images\molecule.ico")
-    wd.title("Selected octahedral faces")
-    wd.geometry("550x500")
-    wd.option_add("*Font", "Arial 10")
-    frame = tk.Frame(wd)
-    frame.grid()
-    box = tkscrolled.ScrolledText(frame, wrap="word", width="75", height="30", undo="True")
-    box.grid(row=0, pady="5", padx="5")
-    box.delete(1.0, tk.END)
-
-    for n in range(len(aco)):
-        if n > 0:
-            box.insert(tk.END, "==============================\n\n")
-
-        num, metal, _, coord = aco[n]
-        a_ref, c_ref, a_oppo, c_oppo = find_faces_octa(coord)
-
-        box.insert(tk.INSERT, f"Entry: {n + 1}\n")
-        box.insert(tk.INSERT, f"Complex no. {num} - Metal: {metal}\n")
-        for i in range(4):
-            box.insert(tk.END, f"Reference atoms: {a_ref[i]}          Opposite atoms: {a_oppo[i]}\n")
-            for j in range(3):
-                box.insert(tk.END, f"{c_ref[i][j][0]:9.6f},{c_ref[i][j][1]:9.6f},{c_ref[i][j][2]:9.6f} \t "
-                                   f"{c_oppo[i][j][0]:9.6f},{c_oppo[i][j][1]:9.6f},{c_oppo[i][j][2]:9.6f}\n")
-
-            box.insert(tk.END, "\n")
-
-
-def param_complex(self, acf):
-    """
-    Show structural parameters of the complex.
+    Calculate angular Jahn-Teller distortion parameter.
 
     Parameters
     ----------
     acf : list
         Atomic labels and coordinates of full complex.
+    master : None or not None
+        If None, use tk.Tk().
+        If not None, use tk.Toplevel(master).
 
     """
-    if len(acf) == 0:
-        popup.err_no_file()
-        return 1
-    elif len(acf) > 1:
-        popup.err_many_files()
-        return 1
+    def __init__(self, acf, master=None):
+        self.acf = acf
+        self.fal = self.acf[0][0]
+        self.fcl = self.acf[0][1]
 
-    wd = tk.Toplevel(self.master)
-    wd.wm_iconbitmap(r"..\images\molecule.ico")
-    wd.title("Results")
-    wd.geometry("380x530")
-    wd.option_add("*Font", "Arial 10")
-    frame = tk.Frame(wd)
-    frame.grid()
-    lbl = tk.Label(frame, text="Structural parameters of octahedral structure")
-    lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
-    box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
-    box.grid(row=1, pady="5", padx="5")
-    box.insert(tk.INSERT, "Bond distance (Å)")
+        if master is None:
+            self.wd = tk.Tk()
+        else:
+            self.wd = tk.Toplevel(master)
 
-    fal, fcl = acf[0]
-    for i in range(len(fcl)):
-        for j in range(i + 1, len(fcl)):
-            distance = linear.euclidean_dist(fcl[i], fcl[j])
+        self.bond_list = []
+        self.coord_A = []
+        self.coord_B = []
 
-            if i == 0:
-                texts = f"{fal[i]}-{fal[j]}{j} {distance:10.6f}"
+    def start_app(self):
+        """
+        Start application.
 
-            else:
-                texts = f"{fal[i]}{i}-{fal[j]}{j} {distance:10.6f}"
+        """
+        self.wd.wm_iconbitmap(r"..\images\molecule.ico")
+        self.wd.title("Calculate Jahn-Teller distortion parameter")
+        self.wd.geometry("630x550")
 
-            box.insert(tk.END, "\n" + texts)
+    def create_widget(self):
+        """
+        Create widgets.
 
-    box.insert(tk.END, "\n\nBond angle (°)")
+        """
+        self.lbl = tk.Label(self.wd, text="Group A")
+        self.lbl.config(width=12)
+        self.lbl.grid(padx="10", pady="5", row=0, column=0, columnspan=2)
 
-    for i in range(len(fcl)):
-        for j in range(i + 1, len(fcl)):
-            for k in range(j + 1, len(fcl)):
-                vec1 = fcl[i] - fcl[j]
-                vec2 = fcl[k] - fcl[j]
-                angle = linear.angle_btw_vectors(vec1, vec2)
+        self.lbl = tk.Label(self.wd, text="Group B")
+        self.lbl.config(width=12)
+        self.lbl.grid(padx="10", pady="5", row=0, column=2, columnspan=2)
 
-                if i == 0:
-                    texts = f"{fal[k]}{k}-{fal[i]}-{fal[j]}{j} {angle:10.6f}"
+        self.box_1 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
+        self.box_1.grid(padx="5", pady="5", row=1, column=0, columnspan=2)
 
-                else:
-                    texts = f"{fal[k]}{k}-{fal[i]}{i}-{fal[j]}{j} {angle:10.6f}"
+        self.box_2 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
+        self.box_2.grid(padx="5", pady="5", row=1, column=2, columnspan=2)
 
-                box.insert(tk.END, "\n" + texts)
+        self.btn = tk.Button(self.wd, text="Select ligand set A", command=lambda: self.pick_atom(group="A"))
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=2, column=0, columnspan=2)
 
-    box.insert(tk.END, "\n")
+        self.btn = tk.Button(self.wd, text="Select ligand set B", command=lambda: self.pick_atom(group="B"))
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=2, column=2, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Calculate parameter", command=lambda: self.plot_fit_plane(self.acf))
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=3, column=0, columnspan=2)
+
+        self.btn = tk.Button(self.wd, text="Clear all", command=lambda: self.clear_text())
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="5", row=3, column=2, columnspan=2)
+
+        self.lbl = tk.Label(self.wd, text="Supplementary angles between two planes (in degree)")
+        self.lbl.grid(pady="10", row=4, columnspan=4)
+
+        self.lbl_angle1 = tk.Label(self.wd, text="Angle 1")
+        self.lbl_angle1.grid(pady="5", row=5, column=0)
+        self.box_angle1 = tk.Entry(self.wd, width="20", justify='center')
+        self.box_angle1.grid(row=5, column=1, sticky=tk.W)
+
+        self.lbl_angle2 = tk.Label(self.wd, text="Angle 2")
+        self.lbl_angle2.grid(pady="5", row=6, column=0)
+        self.box_angle2 = tk.Entry(self.wd, width="20", justify='center')
+        self.box_angle2.grid(row=6, column=1, sticky=tk.W)
+
+        self.lbl = tk.Label(self.wd, text="The equation of the planes")
+        self.lbl.grid(pady="10", row=7, columnspan=4)
+
+        self.lbl_eq1 = tk.Label(self.wd, text="Plane A ")
+        self.lbl_eq1.grid(pady="5", row=8, column=0)
+        self.box_eq1 = tk.Entry(self.wd, width="60", justify='center')
+        self.box_eq1.grid(pady="5", row=8, column=1, columnspan=2, sticky=tk.W)
+
+        self.lbl_eq2 = tk.Label(self.wd, text="Plane B ")
+        self.lbl_eq2.grid(pady="5", row=9, column=0)
+        self.box_eq2 = tk.Entry(self.wd, width="60", justify='center')
+        self.box_eq2.grid(pady="5", row=9, column=1, columnspan=2, sticky=tk.W)
+
+    def find_bond(self):
+        """
+        Find bonds.
+
+        """
+        self.bond_list = octadist_gui.src.util.find_bonds(self.fal, self.fcl)
+
+    #################
+    # Picking atoms #
+    #################
+
+    def pick_atom(self, group):
+        """
+        On-mouse pick atom and get XYZ coordinate.
+
+        Parameters
+        ----------
+        group : str
+            Group A or B.
+
+        """
+        fig = plt.figure()
+        # fig = plt.figure(figsize=(5, 4), dpi=100)
+        ax = Axes3D(fig)
+        # ax = fig.add_subplot(111, projection='3d')
+
+        # Plot all atoms
+        for i in range(len(self.fcl)):
+            # Determine atomic number
+            n = elements.check_atom(self.fal[i])
+            ax.scatter(self.fcl[i][0], self.fcl[i][1], self.fcl[i][2],
+                       marker='o', linewidths=0.5, edgecolors='black', picker=5,
+                       color=elements.check_color(n), label=f"{self.fal[i]}",
+                       s=elements.check_radii(n) * 300)
+
+        atoms_pair = []
+        for i in range(len(self.bond_list)):
+            get_atoms = self.bond_list[i]
+            x, y, z = zip(*get_atoms)
+            atoms = list(zip(x, y, z))
+            atoms_pair.append(atoms)
+
+        # Draw line
+        for i in range(len(atoms_pair)):
+            merge = list(zip(atoms_pair[i][0], atoms_pair[i][1]))
+            x, y, z = merge
+            ax.plot(x, y, z, 'k-', color="black", linewidth=2)
+
+        # Set legend
+        # Remove duplicate labels in legend.
+        # Ref.https://stackoverflow.com/a/26550501/6596684
+        handles, labels = ax.get_legend_handles_labels()
+        handle_list, label_list = [], []
+        for handle, label in zip(handles, labels):
+            if label not in label_list:
+                handle_list.append(handle)
+                label_list.append(label)
+        leg = fig.legend(handle_list, label_list,
+                         loc="lower left", scatterpoints=1, fontsize=12)
+        # Fixed size of point in legend
+        # Ref. https://stackoverflow.com/a/24707567/6596684
+        for i in range(len(leg.legendHandles)):
+            leg.legendHandles[i]._sizes = [90]
+
+        # Set axis
+        ax.set_xlabel(r'X', fontsize=15)
+        ax.set_ylabel(r'Y', fontsize=15)
+        ax.set_zlabel(r'Z', fontsize=15)
+        ax.set_title('Full complex', fontsize="12")
+        ax.grid(True)
+
+        def insert_text(text, coord, group):
+            """
+            Insert text in boxes.
+
+            Parameters
+            ----------
+            text : str
+                Text.
+            coord : list or array
+                Coordinates.
+            group : str
+                Group A or B.
+
+            """
+            if group == "A":
+                self.box_1.insert(tk.INSERT, text + "\n")
+                self.box_1.see(tk.END)
+
+                self.coord_A.append(coord)
+
+            elif group == "B":
+                self.box_2.insert(tk.INSERT, text + "\n")
+                self.box_2.see(tk.END)
+
+                self.coord_B.append(coord)
+
+        def on_pick(event):
+            """
+            Pick point and get XYZ data
+
+            Parameters
+            ----------
+            event : object
+                Event object for on-pick function.
+
+            Examples
+            --------
+            >>> def on_pick(event):
+            >>> ... ind = event.ind
+            >>> ... print("on_pick scatter:", ind, np.take(x, ind), np.take(y, ind))
+
+            """
+            ind = event.ind[0]
+            x, y, z = event.artist._offsets3d
+            for i in range(len(self.fal)):
+                if x[ind] == self.fcl[i][0]:
+                    if y[ind] == self.fcl[i][1]:
+                        if z[ind] == self.fcl[i][2]:
+                            atom = self.fal[i]
+                            break
+
+            results = f"{i + 1}  {atom}  :  {x[ind]} {y[ind]} {z[ind]}"
+            coord = [x[ind], y[ind], z[ind]]
+            insert_text(results, coord, group)
+            # Highlight selected atom
+            index = elements.check_atom(atom)
+            ax.scatter(x[ind], y[ind], z[ind],
+                       marker='o', linewidths=0.5,
+                       edgecolors='orange', picker=5, alpha=0.5,
+                       color='yellow', s=elements.check_radii(index) * 400)
+            # print(i+1, atom, x[ind], y[ind], z[ind])
+
+        fig.canvas.mpl_connect('pick_event', on_pick)
+
+        # plt.axis('equal')
+        # plt.axis('off')
+        plt.show()
+
+    #########################################
+    # Find best fit plane to selected atoms #
+    #########################################
+
+    def find_fit_plane(self, coord):
+        """
+        Find best fit plane to the given data points (atoms).
+
+        scipy.optimize.minimize is used to find the least-square plane.
+
+        Parameters
+        ----------
+        coord : list or array
+            Coordinates of selected atom chunk.
+
+        Returns
+        -------
+        xx, yy, z : float
+            Coefficient of the surface.
+        abcd : tuple
+            Coefficient of the equation of the plane.
+
+        Examples
+        --------
+        >>> Example of set of coordinate of atoms.
+        points = [(1.1, 2.1, 8.1),
+                  (3.2, 4.2, 8.0),
+                  (5.3, 1.3, 8.2),
+                  (3.4, 2.4, 8.3),
+                  (1.5, 4.5, 8.0),
+                  (5.5, 6.7, 4.5)]
+        To plot the plane, run following commands:
+        >> map coordinates for scattering plot
+        >> xs, ys, zs = zip(*points)
+        >> ax.scatter(xs, ys, zs)
+
+        """
+        def plane(x, y, params):
+            a = params[0]
+            b = params[1]
+            c = params[2]
+            z = a * x + b * y + c
+            return z
+
+        def error(params, points):
+            result = 0
+            for (x, y, z) in points:
+                plane_z = plane(x, y, params)
+                diff = abs(plane_z - z)
+                result += diff ** 2
+            return result
+
+        def cross(a, b):
+            return [a[1] * b[2] - a[2] * b[1],
+                    a[2] * b[0] - a[0] * b[2],
+                    a[0] * b[1] - a[1] * b[0]]
+
+        points = coord
+
+        fun = functools.partial(error, points=points)
+        params0 = [0, 0, 0]
+        res = scipy.optimize.minimize(fun, params0)
+
+        a = res.x[0]
+        b = res.x[1]
+        c = res.x[2]
+
+        point = np.array([0.0, 0.0, c])
+        normal = np.array(cross([1, 0, a], [0, 1, b]))
+        d = -point.dot(normal)
+        xx, yy = np.meshgrid([-5, 10], [-5, 10])
+        z = (-normal[0] * xx - normal[1] * yy - d) * 1. / normal[2]
+
+        abcd = (a, b, c, d)
+
+        return xx, yy, z, abcd
+
+    ########################################
+    # Plot fit plant to the selected atoms #
+    ########################################
+
+    def plot_fit_plane(self, acf):
+        """
+        Display complex and two fit planes of two sets of ligand in molecule.
+
+        Parameters
+        ----------
+        acf : list
+            Atomic labels and coordinates of full complex.
+
+        """
+        ###############
+        # Clear boxes #
+        ###############
+
+        self.box_angle1.delete(0, tk.END)
+        self.box_angle2.delete(0, tk.END)
+
+        self.box_eq1.delete(0, tk.END)
+        self.box_eq2.delete(0, tk.END)
+
+        ########################
+        # Find eq of the plane #
+        ########################
+
+        xx, yy, z, abcd = self.find_fit_plane(self.coord_A)
+        plane_A = (xx, yy, z)
+        a1, b1, c1, d1 = abcd
+
+        self.box_eq1.insert(tk.INSERT, f"{a1:8.5f}x {b1:+8.5f}y {c1:+8.5f}z {d1:+8.5f} = 0")
+
+        xx, yy, z, abcd = self.find_fit_plane(self.coord_B)
+        plane_B = (xx, yy, z)
+        a2, b2, c2, d2 = abcd
+
+        self.box_eq2.insert(tk.INSERT, f"{a2:8.5f}x {b2:+8.5f}y {c2:+8.5f}z {d2:+8.5f} = 0")
+
+        ####################################
+        # Calculate angle between 2 planes #
+        ####################################
+
+        angle = linear.angle_btw_planes(a1, b1, c1, a2, b2, c2)
+        self.box_angle1.insert(tk.INSERT, f"{angle:10.6f}")  # insert to box
+
+        sup_angle = abs(180 - angle)  # supplementary angle
+        self.box_angle2.insert(tk.INSERT, f"{sup_angle:10.6f}")  # insert to box
+
+        ###############
+        # Plot planes #
+        ###############
+
+        fig = plt.figure()
+        # fig = plt.figure(figsize=(5, 4), dpi=100)
+        ax = Axes3D(fig)
+        # ax = fig.add_subplot(111, projection='3d')
+
+        # Plot all atoms
+        for i in range(len(self.fcl)):
+            # Determine atomic number
+            n = elements.check_atom(self.fal[i])
+            ax.scatter(self.fcl[i][0], self.fcl[i][1], self.fcl[i][2],
+                       marker='o', linewidths=0.5, edgecolors='black', picker=5,
+                       color=elements.check_color(n), label=f"{self.fal[i]}",
+                       s=elements.check_radii(n) * 300)
+
+        atoms_pair = []
+        for i in range(len(self.bond_list)):
+            get_atoms = self.bond_list[i]
+            x, y, z = zip(*get_atoms)
+            atoms = list(zip(x, y, z))
+            atoms_pair.append(atoms)
+
+        # Draw line
+        for i in range(len(atoms_pair)):
+            merge = list(zip(atoms_pair[i][0], atoms_pair[i][1]))
+            x, y, z = merge
+            ax.plot(x, y, z, 'k-', color="black", linewidth=2)
+
+        # Set legend
+        # Remove duplicate labels in legend.
+        # Ref.https://stackoverflow.com/a/26550501/6596684
+        handles, labels = ax.get_legend_handles_labels()
+        handle_list, label_list = [], []
+        for handle, label in zip(handles, labels):
+            if label not in label_list:
+                handle_list.append(handle)
+                label_list.append(label)
+        leg = fig.legend(handle_list, label_list,
+                         loc="lower left", scatterpoints=1, fontsize=12)
+        # Fixed size of point in legend
+        # Ref. https://stackoverflow.com/a/24707567/6596684
+        for i in range(len(leg.legendHandles)):
+            leg.legendHandles[i]._sizes = [90]
+
+        # Set axis
+        ax.set_xlabel(r'X', fontsize=15)
+        ax.set_ylabel(r'Y', fontsize=15)
+        ax.set_zlabel(r'Z', fontsize=15)
+        ax.set_title('Full complex', fontsize="12")
+        ax.grid(True)
+
+        # Plot plane A
+        xx, yy, z = plane_A
+        ax.plot_surface(xx, yy, z, alpha=0.2, color='green')
+
+        # Plot plane B
+        xx, yy, z = plane_B
+        ax.plot_surface(xx, yy, z, alpha=0.2, color='red')
+
+        # ax.set_xlim(-10, 10)
+        # ax.set_ylim(-10, 10)
+        # ax.set_zlim(0, 10)
+
+        # plt.axis('equal')
+        # plt.axis('off')
+        plt.show()
+
+    ##################
+    # Clear text box #
+    ##################
+
+    def clear_text(self):
+        """
+        Clear text in box A & B.
+
+        """
+        self.box_1.delete(1.0, tk.END)
+        self.box_2.delete(1.0, tk.END)
+
+        self.box_angle1.delete(0, tk.END)
+        self.box_angle2.delete(0, tk.END)
+
+        self.box_eq1.delete(0, tk.END)
+        self.box_eq2.delete(0, tk.END)
+
+        self.coord_A = []
+        self.coord_B = []
+
+        try:
+            plt.close("all")
+        except AttributeError:
+            pass
+
+    def show_app(self):
+        """
+        Show application.
+
+        """
+        self.wd.mainloop()
 
 
-def param_octa(self, aco):
+class CalcRMSD:
     """
-    Show structural parameters of selected octahedral structure.
+    Calculate root mean squared displacement of atoms in complex, RMSD.
 
     Parameters
     ----------
-    aco : list
-        Atomic labels and coordinates of octahedral structure.
+    self.coord_1 : list or array
+        Atomic labels and coordinates of structure 1.
+    self.coord_2 : list or array
+        Atomic labels and coordinates of structure 2.
+
+    Returns
+    -------
+    rmsd_normal : int or float
+        Normal RMSD.
+    rmsd_translate : int or float
+        Translate RMSD (re-centered).
+    rmsd_rotate : int or float
+        Kabsch RMSD (rotated).
+
+    References
+    ----------
+    https://github.com/charnley/rmsd
+
+    Examples
+    --------
+    >>> comp1.xyz
+    Fe        10.187300000     5.746300000     5.615000000
+    O         8.494000000     5.973500000     4.809100000
+    O         9.652600000     6.422900000     7.307900000
+    N        10.803800000     7.531900000     5.176200000
+    N         9.622900000     3.922100000     6.008300000
+    N        12.006500000     5.556200000     6.349700000
+    N        10.804600000     4.947100000     3.921900000
+    >>> comp2.xyz
+    Fe        12.093762780     2.450541280     3.420711630
+    O        12.960362780     2.295241280     1.728611630
+    O        13.487662780     1.618241280     4.423011630
+    N        12.852262780     4.317441280     3.989411630
+    N        10.930762780     0.769741280     2.931511630
+    N        10.787862780     2.298741280     5.107111630
+    N        10.677362780     3.796041280     2.542411630
+    >>> complex = [comp1, comp2]  # comp1 and comp2 are lists of coordinates of two complex
+    >>> calc_rmsd(complex)
+    RMSD between two complexes
+    **************************
+    Normal RMSD       : 5.015001
+    Re-centered RMSD  : 2.665076
+    Rotated RMSD      : 1.592468
 
     """
-    if len(aco) == 0:
-        popup.err_no_file()
-        return 1
+    def __init__(self, coord_1, coord_2):
+        self.coord_1 = np.asarray(coord_1, dtype=np.float64)
+        self.coord_2 = np.asarray(coord_2, dtype=np.float64)
 
-    wd = tk.Toplevel(self.master)
-    wd.wm_iconbitmap(r"..\images\molecule.ico")
-    wd.title("Results")
-    wd.geometry("380x530")
-    wd.option_add("*Font", "Arial 10")
-    frame = tk.Frame(wd)
-    frame.grid()
-    lbl = tk.Label(frame, text="Structural parameters of octahedral structure")
-    lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
-    box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
-    box.grid(row=1, pady="5", padx="5")
+        self.rmsd_normal = 0
+        self.rmsd_translate = 0
+        self.rmsd_rotate = 0
 
-    for n in range(len(aco)):
-        if n > 0:  # separator between files
-            box.insert(tk.END, "\n\n=================================\n\n")
+        self.calc_rmsd_normal()
+        self.calc_rmsd_translate()
+        self.calc_rmsd_rotate()
 
-        box.insert(tk.INSERT, f"File : {aco[n][0]}\n")
-        box.insert(tk.END, f"Metal: {aco[n][1]}\n")
-        box.insert(tk.END, "Bond distance (Å)")
+    def calc_rmsd_normal(self):
+        """
+        Calculate normal RMSD.
 
-        for i in range(7):
-            for j in range(i + 1, 7):
-                distance = linear.euclidean_dist(aco[n][3][i], aco[n][3][j])
+        """
+        self.rmsd_normal = rmsd.rmsd(self.coord_1, self.coord_2)
 
-                if i == 0:
-                    texts = f"{aco[n][2][i]}-{aco[n][2][j]}{j} {distance:10.6f}"
+    def calc_rmsd_translate(self):
+        """
+        Calculate translate RMSD.
 
-                else:
-                    texts = f"{aco[n][2][i]}{i}-{aco[n][2][j]}{j} {distance:10.6f}"
+        """
+        # Manipulate recenter
+        self.coord_1 -= rmsd.centroid(self.coord_1)
+        self.coord_2 -= rmsd.centroid(self.coord_2)
 
-                box.insert(tk.END, "\n" + texts)
+        self.rmsd_translate = rmsd.rmsd(self.coord_1, self.coord_2)
 
-        box.insert(tk.END, "\n\nBond angle (°)")
+    def calc_rmsd_rotate(self):
+        """
+        Calculate rotate RMSD.
 
-        for i in range(7):
-            for j in range(i + 1, 7):
-                for k in range(j + 1, 7):
-                    vec1 = aco[n][3][i] - aco[n][3][j]
-                    vec2 = aco[n][3][k] - aco[n][3][j]
-                    angle = linear.angle_btw_vectors(vec1, vec2)
+        """
+        # Rotate
+        rotation_matrix = rmsd.kabsch(self.coord_1, self.coord_2)
+        self.coord_1 = np.dot(self.coord_1, rotation_matrix)
 
-                    if i == 0:
-                        texts = f"{aco[n][2][k]}{k}-{aco[n][2][i]}-{aco[n][2][j]}{j} {angle:10.6f}"
+        self.rmsd_rotate = rmsd.rmsd(self.coord_1, self.coord_2)
 
-                    else:
-                        texts = f"{aco[n][2][k]}{k}-{aco[n][2][i]}{i}-{aco[n][2][j]}{j} {angle:10.6f}"
+    def get_rmsd_normal(self):
+        """
+        Get normal RMSD.
 
-                    box.insert(tk.END, "\n" + texts)
+        """
+        return self.rmsd_normal
 
-        box.insert(tk.END, "\n")
+    def get_rmsd_translate(self):
+        """
+        Get translate RMSD.
+
+        """
+        return self.rmsd_translate
+
+    def get_rmsd_rotate(self):
+        """
+        Get rotate RMSD.
+
+        """
+        return self.rmsd_rotate
+

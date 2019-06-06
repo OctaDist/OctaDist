@@ -27,6 +27,9 @@ from urllib.request import urlopen
 import numpy as np
 
 import octadist_gui
+import octadist_gui.src.structure
+import octadist_gui.src.tools
+import octadist_gui.src.util
 from octadist_gui.src import (
     echo_outs, calc, coord, draw, plot, popup, structure, tools, util
 )
@@ -74,8 +77,10 @@ class OctaDist:
         Computed sigma of all octahedral structures.
     all_theta : list of float
         Computed theta of all octahedral structures.
-    all_face : list of str
+    file_index : list
         Atomic labels and coordinates of 8 faces and their opposite faces.
+    comp_result : list
+        List of distortion parameters.
     check_metal : bool
         True if the structure is octahedron or not, False if it does not.
 
@@ -176,20 +181,20 @@ class OctaDist:
         menu_bar.add_cascade(label="Tools", menu=tools_menu)
         tools_menu.add_cascade(label="Data Summary", menu=data_menu)
         data_menu.add_cascade(label="Complex",
-                              command=lambda: tools.data_complex(self, self.file_list, self.atom_coord_full))
+                              command=lambda: octadist_gui.src.structure.data_complex(self, self.file_list, self.atom_coord_full))
         data_menu.add_cascade(label="Faces of Octahedral Structure",
-                              command=lambda: tools.data_face(self, self.atom_coord_octa))
+                              command=lambda: octadist_gui.src.structure.data_face(self, self.atom_coord_octa))
         tools_menu.add_cascade(menu=strct_menu, label="Show Structural Parameter")
         strct_menu.add_command(label="All Atoms",
-                               command=lambda: tools.param_complex(self, self.atom_coord_full))
+                               command=lambda: octadist_gui.src.structure.param_complex(self, self.atom_coord_full))
         strct_menu.add_command(label="Octahedral Structure",
-                               command=lambda: tools.param_octa(self, self.atom_coord_octa))
+                               command=lambda: octadist_gui.src.structure.param_octa(self, self.atom_coord_octa))
         tools_menu.add_separator()
         tools_menu.add_command(label="Relationship Plot between ζ and Σ", command=lambda: self.plot_zeta_sigma())
         tools_menu.add_command(label="Relationship Plot between Σ and Θ", command=lambda: self.plot_sigma_theta())
         tools_menu.add_separator()
         tools_menu.add_command(label="Calculate Surface Area",
-                               command=lambda: structure.find_surface_area(self, self.atom_coord_octa))
+                               command=lambda: octadist_gui.src.util.find_surface_area(self, self.atom_coord_octa))
         tools_menu.add_command(label="Calculate Jahn-Teller Distortion", command=lambda: self.calc_jahn_teller())
         tools_menu.add_command(label="Calculate RMSD", command=lambda: self.calc_rmsd())
 
@@ -244,7 +249,7 @@ class OctaDist:
         self.btn_openfile.config(width=14)
         self.btn_openfile.grid(padx="10", pady="5", row=0)
 
-        self.btn_run = ttk.Button(self.frame2, text="Compute", command=self.calc_all_param)
+        self.btn_run = ttk.Button(self.frame2, text="Compute", command=self.calc_distortion)
         self.btn_run.config(width=14)
         self.btn_run.grid(padx="10", pady="5", row=1)
 
@@ -887,7 +892,7 @@ class OctaDist:
             popup.err_many_files()
             return 1
 
-        run_jt = util.CalcJahnTeller(self.atom_coord_full, master=self.master)
+        run_jt = octadist_gui.src.tools.CalcJahnTeller(self.atom_coord_full, master=self.master)
         run_jt.start_app()
         run_jt.create_widget()
         run_jt.find_bond()
@@ -918,7 +923,7 @@ class OctaDist:
                 popup.err_atom_not_match(i + 1)
                 return 1
 
-        run_rmsd = util.CalcRMSD(coord_complex_1, coord_complex_2)
+        run_rmsd = octadist_gui.src.tools.CalcRMSD(coord_complex_1, coord_complex_2)
 
         run_rmsd.calc_rmsd_normal()
         run_rmsd.calc_rmsd_translate()
@@ -1289,7 +1294,7 @@ class OctaDist:
     # Calculate distortion parameters #
     ###################################
 
-    def calc_all_param(self):
+    def calc_distortion(self):
         """
         Calculate all distortion parameters:
         Zeta, Delta, Sigma, and Theta_mean parameters.
@@ -1331,9 +1336,9 @@ class OctaDist:
             self.file_index.append([num_file, num_metal])
             self.comp_result.append([d_mean, zeta, delta, sigma, theta_mean])
 
-        self.show_all_param()
+        self.show_distortion()
 
-    def show_all_param(self):
+    def show_distortion(self):
         """
         Print results to each unique box.
 
