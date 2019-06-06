@@ -17,9 +17,9 @@
 from operator import itemgetter
 
 import numpy as np
+from scipy.spatial import distance
 
-from octadist_gui.src import elements, linear, popup
-from octadist_gui import main
+from octadist_gui.src import elements, popup
 
 
 def count_line(file):
@@ -44,7 +44,7 @@ def count_line(file):
     return i + 1
 
 
-def get_coord(self, f):
+def get_coord(f):
     """
     Check file type, read data, extract atom and coord from an input file.
 
@@ -55,9 +55,9 @@ def get_coord(self, f):
 
     Returns
     -------
-    a_full : list
+    a_full : array_like
         Full atomic labels of complex.
-    c_full : list or array
+    c_full : ndarray_like
         Full atomic coordinates of complex.
 
     Notes
@@ -155,7 +155,7 @@ def count_metal(a_full, c_full):
     return count, a_metal, c_metal
 
 
-def search_octa(self, a_full, c_full, c_metal):
+def search_octa(a_full, c_full, c_metal, cutoff_metal_ligand=2.8):
     """
     Search the octahedral structure in complex.
 
@@ -167,20 +167,21 @@ def search_octa(self, a_full, c_full, c_metal):
         Full atomic coordinates of complex.
     c_metal : list
         Atomic coordinate of metal center.
+    cutoff_metal_ligand : float, optional
+        Cutoff distance for screening metal-ligand bond.
+        Default value is 2.8.
 
     Returns
     -------
     a_octa : list
         Atomic labels of octahedral structure.
-    c_octa : array
+    c_octa : ndarray
         Atomic coordinates of octahedral structure.
 
     """
-    cutoff_metal_ligand = main.OctaDist.get_cutoff_metal_ligand(self)
-
     dist_list = []
     for i in range(len(a_full)):
-        dist = linear.euclidean_dist(c_metal, c_full[i])
+        dist = distance.euclidean(c_metal, c_full[i])
         if dist <= cutoff_metal_ligand:
             dist_list.append([a_full[i], c_full[i], dist])
 
@@ -191,7 +192,7 @@ def search_octa(self, a_full, c_full, c_metal):
     dist_list = dist_list[:7]
 
     # Collect atom and coordinates
-    a_octa, c_octa, distance = zip(*dist_list)
+    a_octa, c_octa, dist = zip(*dist_list)
 
     # list --> array
     c_octa = np.asarray(c_octa, dtype=np.float64)
@@ -268,7 +269,7 @@ def get_coord_xyz(f):
     -------
     a_full : list
         Full atomic labels of complex.
-    c_full : array
+    c_full : ndarray
         Full atomic coordinates of complex.
 
     """
@@ -287,6 +288,8 @@ def get_coord_xyz(f):
     file = open(f, "r")
     c_full = np.loadtxt(file, skiprows=2, usecols=[1, 2, 3])
     file.close()
+
+    c_full = np.asarray(c_full, dtype=np.float64)
 
     return a_full, c_full
 
@@ -329,7 +332,7 @@ def get_coord_gaussian(f):
     -------
     a_full : list
         Full atomic labels of complex.
-    c_full : array
+    c_full : ndarray
         Full atomic coordinates of complex.
 
     Examples
@@ -423,7 +426,7 @@ def get_coord_nwchem(f):
     -------
     a_full : list
         Full atomic labels of complex.
-    c_full : array
+    c_full : ndarray
         Full atomic coordinates of complex.
 
     Examples
@@ -515,7 +518,7 @@ def get_coord_orca(f):
     -------
     a_full : list
         Full atomic labels of complex.
-    c_full : array
+    c_full : ndarray
         Full atomic coordinates of complex.
 
     Examples
@@ -601,7 +604,7 @@ def get_coord_qchem(f):
     -------
     a_full : list
         Full atomic labels of complex.
-    c_full : array
+    c_full : ndarray
         Full atomic coordinates of complex.
 
     Examples

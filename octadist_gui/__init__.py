@@ -51,17 +51,15 @@ __all__ = \
 
 from octadist_gui import src
 from .src import __src__
-
-from .src.coord import count_line
-from .src.coord import count_metal
-from .src.coord import check_xyz_file
 from .src.coord import check_gaussian_file
 from .src.coord import check_nwchem_file
 from .src.coord import check_orca_file
 from .src.coord import check_qchem_file
-
-from .src.coord import get_coord_xyz
+from .src.coord import check_xyz_file
+from .src.coord import count_line
+from .src.coord import count_metal
 from .src.coord import get_coord_gaussian
 from .src.coord import get_coord_nwchem
 from .src.coord import get_coord_orca
 from .src.coord import get_coord_qchem
+from .src.coord import get_coord_xyz

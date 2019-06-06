@@ -27,11 +27,8 @@ from urllib.request import urlopen
 import numpy as np
 
 import octadist_gui
-import octadist_gui.src.structure
-import octadist_gui.src.tools
-import octadist_gui.src.util
 from octadist_gui.src import (
-    echo_outs, calc, coord, draw, plot, popup, structure, tools, util
+    echo_outs, calc, coord, draw, plot, popup, structure, tools
 )
 
 
@@ -63,26 +60,27 @@ class OctaDist:
     -----
     Initialize default parameters.
 
-    file_list : list of str
-        Input files
-    atom_coord_full : array
+    file_list : list
+        List of input files.
+    atom_coord_full : list
         Atomic labels and coordinates of metal complex.
-    atom_coord_octa : array
+    atom_coord_octa : list
         Atomic labels and coordinates of octahedral structures.
-    all_zeta : list of float
-        Computed zeta of all octahedral structures.
-    all_delta : list of float
-        Computed delta of all octahedral structures.
-    all_sigma : list of float
-        Computed sigma of all octahedral structures.
-    all_theta : list of float
-        Computed theta of all octahedral structures.
+    all_zeta : list
+        List of computed zeta of all octahedral structures.
+    all_delta : list
+        List of computed delta of all octahedral structures.
+    all_sigma : list
+        List of computed sigma of all octahedral structures.
+    all_theta : list
+        List of computed theta of all octahedral structures.
     file_index : list
-        Atomic labels and coordinates of 8 faces and their opposite faces.
+        List of atomic labels and coordinates of 8 faces and their opposite faces.
     comp_result : list
         List of distortion parameters.
     check_metal : bool
-        True if the structure is octahedron or not, False if it does not.
+        True if the structure is octahedron or not.
+        False if it does not.
 
     """
     def __init__(self, master):
@@ -162,7 +160,7 @@ class OctaDist:
         copy_menu.add_command(label="Coordinates of Octahedral Structure", command=lambda: self.copy_octa())
         edit_menu.add_separator()
         edit_menu.add_command(label="Edit File", command=lambda: self.edit_file())
-        edit_menu.add_command(label="Run Program Scripting", command=lambda: self.start_script())
+        edit_menu.add_command(label="Run Program Scripting", command=lambda: self.script_start())
         edit_menu.add_separator()
         edit_menu.add_command(label="Clear All Results", command=lambda: self.clear_cache())
 
@@ -181,20 +179,19 @@ class OctaDist:
         menu_bar.add_cascade(label="Tools", menu=tools_menu)
         tools_menu.add_cascade(label="Data Summary", menu=data_menu)
         data_menu.add_cascade(label="Complex",
-                              command=lambda: octadist_gui.src.structure.data_complex(self, self.file_list, self.atom_coord_full))
+                              command=lambda: structure.data_complex(self, self.file_list, self.atom_coord_full))
         data_menu.add_cascade(label="Faces of Octahedral Structure",
-                              command=lambda: octadist_gui.src.structure.data_face(self, self.atom_coord_octa))
+                              command=lambda: structure.data_face(self, self.atom_coord_octa))
         tools_menu.add_cascade(menu=strct_menu, label="Show Structural Parameter")
         strct_menu.add_command(label="All Atoms",
-                               command=lambda: octadist_gui.src.structure.param_complex(self, self.atom_coord_full))
+                               command=lambda: structure.param_complex(self, self.atom_coord_full))
         strct_menu.add_command(label="Octahedral Structure",
-                               command=lambda: octadist_gui.src.structure.param_octa(self, self.atom_coord_octa))
+                               command=lambda: structure.param_octa(self, self.atom_coord_octa))
+        tools_menu.add_command(label="Calculate Surface Area", command=lambda: self.show_surface_area())
         tools_menu.add_separator()
         tools_menu.add_command(label="Relationship Plot between ζ and Σ", command=lambda: self.plot_zeta_sigma())
         tools_menu.add_command(label="Relationship Plot between Σ and Θ", command=lambda: self.plot_sigma_theta())
         tools_menu.add_separator()
-        tools_menu.add_command(label="Calculate Surface Area",
-                               command=lambda: octadist_gui.src.util.find_surface_area(self, self.atom_coord_octa))
         tools_menu.add_command(label="Calculate Jahn-Teller Distortion", command=lambda: self.calc_jahn_teller())
         tools_menu.add_command(label="Calculate RMSD", command=lambda: self.calc_rmsd())
 
@@ -362,42 +359,6 @@ class OctaDist:
         self.backup_5 = self.show_title
         self.backup_6 = self.show_axis
         self.backup_7 = self.show_grid
-
-    def get_cutoff_metal_ligand(self):
-        """
-        Fetch cutoff_metal_ligand and return value.
-
-        Returns
-        -------
-        cutoff_metal_ligand : float
-            Cutoff distance for metal-ligand bond screening.
-
-        """
-        return self.cutoff_metal_ligand
-
-    def get_cutoff_global(self):
-        """
-        Fetch cutoff_global and return value.
-
-        Returns
-        -------
-        cutoff_global : float
-            Cutoff global distance for bond screening.
-
-        """
-        return self.cutoff_global
-
-    def get_cutoff_hydrogen(self):
-        """
-        Fetch cutoff_hydrogen and return value.
-
-        Returns
-        -------
-        cutoff_hydrogen : float
-            Cutoff distance for hydrogen bond screening.
-
-        """
-        return self.cutoff_hydrogen
 
     def text_editor(self):
         """
@@ -574,7 +535,25 @@ class OctaDist:
     # Scripting #
     #############
 
-    def script_show_var(self, args):
+    def script_help(self):
+        help_msg = ">>> This is an interactive code console for internal scripting.\n" \
+                   ">>> \n" \
+                   ">>> Commands\n" \
+                   ">>> --------\n" \
+                   ">>> help     - Show this help info.\n" \
+                   ">>> list     - List all commands.\n" \
+                   ">>> info     - Show info of program.\n" \
+                   ">>> doc      - Show docstring of this function.\n" \
+                   ">>> show     - Show values of parameter.\n" \
+                   "               Usage: show arg1 [arg2] [arg3] [..]\n" \
+                   ">>> set      - Set new value to parameter.\n" \
+                   "               Usage: set param new_value\n" \
+                   ">>> clear    - Clear stdout/stderr.\n" \
+                   ">>> clean    - Clear stdout/stderr.\n" \
+                   ">>> restore  - Restore program settings.\n"
+        self.box_script.insert(tk.INSERT, help_msg + "\n")
+
+    def script_show(self, args):
         """
         Show value of variable that user requests.
 
@@ -587,7 +566,7 @@ class OctaDist:
         for i in range(len(args)):
             self.box_script.insert(tk.INSERT, f">>> {args[i]}")
 
-    def script_set_var(self, param, new_value):
+    def script_set(self, param, new_value):
         """
         Set new value to variable.
 
@@ -608,6 +587,8 @@ class OctaDist:
             print(key, value)
             if param == key:
                 self.all_var[key] = new_value
+
+        self.box_script.insert(tk.INSERT, f">>> {param} is set to {new_value}\n")
 
     def script_run(self, event):
         """
@@ -632,22 +613,7 @@ class OctaDist:
         args = self.get_var[1:]
 
         if command == "help":
-            help_msg = ">>> This is an interactive code console for internal scripting.\n" \
-                       ">>> \n" \
-                       ">>> Commands\n" \
-                       ">>> --------\n" \
-                       ">>> help     - Show this help info.\n" \
-                       ">>> list     - List all commands.\n" \
-                       ">>> info     - Show info of program.\n" \
-                       ">>> doc      - Show docstring of this function.\n" \
-                       ">>> show     - Show values of parameter.\n" \
-                       "               Usage: show arg1 [arg2] [arg3] [..]\n" \
-                       ">>> set      - Set new value to parameter.\n" \
-                       "               Usage: set param new_value\n" \
-                       ">>> clear    - Clear stdout/stderr.\n" \
-                       ">>> clean    - Clear stdout/stderr.\n" \
-                       ">>> restore  - Restore program settings.\n"
-            self.box_script.insert(tk.INSERT, help_msg + "\n")
+            self.script_help()
         elif command == "list":
             all_command = "help, list, info, doc, show, set, clear, clean, restore"
             self.box_script.insert(tk.INSERT, f">>> {all_command}\n")
@@ -657,14 +623,26 @@ class OctaDist:
             self.box_script.insert(tk.INSERT, f">>> {octadist_gui.__doc__ }\n")
         elif command == "show":
             try:
-                self.script_show_var(self, args)
+                self.script_show(args)
             except TypeError:
                 self.box_script.insert(tk.INSERT, f">>> show command needs 1 parameter\n")
         elif command == "set":
             try:
-                self.script_set_var(self, args[0], args[1])
-            except TypeError:
+                args[0]
+            except IndexError:
+                self.box_script.insert(tk.INSERT, f">>> No variable specified\n")
                 self.box_script.insert(tk.INSERT, f">>> set command needs 2 parameters\n")
+                return 1
+
+            try:
+                args[1]
+            except IndexError:
+                self.box_script.insert(tk.INSERT, f">>> No value specified\n")
+                self.box_script.insert(tk.INSERT, f">>> set command needs 2 parameters\n")
+                return 1
+
+            self.script_set(args[0], args[1])
+
         elif command == "clear" or command == "clean":
             self.box_script.delete(1.0, tk.END)
         elif command == "restore" or command == "clean":
@@ -674,7 +652,7 @@ class OctaDist:
 
         self.box_script.see(tk.END)
 
-    def start_script(self):
+    def script_start(self):
         """
         Start scripting box.
 
@@ -804,6 +782,7 @@ class OctaDist:
         for i in range(len(self.atom_coord_octa)):
             _, _, _, coord = self.atom_coord_octa[i]
             my_plot.add_face(coord)
+
         my_plot.show_plot()
 
     def draw_projection(self):
@@ -846,6 +825,21 @@ class OctaDist:
         my_plot.add_symbol()
         my_plot.show_plot()
 
+    ########################
+    # Show structural data #
+    ########################
+
+    def show_surface_area(self):
+        """
+        Calculate the area of eight triangular faces of octahedral structure.
+
+        """
+        if len(self.atom_coord_octa) == 0:
+            popup.err_no_file()
+            return 1
+
+        structure.surface_area(self, self.atom_coord_octa)
+
     ##############################
     # Plot between two data sets #
     ##############################
@@ -880,6 +874,10 @@ class OctaDist:
         my_plot.add_legend()
         my_plot.show_plot()
 
+    ##################
+    # Analysis tools #
+    ##################
+
     def calc_jahn_teller(self):
         """
         Calculate Jahn-Teller distortion parameter.
@@ -892,7 +890,7 @@ class OctaDist:
             popup.err_many_files()
             return 1
 
-        run_jt = octadist_gui.src.tools.CalcJahnTeller(self.atom_coord_full, master=self.master)
+        run_jt = tools.CalcJahnTeller(self.atom_coord_full, master=self.master)
         run_jt.start_app()
         run_jt.create_widget()
         run_jt.find_bond()
@@ -923,7 +921,7 @@ class OctaDist:
                 popup.err_atom_not_match(i + 1)
                 return 1
 
-        run_rmsd = octadist_gui.src.tools.CalcRMSD(coord_complex_1, coord_complex_2)
+        run_rmsd = tools.CalcRMSD(coord_complex_1, coord_complex_2)
 
         self.rmsd_normal = run_rmsd.get_rmsd_normal()
         self.rmsd_translate = run_rmsd.get_rmsd_translate()
@@ -1409,7 +1407,7 @@ class OctaDist:
 
                     file_name = self.file_list[i].split('/')[-1]
 
-                    atom_full, coord_full = coord.get_coord(self, self.file_list[i])
+                    atom_full, coord_full = coord.get_coord(self.file_list[i])
                     self.atom_coord_full.append([atom_full, coord_full])
 
                     # If either lists is empty, then continue to next file
@@ -1451,7 +1449,7 @@ class OctaDist:
 
                     # loop over metal center atoms
                     for j in range(count):
-                        atom_octa, coord_octa = coord.search_octa(self, atom_full, coord_full, coord_metal[j - 1])
+                        atom_octa, coord_octa = coord.search_octa(atom_full, coord_full, coord_metal[j - 1])
 
                         # If no atomic coordinates inside, it will return error
                         if np.any(coord_octa) == 0:

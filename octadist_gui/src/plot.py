@@ -23,19 +23,27 @@ class Plot:
 
     Parameters
     ----------
-    self.data1 : List
-        List of data set 1.
-    self.data2 = data2
-        List of data set 2.
-    self.name1 = name1
+    args[0] : list
+        List of data set 1 (data1).
+    args[0] = list
+        List of data set 2 (data2).
+    name1 = str, optional
         Name of data set 1.
-    self.name2 = name2
+    name2 = str, optional
         Name of data set 2.
 
     """
-    def __init__(self, data1, data2, name1="Var1", name2="Var2"):
-        self.data1 = data1
-        self.data2 = data2
+    def __init__(self, *args, name1="Var1", name2="Var2"):
+        try:
+            self.data1 = args[0]
+        except NameError:
+            raise NameError("data1 is not specified")
+
+        try:
+            self.data2 = args[1]
+        except NameError:
+            raise NameError("data2 is not specified")
+
         self.name1 = name1
         self.name2 = name2
 

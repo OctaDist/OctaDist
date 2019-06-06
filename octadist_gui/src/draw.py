@@ -18,9 +18,7 @@ from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-import octadist_gui.src.structure
-import octadist_gui.src.util
-from octadist_gui.src import elements, tools, plane, projection
+from octadist_gui.src import elements, plane, projection, util
 
 
 class DrawComplex:
@@ -31,7 +29,7 @@ class DrawComplex:
     ----------
     atom : list
         Atomic symbols of octahedral structure.
-    coord : list or array or tuple
+    coord : list, array, tuple
         Atomic coordinates of octahedral structure.
 
     Examples
@@ -51,6 +49,11 @@ class DrawComplex:
     def __init__(self, **kwargs):
         self.atom = kwargs.get('atom')
         self.coord = kwargs.get('coord')
+
+        if self.atom is None:
+            raise TypeError("atom is not specified")
+        if self.coord is None:
+            raise TypeError("coord is not specified")
 
         self.title_name = 'Display Complex'
         self.title_size = '12'
@@ -106,7 +109,8 @@ class DrawComplex:
         Calculate bond distance, screen bond, and add them to show in figure.
 
         """
-        self.bond_list = octadist_gui.src.util.find_bonds(self.atom, self.coord)
+        self.bond_list = util.find_bonds(self.atom, self.coord)
+
         for i in range(len(self.bond_list)):
             get_atoms = self.bond_list[i]
             x, y, z = zip(*get_atoms)
@@ -123,11 +127,12 @@ class DrawComplex:
         Find the faces of octahedral structure and add those faces to show in figure.
 
         """
-        _, c_ref, _, _ = octadist_gui.src.util.find_faces_octa(coord)
+        _, c_ref, _, _ = util.find_faces_octa(coord)
 
         # Added faces
         color_list = ["red", "blue", "green", "yellow",
                       "violet", "cyan", "brown", "grey"]
+
         for i in range(8):
             # Create array of vertices for 8 faces
             get_vertices = c_ref[i].tolist()
@@ -151,6 +156,7 @@ class DrawComplex:
         # remove duplicate labels
         handles, labels = self.ax.get_legend_handles_labels()
         handle_list, label_list = [], []
+
         for handle, label in zip(handles, labels):
             if label not in label_list:
                 handle_list.append(handle)
@@ -233,6 +239,11 @@ class DrawProjection:
         self.atom = kwargs.get('atom')
         self.coord = kwargs.get('coord')
 
+        if self.atom is None:
+            raise TypeError("atom is not specified")
+        if self.coord is None:
+            raise TypeError("coord is not specified")
+
         self.sub_plot = []
 
         self.start_plot()
@@ -306,7 +317,7 @@ class DrawProjection:
         Add the projection planes to show in figure.
 
         """
-        _, c_ref, _, c_oppo = octadist_gui.src.util.find_faces_octa(self.coord)
+        _, c_ref, _, c_oppo = util.find_faces_octa(self.coord)
 
         color_1 = ["red", "blue", "orange", "magenta"]
         color_2 = ["green", "yellow", "cyan", "brown"]
@@ -350,6 +361,11 @@ class DrawTwistingPlane:
         self.atom = kwargs.get('atom')
         self.coord = kwargs.get('coord')
 
+        if self.atom is None:
+            raise TypeError("atom is not specified")
+        if self.coord is None:
+            raise TypeError("coord is not specified")
+
         self.all_ax = []
         self.all_c_ref = []
         self.all_m = []
@@ -379,7 +395,7 @@ class DrawTwistingPlane:
         Add the projection planes to show in figure.
 
         """
-        _, c_ref, _, c_oppo = octadist_gui.src.util.find_faces_octa(self.coord)
+        _, c_ref, _, c_oppo = util.find_faces_octa(self.coord)
 
         for i in range(4):
             ax = self.fig.add_subplot(2, 2, int(i + 1), projection='3d')

@@ -13,12 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-import tkinter as tk
-from tkinter import scrolledtext as tkscrolled
 
 import numpy as np
+from scipy.spatial import distance
 
-from octadist_gui.src import linear, plane, projection, popup
+from octadist_gui.src import plane, projection
 
 
 def find_bonds(fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
@@ -53,12 +52,12 @@ def find_bonds(fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
     for i in range(len(fcl)):
         for j in range(i + 1, len(fcl)):
             if i == 0:
-                distance = linear.euclidean_dist(fcl[i], fcl[j])
+                dist = distance.euclidean(fcl[i], fcl[j])
             else:
-                distance = linear.euclidean_dist(fcl[i], fcl[j])
+                dist = distance.euclidean(fcl[i], fcl[j])
 
             pair_list.append([fal[i], fal[j]])
-            bond_list.append([fcl[i], fcl[j], distance])
+            bond_list.append([fcl[i], fcl[j], dist])
 
     check_1_bond_list = []
     screen_1_pair_list = []
@@ -101,7 +100,7 @@ def find_faces_octa(c_octa):
 
     Parameters
     ----------
-    c_octa : array
+    c_octa : array_like
         Atomic coordinates of octahedral structure.
 
     Returns
@@ -118,10 +117,10 @@ def find_faces_octa(c_octa):
     Examples
     --------
     >>> Reference plane             Opposite plane
-    >>>    [[1 2 3]                   [[4 5 6]
-    >>>     [1 2 4]        --->        [3 5 6]
-    >>>       ...                        ...
-    >>>     [2 3 5]]                   [1 4 6]]
+    ...    [[1 2 3]                   [[4 5 6]
+    ...     [1 2 4]        --->        [3 5 6]
+    ...       ...                        ...
+    ...     [2 3 5]]                   [1 4 6]]
 
     """
     ########################
@@ -129,7 +128,7 @@ def find_faces_octa(c_octa):
     ########################
 
     # Find the shortest distance from metal center to each triangle
-    distance = []
+    dist = []
     a_ref_f = []
     c_ref_f = []
 
@@ -140,8 +139,8 @@ def find_faces_octa(c_octa):
                                                     c_octa[j],
                                                     c_octa[k])
                 m = projection.project_atom_onto_plane(c_octa[0], a, b, c, d)
-                d_btw = linear.euclidean_dist(m, c_octa[0])
-                distance.append(d_btw)
+                d_btw = distance.euclidean(m, c_octa[0])
+                dist.append(d_btw)
 
                 a_ref_f.append([i, j, k])
                 c_ref_f.append([c_octa[i],
@@ -149,9 +148,9 @@ def find_faces_octa(c_octa):
                                 c_octa[k]])
 
     # Sort faces by distance in ascending order
-    dist_a_c = list(zip(distance, a_ref_f, c_ref_f))
+    dist_a_c = list(zip(dist, a_ref_f, c_ref_f))
     dist_a_c.sort()
-    distance, a_ref_f, c_ref_f = list(zip(*dist_a_c))
+    dist, a_ref_f, c_ref_f = list(zip(*dist_a_c))
     c_ref_f = np.asarray(c_ref_f, dtype=np.float64)
 
     # Remove first 12 triangles, the rest of triangles is 8 faces of octahedron
@@ -184,50 +183,4 @@ def find_faces_octa(c_octa):
         c_oppo_f.append(coord_oppo)
 
     return a_ref_f, c_ref_f, a_oppo_f, c_oppo_f
-
-
-def find_surface_area(self, aco):
-    """
-    Calculate the area of eight triangular faces of octahedral structure.
-
-    Parameters
-    ----------
-    aco : list
-        Atomic labels and coordinates of octahedral structure.
-
-    """
-    if len(aco) == 0:
-        popup.err_no_file()
-        return 1
-
-    wd = tk.Toplevel(self.master)
-    wd.wm_iconbitmap(r"..\images\molecule.ico")
-    wd.title("The area of triangular face")
-    wd.geometry("380x500")
-    wd.option_add("*Font", "Arial 10")
-    frame = tk.Frame(wd)
-    frame.grid()
-    box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
-    box.grid(row=0, pady="5", padx="5")
-
-    for n in range(len(aco)):
-        if n > 0:
-            box.insert(tk.END, "\n==============================\n\n")
-
-        num, metal, _, coord = aco[n]
-        a_ref, c_ref, a_oppo, c_oppo = find_faces_octa(coord)
-
-        box.insert(tk.INSERT, f"Entry: {n + 1}\n")
-        box.insert(tk.INSERT, f"Complex no. {num} - Metal: {metal}\n")
-        box.insert(tk.END, "                 Atoms*        Area (Å³)\n")
-
-        totalArea = 0
-        for i in range(8):
-            area = linear.triangle_area(c_ref[i][0], c_ref[i][1], c_ref[i][2])
-            box.insert(tk.END, f"Face no. {i + 1}:  {a_ref[i]}      {area:10.6f}\n")
-            totalArea += area
-
-        box.insert(tk.END, f"\nThe total surface area:   {totalArea:10.6f}\n")
-
-    box.insert(tk.END, "\n*Three ligand atoms are vertices of triangular face.\n")
 

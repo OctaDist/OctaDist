@@ -15,9 +15,9 @@
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import numpy as np
+from scipy.spatial import distance
 
-import octadist_gui.src.plane
-from octadist_gui.src import linear, popup, projection
+from octadist_gui.src import linear, plane, popup, projection
 
 
 class CalcDistortion:
@@ -26,7 +26,7 @@ class CalcDistortion:
 
     Parameters
     ----------
-    coord : array or list or tuple
+    coord : array_like
         Atomic coordinates of octahedral structure.
 
     """
@@ -61,7 +61,7 @@ class CalcDistortion:
 
         Parameters
         ----------
-        coord : array
+        coord : array_like
             Atomic coordinates of octahedral structure.
 
         Examples
@@ -83,7 +83,7 @@ class CalcDistortion:
          1.9805587036803534]
 
         """
-        self.bond_dist = [linear.euclidean_dist(self.coord[0], self.coord[i]) for i in range(1, 7)]
+        self.bond_dist = [distance.euclidean(self.coord[0], self.coord[i]) for i in range(1, 7)]
         self.bond_dist = np.asarray(self.bond_dist, dtype=np.float64)
 
     def calc_d_mean(self):
@@ -92,7 +92,7 @@ class CalcDistortion:
 
         Parameters
         ----------
-        coord : array
+        coord : array_like
             Atomic coordinates of octahedral structure.
 
         Examples
@@ -117,7 +117,7 @@ class CalcDistortion:
 
         Parameters
         ----------
-        coord : array
+        coord : array_like
             Atomic coordinates of octahedral structure.
 
         Examples
@@ -163,7 +163,7 @@ class CalcDistortion:
 
         Parameters
         ----------
-        coord : array
+        coord : array_like
             Atomic coordinates of octahedral structure.
 
         References
@@ -201,7 +201,7 @@ class CalcDistortion:
 
         Parameters
         ----------
-        coord : array
+        coord : array_like
             Atomic coordinates of octahedral structure.
 
         References
@@ -238,7 +238,7 @@ class CalcDistortion:
 
         Parameters
         ----------
-        coord : array
+        coord : array_like
             Atomic coordinates of octahedral structure.
 
         References
@@ -273,7 +273,7 @@ class CalcDistortion:
 
         Parameters
         ----------
-        coord : array or list
+        coord : array_like
             Atomic coordinates of octahedral structure.
 
         References
@@ -441,7 +441,7 @@ class CalcDistortion:
 
         # loop over 8 faces
         for proj in range(8):
-            a, b, c, d = octadist_gui.src.plane.find_eq_of_plane(N1, N2, N3)
+            a, b, c, d = plane.find_eq_of_plane(N1, N2, N3)
             eqOfPlane.append([a, b, c, d])
 
             # Project M, N4, N5, and N6 onto the plane defined by N1, N2, and N3

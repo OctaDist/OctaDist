@@ -30,22 +30,22 @@ def find_eq_of_plane(x, y, z):
 
     Parameters
     ----------
-    x : list or array
+    x : array_like
         3D Coordinate of point.
-    y : list or array
+    y : array_like
         3D Coordinate of point.
-    z : list or array
+    z : array_like
         3D Coordinate of point.
 
     Returns
     -------
-    a : int or float
+    a : float64
         Coefficient of the equation of the plane.
-    b : int or float
+    b : float64
         Coefficient of the equation of the plane.
-    c : int or float
+    c : float64
         Coefficient of the equation of the plane.
-    d : int or float
+    d : float64
         Coefficient of the equation of the plane.
 
     """

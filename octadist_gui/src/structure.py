@@ -17,8 +17,9 @@
 import tkinter as tk
 from tkinter import scrolledtext as tkscrolled
 
-from octadist_gui.src import linear, popup
-from octadist_gui.src.util import find_faces_octa
+from scipy.spatial import distance
+
+from octadist_gui.src import linear, popup, util
 
 
 def data_complex(self, files, acf):
@@ -87,7 +88,7 @@ def data_face(self, aco):
             box.insert(tk.END, "==============================\n\n")
 
         num, metal, _, coord = aco[n]
-        a_ref, c_ref, a_oppo, c_oppo = find_faces_octa(coord)
+        a_ref, c_ref, a_oppo, c_oppo = util.find_faces_octa(coord)
 
         box.insert(tk.INSERT, f"Entry: {n + 1}\n")
         box.insert(tk.INSERT, f"Complex no. {num} - Metal: {metal}\n")
@@ -133,13 +134,13 @@ def param_complex(self, acf):
     fal, fcl = acf[0]
     for i in range(len(fcl)):
         for j in range(i + 1, len(fcl)):
-            distance = linear.euclidean_dist(fcl[i], fcl[j])
+            dist = distance.euclidean(fcl[i], fcl[j])
 
             if i == 0:
-                texts = f"{fal[i]}-{fal[j]}{j} {distance:10.6f}"
+                texts = f"{fal[i]}-{fal[j]}{j} {dist:10.6f}"
 
             else:
-                texts = f"{fal[i]}{i}-{fal[j]}{j} {distance:10.6f}"
+                texts = f"{fal[i]}{i}-{fal[j]}{j} {dist:10.6f}"
 
             box.insert(tk.END, "\n" + texts)
 
@@ -199,13 +200,13 @@ def param_octa(self, aco):
 
         for i in range(7):
             for j in range(i + 1, 7):
-                distance = linear.euclidean_dist(aco[n][3][i], aco[n][3][j])
+                dist = distance.euclidean(aco[n][3][i], aco[n][3][j])
 
                 if i == 0:
-                    texts = f"{aco[n][2][i]}-{aco[n][2][j]}{j} {distance:10.6f}"
+                    texts = f"{aco[n][2][i]}-{aco[n][2][j]}{j} {dist:10.6f}"
 
                 else:
-                    texts = f"{aco[n][2][i]}{i}-{aco[n][2][j]}{j} {distance:10.6f}"
+                    texts = f"{aco[n][2][i]}{i}-{aco[n][2][j]}{j} {dist:10.6f}"
 
                 box.insert(tk.END, "\n" + texts)
 
@@ -227,4 +228,46 @@ def param_octa(self, aco):
                     box.insert(tk.END, "\n" + texts)
 
         box.insert(tk.END, "\n")
+
+
+def surface_area(self, aco):
+    """
+    Find the area of the faces of octahedral structure.
+
+    Parameters
+    ----------
+    aco : list
+        Atomic labels and coordinates of octahedral structure.
+
+    """
+    wd = tk.Toplevel(self.master)
+    wd.wm_iconbitmap(r"..\images\molecule.ico")
+    wd.title("The area of triangular face")
+    wd.geometry("380x500")
+    wd.option_add("*Font", "Arial 10")
+    frame = tk.Frame(wd)
+    frame.grid()
+    box = tkscrolled.ScrolledText(frame, wrap="word", width="50", height="30", undo="True")
+    box.grid(row=0, pady="5", padx="5")
+
+    for n in range(len(self.atom_coord_octa)):
+        if n > 0:
+            box.insert(tk.END, "\n==============================\n\n")
+
+        num, metal, _, coord = self.atom_coord_octa[n]
+        a_ref, c_ref, a_oppo, c_oppo = util.find_faces_octa(coord)
+
+        box.insert(tk.INSERT, f"Entry: {n + 1}\n")
+        box.insert(tk.INSERT, f"Complex no. {num} - Metal: {metal}\n")
+        box.insert(tk.END, "                 Atoms*        Area (Å³)\n")
+
+        totalArea = 0
+        for i in range(8):
+            area = linear.triangle_area(c_ref[i][0], c_ref[i][1], c_ref[i][2])
+            box.insert(tk.END, f"Face no. {i + 1}:  {a_ref[i]}      {area:10.6f}\n")
+            totalArea += area
+
+        box.insert(tk.END, f"\nThe total surface area:   {totalArea:10.6f}\n")
+
+    box.insert(tk.END, "\n*Three ligand atoms are vertices of triangular face.\n")
 

@@ -27,16 +27,16 @@ def project_atom_onto_line(p, a, b):
 
     Parameters
     ----------
-    p : list or array
+    p : array_like
         Coordinate of point to project.
-    a : list or array
+    a : array_like
         Coordinate of head atom of the line.
-    b : list or array
+    b : array_like
         Coordinate of tail atom of the line.
 
     Returns
     -------
-    projected_point : list or array
+    projected_point : ndarray
         The projected point on the orthogonal line.
 
     """
@@ -64,8 +64,8 @@ def project_atom_onto_plane(p, a, b, c, d):
 
     Parameters
     ----------
-    p : array
-        Point to project
+    p : array_like
+        Point to project.
     a : int or float
         Coefficient of the equation of the plane.
     b : int or float
@@ -77,12 +77,15 @@ def project_atom_onto_plane(p, a, b, c, d):
 
     Returns
     -------
-    projected_point: array
+    projected_point: ndarray
         The projected point on the orthogonal plane.
 
     """
+    p = np.asarray(p, dtype=np.float64)
     plane = np.array([a, b, c], dtype=np.float64)
+
     lambda_plane = (d - (a * p[0] + b * p[1] + c * p[2])) / np.dot(plane, plane)
+
     projected_point = p + lambda_plane * plane
 
     return projected_point

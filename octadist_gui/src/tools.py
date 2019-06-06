@@ -24,10 +24,7 @@ import scipy.optimize
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-import octadist_gui.src
-import octadist_gui.src.util
-from octadist_gui.src import linear, elements
-from octadist_gui.src.util import find_faces_octa
+from octadist_gui.src import linear, elements, util
 
 
 class CalcJahnTeller:
@@ -38,7 +35,7 @@ class CalcJahnTeller:
     ----------
     acf : list
         Atomic labels and coordinates of full complex.
-    master : None or not None
+    master : None, object
         If None, use tk.Tk().
         If not None, use tk.Toplevel(master).
 
@@ -132,7 +129,7 @@ class CalcJahnTeller:
         Find bonds.
 
         """
-        self.bond_list = octadist_gui.src.util.find_bonds(self.fal, self.fcl)
+        self.bond_list = util.find_bonds(self.fal, self.fcl)
 
     #################
     # Picking atoms #
@@ -278,7 +275,7 @@ class CalcJahnTeller:
 
         Parameters
         ----------
-        coord : list or array
+        coord : array_like
             Coordinates of selected atom chunk.
 
         Returns
@@ -297,10 +294,12 @@ class CalcJahnTeller:
                   (3.4, 2.4, 8.3),
                   (1.5, 4.5, 8.0),
                   (5.5, 6.7, 4.5)]
-        To plot the plane, run following commands:
-        >> map coordinates for scattering plot
-        >> xs, ys, zs = zip(*points)
-        >> ax.scatter(xs, ys, zs)
+
+        >>> # To plot the plane, run following commands:
+        ... # map coordinates for scattering plot
+
+        >>> xs, ys, zs = zip(*points)
+        ... ax.scatter(xs, ys, zs)
 
         """
         def plane(x, y, params):
