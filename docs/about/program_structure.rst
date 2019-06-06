@@ -5,9 +5,9 @@ Program structure
 Program structure of OctaDist
 -----------------------------
 
-==========  ================================
+==========  ================================================
 Function    Description
-==========  ================================
+==========  ================================================
 main        Main program
 calc        Calculating distortion parameters
 coord       Manipulating atomic coordinates
@@ -18,10 +18,10 @@ plane       Manipulate projection plane
 plot        Plotting graph and chart
 popup       Error, warning, and info messages
 projection  2D & 3D vector projections
-structure   Finding physical parameters e.g. bond and angle
-tools       Showing data of complex
-util        Utilities by 3rd party libraries
-==========  ================================
+structure   All data about structure
+tools       Analysis tools by 3rd-party libraries
+util        Frequently-used functions e.g. find atomic bonds
+==========  ================================================
 
 Requirements
 ------------
