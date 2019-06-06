@@ -136,7 +136,7 @@ class DrawComplex:
 
     def add_legend(self):
         """
-        Add all atoms to figure.
+        Add atoms legend to show in figure.
 
         Notes
         -----

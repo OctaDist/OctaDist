@@ -52,34 +52,51 @@ class Plot:
 
     def add_point(self):
         """
-
-
-        Returns
-        -------
+        Add all atoms to show in figure.
 
         """
         for i in range(len(self.data1)):
             self.ax.scatter(self.data1, self.data2, label=f'Complex {i + 1}')
 
     def add_text(self):
+        """
+        Added text to show in figure.
+
+        """
         for i in range(len(self.data1)):
             self.ax.text(self.data1[i] + 0.2, self.data2[i] + 0.2, i + 1, fontsize=9)
 
     def add_legend(self):
+        """
+        Add legend to show in figure.
+
+        """
         # Put a legend below current axis
         self.ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1),
                        fancybox=True, shadow=True, ncol=5)
 
     def config_plot(self):
+        """
+        Config structure of figure.
+
+        """
         # Shrink current axis's height by 10% on the bottom
         box = self.ax.get_position()
         self.ax.set_position([box.x0, box.y0 + box.height * 0.1, box.width, box.height * 0.9])
 
     def set_label(self):
+        """
+        Set title of figure and axis labels.
+
+        """
         plt.title(f"Relationship plot between {self.name1} and {self.name2}")
         plt.xlabel(f"{self.name1}")
         plt.ylabel(f"{self.name2}")
 
     def show_plot(self):
+        """
+        Show plot.
+
+        """
         plt.show()
 
