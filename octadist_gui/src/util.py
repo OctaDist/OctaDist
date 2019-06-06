@@ -20,7 +20,7 @@ from scipy.spatial import distance
 from octadist_gui.src import plane, projection
 
 
-def find_bonds(fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
+def find_bonds(atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2):
     """
     Find all bond distance and filter the possible bonds.
 
@@ -30,10 +30,10 @@ def find_bonds(fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
 
     Parameters
     ----------
-    fal : list
-        List of atomic labels of full complex.
-    fcl : list
-        List of atomic coordinates of full complex.
+    atom : list
+        List of atomic labels of molecule.
+    coord : list
+        List of atomic coordinates of molecule.
     cutoff_global : int or float
         Global cutoff for screening bonds.
         Default value is 2.0.
@@ -49,15 +49,15 @@ def find_bonds(fal, fcl, cutoff_global=2.0, cutoff_hydrogen=1.2):
     pair_list = []
     bond_list = []
 
-    for i in range(len(fcl)):
-        for j in range(i + 1, len(fcl)):
+    for i in range(len(coord)):
+        for j in range(i + 1, len(coord)):
             if i == 0:
-                dist = distance.euclidean(fcl[i], fcl[j])
+                dist = distance.euclidean(coord[i], coord[j])
             else:
-                dist = distance.euclidean(fcl[i], fcl[j])
+                dist = distance.euclidean(coord[i], coord[j])
 
-            pair_list.append([fal[i], fal[j]])
-            bond_list.append([fcl[i], fcl[j], dist])
+            pair_list.append([atom[i], atom[j]])
+            bond_list.append([coord[i], coord[j], dist])
 
     check_1_bond_list = []
     screen_1_pair_list = []
@@ -107,22 +107,62 @@ def find_faces_octa(c_octa):
     -------
     a_ref_f : list
         Atomic labels of reference face.
-    c_ref_f : array
+    c_ref_f : ndarray
         Atomic coordinates of reference face.
     a_oppo_f : list
         Atomic labels of opposite face.
-    c_oppo_f : array
+    c_oppo_f : ndarray
         Atomic coordinates of opposite face.
 
     Examples
     --------
     >>> Reference plane             Opposite plane
-    ...    [[1 2 3]                   [[4 5 6]
-    ...     [1 2 4]        --->        [3 5 6]
-    ...       ...                        ...
-    ...     [2 3 5]]                   [1 4 6]]
+           [[1 2 3]                   [[4 5 6]
+            [1 2 4]        --->        [3 5 6]
+              ...                        ...
+            [2 3 5]]                   [1 4 6]]
+
+    >>> coord = [[14.68572 18.49228  6.66716]
+                 [14.86476 16.48821  7.43379]
+                 [14.44181 20.594    6.21555]
+                 [13.37473 17.23453  5.45099]
+                 [16.26114 18.54903  8.20527]
+                 [13.04897 19.25464  7.93122]
+                 [16.09157 18.9617   5.02956]]
+
+    >>> a_ref, c_ref, a_oppo, c_oppo = find_faces_octa(coord)
+
+    >>> a_ref
+    [[1, 3, 6], [1, 4, 6], [2, 3, 6], [2, 3, 5],
+     [2, 4, 5], [1, 4, 5], [1, 3, 5], [2, 4, 6]]
+
+    >>> c_ref
+    [[[14.86476 16.48821  7.43379]
+      [13.37473 17.23453  5.45099]
+      [16.09157 18.9617   5.02956]],
+     ...,
+     ...,
+     [[14.44181 20.594    6.21555]
+      [16.26114 18.54903  8.20527]
+      [16.09157 18.9617   5.02956]]]
+
+    >>> a_octa
+    [[2, 4, 5], [2, 3, 5], [1, 4, 5], [1, 4, 6],
+     [1, 3, 6], [2, 3, 6], [2, 4, 6], [1, 3, 5]]
+
+    >>> c_octa
+    [[[14.44181 20.594    6.21555]
+      [16.26114 18.54903  8.20527]
+      [13.04897 19.25464  7.93122]],
+     ...,
+     ...,
+     [[14.86476 16.48821  7.43379]
+      [13.37473 17.23453  5.45099]
+      [13.04897 19.25464  7.93122]]]
 
     """
+    c_octa = np.asarray(c_octa, dtype=np.float64)
+
     ########################
     # Find reference faces #
     ########################
@@ -171,16 +211,21 @@ def find_faces_octa(c_octa):
                 new_a_ref_f.append(j)
         a_oppo_f.append(new_a_ref_f)
 
-    v = np.asarray(c_octa, dtype=np.float64)
     c_oppo_f = []
 
     for i in range(len(a_oppo_f)):
         coord_oppo = []
         for j in range(3):
-            coord_oppo.append([v[int(a_oppo_f[i][j])][0],
-                               v[int(a_oppo_f[i][j])][1],
-                               v[int(a_oppo_f[i][j])]][2])
+            coord_oppo.append([c_octa[int(a_oppo_f[i][j])][0],
+                               c_octa[int(a_oppo_f[i][j])][1],
+                               c_octa[int(a_oppo_f[i][j])]][2])
         c_oppo_f.append(coord_oppo)
+
+    a_ref_f = list(a_ref_f)
+    c_ref_f = list(c_ref_f)
+
+    c_ref_f = np.asarray(c_ref_f, dtype=np.float64)
+    c_oppo_f = np.asarray(c_oppo_f, dtype=np.float64)
 
     return a_ref_f, c_ref_f, a_oppo_f, c_oppo_f
 

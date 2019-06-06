@@ -61,8 +61,8 @@ class CalcJahnTeller:
 
     """
     def __init__(self, atom, coord, master=None):
-        self.fal = atom
-        self.fcl = coord
+        self.atom = atom
+        self.coord = coord
 
         if master is None:
             self.wd = tk.Tk()
@@ -148,7 +148,7 @@ class CalcJahnTeller:
         Find bonds.
 
         """
-        self.bond_list = util.find_bonds(self.fal, self.fcl)
+        self.bond_list = util.find_bonds(self.atom, self.coord)
 
     #################
     # Picking atoms #
@@ -170,12 +170,12 @@ class CalcJahnTeller:
         # ax = fig.add_subplot(111, projection='3d')
 
         # Plot all atoms
-        for i in range(len(self.fcl)):
+        for i in range(len(self.coord)):
             # Determine atomic number
-            n = elements.check_atom(self.fal[i])
-            ax.scatter(self.fcl[i][0], self.fcl[i][1], self.fcl[i][2],
+            n = elements.check_atom(self.atom[i])
+            ax.scatter(self.coord[i][0], self.coord[i][1], self.coord[i][2],
                        marker='o', linewidths=0.5, edgecolors='black', picker=5,
-                       color=elements.check_color(n), label=f"{self.fal[i]}",
+                       color=elements.check_color(n), label=f"{self.atom[i]}",
                        s=elements.check_radii(n) * 300)
 
         atoms_pair = []
@@ -258,11 +258,11 @@ class CalcJahnTeller:
             """
             ind = event.ind[0]
             x, y, z = event.artist._offsets3d
-            for i in range(len(self.fal)):
-                if x[ind] == self.fcl[i][0]:
-                    if y[ind] == self.fcl[i][1]:
-                        if z[ind] == self.fcl[i][2]:
-                            atom = self.fal[i]
+            for i in range(len(self.atom)):
+                if x[ind] == self.coord[i][0]:
+                    if y[ind] == self.coord[i][1]:
+                        if z[ind] == self.coord[i][2]:
+                            atom = self.atom[i]
                             break
 
             results = f"{i + 1}  {atom}  :  {x[ind]} {y[ind]} {z[ind]}"
@@ -416,12 +416,12 @@ class CalcJahnTeller:
         # ax = fig.add_subplot(111, projection='3d')
 
         # Plot all atoms
-        for i in range(len(self.fcl)):
+        for i in range(len(self.coord)):
             # Determine atomic number
-            n = elements.check_atom(self.fal[i])
-            ax.scatter(self.fcl[i][0], self.fcl[i][1], self.fcl[i][2],
+            n = elements.check_atom(self.atom[i])
+            ax.scatter(self.coord[i][0], self.coord[i][1], self.coord[i][2],
                        marker='o', linewidths=0.5, edgecolors='black', picker=5,
-                       color=elements.check_color(n), label=f"{self.fal[i]}",
+                       color=elements.check_color(n), label=f"{self.atom[i]}",
                        s=elements.check_radii(n) * 300)
 
         atoms_pair = []
