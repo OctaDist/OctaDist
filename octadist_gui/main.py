@@ -197,7 +197,7 @@ class OctaDist:
         menu_bar.add_cascade(label="Help", menu=help_menu)
         help_menu.add_command(label="Quick Help", command=lambda: popup.show_help(self.master))
         help_menu.add_command(label="Getting Started",
-                              command=lambda: webbrowser.open_new_tab(octadist_gui.__website__ + "/manual.html"))
+                              command=lambda: webbrowser.open_new_tab(octadist_gui.__doc__))
         help_menu.add_separator()
         submit_issue = "https://github.com/OctaDist/OctaDist/issues"
         help_menu.add_command(label="Report Issue", command=lambda: webbrowser.open_new_tab(submit_issue))
@@ -649,7 +649,7 @@ class OctaDist:
         elif command == "info":
             self.box_script.insert(tk.INSERT, f">>> {octadist_gui.__description__}\n")
         elif command == "doc":
-            self.box_script.insert(tk.INSERT, f">>> {self.__doc__ }\n")
+            self.box_script.insert(tk.INSERT, f">>> {octadist_gui.__doc__ }\n")
         elif command == "show":
             try:
                 self.script_show_var(self, args)
