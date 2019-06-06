@@ -117,11 +117,11 @@ def find_faces_octa(c_octa):
 
     Examples
     --------
-    Reference plane             Opposite plane
-        [[1 2 3]                   [[4 5 6]
-        [1 2 4]        --->        [3 5 6]
-          ...                        ...
-        [2 3 5]]                   [1 4 6]]
+    >>> Reference plane             Opposite plane
+    >>>    [[1 2 3]                   [[4 5 6]
+    >>>     [1 2 4]        --->        [3 5 6]
+    >>>       ...                        ...
+    >>>     [2 3 5]]                   [1 4 6]]
 
     """
     ########################
