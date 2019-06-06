@@ -801,8 +801,8 @@ class OctaDist:
 
         my_plot = draw.DrawProjection(atom=atom_full, coord=coord_full)
         my_plot.add_atom()
-        my_plot.add_plane()
         my_plot.add_symbol()
+        my_plot.add_plane()
         my_plot.show_plot()
 
     def draw_twisting_plane(self):
@@ -821,8 +821,8 @@ class OctaDist:
 
         my_plot = draw.DrawTwistingPlane(atom=atom_full, coord=coord_full)
         my_plot.add_plane()
-        my_plot.add_bond()
         my_plot.add_symbol()
+        my_plot.add_bond()
         my_plot.show_plot()
 
     ########################

@@ -36,6 +36,7 @@ class DrawComplex:
     --------
     >>> atom
     ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
+
     >>> coord
     [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
      [1.885657000, 4.804777000, 6.183726000],
@@ -44,6 +45,12 @@ class DrawComplex:
      [0.539005000, 4.482809000, 8.460004000],
      [2.812425000, 3.266553000, 8.131637000],
      [2.886404000, 5.392925000, 9.848966000]]
+
+    >>> test = DrawComplex(atom=atom, coord=coord)
+    >>> test.add_atom()
+    >>> test.add_bond()
+    >>> test.add_legend()
+    >>> test.show_plot()
 
     """
     def __init__(self, **kwargs):
@@ -234,6 +241,26 @@ class DrawProjection:
         atom : atomic labels of octahedral structure.
         coord : atomic coordinates of octahedral structure.
 
+    Examples
+    --------
+    >>> atom
+    ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
+
+    >>> coord
+    [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
+     [1.885657000, 4.804777000, 6.183726000],
+     [1.747515000, 6.960963000, 7.932784000],
+     [4.094380000, 5.807257000, 7.588689000],
+     [0.539005000, 4.482809000, 8.460004000],
+     [2.812425000, 3.266553000, 8.131637000],
+     [2.886404000, 5.392925000, 9.848966000]]
+
+    >>> test = DrawProjection(atom=atom, coord=coord)
+    >>> test.add_atom()
+    >>> test.add_symbol()
+    >>> test.add_plane()
+    >>> test.show_plot()
+
     """
     def __init__(self, **kwargs):
         self.atom = kwargs.get('atom')
@@ -356,6 +383,26 @@ class DrawTwistingPlane:
         atom : atomic labels of octahedral structure.
         coord : atomic coordinates of octahedral structure.
 
+    Examples
+    --------
+    >>> atom
+    ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
+
+    >>> coord
+    [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
+     [1.885657000, 4.804777000, 6.183726000],
+     [1.747515000, 6.960963000, 7.932784000],
+     [4.094380000, 5.807257000, 7.588689000],
+     [0.539005000, 4.482809000, 8.460004000],
+     [2.812425000, 3.266553000, 8.131637000],
+     [2.886404000, 5.392925000, 9.848966000]]
+
+    >>> test = DrawTwistingPlane(atom=atom, coord=coord)
+    >>> test.add_plane()
+    >>> test.add_symbol()
+    >>> test.add_bond()
+    >>> test.show_plot()
+
     """
     def __init__(self, **kwargs):
         self.atom = kwargs.get('atom')
@@ -366,13 +413,15 @@ class DrawTwistingPlane:
         if self.coord is None:
             raise TypeError("coord is not specified")
 
+        _, self.c_ref, _, self.c_oppo = util.find_faces_octa(self.coord)
+
         self.all_ax = []
-        self.all_c_ref = []
         self.all_m = []
         self.all_proj_ligs = []
 
         self.start_plot()
         self.shift_plot()
+        self.create_subplots()
 
     def start_plot(self):
         """
@@ -390,22 +439,28 @@ class DrawTwistingPlane:
         self.fig.subplots_adjust(top=0.25)
         self.st.set_y(1.0)
 
+    def create_subplots(self):
+        """
+        Create subplots.
+
+        """
+        for i in range(4):
+            ax = self.fig.add_subplot(2, 2, int(i + 1), projection='3d')
+            ax.set_title(f"Projection plane {i + 1}", fontsize='10')
+
+            self.all_ax.append(ax)
+
     def add_plane(self):
         """
         Add the projection planes to show in figure.
 
         """
-        _, c_ref, _, c_oppo = util.find_faces_octa(self.coord)
-
         for i in range(4):
-            ax = self.fig.add_subplot(2, 2, int(i + 1), projection='3d')
-            ax.set_title(f"Projection plane {i + 1}", fontsize='10')
-            a, b, c, d = plane.find_eq_of_plane(c_ref[i][0], c_ref[i][1], c_ref[i][2])
+            a, b, c, d = plane.find_eq_of_plane(self.c_ref[i][0], self.c_ref[i][1], self.c_ref[i][2])
             m = projection.project_atom_onto_plane(self.coord[0], a, b, c, d)
-
-            self.all_ax.append(ax)
-            self.all_c_ref.append(c_ref[i])
             self.all_m.append(m)
+
+            ax = self.all_ax[i]
 
             # Projected metal center atom
             ax.scatter(m[0],
@@ -417,14 +472,14 @@ class DrawTwistingPlane:
             # Reference atoms
             all_proj_lig = []
             for j in range(3):
-                ax.scatter(c_ref[i][j][0],
-                           c_ref[i][j][1],
-                           c_ref[i][j][2],
+                ax.scatter(self.c_ref[i][j][0],
+                           self.c_ref[i][j][1],
+                           self.c_ref[i][j][2],
                            color='red', s=50, marker='o', linewidths=1,
                            edgecolors='black', label="Reference atom")
 
                 # Project ligand atom onto the reference face
-                proj_lig = projection.project_atom_onto_plane(c_oppo[i][j], a, b, c, d)
+                proj_lig = projection.project_atom_onto_plane(self.c_oppo[i][j], a, b, c, d)
                 all_proj_lig.append(proj_lig)
 
             # Projected opposite atoms
@@ -437,7 +492,7 @@ class DrawTwistingPlane:
             self.all_proj_ligs.append(all_proj_lig)
 
             # Draw plane
-            get_vertices = c_ref[i].tolist()
+            get_vertices = self.c_ref[i].tolist()
             x, y, z = zip(*get_vertices)
             vertices = [list(zip(x, y, z))]
 
@@ -449,21 +504,6 @@ class DrawTwistingPlane:
             ax.add_collection3d(Poly3DCollection(projected_oppo_vertices_list,
                                                  alpha=0.5,
                                                  color="blue"))
-
-    def add_bond(self):
-        """
-        Calculate bond distance, screen bond, and add them to show in figure.
-
-        """
-        for i in range(4):
-            for j in range(3):
-                merge = list(zip(self.all_m[i].tolist(), self.all_c_ref[i][j].tolist()))
-                x, y, z = merge
-                self.all_ax[i].plot(x, y, z, 'k-', color="black")
-
-                merge = list(zip(self.all_m[i].tolist(), self.all_proj_ligs[i][j].tolist()))
-                x, y, z = merge
-                self.all_ax[i].plot(x, y, z, 'k->', color="black")
 
     def add_symbol(self):
         """
@@ -478,15 +518,30 @@ class DrawTwistingPlane:
                     f"{self.atom[0]}'", fontsize=9)
 
             for j in range(3):
-                ax.text(self.all_c_ref[i][j][0] + 0.1,
-                        self.all_c_ref[i][j][1] + 0.1,
-                        self.all_c_ref[i][j][2] + 0.1,
+                ax.text(self.c_ref[i][j][0] + 0.1,
+                        self.c_ref[i][j][1] + 0.1,
+                        self.c_ref[i][j][2] + 0.1,
                         f"{j + 1}", fontsize=9)
 
                 ax.text(self.all_proj_ligs[i][j][0] + 0.1,
                         self.all_proj_ligs[i][j][1] + 0.1,
                         self.all_proj_ligs[i][j][2] + 0.1,
                         f"{j + 1}'", fontsize=9)
+
+    def add_bond(self):
+        """
+        Calculate bond distance, screen bond, and add them to show in figure.
+
+        """
+        for i in range(4):
+            for j in range(3):
+                merge = list(zip(self.all_m[i].tolist(), self.c_ref[i][j].tolist()))
+                x, y, z = merge
+                self.all_ax[i].plot(x, y, z, 'k-', color="black")
+
+                merge = list(zip(self.all_m[i].tolist(), self.all_proj_ligs[i][j].tolist()))
+                x, y, z = merge
+                self.all_ax[i].plot(x, y, z, 'k->', color="black")
 
     def show_plot(self):
         """
