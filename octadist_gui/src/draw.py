@@ -141,10 +141,6 @@ class DrawComplex:
         """
         Find the faces of octahedral structure and add those faces to show in figure.
 
-        Returns
-        -------
-        None : None
-
         """
         _, c_ref, _, _ = octadist_gui.src.structure.find_faces_octa(coord)
 
@@ -161,10 +157,6 @@ class DrawComplex:
     def add_legend(self):
         """
         Add all atoms to figure.
-
-        Returns
-        -------
-        None : None
 
         Notes
         -----
@@ -195,14 +187,19 @@ class DrawComplex:
 
         Parameters
         ----------
-        show_title
-        show_axis
-        show_grid
-        kwargs
-
-        Returns
-        -------
-        None : None
+        show_title : bool
+            If True, show title of figure.
+            If False, not show title of figure.
+        show_axis : bool
+            If True, show axis of figure.
+            If False, not show axis of figure.
+        show_grid : bool
+            If True, show grid of figure.
+            If False, not show grid of figure.
+        kwargs : dict (optional)
+            title_name : title name of figure.
+            title_size : text size of title.
+            label_size : text size of axis labels.
 
         """
         title_name_user = kwargs.get('title_name')
@@ -236,10 +233,6 @@ class DrawComplex:
         """
         Show plot.
 
-        Returns
-        -------
-        None : None
-
         """
         plt.show()
 
@@ -250,12 +243,9 @@ class DrawProjection:
 
     Parameters
     ----------
-    aco : list
-        Atomic labels and coordinates of octahedral structure.
-
-    Returns
-    -------
-    None : None
+    kwargs : dict
+        atom : atomic labels of octahedral structure.
+        coord : atomic coordinates of octahedral structure.
 
     """
     def __init__(self, **kwargs):
@@ -271,10 +261,6 @@ class DrawProjection:
         """
         Introduce figure to plot.
 
-        Returns
-        -------
-        None : None
-
         """
         self.fig = plt.figure()
         self.st = self.fig.suptitle("4 pairs of opposite planes", fontsize="x-large")
@@ -288,10 +274,6 @@ class DrawProjection:
         """
         Shift subplots down. Default value is 0.25.
 
-        Returns
-        -------
-        None : None
-
         """
         self.fig.subplots_adjust(top=0.25)
         self.st.set_y(1.0)
@@ -299,10 +281,6 @@ class DrawProjection:
     def add_atom(self):
         """
         Add all atoms to show in figure.
-
-        Returns
-        -------
-        None : None
 
         """
         for i in range(4):
@@ -326,10 +304,6 @@ class DrawProjection:
         """
         Add all atoms to show in figure.
 
-        Returns
-        -------
-        None : None
-
         """
         for i in range(4):
             ax = self.sub_plot[i]
@@ -349,10 +323,6 @@ class DrawProjection:
     def add_plane(self):
         """
         Add the projection planes to show in figure.
-
-        Returns
-        -------
-        None : None
 
         """
         _, c_ref, _, c_oppo = octadist_gui.src.structure.find_faces_octa(self.coord)
@@ -379,10 +349,6 @@ class DrawProjection:
         """
         Show plot.
 
-        Returns
-        -------
-        None : None
-
         """
         plt.tight_layout()
         plt.show()
@@ -394,12 +360,9 @@ class DrawTwistingPlane:
 
     Parameters
     ----------
-    aco : list
-        Atomic labels and coordinates of octahedral structure.
-
-    Returns
-    -------
-    None : None
+    kwargs : dict
+        atom : atomic labels of octahedral structure.
+        coord : atomic coordinates of octahedral structure.
 
     """
     def __init__(self, **kwargs):
@@ -418,10 +381,6 @@ class DrawTwistingPlane:
         """
         Introduce figure to plot.
 
-        Returns
-        -------
-        None : None
-
         """
         self.fig = plt.figure()
         self.st = self.fig.suptitle("Projected twisting triangular faces", fontsize="x-large")
@@ -430,10 +389,6 @@ class DrawTwistingPlane:
         """
         Shift subplots down. Default value is 0.25.
 
-        Returns
-        -------
-        None : None
-
         """
         self.fig.subplots_adjust(top=0.25)
         self.st.set_y(1.0)
@@ -441,10 +396,6 @@ class DrawTwistingPlane:
     def add_plane(self):
         """
         Add the projection planes to show in figure.
-
-        Returns
-        -------
-        None : None
 
         """
         _, c_ref, _, c_oppo = octadist_gui.src.structure.find_faces_octa(self.coord)
@@ -506,10 +457,6 @@ class DrawTwistingPlane:
         """
         Calculate bond distance, screen bond, and add them to show in figure.
 
-        Returns
-        -------
-        None : None
-
         """
         for i in range(4):
             for j in range(3):
@@ -524,10 +471,6 @@ class DrawTwistingPlane:
     def add_symbol(self):
         """
         Add all atoms to show in figure.
-
-        Returns
-        -------
-        None : None
 
         """
         for i in range(4):
@@ -551,10 +494,6 @@ class DrawTwistingPlane:
     def show_plot(self):
         """
         Show plot.
-
-        Returns
-        -------
-        None : None
 
         """
         # plt.legend(bbox_to_anchor=(1.05, 1), loc=2)
