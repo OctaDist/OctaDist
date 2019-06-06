@@ -16,8 +16,6 @@
 
 from matplotlib import pyplot as plt
 
-from octadist_gui.src import popup
-
 
 class Plot:
     """
@@ -34,10 +32,6 @@ class Plot:
     self.name2 = name2
         Name of data set 2.
 
-    Returns
-    -------
-    None : None
-
     """
     def __init__(self, data1, data2, name1="Var1", name2="Var2"):
         self.data1 = data1
@@ -50,9 +44,20 @@ class Plot:
         self.set_label()
 
     def start_plot(self):
+        """
+        Start plot.
+
+        """
         self.ax = plt.subplot()
 
     def add_point(self):
+        """
+
+
+        Returns
+        -------
+
+        """
         for i in range(len(self.data1)):
             self.ax.scatter(self.data1, self.data2, label=f'Complex {i + 1}')
 

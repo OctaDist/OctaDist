@@ -28,14 +28,10 @@ class DrawComplex:
 
     Parameters
     ----------
-    self.atom : list
+    atom : list
         Atomic symbols of octahedral structure.
-    self.coord : list or array or tuple
+    coord : list or array or tuple
         Atomic coordinates of octahedral structure.
-
-    Returns
-    -------
-    None : None
 
     Examples
     --------
@@ -71,10 +67,6 @@ class DrawComplex:
         """
         Introduce figure to plot.
 
-        Returns
-        -------
-        None : None
-
         """
         self.fig = plt.figure()
         self.ax = Axes3D(self.fig)
@@ -85,10 +77,6 @@ class DrawComplex:
     def add_atom(self):
         """
         Add all atoms to show in figure.
-
-        Returns
-        -------
-        None : None
 
         """
         for i in range(len(self.coord)):
@@ -105,10 +93,6 @@ class DrawComplex:
         """
         Add symbol of atoms to show in figure.
 
-        Returns
-        -------
-        None : None
-
         """
         for j in range(len(self.atom)):
             self.ax.text(self.coord[j][0] + 0.1,
@@ -119,10 +103,6 @@ class DrawComplex:
     def add_bond(self):
         """
         Calculate bond distance, screen bond, and add them to show in figure.
-
-        Returns
-        -------
-        None : None
 
         """
         self.bond_list = octadist_gui.src.structure.find_bonds(self.atom, self.coord)
