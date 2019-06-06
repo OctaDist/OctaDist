@@ -196,10 +196,6 @@ def find_surface_area(self, aco):
     aco : list
         Atomic labels and coordinates of octahedral structure.
 
-    Returns
-    -------
-    None : None
-
     """
     if len(aco) == 0:
         popup.err_no_file()

@@ -32,10 +32,6 @@ def data_complex(self, files, acf):
     acf : list
         Atomic labels and coordinates of full complex.
 
-    Returns
-    -------
-    None : None
-
     """
     if len(files) == 0:
         popup.err_no_file()
@@ -69,10 +65,6 @@ def data_face(self, aco):
     ----------
     aco : list
         Atomic labels and coordinates of octahedral structure.
-
-    Returns
-    -------
-    None : None
 
     """
     if len(aco) == 0:
@@ -116,10 +108,6 @@ def param_complex(self, acf):
     ----------
     acf : list
         Atomic labels and coordinates of full complex.
-
-    Returns
-    -------
-    None : None
 
     """
     if len(acf) == 0:
@@ -183,10 +171,6 @@ def param_octa(self, aco):
     ----------
     aco : list
         Atomic labels and coordinates of octahedral structure.
-
-    Returns
-    -------
-    None : None
 
     """
     if len(aco) == 0:
