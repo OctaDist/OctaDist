@@ -123,6 +123,9 @@ class OctaDist:
         self.master.title(f"OctaDist {octadist_gui.__version__}")
         font = "Arial 10"
         self.master.option_add("*Font", font)
+        center_width = (self.master.winfo_screenwidth() / 2.) - (550 / 2.)
+        center_height = (self.master.winfo_screenheight() / 2.) - (750 / 2.)
+        self.master.geometry("525x635+%d+%d" % (center_width, center_height))
         self.master.resizable(0, 0)
 
     def add_menu(self):
@@ -177,15 +180,8 @@ class OctaDist:
 
         # Tools
         menu_bar.add_cascade(label="Tools", menu=tools_menu)
-        tools_menu.add_cascade(label="Data Summary", menu=data_menu)
-        data_menu.add_cascade(label="Complex", command=lambda: self.data_complex())
-        data_menu.add_cascade(label="Faces of Octahedral Structure",
-                              command=lambda: structure.data_face(self, self.atom_coord_octa))
-        tools_menu.add_cascade(menu=strct_menu, label="Show Structural Parameter")
-        strct_menu.add_command(label="All Atoms",
-                               command=lambda: structure.param_complex(self, self.atom_coord_full))
-        strct_menu.add_command(label="Octahedral Structure",
-                               command=lambda: structure.param_octa(self, self.atom_coord_octa))
+        tools_menu.add_cascade(label="Data Summary", command=lambda: self.show_data_complex())
+        tools_menu.add_cascade(label="Show Structural Parameter", command=lambda: self.show_param_octa())
         tools_menu.add_command(label="Calculate Surface Area", command=lambda: self.show_surface_area())
         tools_menu.add_separator()
         tools_menu.add_command(label="Relationship Plot between ζ and Σ", command=lambda: self.plot_zeta_sigma())
@@ -359,56 +355,513 @@ class OctaDist:
         self.backup_6 = self.show_axis
         self.backup_7 = self.show_grid
 
-    def text_editor(self):
+    #####################
+    # Manipulating File #
+    #####################
+
+    def open_file(self):
         """
-        Text editor for editing file.
-
-        Returns
-        -------
-        text_editor : str
-            Name or absolute path of text editor that user specified.
-
-        """
-        return self.text_editor
-
-    def show_title(self):
-        """
-        Show figure title.
-
-        Returns
-        -------
-        show_title : bool
-            True if user want matplotlib to show figure title.
-            False if user does not.
+        Open file dialog in which the user will select input file and upload it to program.
 
         """
-        return self.show_title
+        self.clear_cache()
 
-    def show_axis(self):
+        try:
+            input_file = filedialog.askopenfilenames(
+                title="Choose input file",
+                filetypes=(("XYZ File", "*.xyz"),
+                           ("Gaussian Output File", "*.out"),
+                           ("Gaussian Output File", "*.log"),
+                           ("NWChem Output File", "*.out"),
+                           ("NWChem Output File", "*.log"),
+                           ("ORCA Output File", "*.out"),
+                           ("ORCA Output File", "*.log"),
+                           ("Q-Chem Output File", "*.out"),
+                           ("Q-Chem Output File", "*.log"),
+                           ("All Files", "*.*")))
+
+            self.file_list = list(input_file)
+
+            try:
+                open(self.file_list[0], 'r')
+                for i in range(len(self.file_list)):
+
+                    ###########################
+                    # Read file and pull data #
+                    ###########################
+
+                    file_name = self.file_list[i].split('/')[-1]
+
+                    atom_full, coord_full = coord.get_coord(self.file_list[i])
+                    self.atom_coord_full.append([atom_full, coord_full])
+
+                    # If either lists is empty, then continue to next file
+                    if len(atom_full) == 0 or len(coord_full) == 0:
+                        continue
+
+                    ###############################################
+                    # Determine metal center atoms in the complex #
+                    ###############################################
+
+                    count, atom_metal, coord_metal = coord.count_metal(atom_full, coord_full)
+
+                    # If molecule has no transition metal, show full atomic coordinates instead
+                    if count == 0:
+                        popup.warn_no_metal()
+                        self.has_metal = False
+
+                        if i == 0:
+                            echo_outs(self, "XYZ coordinates of extracted octahedral structure")
+
+                        echo_outs(self, f"File {i + 1}: {file_name}")
+                        echo_outs(self, "Atom                       Cartesian coordinate")
+                        for k in range(len(atom_full)):
+                            echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
+                                      .format(atom_full[k],
+                                              coord_full[k][0],
+                                              coord_full[k][1],
+                                              coord_full[k][2]))
+                        echo_outs(self, "")
+
+                        continue  # continue to next file
+
+                    #################################################
+                    # Extract octahedral structure from the complex #
+                    #################################################
+
+                    if i == 0:
+                        echo_outs(self, "XYZ coordinates of extracted octahedral structure")
+
+                    # loop over metal center atoms
+                    for j in range(count):
+                        atom_octa, coord_octa = coord.search_octa(atom_full, coord_full, coord_metal[j - 1])
+
+                        # If no atomic coordinates inside, it will return error
+                        if np.any(coord_octa) == 0:
+                            popup.err_no_coord()
+                            return 1
+
+                        if len(coord_octa) < 7:
+                            self.clear_result_box()
+                            popup.err_less_ligands()
+                            return 1
+
+                        # Gather octahedral structure into atom_coord_octa
+                        # [ number of file, metal atom, atomic labels, and atomic coordinates ]
+                        self.atom_coord_octa.append([i + 1, atom_octa[0], atom_octa, coord_octa])
+
+                        if count == 1:
+                            echo_outs(self, f"File {i + 1}: {file_name}")
+                            echo_outs(self, "Atom                       Cartesian coordinate")
+                            for k in range(len(atom_octa)):
+                                echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
+                                          .format(atom_octa[k],
+                                                  coord_octa[k][0],
+                                                  coord_octa[k][1],
+                                                  coord_octa[k][2]))
+                            echo_outs(self, "")
+
+                        elif count > 1:
+                            echo_outs(self, f"File {i + 1}: {file_name}")
+                            echo_outs(self, f"Metal center atom no. {j + 1} : {atom_octa[0]}")
+                            echo_outs(self, "Atom                       Cartesian coordinate")
+                            for k in range(len(atom_octa)):
+                                echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
+                                          .format(atom_octa[k],
+                                                  coord_octa[k][0],
+                                                  coord_octa[k][1],
+                                                  coord_octa[k][2]))
+                            echo_outs(self, "")
+
+            except UnboundLocalError:
+                return 1
+
+        except IndexError:
+            return 1
+
+    def save_results(self):
         """
-        Show figure axes.
-
-        Returns
-        -------
-        show_axis : bool
-            True if user want matplotlib to show figure axis.
-            False if user does not.
+        Save results as output file. Default file extension is *.txt.
 
         """
-        return self.show_axis
+        f = filedialog.asksaveasfile(mode='w', defaultextension=".txt", title="Save results",
+                                     filetypes=(("TXT File", "*.txt"),
+                                                ("All Files", "*.*")))
 
-    def show_grid(self):
+        if f is None:
+            return 0
+
+        f.write("OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.\n")
+        f.write("This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.\n")
+        f.write("This is free software, and you are welcome to redistribute it under\n")
+        f.write("certain conditions; see <https://www.gnu.org/licenses/> for details.\n")
+        f.write("\n")
+        f.write(f"OctaDist {octadist_gui.__version__} {octadist_gui.__release__}.\n")
+        f.write("Octahedral Distortion Calculator\n")
+        f.write(f"{octadist_gui.__website__}\n")
+        f.write("\n")
+        f.write("================ Start of the Output file =================\n")
+        f.write("\n")
+        get_result = self.box_result.get('1.0', tk.END + '-1c')
+        f.write(get_result)
+        f.write("\n")
+        f.write("================= End of the output file ==================\n")
+        f.write("\n")
+        f.close()
+
+        popup.info_save_results(f.name)
+
+    def save_coord(self):
         """
-        Show figure gridlines.
-
-        Returns
-        -------
-        show_grid : bool
-            True if user want matplotlib to show figure gridlines.
-            False if user does not.
+        Save atomic coordinates (Cartesian coordinate) of octahedral structure.
+        Default file extension is *xyz.
 
         """
-        return self.show_grid
+        if len(self.file_list) == 0:
+            popup.err_no_file()
+            return 1
+
+        if len(self.file_list) > 1:
+            popup.err_many_files()
+            return 1
+
+        f = filedialog.asksaveasfile(mode='w', defaultextension=".xyz", title="Save atomic coordinates",
+                                     filetypes=(("XYZ File", "*.xyz"),
+                                                ("TXT File", "*.txt"),
+                                                ("All Files", "*.*")))
+
+        if f is None:
+            return 0
+
+        file_name = self.file_list[0].split('/')[-1]
+        atoms = self.atom_coord_octa[0][2]
+        coord = self.atom_coord_octa[0][3]
+
+        full_version = octadist_gui.__version__ + octadist_gui.__release__
+
+        f.write("7\n")
+        f.write(f"{file_name} : this file was generated by OctaDist {full_version}.\n")
+        for i in range(7):
+            f.write("{0:2s}   {1:9.6f}  {2:9.6f}  {3:9.6f}\n"
+                    .format(atoms[i], coord[i][0], coord[i][1], coord[i][2]))
+        f.write("\n")
+        f.close()
+
+        popup.info_save_results(f.name)
+
+    ###################################
+    # Calculate distortion parameters #
+    ###################################
+
+    def calc_distortion(self):
+        """
+        Calculate all distortion parameters:
+        Zeta, Delta, Sigma, and Theta_mean parameters.
+
+        """
+        if not self.has_metal:
+            popup.err_no_metal()
+            return 1
+
+        if len(self.atom_coord_octa) >= 1:
+            self.clear_param_box()
+        else:
+            popup.err_no_file()
+            return 1
+
+        # loop over number of metal complexes
+        for i in range(len(self.atom_coord_octa)):
+            num_file, num_metal, atom_octa, coord_octa = self.atom_coord_octa[i]
+
+            # Calculate distortion parameters
+            calc_dist = calc.CalcDistortion(coord_octa)
+            calc_dist.calc_zeta()
+            calc_dist.calc_delta()
+            calc_dist.calc_sigma()
+            calc_dist.calc_theta()
+
+            d_mean = calc_dist.get_d_mean()
+            zeta = calc_dist.get_zeta()
+            delta = calc_dist.get_delta()
+            sigma = calc_dist.get_sigma()
+            theta_mean = calc_dist.get_theta_mean()
+
+            # Collect results
+            self.all_zeta.append(zeta)
+            self.all_delta.append(delta)
+            self.all_sigma.append(sigma)
+            self.all_theta.append(theta_mean)
+
+            self.file_index.append([num_file, num_metal])
+            self.comp_result.append([d_mean, zeta, delta, sigma, theta_mean])
+
+        # Print results to each unique box.
+
+        if len(self.atom_coord_octa) == 1:
+            d_mean, zeta, delta, sigma, theta_mean = self.comp_result[0]
+
+            self.box_d_mean.insert(tk.INSERT, f"{d_mean:3.6f}")
+            self.box_zeta.insert(tk.INSERT, f"{zeta:3.6f}")
+            self.box_delta.insert(tk.INSERT, f"{delta:3.6f}")
+            self.box_sigma.insert(tk.INSERT, f"{sigma:3.6f}")
+            self.box_theta_mean.insert(tk.INSERT, f"{theta_mean:3.6f}")
+        else:
+            self.box_d_mean.insert(tk.INSERT, "See below")
+            self.box_zeta.insert(tk.INSERT, "See below")
+            self.box_delta.insert(tk.INSERT, "See below")
+            self.box_sigma.insert(tk.INSERT, "See below")
+            self.box_theta_mean.insert(tk.INSERT, "See below")
+
+        # Print results to result box
+        echo_outs(self, "Computed octahedral distortion parameters for all complexes")
+        echo_outs(self, "")
+        echo_outs(self, "Complex - Metal :    <D>      Zeta      Delta      Sigma      Theta")
+        echo_outs(self, "*******************************************************************")
+        echo_outs(self, "")
+        for i in range(len(self.comp_result)):
+            echo_outs(self, "{0:2d} - {1} : {2:9.4f}  {3:9.6f}  {4:9.6f}  {5:9.4f}  {6:9.4f}"
+                      .format(self.file_index[i][0],
+                              self.file_index[i][0],
+                              self.comp_result[i][0],
+                              self.comp_result[i][1],
+                              self.comp_result[i][2],
+                              self.comp_result[i][3],
+                              self.comp_result[i][4]))
+
+        echo_outs(self, "")
+
+    ###################
+    # Program Setting #
+    ###################
+
+    def settings(self):
+        """
+        Program settings. This setting allows the user to set and
+        adjust the default values of initial variables.
+        For example, cutoff distance for screening bond distance between atoms.
+
+        """
+        def open_exe():
+            """
+            Program setting: Open dialog in which the user will choose text editor.
+
+            """
+            try:
+                input_file = filedialog.askopenfilename(
+                    title="Choose text editor executable",
+                    filetypes=[("EXE file", "*.exe")]
+                )
+
+                file_list = str(input_file)
+                entry_exe.delete(0, tk.END)
+                entry_exe.insert(tk.INSERT, file_list)
+
+            except IndexError:
+                return 1
+
+        def check_title():
+            """
+            Check if title of figure will be set to show or not.
+
+            """
+            if var_title.get():
+                var_title.set(True)
+            else:
+                var_title.set(False)
+
+        def check_axis():
+            """
+            Check if axis of figure will be set to show or not.
+
+            """
+            if var_axis.get():
+                var_axis.set(True)
+            else:
+                var_axis.set(False)
+
+        def check_grid():
+            """
+            Check if grid of figure will be set to show or not.
+
+            """
+            if var_grid.get():
+                var_grid.set(True)
+            else:
+                var_grid.set(False)
+
+        def restore_settings(self):
+            """
+            Restore all settings.
+
+            """
+            self.cutoff_metal_ligand = self.backup_1
+            self.cutoff_global = self.backup_2
+            self.cutoff_hydrogen = self.backup_3
+            self.text_editor = self.backup_4
+            self.show_title = self.backup_5
+            self.show_axis = self.backup_6
+            self.show_grid = self.backup_7
+
+            var_1.set(self.cutoff_metal_ligand)
+            var_2.set(self.cutoff_global)
+            var_3.set(self.cutoff_hydrogen)
+            var_title.set(self.show_title)
+            var_axis.set(self.show_axis)
+            var_grid.set(self.show_grid)
+
+            entry_exe.delete(0, tk.END)
+            entry_exe.insert(tk.INSERT, self.text_editor)
+
+        def commit_ok(self):
+            """
+            If the user click OK, save all settings and show info in output box.
+
+            """
+            self.cutoff_metal_ligand = float(var_1.get())
+            self.cutoff_global = float(var_2.get())
+            self.cutoff_hydrogen = float(var_3.get())
+            self.text_editor = str(entry_exe.get())
+            self.show_title = bool(var_title.get())
+            self.show_axis = bool(var_axis.get())
+            self.show_grid = bool(var_grid.get())
+
+            echo_outs(self, "Updated program settings")
+            echo_outs(self, "************************")
+            echo_outs(self, f"Metal-Ligand bond cutoff : {self.cutoff_metal_ligand}")
+            echo_outs(self, f"Global bond cutoff       : {self.cutoff_global}")
+            echo_outs(self, f"Hydrogen bond cutoff     : {self.cutoff_hydrogen}")
+            echo_outs(self, "------------------------")
+            echo_outs(self, f"Text editor : {self.text_editor}")
+            echo_outs(self, "------------------------")
+            echo_outs(self, f"Show Title  : {self.show_title}")
+            echo_outs(self, f"Show Axis   : {self.show_axis}")
+            echo_outs(self, f"Show Grid   : {self.show_grid}")
+            echo_outs(self, "")
+
+            wd.destroy()
+
+        def commit_cancel():
+            """
+            If the user click CANCEL, close window.
+
+            """
+            wd.destroy()
+
+        ###################
+        # Setting: Widget #
+        ###################
+
+        wd = tk.Toplevel(self.master)
+        wd.wm_iconbitmap(r"..\images\molecule.ico")
+        wd.title("Program settings")
+        wd.option_add("*Font", "Arial 10")
+
+        frame = tk.Frame(wd)
+        frame.grid()
+
+        ###################
+        # Setting: Cutoff #
+        ###################
+
+        cutoff = tk.LabelFrame(frame, text="Bond Cutoff:")
+        cutoff.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=0, columnspan=4)
+
+        label_1 = tk.Label(cutoff, text="Metal-Ligand Bond")
+        label_1.grid(padx="10", pady="5", ipadx="10", row=0, column=0)
+
+        var_1 = tk.DoubleVar()
+        var_1.set(self.cutoff_metal_ligand)
+
+        scale_1 = tk.Scale(cutoff, orient="horizontal", variable=var_1, to=5, resolution=0.1)
+        scale_1.configure(width=20, length=100)
+        scale_1.grid(padx="10", pady="5", ipadx="10", row=1, column=0)
+
+        label_2 = tk.Label(cutoff, text="Global Distance")
+        label_2.grid(padx="10", pady="5", ipadx="10", row=0, column=1)
+
+        var_2 = tk.DoubleVar()
+        var_2.set(self.cutoff_global)
+
+        scale_2 = tk.Scale(cutoff, orient="horizontal", variable=var_2, to=5, resolution=0.1)
+        scale_2.configure(width=20, length=100)
+        scale_2.grid(padx="10", pady="5", ipadx="10", row=1, column=1)
+
+        label_3 = tk.Label(cutoff, text="Hydrogen Distance")
+        label_3.grid(padx="10", pady="5", ipadx="10", row=0, column=2)
+
+        var_3 = tk.DoubleVar()
+        var_3.set(self.cutoff_hydrogen)
+
+        scale_3 = tk.Scale(cutoff, orient="horizontal", variable=var_3, to=5, resolution=0.1)
+        scale_3.configure(width=20, length=100)
+        scale_3.grid(padx="10", pady="5", ipadx="10", row=1, column=2)
+
+        ########################
+        # Setting: Text editor #
+        ########################
+
+        text_editor = tk.LabelFrame(frame, text="Text editor:")
+        text_editor.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=1, columnspan=4)
+
+        label = tk.Label(text_editor, text="Enter the EXE:")
+        label.grid(padx="5", sticky=tk.E, row=0, column=0)
+
+        entry_exe = tk.Entry(text_editor, bd=2, width=60)
+        entry_exe.grid(row=0, column=1)
+
+        button = tk.Button(text_editor, text="Browse...", command=open_exe)
+        button.grid(padx="5", pady="5", sticky=tk.W, row=0, column=2)
+
+        entry_exe.insert(tk.INSERT, self.text_editor)
+
+        #####################
+        # Setting: Displays #
+        #####################
+
+        displays = tk.LabelFrame(frame, text="Displays:")
+        displays.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=2, columnspan=4)
+
+        # Show title of plot?
+        var_title = tk.BooleanVar()
+        var_title.set(self.show_title)
+
+        show_title = ttk.Checkbutton(displays, text="Show Figure Title", onvalue=True, offvalue=False,
+                                     variable=var_title, command=lambda: check_title())
+        show_title.grid(padx="5", pady="5", ipadx="25", sticky=tk.E, row=0, column=0)
+
+        # Show axis?
+        var_axis = tk.BooleanVar()
+        var_axis.set(self.show_axis)
+
+        show_axis = ttk.Checkbutton(displays, text="Show Axes", onvalue=True, offvalue=False,
+                                    variable=var_axis, command=lambda: check_axis())
+        show_axis.grid(padx="5", pady="5", ipadx="25", sticky=tk.E, row=0, column=1)
+
+        # Show grid?
+        var_grid = tk.BooleanVar()
+        var_grid.set(self.show_grid)
+
+        show_grid = ttk.Checkbutton(displays, text="Show Gridlines", onvalue=True, offvalue=False,
+                                    variable=var_grid, command=lambda: check_grid())
+        show_grid.grid(padx="5", pady="5", ipadx="5", sticky=tk.E, row=0, column=2)
+
+        ####################
+        # Setting: Console #
+        ####################
+
+        button = tk.Button(frame, text="Restore settings", command=lambda: restore_settings(self))
+        button.configure(width=15)
+        button.grid(padx="10", pady="10", sticky=tk.W, row=3, column=0)
+
+        button = tk.Button(frame, text="OK", command=lambda: commit_ok(self))
+        button.configure(width=15)
+        button.grid(padx="5", pady="10", sticky=tk.E, row=3, column=2)
+
+        button = tk.Button(frame, text="Cancel", command=lambda: commit_cancel())
+        button.configure(width=15)
+        button.grid(padx="5", pady="10", row=3, column=3)
+
+        frame.mainloop()
 
     #################
     # Copy and Edit #
@@ -804,24 +1257,6 @@ class OctaDist:
         my_plot.add_plane()
         my_plot.show_plot()
 
-    def data_complex(self):
-        """
-        Show info of input complex.
-
-        """
-        if len(self.file_list) == 0:
-            popup.err_no_file()
-            return 1
-
-        my_app = structure.DataComplex(master=self.master)
-        my_app.start_app()
-
-        for i in range(len(self.file_list)):
-            atom = self.atom_coord_full[i][0]
-            coord = self.atom_coord_full[i][1]
-            my_app.add_name(self.file_list[i])
-            my_app.add_coord(atom, coord)
-
     def draw_twisting_plane(self):
         """
         Draw twisting triangular planes.
@@ -842,9 +1277,43 @@ class OctaDist:
         my_plot.add_bond()
         my_plot.show_plot()
 
-    ########################
-    # Show structural data #
-    ########################
+    #####################
+    # Show data summary #
+    #####################
+
+    def show_data_complex(self):
+        """
+        Show info of input complex.
+
+        """
+        if len(self.file_list) == 0:
+            popup.err_no_file()
+            return 1
+
+        my_app = structure.DataComplex(master=self.master)
+
+        for i in range(len(self.file_list)):
+            atom = self.atom_coord_full[i][0]
+            coord = self.atom_coord_full[i][1]
+            my_app.add_name(self.file_list[i])
+            my_app.add_coord(atom, coord)
+
+    def show_param_octa(self):
+        """
+        Show structural parameters of selected octahedral structure.
+
+        """
+        if len(self.atom_coord_octa) == 0:
+            popup.err_no_file()
+            return 1
+
+        my_app = structure.StructParam(master=self.master)
+
+        for i in range(len(self.atom_coord_octa)):
+            number, metal, atom, coord = self.atom_coord_octa[i]
+            my_app.add_number(number)
+            my_app.add_metal(metal)
+            my_app.add_coord(atom, coord)
 
     def show_surface_area(self):
         """
@@ -855,7 +1324,13 @@ class OctaDist:
             popup.err_no_file()
             return 1
 
-        structure.surface_area(self, self.atom_coord_octa)
+        my_app = structure.SurfaceArea(master=self.master)
+
+        for i in range(len(self.atom_coord_octa)):
+            number, metal, atom, coord = self.atom_coord_octa[i]
+            my_app.add_number(number)
+            my_app.add_metal(metal)
+            my_app.add_coord(coord)
 
     ##############################
     # Plot between two data sets #
@@ -942,302 +1417,16 @@ class OctaDist:
 
         run_rmsd = tools.CalcRMSD(coord_1=coord_complex_1, coord_2=coord_complex_2)
 
-        self.rmsd_normal = run_rmsd.get_rmsd_normal()
-        self.rmsd_translate = run_rmsd.get_rmsd_translate()
-        self.rmsd_rotate = run_rmsd.get_rmsd_rotate()
+        rmsd_normal = run_rmsd.get_rmsd_normal()
+        rmsd_translate = run_rmsd.get_rmsd_translate()
+        rmsd_rotate = run_rmsd.get_rmsd_rotate()
 
-        self.show_rmsd()
-
-    def show_rmsd(self):
-        """
-        Show RMSD output in output box of main program.
-
-        """
         echo_outs(self, "RMSD between two complexes")
         echo_outs(self, "**************************")
-        echo_outs(self, f"Normal RMSD       : {self.rmsd_normal:3.6f}")
-        echo_outs(self, f"Re-centered RMSD  : {self.rmsd_translate:3.6f}")
-        echo_outs(self, f"Rotated RMSD      : {self.rmsd_rotate:3.6f}")
+        echo_outs(self, f"Normal RMSD       : {rmsd_normal:3.6f}")
+        echo_outs(self, f"Re-centered RMSD  : {rmsd_translate:3.6f}")
+        echo_outs(self, f"Rotated RMSD      : {rmsd_rotate:3.6f}")
         echo_outs(self, "")
-
-    ###################
-    # Program Setting #
-    ###################
-
-    def settings(self):
-        """
-        Program settings. This setting allows the user to set and
-        adjust the default values of initial variables.
-        For example, cutoff distance for screening bond distance between atoms.
-
-        """
-        def open_exe():
-            """
-            Program setting: Open dialog in which the user will choose text editor.
-
-            """
-            try:
-                input_file = filedialog.askopenfilename(
-                    title="Choose text editor executable",
-                    filetypes=[("EXE file", "*.exe")]
-                )
-
-                file_list = str(input_file)
-                entry_exe.delete(0, tk.END)
-                entry_exe.insert(tk.INSERT, file_list)
-
-            except IndexError:
-                return 1
-
-        def check_title():
-            """
-            Check if title of figure will be set to show or not.
-
-            """
-            if var_title.get():
-                var_title.set(True)
-            else:
-                var_title.set(False)
-
-        def check_axis():
-            """
-            Check if axis of figure will be set to show or not.
-
-            """
-            if var_axis.get():
-                var_axis.set(True)
-            else:
-                var_axis.set(False)
-
-        def check_grid():
-            """
-            Check if grid of figure will be set to show or not.
-
-            """
-            if var_grid.get():
-                var_grid.set(True)
-            else:
-                var_grid.set(False)
-
-        def restore_settings(self):
-            """
-            Restore all settings.
-
-            """
-            self.cutoff_metal_ligand = self.backup_1
-            self.cutoff_global = self.backup_2
-            self.cutoff_hydrogen = self.backup_3
-            self.text_editor = self.backup_4
-            self.show_title = self.backup_5
-            self.show_axis = self.backup_6
-            self.show_grid = self.backup_7
-
-            var_1.set(self.cutoff_metal_ligand)
-            var_2.set(self.cutoff_global)
-            var_3.set(self.cutoff_hydrogen)
-            var_title.set(self.show_title)
-            var_axis.set(self.show_axis)
-            var_grid.set(self.show_grid)
-
-            entry_exe.delete(0, tk.END)
-            entry_exe.insert(tk.INSERT, self.text_editor)
-
-        def commit_ok(self):
-            """
-            If the user click OK, save all settings and show info in output box.
-
-            """
-            self.cutoff_metal_ligand = float(var_1.get())
-            self.cutoff_global = float(var_2.get())
-            self.cutoff_hydrogen = float(var_3.get())
-            self.text_editor = str(entry_exe.get())
-            self.show_title = bool(var_title.get())
-            self.show_axis = bool(var_axis.get())
-            self.show_grid = bool(var_grid.get())
-
-            echo_outs(self, "Updated program settings")
-            echo_outs(self, "************************")
-            echo_outs(self, f"Metal-Ligand bond cutoff : {self.cutoff_metal_ligand}")
-            echo_outs(self, f"Global bond cutoff       : {self.cutoff_global}")
-            echo_outs(self, f"Hydrogen bond cutoff     : {self.cutoff_hydrogen}")
-            echo_outs(self, "------------------------")
-            echo_outs(self, f"Text editor : {self.text_editor}")
-            echo_outs(self, "------------------------")
-            echo_outs(self, f"Show Title  : {self.show_title}")
-            echo_outs(self, f"Show Axis   : {self.show_axis}")
-            echo_outs(self, f"Show Grid   : {self.show_grid}")
-            echo_outs(self, "")
-
-            wd.destroy()
-
-        def commit_cancel():
-            """
-            If the user click CANCEL, close window.
-
-            """
-            wd.destroy()
-
-        ###################
-        # Setting: Widget #
-        ###################
-
-        wd = tk.Toplevel(self.master)
-        wd.wm_iconbitmap(r"..\images\molecule.ico")
-        wd.title("Program settings")
-        wd.option_add("*Font", "Arial 10")
-
-        frame = tk.Frame(wd)
-        frame.grid()
-
-        ###################
-        # Setting: Cutoff #
-        ###################
-
-        cutoff = tk.LabelFrame(frame, text="Bond Cutoff:")
-        cutoff.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=0, columnspan=4)
-
-        label_1 = tk.Label(cutoff, text="Metal-Ligand Bond")
-        label_1.grid(padx="10", pady="5", ipadx="10", row=0, column=0)
-
-        var_1 = tk.DoubleVar()
-        var_1.set(self.cutoff_metal_ligand)
-
-        scale_1 = tk.Scale(cutoff, orient="horizontal", variable=var_1, to=5, resolution=0.1)
-        scale_1.configure(width=20, length=100)
-        scale_1.grid(padx="10", pady="5", ipadx="10", row=1, column=0)
-
-        label_2 = tk.Label(cutoff, text="Global Distance")
-        label_2.grid(padx="10", pady="5", ipadx="10", row=0, column=1)
-
-        var_2 = tk.DoubleVar()
-        var_2.set(self.cutoff_global)
-
-        scale_2 = tk.Scale(cutoff, orient="horizontal", variable=var_2, to=5, resolution=0.1)
-        scale_2.configure(width=20, length=100)
-        scale_2.grid(padx="10", pady="5", ipadx="10", row=1, column=1)
-
-        label_3 = tk.Label(cutoff, text="Hydrogen Distance")
-        label_3.grid(padx="10", pady="5", ipadx="10", row=0, column=2)
-
-        var_3 = tk.DoubleVar()
-        var_3.set(self.cutoff_hydrogen)
-
-        scale_3 = tk.Scale(cutoff, orient="horizontal", variable=var_3, to=5, resolution=0.1)
-        scale_3.configure(width=20, length=100)
-        scale_3.grid(padx="10", pady="5", ipadx="10", row=1, column=2)
-
-        ########################
-        # Setting: Text editor #
-        ########################
-
-        text_editor = tk.LabelFrame(frame, text="Text editor:")
-        text_editor.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=1, columnspan=4)
-
-        label = tk.Label(text_editor, text="Enter the EXE:")
-        label.grid(padx="5", sticky=tk.E, row=0, column=0)
-
-        entry_exe = tk.Entry(text_editor, bd=2, width=60)
-        entry_exe.grid(row=0, column=1)
-
-        button = tk.Button(text_editor, text="Browse...", command=open_exe)
-        button.grid(padx="5", pady="5", sticky=tk.W, row=0, column=2)
-
-        entry_exe.insert(tk.INSERT, self.text_editor)
-
-        #####################
-        # Setting: Displays #
-        #####################
-
-        displays = tk.LabelFrame(frame, text="Displays:")
-        displays.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=2, columnspan=4)
-
-        # Show title of plot?
-        var_title = tk.BooleanVar()
-        var_title.set(self.show_title)
-
-        show_title = ttk.Checkbutton(displays, text="Show Figure Title", onvalue=True, offvalue=False,
-                                     variable=var_title, command=lambda: check_title())
-        show_title.grid(padx="5", pady="5", ipadx="25", sticky=tk.E, row=0, column=0)
-
-        # Show axis?
-        var_axis = tk.BooleanVar()
-        var_axis.set(self.show_axis)
-
-        show_axis = ttk.Checkbutton(displays, text="Show Axes", onvalue=True, offvalue=False,
-                                    variable=var_axis, command=lambda: check_axis())
-        show_axis.grid(padx="5", pady="5", ipadx="25", sticky=tk.E, row=0, column=1)
-
-        # Show grid?
-        var_grid = tk.BooleanVar()
-        var_grid.set(self.show_grid)
-
-        show_grid = ttk.Checkbutton(displays, text="Show Gridlines", onvalue=True, offvalue=False,
-                                    variable=var_grid, command=lambda: check_grid())
-        show_grid.grid(padx="5", pady="5", ipadx="5", sticky=tk.E, row=0, column=2)
-
-        ####################
-        # Setting: Console #
-        ####################
-
-        button = tk.Button(frame, text="Restore settings", command=lambda: restore_settings(self))
-        button.configure(width=15)
-        button.grid(padx="10", pady="10", sticky=tk.W, row=3, column=0)
-
-        button = tk.Button(frame, text="OK", command=lambda: commit_ok(self))
-        button.configure(width=15)
-        button.grid(padx="5", pady="10", sticky=tk.E, row=3, column=2)
-
-        button = tk.Button(frame, text="Cancel", command=lambda: commit_cancel())
-        button.configure(width=15)
-        button.grid(padx="5", pady="10", row=3, column=3)
-
-        frame.mainloop()
-
-    ###################
-    # Clear All Cache #
-    ###################
-
-    def clear_cache(self):
-        """
-        Clear program cache by nullifying all default variables
-        and clear both of parameter and result boxes.
-
-        """
-        for name in dir():
-            if not name.startswith('_'):
-                del locals()[name]
-
-        self.file_list = []
-        self.atom_coord_full = []
-        self.atom_coord_octa = []
-        self.all_zeta = []
-        self.all_delta = []
-        self.all_sigma = []
-        self.all_theta = []
-        self.file_index = []
-        self.comp_result = []
-        self.has_metal = True
-
-        self.clear_param_box()
-        self.clear_result_box()
-
-    def clear_param_box(self):
-        """
-        Clear parameter box.
-
-        """
-        self.box_delta.delete(0, tk.END)
-        self.box_sigma.delete(0, tk.END)
-        self.box_d_mean.delete(0, tk.END)
-        self.box_zeta.delete(0, tk.END)
-        self.box_theta_mean.delete(0, tk.END)
-
-    def clear_result_box(self):
-        """
-        Clear result box.
-
-        """
-        self.box_result.delete(1.0, tk.END)
 
     ################
     # Check Update #
@@ -1303,285 +1492,102 @@ class OctaDist:
         else:
             popup.info_no_update()
 
-    ###################################
-    # Calculate distortion parameters #
-    ###################################
+    ###################
+    # Clear All Cache #
+    ###################
 
-    def calc_distortion(self):
+    def clear_cache(self):
         """
-        Calculate all distortion parameters:
-        Zeta, Delta, Sigma, and Theta_mean parameters.
-
-        """
-        if not self.has_metal:
-            popup.err_no_metal()
-            return 1
-
-        if len(self.atom_coord_octa) >= 1:
-            self.clear_param_box()
-        else:
-            popup.err_no_file()
-            return 1
-
-        # loop over number of metal complexes
-        for i in range(len(self.atom_coord_octa)):
-            num_file, num_metal, atom_octa, coord_octa = self.atom_coord_octa[i]
-
-            # Calculate distortion parameters
-            calc_dist = calc.CalcDistortion(coord_octa)
-            calc_dist.calc_zeta()
-            calc_dist.calc_delta()
-            calc_dist.calc_sigma()
-            calc_dist.calc_theta()
-
-            d_mean = calc_dist.get_d_mean()
-            zeta = calc_dist.get_zeta()
-            delta = calc_dist.get_delta()
-            sigma = calc_dist.get_sigma()
-            theta_mean = calc_dist.get_theta_mean()
-
-            # Collect results
-            self.all_zeta.append(zeta)
-            self.all_delta.append(delta)
-            self.all_sigma.append(sigma)
-            self.all_theta.append(theta_mean)
-
-            self.file_index.append([num_file, num_metal])
-            self.comp_result.append([d_mean, zeta, delta, sigma, theta_mean])
-
-        self.show_distortion()
-
-    def show_distortion(self):
-        """
-        Print results to each unique box.
+        Clear program cache by nullifying all default variables
+        and clear both of parameter and result boxes.
 
         """
-        if len(self.atom_coord_octa) == 1:
-            d_mean, zeta, delta, sigma, theta_mean = self.comp_result[0]
+        for name in dir():
+            if not name.startswith('_'):
+                del locals()[name]
 
-            self.box_d_mean.insert(tk.INSERT, f"{d_mean:3.6f}")
-            self.box_zeta.insert(tk.INSERT, f"{zeta:3.6f}")
-            self.box_delta.insert(tk.INSERT, f"{delta:3.6f}")
-            self.box_sigma.insert(tk.INSERT, f"{sigma:3.6f}")
-            self.box_theta_mean.insert(tk.INSERT, f"{theta_mean:3.6f}")
-        else:
-            self.box_d_mean.insert(tk.INSERT, "See below")
-            self.box_zeta.insert(tk.INSERT, "See below")
-            self.box_delta.insert(tk.INSERT, "See below")
-            self.box_sigma.insert(tk.INSERT, "See below")
-            self.box_theta_mean.insert(tk.INSERT, "See below")
+        self.file_list = []
+        self.atom_coord_full = []
+        self.atom_coord_octa = []
+        self.all_zeta = []
+        self.all_delta = []
+        self.all_sigma = []
+        self.all_theta = []
+        self.file_index = []
+        self.comp_result = []
+        self.has_metal = True
 
-        # Print results to result box
-        echo_outs(self, "Computed octahedral distortion parameters for all complexes")
-        echo_outs(self, "")
-        echo_outs(self, "Complex - Metal :    <D>      Zeta      Delta      Sigma      Theta")
-        echo_outs(self, "*******************************************************************")
-        echo_outs(self, "")
-        for i in range(len(self.comp_result)):
-            echo_outs(self, "{0:2d} - {1} : {2:9.4f}  {3:9.6f}  {4:9.6f}  {5:9.4f}  {6:9.4f}"
-                      .format(self.file_index[i][0],
-                              self.file_index[i][0],
-                              self.comp_result[i][0],
-                              self.comp_result[i][1],
-                              self.comp_result[i][2],
-                              self.comp_result[i][3],
-                              self.comp_result[i][4]))
+        self.clear_param_box()
+        self.clear_result_box()
 
-        echo_outs(self, "")
-
-    #####################
-    # Manipulating File #
-    #####################
-
-    def open_file(self):
+    def clear_param_box(self):
         """
-        Open file dialog in which the user will select input file and upload it to program.
+        Clear parameter box.
 
         """
-        self.clear_cache()
+        self.box_delta.delete(0, tk.END)
+        self.box_sigma.delete(0, tk.END)
+        self.box_d_mean.delete(0, tk.END)
+        self.box_zeta.delete(0, tk.END)
+        self.box_theta_mean.delete(0, tk.END)
 
-        try:
-            input_file = filedialog.askopenfilenames(
-                title="Choose input file",
-                filetypes=(("XYZ File", "*.xyz"),
-                           ("Gaussian Output File", "*.out"),
-                           ("Gaussian Output File", "*.log"),
-                           ("NWChem Output File", "*.out"),
-                           ("NWChem Output File", "*.log"),
-                           ("ORCA Output File", "*.out"),
-                           ("ORCA Output File", "*.log"),
-                           ("Q-Chem Output File", "*.out"),
-                           ("Q-Chem Output File", "*.log"),
-                           ("All Files", "*.*")))
-
-            self.file_list = list(input_file)
-
-            try:
-                open(self.file_list[0], 'r')
-                for i in range(len(self.file_list)):
-
-                    ###########################
-                    # Read file and pull data #
-                    ###########################
-
-                    file_name = self.file_list[i].split('/')[-1]
-
-                    atom_full, coord_full = coord.get_coord(self.file_list[i])
-                    self.atom_coord_full.append([atom_full, coord_full])
-
-                    # If either lists is empty, then continue to next file
-                    if len(atom_full) == 0 or len(coord_full) == 0:
-                        continue
-
-                    ###############################################
-                    # Determine metal center atoms in the complex #
-                    ###############################################
-
-                    count, atom_metal, coord_metal = coord.count_metal(atom_full, coord_full)
-
-                    # If molecule has no transition metal, show full atomic coordinates instead
-                    if count == 0:
-                        popup.warn_no_metal()
-                        self.has_metal = False
-
-                        if i == 0:
-                            echo_outs(self, "XYZ coordinates of extracted octahedral structure")
-
-                        echo_outs(self, f"File {i + 1}: {file_name}")
-                        echo_outs(self, "Atom                       Cartesian coordinate")
-                        for k in range(len(atom_full)):
-                            echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                                      .format(atom_full[k],
-                                              coord_full[k][0],
-                                              coord_full[k][1],
-                                              coord_full[k][2]))
-                        echo_outs(self, "")
-
-                        continue  # continue to next file
-
-                    #################################################
-                    # Extract octahedral structure from the complex #
-                    #################################################
-
-                    if i == 0:
-                        echo_outs(self, "XYZ coordinates of extracted octahedral structure")
-
-                    # loop over metal center atoms
-                    for j in range(count):
-                        atom_octa, coord_octa = coord.search_octa(atom_full, coord_full, coord_metal[j - 1])
-
-                        # If no atomic coordinates inside, it will return error
-                        if np.any(coord_octa) == 0:
-                            popup.err_no_coord()
-                            return 1
-
-                        if len(coord_octa) < 7:
-                            self.clear_result_box()
-                            popup.err_less_ligands()
-                            return 1
-
-                        # Gather octahedral structure into atom_coord_octa
-                        # [ number of file, metal atom, atomic labels, and atomic coordinates ]
-                        self.atom_coord_octa.append([i + 1, atom_octa[0], atom_octa, coord_octa])
-
-                        if count == 1:
-                            echo_outs(self, f"File {i + 1}: {file_name}")
-                            echo_outs(self, "Atom                       Cartesian coordinate")
-                            for k in range(len(atom_octa)):
-                                echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                                          .format(atom_octa[k],
-                                                  coord_octa[k][0],
-                                                  coord_octa[k][1],
-                                                  coord_octa[k][2]))
-                            echo_outs(self, "")
-
-                        elif count > 1:
-                            echo_outs(self, f"File {i + 1}: {file_name}")
-                            echo_outs(self, f"Metal center atom no. {j + 1} : {atom_octa[0]}")
-                            echo_outs(self, "Atom                       Cartesian coordinate")
-                            for k in range(len(atom_octa)):
-                                echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                                          .format(atom_octa[k],
-                                                  coord_octa[k][0],
-                                                  coord_octa[k][1],
-                                                  coord_octa[k][2]))
-                            echo_outs(self, "")
-
-            except UnboundLocalError:
-                return 1
-
-        except IndexError:
-            return 1
-
-    def save_results(self):
+    def clear_result_box(self):
         """
-        Save results as output file. Default file extension is *.txt.
+        Clear result box.
 
         """
-        f = filedialog.asksaveasfile(mode='w', defaultextension=".txt", title="Save results",
-                                     filetypes=(("TXT File", "*.txt"),
-                                                ("All Files", "*.*")))
+        self.box_result.delete(1.0, tk.END)
 
-        if f is None:
-            return 0
-
-        f.write("OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.\n")
-        f.write("This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.\n")
-        f.write("This is free software, and you are welcome to redistribute it under\n")
-        f.write("certain conditions; see <https://www.gnu.org/licenses/> for details.\n")
-        f.write("\n")
-        f.write(f"OctaDist {octadist_gui.__version__} {octadist_gui.__release__}.\n")
-        f.write("Octahedral Distortion Calculator\n")
-        f.write(f"{octadist_gui.__website__}\n")
-        f.write("\n")
-        f.write("================ Start of the Output file =================\n")
-        f.write("\n")
-        get_result = self.box_result.get('1.0', tk.END + '-1c')
-        f.write(get_result)
-        f.write("\n")
-        f.write("================= End of the output file ==================\n")
-        f.write("\n")
-        f.close()
-
-        popup.info_save_results(f.name)
-
-    def save_coord(self):
+    def text_editor(self):
         """
-        Save atomic coordinates (Cartesian coordinate) of octahedral structure.
-        Default file extension is *xyz.
+        Open external text editor for editing file.
+
+        Returns
+        -------
+        text_editor : str
+            Name or absolute path of text editor that user specified.
 
         """
-        if len(self.file_list) == 0:
-            popup.err_no_file()
-            return 1
+        return self.text_editor
 
-        if len(self.file_list) > 1:
-            popup.err_many_files()
-            return 1
+    def show_title(self):
+        """
+        Show figure title.
 
-        f = filedialog.asksaveasfile(mode='w', defaultextension=".xyz", title="Save atomic coordinates",
-                                     filetypes=(("XYZ File", "*.xyz"),
-                                                ("TXT File", "*.txt"),
-                                                ("All Files", "*.*")))
+        Returns
+        -------
+        show_title : bool
+            True if user want matplotlib to show figure title.
+            False if user does not.
 
-        if f is None:
-            return 0
+        """
+        return self.show_title
 
-        file_name = self.file_list[0].split('/')[-1]
-        atoms = self.atom_coord_octa[0][2]
-        coord = self.atom_coord_octa[0][3]
+    def show_axis(self):
+        """
+        Show figure axes.
 
-        full_version = octadist_gui.__version__ + octadist_gui.__release__
+        Returns
+        -------
+        show_axis : bool
+            True if user want matplotlib to show figure axis.
+            False if user does not.
 
-        f.write("7\n")
-        f.write(f"{file_name} : this file was generated by OctaDist {full_version}.\n")
-        for i in range(7):
-            f.write("{0:2s}   {1:9.6f}  {2:9.6f}  {3:9.6f}\n"
-                    .format(atoms[i], coord[i][0], coord[i][1], coord[i][2]))
-        f.write("\n")
-        f.close()
+        """
+        return self.show_axis
 
-        popup.info_save_results(f.name)
+    def show_grid(self):
+        """
+        Show figure gridlines.
+
+        Returns
+        -------
+        show_grid : bool
+            True if user want matplotlib to show figure gridlines.
+            False if user does not.
+
+        """
+        return self.show_grid
 
 
 def main():
