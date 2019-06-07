@@ -22,7 +22,7 @@ from scipy.spatial import distance
 from octadist_gui.src import elements, popup
 
 
-def count_line(file):
+def count_line(file=None):
     """
     Count lines in an input file.
 
@@ -36,7 +36,18 @@ def count_line(file):
     i + 1 : int
         Number of line in file.
 
+    Examples
+    --------
+    >>> file = "/home/Jack/[Fe(1-bpp)2][BF4]2-HS.xyz"
+    >>> line = count_line(file)
+
+    >>> line
+    27
+
     """
+    if file is None:
+        raise TypeError("count_line needs one argument: input file")
+
     with open(file) as f:
         for i, l in enumerate(f):
             pass
@@ -44,20 +55,20 @@ def count_line(file):
     return i + 1
 
 
-def get_coord(f):
+def get_coord(file=None):
     """
     Check file type, read data, extract atom and coord from an input file.
 
     Parameters
     ----------
-    f : str
+    file : str
         User input filename.
 
     Returns
     -------
-    a_full : array_like
+    atom : list
         Full atomic labels of complex.
-    c_full : ndarray_like
+    coord : ndarray
         Full atomic coordinates of complex.
 
     Notes
@@ -70,78 +81,119 @@ def get_coord(f):
     - ``ORCA``
     - ``Q-Chem``
 
+    Examples
+    --------
+    >>> file = "/home/Jack/[Fe(1-bpp)2][BF4]2-HS.xyz"
+    >>> atom, coord = get_coord(file)
+
+    >>> atom
+    ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
+
+    >>> coord
+    [[-1.95348286e+00  4.51770478e+00  1.47855811e+01]
+     [-1.87618286e+00  4.48070478e+00  1.26484811e+01]
+     [-3.90128286e+00  5.27750478e+00  1.40814811e+01]
+     [-4.88286000e-03  3.69060478e+00  1.42392811e+01]
+     [-2.18698286e+00  4.34540478e+00  1.69060811e+01]
+     [-1.17538286e+00  6.38340478e+00  1.56457811e+01]
+     [-2.75078286e+00  2.50260478e+00  1.51806811e+01]]
+
     """
-    a_full = []
-    c_full = []
+    if file is None:
+        raise TypeError("get_coord needs one argument: input file")
+
+    atom = []
+    coord = np.array([])
     check = True
 
     # Check file extension
-    if f.endswith(".xyz"):
-        if check_xyz_file(f):
-            a_full, c_full = get_coord_xyz(f)
+    if file.endswith(".xyz"):
+        if check_xyz_file(file):
+            atom, coord = get_coord_xyz(file)
 
         else:
             ftype = "XYZ"
             popup.err_invalid_ftype(ftype)
             check = False
 
-    elif f.endswith(".out") or f.endswith(".log"):
-        if check_gaussian_file(f):
-            a_full, c_full = get_coord_gaussian(f)
-
-        elif check_nwchem_file(f):
-            a_full, c_full = get_coord_nwchem(f)
-
-        elif check_orca_file(f):
-            a_full, c_full = get_coord_orca(f)
-
-        elif check_qchem_file(f):
-            a_full, c_full = get_coord_qchem(f)
-
+    elif file.endswith(".out") or file.endswith(".log"):
+        if check_gaussian_file(file):
+            atom, coord = get_coord_gaussian(file)
+        elif check_nwchem_file(file):
+            atom, coord = get_coord_nwchem(file)
+        elif check_orca_file(file):
+            atom, coord = get_coord_orca(file)
+        elif check_qchem_file(file):
+            atom, coord = get_coord_qchem(file)
         else:
             check = False
-
     else:
         popup.err_wrong_format()
         check = False
 
-    # return values
     if check:
         # Remove empty string in list
-        a_full = list(filter(None, a_full))
-        return a_full, c_full
-
+        atom = list(filter(None, atom))
+        return atom, coord
     else:
-        return a_full, c_full
+        return atom, coord
 
 
-def count_metal(a_full, c_full):
+def count_metal(atom=None, coord=None):
     """
     Count the number of metal center atom in complex.
 
     Parameters
     ----------
-    a_full : list
+    atom : list
         Full atomic labels of complex.
-    c_full : list
+    coord : array_like
         Full atomic coordinates of complex.
 
     Returns
     -------
     count : int
         The total number of metal center atom.
-    a_metal : list
+    atom_metal : list
         Atomic labels of metal center atom.
-    c_metal : list
+    coord_metal : list
         Atomic coordinates of metal center atom.
 
-    """
-    count = 0
-    a_metal = []
-    c_metal = []
+    Examples
+    --------
+    >>> atom
+    ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
 
-    for i in range(len(a_full)):
-        number = elements.check_atom(a_full[i])
+    >>> coord
+    [[-1.95348286e+00  4.51770478e+00  1.47855811e+01]
+     [-1.87618286e+00  4.48070478e+00  1.26484811e+01]
+     [-3.90128286e+00  5.27750478e+00  1.40814811e+01]
+     [-4.88286000e-03  3.69060478e+00  1.42392811e+01]
+     [-2.18698286e+00  4.34540478e+00  1.69060811e+01]
+     [-1.17538286e+00  6.38340478e+00  1.56457811e+01]
+     [-2.75078286e+00  2.50260478e+00  1.51806811e+01]]
+
+    >>> count, atom_metal, coord_metal = count_metal(atom, coord)
+
+    >>> count
+    1
+
+    >>> atom_metal
+    ['Fe']
+
+    >>> coord_metal
+    [[-1.95348286  4.51770478 14.78558113]]
+
+    """
+    if atom is None or coord is None:
+        raise TypeError("count_metal needs two arguments: atom, coord")
+
+    count = 0
+    atom_metal = []
+    coord_metal = []
+
+    for i in range(len(atom)):
+        number = elements.check_atom(atom[i])
 
         if 21 <= number <= 30 or \
                 39 <= number <= 48 or \
@@ -149,23 +201,25 @@ def count_metal(a_full, c_full):
                 89 <= number <= 109:
 
             count += 1
-            a_metal.append(a_full[i])
-            c_metal.append(c_full[i])
+            atom_metal.append(atom[i])
+            coord_metal.append(coord[i])
 
-    return count, a_metal, c_metal
+    coord_metal = np.asarray(coord_metal, dtype=np.float64)
+
+    return count, atom_metal, coord_metal
 
 
-def search_octa(a_full, c_full, c_metal, cutoff_metal_ligand=2.8):
+def search_octa(atom=None, coord=None, coord_metal=None, cutoff_metal_ligand=2.8):
     """
-    Search the octahedral structure in complex.
+    Search the octahedral structure in complex and return atoms and coordinates.
 
     Parameters
     ----------
-    a_full : list
+    atom : list
         Full atomic labels of complex.
-    c_full : list
+    coord : array_like
         Full atomic coordinates of complex.
-    c_metal : list
+    coord_metal : array_like
         Atomic coordinate of metal center.
     cutoff_metal_ligand : float, optional
         Cutoff distance for screening metal-ligand bond.
@@ -173,31 +227,64 @@ def search_octa(a_full, c_full, c_metal, cutoff_metal_ligand=2.8):
 
     Returns
     -------
-    a_octa : list
+    atom_octa : list
         Atomic labels of octahedral structure.
-    c_octa : ndarray
+    coord_octa : ndarray
         Atomic coordinates of octahedral structure.
 
+    Examples
+    --------
+    >>> atom
+    ['Fe', 'N', 'N', 'N', 'N', 'N', 'N', ...]
+
+    >>> coord
+    [[-1.95348286e+00  4.51770478e+00  1.47855811e+01]
+     [-1.87618286e+00  4.48070478e+00  1.26484811e+01]
+     [-3.90128286e+00  5.27750478e+00  1.40814811e+01]
+     [-4.88286000e-03  3.69060478e+00  1.42392811e+01]
+     [-2.18698286e+00  4.34540478e+00  1.69060811e+01]
+     [-1.17538286e+00  6.38340478e+00  1.56457811e+01]
+     [-2.75078286e+00  2.50260478e+00  1.51806811e+01]
+     ...]
+
+    >>> coord_metal
+    [[-1.95348286  4.51770478 14.78558113]]
+
+    >>> atom_octa, coord_octa = search_octa(atom, coord, coord_metal)
+
+    >>> atom_octa
+    ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
+
+    >>> coord_octa
+    [[-1.95348286e+00  4.51770478e+00  1.47855811e+01]
+     [-1.87618286e+00  4.48070478e+00  1.26484811e+01]
+     [-2.18698286e+00  4.34540478e+00  1.69060811e+01]
+     [-4.88286000e-03  3.69060478e+00  1.42392811e+01]
+     [-1.17538286e+00  6.38340478e+00  1.56457811e+01]
+     [-2.75078286e+00  2.50260478e+00  1.51806811e+01]
+     [-3.90128286e+00  5.27750478e+00  1.40814811e+01]]
+
     """
+    if atom is None or coord is None or coord_metal is None:
+        raise TypeError("count_metal needs three arguments: atom, coord, coord_metal")
+
     dist_list = []
-    for i in range(len(a_full)):
-        dist = distance.euclidean(c_metal, c_full[i])
+    for i in range(len(atom)):
+        dist = distance.euclidean(coord_metal, coord[i])
         if dist <= cutoff_metal_ligand:
-            dist_list.append([a_full[i], c_full[i], dist])
+            dist_list.append([atom[i], coord[i], dist])
 
     # sort list of tuples by distance in ascending order
     dist_list.sort(key=itemgetter(2))
 
-    # Get only first 7 atoms
+    # Keep only first 7 atoms
     dist_list = dist_list[:7]
+    atom_octa, coord_octa, dist = zip(*dist_list)
 
-    # Collect atom and coordinates
-    a_octa, c_octa, dist = zip(*dist_list)
+    atom_octa = list(atom_octa)
+    coord_octa = np.asarray(coord_octa, dtype=np.float64)
 
-    # list --> array
-    c_octa = np.asarray(c_octa, dtype=np.float64)
-
-    return a_octa, c_octa
+    return atom_octa, coord_octa
 
 
 def check_xyz_file(f):
@@ -239,6 +326,9 @@ def check_xyz_file(f):
     O   5.789096    7.796326    4.611355
     O   6.686381    7.763872    7.209699
 
+    >>> check_xyz_file(example.xyz)
+    True
+
     """
     file = open(f, "r")
 
@@ -267,9 +357,9 @@ def get_coord_xyz(f):
 
     Returns
     -------
-    a_full : list
+    atom : list
         Full atomic labels of complex.
-    c_full : ndarray
+    coord : ndarray
         Full atomic coordinates of complex.
 
     """
@@ -278,20 +368,20 @@ def get_coord_xyz(f):
     line = file.readlines()[2:]
     file.close()
 
-    a_full = []
+    atom = []
     for l in line:
         # read atom on 1st column and insert to list
         l_strip = l.strip()
         lst = l_strip.split(' ')[0]
-        a_full.append(lst)
+        atom.append(lst)
 
     file = open(f, "r")
-    c_full = np.loadtxt(file, skiprows=2, usecols=[1, 2, 3])
+    coord = np.loadtxt(file, skiprows=2, usecols=[1, 2, 3])
     file.close()
 
-    c_full = np.asarray(c_full, dtype=np.float64)
+    coord = np.asarray(coord, dtype=np.float64)
 
-    return a_full, c_full
+    return atom, coord
 
 
 def check_gaussian_file(f):
@@ -307,6 +397,21 @@ def check_gaussian_file(f):
     -------
     bool : bool
         If file is Gaussian output file, return True.
+
+    Examples
+    --------
+    >>> gaussian.log
+                                Standard orientation:
+    ---------------------------------------------------------------------
+    Center     Atomic      Atomic             Coordinates (Angstroms)
+    Number     Number       Type             X           Y           Z
+    ---------------------------------------------------------------------
+         1         26           0        0.000163    1.364285   -0.000039
+         2          8           0        0.684192    0.084335   -1.192008
+         3          8           0       -0.683180    0.083251    1.191173
+         4          7           0        1.639959    1.353157    1.006941
+         5          7           0       -0.563377    2.891083    1.435925
+    ...
 
     """
     gaussian_file = open(f, "r")
@@ -330,25 +435,10 @@ def get_coord_gaussian(f):
 
     Returns
     -------
-    a_full : list
+    atom : list
         Full atomic labels of complex.
-    c_full : ndarray
+    coord : ndarray
         Full atomic coordinates of complex.
-
-    Examples
-    --------
-    >>> gaussian.log
-                                Standard orientation:
-    ---------------------------------------------------------------------
-    Center     Atomic      Atomic             Coordinates (Angstroms)
-    Number     Number       Type             X           Y           Z
-    ---------------------------------------------------------------------
-         1         26           0        0.000163    1.364285   -0.000039
-         2          8           0        0.684192    0.084335   -1.192008
-         3          8           0       -0.683180    0.083251    1.191173
-         4          7           0        1.639959    1.353157    1.006941
-         5          7           0       -0.563377    2.891083    1.435925
-    ...
 
     """
     gaussian_file = open(f, "r")
@@ -356,7 +446,7 @@ def get_coord_gaussian(f):
 
     start = 0
     end = 0
-    a_full, c_full = [], []
+    atom, coord = [], []
     for i in range(len(nline)):
         if "Standard orientation:" in nline[i]:
             start = i
@@ -373,14 +463,14 @@ def get_coord_gaussian(f):
         coord_y = float(data[4])
         coord_z = float(data[5])
         data1 = elements.check_atom(data1)
-        a_full.append(data1)
-        c_full.append([coord_x, coord_y, coord_z])
+        atom.append(data1)
+        coord.append([coord_x, coord_y, coord_z])
 
     gaussian_file.close()
 
-    c_full = np.asarray(c_full, dtype=np.float64)
+    coord = np.asarray(coord, dtype=np.float64)
 
-    return a_full, c_full
+    return atom, coord
 
 
 def check_nwchem_file(f):
@@ -396,6 +486,23 @@ def check_nwchem_file(f):
     -------
     bool : bool
         If file is NWChem output file, return True.
+
+    Examples
+    --------
+    >>> nwchem.out
+      ----------------------
+      Optimization converged
+      ----------------------
+    ...
+    ...
+     No.       Tag          Charge          X              Y              Z
+    ---- ---------------- ---------- -------------- -------------- --------------
+       1 Ru(Fragment=1)      44.0000    -3.04059115    -0.08558108    -0.07699482
+       2 C(Fragment=1)        6.0000    -1.62704660     2.40971357     0.63980357
+       3 C(Fragment=1)        6.0000    -0.61467778     0.59634595     1.68841986
+       4 C(Fragment=1)        6.0000     0.31519183     1.41684566     2.30745116
+       5 C(Fragment=1)        6.0000     0.28773462     2.80126911     2.08006241
+    ...
 
     """
     nwchem_file = open(f, "r")
@@ -424,27 +531,10 @@ def get_coord_nwchem(f):
 
     Returns
     -------
-    a_full : list
+    atom : list
         Full atomic labels of complex.
-    c_full : ndarray
+    coord : ndarray
         Full atomic coordinates of complex.
-
-    Examples
-    --------
-    >>> nwchem.out
-      ----------------------
-      Optimization converged
-      ----------------------
-    ...
-    ...
-     No.       Tag          Charge          X              Y              Z
-    ---- ---------------- ---------- -------------- -------------- --------------
-       1 Ru(Fragment=1)      44.0000    -3.04059115    -0.08558108    -0.07699482
-       2 C(Fragment=1)        6.0000    -1.62704660     2.40971357     0.63980357
-       3 C(Fragment=1)        6.0000    -0.61467778     0.59634595     1.68841986
-       4 C(Fragment=1)        6.0000     0.31519183     1.41684566     2.30745116
-       5 C(Fragment=1)        6.0000     0.28773462     2.80126911     2.08006241
-    ...
 
     """
     nwchem_file = open(f, "r")
@@ -452,7 +542,7 @@ def get_coord_nwchem(f):
 
     start = 0
     end = 0
-    a_full, c_full = [], []
+    atom, coord = [], []
     for i in range(len(nline)):
         if "Optimization converged" in nline[i]:
             start = i
@@ -471,14 +561,14 @@ def get_coord_nwchem(f):
         coord_y = float(dat[4])
         coord_z = float(dat[5])
         dat1 = elements.check_atom(dat1)
-        a_full.append(dat1)
-        c_full.append([coord_x, coord_y, coord_z])
+        atom.append(dat1)
+        coord.append([coord_x, coord_y, coord_z])
 
     nwchem_file.close()
 
-    c_full = np.asarray(c_full, dtype=np.float64)
+    coord = np.asarray(coord, dtype=np.float64)
 
-    return a_full, c_full
+    return atom, coord
 
 
 def check_orca_file(f):
@@ -494,6 +584,19 @@ def check_orca_file(f):
     -------
     bool : bool
         If file is ORCA output file, return True.
+
+    Examples
+    --------
+    >>> orca.out
+    ---------------------------------
+    CARTESIAN COORDINATES (ANGSTROEM)
+    ---------------------------------
+      C      0.009657    0.000000    0.005576
+      C      0.009657   -0.000000    1.394424
+      C      1.212436   -0.000000    2.088849
+      C      2.415214    0.000000    1.394425
+      C      2.415214   -0.000000    0.005575
+    ...
 
     """
     orca_file = open(f, "r")
@@ -516,23 +619,10 @@ def get_coord_orca(f):
 
     Returns
     -------
-    a_full : list
+    atom : list
         Full atomic labels of complex.
-    c_full : ndarray
+    coord : ndarray
         Full atomic coordinates of complex.
-
-    Examples
-    --------
-    >>> orca.out
-    ---------------------------------
-    CARTESIAN COORDINATES (ANGSTROEM)
-    ---------------------------------
-      C      0.009657    0.000000    0.005576
-      C      0.009657   -0.000000    1.394424
-      C      1.212436   -0.000000    2.088849
-      C      2.415214    0.000000    1.394425
-      C      2.415214   -0.000000    0.005575
-    ...
 
     """
     orca_file = open(f, "r")
@@ -540,7 +630,7 @@ def get_coord_orca(f):
 
     start = 0
     end = 0
-    a_full, c_full = [], []
+    atom, coord = [], []
     for i in range(len(nline)):
         if "CARTESIAN COORDINATES (ANGSTROEM)" in nline[i]:
             start = i
@@ -556,14 +646,14 @@ def get_coord_orca(f):
         coord_x = float(dat[1])
         coord_y = float(dat[2])
         coord_z = float(dat[3])
-        a_full.append(dat1)
-        c_full.append([coord_x, coord_y, coord_z])
+        atom.append(dat1)
+        coord.append([coord_x, coord_y, coord_z])
 
     orca_file.close()
 
-    c_full = np.asarray(c_full, dtype=np.float64)
+    coord = np.asarray(coord, dtype=np.float64)
 
-    return a_full, c_full
+    return atom, coord
 
 
 def check_qchem_file(f):
@@ -579,6 +669,21 @@ def check_qchem_file(f):
     -------
     bool : bool
         If file is Q-Chem output file, return True.
+
+    Examples
+    --------
+    >>> qchem.out
+    ******************************
+    **  OPTIMIZATION CONVERGED  **
+    ******************************
+                               Coordinates (Angstroms)
+        ATOM                X               Y               Z
+         1  C         0.2681746845   -0.8206222796   -0.3704019386
+         2  C        -1.1809302341   -0.5901746612   -0.6772716414
+         3  H        -1.6636318262   -1.5373167851   -0.9496501352
+         4  H        -1.2829834971    0.0829227646   -1.5389938241
+         5  C        -1.9678565203    0.0191922768    0.5346693165
+    ...
 
     """
     qchem_file = open(f, "r")
@@ -602,25 +707,10 @@ def get_coord_qchem(f):
 
     Returns
     -------
-    a_full : list
+    atom : list
         Full atomic labels of complex.
-    c_full : ndarray
+    coord : ndarray
         Full atomic coordinates of complex.
-
-    Examples
-    --------
-    >>> qchem.out
-    ******************************
-    **  OPTIMIZATION CONVERGED  **
-    ******************************
-                               Coordinates (Angstroms)
-        ATOM                X               Y               Z
-         1  C         0.2681746845   -0.8206222796   -0.3704019386
-         2  C        -1.1809302341   -0.5901746612   -0.6772716414
-         3  H        -1.6636318262   -1.5373167851   -0.9496501352
-         4  H        -1.2829834971    0.0829227646   -1.5389938241
-         5  C        -1.9678565203    0.0191922768    0.5346693165
-    ...
 
     """
     orca_file = open(f, "r")
@@ -628,7 +718,7 @@ def get_coord_qchem(f):
 
     start = 0
     end = 0
-    a_full, c_full = [], []
+    atom, coord = [], []
     for i in range(len(nline)):
         if "OPTIMIZATION CONVERGED" in nline[i]:
             start = i
@@ -644,11 +734,11 @@ def get_coord_qchem(f):
         coord_x = float(dat[2])
         coord_y = float(dat[3])
         coord_z = float(dat[4])
-        a_full.append(dat1)
-        c_full.append([coord_x, coord_y, coord_z])
+        atom.append(dat1)
+        coord.append([coord_x, coord_y, coord_z])
 
     orca_file.close()
 
-    c_full = np.asarray(c_full, dtype=np.float64)
+    coord = np.asarray(coord, dtype=np.float64)
 
-    return a_full, c_full
+    return atom, coord
