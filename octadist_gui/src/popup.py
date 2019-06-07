@@ -193,8 +193,8 @@ def err_no_metal():
     Show this error popup when the complex has no transition metal atom.
 
     """
-    showerror("Error", "Cannot proceed calculation. Your current structure has no metal atom.\n\n"
-                       "The complex must have at least one metal.")
+    showerror("Error", "Cannot proceed calculation. Your current structure has no transition metal.\n\n"
+                       "The complex must have at least one transition metal.")
 
 
 def err_no_calc():
