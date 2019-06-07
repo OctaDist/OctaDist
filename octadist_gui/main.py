@@ -78,7 +78,7 @@ class OctaDist:
         List of atomic labels and coordinates of 8 faces and their opposite faces.
     comp_result : list
         List of distortion parameters.
-    check_metal : bool
+    has_metal : bool
         True if the structure is octahedron or not.
         False if it does not.
 
@@ -800,16 +800,16 @@ class OctaDist:
         # Setting: Text editor #
         ########################
 
-        text_editor = tk.LabelFrame(frame, text="Text editor:")
-        text_editor.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=1, columnspan=4)
+        frame_text_editor = tk.LabelFrame(frame, text="Text editor:")
+        frame_text_editor.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky='W', row=1, columnspan=4)
 
-        label = tk.Label(text_editor, text="Enter the EXE:")
+        label = tk.Label(frame_text_editor, text="Enter the EXE:")
         label.grid(padx="5", sticky=tk.E, row=0, column=0)
 
-        entry_exe = tk.Entry(text_editor, bd=2, width=60)
+        entry_exe = tk.Entry(frame_text_editor, bd=2, width=60)
         entry_exe.grid(row=0, column=1)
 
-        button = tk.Button(text_editor, text="Browse...", command=open_exe)
+        button = tk.Button(frame_text_editor, text="Browse...", command=open_exe)
         button.grid(padx="5", pady="5", sticky=tk.W, row=0, column=2)
 
         entry_exe.insert(tk.INSERT, self.text_editor)
@@ -1537,18 +1537,6 @@ class OctaDist:
 
         """
         self.box_result.delete(1.0, tk.END)
-
-    def text_editor(self):
-        """
-        Open external text editor for editing file.
-
-        Returns
-        -------
-        text_editor : str
-            Name or absolute path of text editor that user specified.
-
-        """
-        return self.text_editor
 
     def show_title(self):
         """
