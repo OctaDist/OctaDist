@@ -178,8 +178,7 @@ class OctaDist:
         # Tools
         menu_bar.add_cascade(label="Tools", menu=tools_menu)
         tools_menu.add_cascade(label="Data Summary", menu=data_menu)
-        data_menu.add_cascade(label="Complex",
-                              command=lambda: structure.data_complex(self, self.file_list, self.atom_coord_full))
+        data_menu.add_cascade(label="Complex", command=lambda: self.data_complex())
         data_menu.add_cascade(label="Faces of Octahedral Structure",
                               command=lambda: structure.data_face(self, self.atom_coord_octa))
         tools_menu.add_cascade(menu=strct_menu, label="Show Structural Parameter")
@@ -804,6 +803,24 @@ class OctaDist:
         my_plot.add_symbol()
         my_plot.add_plane()
         my_plot.show_plot()
+
+    def data_complex(self):
+        """
+        Show info of input complex.
+
+        """
+        if len(self.file_list) == 0:
+            popup.err_no_file()
+            return 1
+
+        my_app = structure.DataComplex(master=self.master)
+        my_app.start_app()
+
+        for i in range(len(self.file_list)):
+            atom = self.atom_coord_full[i][0]
+            coord = self.atom_coord_full[i][1]
+            my_app.add_name(self.file_list[i])
+            my_app.add_coord(atom, coord)
 
     def draw_twisting_plane(self):
         """

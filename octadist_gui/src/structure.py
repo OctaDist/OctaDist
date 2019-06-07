@@ -22,40 +22,69 @@ from scipy.spatial import distance
 from octadist_gui.src import linear, popup, util
 
 
-def data_complex(self, files, acf):
+class DataComplex:
     """
     Show info of input complex.
 
     Parameters
     ----------
-    files : list
-        List containing the names of all input files.
-    acf : list
-        Atomic labels and coordinates of full complex.
+    master : None, object
+        If None, use tk.Tk().
+        If not None, use tk.Toplevel(master).
 
     """
-    if len(files) == 0:
-        popup.err_no_file()
-        return 1
+    def __init__(self, master=None):
+        if master is None:
+            self.wd = tk.Tk()
+        else:
+            self.wd = tk.Toplevel(master)
 
-    wd = tk.Toplevel(self.master)
-    wd.wm_iconbitmap(r"..\images\molecule.ico")
-    wd.title("Complex info")
-    wd.geometry("550x500")
-    wd.option_add("*Font", "Arial 10")
-    frame = tk.Frame(wd)
-    frame.grid()
+    def start_app(self):
+        self.wd.wm_iconbitmap(r"..\images\molecule.ico")
+        self.wd.title("Complex info")
+        self.wd.geometry("550x500")
+        self.wd.option_add("*Font", "Arial 10")
+        self.wd.resizable(0, 0)
+        self.frame = tk.Frame(self.wd)
+        self.frame.grid()
 
-    box = tkscrolled.ScrolledText(frame, wrap="word", width="75", height="30", undo="True")
-    box.grid(row=0, pady="5", padx="5")
-    box.delete(1.0, tk.END)
+        self.box = tkscrolled.ScrolledText(self.frame, wrap="word", width="75", height="30", undo="True")
+        self.box.grid(row=0, pady="5", padx="5")
+        self.box.delete(1.0, tk.END)
 
-    for i in range(len(files)):
-        box.insert(tk.END, f"File {i + 1:>2} : {files[i].split('/')[-1]}\n")
-        box.insert(tk.END, f">> Number of atoms: {len(acf[i][0])}\n")
-        atoms = list(set(acf[i][0]))
-        box.insert(tk.END, f">> List of atoms: {atoms}\n")
-        box.insert(tk.END, "\n")
+    def add_name(self, file_name):
+        """
+        Add file name to bix.
+
+        Parameters
+        ----------
+        file_name : array_like
+            List containing the names of all input files.
+
+        """
+        self.box.insert(tk.END, f"File: {file_name.split('/')[-1]}\n")
+
+    def add_coord(self, atom, coord):
+        """
+        Add atomic symbols and coordinates to box.
+
+        Parameters
+        ----------
+        atom : array_like
+            Atomic labels of full complex.
+        coord : array_like
+            Atomic coordinates of full complex.
+
+        """
+        self.box.insert(tk.END, "========================\n")
+        self.box.insert(tk.END, f"{len(atom)}\n")
+        atoms = list(set(atom))
+        self.box.insert(tk.END, f"List of atoms: {atoms}\n")
+
+        for i in range(len(coord)):
+            self.box.insert(tk.END, f"{atom[i]:>2}  {coord[i][0]:9.6f}  {coord[i][1]:9.6f}  {coord[i][2]:9.6f}")
+            self.box.insert(tk.END, "\n")
+        self.box.insert(tk.END, "\n\n")
 
 
 def data_face(self, aco):
