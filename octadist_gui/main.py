@@ -96,7 +96,7 @@ class OctaDist:
         self.all_theta = []
         self.file_index = []
         self.comp_result = []
-        self.check_metal = True
+        self.has_metal = True
 
         # Default cutoff values
         self.cutoff_metal_ligand = 2.8
@@ -1216,7 +1216,7 @@ class OctaDist:
         self.all_theta = []
         self.file_index = []
         self.comp_result = []
-        self.check_metal = True
+        self.has_metal = True
 
         self.clear_param_box()
         self.clear_result_box()
@@ -1313,7 +1313,7 @@ class OctaDist:
         Zeta, Delta, Sigma, and Theta_mean parameters.
 
         """
-        if not self.check_metal:
+        if not self.has_metal:
             popup.err_no_metal()
             return 1
 
@@ -1442,7 +1442,7 @@ class OctaDist:
                     # If molecule has no transition metal, show full atomic coordinates instead
                     if count == 0:
                         popup.warn_no_metal()
-                        self.check_metal = False
+                        self.has_metal = False
 
                         if i == 0:
                             echo_outs(self, "XYZ coordinates of extracted octahedral structure")
