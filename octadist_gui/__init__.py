@@ -33,7 +33,9 @@ __website__ = "https://octadist.github.io"
 __github__ = "https://github.com/OctaDist/OctaDist"
 
 __all__ = \
-    ['count_line',
+    ['Run',
+     'CalcDistortion',
+     'count_line',
      'count_metal',
      'check_xyz_file',
      'check_gaussian_file',
@@ -44,22 +46,79 @@ __all__ = \
      'get_coord_gaussian',
      'get_coord_nwchem',
      'get_coord_orca',
-     'get_coord_qchem'
+     'get_coord_qchem',
+     'DrawComplex',
+     'DrawProjection',
+     'DrawTwistingPlane',
+     'check_atom',
+     'check_radii',
+     'check_color',
+     'angle_sign',
+     'angle_btw_vectors',
+     'angle_btw_planes',
+     'triangle_area',
+     'find_eq_of_plane',
+     'Plot',
+     'project_atom_onto_line',
+     'project_atom_onto_plane',
+     'DataComplex',
+     'StructParam',
+     'SurfaceArea',
+     'CalcJahnTeller',
+     'CalcRMSD',
+     'find_bonds',
+     'find_faces_octa',
      ]
+
 
 # Bring sub-modules and methods to top-level directory
 
 from octadist_gui import src
+from octadist_gui import Run
+
 from .src import __src__
+
+from .src.calc import CalcDistortion
+
+from .src.coord import count_line
+from .src.coord import count_metal
+from .src.coord import check_xyz_file
 from .src.coord import check_gaussian_file
 from .src.coord import check_nwchem_file
 from .src.coord import check_orca_file
 from .src.coord import check_qchem_file
-from .src.coord import check_xyz_file
-from .src.coord import count_line
-from .src.coord import count_metal
+from .src.coord import get_coord_xyz
 from .src.coord import get_coord_gaussian
 from .src.coord import get_coord_nwchem
 from .src.coord import get_coord_orca
 from .src.coord import get_coord_qchem
-from .src.coord import get_coord_xyz
+
+from .src.draw import DrawComplex
+from .src.draw import DrawProjection
+from .src.draw import DrawTwistingPlane
+
+from .src.elements import check_atom
+from .src.elements import check_radii
+from .src.elements import check_color
+
+from .src.linear import angle_sign
+from .src.linear import angle_btw_vectors
+from .src.linear import angle_btw_planes
+from .src.linear import triangle_area
+
+from .src.plane import find_eq_of_plane
+
+from .src.plot import Plot
+
+from .src.projection import project_atom_onto_line
+from .src.projection import project_atom_onto_plane
+
+from .src.structure import DataComplex
+from .src.structure import StructParam
+from .src.structure import SurfaceArea
+
+from .src.tools import CalcJahnTeller
+from .src.tools import CalcRMSD
+
+from .src.util import find_bonds
+from .src.util import find_faces_octa
