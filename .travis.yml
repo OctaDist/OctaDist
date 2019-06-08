@@ -17,7 +17,7 @@ install:
   - pip install rmsd
 
 script:
-  - cd octadist_gui/
+  - cd octadist/
   - pyinstaller --onefile --windowed --version-file=../version.txt -n OctaDist-Run-Test main.py
 #  - python src/main.py
 

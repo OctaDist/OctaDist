@@ -18,7 +18,7 @@ from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-from octadist_gui.src import elements, plane, projection, util
+from octadist.src import elements, plane, projection, util
 
 
 class DrawComplex:

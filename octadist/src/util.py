@@ -17,7 +17,7 @@
 import numpy as np
 from scipy.spatial import distance
 
-from octadist_gui.src import plane, projection
+from octadist.src import plane, projection
 
 
 def find_bonds(atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2):

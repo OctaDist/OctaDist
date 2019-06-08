@@ -17,7 +17,7 @@
 import numpy as np
 from scipy.spatial import distance
 
-from octadist_gui.src import linear, plane, popup, projection
+from octadist.src import linear, plane, popup, projection
 
 
 class CalcDistortion:

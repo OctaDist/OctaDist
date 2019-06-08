@@ -73,8 +73,8 @@ __all__ = \
 
 # Bring sub-modules and methods to top-level directory
 
-from octadist_gui import src
-from octadist_gui import Run
+from octadist import src
+from octadist import Run
 
 from .src import __src__
 

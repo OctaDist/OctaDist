@@ -35,7 +35,6 @@ class Plot:
     Examples
     --------
     >>> data1 = [1, 2, 3, 4, 5]
-
     >>> data2 = [1, 2, 3, 4, 5]
 
     >>> test = Plot(data1, data2, name1="Data 1", name2="Data 2")

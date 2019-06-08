@@ -24,8 +24,8 @@ import scipy.optimize
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-import octadist_gui
-from octadist_gui.src import linear, elements, util
+import octadist
+from octadist.src import linear, elements, util
 
 
 class CalcJahnTeller:
@@ -87,7 +87,7 @@ class CalcJahnTeller:
         Start application.
 
         """
-        self.wd.wm_iconbitmap(rf"{octadist_gui.__path__[0]}\logo\molecule.ico")
+        self.wd.wm_iconbitmap(rf"{octadist.__path__[0]}\logo\molecule.ico")
         self.wd.title("Calculate Jahn-Teller distortion parameter")
         self.wd.geometry("630x550")
 

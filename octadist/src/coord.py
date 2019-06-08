@@ -19,7 +19,7 @@ from operator import itemgetter
 import numpy as np
 from scipy.spatial import distance
 
-from octadist_gui.src import elements, popup
+from octadist.src import elements, popup
 
 
 def count_line(file=None):
