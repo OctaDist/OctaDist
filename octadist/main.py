@@ -387,7 +387,7 @@ class OctaDist:
 
                     file_name = self.file_list[i].split('/')[-1]
 
-                    atom_full, coord_full = coord.get_coord(self.file_list[i])
+                    atom_full, coord_full = coord.extract_coord(self.file_list[i])
                     self.atom_coord_full.append([atom_full, coord_full])
 
                     # If either lists is empty, then continue to next file
@@ -429,10 +429,10 @@ class OctaDist:
 
                     # loop over metal center atoms
                     for j in range(count):
-                        atom_octa, coord_octa = coord.search_octa(atom_full,
-                                                                  coord_full,
-                                                                  coord_metal[j - 1],
-                                                                  self.cutoff_metal_ligand)
+                        atom_octa, coord_octa = coord.extract_octa(atom_full,
+                                                                   coord_full,
+                                                                   coord_metal[j - 1],
+                                                                   self.cutoff_metal_ligand)
 
                         # If no atomic coordinates inside, it will return error
                         if np.any(coord_octa) == 0:

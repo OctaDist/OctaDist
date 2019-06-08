@@ -55,7 +55,7 @@ def count_line(file=None):
     return i + 1
 
 
-def get_coord(file=None):
+def extract_coord(file=None):
     """
     Check file type, read data, extract atom and coord from an input file.
 
@@ -84,7 +84,7 @@ def get_coord(file=None):
     Examples
     --------
     >>> file = "/home/Jack/[Fe(1-bpp)2][BF4]2-HS.xyz"
-    >>> atom, coord = get_coord(file)
+    >>> atom, coord = extract_coord(file)
 
     >>> atom
     ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
@@ -100,7 +100,7 @@ def get_coord(file=None):
 
     """
     if file is None:
-        raise TypeError("get_coord needs one argument: input file")
+        raise TypeError("extract_coord needs one argument: input file")
 
     atom = []
     coord = np.array([])
@@ -207,7 +207,7 @@ def count_metal(atom=None, coord=None):
     return count, atom_metal, coord_metal
 
 
-def search_octa(atom=None, coord=None, coord_metal=None, cutoff_metal_ligand=2.8):
+def extract_octa(atom=None, coord=None, coord_metal=None, cutoff_metal_ligand=2.8):
     """
     Search the octahedral structure in complex and return atoms and coordinates.
 
@@ -245,7 +245,7 @@ def search_octa(atom=None, coord=None, coord_metal=None, cutoff_metal_ligand=2.8
     >>> coord_metal
     [[-1.95348286  4.51770478 14.78558113]]
 
-    >>> atom_octa, coord_octa = search_octa(atom, coord, coord_metal)
+    >>> atom_octa, coord_octa = extract_octa(atom, coord, coord_metal)
 
     >>> atom_octa
     ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
