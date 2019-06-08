@@ -434,7 +434,10 @@ class OctaDist:
 
                     # loop over metal center atoms
                     for j in range(count):
-                        atom_octa, coord_octa = coord.search_octa(atom_full, coord_full, coord_metal[j - 1])
+                        atom_octa, coord_octa = coord.search_octa(atom_full,
+                                                                  coord_full,
+                                                                  coord_metal[j - 1],
+                                                                  self.cutoff_metal_ligand)
 
                         # If no atomic coordinates inside, it will return error
                         if np.any(coord_octa) == 0:
@@ -1161,7 +1164,10 @@ class OctaDist:
 
         atom_full, coord_full = self.atom_coord_full[0]
 
-        my_plot = draw.DrawComplex(atom=atom_full, coord=coord_full)
+        my_plot = draw.DrawComplex(atom=atom_full,
+                                   coord=coord_full,
+                                   cutoff_global=self.cutoff_global,
+                                   cutoff_hydrogen=self.cutoff_hydrogen)
         my_plot.add_atom()
         my_plot.add_bond()
         my_plot.add_legend()
@@ -1184,7 +1190,10 @@ class OctaDist:
 
         atom_full, coord_full = self.atom_coord_full[0]
 
-        my_plot = draw.DrawComplex(atom=atom_full, coord=coord_full)
+        my_plot = draw.DrawComplex(atom=atom_full,
+                                   coord=coord_full,
+                                   cutoff_global=self.cutoff_global,
+                                   cutoff_hydrogen=self.cutoff_hydrogen)
         my_plot.add_atom()
         my_plot.add_bond()
 
@@ -1212,7 +1221,10 @@ class OctaDist:
 
         _, _, atom_octa, coord_octa = self.atom_coord_octa[0]
 
-        my_plot = draw.DrawComplex(atom=atom_octa, coord=coord_octa)
+        my_plot = draw.DrawComplex(atom=atom_octa,
+                                   coord=coord_octa,
+                                   cutoff_global=self.cutoff_global,
+                                   cutoff_hydrogen=self.cutoff_hydrogen)
         my_plot.add_atom()
         my_plot.add_bond()
         my_plot.add_legend()
@@ -1235,7 +1247,10 @@ class OctaDist:
 
         _, _, atom_octa, coord_octa = self.atom_coord_octa[0]
 
-        my_plot = draw.DrawComplex(atom=atom_octa, coord=coord_octa)
+        my_plot = draw.DrawComplex(atom=atom_octa,
+                                   coord=coord_octa,
+                                   cutoff_global=self.cutoff_global,
+                                   cutoff_hydrogen=self.cutoff_hydrogen)
         my_plot.add_atom()
         my_plot.add_bond()
         my_plot.add_legend()
@@ -1394,9 +1409,13 @@ class OctaDist:
             popup.err_many_files()
             return 1
 
-        atom, coord = self.atom_coord_full[0]
+        atom_full, coord_full = self.atom_coord_full[0]
 
-        run_jt = tools.CalcJahnTeller(atom=atom, coord=coord, master=self.master)
+        run_jt = tools.CalcJahnTeller(atom=atom_full,
+                                      coord=coord_full,
+                                      cutoff_global=self.cutoff_global,
+                                      cutoff_hydrogen=self.cutoff_hydrogen,
+                                      master=self.master)
         run_jt.start_app()
         run_jt.create_widget()
         run_jt.find_bond()

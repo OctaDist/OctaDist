@@ -31,6 +31,12 @@ class DrawComplex:
         Atomic symbols of octahedral structure.
     coord : list, array, tuple
         Atomic coordinates of octahedral structure.
+    cutoff_global : int or float
+        Global cutoff for screening bonds.
+        Default value is 2.0.
+    cutoff_hydrogen : int or float
+        Cutoff for screening hydrogen bonds.
+        Default value is 1.2.
 
     Examples
     --------
@@ -51,9 +57,11 @@ class DrawComplex:
     >>> test.show_plot()
 
     """
-    def __init__(self, **kwargs):
-        self.atom = kwargs.get('atom')
-        self.coord = kwargs.get('coord')
+    def __init__(self, atom=None, coord=None, cutoff_global=2.0, cutoff_hydrogen=1.2):
+        self.atom = atom
+        self.coord = coord
+        self.cutoff_global = cutoff_global
+        self.cutoff_hydrogen = cutoff_hydrogen
 
         if self.atom is None:
             raise TypeError("atom is not specified")
@@ -114,7 +122,8 @@ class DrawComplex:
         Calculate bond distance, screen bond, and add them to show in figure.
 
         """
-        _, self.bond_list = util.find_bonds(self.atom, self.coord)
+        _, self.bond_list = util.find_bonds(self.atom, self.coord,
+                                            self.cutoff_global, self.cutoff_hydrogen)
 
         for i in range(len(self.bond_list)):
             get_atoms = self.bond_list[i]

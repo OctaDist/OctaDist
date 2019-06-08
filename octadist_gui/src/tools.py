@@ -40,6 +40,12 @@ class CalcJahnTeller:
     master : None, object
         If None, use tk.Tk().
         If not None, use tk.Toplevel(master).
+    cutoff_global : int or float
+        Global cutoff for screening bonds.
+        Default value is 2.0.
+    cutoff_hydrogen : int or float
+        Cutoff for screening hydrogen bonds.
+        Default value is 1.2.
 
     Examples
     --------
@@ -60,9 +66,11 @@ class CalcJahnTeller:
     >>> test.show_app()
 
     """
-    def __init__(self, atom, coord, master=None):
+    def __init__(self, atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2, master=None):
         self.atom = atom
         self.coord = coord
+        self.cutoff_global = cutoff_global
+        self.cutoff_hydrogen = cutoff_hydrogen
 
         if master is None:
             self.wd = tk.Tk()
@@ -148,7 +156,10 @@ class CalcJahnTeller:
         Find bonds.
 
         """
-        _, self.bond_list = util.find_bonds(self.atom, self.coord)
+        _, self.bond_list = util.find_bonds(self.atom,
+                                            self.coord,
+                                            self.cutoff_global,
+                                            self.cutoff_hydrogen)
 
     #################
     # Picking atoms #
