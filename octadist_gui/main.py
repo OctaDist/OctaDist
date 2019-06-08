@@ -978,6 +978,10 @@ class OctaDist:
             popup.err_no_file()
             return 1
 
+        if self.text_editor == "":
+            popup.err_no_editor()
+            return 1
+
         try:
             for i in range(len(self.file_list)):
                 program_name = self.text_editor

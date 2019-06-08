@@ -124,6 +124,15 @@ def err_wrong_format():
                        "Input file format is not supported by the current version of OctaDist.")
 
 
+def err_no_editor():
+    """
+    Show this error popup if text editor path is empty.
+
+    """
+    showerror("Error", "No text editor.\n\n"
+                       "Text editor path is empty. Go to setting and browse a new text editor.")
+
+
 def err_cannot_update():
     """
     Show this error popup when the program cannot detect the operating system of
