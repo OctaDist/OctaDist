@@ -47,57 +47,31 @@ class OctaDist:
     |     Frame 4       |
     +-------------------+
 
-    Frame 1 : Program name and short description
-    Frame 2 : Program console
-    Frame 3 : Textbox for showing summary output
-    Frame 4 : textbox for showing detailed output
+    - Frame 1 : Program name and short description
+    - Frame 2 : Program console
+    - Frame 3 : Textbox for showing summary output
+    - Frame 4 : textbox for showing detailed output
 
     Parameters
     ----------
     master : object
         Master frame of program GUI.
 
-    Notes
-    -----
-    Initialize default parameters.
-
-    file_list : list
-        List of input files.
-    atom_coord_full : list
-        Atomic labels and coordinates of metal complex.
-    atom_coord_octa : list
-        Atomic labels and coordinates of octahedral structures.
-    all_zeta : list
-        List of computed zeta of all octahedral structures.
-    all_delta : list
-        List of computed delta of all octahedral structures.
-    all_sigma : list
-        List of computed sigma of all octahedral structures.
-    all_theta : list
-        List of computed theta of all octahedral structures.
-    file_index : list
-        List of atomic labels and coordinates of 8 faces and their opposite faces.
-    comp_result : list
-        List of distortion parameters.
-    has_metal : bool
-        True if the structure is octahedron or not.
-        False if it does not.
-
     """
     def __init__(self, master):
         self.master = master
 
         # Initialize parameters
-        self.file_list = []
-        self.file_index = []
-        self.atom_coord_full = []
-        self.atom_coord_octa = []
-        self.all_zeta = []
-        self.all_delta = []
-        self.all_sigma = []
-        self.all_theta = []
-        self.comp_result = []
-        self.has_metal = True
+        self.file_list = []         # Input files.
+        self.file_index = []        # File number.
+        self.atom_coord_full = []   # Coordinates of metal complex.
+        self.atom_coord_octa = []   # Coordinates of octahedral structures.
+        self.all_zeta = []          # Zeta of all octahedral structures.
+        self.all_delta = []         # Delta of all octahedral structures.
+        self.all_sigma = []         # Sigma of all octahedral structures.
+        self.all_theta = []         # Theta of all octahedral structures.
+        self.comp_result = []       # Distortion parameters.
+        self.has_metal = True       # If structure is octahedron or not.
 
         # Default cutoff values
         self.cutoff_metal_ligand = 2.8
