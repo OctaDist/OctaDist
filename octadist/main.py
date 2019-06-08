@@ -573,36 +573,36 @@ class OctaDist:
 
             # Calculate distortion parameters
             calc_dist = calc.CalcDistortion(coord_octa)
-            calc_dist.calc_zeta()
-            calc_dist.calc_delta()
-            calc_dist.calc_sigma()
-            calc_dist.calc_theta()
 
             d_mean = calc_dist.get_d_mean()
             zeta = calc_dist.get_zeta()
             delta = calc_dist.get_delta()
             sigma = calc_dist.get_sigma()
-            theta_mean = calc_dist.get_theta_mean()
+            theta = calc_dist.get_theta()
+            non_octa = calc_dist.get_non_octa()
+
+            if non_octa:
+                popup.warn_not_octa()
 
             # Collect results
             self.all_zeta.append(zeta)
             self.all_delta.append(delta)
             self.all_sigma.append(sigma)
-            self.all_theta.append(theta_mean)
+            self.all_theta.append(theta)
 
             self.file_index.append([num_file, num_metal])
-            self.comp_result.append([d_mean, zeta, delta, sigma, theta_mean])
+            self.comp_result.append([d_mean, zeta, delta, sigma, theta])
 
         # Print results to each unique box.
 
         if len(self.atom_coord_octa) == 1:
-            d_mean, zeta, delta, sigma, theta_mean = self.comp_result[0]
+            d_mean, zeta, delta, sigma, theta = self.comp_result[0]
 
             self.box_d_mean.insert(tk.INSERT, f"{d_mean:3.6f}")
             self.box_zeta.insert(tk.INSERT, f"{zeta:3.6f}")
             self.box_delta.insert(tk.INSERT, f"{delta:3.6f}")
             self.box_sigma.insert(tk.INSERT, f"{sigma:3.6f}")
-            self.box_theta_mean.insert(tk.INSERT, f"{theta_mean:3.6f}")
+            self.box_theta_mean.insert(tk.INSERT, f"{theta:3.6f}")
         else:
             self.box_d_mean.insert(tk.INSERT, "See below")
             self.box_zeta.insert(tk.INSERT, "See below")

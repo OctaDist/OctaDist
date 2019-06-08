@@ -17,7 +17,7 @@
 import numpy as np
 from scipy.spatial import distance
 
-from octadist.src import linear, plane, popup, projection
+from octadist.src import linear, plane, projection
 
 
 class CalcDistortion:
@@ -63,13 +63,20 @@ class CalcDistortion:
         self.trans_angle = 0
         self.sigma = 0
         self.allTheta = []
-        self.theta_mean = 0
+        self.theta = 0
         self.theta_min = 0
         self.theta_max = 0
+        self.non_octa = False
 
         self.calc_d_bond()
         self.calc_d_mean()
         self.calc_bond_angle()
+        self.calc_zeta()
+        self.calc_delta()
+        self.calc_sigma()
+        self.calc_theta()
+        self.calc_theta_min()
+        self.calc_theta_max()
 
     def calc_d_bond(self):
         """
@@ -250,10 +257,9 @@ class CalcDistortion:
                 test_max = test
                 new_change = n
 
-        # geometry is used to identify the type of octahedral structure
-        geometry = False
+        # self.non_octa is used to identify the type of octahedral structure
         if def_change != new_change:
-            geometry = True
+            self.non_octa = True
             def_change = new_change
 
         tp = ligands[4]
@@ -291,7 +297,7 @@ class CalcDistortion:
                 new_change = n
 
         if def_change != new_change:
-            geometry = True
+            self.non_octa = True
             def_change = new_change
 
         # Swapping the atom (n+1) just identified above with N6
@@ -331,7 +337,7 @@ class CalcDistortion:
                 new_change = n
 
         if def_change != new_change:
-            geometry = True
+            self.non_octa = True
             def_change = new_change
 
         # Swapping of the atom (n+1) just identified above with N4
@@ -413,11 +419,7 @@ class CalcDistortion:
 
             # End of the loop that calculate the 8 projections.
 
-        self.theta_mean = sum(self.allTheta[i] for i in range(8)) / 2
-
-        # If geometry is True, the structure is non-octahedron
-        if geometry:
-            popup.warn_not_octa()
+        self.theta = sum(self.allTheta[i] for i in range(8)) / 2
 
     def calc_theta_min(self):
         """
@@ -529,17 +531,17 @@ class CalcDistortion:
         """
         return self.sigma
 
-    def get_theta_mean(self):
+    def get_theta(self):
         """
         Return mean Theta parameter.
 
         Returns
         -------
-        theta_mean : float
+        theta : float
             Computed mean Theta parameter.
 
         """
-        return self.theta_mean
+        return self.theta
 
     def get_theta_min(self):
         """
@@ -564,3 +566,17 @@ class CalcDistortion:
 
         """
         return self.theta_max
+
+    def get_non_octa(self):
+        """
+        Return non-octahedral check token.
+
+        Returns
+        -------
+        non_octa : bool
+            If True, structure is non-octahedral structure.
+            If False, structure is regular octahedral structure.
+
+        """
+        return self.non_octa
+
