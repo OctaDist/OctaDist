@@ -14,7 +14,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-import os
 import platform
 import subprocess
 import tkinter as tk
@@ -121,8 +120,7 @@ class OctaDist:
         self.backup_var()
 
     def start_master(self):
-        module_path = os.path.dirname(octadist_gui.__file__)
-        self.master.wm_iconbitmap(rf"{module_path}\logo\molecule.ico")
+        self.master.wm_iconbitmap(rf"{octadist_gui.__path__[0]}\logo\molecule.ico")
         self.master.title(f"OctaDist {octadist_gui.__version__}")
         font = "Arial 10"
         self.master.option_add("*Font", font)
@@ -758,7 +756,7 @@ class OctaDist:
         ###################
 
         wd = tk.Toplevel(self.master)
-        wd.wm_iconbitmap(r"..\images\molecule.ico")
+        wd.wm_iconbitmap(rf"{octadist_gui.__path__[0]}\logo\molecule.ico")
         wd.title("Program settings")
         wd.option_add("*Font", "Arial 10")
 
@@ -1127,7 +1125,7 @@ class OctaDist:
 
         """
         wd = tk.Toplevel(self.master)
-        wd.wm_iconbitmap(r"..\images\molecule.ico")
+        wd.wm_iconbitmap(rf"{octadist_gui.__path__[0]}\logo\molecule.ico")
         wd.title("Run Scripting")
         wd.bind('<Return>', self.script_run)
 
@@ -1552,7 +1550,7 @@ class OctaDist:
 
         """
         wd = tk.Toplevel(self.master)
-        wd.wm_iconbitmap(r"..\images\molecule.ico")
+        wd.wm_iconbitmap(rf"{octadist_gui.__path__[0]}\logo\molecule.ico")
         wd.title("Program Help")
         wd.geometry("550x600")
         wd.option_add("*Font", "Arial 10")

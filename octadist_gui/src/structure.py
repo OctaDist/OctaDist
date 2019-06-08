@@ -19,6 +19,7 @@ from tkinter import scrolledtext as tkscrolled
 
 from scipy.spatial import distance
 
+import octadist_gui
 from octadist_gui.src import linear, popup, util
 
 
@@ -63,7 +64,7 @@ class DataComplex:
         Start application.
 
         """
-        self.wd.wm_iconbitmap(r"..\images\molecule.ico")
+        self.wd.wm_iconbitmap(rf"{octadist_gui.__path__[0]}\logo\molecule.ico")
         self.wd.title("Complex info")
         self.wd.geometry("550x500")
         self.wd.option_add("*Font", "Arial 10")
@@ -154,7 +155,7 @@ class StructParam:
         Start application.
 
         """
-        self.wd.wm_iconbitmap(r"..\images\molecule.ico")
+        self.wd.wm_iconbitmap(rf"{octadist_gui.__path__[0]}\logo\molecule.ico")
         self.wd.title("Results")
         self.wd.geometry("380x530")
         self.wd.option_add("*Font", "Arial 10")
@@ -278,7 +279,7 @@ class SurfaceArea:
         Start application.
 
         """
-        self.wd.wm_iconbitmap(r"..\images\molecule.ico")
+        self.wd.wm_iconbitmap(rf"{octadist_gui.__path__[0]}\logo\molecule.ico")
         self.wd.title("The area of triangular face")
         self.wd.geometry("380x500")
         self.wd.option_add("*Font", "Arial 10")
