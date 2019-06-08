@@ -544,7 +544,7 @@ class CalcRMSD:
 
     References
     ----------
-    https://github.com/charnley/rmsd
+    Link: https://github.com/charnley/rmsd.
 
     Examples
     --------

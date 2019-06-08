@@ -130,9 +130,9 @@ class CalcDistortion:
         """
         Calculate Zeta parameter and return value in Angstrom.
 
-             6
-        ζ = sum(|dist_i - d_mean|)
-            i=1
+        |      6
+        | ζ = sum(|dist_i - d_mean|)
+        |     i=1
 
         Parameters
         ----------
@@ -153,9 +153,9 @@ class CalcDistortion:
         """
         Calculate Delta parameter, also known as Tilting distortion parameter.
 
-              1
-        Δ =  ---*sum((d_i - d)/d)^2
-              6
+        |       1
+        | Δ =  ---*sum((d_i - d)/d)^2
+        |       6
 
         where d_i is individual M-X distance and d is mean M-X distance.
 
@@ -177,9 +177,9 @@ class CalcDistortion:
         """
         Calculate Sigma parameter and return value in degree.
 
-              12
-        Σ = sigma < 90 - angle_i >
-             i=1
+        |       12
+        | Σ = sigma < 90 - angle_i >
+        |      i=1
 
         where angle_i in an unique cis angle.
 
@@ -199,9 +199,9 @@ class CalcDistortion:
         """
         Calculate Theta parameter and value in degree.
 
-              24
-        Θ = sigma < 60 - angle_i >
-             i=1
+        |       24
+        | Θ = sigma < 60 - angle_i >
+        |      i=1
 
         where angle_i is an unique angle between two vectors of two twisting face.
 

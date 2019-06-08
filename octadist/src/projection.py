@@ -21,9 +21,9 @@ def project_atom_onto_line(p, a, b):
     """
     Find the point projection on the line, which defined by two distinct end points.
 
-    a <----> b
-
-    P(x) = x1 + (p - x1).(x2 - x1)/(x2-x1).(x2-x1) * (x2-x1)
+    | a <----> b
+    |
+    | P(x) = x1 + (p - x1).(x2 - x1)/(x2-x1).(x2-x1) * (x2-x1)
 
     Parameters
     ----------
@@ -69,9 +69,9 @@ def project_atom_onto_plane(p, a, b, c, d):
     The equation of plane is Ax + By + Cz = D and point is (L, M, N),
     then the location on the plane that is closest to the point (P, Q, R) is
 
-    (P, Q, R) = (L, M, N) + λ * (A, B, C)
-
-    where λ = (D - ( A*L + B*M + C*N)) / (A^2 + B^2 + C^2).
+    | (P, Q, R) = (L, M, N) + λ * (A, B, C)
+    |
+    | where λ = (D - ( A*L + B*M + C*N)) / (A^2 + B^2 + C^2).
 
     Parameters
     ----------

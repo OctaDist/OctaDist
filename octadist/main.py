@@ -550,7 +550,12 @@ class OctaDist:
     def calc_distortion(self):
         """
         Calculate all distortion parameters:
-        Zeta, Delta, Sigma, and Theta_mean parameters.
+
+        - D_mean
+        - Zeta
+        - Delta
+        - Sigma
+        - Theta
 
         """
         if not self.has_metal:
@@ -708,7 +713,7 @@ class OctaDist:
 
         def commit_ok(self):
             """
-            If the user click OK, save all settings and show info in output box.
+            If the user click OK, it will save all settings and show info in output box.
 
             """
             self.cutoff_metal_ligand = float(var_1.get())
@@ -957,7 +962,7 @@ class OctaDist:
 
     def edit_file(self):
         """
-        Edit file by specified text editor on Windows
+        Edit file by specified text editor on Windows.
 
         See Also
         --------
@@ -1469,9 +1474,7 @@ class OctaDist:
 
         References
         ----------
-        File: version_update.txt_
-
-        .. _version_update.txt: www.github.com/OctaDist/OctaDist/version_update.txt
+        File: https://www.github.com/OctaDist/OctaDist/version_update.txt.
 
         """
         data = urlopen("https://raw.githubusercontent.com/OctaDist/OctaDist/master/version_update.txt").read()
@@ -1542,7 +1545,7 @@ class OctaDist:
 
     def show_help(self):
         """
-        Show program help on a sub-window.
+        Show program help on a sub-window:
 
         1. Simple usage
         2. XYZ file format
@@ -1630,6 +1633,10 @@ class OctaDist:
         Show license details on a sub-window.
 
         GNU General Public License version 3.0.
+
+        References
+        ----------
+        Link: https://www.gnu.org/licenses/gpl-3.0.en.html.
 
         """
         text = "OctaDist {0} Copyright (C) 2019  Rangsiman Ketkaew et al.\n" \

@@ -121,21 +121,21 @@ def find_faces_octa(c_octa):
     """
     Find the eight faces of octahedral structure.
 
-    1) Choose 3 atoms out of 6 ligand atoms.
+    1. Choose 3 atoms out of 6 ligand atoms.
         The total number of combination is 20.
-    2) Orthogonally project metal center atom onto the face:
+    2. Orthogonally project metal center atom onto the face:
         m ----> m'
-    3) Calculate the shortest distance between original metal center to its projected point.
-    4) Sort the 20 faces in ascending order of the shortest distance.
-    5) Delete 12 faces that closest to metal center atom (first 12 faces).
-    6) The remaining 8 faces are the (reference) face of octahedral structure.
-    7) Find 8 opposite faces.
+    3. Calculate the shortest distance between original metal center to its projected point.
+    4. Sort the 20 faces in ascending order of the shortest distance.
+    5. Delete 12 faces that closest to metal center atom (first 12 faces).
+    6. The remaining 8 faces are the (reference) face of octahedral structure.
+    7. Find 8 opposite faces.
 
-    Reference plane             Opposite plane
-       [[1 2 3]                    [[4 5 6]
-        [1 2 4]        --->         [3 5 6]
-          ...                         ...
-        [2 3 5]]                    [1 4 6]]
+    | Reference plane             Opposite plane
+    |    [[1 2 3]                    [[4 5 6]
+    |     [1 2 4]        --->         [3 5 6]
+    |       ...                         ...
+    |     [2 3 5]]                    [1 4 6]]
 
     Parameters
     ----------
