@@ -381,9 +381,9 @@ class OctaDist:
                 open(self.file_list[0], 'r')
                 for i in range(len(self.file_list)):
 
-                    ###########################
-                    # Read file and pull data #
-                    ###########################
+                    ########################################
+                    # Extract atomic coordinates from file #
+                    ########################################
 
                     file_name = self.file_list[i].split('/')[-1]
 
