@@ -39,6 +39,17 @@ def project_atom_onto_line(p, a, b):
     projected_point : ndarray
         The projected point on the orthogonal line.
 
+    Examples
+    --------
+    >>> p = [10.1873, 5.7463, 5.615]
+    >>> a = [8.494, 5.9735, 4.8091]
+    >>> b = [9.6526, 6.4229, 7.3079]
+
+    >>> proj = project_atom_onto_line(p, a, b)
+
+    >>> proj
+    [9.07023235 6.19701012 6.05188388]
+
     """
     p = np.asarray(p, dtype=np.float64)
     a = np.asarray(a, dtype=np.float64)
@@ -79,6 +90,19 @@ def project_atom_onto_plane(p, a, b, c, d):
     -------
     projected_point: ndarray
         The projected point on the orthogonal plane.
+
+    Examples
+    --------
+    >>> p = [10.1873, 5.7463, 5.615]
+    >>> a = -3.231203733528
+    >>> b = -0.9688526458499996
+    >>> c = 0.9391692927779998
+    >>> d = -4.940497273569501
+
+    >>> proj = project_atom_onto_plane(p, a, b, c, d)
+
+    >>> proj
+    [2.73723598 3.51245316 7.78040705]
 
     """
     p = np.asarray(p, dtype=np.float64)
