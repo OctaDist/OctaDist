@@ -34,17 +34,15 @@ class DrawComplex:
 
     Examples
     --------
-    >>> atom
-    ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
+    >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
 
-    >>> coord
-    [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
-     [1.885657000, 4.804777000, 6.183726000],
-     [1.747515000, 6.960963000, 7.932784000],
-     [4.094380000, 5.807257000, 7.588689000],
-     [0.539005000, 4.482809000, 8.460004000],
-     [2.812425000, 3.266553000, 8.131637000],
-     [2.886404000, 5.392925000, 9.848966000]]
+    >>> coord = [[2.298354000, 5.161785000, 7.971898000],
+                 [1.885657000, 4.804777000, 6.183726000],
+                 [1.747515000, 6.960963000, 7.932784000],
+                 [4.094380000, 5.807257000, 7.588689000],
+                 [0.539005000, 4.482809000, 8.460004000],
+                 [2.812425000, 3.266553000, 8.131637000],
+                 [2.886404000, 5.392925000, 9.848966000]]
 
     >>> test = DrawComplex(atom=atom, coord=coord)
     >>> test.add_atom()
@@ -116,7 +114,7 @@ class DrawComplex:
         Calculate bond distance, screen bond, and add them to show in figure.
 
         """
-        self.bond_list = util.find_bonds(self.atom, self.coord)
+        _, self.bond_list = util.find_bonds(self.atom, self.coord)
 
         for i in range(len(self.bond_list)):
             get_atoms = self.bond_list[i]
@@ -237,23 +235,22 @@ class DrawProjection:
 
     Parameters
     ----------
-    kwargs : dict
-        atom : atomic labels of octahedral structure.
-        coord : atomic coordinates of octahedral structure.
+    atom : list
+        Atomic symbols of octahedral structure.
+    coord : list, array, tuple
+        Atomic coordinates of octahedral structure.
 
     Examples
     --------
-    >>> atom
-    ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
+    >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
 
-    >>> coord
-    [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
-     [1.885657000, 4.804777000, 6.183726000],
-     [1.747515000, 6.960963000, 7.932784000],
-     [4.094380000, 5.807257000, 7.588689000],
-     [0.539005000, 4.482809000, 8.460004000],
-     [2.812425000, 3.266553000, 8.131637000],
-     [2.886404000, 5.392925000, 9.848966000]]
+    >>> coord = [[2.298354000, 5.161785000, 7.971898000],
+                 [1.885657000, 4.804777000, 6.183726000],
+                 [1.747515000, 6.960963000, 7.932784000],
+                 [4.094380000, 5.807257000, 7.588689000],
+                 [0.539005000, 4.482809000, 8.460004000],
+                 [2.812425000, 3.266553000, 8.131637000],
+                 [2.886404000, 5.392925000, 9.848966000]]
 
     >>> test = DrawProjection(atom=atom, coord=coord)
     >>> test.add_atom()
@@ -379,23 +376,22 @@ class DrawTwistingPlane:
 
     Parameters
     ----------
-    kwargs : dict
-        atom : atomic labels of octahedral structure.
-        coord : atomic coordinates of octahedral structure.
+    atom : list
+        Atomic symbols of octahedral structure.
+    coord : list, array, tuple
+        Atomic coordinates of octahedral structure.
 
     Examples
     --------
-    >>> atom
-    ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
+    >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
 
-    >>> coord
-    [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
-     [1.885657000, 4.804777000, 6.183726000],
-     [1.747515000, 6.960963000, 7.932784000],
-     [4.094380000, 5.807257000, 7.588689000],
-     [0.539005000, 4.482809000, 8.460004000],
-     [2.812425000, 3.266553000, 8.131637000],
-     [2.886404000, 5.392925000, 9.848966000]]
+    >>> coord = [[2.298354000, 5.161785000, 7.971898000],
+                 [1.885657000, 4.804777000, 6.183726000],
+                 [1.747515000, 6.960963000, 7.932784000],
+                 [4.094380000, 5.807257000, 7.588689000],
+                 [0.539005000, 4.482809000, 8.460004000],
+                 [2.812425000, 3.266553000, 8.131637000],
+                 [2.886404000, 5.392925000, 9.848966000]]
 
     >>> test = DrawTwistingPlane(atom=atom, coord=coord)
     >>> test.add_plane()

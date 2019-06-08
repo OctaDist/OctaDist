@@ -38,16 +38,47 @@ def find_bonds(atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2):
         Global cutoff for screening bonds.
         Default value is 2.0.
     cutoff_hydrogen : int or float
+        Cutoff for screening hydrogen bonds.
         Default value is 1.2.
 
     Returns
     -------
-    check_2_bond_list : list
-        Selected bonds.
+    filtered_bond_2 : list
+        Selected bonds in molecule after screening.
+
+    Examples
+    --------
+    >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
+
+    >>> coord = [[2.298354000, 5.161785000, 7.971898000],
+                 [1.885657000, 4.804777000, 6.183726000],
+                 [1.747515000, 6.960963000, 7.932784000],
+                 [4.094380000, 5.807257000, 7.588689000],
+                 [0.539005000, 4.482809000, 8.460004000],
+                 [2.812425000, 3.266553000, 8.131637000],
+                 [2.886404000, 5.392925000, 9.848966000]]
+
+    >>> pair_bond, bond_dist = find_bonds(atom, coord)
+
+    >>> pair_bond
+    [['Fe', 'N'],
+     ['Fe', 'N'],
+     ['Fe', 'N'],
+     ['Fe', 'O'],
+     ['Fe', 'O'],
+     ['Fe', 'O']]
+
+    >>> bond_dist
+    [[[2.298354, 5.161785, 7.971898], [1.885657, 4.804777, 6.183726]],
+     [[2.298354, 5.161785, 7.971898], [1.747515, 6.960963, 7.932784]],
+     [[2.298354, 5.161785, 7.971898], [4.094380, 5.807257, 7.588689]],
+     [[2.298354, 5.161785, 7.971898], [0.539005, 4.482809, 8.460004]],
+     [[2.298354, 5.161785, 7.971898], [2.812425, 3.266553, 8.131637]],
+     [[2.298354, 5.161785, 7.971898], [2.886404, 5.392925, 9.848966]]]
 
     """
-    pair_list = []
-    bond_list = []
+    all_pair = []
+    all_bond = []
 
     for i in range(len(coord)):
         for j in range(i + 1, len(coord)):
@@ -56,32 +87,34 @@ def find_bonds(atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2):
             else:
                 dist = distance.euclidean(coord[i], coord[j])
 
-            pair_list.append([atom[i], atom[j]])
-            bond_list.append([coord[i], coord[j], dist])
+            all_pair.append([atom[i], atom[j]])
+            all_bond.append([coord[i], coord[j], dist])
 
-    check_1_bond_list = []
-    screen_1_pair_list = []
+    filtered_pair_1 = []
+    filtered_bond_1 = []
 
-    for i in range(len(bond_list)):
-        if bond_list[i][2] <= cutoff_global:
-            check_1_bond_list.append([bond_list[i][0],
-                                      bond_list[i][1],
-                                      bond_list[i][2]])
+    for i in range(len(all_bond)):
+        if all_bond[i][2] <= cutoff_global:
+            filtered_pair_1.append([all_pair[i][0],
+                                    all_pair[i][1]])
 
-            screen_1_pair_list.append([pair_list[i][0],
-                                       pair_list[i][1]])
+            filtered_bond_1.append([all_bond[i][0],
+                                    all_bond[i][1],
+                                    all_bond[i][2]])
 
-    check_2_bond_list = []
+    filtered_pair_2 = []
+    filtered_bond_2 = []
 
-    for i in range(len(check_1_bond_list)):
-        if screen_1_pair_list[i][0] == "H" or screen_1_pair_list[i][1] == "H":
-            if check_1_bond_list[i][2] <= cutoff_hydrogen:
-                check_2_bond_list.append([check_1_bond_list[i][0], check_1_bond_list[i][1]])
-
+    for i in range(len(filtered_bond_1)):
+        if filtered_pair_1[i][0] == "H" or filtered_pair_1[i][1] == "H":
+            if filtered_bond_1[i][2] <= cutoff_hydrogen:
+                filtered_pair_2.append([filtered_pair_1[i][0], filtered_pair_1[i][1]])
+                filtered_bond_2.append([filtered_bond_1[i][0], filtered_bond_1[i][1]])
         else:
-            check_2_bond_list.append([check_1_bond_list[i][0], check_1_bond_list[i][1]])
+            filtered_pair_2.append([filtered_pair_1[i][0], filtered_pair_1[i][1]])
+            filtered_bond_2.append([filtered_bond_1[i][0], filtered_bond_1[i][1]])
 
-    return check_2_bond_list
+    return filtered_pair_2, filtered_bond_2
 
 
 def find_faces_octa(c_octa):
@@ -97,6 +130,12 @@ def find_faces_octa(c_octa):
     5) Delete 12 faces that closest to metal center atom (first 12 faces).
     6) The remaining 8 faces are the (reference) face of octahedral structure.
     7) Find 8 opposite faces.
+
+    Reference plane             Opposite plane
+       [[1 2 3]                    [[4 5 6]
+        [1 2 4]        --->         [3 5 6]
+          ...                         ...
+        [2 3 5]]                    [1 4 6]]
 
     Parameters
     ----------
@@ -116,12 +155,6 @@ def find_faces_octa(c_octa):
 
     Examples
     --------
-    >>> Reference plane             Opposite plane
-           [[1 2 3]                   [[4 5 6]
-            [1 2 4]        --->        [3 5 6]
-              ...                        ...
-            [2 3 5]]                   [1 4 6]]
-
     >>> coord = [[14.68572 18.49228  6.66716]
                  [14.86476 16.48821  7.43379]
                  [14.44181 20.594    6.21555]
@@ -161,11 +194,11 @@ def find_faces_octa(c_octa):
       [13.04897 19.25464  7.93122]]]
 
     """
-    c_octa = np.asarray(c_octa, dtype=np.float64)
-
     ########################
     # Find reference faces #
     ########################
+
+    c_octa = np.asarray(c_octa, dtype=np.float64)
 
     # Find the shortest distance from metal center to each triangle
     dist = []

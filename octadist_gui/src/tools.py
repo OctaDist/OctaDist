@@ -148,7 +148,7 @@ class CalcJahnTeller:
         Find bonds.
 
         """
-        self.bond_list = util.find_bonds(self.atom, self.coord)
+        _, self.bond_list = util.find_bonds(self.atom, self.coord)
 
     #################
     # Picking atoms #
@@ -537,6 +537,8 @@ class CalcRMSD:
     Examples
     --------
     >>> comp1.xyz
+    7
+    Example structure 1 for RMSD
     Fe       10.187300000     5.746300000     5.615000000
     O         8.494000000     5.973500000     4.809100000
     O         9.652600000     6.422900000     7.307900000
