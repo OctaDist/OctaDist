@@ -104,6 +104,10 @@ class OctaDist:
         self.master.resizable(0, 0)
 
     def add_menu(self):
+        """
+        Add menu bar to master windows.
+
+        """
         # Main menu
         menu_bar = tk.Menu(self.master)
         self.master.config(menu=menu_bar)
@@ -183,6 +187,10 @@ class OctaDist:
         help_menu.add_command(label="About Program", command=lambda: self.show_about())
 
     def add_widgets(self):
+        """
+        Add all widgets and components to master windows
+
+        """
         # my personal ttk style #
         gui_ttk = ttk.Style()
         gui_ttk.configure("TButton", relief="sunken", padding=5)
@@ -301,6 +309,7 @@ class OctaDist:
     def welcome_msg(self):
         """
         Show welcome message in result box:
+
         1. Program name, version, and release.
         2. Full author names.
         3. Official website: https://octadist.github.io.
@@ -316,6 +325,10 @@ class OctaDist:
         echo_outs(self, "")
 
     def backup_var(self):
+        """
+        Store default values of initial parameters to backup variables.
+
+        """
         self.backup_1 = self.cutoff_metal_ligand
         self.backup_2 = self.cutoff_global
         self.backup_3 = self.cutoff_hydrogen
@@ -973,6 +986,10 @@ class OctaDist:
     #############
 
     def script_help(self):
+        """
+        Show help messages.
+
+        """
         help_msg = ">>> This is an interactive code console for internal scripting.\n" \
                    ">>> \n" \
                    ">>> Commands\n" \
@@ -1452,7 +1469,9 @@ class OctaDist:
 
         References
         ----------
-        File: www.github.com/OctaDist/OctaDist/version_update.txt
+        File: version_update.txt_
+
+        .. _version_update.txt: www.github.com/OctaDist/OctaDist/version_update.txt
 
         """
         data = urlopen("https://raw.githubusercontent.com/OctaDist/OctaDist/master/version_update.txt").read()
