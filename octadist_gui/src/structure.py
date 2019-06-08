@@ -60,7 +60,7 @@ class DataComplex:
 
     def add_name(self, file_name):
         """
-        Add file name to bix.
+        Add file name to box.
 
         Parameters
         ----------
