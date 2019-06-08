@@ -34,7 +34,7 @@ from octadist_gui.src import (
 
 class OctaDist:
     """
-    Program interface is structured as below:
+    Program interface is structured as follows:
 
     +-------------------+
     |   Program Menu    |
@@ -88,13 +88,13 @@ class OctaDist:
 
         # Initialize parameters
         self.file_list = []
+        self.file_index = []
         self.atom_coord_full = []
         self.atom_coord_octa = []
         self.all_zeta = []
         self.all_delta = []
         self.all_sigma = []
         self.all_theta = []
-        self.file_index = []
         self.comp_result = []
         self.has_metal = True
 
@@ -169,11 +169,11 @@ class OctaDist:
 
         # Display
         menu_bar.add_cascade(label="Display", menu=disp_menu)
-        disp_menu.add_command(label="All Atoms", command=lambda: self.draw_all_atom())
-        disp_menu.add_command(label="All Atoms and Faces", command=lambda: self.draw_all_atom_and_face())
+        disp_menu.add_command(label="Complex", command=lambda: self.draw_all_atom())
+        disp_menu.add_command(label="Complex and Eight Faces", command=lambda: self.draw_all_atom_and_face())
         disp_menu.add_separator()
-        disp_menu.add_command(label="Octahedral Complex", command=lambda: self.draw_octa())
-        disp_menu.add_command(label="Octahedron and 8 Faces", command=lambda: self.draw_octa_and_face())
+        disp_menu.add_command(label="Octahedron", command=lambda: self.draw_octa())
+        disp_menu.add_command(label="Octahedron and Eight Faces", command=lambda: self.draw_octa_and_face())
         disp_menu.add_separator()
         disp_menu.add_command(label="Projection Planes", command=lambda: self.draw_projection())
         disp_menu.add_command(label="Twisting Triangular Faces", command=lambda: self.draw_twisting_plane())
@@ -1165,6 +1165,9 @@ class OctaDist:
         my_plot.add_atom()
         my_plot.add_bond()
         my_plot.add_legend()
+        my_plot.config_plot(show_title=self.show_title,
+                            show_axis=self.show_axis,
+                            show_grid=self.show_grid)
         my_plot.show_plot()
 
     def draw_all_atom_and_face(self):
@@ -1190,6 +1193,9 @@ class OctaDist:
             my_plot.add_face(coord_octa)
 
         my_plot.add_legend()
+        my_plot.config_plot(show_title=self.show_title,
+                            show_axis=self.show_axis,
+                            show_grid=self.show_grid)
         my_plot.show_plot()
 
     def draw_octa(self):
@@ -1210,6 +1216,9 @@ class OctaDist:
         my_plot.add_atom()
         my_plot.add_bond()
         my_plot.add_legend()
+        my_plot.config_plot(show_title=self.show_title,
+                            show_axis=self.show_axis,
+                            show_grid=self.show_grid)
         my_plot.show_plot()
 
     def draw_octa_and_face(self):
@@ -1235,6 +1244,9 @@ class OctaDist:
             _, _, _, coord = self.atom_coord_octa[i]
             my_plot.add_face(coord)
 
+        my_plot.config_plot(show_title=self.show_title,
+                            show_axis=self.show_axis,
+                            show_grid=self.show_grid)
         my_plot.show_plot()
 
     def draw_projection(self):
@@ -1537,45 +1549,6 @@ class OctaDist:
 
         """
         self.box_result.delete(1.0, tk.END)
-
-    def show_title(self):
-        """
-        Show figure title.
-
-        Returns
-        -------
-        show_title : bool
-            True if user want matplotlib to show figure title.
-            False if user does not.
-
-        """
-        return self.show_title
-
-    def show_axis(self):
-        """
-        Show figure axes.
-
-        Returns
-        -------
-        show_axis : bool
-            True if user want matplotlib to show figure axis.
-            False if user does not.
-
-        """
-        return self.show_axis
-
-    def show_grid(self):
-        """
-        Show figure gridlines.
-
-        Returns
-        -------
-        show_grid : bool
-            True if user want matplotlib to show figure gridlines.
-            False if user does not.
-
-        """
-        return self.show_grid
 
 
 def main():
