@@ -387,6 +387,12 @@ class CalcDistortion:
             theta5 = linear.angle_sign(VTh3, VTh6, direction)
             theta6 = linear.angle_sign(VTh6, VTh1, direction)
 
+            if proj == 0:
+                print(VTh1)
+                print(VTh4)
+                print(direction)
+                print(theta1)
+
             indiTheta.append([theta1, theta2, theta3, theta4, theta5, theta6])
 
             sum_theta = sum(abs(indiTheta[proj][i] - 60) for i in range(6))
