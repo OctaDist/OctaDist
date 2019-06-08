@@ -14,6 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+import os
 import platform
 import subprocess
 import tkinter as tk
@@ -22,6 +23,7 @@ import webbrowser
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import ttk
+from tkinter.messagebox import showinfo, showerror, showwarning
 from urllib.request import urlopen
 
 import numpy as np
@@ -119,7 +121,8 @@ class OctaDist:
         self.backup_var()
 
     def start_master(self):
-        self.master.wm_iconbitmap(r"..\images\molecule.ico")
+        module_path = os.path.dirname(octadist_gui.__file__)
+        self.master.wm_iconbitmap(rf"{module_path}\logo\molecule.ico")
         self.master.title(f"OctaDist {octadist_gui.__version__}")
         font = "Arial 10"
         self.master.option_add("*Font", font)
@@ -192,7 +195,7 @@ class OctaDist:
 
         # Help
         menu_bar.add_cascade(label="Help", menu=help_menu)
-        help_menu.add_command(label="Quick Help", command=lambda: popup.show_help(self.master))
+        help_menu.add_command(label="Quick Help", command=lambda: self.show_help())
         help_menu.add_command(label="Getting Started",
                               command=lambda: webbrowser.open_new_tab(octadist_gui.__doc__))
         help_menu.add_separator()
@@ -202,10 +205,10 @@ class OctaDist:
                               command=lambda: webbrowser.open_new_tab(octadist_gui.__github__))
         help_menu.add_command(label="Homepage", command=lambda: webbrowser.open_new_tab(octadist_gui.__website__))
         help_menu.add_separator()
-        help_menu.add_command(label="License", command=lambda: popup.show_license())
+        help_menu.add_command(label="License", command=lambda: self.show_license())
         help_menu.add_separator()
         help_menu.add_command(label="Check for Updates...", command=self.check_update)
-        help_menu.add_command(label="About Program", command=lambda: popup.show_about())
+        help_menu.add_command(label="About Program", command=lambda: self.show_about())
 
     def add_widgets(self):
         # my personal ttk style #
@@ -1522,6 +1525,132 @@ class OctaDist:
 
         else:
             popup.info_no_update()
+
+    #####################
+    # Show program info #
+    #####################
+
+    def callback(self, event):
+        """
+        On-clink open web browser.
+
+        Parameters
+        ----------
+        event : object
+            Event object for callback.
+
+        """
+        webbrowser.open_new(event.widget.cget("text"))
+
+    def show_help(self):
+        """
+        Show program help on a sub-window.
+
+        1. Simple usage
+        2. XYZ file format
+        3. References
+
+        """
+        wd = tk.Toplevel(self.master)
+        wd.wm_iconbitmap(r"..\images\molecule.ico")
+        wd.title("Program Help")
+        wd.geometry("550x600")
+        wd.option_add("*Font", "Arial 10")
+        frame = tk.Frame(wd)
+        frame.grid()
+
+        # Usage
+        lbl = tk.Label(frame, text="Usage:")
+        lbl.grid(sticky=tk.W, row=0)
+        msg_help_1 = "1. Browse input file\n" \
+                     "2. Compute distortion parameters\n" \
+                     "3. Check results\n" \
+                     "4. File → Save results\n"
+        msg = tk.Message(frame, text=msg_help_1, width="450")
+        msg.grid(sticky=tk.W, row=1)
+
+        # XYZ file format
+        lbl = tk.Label(frame, text="Supported input: XYZ file format (*.xyz)")
+        lbl.grid(sticky=tk.W, row=2)
+        msg_help_2 = " <number of atoms>\n" \
+                     " comment line\n" \
+                     " <Metal center 0>  <X>  <Y>  <Z>\n" \
+                     " <Ligand atom 1>  <X>  <Y>  <Z>\n" \
+                     " <Ligand atom 2>  <X>  <Y>  <Z>\n" \
+                     " <Ligand atom 3>  <X>  <Y>  <Z>\n" \
+                     " <Ligand atom 4>  <X>  <Y>  <Z>\n" \
+                     " <Ligand atom 5>  <X>  <Y>  <Z>\n" \
+                     " <Ligand atom 6>  <X>  <Y>  <Z>\n" \
+                     " <optional>\n" \
+                     " ...\n"
+        msg = tk.Message(frame, text=msg_help_2, width="450")
+        msg.grid(sticky=tk.W, row=3, column=0)
+
+        lbl = tk.Label(frame, text="Example of input file is available at the following website:")
+        lbl.grid(sticky=tk.W, row=5, columnspan=2)
+        link = "https://github.com/OctaDist/OctaDist/tree/master/example-input\n"
+        lbl_link = tk.Label(frame, foreground="blue", text=link, cursor="hand2")
+        lbl_link.grid(sticky=tk.W, pady="5", row=6, columnspan=2)
+        lbl_link.bind("<Button-1>", self.callback)
+
+        # References
+        lbl = tk.Label(frame, text="References:")
+        lbl.grid(sticky=tk.W, row=7, columnspan=2)
+        msg_help_3 = "1. M. Buron-Le Cointe, J. H´ebert, C. Bald´e, N. Moisan, L. Toupet,\n" \
+                     "   P. Guionneau, J. F. L´etard, E. Freysz, H. Cailleau, and E. Collet\n" \
+                     "   Physical Review B 2012, 85, 064114.\n" \
+                     "2. J. A. Alonso, M. J. Martı´nez-Lope, M. T. Casais, M. T. Ferna´ndez-Dı´az\n" \
+                     "   Inorg. Chem. 2000, 39, 917-923.\n" \
+                     "3. J. K. McCusker, A. L. Rheingold, D. N. Hendrickson\n" \
+                     "   Inorg. Chem. 1996, 35, 2100.\n" \
+                     "4. M. Marchivie, P. Guionneau, J. F. Letard, D. Chasseau\n" \
+                     "   Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.\n"
+        msg = tk.Message(frame, text=msg_help_3, width="450")
+        msg.grid(sticky=tk.W, row=8, columnspan=2)
+
+    def show_about(self):
+        """
+        Show author details on a sub-window.
+
+        1. Name of authors
+        2. Official program website
+        3. Citation
+
+        """
+        text = f"OctaDist version {octadist_gui.__version__} ({octadist_gui.__release__})\n" \
+            f"\n" \
+            f"Authors: {octadist_gui.__author_full__}.\n" \
+            f"\n" \
+            f"Website: {octadist_gui.__website__}\n" \
+            f"\n" \
+            f"Please cite this project if you use OctaDist for scientific publication."
+
+        showinfo("About program", text)
+
+    def show_license(self):
+        """
+        Show license details on a sub-window.
+
+        GNU General Public License version 3.0.
+
+        """
+        text = "OctaDist {0} Copyright (C) 2019  Rangsiman Ketkaew et al.\n" \
+               "\n" \
+               "This program is free software: you can redistribute it " \
+               "and/or modify it under the terms of the GNU General Public " \
+               "License as published by the Free Software Foundation, either " \
+               "version 3 of the License, or (at your option) any later version.\n" \
+               "\n" \
+               "This program is distributed in the hope that it will be useful, " \
+               "but WITHOUT ANY WARRANTY; without even the implied warranty " \
+               "of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. " \
+               "See the GNU General Public License for more details.\n" \
+               "\n" \
+               "You should have received a copy of the GNU General Public License " \
+               "along with this program. If not, see <https://www.gnu.org/licenses/>." \
+            .format(octadist_gui.__version__)
+
+        showinfo("License", text)
 
     ###################
     # Clear All Cache #
