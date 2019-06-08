@@ -1,8 +1,8 @@
-=====================
-octadist_gui.elements
-=====================
+=================
+octadist.elements
+=================
 
-.. automodule:: octadist_gui.src.elements
+.. automodule:: octadist.src.elements
    :members:
    :undoc-members:
    :inherited-members:

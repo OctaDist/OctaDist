@@ -1,8 +1,8 @@
-==================
-octadist_gui.plane
-==================
+==============
+octadist.plane
+==============
 
-.. automodule:: octadist_gui.src.plane
+.. automodule:: octadist.src.plane
    :members:
    :undoc-members:
    :inherited-members:

@@ -1,12 +1,11 @@
-=================
-octadist_gui.calc
-=================
+=============
+octadist.calc
+=============
 
-.. automodule:: octadist_gui.src.calc
+.. automodule:: octadist.src.calc
    :members:
    :undoc-members:
    :inherited-members:
    :show-inheritance: 
-
 
 
