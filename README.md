@@ -30,8 +30,8 @@ https://octadist.github.io/
 OctaDist is written entirely in Python 3 binding to Tkinter toolkit (GUI version). 
 It is cross-platform program and works on multiple operating systems. 
 The stable version and development build of OctaDist is [here][release-link].
-A standalone executable for graphical user interface (GUI) and source code for command line interface (CLI) 
-for OctaDist are available for following platform:
+OctaDist is available for both graphical user interface (GUI) and 
+command line interface (CLI), for following platform:
 
 [release-link]: https://github.com/OctaDist/OctaDist/releases
 
