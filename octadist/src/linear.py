@@ -18,79 +18,52 @@ import numpy as np
 from math import sqrt, pow, degrees, acos
 
 
-def norm_vector(v):
-    """
-    Normalizing vector and return the unit vector.
-
-    Parameters
-    ----------
-    v : array
-        2D or 3D vector.
-
-    Returns
-    -------
-    norm : array
-        Normalized vector.
-
-    """
-    norm = v / np.linalg.norm(v)
-
-    return norm
-
-
-def euclidean_dist(a, b):
-    """
-    Find Euclidean distance between two points:
-
-    a = (x1, y1, z1) and b = (x2, y2, z2).
-
-    Parameters
-    ----------
-    a : list
-        Cartesian coordinate of point a.
-    b : list
-        Cartesian coordinate of point b.
-
-    Returns
-    -------
-    float
-        Distance between two points.
-
-    """
-    return sqrt(sum([pow(a[i] - b[i], 2) for i in range(len(a))]))
-
-
 def angle_sign(v1, v2, direct):
     """
     Compute angle between two vectors with sign and return value in degree.
 
     Parameters
     ----------
-    v1 : array
+    v1 : array_like
         Vector in 3D space.
-    v2 : array
+    v2 : array_like
         Vector in 3D space.
     direct : array
         Vector that refers to orientation of the plane.
 
     Returns
     -------
-    angle : int or float
-        Angle between two vectors with sign.
+    angle : float64
+        Angle between two vectors in degree unit with sign.
+
+    See Also
+    --------
+    calc.calc_theta
+
+    Examples
+    --------
+    >>> vector1 = [1.21859514, -0.92569245, -0.51717955]
+    >>> vector2 = [1.02186387,  0.57480095, -0.95220433]
+    >>> direction = [1.29280503, 0.69301873, 1.80572438]
+
+    >>> angle = angle_sign(vector1, vector2, direction)
+
+    >>> angle
+    60.38697927455357
 
     """
-    v1 = np.asarray(v1)
-    v2 = np.asarray(v2)
+    v1 = np.asarray(v1, dtype=np.float64)
+    v2 = np.asarray(v2, dtype=np.float64)
 
-    v1 = norm_vector(v1)
-    v2 = norm_vector(v2)
+    v1 = v1 / np.linalg.norm(v1)
+    v2 = v2 / np.linalg.norm(v2)
 
     angle = np.degrees(np.arccos(np.clip(np.dot(v1, v2), -1.0, 1.0)))
 
-    matD = np.array([v1, v2, direct])
-    detD = np.linalg.det(matD)
+    matrix = np.array([v1, v2, direct], dtype=np.float64)
+    det = np.float64(np.linalg.det(matrix))
 
-    if detD < 0:
+    if det < 0:
         angle = angle * -1
 
     return angle
@@ -102,24 +75,34 @@ def angle_btw_vectors(v1, v2):
 
     Parameters
     ----------
-    v1 : array
+    v1 : array_like
         Vector in 3D space.
-    v2 : array
+    v2 : array_like
         Vector in 3D space.
 
     Returns
     -------
-    angle : int or float
-        Angle between two vectors.
+    angle : float64
+        Angle between two vectors in degree unit.
+
+    Examples
+    --------
+    >>> vector1 = [-0.412697, -0.357008, -1.788172]
+    >>> vector2 = [-0.550839,  1.799178, -0.039114]
+
+    >>> angle = angle_btw_vectors(vector1, vector2)
+
+    >>> angle
+    95.62773246517462
 
     """
-    v1 = np.asarray(v1)
-    v2 = np.asarray(v2)
+    v1 = np.asarray(v1, dtype=np.float64)
+    v2 = np.asarray(v2, dtype=np.float64)
 
-    v1 = norm_vector(v1)
-    v2 = norm_vector(v2)
+    v1 = v1 / np.linalg.norm(v1)
+    v2 = v2 / np.linalg.norm(v2)
 
-    angle = np.degrees(np.arccos(np.clip(np.dot(v1, v2), -1.0, 1.0)))
+    angle = np.degrees(np.arccos(np.clip(np.dot(v1, v2), -1.0, 1.0)), dtype=np.float64)
 
     return angle
 
@@ -128,7 +111,9 @@ def angle_btw_planes(a1, b1, c1, a2, b2, c2):
     """
     Find the angle between 2 planes in 3D and return value in degree.
 
-    General equation of plane: a*X + b*Y + c*Z + d = 0
+    | General equation of plane:
+    |
+    | a*X + b*Y + c*Z + d = 0
 
     Parameters
     ----------
@@ -139,8 +124,23 @@ def angle_btw_planes(a1, b1, c1, a2, b2, c2):
 
     Returns
     -------
-    angle : int or float
-        Angle between 2 planes.
+    angle : float64
+        Angle between 2 planes in degree unit.
+
+    Examples
+    --------
+    >>> a1 = -3.231203733528
+    >>> b1 = -0.9688526458499996
+    >>> c1 = 0.9391692927779998
+
+    >>> a2 = 1.3904813057000005
+    >>> b2 = 3.928502357473003
+    >>> c2 = -4.924114034864001
+
+    >>> angle = angle_btw_planes(a1, b1, c1, a2, b2, c2)
+
+    >>> angle
+    124.89920902358416
 
     """
     d = (a1 * a2 + b1 * b2 + c1 * c2)
@@ -148,7 +148,7 @@ def angle_btw_planes(a1, b1, c1, a2, b2, c2):
     e2 = sqrt(a2 * a2 + b2 * b2 + c2 * c2)
     d = d / (e1 * e2)
 
-    angle = degrees(acos(d))
+    angle = np.float64(degrees(acos(d)))
 
     return angle
 
@@ -157,27 +157,40 @@ def triangle_area(a, b, c):
     """
     Calculate the area of the triangle using the cross product:
 
-           |  ab X ac |
-    Area = | -------- |
-           |    2     |
-
-    where ab = b - a and ac = c - a.
+    | Area = abs(ab X ac)/2
+    |
+    | where vector ab = b - a and vector ac = c - a.
 
     Parameters
     ----------
-    a : list or array
+    a : array_like
         3D Coordinate of point.
-    b : list or array
+    b : array_like
         3D Coordinate of point.
-    c : list or array
+    c : array_like
         3D Coordinate of point.
 
     Returns
     -------
-    area : int or float
+    area : float64
         The triangle area.
 
+    Examples
+    --------
+    >>> a = [2.298354000, 5.161785000, 7.971898000]
+    >>> b = [1.885657000, 4.804777000, 6.183726000]
+    >>> c = [1.747515000, 6.960963000, 7.932784000]
+
+    >>> area = triangle_area(a, b, c)
+
+    >>> area
+    1.7508135235821773
+
     """
+    a = np.asarray(a, dtype=np.float64)
+    b = np.asarray(b, dtype=np.float64)
+    c = np.asarray(c, dtype=np.float64)
+
     ab = b - a
     ac = c - a
     value = (pow(np.dot(ab[1], ac[2]) - np.dot(ab[2], ac[1]), 2) +
@@ -185,6 +198,6 @@ def triangle_area(a, b, c):
              pow(np.dot(ab[0], ac[1]) - np.dot(ab[1], ac[0]), 2)
              )
 
-    area = sqrt(value) / 2
+    area = np.float64(sqrt(value) / 2)
 
     return area

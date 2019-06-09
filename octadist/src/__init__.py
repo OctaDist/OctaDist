@@ -30,7 +30,7 @@ def echo_outs(self, text):
 
     Returns
     -------
-    None
+    None : None
 
     """
     self.box_result.insert(tk.INSERT, text + "\n")

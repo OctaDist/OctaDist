@@ -1,8 +1,8 @@
-=================
-octadist_gui.util
-=================
+=============
+octadist.util
+=============
 
-.. automodule:: octadist_gui.src.util
+.. automodule:: octadist.src.util
    :members:
    :undoc-members:
    :inherited-members:

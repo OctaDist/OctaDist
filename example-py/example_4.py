@@ -6,19 +6,20 @@ import octadist as oc
 
 file = r"../example-input/Multiple-metals.xyz"
 
-atom_full, coor_full = oc.coord.extract_file(file)
+atom_full, coor_full = oc.molecule.extract_coord(file)
 
 # If complex contains metal center more than one, you can specify the index metal
 # whose octahedral structure will be computed.
 # For example, this complex contains three metal atoms: Fe, Ru, and Rd.
 # I add "2" as a second argument for choosing Ru as metal of interest.
 
-atom, coord = oc.coord.extract_octa(atom_full, coor_full, 2)
+atom, coord = oc.molecule.extract_octa(atom_full, coor_full, 2)
 
-zeta = oc.calc.calc_zeta(coord)             # Zeta
-delta = oc.calc.calc_delta(coord)           # Delta
-sigma = oc.calc.calc_sigma(coord)           # Sigma
-theta = oc.calc.calc_theta(coord)           # Theta
+dist = oc.CalcDistortion(coord)
+zeta = dist.zeta             # Zeta
+delta = dist.delta           # Delta
+sigma = dist.sigma           # Sigma
+theta = dist.theta           # Theta
 
 print("\nAll computed parameters")
 print("-----------------------")

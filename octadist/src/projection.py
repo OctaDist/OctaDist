@@ -21,25 +21,40 @@ def project_atom_onto_line(p, a, b):
     """
     Find the point projection on the line, which defined by two distinct end points.
 
-    a <----> b
-
-    P(x) = x1 + (p - x1).(x2 - x1)/(x2-x1).(x2-x1) * (x2-x1)
+    | a <----> b
+    |
+    | P(x) = x1 + (p - x1).(x2 - x1)/(x2-x1).(x2-x1) * (x2-x1)
 
     Parameters
     ----------
-    p : list or array
+    p : array_like
         Coordinate of point to project.
-    a : list or array
+    a : array_like
         Coordinate of head atom of the line.
-    b : list or array
+    b : array_like
         Coordinate of tail atom of the line.
 
     Returns
     -------
-    projected_point : list or array
+    projected_point : ndarray
         The projected point on the orthogonal line.
 
+    Examples
+    --------
+    >>> p = [10.1873, 5.7463, 5.615]
+    >>> a = [8.494, 5.9735, 4.8091]
+    >>> b = [9.6526, 6.4229, 7.3079]
+
+    >>> proj = project_atom_onto_line(p, a, b)
+
+    >>> proj
+    [9.07023235 6.19701012 6.05188388]
+
     """
+    p = np.asarray(p, dtype=np.float64)
+    a = np.asarray(a, dtype=np.float64)
+    b = np.asarray(b, dtype=np.float64)
+
     ap = p - a
     ab = b - a
 
@@ -54,14 +69,14 @@ def project_atom_onto_plane(p, a, b, c, d):
     The equation of plane is Ax + By + Cz = D and point is (L, M, N),
     then the location on the plane that is closest to the point (P, Q, R) is
 
-    (P, Q, R) = (L, M, N) + λ * (A, B, C)
-
-    where λ = (D - ( A*L + B*M + C*N)) / (A^2 + B^2 + C^2).
+    | (P, Q, R) = (L, M, N) + λ * (A, B, C)
+    |
+    | where λ = (D - ( A*L + B*M + C*N)) / (A^2 + B^2 + C^2).
 
     Parameters
     ----------
-    p : array
-        Point to project
+    p : array_like
+        Point to project.
     a : int or float
         Coefficient of the equation of the plane.
     b : int or float
@@ -73,12 +88,28 @@ def project_atom_onto_plane(p, a, b, c, d):
 
     Returns
     -------
-    projected_point: array
+    projected_point: ndarray
         The projected point on the orthogonal plane.
 
+    Examples
+    --------
+    >>> p = [10.1873, 5.7463, 5.615]
+    >>> a = -3.231203733528
+    >>> b = -0.9688526458499996
+    >>> c = 0.9391692927779998
+    >>> d = -4.940497273569501
+
+    >>> proj = project_atom_onto_plane(p, a, b, c, d)
+
+    >>> proj
+    [2.73723598 3.51245316 7.78040705]
+
     """
-    plane = np.array([a, b, c])
+    p = np.asarray(p, dtype=np.float64)
+    plane = np.array([a, b, c], dtype=np.float64)
+
     lambda_plane = (d - (a * p[0] + b * p[1] + c * p[2])) / np.dot(plane, plane)
+
     projected_point = p + lambda_plane * plane
 
     return projected_point

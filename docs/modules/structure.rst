@@ -1,8 +1,8 @@
 ==================
-octadist_gui.coord
+octadist.structure
 ==================
 
-.. automodule:: octadist_gui.src.coord
+.. automodule:: octadist.src.structure
    :members:
    :undoc-members:
    :inherited-members:

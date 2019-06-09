@@ -11,13 +11,14 @@ file = r"../example-input/Multiple-metals.xyz"
 # Then use coord.extract_file to extract all atomic symbols and coordinates,
 # and then use coord.extract_octa for taking the octahedral structure.
 
-atom_full, coord_full = oc.coord.extract_file(file)
-atom, coord = oc.coord.extract_octa(atom_full, coord_full)
+atom_full, coord_full = oc.molecule.extract_coord(file)
+atom, coord = oc.molecule.extract_octa(atom_full, coord_full)
 
-zeta = oc.calc.calc_zeta(coord)             # Zeta
-delta = oc.calc.calc_delta(coord)           # Delta
-sigma = oc.calc.calc_sigma(coord)           # Sigma
-theta = oc.calc.calc_theta(coord)           # Theta
+dist = oc.CalcDistortion(coord)
+zeta = dist.zeta             # Zeta
+delta = dist.delta           # Delta
+sigma = dist.sigma           # Sigma
+theta = dist.theta           # Theta
 
 print("\nAll computed parameters")
 print("-----------------------")

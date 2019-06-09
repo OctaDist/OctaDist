@@ -6,7 +6,7 @@ import octadist as oc
 
 atom = ['O', 'O', 'Fe', 'N', 'N', 'N', 'N']
 
-coord = [[1.885657000, 4.804777000, 6.183726000],
+coor = [[1.885657000, 4.804777000, 6.183726000],
          [1.747515000, 6.960963000, 7.932784000],
          [2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
          [4.094380000, 5.807257000, 7.588689000],
@@ -17,12 +17,13 @@ coord = [[1.885657000, 4.804777000, 6.183726000],
 # If the first atom is not metal atom, you can rearrange the sequence
 # of atom in list using coord.extract_octa method.
 
-atom, coord = oc.coord.extract_octa(atom, coord)
+atom_octa, coord_octa = oc.molecule.extract_octa(atom, coor)
 
-zeta = oc.calc.calc_zeta(coord)             # Zeta
-delta = oc.calc.calc_delta(coord)           # Delta
-sigma = oc.calc.calc_sigma(coord)           # Sigma
-theta = oc.calc.calc_theta(coord)           # Theta
+dist = oc.CalcDistortion(coord_octa)
+zeta = dist.zeta             # Zeta
+delta = dist.delta           # Delta
+sigma = dist.sigma           # Sigma
+theta = dist.theta           # Theta
 
 print("\nAll computed parameters")
 print("-----------------------")
