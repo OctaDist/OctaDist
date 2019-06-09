@@ -25,13 +25,27 @@ https://octadist.github.io/
    <img alt="molecule" src="https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/molecule.png" align=middle width="200pt" />
 <p/>
 
+
+## Standard abilities
+
+OctaDist is computer software for inorganic chemistry and crystallography program.
+OctaDist can be used for studying the structural distortion in coordination complexes.
+With the abilities of OctaDist, you can:
+
+- analyze the structure of octahedral coordination complexes.
+- compute the octahedral distortion parameters.
+- explore tilting distortion in perovskite and metal-organic framework.
+- display 3D molecule and other graphical analysis.
+- upgrade your and other program with OctaDist abilities.
+
+
 ## Development and Release
 
-OctaDist is written entirely in Python 3 binding to Tkinter toolkit (GUI version). 
-It is cross-platform program and works on multiple operating systems. 
-The stable version and development build of OctaDist is [here][release-link].
-OctaDist is available for both graphical user interface (GUI) and 
-command line interface (CLI), for following platform:
+OctaDist is written entirely in Python 3 binding to Tkinter GUI toolkit. 
+It is cross-platform program which can work on multiple operating systems. 
+The stable version and development build of OctaDist are released at [here][release-link].
+A standalone executable for graphical user interface (GUI) and 
+source code for command line interface (CLI) are available for as follows:
 
 [release-link]: https://github.com/OctaDist/OctaDist/releases
 
@@ -67,6 +81,112 @@ Reference manual : [HTML][GUI-HTML-Link] / [PDF][GUI-PDF-Link] / [Epub][GUI-Epub
 [GUI-PDF-Link]: https://readthedocs.org/projects/octadist/downloads/pdf/latest/
 [GUI-Epub-Link]: https://readthedocs.org/projects/octadist/downloads/epub/latest/
 
+
+## Installing
+
+### GUI
+
+Download a standalone executable to your system and just run it!
+
+<p align="center">
+   <img alt="molecule" 
+   src="https://raw.githubusercontent.com/OctaDist/OctaDist/nightly-build/images/OctaDist-2.5.4.png" 
+   align=middle width="300pt" />
+<p/>
+
+### CLI
+
+The easiest way to install OctaDist is to use `pip`.
+
+```sh
+pip install octadist
+```
+
+or use `conda` for those who have Anaconda installed on your system.
+
+```sh
+conda install -c rangsiman octadist
+```
+
+To execute OctaDist package, use the following command:
+
+```sh
+python -m octadist.Run
+```
+
+*Note that you have to stay at the top-level directory (outside octadist)*.
+
+
+## Running the tests
+
+### Example 1
+
+```python
+import octadist as oc
+
+# Prepare list of atomic coordinates of octahedral structure:
+
+atom = ['Fe', 'O', 'O', 'N', 'N', 'N', 'N']
+
+coord = [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
+         [1.885657000, 4.804777000, 6.183726000],
+         [1.747515000, 6.960963000, 7.932784000],
+         [4.094380000, 5.807257000, 7.588689000],
+         [0.539005000, 4.482809000, 8.460004000],
+         [2.812425000, 3.266553000, 8.131637000],
+         [2.886404000, 5.392925000, 9.848966000]]
+
+dist = oc.CalcDistortion(coord)
+zeta = dist.zeta             # Zeta
+delta = dist.delta           # Delta
+sigma = dist.sigma           # Sigma
+theta = dist.theta           # Theta
+```
+
+Example of output for computed parameters:
+
+```shell
+Computed parameters
+-------------------
+Zeta  = 0.228072561
+Delta = 0.000476251
+Sigma = 47.92652837
+Theta = 122.6889727
+```
+
+### Example 2
+
+OctaDist can display the 3D structure of molecule.
+
+```python
+import octadist as oc
+
+file = r"../example-input/Multiple-metals.xyz"
+
+atom_full, coord_full = oc.molecule.extract_coord(file)
+
+my_plot = oc.draw.DrawComplex(atom=atom_full, coord=coord_full)
+my_plot.add_atom()
+my_plot.add_bond()
+my_plot.add_legend()
+my_plot.save_img()
+my_plot.show_plot()
+
+# Figure will be saved as Complex_saved_by_OctaDist.png by default.
+```
+
+<p align="center">
+   <img alt="molecule" 
+   src="https://raw.githubusercontent.com/OctaDist/OctaDist/nightly-build/example-py/Complex_saved_by_OctaDist.png" 
+   align=middle width="350pt" />
+<p/>
+
+
+Other example scripts and octahedral complexes are available at 
+[example-py](https://github.com/OctaDist/OctaDist-PyPI/tree/master/example-py) and 
+[example-input](https://github.com/OctaDist/OctaDist-PyPI/tree/master/example-input).
+
+
 ## Citation
 
 Please cite this project when you use OctaDist for scientific publication.
@@ -76,11 +196,13 @@ OctaDist - A tool for calculating distortion parameters in coordination complexe
 https://octadist.github.io
 ```
 
+
 ## Bug report
 
 If you found issues in OctaDist, please report it to us at [here][submit-issues].
 
 [submit-issues]: https://github.com/OctaDist/OctaDist/issues
+
 
 ## Project team
 
