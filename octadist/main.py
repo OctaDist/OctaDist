@@ -594,7 +594,7 @@ class OctaDist:
         for i in range(len(self.comp_result)):
             echo_outs(self, "{0:2d} - {1} : {2:9.4f}  {3:9.6f}  {4:9.6f}  {5:9.4f}  {6:9.4f}"
                       .format(self.file_index[i][0],
-                              self.file_index[i][0],
+                              self.file_index[i][1],
                               self.comp_result[i][0],
                               self.comp_result[i][1],
                               self.comp_result[i][2],
