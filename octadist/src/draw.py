@@ -158,13 +158,13 @@ class DrawComplex:
         """
         Add atoms legend to show in figure.
 
-        Notes
-        -----
-        Remove duplicate labels in legend.
-        Ref.https://stackoverflow.com/a/26550501/6596684
+        References
+        ----------
+        1. Remove duplicate labels in legend.
+            Ref: https://stackoverflow.com/a/26550501/6596684.
 
-        Fix size of point in legend.
-        Ref. https://stackoverflow.com/a/24707567/6596684
+        2. Fix size of point in legend.
+            Ref: https://stackoverflow.com/a/24707567/6596684.
 
         """
         # remove duplicate labels
