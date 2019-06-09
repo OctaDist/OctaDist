@@ -93,7 +93,7 @@ Download a standalone executable to your system and just run it!
 <p align="center">
    <img alt="molecule" 
    src="https://raw.githubusercontent.com/OctaDist/OctaDist/nightly-build/images/OctaDist-2.5.4.png" 
-   align=middle width="300pt" />
+   align=middle width="400pt" />
 <p/>
 
 ### CLI
