@@ -55,8 +55,11 @@ def err_less_ligands():
     Show this error popup when the complex has ligand atoms less that six.
 
     """
-    showerror("Error", "Number of ligand atoms in the complex is less than six. "
-                       "Please check the metal-ligand bond cutoff if the value is set properly.")
+    showerror("Error", "Number of ligand atoms around metal atom is less than six.\n\n"
+                       "This will happen, for example, in case some ligand atoms "
+                       "are so far away from metal atom.\n\n"
+                       "We suggest you check both of your complex and check if "
+                       "the metal-ligand bond cutoff is set properly.")
 
 
 def err_no_metal():
