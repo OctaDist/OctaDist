@@ -34,19 +34,20 @@ __github__ = "https://github.com/OctaDist/OctaDist"
 
 __all__ = \
     ['Run',
+     'calc',
+     'draw',
+     'elements',
+     'linear',
+     'molecule',
+     'plane',
+     'plot',
+     'popup',
+     'projection',
+     'structure',
+     'tools',
+     'util',
+     # -----------------------
      'CalcDistortion',
-     'count_line',
-     'count_metal',
-     'check_xyz_file',
-     'check_gaussian_file',
-     'check_nwchem_file',
-     'check_orca_file',
-     'check_qchem_file',
-     'get_coord_xyz',
-     'get_coord_gaussian',
-     'get_coord_nwchem',
-     'get_coord_orca',
-     'get_coord_qchem',
      'DrawComplex',
      'DrawProjection',
      'DrawTwistingPlane',
@@ -57,6 +58,20 @@ __all__ = \
      'angle_btw_vectors',
      'angle_btw_planes',
      'triangle_area',
+     'count_line',
+     'extract_coord',
+     'find_metal',
+     'extract_octa',
+     'check_xyz_file',
+     'check_gaussian_file',
+     'check_nwchem_file',
+     'check_orca_file',
+     'check_qchem_file',
+     'get_coord_xyz',
+     'get_coord_gaussian',
+     'get_coord_nwchem',
+     'get_coord_orca',
+     'get_coord_qchem',
      'find_eq_of_plane',
      'Plot',
      'project_atom_onto_line',
@@ -73,27 +88,29 @@ __all__ = \
      ]
 
 
-# Bring sub-modules and methods to top-level directory
+# Bring sub-modules to top-level directory
 
 from octadist import src
 from octadist import Run
 
 from .src import __src__
 
-from .src.calc import CalcDistortion
+from .src import calc
+from .src import draw
+from .src import elements
+from .src import linear
+from .src import molecule
+from .src import plane
+from .src import plot
+from .src import popup
+from .src import projection
+from .src import structure
+from .src import tools
+from .src import util
 
-from .src.coord import count_line
-from .src.coord import count_metal
-from .src.coord import check_xyz_file
-from .src.coord import check_gaussian_file
-from .src.coord import check_nwchem_file
-from .src.coord import check_orca_file
-from .src.coord import check_qchem_file
-from .src.coord import get_coord_xyz
-from .src.coord import get_coord_gaussian
-from .src.coord import get_coord_nwchem
-from .src.coord import get_coord_orca
-from .src.coord import get_coord_qchem
+# Bring function and methods to top-level directory
+
+from .src.calc import CalcDistortion
 
 from .src.draw import DrawComplex
 from .src.draw import DrawProjection
@@ -107,6 +124,21 @@ from .src.linear import angle_sign
 from .src.linear import angle_btw_vectors
 from .src.linear import angle_btw_planes
 from .src.linear import triangle_area
+
+from .src.molecule import count_line
+from .src.molecule import extract_coord
+from .src.molecule import find_metal
+from .src.molecule import extract_octa
+from .src.molecule import check_xyz_file
+from .src.molecule import check_gaussian_file
+from .src.molecule import check_nwchem_file
+from .src.molecule import check_orca_file
+from .src.molecule import check_qchem_file
+from .src.molecule import get_coord_xyz
+from .src.molecule import get_coord_gaussian
+from .src.molecule import get_coord_nwchem
+from .src.molecule import get_coord_orca
+from .src.molecule import get_coord_qchem
 
 from .src.plane import find_eq_of_plane
 

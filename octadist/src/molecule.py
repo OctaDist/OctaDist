@@ -139,7 +139,7 @@ def extract_coord(file=None):
         return atom, coord
 
 
-def count_metal(atom=None, coord=None):
+def find_metal(atom=None, coord=None):
     """
     Count the number of metal center atom in complex.
 
@@ -152,11 +152,11 @@ def count_metal(atom=None, coord=None):
 
     Returns
     -------
-    count : int
+    total_metal : int
         The total number of metal center atom.
     atom_metal : list
         Atomic labels of metal center atom.
-    coord_metal : list
+    coord_metal : ndarray
         Atomic coordinates of metal center atom.
 
     Examples
@@ -171,9 +171,9 @@ def count_metal(atom=None, coord=None):
                  [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
                  [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
 
-    >>> count, atom_metal, coord_metal = count_metal(atom, coord)
+    >>> total_metal, atom_metal, coord_metal = find_metal(atom, coord)
 
-    >>> count
+    >>> total_metal
     1
 
     >>> atom_metal
@@ -184,9 +184,9 @@ def count_metal(atom=None, coord=None):
 
     """
     if atom is None or coord is None:
-        raise TypeError("count_metal needs two arguments: atom, coord")
+        raise TypeError("find_metal needs two arguments: atom, coord")
 
-    count = 0
+    total_metal = 0
     atom_metal = []
     coord_metal = []
 
@@ -198,16 +198,16 @@ def count_metal(atom=None, coord=None):
                 57 <= number <= 80 or \
                 89 <= number <= 109:
 
-            count += 1
+            total_metal += 1
             atom_metal.append(atom[i])
             coord_metal.append(coord[i])
 
     coord_metal = np.asarray(coord_metal, dtype=np.float64)
 
-    return count, atom_metal, coord_metal
+    return total_metal, atom_metal, coord_metal
 
 
-def extract_octa(atom=None, coord=None, coord_metal=None, cutoff_metal_ligand=2.8):
+def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
     """
     Search the octahedral structure in complex and return atoms and coordinates.
 
@@ -217,8 +217,10 @@ def extract_octa(atom=None, coord=None, coord_metal=None, cutoff_metal_ligand=2.
         Full atomic labels of complex.
     coord : array_like
         Full atomic coordinates of complex.
-    coord_metal : array_like
-        Atomic coordinate of metal center.
+    metal : int
+        Number of metal atom that will be taken as center atom for
+        finding atomic coordinates of octahedral structure of interest.
+        Default value is 1.
     cutoff_metal_ligand : float, optional
         Cutoff distance for screening metal-ligand bond.
         Default value is 2.8.
@@ -242,10 +244,7 @@ def extract_octa(atom=None, coord=None, coord_metal=None, cutoff_metal_ligand=2.
                  [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
                  [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
 
-    >>> coord_metal
-    [[-1.95348286  4.51770478 14.78558113]]
-
-    >>> atom_octa, coord_octa = extract_octa(atom, coord, coord_metal)
+    >>> atom_octa, coord_octa = extract_octa(atom, coord)
 
     >>> atom_octa
     ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
@@ -260,12 +259,24 @@ def extract_octa(atom=None, coord=None, coord_metal=None, cutoff_metal_ligand=2.
      [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
 
     """
-    if atom is None or coord is None or coord_metal is None:
-        raise TypeError("count_metal needs three arguments: atom, coord, coord_metal")
+    if atom is None or coord is None:
+        raise TypeError("find_metal needs two arguments: atom and coord")
 
+    # Count the number of metal center atom
+    total_metal, atom_metal, coord_metal = find_metal(atom, coord)
+
+    if metal <= 0:
+        raise ValueError("index of metal must be positive integer")
+
+    elif metal > total_metal:
+        raise ValueError("user-defined index of metal is greater than "
+                         "the total metal in complex.")
+
+    metal_index = metal - 1
     dist_list = []
+
     for i in range(len(list(atom))):
-        dist = distance.euclidean(coord_metal, coord[i])
+        dist = distance.euclidean(coord_metal[metal_index], coord[i])
         if dist <= cutoff_metal_ligand:
             dist_list.append([atom[i], coord[i], dist])
 
