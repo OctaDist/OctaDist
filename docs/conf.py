@@ -28,7 +28,7 @@ author = 'Rangsiman Ketkaew'
 # The short X.Y version
 version = '2.5.4'
 # The full version, including alpha/beta/rc tags
-release = '2.5.4.dev'
+release = '2.5.4'
 
 # autodoc_mock_imports = ['_tkinter']
 
