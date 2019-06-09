@@ -90,7 +90,7 @@ Download a standalone executable to your system and just run it!
 
 <p align="center">
    <img alt="molecule" 
-   src="https://raw.githubusercontent.com/OctaDist/OctaDist/nightly-build/images/OctaDist-2.5.4.png" 
+   src="https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/OctaDist-2.5.4.png" 
    align=middle width="300pt" />
 <p/>
 
@@ -177,7 +177,7 @@ my_plot.show_plot()
 
 <p align="center">
    <img alt="molecule" 
-   src="https://raw.githubusercontent.com/OctaDist/OctaDist/nightly-build/example-py/Complex_saved_by_OctaDist.png" 
+   src="https://raw.githubusercontent.com/OctaDist/OctaDist/master/example-py/Complex_saved_by_OctaDist.png" 
    align=middle width="350pt" />
 <p/>
 
