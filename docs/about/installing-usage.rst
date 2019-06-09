@@ -86,7 +86,7 @@ Installing and running the program on Mac are the same as Linux.
 PyPI
 ----
 
-OctaDist CLI version is also available on Python package index library, 
+OctaDist is also available on Python package index library,
 which can be found at https://pypi.org/project/octadist.
 
 The end-user can use `pip`, a Python package-management system, 
