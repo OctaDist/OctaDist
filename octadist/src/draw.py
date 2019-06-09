@@ -230,7 +230,12 @@ class DrawComplex:
         if not self.show_grid:
             self.ax.grid(False)
 
-    def show_plot(self):
+    @staticmethod
+    def save_img(save="Complex_saved_by_OctaDist", file="png"):
+        plt.savefig(f"{save}.{file}")
+
+    @staticmethod
+    def show_plot():
         """
         Show plot.
 
