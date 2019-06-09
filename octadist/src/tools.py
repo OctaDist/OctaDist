@@ -621,24 +621,3 @@ class CalcRMSD:
 
         self.rmsd_rotate = rmsd.rmsd(self.coord_1, self.coord_2)
 
-    def get_rmsd_normal(self):
-        """
-        Get normal RMSD.
-
-        """
-        return self.rmsd_normal
-
-    def get_rmsd_translate(self):
-        """
-        Get translate RMSD.
-
-        """
-        return self.rmsd_translate
-
-    def get_rmsd_rotate(self):
-        """
-        Get rotate RMSD.
-
-        """
-        return self.rmsd_rotate
-
