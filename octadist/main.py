@@ -14,6 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+import base64
+import os
 import platform
 import subprocess
 import tkinter as tk
@@ -22,12 +24,13 @@ import webbrowser
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter import ttk
-from tkinter.messagebox import showinfo, showerror, showwarning
+from tkinter.messagebox import showinfo
 from urllib.request import urlopen
 
 import numpy as np
 
 import octadist
+from octadist.logo import Icon_Base64
 from octadist.src import (
     echo_outs, calc, molecule, draw, plot, popup, structure, tools
 )
@@ -74,6 +77,8 @@ class OctaDist:
         self.all_theta = []  # Theta of all octahedral structures.
         self.comp_result = []  # Distortion parameters.
 
+        self.octadist_icon = ""
+
         # Default cutoff values
         self.cutoff_metal_ligand = 2.8
         self.cutoff_global = 2.0
@@ -88,14 +93,28 @@ class OctaDist:
         self.show_grid = True
 
         # Create master frame, sub-frames, add menu, and add widgets
+        self.create_logo()
         self.start_master()
         self.add_menu()
         self.add_widgets()
         self.welcome_msg()
         self.backup_var()
 
+    def create_logo(self):
+        """
+        Create icon file from Base64 raw code.
+
+        """
+        icon_data = base64.b64decode(Icon_Base64.icon_base64)
+        temp_file = "icon.ico"
+        save_path = os.path.expanduser("~/AppData/Local/Temp")
+        self.octadist_icon = os.path.join(save_path, temp_file)
+        icon_file = open(self.octadist_icon, "wb")
+        icon_file.write(icon_data)
+        icon_file.close()
+
     def start_master(self):
-        self.master.wm_iconbitmap(rf"{octadist.__path__[0]}\logo\molecule.ico")
+        self.master.wm_iconbitmap(self.octadist_icon)
         self.master.title(f"OctaDist {octadist.__version__}")
         font = "Arial 10"
         self.master.option_add("*Font", font)
@@ -736,7 +755,7 @@ class OctaDist:
         ###################
 
         wd = tk.Toplevel(self.master)
-        wd.wm_iconbitmap(rf"{octadist.__path__[0]}\logo\molecule.ico")
+        wd.wm_iconbitmap(self.octadist_icon)
         wd.title("Program settings")
         wd.option_add("*Font", "Arial 10")
 
@@ -1113,7 +1132,7 @@ class OctaDist:
 
         """
         wd = tk.Toplevel(self.master)
-        wd.wm_iconbitmap(rf"{octadist.__path__[0]}\logo\molecule.ico")
+        wd.wm_iconbitmap(self.octadist_icon)
         wd.title("Run Scripting")
         wd.bind('<Return>', self.script_run)
 
@@ -1306,7 +1325,7 @@ class OctaDist:
             popup.err_no_file()
             return 1
 
-        my_app = structure.DataComplex(master=self.master)
+        my_app = structure.DataComplex(master=self.master, icon=self.octadist_icon)
 
         for i in range(len(self.file_list)):
             atom = self.atom_coord_full[i][0]
@@ -1323,7 +1342,7 @@ class OctaDist:
             popup.err_no_file()
             return 1
 
-        my_app = structure.StructParam(master=self.master)
+        my_app = structure.StructParam(master=self.master, icon=self.octadist_icon)
 
         for i in range(len(self.atom_coord_octa)):
             metal = self.octa_index[i]
@@ -1340,7 +1359,7 @@ class OctaDist:
             popup.err_no_file()
             return 1
 
-        my_app = structure.SurfaceArea(master=self.master)
+        my_app = structure.SurfaceArea(master=self.master, icon=self.octadist_icon)
 
         for i in range(len(self.atom_coord_octa)):
             metal = self.octa_index[i]
@@ -1404,7 +1423,8 @@ class OctaDist:
                                       coord=coord_full,
                                       cutoff_global=self.cutoff_global,
                                       cutoff_hydrogen=self.cutoff_hydrogen,
-                                      master=self.master)
+                                      master=self.master,
+                                      icon=self.octadist_icon)
         run_jt.start_app()
         run_jt.create_widget()
         run_jt.find_bond()
@@ -1540,7 +1560,7 @@ class OctaDist:
 
         """
         wd = tk.Toplevel(self.master)
-        wd.wm_iconbitmap(rf"{octadist.__path__[0]}\logo\molecule.ico")
+        wd.wm_iconbitmap(self.octadist_icon)
         wd.title("Program Help")
         wd.geometry("550x600")
         wd.option_add("*Font", "Arial 10")
@@ -1697,6 +1717,9 @@ def main():
     root = tk.Tk()
     app = OctaDist(root)
     root.mainloop()
+
+    # Delete icon after closing app
+    os.remove(app.octadist_icon)
 
 
 if __name__ == '__main__':

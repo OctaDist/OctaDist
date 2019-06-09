@@ -29,9 +29,13 @@ class DataComplex:
 
     Parameters
     ----------
-    master : None, object
+    master : object, optional
         If None, use tk.Tk().
         If not None, use tk.Toplevel(master).
+
+    icon : str, optional
+        If None, use tkinter default icon.
+        If not None, use user-defined icon.
 
     Examples
     --------
@@ -49,11 +53,13 @@ class DataComplex:
     >>> my_app.add_coord(atom, coord)
 
     """
-    def __init__(self, master=None):
+    def __init__(self, master=None, icon=None):
         if master is None:
             self.wd = tk.Tk()
         else:
             self.wd = tk.Toplevel(master)
+
+        self.icon = icon
 
         self.start_app()
 
@@ -62,7 +68,8 @@ class DataComplex:
         Start application.
 
         """
-        self.wd.wm_iconbitmap(rf"{octadist.__path__[0]}\logo\molecule.ico")
+        if self.icon is not None:
+            self.wd.wm_iconbitmap(self.icon)
         self.wd.title("Complex info")
         self.wd.geometry("550x500")
         self.wd.option_add("*Font", "Arial 10")
@@ -118,9 +125,13 @@ class StructParam:
 
     Parameters
     ----------
-    master : None, object
+    master : object, optional
         If None, use tk.Tk().
         If not None, use tk.Toplevel(master).
+
+    icon : str, optional
+        If None, use tkinter default icon.
+        If not None, use user-defined icon.
 
     Examples
     --------
@@ -138,11 +149,13 @@ class StructParam:
     >>> my_app.add_coord(atom, coord)
 
     """
-    def __init__(self, master=None):
+    def __init__(self, master=None, icon=None):
         if master is None:
             self.wd = tk.Tk()
         else:
             self.wd = tk.Toplevel(master)
+
+        self.icon = icon
 
         self.start_app()
 
@@ -151,7 +164,8 @@ class StructParam:
         Start application.
 
         """
-        self.wd.wm_iconbitmap(rf"{octadist.__path__[0]}\logo\molecule.ico")
+        if self.icon is not None:
+            self.wd.wm_iconbitmap(self.icon)
         self.wd.title("Results")
         self.wd.geometry("380x530")
         self.wd.option_add("*Font", "Arial 10")
@@ -243,11 +257,15 @@ class SurfaceArea:
 
     Parameters
     ----------
-    master : None, object
+    master : object, optional
         If None, use tk.Tk().
         If not None, use tk.Toplevel(master).
 
-        Examples
+    icon : str, optional
+        If None, use tkinter default icon.
+        If not None, use user-defined icon.
+
+    Examples
     --------
     >>> coord = [[2.298354000, 5.161785000, 7.971898000],
                  [1.885657000, 4.804777000, 6.183726000],
@@ -257,15 +275,17 @@ class SurfaceArea:
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
 
-    >>> my_app = SurfaceArea(master=self.master)
+    >>> my_app = SurfaceArea()
     >>> my_app.add_coord(coord)
 
     """
-    def __init__(self, master=None):
+    def __init__(self, master=None, icon=None):
         if master is None:
             self.wd = tk.Tk()
         else:
             self.wd = tk.Toplevel(master)
+
+        self.icon = icon
 
         self.start_app()
 
@@ -274,7 +294,8 @@ class SurfaceArea:
         Start application.
 
         """
-        self.wd.wm_iconbitmap(rf"{octadist.__path__[0]}\logo\molecule.ico")
+        if self.icon is not None:
+            self.wd.wm_iconbitmap(self.icon)
         self.wd.title("The area of triangular face")
         self.wd.geometry("380x500")
         self.wd.option_add("*Font", "Arial 10")

@@ -90,6 +90,9 @@ __all__ = \
 
 # Bring sub-modules to top-level directory
 
+from octadist import logo
+from .logo import Icon_Base64
+
 from octadist import src
 
 from .src import __src__

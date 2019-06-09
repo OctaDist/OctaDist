@@ -47,6 +47,9 @@ class CalcJahnTeller:
     cutoff_hydrogen : int or float
         Cutoff for screening hydrogen bonds.
         Default value is 1.2.
+    icon : str, optional
+        If None, use tkinter default icon.
+        If not None, use user-defined icon.
 
     Examples
     --------
@@ -67,7 +70,7 @@ class CalcJahnTeller:
     >>> test.show_app()
 
     """
-    def __init__(self, atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2, master=None):
+    def __init__(self, atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2, master=None, icon=None):
         self.atom = atom
         self.coord = coord
         self.cutoff_global = cutoff_global
@@ -78,6 +81,8 @@ class CalcJahnTeller:
         else:
             self.wd = tk.Toplevel(master)
 
+        self.icon = icon
+
         self.bond_list = []
         self.coord_A = []
         self.coord_B = []
@@ -87,7 +92,8 @@ class CalcJahnTeller:
         Start application.
 
         """
-        self.wd.wm_iconbitmap(rf"{octadist.__path__[0]}\logo\molecule.ico")
+        if self.icon is not None:
+            self.wd.wm_iconbitmap(self.icon)
         self.wd.title("Calculate Jahn-Teller distortion parameter")
         self.wd.geometry("630x550")
 
