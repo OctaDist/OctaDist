@@ -36,10 +36,10 @@ def err_invalid_ftype(ftype):
 
     """
     showerror("Error", f"Invalid {ftype} file format.\n\n"
-                       "The complex must have at least 1 metal atom and 6 ligand atoms.")
+    "The complex must have at least 1 metal atom and 6 ligand atoms.")
 
 
-def err_no_coord():
+def err_no_coord(i):
     """
     Show this error popup when the program cannot read the atomic coordinates of complex
     inside the file or cannot extract the coordinates from the complex.
@@ -47,19 +47,18 @@ def err_no_coord():
     This will happen only if the input has no the proper format of atomic coordinates.
 
     """
-    showerror("Error", "No coordinate of a molecule. Please make sure the input file format is correct.")
+    showerror("Error", f"File no. {i} has no atomic coordinates.\n\n"
+                        "Please make sure the input file format is correct.")
 
 
-def err_less_ligands():
+def err_less_ligands(i):
     """
     Show this error popup when the complex has ligand atoms less that six.
 
     """
-    showerror("Error", "Number of ligand atoms around metal atom is less than six.\n\n"
-                       "This will happen, for example, in case some ligand atoms "
-                       "are so far away from metal atom.\n\n"
-                       "We suggest you check both of your complex and check if "
-                       "the metal-ligand bond cutoff is set properly.")
+    showerror("Error", f"File no. {i} has ligand atoms less than six atoms.\n\n"
+                        "Please check if some ligand atoms are so far away from metal atom,"
+                        "or check if the metal-ligand bond cutoff is set properly.")
 
 
 def err_no_metal():

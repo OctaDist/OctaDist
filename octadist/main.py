@@ -58,22 +58,22 @@ class OctaDist:
         Master frame of program GUI.
 
     """
+
     def __init__(self, master):
         self.master = master
 
         # Initialize parameters
-        self.file_list = []         # Full path of input files.
-        self.file_name = []         # File name.
-        self.file_index = []        # File number.
-        self.total_metal = []       # Total number of metals.
-        self.atom_coord_full = []   # Coordinates of metal complex.
-        self.atom_coord_octa = []   # Coordinates of octahedral structures.
-        self.all_zeta = []          # Zeta of all octahedral structures.
-        self.all_delta = []         # Delta of all octahedral structures.
-        self.all_sigma = []         # Sigma of all octahedral structures.
-        self.all_theta = []         # Theta of all octahedral structures.
-        self.comp_result = []       # Distortion parameters.
-        self.has_metal = True       # If structure is octahedron or not.
+        self.file_list = []  # Full path of input files.
+        self.file_name = []  # File name.
+        self.octa_index = []  # Octahedral structure index.
+        self.atom_coord_full = []  # Coordinates of metal complex.
+        self.atom_coord_octa = []  # Coordinates of octahedral structures.
+        self.all_zeta = []  # Zeta of all octahedral structures.
+        self.all_delta = []  # Delta of all octahedral structures.
+        self.all_sigma = []  # Sigma of all octahedral structures.
+        self.all_theta = []  # Theta of all octahedral structures.
+        self.comp_result = []  # Distortion parameters.
+        self.has_metal = True  # If structure is octahedron or not.
 
         # Default cutoff values
         self.cutoff_metal_ligand = 2.8
@@ -365,7 +365,6 @@ class OctaDist:
 
         self.file_list = list(input_file)
 
-        # Automatically find find data
         self.search_coord()
 
     def search_coord(self):
@@ -380,11 +379,11 @@ class OctaDist:
 
         for i in range(len(self.file_list)):
 
+            file_name = self.file_list[i].split('/')[-1]
+
             ########################################
             # Extract atomic coordinates from file #
             ########################################
-
-            file_name = self.file_list[i].split('/')[-1]
 
             atom_full, coord_full = coord.extract_coord(self.file_list[i])
             self.atom_coord_full.append([atom_full, coord_full])
@@ -398,7 +397,6 @@ class OctaDist:
             #################################################
 
             count, atom_metal, coord_metal = coord.count_metal(atom_full, coord_full)
-            self.total_metal.append(count)
 
             if count == 0:
                 popup.warn_no_metal()
@@ -413,42 +411,58 @@ class OctaDist:
 
                 # If no atomic coordinates inside, it will raise error
                 if np.any(coord_octa) == 0:
-                    popup.err_no_coord()
+                    popup.err_no_coord(i + 1)
                     continue
 
                 if len(coord_octa) < 7:
                     self.clear_result_box()
-                    popup.err_less_ligands()
+                    popup.err_less_ligands(i + 1)
                     continue
 
-                # Gather octahedral structure into atom_coord_octa
-                # 1. Atomic labels
-                # 2. Atomic coordinates
-                # 3. Number of octahedral structures
-                # 4. Metal atoms
+                # File number and file name
+                self.file_name.append([i + 1, file_name])
 
-                self.file_name.append(file_name)
-                self.atom_coord_octa.append([atom_octa, coord_octa, i + 1, atom_octa[0]])
+                # Metal center atom
+                self.octa_index.append(atom_octa[0])
 
-        ###########################
-        # Show coordinates in box #
-        ###########################
+                # Atomic labels and atomic coordinates
+                # Example:
+                #
+                # atom = ['Fe', 'O', 'O', 'N', 'N', 'N', 'N']
+                # coord = [[2.298354, 5.161785, 7.971898],
+                #          [1.885657, 4.804777, 6.183726],
+                #          [1.747515, 6.960963, 7.932784],
+                #          [4.09438, 5.807257, 7.588689],
+                #          [0.539005, 4.482809, 8.460004],
+                #          [2.812425, 3.266553, 8.131637],
+                #          [2.886404, 5.392925, 9.848966]]
 
-        for i in range(len(self.file_name)):
+                self.atom_coord_octa.append([atom_octa, coord_octa])
+
+                self.show_coord()
+
+    def show_coord(self):
+        """
+        Show coordinates in box.
+
+        """
+        # loop over complex
+        for i in range(len(self.atom_coord_octa)):
             if i == 0:
                 echo_outs(self, "XYZ coordinates of extracted octahedral structure")
 
-            for j in range(len(self.total_metal)):
-                echo_outs(self, f"File {i + 1}: {self.file_name[i]}")
-                echo_outs(self, f"Metal center atom no. {j + 1} : {self.atom_coord_octa[i][0]}")
-                echo_outs(self, "Atom                       Cartesian coordinate")
-                for k in range(len(atom_octa)):
-                    echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                              .format(atom_octa[k],
-                                      coord_octa[k][0],
-                                      coord_octa[k][1],
-                                      coord_octa[k][2]))
-                echo_outs(self, "")
+            echo_outs(self, f"File {self.file_name[i][0]}: {self.file_name[i][1]}")
+            echo_outs(self, f"Metal center atom: {self.octa_index[i]}")
+            echo_outs(self, "Atom                       Cartesian coordinate")
+
+            # loop over atoms in octahedron
+            for k in range(7):
+                echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
+                          .format(self.atom_coord_octa[i][0][k],
+                                  self.atom_coord_octa[i][1][k][0],
+                                  self.atom_coord_octa[i][1][k][1],
+                                  self.atom_coord_octa[i][1][k][2]))
+            echo_outs(self, "")
 
     def save_results(self):
         """
@@ -544,7 +558,7 @@ class OctaDist:
 
         # loop over number of metal complexes
         for i in range(len(self.atom_coord_octa)):
-            atom_octa, coord_octa, num_file, num_metal = self.atom_coord_octa[i]
+            atom_octa, coord_octa = self.atom_coord_octa[i]
 
             # Calculate distortion parameters
             calc_dist = calc.CalcDistortion(coord_octa)
@@ -565,7 +579,6 @@ class OctaDist:
             self.all_sigma.append(sigma)
             self.all_theta.append(theta)
 
-            self.file_index.append([num_file, num_metal])
             self.comp_result.append([d_mean, zeta, delta, sigma, theta])
 
         # Print results to each unique box.
@@ -593,8 +606,8 @@ class OctaDist:
         echo_outs(self, "")
         for i in range(len(self.comp_result)):
             echo_outs(self, "{0:2d} - {1} : {2:9.4f}  {3:9.6f}  {4:9.6f}  {5:9.4f}  {6:9.4f}"
-                      .format(self.file_index[i][0],
-                              self.file_index[i][1],
+                      .format(i + 1,
+                              self.octa_index[i],
                               self.comp_result[i][0],
                               self.comp_result[i][1],
                               self.comp_result[i][2],
@@ -614,6 +627,7 @@ class OctaDist:
         For example, cutoff distance for screening bond distance between atoms.
 
         """
+
         def open_exe():
             """
             Program setting: Open dialog in which the user will choose text editor.
@@ -1053,7 +1067,7 @@ class OctaDist:
         elif command == "info":
             self.box_script.insert(tk.INSERT, f">>> {octadist.__description__}\n")
         elif command == "doc":
-            self.box_script.insert(tk.INSERT, f">>> {octadist.__doc__ }\n")
+            self.box_script.insert(tk.INSERT, f">>> {octadist.__doc__}\n")
         elif command == "show":
             try:
                 self.script_show(args)
@@ -1176,7 +1190,7 @@ class OctaDist:
         my_plot.add_bond()
 
         for i in range(len(self.atom_coord_octa)):
-            _, coord_octa, _, _ = self.atom_coord_octa[i]
+            _, coord_octa = self.atom_coord_octa[i]
             my_plot.add_face(coord_octa)
 
         my_plot.add_legend()
@@ -1197,7 +1211,7 @@ class OctaDist:
             popup.err_many_files()
             return 1
 
-        atom_octa, coord_octa, _, _ = self.atom_coord_octa[0]
+        atom_octa, coord_octa = self.atom_coord_octa[0]
 
         my_plot = draw.DrawComplex(atom=atom_octa,
                                    coord=coord_octa,
@@ -1223,7 +1237,7 @@ class OctaDist:
             popup.err_many_files()
             return 1
 
-        atom_octa, coord_octa, _, _ = self.atom_coord_octa[0]
+        atom_octa, coord_octa = self.atom_coord_octa[0]
 
         my_plot = draw.DrawComplex(atom=atom_octa,
                                    coord=coord_octa,
@@ -1234,7 +1248,7 @@ class OctaDist:
         my_plot.add_legend()
 
         for i in range(len(self.atom_coord_octa)):
-            coord, _, _, _ = self.atom_coord_octa[i]
+            _, coord = self.atom_coord_octa[i]
             my_plot.add_face(coord)
 
         my_plot.config_plot(show_title=self.show_title,
@@ -1315,8 +1329,8 @@ class OctaDist:
         my_app = structure.StructParam(master=self.master)
 
         for i in range(len(self.atom_coord_octa)):
-            atom, coord, number, metal = self.atom_coord_octa[i]
-            my_app.add_number(number)
+            metal = self.octa_index[i]
+            atom, coord = self.atom_coord_octa[i]
             my_app.add_metal(metal)
             my_app.add_coord(atom, coord)
 
@@ -1332,8 +1346,8 @@ class OctaDist:
         my_app = structure.SurfaceArea(master=self.master)
 
         for i in range(len(self.atom_coord_octa)):
-            atom, coord, number, metal = self.atom_coord_octa[i]
-            my_app.add_number(number)
+            metal = self.octa_index[i]
+            atom, coord = self.atom_coord_octa[i]
             my_app.add_metal(metal)
             my_app.add_coord(coord)
 
@@ -1467,7 +1481,7 @@ class OctaDist:
             popup.info_new_update()
 
             text = f"A new version {server_ver} is ready for download.\n\n" \
-                   "Do you want to download now?"
+                "Do you want to download now?"
             msg_box = messagebox.askquestion("Updates available", text, icon="warning")
 
             if msg_box == 'yes':
@@ -1651,8 +1665,7 @@ class OctaDist:
 
         self.file_list = []
         self.file_name = []
-        self.file_index = []
-        self.total_metal = []
+        self.octa_index = []
         self.atom_coord_full = []
         self.atom_coord_octa = []
         self.all_zeta = []
