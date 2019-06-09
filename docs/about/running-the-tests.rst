@@ -2,7 +2,7 @@
 Running the Tests
 =================
 
-Example running the OctaDist.
+Running OctaDist Examples.
 
 
 **Example 1 for running the test on OctaDist PyPI:**
@@ -24,10 +24,11 @@ Example running the OctaDist.
              [2.812425000, 3.266553000, 8.131637000],
              [2.886404000, 5.392925000, 9.848966000]]
 
-    zeta = oc.calc_zeta(coord)             # Zeta
-    delta = oc.calc_delta(coord)           # Delta
-    sigma = oc.calc_sigma(coord)           # Sigma
-    theta = oc.calc_theta(coord)           # Theta
+    dist = oc.CalcDistortion(coord)
+    zeta = dist.zeta             # Zeta
+    delta = dist.delta           # Delta
+    sigma = dist.sigma           # Sigma
+    theta = dist.theta           # Theta
 
     print("\nAll computed parameters")
     print("-----------------------")
@@ -52,7 +53,7 @@ Example running the OctaDist.
 
     atom = ['O', 'O', 'Fe', 'N', 'N', 'N', 'N']
 
-    coord = [[1.885657000, 4.804777000, 6.183726000],
+    coor = [[1.885657000, 4.804777000, 6.183726000],
              [1.747515000, 6.960963000, 7.932784000],
              [2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
              [4.094380000, 5.807257000, 7.588689000],
@@ -63,12 +64,13 @@ Example running the OctaDist.
     # If the first atom is not metal atom, you can rearrange the sequence
     # of atom in list using coord.extract_octa method.
 
-    atom, coord = oc.coord.extract_octa(atom, coord)
+    atom_octa, coord_octa = oc.molecule.extract_octa(atom, coor)
 
-    zeta = oc.calc.calc_zeta(coord)             # Zeta
-    delta = oc.calc.calc_delta(coord)           # Delta
-    sigma = oc.calc.calc_sigma(coord)           # Sigma
-    theta = oc.calc.calc_theta(coord)           # Theta
+    dist = oc.CalcDistortion(coord_octa)
+    zeta = dist.zeta             # Zeta
+    delta = dist.delta           # Delta
+    sigma = dist.sigma           # Sigma
+    theta = dist.theta           # Theta
 
     print("\nAll computed parameters")
     print("-----------------------")
@@ -98,13 +100,14 @@ Example running the OctaDist.
     # Then use coord.extract_file to extract all atomic symbols and coordinates,
     # and then use coord.extract_octa for taking the octahedral structure.
 
-    atom_full, coord_full = oc.coord.extract_file(file)
-    atom, coord = oc.coord.extract_octa(atom_full, coord_full)
+    atom_full, coord_full = oc.molecule.extract_coord(file)
+    atom, coord = oc.molecule.extract_octa(atom_full, coord_full)
 
-    zeta = oc.calc.calc_zeta(coord)             # Zeta
-    delta = oc.calc.calc_delta(coord)           # Delta
-    sigma = oc.calc.calc_sigma(coord)           # Sigma
-    theta = oc.calc.calc_theta(coord)           # Theta
+    dist = oc.CalcDistortion(coord)
+    zeta = dist.zeta             # Zeta
+    delta = dist.delta           # Delta
+    sigma = dist.sigma           # Sigma
+    theta = dist.theta           # Theta
 
     print("\nAll computed parameters")
     print("-----------------------")
@@ -129,19 +132,20 @@ Example running the OctaDist.
 
     file = r"../example-input/Multiple-metals.xyz"
 
-    atom_full, coor_full = oc.coord.extract_file(file)
+    atom_full, coor_full = oc.molecule.extract_coord(file)
 
     # If complex contains metal center more than one, you can specify the index metal
     # whose octahedral structure will be computed.
     # For example, this complex contains three metal atoms: Fe, Ru, and Rd.
     # I add "2" as a second argument for choosing Ru as metal of interest.
 
-    atom, coord = oc.coord.extract_octa(atom_full, coor_full, 2)
+    atom, coord = oc.molecule.extract_octa(atom_full, coor_full, 2)
 
-    zeta = oc.calc.calc_zeta(coord)             # Zeta
-    delta = oc.calc.calc_delta(coord)           # Delta
-    sigma = oc.calc.calc_sigma(coord)           # Sigma
-    theta = oc.calc.calc_theta(coord)           # Theta
+    dist = oc.CalcDistortion(coord)
+    zeta = dist.zeta             # Zeta
+    delta = dist.delta           # Delta
+    sigma = dist.sigma           # Sigma
+    theta = dist.theta           # Theta
 
     print("\nAll computed parameters")
     print("-----------------------")
@@ -166,10 +170,14 @@ Example running the OctaDist.
 
     file = r"../example-input/Multiple-metals.xyz"
 
-    atom_full, coord_full = oc.coord.extract_file(file)
+    atom_full, coord_full = oc.molecule.extract_coord(file)
 
     # Graphical display for octahedral complex
-    oc.draw.all_atom(atom_full, coord_full)
+    my_plot = oc.draw.DrawComplex(atom=atom_full, coord=coord_full)
+    my_plot.add_atom()
+    my_plot.add_bond()
+    my_plot.add_legend()
+    my_plot.show_plot()
 
 
 **Example 6 for running the test on OctaDist PyPI:**
@@ -180,10 +188,16 @@ Example running the OctaDist.
 
     file = r"../example-input/Multiple-metals.xyz"
 
-    atom_full, coord_full = oc.coord.extract_file(file)
+    atom_full, coord_full = oc.molecule.extract_coord(file)
 
     # Display and automatically save image as .png file with user-specified name
-    oc.draw.all_atom(atom_full, coord_full, "complex_octadist")
+    my_plot = oc.draw.DrawComplex(atom=atom_full, coord=coord_full)
+    my_plot.add_atom()
+    my_plot.add_bond()
+    my_plot.add_legend()
+    my_plot.save_img()
+    my_plot.show_plot()
 
-    # Output image, complex_octadist.png, is stored at ../images directory
+    # Output image, Complex_saved_by_OctaDist.png, is stored at ../images directory
+
 
