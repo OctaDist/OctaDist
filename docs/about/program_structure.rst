@@ -10,7 +10,7 @@ Function    Description
 ==========  ================================================
 main        Main program
 calc        Calculating distortion parameters
-coord       Manipulating atomic coordinates
+molecule    Manipulating atomic coordinates
 draw        Displaying molecule
 elements    Atomic properties
 linear      Built-in mathematical functions
