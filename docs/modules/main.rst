@@ -1,10 +1,10 @@
-.. currentmodule:: octadist_gui.main
+.. currentmodule:: octadist.main
 
-=================
-octadist_gui.main
-=================
+=============
+octadist.main
+=============
 
-.. autoclass:: octadist_gui.main.OctaDist
+.. autoclass:: octadist.main.OctaDist
    :members:
    :undoc-members:
    :inherited-members:

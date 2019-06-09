@@ -1,8 +1,8 @@
-=======================
-octadist_gui.projection
-=======================
+===================
+octadist.projection
+===================
 
-.. automodule:: octadist_gui.src.projection
+.. automodule:: octadist.src.projection
    :members:
    :undoc-members:
    :inherited-members:

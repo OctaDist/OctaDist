@@ -1,8 +1,8 @@
-==================
-octadist_gui.popup
-==================
+==============
+octadist.popup
+==============
 
-.. automodule:: octadist_gui.src.popup
+.. automodule:: octadist.src.popup
    :members:
    :undoc-members:
    :inherited-members:

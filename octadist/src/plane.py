@@ -21,39 +21,58 @@ def find_eq_of_plane(x, y, z):
     """
     Find the equation of plane of given three points using cross product
 
-    The general form of plane equation:
-    Ax + By + Cz = D
-
-    where A, B, C, and D are coefficient.
+    | The general form of plane equation:
+    |
+    | Ax + By + Cz = D
+    |
+    | where A, B, C, and D are coefficient.
+    |
+    | XZ  X  XY = (a, b, c)
+    |
+    | d = (a, b, c).Z
 
     Parameters
     ----------
-    x : list or array
+    x : array_like
         3D Coordinate of point.
-    y : list or array
+    y : array_like
         3D Coordinate of point.
-    z : list or array
+    z : array_like
         3D Coordinate of point.
 
     Returns
     -------
-    a : int or float
+    a : float64
         Coefficient of the equation of the plane.
-    b : int or float
+    b : float64
         Coefficient of the equation of the plane.
-    c : int or float
+    c : float64
         Coefficient of the equation of the plane.
-    d : int or float
+    d : float64
         Coefficient of the equation of the plane.
 
-    Notes
-    -----
-    -->    -->
-    XZ  X  XY = (a, b, c)
+    Examples
+    --------
+    >>> N1 = [2.298354000, 5.161785000, 7.971898000]
+    >>> N2 = [1.885657000, 4.804777000, 6.183726000]
+    >>> N3 = [1.747515000, 6.960963000, 7.932784000]
 
-    d = (a, b, c).Z
+    >>> a, b, c, d = find_eq_of_plane(N1, N2, N3)
+
+    >>> a
+    -3.231203733528
+    >>> b
+    -0.9688526458499996
+    >>> c
+    0.9391692927779998
+    >>> d
+    -4.940497273569501
 
     """
+    x = np.asarray(x, dtype=np.float64)
+    y = np.asarray(y, dtype=np.float64)
+    z = np.asarray(z, dtype=np.float64)
+
     xz = z - x
     xy = y - x
 

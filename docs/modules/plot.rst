@@ -1,8 +1,8 @@
-=================
-octadist_gui.plot
-=================
+=============
+octadist.plot
+=============
 
-.. automodule:: octadist_gui.src.plot
+.. automodule:: octadist.src.plot
    :members:
    :undoc-members:
    :inherited-members:

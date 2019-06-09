@@ -1,8 +1,8 @@
-===================
-octadist_gui.linear
-===================
+===============
+octadist.linear
+===============
 
-.. automodule:: octadist_gui.src.linear
+.. automodule:: octadist.src.linear
    :members:
    :undoc-members:
    :inherited-members:

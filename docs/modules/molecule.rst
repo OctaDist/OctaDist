@@ -1,8 +1,8 @@
 =================
-octadist.elements
+octadist.molecule
 =================
 
-.. automodule:: octadist.src.elements
+.. automodule:: octadist.src.molecule
    :members:
    :undoc-members:
    :inherited-members:

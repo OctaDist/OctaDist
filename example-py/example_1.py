@@ -17,10 +17,11 @@ coord = [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
          [2.812425000, 3.266553000, 8.131637000],
          [2.886404000, 5.392925000, 9.848966000]]
 
-zeta = oc.calc_zeta(coord)             # Zeta
-delta = oc.calc_delta(coord)           # Delta
-sigma = oc.calc_sigma(coord)           # Sigma
-theta = oc.calc_theta(coord)           # Theta
+dist = oc.CalcDistortion(coord)
+zeta = dist.zeta             # Zeta
+delta = dist.delta           # Delta
+sigma = dist.sigma           # Sigma
+theta = dist.theta           # Theta
 
 print("\nAll computed parameters")
 print("-----------------------")

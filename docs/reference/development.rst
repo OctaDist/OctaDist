@@ -4,26 +4,25 @@ Development
 
 OctaDist is written entirely in Python 3 binding to Tkinter GUI platform.
 It is available for on Windows, Linux, and macOS for 32/64-bit systems.
-It is divided into two versions as different types of uses:
-a graphical user interface (GUI) version and a command line interface (CLI) version.
-The former is mainly developed for the end-users, who are not familiar with Linux command,
-while the latter is appropriate for the end-users and programmer who are working with CLI,
+It can be used as a graphical user interface (GUI) and a command line interface (CLI) version.
+The first one is mainly developed for the end-users, who are not familiar with Linux command,
+while the latter is appropriate for the end-users and developer who are working with CLI,
 for example, on Linux or macOS.
 
 Code maintenance
 ----------------
 
 The source code of OctaDist is maintained on Github version control system.
-Both master revision and nightly development build have being tested and deployed on
+Both master revision and nightly development build have been being tested and deployed on
 `Travis CI <https://travis-ci.org/>`_, a continuous integration service.
 
-Program source code on Github:
+Source code on Github:
 
-- `OctaDist GUI : github.com/OctaDist/OctaDist
+- `Master (stable) version : github.com/OctaDist/OctaDist
   <https://github.com/OctaDist/OctaDist>`_
 
-- `OctaDist CLI : github.com/OctaDist/OctaDist-PyPI
-  <https://github.com/OctaDist/OctaDist-PyPI>`_
+- `Nightly build version : github.com/OctaDist/OctaDist/tree/nightly-build
+  <https://github.com/OctaDist/OctaDist/tree/nightly-build>`_
 
 Contribution
 ------------
@@ -37,15 +36,15 @@ We appreciate all help and contribution in getting program development.
 Prerequisites
 -------------
 
-OctaDist supports Python 3.5+. For using the program as CLI,
-you can use following command to check the version of your current Python:
+OctaDist commonly supports Python 3.5+. For using the program as CLI,
+you can use the following command to check the version of Python on your system:
 
 ::
 
   python -v
 
 
-The following external libraries are required for OctaDist for GUI and CLI (PyPI):
+The following external libraries are required for OctaDist:
 
 ::
 
@@ -54,11 +53,13 @@ The following external libraries are required for OctaDist for GUI and CLI (PyPI
   matplotlib
   rmsd
 
+You need to install these libraries before running the program,
+otherwise it will fail to start. The latest version is suggested.
 
 Program compilation
 -------------------
 
-For GUI, OctaDist source code can be compiled to executable easily using
+For GUI, OctaDist source code can be compiled to executable file easily using
 `PyInstaller <https://www.pyinstaller.org/>`_.
 
 Compilation instruction
@@ -85,14 +86,14 @@ Compilation instruction
 
 ::
 
-   cd OctaDist-2.5.2-Win-x86-64/octadist_gui/
+   cd OctaDist-2.5.4-Win-x86-64/octadist_gui/
 
 5. Compile a standalone, like this:
 
 ::
 
-   pyinstaller --onefile -n OctaDist-2.5.2-Win-x86-64 main.py
+   pyinstaller --onefile -n OctaDist-2.5.4-Win-x86-64 main.py
 
 6. The standalone executable will be build in ``dist`` directory.
 
-Additionally useful option for compilation can be found at PyInstaller manual.
+Additionally, other useful options for compilation can be found at PyInstaller manual.

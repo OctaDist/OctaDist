@@ -14,15 +14,27 @@ so we strongly suggest you download a ready-to-use OctaDist (GUI version) on you
 For first time using OctaDist, you should run it as an administrator with full rights.
 Changing property of program can be completed in a few steps as follows:
 
-1. Download program executable (\*.exe) to your machine.
-2. Right click on program icon and select **Run as administrator**.
-3. Click **Yes**.
+1. Download program executable (\*.exe) to your machine, for example, at **Download** directory::
+
+    OctaDist-*-Win-x86-64.exe
+
+2. Right click on program icon and select::
+
+    Run as administrator
+
+3. Click::
+
+    Yes
+
 4. Wait program for process until open.
 
 Linux
 -----
 
-1. Download the source code (*.tar.gz) to your machine, for example, at **Download** directory.
+1. Download the source code (*.tar.gz) to your machine, for example, at **Download** directory::
+
+    OctaDist-*-Linux-x86-64.tar.gz
+
 2. Uncompress the tarball, using **tar**::
    
     tar -xzvf OctaDist-*-Linux-x86-64.tar.gz
@@ -35,9 +47,9 @@ Linux
    
     python CheckPyModule.py
     
-5. Execute program as a package (you have to stay outside **octadist_gui** directory)::
+5. Execute program as a package (you have to stay outside **octadist** directory)::
    
-    python -m octadist_gui.main
+    python -m octadist.Run
    
 
 macOS
@@ -45,7 +57,10 @@ macOS
 
 Installing and running the program on Mac are the same as Linux.
 
-1. Download the source code (*.tar.gz) to your machine, for example, at **`Download`** directory.
+1. Download the source code (*.tar.gz) to your machine, for example, at **`Download`** directory::
+
+    OctaDist-*-macOS-x86-64.tar.gz
+
 2. Press Command - spacebar to launch Spotlight and type "*Terminal*", then double-click the search result.
 3. Uncompress the tarball, using **tar**::
    
@@ -63,15 +78,15 @@ Installing and running the program on Mac are the same as Linux.
   
     export MPLBACKEND=TkAgg
    
-7. Execute program (you have to stay outside **octadist_gui** directory)::
+7. Execute program (you have to stay outside **octadist** directory)::
    
-    python -m octadist_gui.main
+    python -m octadist.Run
    
 
 PyPI
 ----
 
-OctaDist CLI version is also available on Python package index library, 
+OctaDist is also available on Python package index library,
 which can be found at https://pypi.org/project/octadist.
 
 The end-user can use `pip`, a Python package-management system, 
@@ -87,9 +102,9 @@ The following commands might be useful:
 
    pip install --upgrade octadist
 
-- Upgrade/downgrade to a certain version, for example, version 2.5.3::
+- Upgrade/downgrade to a certain version, for example, version 2.5.4::
 
-   pip install --upgrade octadist==2.5.3
+   pip install --upgrade octadist==2.5.4
 
 More details on installing Python package can be found its official website: 
 https://packaging.python.org/tutorials/installing-packages.
@@ -103,10 +118,4 @@ The channel of OctaDist is at https://anaconda.org/rangsiman/octadist.
 It can be installed on system using command::
 
     conda install -c rangsiman octadist 
-
-
-The platforms that OctaDist-Conda supported: [![Anaconda-Server Badge][Conda-platform-badge]][Conda-platform-link]
-
-
-
 
