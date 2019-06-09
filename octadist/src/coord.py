@@ -264,7 +264,7 @@ def extract_octa(atom=None, coord=None, coord_metal=None, cutoff_metal_ligand=2.
         raise TypeError("count_metal needs three arguments: atom, coord, coord_metal")
 
     dist_list = []
-    for i in range(len(atom)):
+    for i in range(len(list(atom))):
         dist = distance.euclidean(coord_metal, coord[i])
         if dist <= cutoff_metal_ligand:
             dist_list.append([atom[i], coord[i], dist])
