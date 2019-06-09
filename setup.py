@@ -5,7 +5,7 @@
 
 import setuptools
 
-__version__ = "2.5.3"
+__version__ = "2.5.4"
 
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
@@ -21,11 +21,11 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://octadist.github.io",
-    download_url="https://github.com/OctaDist/OctaDist-PyPI/releases",
+    download_url="https://github.com/OctaDist/OctaDist/releases",
     project_urls={
-        'Documentation': 'https://octadist-pypi.readthedocs.io/en/latest/',
-        'Source': 'https://github.com/OctaDist/OctaDist-PyPI',
-        'Tracker': 'https://github.com/OctaDist/OctaDist-PyPI/issues',
+        'Documentation': 'https://octadist.readthedocs.io/en/latest/',
+        'Source': 'https://github.com/OctaDist/OctaDist',
+        'Tracker': 'https://github.com/OctaDist/OctaDist/issues',
     },
     packages=setuptools.find_packages(),
     install_requires=[
