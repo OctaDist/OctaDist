@@ -1,3 +1,8 @@
+# How to run OctaDist
+# 1. Stay outside octadist directory
+# 2. Execute following command:
+#    $ python -m octadist.Run
+
 import octadist.main
 
 version = octadist.__version__
