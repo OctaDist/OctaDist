@@ -91,7 +91,6 @@ __all__ = \
 # Bring sub-modules to top-level directory
 
 from octadist import src
-from octadist import Run
 
 from .src import __src__
 
