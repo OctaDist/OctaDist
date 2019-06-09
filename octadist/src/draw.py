@@ -232,6 +232,19 @@ class DrawComplex:
 
     @staticmethod
     def save_img(save="Complex_saved_by_OctaDist", file="png"):
+        """
+        Save figure as an image.
+
+        Parameters
+        ----------
+        save : str
+            Name of image file.
+            Default value is "Complex_saved_by_OctaDist".
+        file : file
+            Image type.
+            Default value is "png".
+
+        """
         plt.savefig(f"{save}.{file}")
 
     @staticmethod
@@ -375,7 +388,25 @@ class DrawProjection:
             ax.add_collection3d(Poly3DCollection(vertices_ref, alpha=0.5, color=color_1[i]))
             ax.add_collection3d(Poly3DCollection(vertices_oppo, alpha=0.5, color=color_2[i]))
 
-    def show_plot(self):
+    @staticmethod
+    def save_img(save="Complex_saved_by_OctaDist", file="png"):
+        """
+        Save figure as an image.
+
+        Parameters
+        ----------
+        save : str
+            Name of image file.
+            Default value is "Complex_saved_by_OctaDist".
+        file : file
+            Image type.
+            Default value is "png".
+
+        """
+        plt.savefig(f"{save}.{file}")
+
+    @staticmethod
+    def show_plot():
         """
         Show plot.
 
@@ -553,7 +584,25 @@ class DrawTwistingPlane:
                 x, y, z = merge
                 self.all_ax[i].plot(x, y, z, 'k->', color="black")
 
-    def show_plot(self):
+    @staticmethod
+    def save_img(save="Complex_saved_by_OctaDist", file="png"):
+        """
+        Save figure as an image.
+
+        Parameters
+        ----------
+        save : str
+            Name of image file.
+            Default value is "Complex_saved_by_OctaDist".
+        file : file
+            Image type.
+            Default value is "png".
+
+        """
+        plt.savefig(f"{save}.{file}")
+
+    @staticmethod
+    def show_plot():
         """
         Show plot.
 

@@ -112,7 +112,25 @@ class Plot:
         plt.xlabel(f"{self.name1}")
         plt.ylabel(f"{self.name2}")
 
-    def show_plot(self):
+    @staticmethod
+    def save_img(save="Image_saved_by_OctaDist", file="png"):
+        """
+        Save figure as an image.
+
+        Parameters
+        ----------
+        save : str
+            Name of image file.
+            Default value is "Complex_saved_by_OctaDist".
+        file : file
+            Image type.
+            Default value is "png".
+
+        """
+        plt.savefig(f"{save}.{file}")
+
+    @staticmethod
+    def show_plot():
         """
         Show plot.
 
