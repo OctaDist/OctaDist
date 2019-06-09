@@ -1,8 +1,8 @@
-==============
-octadist.coord
-==============
+=================
+octadist.molecule
+=================
 
-.. automodule:: octadist.src.coord
+.. automodule:: octadist.src.molecule
    :members:
    :undoc-members:
    :inherited-members:
