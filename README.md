@@ -1,4 +1,5 @@
 ![Python version][Py-ver-badge]
+[![PyPI-Server][PyPI-badge]][PyPI-link]
 ![Python Wheel][Py-wheel-badge]
 ![Code size][Code-size]
 ![Repo size][Repo-size]
