@@ -46,6 +46,11 @@ def err_no_coord(i):
 
     This will happen only if the input has no the proper format of atomic coordinates.
 
+    Parameters
+    ----------
+    i : int
+        Number of file.
+
     """
     showerror("Error", f"File no. {i} has no atomic coordinates.\n\n"
                         "Please make sure the input file format is correct.")
@@ -54,6 +59,11 @@ def err_no_coord(i):
 def err_less_ligands(i):
     """
     Show this error popup when the complex has ligand atoms less that six.
+
+    Parameters
+    ----------
+    i : int
+        Number of file.
 
     """
     showerror("Error", f"File no. {i} has ligand atoms less than six atoms.\n\n"
@@ -184,12 +194,17 @@ def info_no_update():
     showinfo("Info", "You already have the latest version.")
 
 
-def warn_no_metal():
+def warn_no_metal(i):
     """
     Show this warning popup if no transition metal was found.
 
+    Parameters
+    ----------
+    i : int
+        Number of file.
+
     """
-    showwarning("Warning", "No transition metal in your input file.")
+    showwarning("Warning", f"File no. {i} has no transition metal in your complex.")
 
 
 def warn_not_octa():

@@ -73,7 +73,6 @@ class OctaDist:
         self.all_sigma = []  # Sigma of all octahedral structures.
         self.all_theta = []  # Theta of all octahedral structures.
         self.comp_result = []  # Distortion parameters.
-        self.has_metal = True  # If structure is octahedron or not.
 
         # Default cutoff values
         self.cutoff_metal_ligand = 2.8
@@ -379,8 +378,6 @@ class OctaDist:
 
         for i in range(len(self.file_list)):
 
-            file_name = self.file_list[i].split('/')[-1]
-
             ########################################
             # Extract atomic coordinates from file #
             ########################################
@@ -389,7 +386,7 @@ class OctaDist:
             self.atom_coord_full.append([atom_full, coord_full])
 
             # If either lists is empty, then continue to next file
-            if len(atom_full) == 0 or len(coord_full) == 0:
+            if len(list(atom_full)) == 0 or len(coord_full) == 0:
                 continue
 
             #################################################
@@ -399,8 +396,7 @@ class OctaDist:
             count, atom_metal, coord_metal = coord.count_metal(atom_full, coord_full)
 
             if count == 0:
-                popup.warn_no_metal()
-                self.has_metal = False
+                popup.warn_no_metal(i + 1)
 
             # loop over number of metal found in complex
             for j in range(count):
@@ -420,6 +416,7 @@ class OctaDist:
                     continue
 
                 # File number and file name
+                file_name = self.file_list[i].split('/')[-1]
                 self.file_name.append([i + 1, file_name])
 
                 # Metal center atom
@@ -439,7 +436,7 @@ class OctaDist:
 
                 self.atom_coord_octa.append([atom_octa, coord_octa])
 
-                self.show_coord()
+        self.show_coord()
 
     def show_coord(self):
         """
@@ -546,9 +543,9 @@ class OctaDist:
         - Theta
 
         """
-        if not self.has_metal:
-            popup.err_no_metal()
-            return 1
+        # if not self.has_metal:
+        #     popup.err_no_metal()
+        #     return 1
 
         if len(self.atom_coord_octa) >= 1:
             self.clear_param_box()
@@ -1673,7 +1670,6 @@ class OctaDist:
         self.all_sigma = []
         self.all_theta = []
         self.comp_result = []
-        self.has_metal = True
 
         self.clear_param_box()
         self.clear_result_box()
