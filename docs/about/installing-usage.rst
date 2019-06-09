@@ -47,7 +47,7 @@ Linux
    
     python CheckPyModule.py
     
-5. Execute program as a package (you have to stay outside **octadist_gui** directory)::
+5. Execute program as a package (you have to stay outside **octadist** directory)::
    
     python -m octadist.Run
    
@@ -78,7 +78,7 @@ Installing and running the program on Mac are the same as Linux.
   
     export MPLBACKEND=TkAgg
    
-7. Execute program (you have to stay outside **octadist_gui** directory)::
+7. Execute program (you have to stay outside **octadist** directory)::
    
     python -m octadist.Run
    
@@ -118,5 +118,4 @@ The channel of OctaDist is at https://anaconda.org/rangsiman/octadist.
 It can be installed on system using command::
 
     conda install -c rangsiman octadist 
-
 
