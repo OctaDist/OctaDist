@@ -62,8 +62,10 @@ class OctaDist:
         self.master = master
 
         # Initialize parameters
-        self.file_list = []         # Input files.
+        self.file_list = []         # Full path of input files.
+        self.file_name = []         # File name.
         self.file_index = []        # File number.
+        self.total_metal = []       # Total number of metals.
         self.atom_coord_full = []   # Coordinates of metal complex.
         self.atom_coord_octa = []   # Coordinates of octahedral structures.
         self.all_zeta = []          # Zeta of all octahedral structures.
@@ -391,55 +393,33 @@ class OctaDist:
             if len(atom_full) == 0 or len(coord_full) == 0:
                 continue
 
-            ###############################################
-            # Determine metal center atoms in the complex #
-            ###############################################
-
-            count, atom_metal, coord_metal = coord.count_metal(atom_full, coord_full)
-
-            # If molecule has no transition metal, show full atomic coordinates instead
-            if count == 0:
-                popup.warn_no_metal()
-                self.has_metal = False
-
-                if i == 0:
-                    echo_outs(self, "XYZ coordinates of extracted octahedral structure")
-
-                echo_outs(self, f"File {i + 1}: {file_name}")
-                echo_outs(self, "Atom                       Cartesian coordinate")
-                for k in range(len(atom_full)):
-                    echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                              .format(atom_full[k],
-                                      coord_full[k][0],
-                                      coord_full[k][1],
-                                      coord_full[k][2]))
-                echo_outs(self, "")
-
-                continue  # continue to next file
-
             #################################################
             # Extract octahedral structure from the complex #
             #################################################
 
-            if i == 0:
-                echo_outs(self, "XYZ coordinates of extracted octahedral structure")
+            count, atom_metal, coord_metal = coord.count_metal(atom_full, coord_full)
+            self.total_metal.append(count)
 
-            # loop over metal center atoms
+            if count == 0:
+                popup.warn_no_metal()
+                self.has_metal = False
+
+            # loop over number of metal found in complex
             for j in range(count):
                 atom_octa, coord_octa = coord.extract_octa(atom_full,
                                                            coord_full,
-                                                           coord_metal[j - 1],
+                                                           coord_metal[j],
                                                            self.cutoff_metal_ligand)
 
-                # If no atomic coordinates inside, it will return error
+                # If no atomic coordinates inside, it will raise error
                 if np.any(coord_octa) == 0:
                     popup.err_no_coord()
-                    return 1
+                    continue
 
                 if len(coord_octa) < 7:
                     self.clear_result_box()
                     popup.err_less_ligands()
-                    return 1
+                    continue
 
                 # Gather octahedral structure into atom_coord_octa
                 # 1. Atomic labels
@@ -447,34 +427,28 @@ class OctaDist:
                 # 3. Number of octahedral structures
                 # 4. Metal atoms
 
+                self.file_name.append(file_name)
                 self.atom_coord_octa.append([atom_octa, coord_octa, i + 1, atom_octa[0]])
 
-                ###########################
-                # Show coordinates in box #
-                ###########################
+        ###########################
+        # Show coordinates in box #
+        ###########################
 
-                if count == 1:
-                    echo_outs(self, f"File {i + 1}: {file_name}")
-                    echo_outs(self, "Atom                       Cartesian coordinate")
-                    for k in range(len(atom_octa)):
-                        echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                                  .format(atom_octa[k],
-                                          coord_octa[k][0],
-                                          coord_octa[k][1],
-                                          coord_octa[k][2]))
-                    echo_outs(self, "")
+        for i in range(len(self.file_name)):
+            if i == 0:
+                echo_outs(self, "XYZ coordinates of extracted octahedral structure")
 
-                elif count > 1:
-                    echo_outs(self, f"File {i + 1}: {file_name}")
-                    echo_outs(self, f"Metal center atom no. {j + 1} : {atom_octa[0]}")
-                    echo_outs(self, "Atom                       Cartesian coordinate")
-                    for k in range(len(atom_octa)):
-                        echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                                  .format(atom_octa[k],
-                                          coord_octa[k][0],
-                                          coord_octa[k][1],
-                                          coord_octa[k][2]))
-                    echo_outs(self, "")
+            for j in range(len(self.total_metal)):
+                echo_outs(self, f"File {i + 1}: {self.file_name[i]}")
+                echo_outs(self, f"Metal center atom no. {j + 1} : {self.atom_coord_octa[i][0]}")
+                echo_outs(self, "Atom                       Cartesian coordinate")
+                for k in range(len(atom_octa)):
+                    echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
+                              .format(atom_octa[k],
+                                      coord_octa[k][0],
+                                      coord_octa[k][1],
+                                      coord_octa[k][2]))
+                echo_outs(self, "")
 
     def save_results(self):
         """
@@ -575,12 +549,12 @@ class OctaDist:
             # Calculate distortion parameters
             calc_dist = calc.CalcDistortion(coord_octa)
 
-            d_mean = calc_dist.get_d_mean()
-            zeta = calc_dist.get_zeta()
-            delta = calc_dist.get_delta()
-            sigma = calc_dist.get_sigma()
-            theta = calc_dist.get_theta()
-            non_octa = calc_dist.get_non_octa()
+            d_mean = calc_dist.d_mean
+            zeta = calc_dist.zeta
+            delta = calc_dist.delta
+            sigma = calc_dist.sigma
+            theta = calc_dist.theta
+            non_octa = calc_dist.non_octa
 
             if non_octa:
                 popup.warn_not_octa()
@@ -1452,9 +1426,9 @@ class OctaDist:
 
         run_rmsd = tools.CalcRMSD(coord_1=coord_complex_1, coord_2=coord_complex_2)
 
-        rmsd_normal = run_rmsd.get_rmsd_normal()
-        rmsd_translate = run_rmsd.get_rmsd_translate()
-        rmsd_rotate = run_rmsd.get_rmsd_rotate()
+        rmsd_normal = run_rmsd.rmsd_normal
+        rmsd_translate = run_rmsd.rmsd_translate
+        rmsd_rotate = run_rmsd.rmsd_rotate
 
         echo_outs(self, "RMSD between two complexes")
         echo_outs(self, "**************************")
@@ -1467,7 +1441,8 @@ class OctaDist:
     # Check Update #
     ################
 
-    def check_update(self):
+    @staticmethod
+    def check_update():
         """
         Check program update by comparing version of program user is using with
         that of the latest version released on github.
@@ -1531,7 +1506,8 @@ class OctaDist:
     # Show program info #
     #####################
 
-    def callback(self, event):
+    @staticmethod
+    def callback(event):
         """
         On-clink open web browser.
 
@@ -1609,7 +1585,8 @@ class OctaDist:
         msg = tk.Message(frame, text=msg_help_3, width="450")
         msg.grid(sticky=tk.W, row=8, columnspan=2)
 
-    def show_about(self):
+    @staticmethod
+    def show_about():
         """
         Show author details on a sub-window.
 
@@ -1628,7 +1605,8 @@ class OctaDist:
 
         showinfo("About program", text)
 
-    def show_license(self):
+    @staticmethod
+    def show_license():
         """
         Show license details on a sub-window.
 
@@ -1672,13 +1650,15 @@ class OctaDist:
                 del locals()[name]
 
         self.file_list = []
+        self.file_name = []
+        self.file_index = []
+        self.total_metal = []
         self.atom_coord_full = []
         self.atom_coord_octa = []
         self.all_zeta = []
         self.all_delta = []
         self.all_sigma = []
         self.all_theta = []
-        self.file_index = []
         self.comp_result = []
         self.has_metal = True
 
