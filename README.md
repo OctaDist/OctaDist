@@ -55,9 +55,9 @@ source code for command line interface (CLI) are available for as follows:
 | Windows   | A standalone executable | GUI | [![Travis-CI Test][Travis-badge]][Travis-link] |
 | Linux     | Source code as a Python package | GUI & CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
 | macOS     | Source code as a Python package | CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
-| PyPI library   | [OctaDist on PyPI library][PyPI-link]| CLI | [![PyPI-Server][PyPI-badge]][PyPI-link] |
-| Anaconda cloud | [OctaDist on Anaconda cloud][Conda-link]| CLI | [![Conda-Server][Conda-badge]][Conda-link] |
-| Nightly build | Development build | GUI & CLI | [![Travis-CI Test][Dev-badge]][Dev-link] |
+| PyPI library   | [![PyPI-Server][PyPI-badge]][PyPI-link]| CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
+| Anaconda cloud | [![Conda-Server][Conda-badge]][Conda-link]| CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
+| Nightly build | Development build | GUI & CLI | [![Travis-CI Test][Dev-badge]][Travis-link] |
 
 [Travis-badge]: https://img.shields.io/travis/OctaDist/OctaDist/master.svg
 [Travis-link]: https://travis-ci.org/OctaDist/OctaDist
@@ -65,13 +65,11 @@ source code for command line interface (CLI) are available for as follows:
 [PyPI-link]: https://pypi.org/project/octadist/
 [Conda-badge]: https://anaconda.org/rangsiman/octadist/badges/version.svg
 [Conda-link]: https://anaconda.org/rangsiman/octadist
-[PyPI-link]: https://github.com/OctaDist/OctaDist-PyPI
 [Conda-link]: https://anaconda.org/rangsiman/octadist
 [Dev-badge]: https://img.shields.io/travis/OctaDist/OctaDist/nightly-build.svg
-[Dev-link]: https://travis-ci.org/OctaDist/OctaDist
 
 
-## Document
+## Documents
 
 User manual : [https://octadist.github.io/manual.html][manual-link].
 
@@ -97,7 +95,7 @@ Reference manual :
 
 ## Installing
 
-### GUI
+### Graphical User Interface (GUI)
 
 Download a standalone executable to your system and just run it!
 
@@ -107,7 +105,11 @@ Download a standalone executable to your system and just run it!
    align=middle width="300pt" />
 <p/>
 
-### CLI
+|   A   |   B   |   C  |
+|:-----:|:-----:|:-----:
+![](images/Screenshots_OctaDist-2.5.4.png) | ![](images/test.png) | ![](images/Screenshots_Computed.png)
+
+### Command Line Interface (CLI)
 
 The easiest way to install OctaDist is to use `pip`.
 
