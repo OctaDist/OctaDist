@@ -10,6 +10,7 @@
 ```sh
 git clone https://github.com/OctaDist/OctaDist.git
 git checkout nightly-build
+git pull origin nightly-build
 ```
 
 ## Bug report
