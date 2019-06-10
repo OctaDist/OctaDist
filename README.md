@@ -95,22 +95,6 @@ Reference manual :
 
 ## Installing
 
-### Graphical User Interface (GUI)
-
-Download a standalone executable to your system and just run it!
-
-<p align="center">
-   <img alt="molecule" 
-   src="https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/OctaDist-2.5.4.png" 
-   align=middle width="300pt" />
-<p/>
-
-|   A   |   B   |   C  |
-|:-----:|:-----:|:-----:
-![](images/Screenshots_OctaDist-2.5.4.png) | ![](images/test.png) | ![](images/Screenshots_Computed.png)
-
-### Command Line Interface (CLI)
-
 The easiest way to install OctaDist is to use `pip`.
 
 ```sh
@@ -134,7 +118,21 @@ python -m octadist.Run
 
 ## Running the tests
 
-### Example 1
+### Graphical User Interface (GUI)
+
+Just download a standalone executable to your system.
+
+|![][Screenshots_1] | ![][Screenshots_2] | ![][Screenshots_3]|
+|:-----------------:|:------------------:|:-----------------:|
+| OctaDist GUI      | XYZ coordinates    | Computed distortion parameters|
+
+[Screenshots_1]: images/Screenshots_OctaDist-2.5.4.png
+[Screenshots_2]: images/Screenshots_Example_Mol.png
+[Screenshots_3]: images/Screenshots_Computed.png
+
+### Command Line Interface (CLI)
+
+#### Example 1
 
 ```python
 import octadist as oc
@@ -169,7 +167,7 @@ Sigma = 47.92652837
 Theta = 122.6889727
 ```
 
-### Example 2
+#### Example 2
 
 OctaDist can display the 3D structure of molecule.
 
