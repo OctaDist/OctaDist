@@ -13,8 +13,8 @@
 [Repo-size]: https://img.shields.io/github/repo-size/OctaDist/OctaDist.svg
 [DL-all-badge]: https://img.shields.io/github/downloads/OctaDist/octadist/total.svg
 [DL-all-link]: https://github.com/OctaDist/OctaDist/releases
-[DL-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.5.3/total.svg
-[DL-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.5.3
+[DL-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.5.4/total.svg
+[DL-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.5.4
 
 
 ## OctaDist
@@ -33,7 +33,7 @@ OctaDist is computer software for inorganic chemistry and crystallography progra
 OctaDist can be used for studying the structural distortion in coordination complexes.
 With the abilities of OctaDist, you can:
 
-- analyze the structure of octahedral coordination complexes.
+- analyze the structure and conformation of coordination complexes.
 - compute the octahedral distortion parameters.
 - explore tilting distortion in perovskite and metal-organic framework.
 - display 3D molecule and other graphical analysis.
@@ -51,7 +51,7 @@ source code for command line interface (CLI) are available for as follows:
 [release-link]: https://github.com/OctaDist/OctaDist/releases
 
 | Platform  | Description | Usability | Status |
-|-----------|-------------|-----------|--------|
+|-----------|-------------|-----------|:------:|
 | Windows   | A standalone executable | GUI | [![Travis-CI Test][Travis-badge]][Travis-link] |
 | Linux     | Source code as a Python package | GUI & CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
 | macOS     | Source code as a Python package | CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
@@ -75,12 +75,24 @@ source code for command line interface (CLI) are available for as follows:
 
 User manual : [https://octadist.github.io/manual.html][manual-link].
 
-Reference manual : [HTML][GUI-HTML-Link] / [PDF][GUI-PDF-Link] / [Epub][GUI-Epub-Link]
-
 [manual-link]: https://octadist.github.io/manual.html
-[GUI-HTML-Link]: https://octadist.readthedocs.io/en/latest/
-[GUI-PDF-Link]: https://readthedocs.org/projects/octadist/downloads/pdf/latest/
-[GUI-Epub-Link]: https://readthedocs.org/projects/octadist/downloads/epub/latest/
+
+Reference manual : 
+
+| Version  | Status      | Docs   |
+|----------|:-----------:|:------:|
+|Stable    | ![Doc-Latest-Badge][Doc-Latest]   | [HTML][Latest-HTML] / [PDF][Latest-PDF] / [Epub][Latest-Epub]  |
+|Dev Build | ![Doc-Nightly-Badge][Doc-Nightly] | [HTML][NightlyG-HTML] / [PDF][Nightly-PDF] / [Epub][Nightly-Epub]  |
+
+[Doc-Latest]: https://img.shields.io/readthedocs/octadist/latest.svg
+[Latest-HTML]: https://octadist.readthedocs.io/en/latest/
+[Latest-PDF]: https://readthedocs.org/projects/octadist/downloads/pdf/latest/
+[Latest-Epub]: https://readthedocs.org/projects/octadist/downloads/epub/latest/
+
+[Doc-Nightly]: https://img.shields.io/readthedocs/octadist/nightly-build.svg
+[NightlyG-HTML]: https://octadist.readthedocs.io/en/nightly-build/
+[Nightly-PDF]: https://readthedocs.org/projects/octadist/downloads/pdf/nightly-build/
+[Nightly-Epub]: https://readthedocs.org/projects/octadist/downloads/epub/nightly-build/
 
 
 ## Installing
