@@ -103,18 +103,22 @@ class OctaDist:
     def create_logo(self):
         """
         Create icon file from Base64 raw code.
+        This will be used only for Windows OS.
+        Other OS like Linux and macOS use default logo of Tkinter.
 
         """
-        icon_data = base64.b64decode(Icon_Base64.icon_base64)
-        temp_file = "icon.ico"
-        save_path = os.path.expanduser("~/AppData/Local/Temp")
-        self.octadist_icon = os.path.join(save_path, temp_file)
-        icon_file = open(self.octadist_icon, "wb")
-        icon_file.write(icon_data)
-        icon_file.close()
+        if platform.system() == "Windows":
+            icon_data = base64.b64decode(Icon_Base64.icon_base64)
+            temp_file = "icon.ico"
+            save_path = os.path.expanduser("~/AppData/Local/Temp")
+            self.octadist_icon = os.path.join(save_path, temp_file)
+            icon_file = open(self.octadist_icon, "wb")
+            icon_file.write(icon_data)
+            icon_file.close()
+            self.master.wm_iconbitmap(self.octadist_icon)
 
     def start_master(self):
-        self.master.wm_iconbitmap(self.octadist_icon)
+
         self.master.title(f"OctaDist {octadist.__version__}")
         font = "Arial 10"
         self.master.option_add("*Font", font)
@@ -1719,7 +1723,8 @@ def main():
     root.mainloop()
 
     # Delete icon after closing app
-    os.remove(app.octadist_icon)
+    if app.octadist_icon != "":
+        os.remove(app.octadist_icon)
 
 
 if __name__ == '__main__':

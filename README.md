@@ -126,9 +126,9 @@ Just download a standalone executable to your system.
 |:-----------------:|:------------------:|:-----------------:|
 | OctaDist GUI      | XYZ coordinates    | Computed distortion parameters|
 
-[Screenshots_1]: images/Screenshots_OctaDist-2.5.4.png
-[Screenshots_2]: images/Screenshots_Example_Mol.png
-[Screenshots_3]: images/Screenshots_Computed.png
+[Screenshots_1]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_OctaDist-2.5.4.png
+[Screenshots_2]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_Example_Mol.png
+[Screenshots_3]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_Computed.png
 
 ### Command Line Interface (CLI)
 
