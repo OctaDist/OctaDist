@@ -77,7 +77,7 @@ class OctaDist:
         self.all_theta = []  # Theta of all octahedral structures.
         self.comp_result = []  # Distortion parameters.
 
-        self.octadist_icon = ""
+        self.octadist_icon = None
 
         # Default cutoff values
         self.cutoff_metal_ligand = 2.8
@@ -103,8 +103,17 @@ class OctaDist:
     def create_logo(self):
         """
         Create icon file from Base64 raw code.
+
         This will be used only for Windows OS.
+
         Other OS like Linux and macOS use default logo of Tkinter.
+
+        Examples
+        --------
+        >>> if OctaDist.octadist_icon is True:
+        >>>     OctaDist.create_logo()
+        >>> else:
+        >>>     pass
 
         """
         if platform.system() == "Windows":
@@ -118,6 +127,10 @@ class OctaDist:
             self.master.wm_iconbitmap(self.octadist_icon)
 
     def start_master(self):
+        """
+        Start application with UI settings.
+
+        """
 
         self.master.title(f"OctaDist {octadist.__version__}")
         font = "Arial 10"
@@ -452,7 +465,7 @@ class OctaDist:
                 # coord = [[2.298354, 5.161785, 7.971898],
                 #          [1.885657, 4.804777, 6.183726],
                 #          [1.747515, 6.960963, 7.932784],
-                #          [4.09438, 5.807257, 7.588689],
+                #          [4.094380, 5.807257, 7.588689],
                 #          [0.539005, 4.482809, 8.460004],
                 #          [2.812425, 3.266553, 8.131637],
                 #          [2.886404, 5.392925, 9.848966]]
@@ -565,6 +578,14 @@ class OctaDist:
         - Sigma
         - Theta
 
+        See Also
+        --------
+        calc.CalDistortion.calc_d_mean
+        calc.CalDistortion.calc_zeta
+        calc.CalDistortion.calc_delta
+        calc.CalDistortion.calc_sigma
+        calc.CalDistortion.calc_theta
+
         """
         # if not self.has_metal:
         #     popup.err_no_metal()
@@ -642,8 +663,9 @@ class OctaDist:
 
     def settings(self):
         """
-        Program settings. This setting allows the user to set and
-        adjust the default values of initial variables.
+        Program settings allows the user to configure the values of variables
+        that used in molecular display function.
+
         For example, cutoff distance for screening bond distance between atoms.
 
         """
@@ -759,7 +781,8 @@ class OctaDist:
         ###################
 
         wd = tk.Toplevel(self.master)
-        wd.wm_iconbitmap(self.octadist_icon)
+        if self.octadist_icon is not None:
+            wd.wm_iconbitmap(self.octadist_icon)
         wd.title("Program settings")
         wd.option_add("*Font", "Arial 10")
 
@@ -1136,7 +1159,8 @@ class OctaDist:
 
         """
         wd = tk.Toplevel(self.master)
-        wd.wm_iconbitmap(self.octadist_icon)
+        if self.octadist_icon is not None:
+            wd.wm_iconbitmap(self.octadist_icon)
         wd.title("Run Scripting")
         wd.bind('<Return>', self.script_run)
 
@@ -1564,7 +1588,8 @@ class OctaDist:
 
         """
         wd = tk.Toplevel(self.master)
-        wd.wm_iconbitmap(self.octadist_icon)
+        if self.octadist_icon is not None:
+            wd.wm_iconbitmap(self.octadist_icon)
         wd.title("Program Help")
         wd.geometry("550x600")
         wd.option_add("*Font", "Arial 10")
@@ -1723,7 +1748,7 @@ def main():
     root.mainloop()
 
     # Delete icon after closing app
-    if app.octadist_icon != "":
+    if app.octadist_icon is not None:
         os.remove(app.octadist_icon)
 
 

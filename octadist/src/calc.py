@@ -100,6 +100,10 @@ class CalcDistortion:
         coord : array_like
             Atomic coordinates of octahedral structure.
 
+        See Also
+        --------
+        calc_d_bond : Calculate metal-ligand bonds length.
+
         """
         self.d_mean = np.mean(self.bond_dist)
 
@@ -169,6 +173,11 @@ class CalcDistortion:
         DOI: 10.1107/S0108768103026661
         Acta Cryst. (2004). B60, 10-20
 
+        See Also
+        --------
+        calc_d_bond : Calculate metal-ligand bonds length.
+        calc_d_mean : Calculate mean metal-ligand bond length.
+
         """
         delta = sum(pow((self.bond_dist[i] - self.d_mean) / self.d_mean, 2) for i in range(6))
         self.delta = delta / 6
@@ -192,6 +201,10 @@ class CalcDistortion:
         ----------
         J. K. McCusker et al. Inorg. Chem. 1996, 35, 2100.
 
+        See Also
+        --------
+        calc_bond_angle : Calculate bond angles between ligand-metal-ligand.
+
         """
         self.sigma = sum(abs(90.0 - self.cis_angle[i]) for i in range(12))
 
@@ -214,6 +227,11 @@ class CalcDistortion:
         ----------
         M. Marchivie et al.
         Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.
+
+        See Also
+        --------
+        calc_theta_min : Calculate minimum Theta parameter.
+        calc_theta_max : Calculate maximum Theta parameter.
 
         """
         ligands = list(self.coord[1:])
