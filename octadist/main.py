@@ -131,7 +131,6 @@ class OctaDist:
         Start application with UI settings.
 
         """
-
         self.master.title(f"OctaDist {octadist.__version__}")
         font = "Arial 10"
         self.master.option_add("*Font", font)
@@ -238,108 +237,108 @@ class OctaDist:
         # Frame 1 #
         ###########
 
-        self.frame1 = tk.Frame(self.master)
-        self.frame1.grid(padx=5, pady=5, row=0, column=0, columnspan=2)
+        frame1 = tk.Frame(self.master)
+        frame1.grid(padx=5, pady=5, row=0, column=0, columnspan=2)
 
         title = octadist.__title__
-        self.lbl = tk.Label(self.frame1, text=title)
-        self.lbl.configure(foreground="blue", font=("Arial", 16, "bold"))
-        self.lbl.grid(pady="5", row=0, columnspan=4)
+        lbl = tk.Label(frame1, text=title)
+        lbl.configure(foreground="blue", font=("Arial", 16, "bold"))
+        lbl.grid(pady="5", row=0, columnspan=4)
 
         description = octadist.__description__
-        self.lbl = tk.Label(self.frame1, text=description)
-        self.lbl.grid(pady="5", row=1, columnspan=4)
+        lbl = tk.Label(frame1, text=description)
+        lbl.grid(pady="5", row=1, columnspan=4)
 
         ###########
         # Frame 2 #
         ###########
 
-        self.frame2 = tk.LabelFrame(self.master, text="Program Console")
-        self.frame2.grid(padx=5, pady=5, ipadx=2, ipady=2, sticky=tk.N, row=1, column=0)
+        frame2 = tk.LabelFrame(self.master, text="Program Console")
+        frame2.grid(padx=5, pady=5, ipadx=2, ipady=2, sticky=tk.N, row=1, column=0)
 
-        self.btn_openfile = ttk.Button(self.frame2, text="Browse file", command=self.open_file)
-        self.btn_openfile.config(width=14)
-        self.btn_openfile.grid(padx="10", pady="5", row=0)
+        btn_openfile = ttk.Button(frame2, text="Browse file", command=self.open_file)
+        btn_openfile.config(width=14)
+        btn_openfile.grid(padx="10", pady="5", row=0)
 
-        self.btn_run = ttk.Button(self.frame2, text="Compute", command=self.calc_distortion)
-        self.btn_run.config(width=14)
-        self.btn_run.grid(padx="10", pady="5", row=1)
+        btn_run = ttk.Button(frame2, text="Compute", command=self.calc_distortion)
+        btn_run.config(width=14)
+        btn_run.grid(padx="10", pady="5", row=1)
 
-        self.btn_clear = ttk.Button(self.frame2, text="Clear cache", command=self.clear_cache)
-        self.btn_clear.config(width=14)
-        self.btn_clear.grid(padx="10", pady="5", row=2)
+        btn_clear = ttk.Button(frame2, text="Clear cache", command=self.clear_cache)
+        btn_clear.config(width=14)
+        btn_clear.grid(padx="10", pady="5", row=2)
 
-        self.btn_save = ttk.Button(self.frame2, text="Save Results", command=self.save_results)
-        self.btn_save.config(width=14)
-        self.btn_save.grid(padx="10", pady="5", row=3)
+        btn_save = ttk.Button(frame2, text="Save Results", command=self.save_results)
+        btn_save.config(width=14)
+        btn_save.grid(padx="10", pady="5", row=3)
 
         ###########
         # Frame 3 #
         ###########
 
-        self.frame3 = tk.LabelFrame(self.master, text="Distortion Parameters")
-        self.frame3.grid(padx=5, pady=5, ipadx=3, ipady=2, sticky=tk.N, row=1, column=1)
+        frame3 = tk.LabelFrame(self.master, text="Distortion Parameters")
+        frame3.grid(padx=5, pady=5, ipadx=3, ipady=2, sticky=tk.N, row=1, column=1)
 
         # D_mean
-        self.lbl_d_mean = tk.Label(self.frame3, text="<D>   =   ")
-        self.lbl_d_mean.grid(sticky=tk.E, pady="5", row=0, column=0)
+        lbl_d_mean = tk.Label(frame3, text="<D>   =   ")
+        lbl_d_mean.grid(sticky=tk.E, pady="5", row=0, column=0)
 
-        self.box_d_mean = tk.Entry(self.frame3)
+        self.box_d_mean = tk.Entry(frame3)
         self.box_d_mean.configure(width="12", justify='center')
         self.box_d_mean.grid(row=0, column=1)
 
-        self.lbl_unit = tk.Label(self.frame3, text="  Angstrom")
-        self.lbl_unit.grid(pady="5", row=0, column=2)
+        lbl_unit = tk.Label(frame3, text="  Angstrom")
+        lbl_unit.grid(pady="5", row=0, column=2)
 
         # Zeta
-        self.lbl_zeta = tk.Label(self.frame3, text="ζ   =   ")
-        self.lbl_zeta.grid(sticky=tk.E, pady="5", row=1, column=0)
+        lbl_zeta = tk.Label(frame3, text="ζ   =   ")
+        lbl_zeta.grid(sticky=tk.E, pady="5", row=1, column=0)
 
-        self.box_zeta = tk.Entry(self.frame3)
+        self.box_zeta = tk.Entry(frame3)
         self.box_zeta.configure(width="12", justify='center')
         self.box_zeta.grid(row=1, column=1)
 
-        self.lbl_unit = tk.Label(self.frame3, text="  Angstrom")
-        self.lbl_unit.grid(pady="5", row=1, column=2)
+        lbl_unit = tk.Label(frame3, text="  Angstrom")
+        lbl_unit.grid(pady="5", row=1, column=2)
 
         # Delta
-        self.lbl_delta = tk.Label(self.frame3, text="Δ   =   ")
-        self.lbl_delta.grid(sticky=tk.E, pady="5", row=2, column=0)
+        lbl_delta = tk.Label(frame3, text="Δ   =   ")
+        lbl_delta.grid(sticky=tk.E, pady="5", row=2, column=0)
 
-        self.box_delta = tk.Entry(self.frame3)
+        self.box_delta = tk.Entry(frame3)
         self.box_delta.configure(width="12", justify='center')
         self.box_delta.grid(row=2, column=1)
 
         # Sigma
-        self.lbl_sigma = tk.Label(self.frame3, text="Σ   =   ")
-        self.lbl_sigma.grid(sticky=tk.E, pady="5", row=3, column=0)
+        lbl_sigma = tk.Label(frame3, text="Σ   =   ")
+        lbl_sigma.grid(sticky=tk.E, pady="5", row=3, column=0)
 
-        self.box_sigma = tk.Entry(self.frame3)
+        self.box_sigma = tk.Entry(frame3)
         self.box_sigma.configure(width="12", justify='center')
         self.box_sigma.grid(row=3, column=1)
 
-        self.lbl_unit = tk.Label(self.frame3, text="  degree")
-        self.lbl_unit.grid(pady="5", row=3, column=2)
+        lbl_unit = tk.Label(frame3, text="  degree")
+        lbl_unit.grid(pady="5", row=3, column=2)
 
         # Theta_mean
-        self.lbl_theta_mean = tk.Label(self.frame3, text="Θ   =   ")
-        self.lbl_theta_mean.grid(sticky=tk.E, pady="5", row=4, column=0)
+        lbl_theta_mean = tk.Label(frame3, text="Θ   =   ")
+        lbl_theta_mean.grid(sticky=tk.E, pady="5", row=4, column=0)
 
-        self.box_theta_mean = tk.Entry(self.frame3)
+        self.box_theta_mean = tk.Entry(frame3)
         self.box_theta_mean.configure(width="12", justify='center')
         self.box_theta_mean.grid(row=4, column=1)
 
-        self.lbl_unit = tk.Label(self.frame3, text="  degree")
-        self.lbl_unit.grid(pady="5", row=4, column=2)
+        lbl_unit = tk.Label(frame3, text="  degree")
+        lbl_unit.grid(pady="5", row=4, column=2)
 
         ###########
         # Frame 4 #
         ###########
 
-        self.frame4 = tk.Frame(self.master)
-        self.frame4.grid(padx=5, pady=10, row=2, column=0, columnspan=2)
+        frame4 = tk.Frame(self.master)
+        frame4.grid(padx=5, pady=10, row=2, column=0, columnspan=2)
 
-        self.box_result = tkscrolled.ScrolledText(self.frame4)
+        self.box_result = tkscrolled.ScrolledText(frame4)
         self.box_result.configure(height="19", width="70", wrap="word", undo="True")
         self.box_result.grid(row=0)
 
@@ -366,13 +365,13 @@ class OctaDist:
         Store default values of initial parameters to backup variables.
 
         """
-        self.backup_1 = self.cutoff_metal_ligand
-        self.backup_2 = self.cutoff_global
-        self.backup_3 = self.cutoff_hydrogen
-        self.backup_4 = self.text_editor
-        self.backup_5 = self.show_title
-        self.backup_6 = self.show_axis
-        self.backup_7 = self.show_grid
+        self.backup_cutoff_metal_ligand = self.cutoff_metal_ligand
+        self.backup_cutoff_global = self.cutoff_global
+        self.backup_cutoff_hydrogen = self.cutoff_hydrogen
+        self.backup_text_editor = self.text_editor
+        self.backup_show_title = self.show_title
+        self.backup_show_axis = self.show_axis
+        self.backup_show_grid = self.show_grid
 
     #####################
     # Manipulating File #
@@ -609,6 +608,10 @@ class OctaDist:
             popup.err_no_file()
             return 1
 
+        # if comp_result is not empty, clean it to avoid over loop.
+        if self.comp_result:
+            self.comp_result = []
+
         # loop over number of metal complexes
         for i in range(len(self.atom_coord_octa)):
             atom_octa, coord_octa = self.atom_coord_octa[i]
@@ -735,13 +738,13 @@ class OctaDist:
             Restore all settings.
 
             """
-            self.cutoff_metal_ligand = self.backup_1
-            self.cutoff_global = self.backup_2
-            self.cutoff_hydrogen = self.backup_3
-            self.text_editor = self.backup_4
-            self.show_title = self.backup_5
-            self.show_axis = self.backup_6
-            self.show_grid = self.backup_7
+            self.cutoff_metal_ligand = self.backup_cutoff_metal_ligand
+            self.cutoff_global = self.backup_cutoff_global
+            self.cutoff_hydrogen = self.backup_cutoff_hydrogen
+            self.text_editor = self.backup_text_editor
+            self.show_title = self.backup_show_title
+            self.show_axis = self.backup_show_axis
+            self.show_grid = self.backup_show_grid
 
             var_1.set(self.cutoff_metal_ligand)
             var_2.set(self.cutoff_global)
@@ -875,7 +878,7 @@ class OctaDist:
         var_axis = tk.BooleanVar()
         var_axis.set(self.show_axis)
 
-        show_axis = ttk.Checkbutton(displays, text="Show Axes", onvalue=True, offvalue=False,
+        show_axis = ttk.Checkbutton(displays, text="Show Axis", onvalue=True, offvalue=False,
                                     variable=var_axis, command=lambda: check_axis())
         show_axis.grid(padx="5", pady="5", ipadx="25", sticky=tk.E, row=0, column=1)
 
@@ -1029,149 +1032,9 @@ class OctaDist:
         except FileNotFoundError:
             return 1
 
-    #############
-    # Scripting #
-    #############
-
-    def script_help(self):
-        """
-        Show help messages.
-
-        See Also
-        --------
-        script_run
-
-        """
-        help_msg = ">>> This is an interactive code console for internal scripting.\n" \
-                   ">>> \n" \
-                   ">>> Commands\n" \
-                   ">>> --------\n" \
-                   ">>> help     - Show this help info.\n" \
-                   ">>> list     - List all commands.\n" \
-                   ">>> info     - Show info of program.\n" \
-                   ">>> doc      - Show docstring of this function.\n" \
-                   ">>> show     - Show values of parameter.\n" \
-                   "               Usage: show arg1 [arg2] [arg3] [..]\n" \
-                   ">>> set      - Set new value to parameter.\n" \
-                   "               Usage: set param new_value\n" \
-                   ">>> clear    - Clear stdout/stderr.\n" \
-                   ">>> clean    - Clear stdout/stderr.\n" \
-                   ">>> restore  - Restore program settings.\n"
-        self.box_script.insert(tk.INSERT, help_msg + "\n")
-
-    def script_show(self, args):
-        """
-        Show value of variable that user requests.
-
-        Parameters
-        ----------
-        args : str
-            Variable.
-
-        See Also
-        --------
-        script_run
-
-        """
-        for i in range(len(args)):
-            self.box_script.insert(tk.INSERT, f">>> {args[i]}")
-
-    def script_set(self, param, new_value):
-        """
-        Set new value to variable.
-
-        Parameters
-        ----------
-        param : str
-            Variable to be assigned.
-        new_value : str
-            New value to assign.
-
-        See Also
-        --------
-        script_run
-
-        """
-        self.all_var = {'cutoff_metal_ligand': self.cutoff_metal_ligand,
-                        'cutoff_global': self.cutoff_global,
-                        'cutoff_hydrogen': self.cutoff_hydrogen
-                        }
-
-        for key, value in self.all_var.items():
-            print(key, value)
-            if param == key:
-                self.all_var[key] = new_value
-
-        self.box_script.insert(tk.INSERT, f">>> {param} is set to {new_value}\n")
-
-    def script_run(self, event):
-        """
-        Execute scripting command.
-
-        Parameters
-        ----------
-        event : object
-            Object for button interaction
-
-        See Also
-        --------
-        script_start
-        script_help
-        script_show
-        script_set
-
-        """
-        self.get_var = self.entry_script.get().strip().split()
-
-        if len(self.get_var) == 0:
-            self.box_script.insert(tk.INSERT, ">>>\n")
-            self.box_script.see(tk.END)
-            return 1
-
-        self.entry_script.delete(0, tk.END)
-
-        command = self.get_var[0].lower()
-        args = self.get_var[1:]
-
-        if command == "help":
-            self.script_help()
-        elif command == "list":
-            all_command = "help, list, info, doc, show, set, clear, clean, restore"
-            self.box_script.insert(tk.INSERT, f">>> {all_command}\n")
-        elif command == "info":
-            self.box_script.insert(tk.INSERT, f">>> {octadist.__description__}\n")
-        elif command == "doc":
-            self.box_script.insert(tk.INSERT, f">>> {octadist.__doc__}\n")
-        elif command == "show":
-            try:
-                self.script_show(args)
-            except TypeError:
-                self.box_script.insert(tk.INSERT, f">>> show command needs 1 parameter\n")
-        elif command == "set":
-            try:
-                args[0]
-            except IndexError:
-                self.box_script.insert(tk.INSERT, f">>> No variable specified\n")
-                self.box_script.insert(tk.INSERT, f">>> set command needs 2 parameters\n")
-                return 1
-
-            try:
-                args[1]
-            except IndexError:
-                self.box_script.insert(tk.INSERT, f">>> No value specified\n")
-                self.box_script.insert(tk.INSERT, f">>> set command needs 2 parameters\n")
-                return 1
-
-            self.script_set(args[0], args[1])
-
-        elif command == "clear" or command == "clean":
-            self.box_script.delete(1.0, tk.END)
-        elif command == "restore" or command == "clean":
-            self.box_script.insert(tk.INSERT, f">>> Restore all settings")
-        else:
-            self.box_script.insert(tk.INSERT, f">>> Command \"{command}\" not found\n")
-
-        self.box_script.see(tk.END)
+    #########################
+    # Interactive scripting #
+    #########################
 
     def script_start(self):
         """
@@ -1188,16 +1051,226 @@ class OctaDist:
         master : object
             Master frame of program.
 
-        See Also
-        --------
-        script_run
+        Notes
+        -----
+        settings :
+            Program settings.
 
         """
+        def script_run_help():
+            """
+            Show help messages.
+
+            """
+            help_msg = ">>> Interactive code console for OctaDist.\n" \
+                       ">>> This scripting interface supports built-in commands as follows:\n" \
+                       ">>> \n" \
+                       ">>> Command     Description\n" \
+                       ">>> =======     ===========\n" \
+                       ">>> help        Show this help info.\n" \
+                       ">>> list        List all commands.\n" \
+                       ">>> info        Show info of program.\n" \
+                       ">>> doc         Show docstring of this function.\n" \
+                       ">>> show        Show values of parameter.\n" \
+                       ">>>             Usage: show arg1 [arg2] [arg3] [...]\n" \
+                       ">>> set         Set new value to parameter.\n" \
+                       ">>>             Usage: set param new_value\n" \
+                       ">>> clear       Clear stdout/stderr.\n" \
+                       ">>> clean       Clear stdout/stderr and command history.\n" \
+                       ">>> restore     Restore program settings.\n" \
+                       ">>> history     Command history.\n" \
+                       ">>>\n" \
+                       ">>> Rangsiman Ketkaew    rangsiman1993@gmail.com    OctaDist"
+            self.box_script.insert(tk.INSERT, help_msg + "\n")
+
+        def script_run_list():
+            """
+            Show list of commands in scripting run.
+
+            """
+            all_command = "help, list, info, doc, show, set, " \
+                          "clear, clean, restore, history"
+            self.box_script.insert(tk.INSERT, f">>> {all_command}\n")
+
+        def script_run_info():
+            """
+            Show info of program.
+
+            """
+            self.box_script.insert(tk.INSERT, f">>> {octadist.__description__}\n")
+
+        def script_run_doc():
+            """
+            Show document of program.
+
+            """
+            self.box_script.insert(tk.INSERT, f">>> {octadist.__doc__}\n")
+
+        def script_run_show(args):
+            """
+            Show value of variable that user requests.
+
+            Parameters
+            ----------
+            args : str
+                Variable.
+
+            """
+            if not args:
+                self.box_script.insert(tk.INSERT, f">>> show command needs 1 parameter\n")
+                return 1
+
+            first_arg = args[0].lower()
+            if first_arg == "all" or first_arg == "*":
+                for key in self.__dict__.keys():
+                    value = self.__dict__[key]
+                    self.box_script.insert(tk.INSERT, f">>> {key} = {value}\n")
+                return 0
+
+            for i in range(len(args)):
+                try:
+                    key = args[i]
+                    value = self.__dict__[f"{key}"]
+                    self.box_script.insert(tk.INSERT, f">>> {key} = {value}\n")
+                except KeyError:
+                    self.box_script.insert(tk.INSERT, f">>> no variable name {args[i]}\n")
+
+        def script_run_set(args):
+            """
+            Set new value to variable.
+
+            Parameters
+            ----------
+            args : str
+                Variable.
+
+            """
+            try:
+                args[0]
+            except IndexError:
+                self.box_script.insert(tk.INSERT, f">>> No variable specified\n")
+                self.box_script.insert(tk.INSERT, f">>> set command needs 2 parameters\n")
+                return 1
+
+            try:
+                args[1]
+            except IndexError:
+                self.box_script.insert(tk.INSERT, f">>> No value specified\n")
+                self.box_script.insert(tk.INSERT, f">>> set command needs 2 parameters\n")
+                return 1
+
+            key = args[0]
+            value = args[1]
+
+            self.__dict__[f"{key}"] = value
+
+            self.box_script.insert(tk.INSERT, f">>> {key} is set to {value}\n")
+
+        def script_run_clear():
+            """
+            Clear output box.
+
+            """
+            self.box_script.delete(1.0, tk.END)
+
+        def script_run_clean():
+            """
+            Clear output box and clean variable.
+
+            """
+            script_run_clear()
+            self.history_command = []
+
+        def script_run_restore():
+            """
+            Restore all default settings.
+
+            """
+            self.box_script.insert(tk.INSERT, f">>> Restore all settings\n")
+
+        def script_run_history():
+            """
+            Show history of command.
+
+            """
+            if not self.history_command:
+                self.box_script.insert(tk.INSERT, f">>> no history\n")
+            for item in self.history_command:
+                self.box_script.insert(tk.INSERT, f">>> {item}\n")
+
+        def script_no_command(command):
+            """
+            Show statement if command not found.
+
+            Parameters
+            ----------
+            command : str
+                Command that user submits.
+
+            """
+            self.box_script.insert(tk.INSERT, f">>> Command \"{command}\" not found\n")
+
+        def script_execute(event):
+            """
+            Execute input command scripting.
+
+            Parameters
+            ----------
+            event : object
+                Object for button interaction
+
+            """
+            user_command = self.entry_script.get().strip().split()
+            self.entry_script.delete(0, tk.END)
+
+            # print input command
+            if user_command:
+                res = (" ".join([str(i) for i in user_command]))
+                self.box_script.insert(tk.INSERT, f"{res}\n")
+                # collect command to history list
+                if res.lower() != "history":
+                    self.history_command.append(res)
+
+            if len(user_command) == 0:
+                self.box_script.insert(tk.INSERT, ">>> no command\n")
+                self.box_script.see(tk.END)
+                return 1
+
+            command = user_command[0].lower()
+            args = user_command[1:]
+
+            if command == "help":
+                script_run_help()
+            elif command == "list":
+                script_run_list()
+            elif command == "info":
+                script_run_info()
+            elif command == "doc":
+                script_run_doc()
+            elif command == "show":
+                script_run_show(args)
+            elif command == "set":
+                script_run_set(args)
+            elif command == "clear":
+                script_run_clear()
+            elif command == "clean":
+                script_run_clean()
+            elif command == "restore":
+                script_run_restore()
+            elif command == "history":
+                script_run_history()
+            else:
+                script_no_command(command)
+
+            self.box_script.see(tk.END)
+
+        self.history_command = []
+
         wd = tk.Toplevel(self.master)
         if self.octadist_icon is not None:
             wd.wm_iconbitmap(self.octadist_icon)
-        wd.title("Run Scripting")
-        wd.bind('<Return>', self.script_run)
+        wd.title("OctaDist Scripting Interface")
+        wd.bind('<Return>', script_execute)
 
         self.lbl = tk.Label(wd, text="Output:")
         self.lbl.grid(padx="5", pady="5", sticky=tk.W, row=0, column=0)
@@ -1208,12 +1281,12 @@ class OctaDist:
         self.entry_script = tk.Entry(wd, width=62)
         self.entry_script.grid(padx="5", pady="5", sticky=tk.W, row=3, column=0)
         self.btn_script = tk.Button(wd, text="Run")
-        self.btn_script.bind('<Button-1>', self.script_run)
+        self.btn_script.bind('<Button-1>', script_execute)
         self.btn_script.grid(padx="5", pady="5", row=3, column=1)
 
-        self.box_script.insert(tk.INSERT, ">>> Enter your script commands\n")
-        self.box_script.insert(tk.INSERT, ">>> If you have no idea about scripting, "
-                                          "type \"help\" for getting started.\n")
+        self.box_script.insert(tk.INSERT, "Welcome to OctaDist interactive scripting console\n")
+        self.box_script.insert(tk.INSERT, "If you have no idea what to do about scripting, "
+                                          "type \"help\" to get started.\n\n")
 
         wd.mainloop()
 
@@ -1700,24 +1773,25 @@ class OctaDist:
         lbl = tk.Label(frame, text="Usage:")
         lbl.grid(sticky=tk.W, row=0)
         msg_help_1 = "1. Browse input file\n" \
-                     "2. Compute distortion parameters\n" \
-                     "3. Check results\n" \
-                     "4. File → Save results\n"
+                     "2. Check if uploaded data is accurate\n" \
+                     "3. Compute distortion parameters\n" \
+                     "4. Analyse and refine results\n" \
+                     "5. Save results as output file\n"
         msg = tk.Message(frame, text=msg_help_1, width="450")
         msg.grid(sticky=tk.W, row=1)
 
         # XYZ file format
-        lbl = tk.Label(frame, text="Supported input: XYZ file format (*.xyz)")
+        lbl = tk.Label(frame, text="Supported input: XYZ file format (*.xyz):")
         lbl.grid(sticky=tk.W, row=2)
         msg_help_2 = " <number of atoms>\n" \
                      " comment line\n" \
-                     " <Metal center 0>  <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 1>  <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 2>  <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 3>  <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 4>  <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 5>  <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 6>  <X>  <Y>  <Z>\n" \
+                     " <Metal center 0>    <X>  <Y>  <Z>\n" \
+                     " <Ligand atom 1>    <X>  <Y>  <Z>\n" \
+                     " <Ligand atom 2>    <X>  <Y>  <Z>\n" \
+                     " <Ligand atom 3>    <X>  <Y>  <Z>\n" \
+                     " <Ligand atom 4>    <X>  <Y>  <Z>\n" \
+                     " <Ligand atom 5>    <X>  <Y>  <Z>\n" \
+                     " <Ligand atom 6>    <X>  <Y>  <Z>\n" \
                      " <optional>\n" \
                      " ...\n"
         msg = tk.Message(frame, text=msg_help_2, width="450")
