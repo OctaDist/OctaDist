@@ -157,6 +157,13 @@ class CalcDistortion:
         calc_d_bond : Calculate metal-ligand bonds length.
         calc_d_mean : Calculate mean metal-ligand bond length.
 
+        Notes
+        -----
+        \zeta = \sum_{i=1}^{6}\left | d_{i} - d_{mean}  \right |
+
+        where :math:`d_{i}` is individual M-X bond distance and
+        :math:`d_{mean}` is mean metal-ligand bond distance.
+
         References
         ----------
         Phys. Rev. B 85, 064114
@@ -183,10 +190,9 @@ class CalcDistortion:
 
         Notes
         -----
-        .. math::
-            \Delta = \frac{1}{6} \sum_{i=1}^{6}(\frac{d_{i} - d_{mean}}{d_{mean}})^2
+        \Delta = \frac{1}{6} \sum_{i=1}^{6}(\frac{d_{i} - d_{mean}}{d_{mean}})^2
 
-        where :math:`d_{i}` is individual M-X distance and
+        where :math:`d_{i}` is individual M-X bond distance and
         :math:`d_{mean}` is mean metal-ligand bond distance.
 
         References
@@ -202,24 +208,24 @@ class CalcDistortion:
         """
         Calculate Sigma parameter and return value in degree.
 
-        |       12
-        | Σ = sigma < 90 - angle_i >
-        |      i=1
-
-        where angle_i in an unique cis angle.
-
         Parameters
         ----------
         coord : array_like
             Atomic coordinates of octahedral structure.
 
-        References
-        ----------
-        J. K. McCusker et al. Inorg. Chem. 1996, 35, 2100.
-
         See Also
         --------
         calc_bond_angle : Calculate bond angles between ligand-metal-ligand.
+
+        Notes
+        -----
+        \Sigma = \sum_{i=1}^{12}\left | 90 - \phi_{i}  \right |
+
+        where :math:`\phi_{i}` in individual cis angle.
+
+        References
+        ----------
+        J. K. McCusker et al. Inorg. Chem. 1996, 35, 2100.
 
         """
         self.sigma = sum(abs(90.0 - self.cis_angle[i]) for i in range(12))
@@ -228,21 +234,10 @@ class CalcDistortion:
         """
         Calculate Theta parameter and value in degree.
 
-        |       24
-        | Θ = sigma < 60 - angle_i >
-        |      i=1
-
-        where angle_i is an unique angle between two vectors of two twisting face.
-
         Parameters
         ----------
         coord : array_like
             Atomic coordinates of octahedral structure.
-
-        References
-        ----------
-        M. Marchivie et al.
-        Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.
 
         See Also
         --------
@@ -258,6 +253,17 @@ class CalcDistortion:
             Find the equation of the plane.
         octadist.src.projection.project_atom_onto_plane :
             Orthogonal projection of point onto the plane.
+
+        Notes
+        -----
+        \Theta = \sum_{i=1}^{24}\left | 60 - \theta_{i}  \right |
+
+        where :math:`\theta_{i}` is individual angle between two vectors of two twisting face.
+
+        References
+        ----------
+        M. Marchivie et al.
+        Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.
 
         """
         ligands = list(self.coord[1:])
