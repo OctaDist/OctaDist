@@ -232,6 +232,7 @@ class CalcDistortion:
         --------
         calc_theta_min : Calculate minimum Theta parameter.
         calc_theta_max : Calculate maximum Theta parameter.
+        plane.find_eq_of_plane : Find the equation of the plane.
 
         """
         ligands = list(self.coord[1:])
