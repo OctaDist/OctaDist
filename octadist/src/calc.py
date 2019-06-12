@@ -171,9 +171,7 @@ class CalcDistortion:
         """
         Calculate Delta parameter, also known as Tilting distortion parameter.
 
-        .. math::
-
-            \[\Delta = \frac{1}{6} \sum_{i=1}^{6}(\frac{d_{i} - d_{mean}}{d_{mean}})^2\]
+        \Delta = \frac{1}{6} \sum_{i=1}^{6}(\frac{d_{i} - d_{mean}}{d_{mean}})^2\
 
         where :math:`d_{i}` is individual M-X distance and
         :math:`d_{mean}` is mean metal-ligand bond distance.
