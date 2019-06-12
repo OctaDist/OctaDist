@@ -183,8 +183,7 @@ class CalcDistortion:
 
         Notes
         -----
-        math::
-
+        .. math::
             \Delta = \frac{1}{6} \sum_{i=1}^{6}(\frac{d_{i} - d_{mean}}{d_{mean}})^2
 
         where :math:`d_{i}` is individual M-X distance and
