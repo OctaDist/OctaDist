@@ -580,11 +580,11 @@ class OctaDist:
 
         See Also
         --------
-        src.calc.CalcDistortion.calc_d_mean
-        src.calc.CalcDistortion.calc_zeta
-        src.calc.CalcDistortion.calc_delta
-        src.calc.CalcDistortion.calc_sigma
-        src.calc.CalcDistortion.calc_theta
+        octadist.src.calc.CalcDistortion.calc_d_mean
+        octadist.src.calc.CalcDistortion.calc_zeta
+        octadist.src.calc.CalcDistortion.calc_delta
+        octadist.src.calc.CalcDistortion.calc_sigma
+        octadist.src.calc.CalcDistortion.calc_theta
 
         """
         # if not self.has_metal:
