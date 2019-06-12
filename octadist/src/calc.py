@@ -171,27 +171,30 @@ class CalcDistortion:
         """
         Calculate Delta parameter, also known as Tilting distortion parameter.
 
-        .. math::
-
-            \Delta = \frac{1}{6} \sum_{i=1}^{6}(\frac{d_{i} - d_{mean}}{d_{mean}})^2
-
-        where :math:`d_{i}` is individual M-X distance and
-        :math:`d_{mean}` is mean metal-ligand bond distance.
-
         Parameters
         ----------
         coord : array_like
             Atomic coordinates of octahedral structure.
 
-        References
-        ----------
-        DOI: 10.1107/S0108768103026661
-        Acta Cryst. (2004). B60, 10-20
-
         See Also
         --------
         calc_d_bond : Calculate metal-ligand bonds length.
         calc_d_mean : Calculate mean metal-ligand bond length.
+
+        Notes
+        -----
+        .. math::
+
+            \Delta = \frac{1}{6} \sum_{i=1}^{6}(\frac{d_{i} - d_{mean}}{d_{mean}})^2
+
+
+        where :math:`d_{i}` is individual M-X distance and
+        :math:`d_{mean}` is mean metal-ligand bond distance.
+
+        References
+        ----------
+        DOI: 10.1107/S0108768103026661
+        Acta Cryst. (2004). B60, 10-20
 
         """
         delta = sum(pow((self.bond_dist[i] - self.d_mean) / self.d_mean, 2) for i in range(6))
