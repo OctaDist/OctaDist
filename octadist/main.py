@@ -580,11 +580,16 @@ class OctaDist:
 
         See Also
         --------
-        octadist.src.calc.CalcDistortion.calc_d_mean
-        octadist.src.calc.CalcDistortion.calc_zeta
-        octadist.src.calc.CalcDistortion.calc_delta
-        octadist.src.calc.CalcDistortion.calc_sigma
-        octadist.src.calc.CalcDistortion.calc_theta
+        octadist.src.calc.CalcDistortion.calc_d_mean :
+            Calculate mean metal-ligand bond length.
+        octadist.src.calc.CalcDistortion.calc_zeta :
+            Calculate Zeta parameter.
+        octadist.src.calc.CalcDistortion.calc_delta :
+            Calculate Delta parameter.
+        octadist.src.calc.CalcDistortion.calc_sigma :
+            Calculate Sigma parameter.
+        octadist.src.calc.CalcDistortion.calc_theta :
+            Calculate Theta parameter
 
         """
         # if not self.has_metal:

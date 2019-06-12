@@ -233,7 +233,7 @@ class CalcDistortion:
         calc_theta_min : Calculate minimum Theta parameter.
         calc_theta_max : Calculate maximum Theta parameter.
         octadist.src.plane.find_eq_of_plane : Find the equation of the plane.
-        find_bonds
+        octadist.src.util.find_bonds : Find atomic bonds.
 
         """
         ligands = list(self.coord[1:])
