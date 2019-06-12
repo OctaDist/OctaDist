@@ -162,6 +162,10 @@ class CalcJahnTeller:
         """
         Find bonds.
 
+        See Also
+        --------
+        octadist.src.util.find_bonds : Find atomic bonds.
+
         """
         _, self.bond_list = util.find_bonds(self.atom,
                                             self.coord,

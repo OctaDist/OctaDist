@@ -153,6 +153,13 @@ def find_faces_octa(c_octa):
     c_oppo_f : ndarray
         Atomic coordinates of opposite face.
 
+    See Also
+    --------
+    octadist.src.plane.find_eq_of_plane :
+        Find the equation of the plane.
+    octadist.src.projection.project_atom_onto_plane :
+        Orthogonal projection of point onto the plane.
+
     Examples
     --------
     >>> coord = [[14.68572 18.49228  6.66716]

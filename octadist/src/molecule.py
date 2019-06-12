@@ -71,6 +71,13 @@ def extract_coord(file=None):
     coord : ndarray
         Full atomic coordinates of complex.
 
+    See Also
+    --------
+    octadist.main.OctaDist.open_file :
+        Open file dialog and to browse input file.
+    octadist.main.OctaDist.search_coord :
+        Search octahedral structure in complex.
+
     Notes
     -----
     The following is the file type that OctaDist supports:
@@ -108,7 +115,7 @@ def extract_coord(file=None):
 
     # Check file extension
     if file.endswith(".xyz"):
-        if check_xyz_file(file):
+        if is_xyz(file):
             atom, coord = get_coord_xyz(file)
 
         else:
@@ -117,13 +124,13 @@ def extract_coord(file=None):
             check = False
 
     elif file.endswith(".out") or file.endswith(".log"):
-        if check_gaussian_file(file):
+        if is_gaussian(file):
             atom, coord = get_coord_gaussian(file)
-        elif check_nwchem_file(file):
+        elif is_nwchem(file):
             atom, coord = get_coord_nwchem(file)
-        elif check_orca_file(file):
+        elif is_orca(file):
             atom, coord = get_coord_orca(file)
-        elif check_qchem_file(file):
+        elif is_qchem(file):
             atom, coord = get_coord_qchem(file)
         else:
             check = False
@@ -158,6 +165,11 @@ def find_metal(atom=None, coord=None):
         Atomic labels of metal center atom.
     coord_metal : ndarray
         Atomic coordinates of metal center atom.
+
+    See Also
+    --------
+    octadist.src.elements.check_atom :
+        Convert atomic number to atomic symbol and vice versa.
 
     Examples
     --------
@@ -232,6 +244,13 @@ def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
     coord_octa : ndarray
         Atomic coordinates of octahedral structure.
 
+    See Also
+    --------
+    find_metal :
+        Find metals in complex.
+    octadist.main.OctaDist.search_coord :
+        Search octahedral structure in complex.
+
     Examples
     --------
     >>> atom = ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
@@ -293,7 +312,7 @@ def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
     return atom_octa, coord_octa
 
 
-def check_xyz_file(f):
+def is_xyz(f):
     """
     Check if the input file is .xyz file format.
 
@@ -306,6 +325,11 @@ def check_xyz_file(f):
     -------
     bool : bool
         If file is XYZ file, return True.
+
+    See Also
+    --------
+    get_coord_xyz :
+        Find atomic coordinates of molecule from XYZ file.
 
     Notes
     -----
@@ -332,7 +356,7 @@ def check_xyz_file(f):
     O   5.789096    7.796326    4.611355
     O   6.686381    7.763872    7.209699
 
-    >>> check_xyz_file(example.xyz)
+    >>> is_xyz(example.xyz)
     True
 
     """
@@ -390,7 +414,7 @@ def get_coord_xyz(f):
     return atom, coord
 
 
-def check_gaussian_file(f):
+def is_gaussian(f):
     """
     Check if the input file is Gaussian file format.
 
@@ -403,6 +427,11 @@ def check_gaussian_file(f):
     -------
     bool : bool
         If file is Gaussian output file, return True.
+
+    See Also
+    --------
+    get_coord_gaussian :
+        Find atomic coordinates of molecule from Gaussian file.
 
     Examples
     --------
@@ -479,7 +508,7 @@ def get_coord_gaussian(f):
     return atom, coord
 
 
-def check_nwchem_file(f):
+def is_nwchem(f):
     """
     Check if the input file is NWChem file format.
 
@@ -492,6 +521,11 @@ def check_nwchem_file(f):
     -------
     bool : bool
         If file is NWChem output file, return True.
+
+    See Also
+    --------
+    get_coord_nwchem :
+        Find atomic coordinates of molecule from NWChem file.
 
     Examples
     --------
@@ -577,7 +611,7 @@ def get_coord_nwchem(f):
     return atom, coord
 
 
-def check_orca_file(f):
+def is_orca(f):
     """
     Check if the input file is ORCA file format.
 
@@ -590,6 +624,11 @@ def check_orca_file(f):
     -------
     bool : bool
         If file is ORCA output file, return True.
+
+    See Also
+    --------
+    get_coord_orca :
+        Find atomic coordinates of molecule from ORCA file.
 
     Examples
     --------
@@ -662,7 +701,7 @@ def get_coord_orca(f):
     return atom, coord
 
 
-def check_qchem_file(f):
+def is_qchem(f):
     """
     Check if the input file is Q-Chem file format.
 
@@ -675,6 +714,11 @@ def check_qchem_file(f):
     -------
     bool : bool
         If file is Q-Chem output file, return True.
+
+    See Also
+    --------
+    get_coord_qchem :
+        Find atomic coordinates of molecule from Q-Chem file.
 
     Examples
     --------

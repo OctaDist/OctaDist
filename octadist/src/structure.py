@@ -50,7 +50,7 @@ class DataComplex:
                  [2.886404000, 5.392925000, 9.848966000]]
 
     >>> my_app = DataComplex()
-    >>> my_app.add_coord(atom, coord)
+    >>> my_app.add_octa(atom, coord)
 
     """
     def __init__(self, master=None, icon=None):
@@ -146,7 +146,7 @@ class StructParam:
                  [2.886404000, 5.392925000, 9.848966000]]
 
     >>> my_app = DataComplex()
-    >>> my_app.add_coord(atom, coord)
+    >>> my_app.add_octa(atom, coord)
 
     """
     def __init__(self, master=None, icon=None):
@@ -276,7 +276,7 @@ class SurfaceArea:
                  [2.886404000, 5.392925000, 9.848966000]]
 
     >>> my_app = SurfaceArea()
-    >>> my_app.add_coord(coord)
+    >>> my_app.add_octa(coord)
 
     """
     def __init__(self, master=None, icon=None):
@@ -331,7 +331,20 @@ class SurfaceArea:
         """
         self.box.insert(tk.END, f"Metal: {metal}\n")
 
-    def add_coord(self, coord):
+    def add_octa(self, coord):
+        """
+        Add atomic coordinates of octahedron and find triangle area of the faces.
+
+        Parameters
+        ----------
+        coord : array_like
+            Atomic coordinates of octahedral structure.
+
+        See Also
+        --------
+        octadist.src.util.find_faces_octa
+
+        """
         a_ref, c_ref, a_oppo, c_oppo = util.find_faces_octa(coord)
 
         self.box.insert(tk.END, "                 Atoms*        Area (Å³)\n")

@@ -62,11 +62,11 @@ __all__ = \
      'extract_coord',
      'find_metal',
      'extract_octa',
-     'check_xyz_file',
-     'check_gaussian_file',
-     'check_nwchem_file',
-     'check_orca_file',
-     'check_qchem_file',
+     'is_xyz',
+     'is_gaussian',
+     'is_nwchem',
+     'is_orca',
+     'is_qchem',
      'get_coord_xyz',
      'get_coord_gaussian',
      'get_coord_nwchem',
@@ -131,11 +131,11 @@ from .src.molecule import count_line
 from .src.molecule import extract_coord
 from .src.molecule import find_metal
 from .src.molecule import extract_octa
-from .src.molecule import check_xyz_file
-from .src.molecule import check_gaussian_file
-from .src.molecule import check_nwchem_file
-from .src.molecule import check_orca_file
-from .src.molecule import check_qchem_file
+from .src.molecule import is_xyz
+from .src.molecule import is_gaussian
+from .src.molecule import is_nwchem
+from .src.molecule import is_orca
+from .src.molecule import is_qchem
 from .src.molecule import get_coord_xyz
 from .src.molecule import get_coord_gaussian
 from .src.molecule import get_coord_nwchem

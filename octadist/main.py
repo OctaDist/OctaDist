@@ -406,6 +406,13 @@ class OctaDist:
         """
         Search and extract atomic symbols and coordinates from input file.
 
+        See Also
+        --------
+        octadist.src.molecule.extract_coord :
+            Extract atomic symbols and atomic coordinates from input file.
+        octadist.src.molecule.extract_octa :
+            Extract octahedral structure from complex.
+
         """
         try:
             open(self.file_list[0], 'r')
@@ -1398,7 +1405,7 @@ class OctaDist:
             metal = self.octa_index[i]
             atom, coord = self.atom_coord_octa[i]
             my_app.add_metal(metal)
-            my_app.add_coord(coord)
+            my_app.add_octa(coord)
 
     ##############################
     # Plot between two data sets #

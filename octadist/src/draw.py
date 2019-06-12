@@ -121,6 +121,10 @@ class DrawComplex:
         """
         Calculate bond distance, screen bond, and add them to show in figure.
 
+        See Also
+        --------
+        octadist.src.util.find_bonds : Find atomic bonds.
+
         """
         _, self.bond_list = util.find_bonds(self.atom, self.coord,
                                             self.cutoff_global, self.cutoff_hydrogen)
@@ -139,6 +143,10 @@ class DrawComplex:
     def add_face(self, coord):
         """
         Find the faces of octahedral structure and add those faces to show in figure.
+
+        See Also
+        --------
+        octadist.src.util.find_faces_octa
 
         """
         _, c_ref, _, _ = util.find_faces_octa(coord)
@@ -367,6 +375,10 @@ class DrawProjection:
         """
         Add the projection planes to show in figure.
 
+        See Also
+        --------
+        octadist.src.util.find_faces_octa
+
         """
         _, c_ref, _, c_oppo = util.find_faces_octa(self.coord)
 
@@ -495,9 +507,18 @@ class DrawTwistingPlane:
         """
         Add the projection planes to show in figure.
 
+        See Also
+        --------
+        octadist.src.plane.find_eq_of_plane :
+            Find the equation of the plane.
+        octadist.src.projection.project_atom_onto_plane :
+            Orthogonal projection of point onto the plane.
+
         """
         for i in range(4):
-            a, b, c, d = plane.find_eq_of_plane(self.c_ref[i][0], self.c_ref[i][1], self.c_ref[i][2])
+            a, b, c, d = plane.find_eq_of_plane(self.c_ref[i][0],
+                                                self.c_ref[i][1],
+                                                self.c_ref[i][2])
             m = projection.project_atom_onto_plane(self.coord[0], a, b, c, d)
             self.all_m.append(m)
 

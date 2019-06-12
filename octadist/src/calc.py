@@ -87,6 +87,10 @@ class CalcDistortion:
         coord : array_like
             Atomic coordinates of octahedral structure.
 
+        See Also
+        --------
+        calc_d_mean : Calculate mean metal-ligand bond length.
+
         """
         self.bond_dist = [distance.euclidean(self.coord[0], self.coord[i]) for i in range(1, 7)]
         self.bond_dist = np.asarray(self.bond_dist, dtype=np.float64)
@@ -116,6 +120,10 @@ class CalcDistortion:
         coord : array_like
             Atomic coordinates of octahedral structure.
 
+        See Also
+        --------
+        calc_sigma : Calculate Sigma parameter.
+
         """
         all_angle = []
         for i in range(1, 7):
@@ -142,6 +150,11 @@ class CalcDistortion:
         ----------
         coord : array_like
             Atomic coordinates of octahedral structure.
+
+        See Also
+        --------
+        calc_d_bond : Calculate metal-ligand bonds length.
+        calc_d_mean : Calculate mean metal-ligand bond length.
 
         References
         ----------
@@ -230,10 +243,18 @@ class CalcDistortion:
 
         See Also
         --------
-        calc_theta_min : Calculate minimum Theta parameter.
-        calc_theta_max : Calculate maximum Theta parameter.
-        octadist.src.plane.find_eq_of_plane : Find the equation of the plane.
-        octadist.src.util.find_bonds : Find atomic bonds.
+        calc_theta_min :
+            Calculate minimum Theta parameter.
+        calc_theta_max :
+            Calculate maximum Theta parameter.
+        octadist.src.linear.angle_btw_vectors :
+            Calculate cosine angle between two vectors.
+        octadist.src.linear.angle_sign
+            Calculate cosine angle between two vectors sensitive to CW/CCW direction.
+        octadist.src.plane.find_eq_of_plane :
+            Find the equation of the plane.
+        octadist.src.projection.project_atom_onto_plane :
+            Orthogonal projection of point onto the plane.
 
         """
         ligands = list(self.coord[1:])
