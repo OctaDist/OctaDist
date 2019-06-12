@@ -46,6 +46,7 @@ class CalcDistortion:
     47.926528379270124
 
     """
+
     def __init__(self, coord):
         self.coord = coord
 
@@ -170,11 +171,12 @@ class CalcDistortion:
         """
         Calculate Delta parameter, also known as Tilting distortion parameter.
 
-        |       1
-        | Δ =  ---*sum((d_i - d)/d)^2
-        |       6
+        .. math::
 
-        where d_i is individual M-X distance and d is mean M-X distance.
+            \Delta = \frac{1}{6} \sum_{i=1}^{6}(\frac{d_{i} - d_{mean}}{d_{mean}})^2
+
+        where :math:`d_{i}` is individual M-X distance and
+        :math:`d_{mean}` is mean metal-ligand bond distance.
 
         Parameters
         ----------
@@ -487,4 +489,3 @@ class CalcDistortion:
         """
         sorted_theta = sorted(self.allTheta)
         self.theta_max = sum(sorted_theta[i] for i in range(4, 8))
-
