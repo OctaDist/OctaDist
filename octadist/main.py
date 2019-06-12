@@ -1037,6 +1037,10 @@ class OctaDist:
         """
         Show help messages.
 
+        See Also
+        --------
+        script_run
+
         """
         help_msg = ">>> This is an interactive code console for internal scripting.\n" \
                    ">>> \n" \
@@ -1064,6 +1068,10 @@ class OctaDist:
         args : str
             Variable.
 
+        See Also
+        --------
+        script_run
+
         """
         for i in range(len(args)):
             self.box_script.insert(tk.INSERT, f">>> {args[i]}")
@@ -1078,6 +1086,10 @@ class OctaDist:
             Variable to be assigned.
         new_value : str
             New value to assign.
+
+        See Also
+        --------
+        script_run
 
         """
         self.all_var = {'cutoff_metal_ligand': self.cutoff_metal_ligand,
@@ -1100,6 +1112,13 @@ class OctaDist:
         ----------
         event : object
             Object for button interaction
+
+        See Also
+        --------
+        script_start
+        script_help
+        script_show
+        script_set
 
         """
         self.get_var = self.entry_script.get().strip().split()
@@ -1169,6 +1188,10 @@ class OctaDist:
         master : object
             Master frame of program.
 
+        See Also
+        --------
+        script_run
+
         """
         wd = tk.Toplevel(self.master)
         if self.octadist_icon is not None:
@@ -1202,6 +1225,11 @@ class OctaDist:
         """
         Display 3D complex.
 
+        See Also
+        --------
+        octadist.src.draw.DrawComplex :
+            Show 3D molecule.
+
         """
         if len(self.atom_coord_full) == 0:
             popup.err_no_file()
@@ -1227,6 +1255,11 @@ class OctaDist:
     def draw_all_atom_and_face(self):
         """
         Display 3D complex with the faces.
+
+        See Also
+        --------
+        octadist.src.draw.DrawComplex :
+            Show 3D molecule.
 
         """
         if len(self.atom_coord_full) == 0:
@@ -1259,6 +1292,11 @@ class OctaDist:
         """
         Display 3D octahedral structure.
 
+        See Also
+        --------
+        octadist.src.draw.DrawComplex :
+            Show 3D molecule.
+
         """
         if len(self.atom_coord_octa) == 0:
             popup.err_no_file()
@@ -1284,6 +1322,11 @@ class OctaDist:
     def draw_octa_and_face(self):
         """
         Display 3D octahedral structure with the faces.
+
+        See Also
+        --------
+        octadist.src.draw.DrawComplex :
+            Show 3D molecule.
 
         """
         if len(self.atom_coord_octa) == 0:
@@ -1316,6 +1359,11 @@ class OctaDist:
         """
         Draw projection planes.
 
+        See Also
+        --------
+        octadist.src.draw.DrawProjection :
+            Show graphical projections.
+
         """
         if len(self.atom_coord_full) == 0:
             popup.err_no_file()
@@ -1335,6 +1383,11 @@ class OctaDist:
     def draw_twisting_plane(self):
         """
         Draw twisting triangular planes.
+
+        See Also
+        --------
+        octadist.src.draw.DrawTwistingPlane :
+            Show graphical triangular twisting planes.
 
         """
         if len(self.atom_coord_full) == 0:
@@ -1360,6 +1413,11 @@ class OctaDist:
         """
         Show info of input complex.
 
+        See Also
+        --------
+        octadist.src.structure.DataComplex :
+            Show data summary of complex.
+
         """
         if len(self.file_list) == 0:
             popup.err_no_file()
@@ -1377,6 +1435,11 @@ class OctaDist:
         """
         Show structural parameters of selected octahedral structure.
 
+        See Also
+        --------
+        octadist.src.structure.StructParam :
+            Show structural parameter symmary of complex.
+
         """
         if len(self.atom_coord_octa) == 0:
             popup.err_no_file()
@@ -1393,6 +1456,11 @@ class OctaDist:
     def show_surface_area(self):
         """
         Calculate the area of eight triangular faces of octahedral structure.
+
+        See Also
+        --------
+        octadist.src.structure.SurfaceArea :
+            Show the area of the faces of octahedral structure.
 
         """
         if len(self.atom_coord_octa) == 0:
@@ -1415,6 +1483,11 @@ class OctaDist:
         """
         Plot relationship between zeta and sigma.
 
+        See Also
+        --------
+        octadist.src.plot.Plot :
+            Show relationship plot.
+
         """
         if len(self.all_sigma) == 0:
             popup.err_no_calc()
@@ -1429,6 +1502,11 @@ class OctaDist:
     def plot_sigma_theta(self):
         """
         Plot relationship between sigma and theta.
+
+        See Also
+        --------
+        octadist.src.plot.Plot :
+            Show relationship plot.
 
         """
         if len(self.all_sigma) == 0:
@@ -1448,6 +1526,11 @@ class OctaDist:
     def calc_jahn_teller(self):
         """
         Calculate Jahn-Teller distortion parameter.
+
+        See Also
+        --------
+        octadist.src.tools.CalcJahnTeller :
+            Calculate Jahn-Teller distortion parameter.
 
         """
         if len(self.atom_coord_full) == 0:
@@ -1473,6 +1556,11 @@ class OctaDist:
     def calc_rmsd(self):
         """
         Calculate root mean squared displacement of atoms in complex, RMSD.
+
+        See Also
+        --------
+        octadist.src.tools.CalcRMSD :
+            Calculate RMSD.
 
         """
         if len(self.atom_coord_full) != 2:
