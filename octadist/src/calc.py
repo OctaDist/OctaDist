@@ -40,7 +40,7 @@ class CalcDistortion:
                  [2.886404000, 5.392925000, 9.848966000]]
 
     >>> test = CalcDistortion(coord)
-    >>> sigma = test.get_sigma()
+    >>> sigma = test.sigma
 
     >>> sigma
     47.926528379270124
@@ -142,10 +142,6 @@ class CalcDistortion:
     def calc_zeta(self):
         """
         Calculate Zeta parameter and return value in Angstrom.
-
-        |      6
-        | ζ = sum(|dist_i - d_mean|)
-        |     i=1
 
         Parameters
         ----------
