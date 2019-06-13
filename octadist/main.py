@@ -32,12 +32,14 @@ import numpy as np
 import octadist
 from octadist.logo import Icon_Base64
 from octadist.src import (
-    echo_outs, calc, molecule, draw, plot, popup, structure, tools
+    echo_outs, calc, molecule, draw, plot, popup, scripting, structure, tools
 )
 
 
 class OctaDist:
     """
+    OctaDist class initiates main program UI and create all widgets.
+
     Program interface is structured as follows:
 
     +-------------------+
@@ -55,15 +57,15 @@ class OctaDist:
     - Frame 3 : Textbox for showing summary output
     - Frame 4 : textbox for showing detailed output
 
-    Parameters
-    ----------
-    master : object
-        Master frame of program GUI.
+    Examples
+    --------
+    >>> my_app = OctaDist()
+    >>> my_app.start_app()
 
     """
 
-    def __init__(self, master):
-        self.master = master
+    def __init__(self):
+        self.master = tk.Tk()
 
         # Initialize parameters
         self.file_list = []  # Full path of input files.
@@ -92,13 +94,21 @@ class OctaDist:
         self.show_axis = True
         self.show_grid = True
 
+        self.backup_cutoff_metal_ligand = self.cutoff_metal_ligand
+        self.backup_cutoff_global = self.cutoff_global
+        self.backup_cutoff_hydrogen = self.cutoff_hydrogen
+        self.backup_text_editor = self.text_editor
+        self.backup_show_title = self.show_title
+        self.backup_show_axis = self.show_axis
+        self.backup_show_grid = self.show_grid
+
         # Create master frame, sub-frames, add menu, and add widgets
         self.create_logo()
         self.start_master()
         self.add_menu()
         self.add_widgets()
         self.welcome_msg()
-        self.backup_var()
+        self.start_app()
 
     def create_logo(self):
         """
@@ -110,8 +120,8 @@ class OctaDist:
 
         Examples
         --------
-        >>> if OctaDist.octadist_icon is True:
-        >>>     OctaDist.create_logo()
+        >>> if self.octadist_icon is True:
+        >>>     self.create_logo()
         >>> else:
         >>>     pass
 
@@ -178,7 +188,7 @@ class OctaDist:
         copy_menu.add_command(label="Coordinates of Octahedral Structure", command=lambda: self.copy_octa())
         edit_menu.add_separator()
         edit_menu.add_command(label="Edit File", command=lambda: self.edit_file())
-        edit_menu.add_command(label="Run Program Scripting", command=lambda: self.script_start())
+        edit_menu.add_command(label="Run Scripting Console", command=lambda: self.scripting_console())
         edit_menu.add_separator()
         edit_menu.add_command(label="Clear All Results", command=lambda: self.clear_cache())
 
@@ -224,7 +234,9 @@ class OctaDist:
 
     def add_widgets(self):
         """
-        Add all widgets and components to master windows
+        Add all widgets and components to master windows.
+
+        GUI style of widgets in master windows use ttk style.
 
         """
         # my personal ttk style #
@@ -256,21 +268,21 @@ class OctaDist:
         frame2 = tk.LabelFrame(self.master, text="Program Console")
         frame2.grid(padx=5, pady=5, ipadx=2, ipady=2, sticky=tk.N, row=1, column=0)
 
-        btn_openfile = ttk.Button(frame2, text="Browse file", command=self.open_file)
-        btn_openfile.config(width=14)
-        btn_openfile.grid(padx="10", pady="5", row=0)
+        btn = ttk.Button(frame2, text="Browse file", command=self.open_file)
+        btn.config(width=14)
+        btn.grid(padx="10", pady="5", row=0)
 
-        btn_run = ttk.Button(frame2, text="Compute", command=self.calc_distortion)
-        btn_run.config(width=14)
-        btn_run.grid(padx="10", pady="5", row=1)
+        btn = ttk.Button(frame2, text="Compute", command=self.calc_distortion)
+        btn.config(width=14)
+        btn.grid(padx="10", pady="5", row=1)
 
-        btn_clear = ttk.Button(frame2, text="Clear cache", command=self.clear_cache)
-        btn_clear.config(width=14)
-        btn_clear.grid(padx="10", pady="5", row=2)
+        btn = ttk.Button(frame2, text="Clear cache", command=self.clear_cache)
+        btn.config(width=14)
+        btn.grid(padx="10", pady="5", row=2)
 
-        btn_save = ttk.Button(frame2, text="Save Results", command=self.save_results)
-        btn_save.config(width=14)
-        btn_save.grid(padx="10", pady="5", row=3)
+        btn = ttk.Button(frame2, text="Save Results", command=self.save_results)
+        btn.config(width=14)
+        btn.grid(padx="10", pady="5", row=3)
 
         ###########
         # Frame 3 #
@@ -280,26 +292,26 @@ class OctaDist:
         frame3.grid(padx=5, pady=5, ipadx=3, ipady=2, sticky=tk.N, row=1, column=1)
 
         # D_mean
-        lbl_d_mean = tk.Label(frame3, text="<D>   =   ")
-        lbl_d_mean.grid(sticky=tk.E, pady="5", row=0, column=0)
+        lbl = tk.Label(frame3, text="<D>   =   ")
+        lbl.grid(sticky=tk.E, pady="5", row=0, column=0)
 
         self.box_d_mean = tk.Entry(frame3)
         self.box_d_mean.configure(width="12", justify='center')
         self.box_d_mean.grid(row=0, column=1)
 
-        lbl_unit = tk.Label(frame3, text="  Angstrom")
-        lbl_unit.grid(pady="5", row=0, column=2)
+        lbl = tk.Label(frame3, text="  Angstrom")
+        lbl.grid(pady="5", row=0, column=2)
 
         # Zeta
-        lbl_zeta = tk.Label(frame3, text="ζ   =   ")
-        lbl_zeta.grid(sticky=tk.E, pady="5", row=1, column=0)
+        lbl = tk.Label(frame3, text="ζ   =   ")
+        lbl.grid(sticky=tk.E, pady="5", row=1, column=0)
 
         self.box_zeta = tk.Entry(frame3)
         self.box_zeta.configure(width="12", justify='center')
         self.box_zeta.grid(row=1, column=1)
 
-        lbl_unit = tk.Label(frame3, text="  Angstrom")
-        lbl_unit.grid(pady="5", row=1, column=2)
+        lbl = tk.Label(frame3, text="  Angstrom")
+        lbl.grid(pady="5", row=1, column=2)
 
         # Delta
         lbl_delta = tk.Label(frame3, text="Δ   =   ")
@@ -310,26 +322,26 @@ class OctaDist:
         self.box_delta.grid(row=2, column=1)
 
         # Sigma
-        lbl_sigma = tk.Label(frame3, text="Σ   =   ")
-        lbl_sigma.grid(sticky=tk.E, pady="5", row=3, column=0)
+        lbl = tk.Label(frame3, text="Σ   =   ")
+        lbl.grid(sticky=tk.E, pady="5", row=3, column=0)
 
         self.box_sigma = tk.Entry(frame3)
         self.box_sigma.configure(width="12", justify='center')
         self.box_sigma.grid(row=3, column=1)
 
-        lbl_unit = tk.Label(frame3, text="  degree")
-        lbl_unit.grid(pady="5", row=3, column=2)
+        lbl = tk.Label(frame3, text="  degree")
+        lbl.grid(pady="5", row=3, column=2)
 
         # Theta_mean
-        lbl_theta_mean = tk.Label(frame3, text="Θ   =   ")
-        lbl_theta_mean.grid(sticky=tk.E, pady="5", row=4, column=0)
+        lbl = tk.Label(frame3, text="Θ   =   ")
+        lbl.grid(sticky=tk.E, pady="5", row=4, column=0)
 
         self.box_theta_mean = tk.Entry(frame3)
         self.box_theta_mean.configure(width="12", justify='center')
         self.box_theta_mean.grid(row=4, column=1)
 
-        lbl_unit = tk.Label(frame3, text="  degree")
-        lbl_unit.grid(pady="5", row=4, column=2)
+        lbl = tk.Label(frame3, text="  degree")
+        lbl.grid(pady="5", row=4, column=2)
 
         ###########
         # Frame 4 #
@@ -360,26 +372,13 @@ class OctaDist:
         echo_outs(self, octadist.__website__)
         echo_outs(self, "")
 
-    def backup_var(self):
-        """
-        Store default values of initial parameters to backup variables.
-
-        """
-        self.backup_cutoff_metal_ligand = self.cutoff_metal_ligand
-        self.backup_cutoff_global = self.cutoff_global
-        self.backup_cutoff_hydrogen = self.cutoff_hydrogen
-        self.backup_text_editor = self.text_editor
-        self.backup_show_title = self.show_title
-        self.backup_show_axis = self.show_axis
-        self.backup_show_grid = self.show_grid
-
     #####################
     # Manipulating File #
     #####################
 
     def open_file(self):
         """
-        Open file dialog in which the user will select input file and upload it to program.
+        Open file dialog where the user will browse input files.
 
         """
         self.clear_cache()
@@ -516,9 +515,7 @@ class OctaDist:
             return 0
 
         f.write("OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.\n")
-        f.write("This program comes with ABSOLUTELY NO WARRANTY; for details, go to Help/License.\n")
-        f.write("This is free software, and you are welcome to redistribute it under\n")
-        f.write("certain conditions; see <https://www.gnu.org/licenses/> for details.\n")
+        f.write("===========================================================\n")
         f.write("\n")
         f.write(f"OctaDist {octadist.__version__} {octadist.__release__}.\n")
         f.write("Octahedral Distortion Calculator\n")
@@ -549,7 +546,8 @@ class OctaDist:
             popup.err_many_files()
             return 1
 
-        f = filedialog.asksaveasfile(mode='w', defaultextension=".xyz", title="Save atomic coordinates",
+        f = filedialog.asksaveasfile(mode='w', defaultextension=".xyz",
+                                     title="Save atomic coordinates",
                                      filetypes=(("XYZ File", "*.xyz"),
                                                 ("TXT File", "*.txt"),
                                                 ("All Files", "*.*")))
@@ -558,12 +556,12 @@ class OctaDist:
         atoms = self.atom_coord_octa[0][0]
         coord = self.atom_coord_octa[0][1]
 
-        full_version = octadist.__version__ + octadist.__release__
+        full_version = octadist.__version__ + " " + octadist.__release__
 
         f.write("7\n")
         f.write(f"{file_name} : this file was generated by OctaDist {full_version}.\n")
         for i in range(7):
-            f.write("{0:2s}   {1:9.6f}  {2:9.6f}  {3:9.6f}\n"
+            f.write("{0:2s}\t{1:9.6f}\t{2:9.6f}\t{3:9.6f}\n"
                     .format(atoms[i], coord[i][0], coord[i][1], coord[i][2]))
         f.write("\n")
         f.close()
@@ -595,13 +593,9 @@ class OctaDist:
         octadist.src.calc.CalcDistortion.calc_sigma :
             Calculate Sigma parameter.
         octadist.src.calc.CalcDistortion.calc_theta :
-            Calculate Theta parameter
+            Calculate Theta parameter.
 
         """
-        # if not self.has_metal:
-        #     popup.err_no_metal()
-        #     return 1
-
         if len(self.atom_coord_octa) >= 1:
             self.clear_param_box()
         else:
@@ -657,11 +651,11 @@ class OctaDist:
         # Print results to result box
         echo_outs(self, "Computed octahedral distortion parameters for all complexes")
         echo_outs(self, "")
-        echo_outs(self, "Complex - Metal :    <D>      Zeta      Delta      Sigma      Theta")
-        echo_outs(self, "*******************************************************************")
+        echo_outs(self, "No. - Metal\t\tD_mean\tZeta\tDelta\tSigma\tTheta")
+        echo_outs(self, "**********************************************************************")
         echo_outs(self, "")
         for i in range(len(self.comp_result)):
-            echo_outs(self, "{0:2d} - {1} : {2:9.4f}  {3:9.6f}  {4:9.6f}  {5:9.4f}  {6:9.4f}"
+            echo_outs(self, "{0:2d}  -  {1}\t\t{2:9.4f}\t{3:9.6f}\t{4:9.6f}\t{5:9.4f}\t{6:9.4f}"
                       .format(i + 1,
                               self.octa_index[i],
                               self.comp_result[i][0],
@@ -703,7 +697,7 @@ class OctaDist:
             except IndexError:
                 return 1
 
-        def check_title():
+        def is_show_title():
             """
             Check if title of figure will be set to show or not.
 
@@ -713,7 +707,7 @@ class OctaDist:
             else:
                 var_title.set(False)
 
-        def check_axis():
+        def is_show_axis():
             """
             Check if axis of figure will be set to show or not.
 
@@ -723,7 +717,7 @@ class OctaDist:
             else:
                 var_axis.set(False)
 
-        def check_grid():
+        def is_show_grid():
             """
             Check if grid of figure will be set to show or not.
 
@@ -756,7 +750,7 @@ class OctaDist:
             entry_exe.delete(0, tk.END)
             entry_exe.insert(tk.INSERT, self.text_editor)
 
-        def commit_ok(self):
+        def click_ok(self):
             """
             If the user click OK, it will save all settings and show info in output box.
 
@@ -771,20 +765,18 @@ class OctaDist:
 
             echo_outs(self, "Updated program settings")
             echo_outs(self, "************************")
-            echo_outs(self, f"Metal-Ligand bond cutoff : {self.cutoff_metal_ligand}")
-            echo_outs(self, f"Global bond cutoff       : {self.cutoff_global}")
-            echo_outs(self, f"Hydrogen bond cutoff     : {self.cutoff_hydrogen}")
-            echo_outs(self, "------------------------")
-            echo_outs(self, f"Text editor : {self.text_editor}")
-            echo_outs(self, "------------------------")
-            echo_outs(self, f"Show Title  : {self.show_title}")
-            echo_outs(self, f"Show Axis   : {self.show_axis}")
-            echo_outs(self, f"Show Grid   : {self.show_grid}")
+            echo_outs(self, f"Metal-ligand bond cutoff\t\t\t{self.cutoff_metal_ligand}")
+            echo_outs(self, f"Global bond cutoff\t\t\t{self.cutoff_global}")
+            echo_outs(self, f"Hydrogen bond cutoff\t\t\t{self.cutoff_hydrogen}")
+            echo_outs(self, f"Text editor\t\t\t{self.text_editor}")
+            echo_outs(self, f"Show Title\t\t\t{self.show_title}")
+            echo_outs(self, f"Show Axis\t\t\t{self.show_axis}")
+            echo_outs(self, f"Show Grid\t\t\t{self.show_grid}")
             echo_outs(self, "")
 
             wd.destroy()
 
-        def commit_cancel():
+        def click_cancel():
             """
             If the user click CANCEL, close window.
 
@@ -871,7 +863,7 @@ class OctaDist:
         var_title.set(self.show_title)
 
         show_title = ttk.Checkbutton(displays, text="Show Figure Title", onvalue=True, offvalue=False,
-                                     variable=var_title, command=lambda: check_title())
+                                     variable=var_title, command=lambda: is_show_title())
         show_title.grid(padx="5", pady="5", ipadx="25", sticky=tk.E, row=0, column=0)
 
         # Show axis?
@@ -879,7 +871,7 @@ class OctaDist:
         var_axis.set(self.show_axis)
 
         show_axis = ttk.Checkbutton(displays, text="Show Axis", onvalue=True, offvalue=False,
-                                    variable=var_axis, command=lambda: check_axis())
+                                    variable=var_axis, command=lambda: is_show_axis())
         show_axis.grid(padx="5", pady="5", ipadx="25", sticky=tk.E, row=0, column=1)
 
         # Show grid?
@@ -887,7 +879,7 @@ class OctaDist:
         var_grid.set(self.show_grid)
 
         show_grid = ttk.Checkbutton(displays, text="Show Gridlines", onvalue=True, offvalue=False,
-                                    variable=var_grid, command=lambda: check_grid())
+                                    variable=var_grid, command=lambda: is_show_grid())
         show_grid.grid(padx="5", pady="5", ipadx="5", sticky=tk.E, row=0, column=2)
 
         ####################
@@ -898,11 +890,11 @@ class OctaDist:
         button.configure(width=15)
         button.grid(padx="10", pady="10", sticky=tk.W, row=3, column=0)
 
-        button = tk.Button(frame, text="OK", command=lambda: commit_ok(self))
+        button = tk.Button(frame, text="OK", command=lambda: click_ok(self))
         button.configure(width=15)
         button.grid(padx="5", pady="10", sticky=tk.E, row=3, column=2)
 
-        button = tk.Button(frame, text="Cancel", command=lambda: commit_cancel())
+        button = tk.Button(frame, text="Cancel", command=lambda: click_cancel())
         button.configure(width=15)
         button.grid(padx="5", pady="10", row=3, column=3)
 
@@ -1036,9 +1028,11 @@ class OctaDist:
     # Interactive scripting #
     #########################
 
-    def script_start(self):
+    def scripting_console(self):
         """
-        Start scripting box.
+        Start scripting interface for an interactive code.
+
+        User can access to class variable (dynamics variable).
 
         +------------+
         | Output box |
@@ -1046,249 +1040,14 @@ class OctaDist:
         | Input box  |
         +------------+
 
-        Parameters
-        ----------
-        master : object
-            Master frame of program.
-
-        Notes
-        -----
+        See Also
+        --------
         settings :
             Program settings.
 
         """
-        def script_run_help():
-            """
-            Show help messages.
-
-            """
-            help_msg = ">>> Interactive code console for OctaDist.\n" \
-                       ">>> This scripting interface supports built-in commands as follows:\n" \
-                       ">>> \n" \
-                       ">>> Command     Description\n" \
-                       ">>> =======     ===========\n" \
-                       ">>> help        Show this help info.\n" \
-                       ">>> list        List all commands.\n" \
-                       ">>> info        Show info of program.\n" \
-                       ">>> doc         Show docstring of this function.\n" \
-                       ">>> show        Show values of parameter.\n" \
-                       ">>>             Usage: show arg1 [arg2] [arg3] [...]\n" \
-                       ">>> set         Set new value to parameter.\n" \
-                       ">>>             Usage: set param new_value\n" \
-                       ">>> clear       Clear stdout/stderr.\n" \
-                       ">>> clean       Clear stdout/stderr and command history.\n" \
-                       ">>> restore     Restore program settings.\n" \
-                       ">>> history     Command history.\n" \
-                       ">>>\n" \
-                       ">>> Rangsiman Ketkaew    rangsiman1993@gmail.com    OctaDist"
-            self.box_script.insert(tk.INSERT, help_msg + "\n")
-
-        def script_run_list():
-            """
-            Show list of commands in scripting run.
-
-            """
-            all_command = "help, list, info, doc, show, set, " \
-                          "clear, clean, restore, history"
-            self.box_script.insert(tk.INSERT, f">>> {all_command}\n")
-
-        def script_run_info():
-            """
-            Show info of program.
-
-            """
-            self.box_script.insert(tk.INSERT, f">>> {octadist.__description__}\n")
-
-        def script_run_doc():
-            """
-            Show document of program.
-
-            """
-            self.box_script.insert(tk.INSERT, f">>> {octadist.__doc__}\n")
-
-        def script_run_show(args):
-            """
-            Show value of variable that user requests.
-
-            Parameters
-            ----------
-            args : str
-                Variable.
-
-            """
-            if not args:
-                self.box_script.insert(tk.INSERT, f">>> show command needs 1 parameter\n")
-                return 1
-
-            first_arg = args[0].lower()
-            if first_arg == "all" or first_arg == "*":
-                for key in self.__dict__.keys():
-                    value = self.__dict__[key]
-                    self.box_script.insert(tk.INSERT, f">>> {key} = {value}\n")
-                return 0
-
-            for i in range(len(args)):
-                try:
-                    key = args[i]
-                    value = self.__dict__[f"{key}"]
-                    self.box_script.insert(tk.INSERT, f">>> {key} = {value}\n")
-                except KeyError:
-                    self.box_script.insert(tk.INSERT, f">>> no variable name {args[i]}\n")
-
-        def script_run_set(args):
-            """
-            Set new value to variable.
-
-            Parameters
-            ----------
-            args : str
-                Variable.
-
-            """
-            try:
-                args[0]
-            except IndexError:
-                self.box_script.insert(tk.INSERT, f">>> No variable specified\n")
-                self.box_script.insert(tk.INSERT, f">>> set command needs 2 parameters\n")
-                return 1
-
-            try:
-                args[1]
-            except IndexError:
-                self.box_script.insert(tk.INSERT, f">>> No value specified\n")
-                self.box_script.insert(tk.INSERT, f">>> set command needs 2 parameters\n")
-                return 1
-
-            key = args[0]
-            value = args[1]
-
-            self.__dict__[f"{key}"] = value
-
-            self.box_script.insert(tk.INSERT, f">>> {key} is set to {value}\n")
-
-        def script_run_clear():
-            """
-            Clear output box.
-
-            """
-            self.box_script.delete(1.0, tk.END)
-
-        def script_run_clean():
-            """
-            Clear output box and clean variable.
-
-            """
-            script_run_clear()
-            self.history_command = []
-
-        def script_run_restore():
-            """
-            Restore all default settings.
-
-            """
-            self.box_script.insert(tk.INSERT, f">>> Restore all settings\n")
-
-        def script_run_history():
-            """
-            Show history of command.
-
-            """
-            if not self.history_command:
-                self.box_script.insert(tk.INSERT, f">>> no history\n")
-            for item in self.history_command:
-                self.box_script.insert(tk.INSERT, f">>> {item}\n")
-
-        def script_no_command(command):
-            """
-            Show statement if command not found.
-
-            Parameters
-            ----------
-            command : str
-                Command that user submits.
-
-            """
-            self.box_script.insert(tk.INSERT, f">>> Command \"{command}\" not found\n")
-
-        def script_execute(event):
-            """
-            Execute input command scripting.
-
-            Parameters
-            ----------
-            event : object
-                Object for button interaction
-
-            """
-            user_command = self.entry_script.get().strip().split()
-            self.entry_script.delete(0, tk.END)
-
-            # print input command
-            if user_command:
-                res = (" ".join([str(i) for i in user_command]))
-                self.box_script.insert(tk.INSERT, f"{res}\n")
-                # collect command to history list
-                if res.lower() != "history":
-                    self.history_command.append(res)
-
-            if len(user_command) == 0:
-                self.box_script.insert(tk.INSERT, ">>> no command\n")
-                self.box_script.see(tk.END)
-                return 1
-
-            command = user_command[0].lower()
-            args = user_command[1:]
-
-            if command == "help":
-                script_run_help()
-            elif command == "list":
-                script_run_list()
-            elif command == "info":
-                script_run_info()
-            elif command == "doc":
-                script_run_doc()
-            elif command == "show":
-                script_run_show(args)
-            elif command == "set":
-                script_run_set(args)
-            elif command == "clear":
-                script_run_clear()
-            elif command == "clean":
-                script_run_clean()
-            elif command == "restore":
-                script_run_restore()
-            elif command == "history":
-                script_run_history()
-            else:
-                script_no_command(command)
-
-            self.box_script.see(tk.END)
-
-        self.history_command = []
-
-        wd = tk.Toplevel(self.master)
-        if self.octadist_icon is not None:
-            wd.wm_iconbitmap(self.octadist_icon)
-        wd.title("OctaDist Scripting Interface")
-        wd.bind('<Return>', script_execute)
-
-        self.lbl = tk.Label(wd, text="Output:")
-        self.lbl.grid(padx="5", pady="5", sticky=tk.W, row=0, column=0)
-        self.box_script = tk.Text(wd, width=70, height=20)
-        self.box_script.grid(padx="5", pady="5", row=1, column=0, columnspan=2)
-        self.lbl = tk.Label(wd, text="Input:")
-        self.lbl.grid(padx="5", pady="5", sticky=tk.W, row=2, column=0)
-        self.entry_script = tk.Entry(wd, width=62)
-        self.entry_script.grid(padx="5", pady="5", sticky=tk.W, row=3, column=0)
-        self.btn_script = tk.Button(wd, text="Run")
-        self.btn_script.bind('<Button-1>', script_execute)
-        self.btn_script.grid(padx="5", pady="5", row=3, column=1)
-
-        self.box_script.insert(tk.INSERT, "Welcome to OctaDist interactive scripting console\n")
-        self.box_script.insert(tk.INSERT, "If you have no idea what to do about scripting, "
-                                          "type \"help\" to get started.\n\n")
-
-        wd.mainloop()
+        my_app = scripting.ScriptingConsole(self)
+        my_app.scripting_start()
 
     ##################
     # Visualizations #
@@ -1781,23 +1540,21 @@ class OctaDist:
         msg.grid(sticky=tk.W, row=1)
 
         # XYZ file format
-        lbl = tk.Label(frame, text="Supported input: XYZ file format (*.xyz):")
+        lbl = tk.Label(frame, text="Supported input: XYZ file format (*.xyz):\n")
         lbl.grid(sticky=tk.W, row=2)
         msg_help_2 = " <number of atoms>\n" \
                      " comment line\n" \
-                     " <Metal center 0>    <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 1>    <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 2>    <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 3>    <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 4>    <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 5>    <X>  <Y>  <Z>\n" \
-                     " <Ligand atom 6>    <X>  <Y>  <Z>\n" \
-                     " <optional>\n" \
-                     " ...\n"
-        msg = tk.Message(frame, text=msg_help_2, width="450")
+                     " <Atom 1>\t<X>\t<Y>\t<Z>\n" \
+                     " <Atom 2>\t<X>\t<Y>\t<Z>\n" \
+                     " <Atom 3>\t<X>\t<Y>\t<Z>\n" \
+                     " <Atom 4>\t<X>\t<Y>\t<Z>\n" \
+                     "   .....\n" \
+                     "   .....\n" \
+                     " <Atom n>\t<X>\t<Y>\t<Z>"
+        msg = tk.Message(frame, text=msg_help_2, width="450", bg="yellow")
         msg.grid(sticky=tk.W, row=3, column=0)
 
-        lbl = tk.Label(frame, text="Example of input file is available at the following website:")
+        lbl = tk.Label(frame, text="\nExample of input file is available at the following website:")
         lbl.grid(sticky=tk.W, row=5, columnspan=2)
         link = "https://github.com/OctaDist/OctaDist/tree/master/example-input\n"
         lbl_link = tk.Label(frame, foreground="blue", text=link, cursor="hand2")
@@ -1915,11 +1672,17 @@ class OctaDist:
         """
         self.box_result.delete(1.0, tk.END)
 
+    def start_app(self):
+        """
+        Start application.
+
+        """
+        self.master.mainloop()
+
 
 def main():
-    root = tk.Tk()
-    app = OctaDist(root)
-    root.mainloop()
+    app = OctaDist()
+    app.start_app()
 
     # Delete icon after closing app
     if app.octadist_icon is not None:
