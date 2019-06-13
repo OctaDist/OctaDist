@@ -10,14 +10,15 @@ Function    Description
 ==========  ================================================
 main        Main program
 calc        Calculating distortion parameters
-molecule    Manipulating atomic coordinates
 draw        Displaying molecule
 elements    Atomic properties
 linear      Built-in mathematical functions
+molecule    Manipulating atomic coordinates
 plane       Manipulate projection plane
 plot        Plotting graph and chart
 popup       Error, warning, and info messages
 projection  2D & 3D vector projections
+scripting   Interactive code Console
 structure   All data about structure
 tools       Analysis tools by 3rd-party libraries
 util        Frequently-used functions e.g. find atomic bonds
