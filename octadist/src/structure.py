@@ -19,8 +19,7 @@ from tkinter import scrolledtext as tkscrolled
 
 from scipy.spatial import distance
 
-import octadist
-from octadist.src import linear, popup, util
+from octadist.src import linear, util
 
 
 class DataComplex:
@@ -105,15 +104,15 @@ class DataComplex:
             Atomic coordinates of full complex.
 
         """
-        self.box.insert(tk.END, "========================\n")
+        self.box.insert(tk.END, "===============================\n")
         self.box.insert(tk.END, f"{len(atom)}\n")
         atoms = list(set(atom))
         self.box.insert(tk.END, f"List of atoms: {atoms}\n")
 
         for i in range(len(coord)):
-            self.box.insert(tk.END, f"{atom[i]:>2}  "
-                                    f"{coord[i][0]:9.6f}  "
-                                    f"{coord[i][1]:9.6f}  "
+            self.box.insert(tk.END, f"{atom[i]:>2}\t"
+                                    f"{coord[i][0]:9.6f}\t\t"
+                                    f"{coord[i][1]:9.6f}\t\t"
                                     f"{coord[i][2]:9.6f}")
             self.box.insert(tk.END, "\n")
         self.box.insert(tk.END, "\n\n")
@@ -223,9 +222,9 @@ class StructParam:
                 dist = distance.euclidean(coord[i], coord[j])
 
                 if i == 0:
-                    texts = f"{atom[i]}-{atom[j]}{j} {dist:10.6f}"
+                    texts = f"{atom[i]}-{atom[j]}{j}\t\t{dist:10.6f}"
                 else:
-                    texts = f"{atom[i]}{i}-{atom[j]}{j} {dist:10.6f}"
+                    texts = f"{atom[i]}{i}-{atom[j]}{j}\t\t{dist:10.6f}"
 
                 self.box.insert(tk.END, "\n" + texts)
 
@@ -240,9 +239,9 @@ class StructParam:
                     angle = linear.angle_btw_vectors(vec1, vec2)
 
                     if i == 0:
-                        texts = f"{atom[k]}{k}-{atom[i]}-{atom[j]}{j} {angle:10.6f}"
+                        texts = f"{atom[k]}{k}-{atom[i]}-{atom[j]}{j}\t\t{angle:10.6f}"
                     else:
-                        texts = f"{atom[k]}{k}-{atom[i]}{i}-{atom[j]}{j} {angle:10.6f}"
+                        texts = f"{atom[k]}{k}-{atom[i]}{i}-{atom[j]}{j}\t\t{angle:10.6f}"
 
                     self.box.insert(tk.END, "\n" + texts)
 
@@ -347,12 +346,12 @@ class SurfaceArea:
         """
         a_ref, c_ref, a_oppo, c_oppo = util.find_faces_octa(coord)
 
-        self.box.insert(tk.END, "                 Atoms*        Area (Å³)\n")
+        self.box.insert(tk.END, "\t\tAtoms*\t\tArea (Å³)\n")
 
         totalArea = 0
         for i in range(8):
             area = linear.triangle_area(c_ref[i][0], c_ref[i][1], c_ref[i][2])
-            self.box.insert(tk.END, f"Face no. {i + 1}:  {a_ref[i]}      {area:10.6f}\n")
+            self.box.insert(tk.END, f"Face no. {i + 1}:\t\t{a_ref[i]}\t\t{area:10.6f}\n")
             totalArea += area
 
         self.box.insert(tk.END, f"\nThe total surface area:   {totalArea:10.6f}\n")
