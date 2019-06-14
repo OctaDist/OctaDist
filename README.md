@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ![Python version][Py-ver-badge]
 [![PyPI-Server][PyPI-badge]][PyPI-link]
 ![Python Wheel][Py-wheel-badge]
@@ -106,10 +107,19 @@ or use `conda` for those who have Anaconda installed on your system.
 ```sh
 conda install -c rangsiman octadist
 ```
+=======
+## OctaDist
 
-To execute OctaDist package, use the following command:
+### This is nightly development build of OctaDist. 
+
+1. Stable version: https://github.com/OctaDist/OctaDist/tree/master
+2. Nightly Dev version: https://github.com/OctaDist/OctaDist/tree/nightly-build
+>>>>>>> 84ea30c7ae7cb424c22e7f77d919ad02471a426d
+
+## Git Clone
 
 ```sh
+<<<<<<< HEAD
 python -m octadist.Run
 ```
 
@@ -204,11 +214,12 @@ Other example scripts and octahedral complexes are available at
 
 Please cite this project when you use OctaDist for scientific publication.
 
+=======
+git clone https://github.com/OctaDist/OctaDist.git
+git checkout nightly-build
+git pull origin nightly-build
+>>>>>>> 84ea30c7ae7cb424c22e7f77d919ad02471a426d
 ```
-OctaDist - A tool for calculating distortion parameters in coordination complexes.
-https://octadist.github.io
-```
-
 
 ## Bug report
 
