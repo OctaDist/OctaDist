@@ -123,7 +123,7 @@ html_context = {
     "display_github": True, # Integrate GitHub
     "github_user": "octadist", # Username
     "github_repo": "OctaDist", # Repo name
-    "github_version": "master", # Version
+    "github_version": "nightly-build", # Version
     "conf_py_path": "/", # Path in the checkout to the docs root
 }
 

@@ -4,7 +4,7 @@ dist: xenial
 
 branches:
   only:
-    - master
+    - nightly-build
 
 python:
   - "3.7"  # 3.7 development branch
