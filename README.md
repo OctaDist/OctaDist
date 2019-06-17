@@ -38,6 +38,7 @@ With the abilities of OctaDist, you can:
 - explore tilting distortion in perovskite and metal-organic framework.
 - display 3D molecule and other graphical analysis.
 - upgrade your and other program with OctaDist abilities.
+- deal with the code directly via an interactive scripting code.
 
 
 ## Development and Release
