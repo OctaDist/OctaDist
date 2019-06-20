@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.6
+#!/usr/bin/env python
 
 # OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
 #
@@ -16,53 +16,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-import argparse
 import os
-import sys
 
 import octadist.main
 
 version = octadist.__version__
 release = octadist.__release__
-
-
-def run_cli():
-    parser = argparse.ArgumentParser(
-        usage="octadist INPUT_FILE [options]",
-        description="Octahedral Distortion Calculator"
-    )
-
-    # Positional arguments
-    parser.add_argument('structure_input',
-                        metavar='INPUT_FILE',
-                        type=str,
-                        help='input structure in .xyz format'
-                        )
-    parser.add_argument('structure_output',
-                        metavar='OUTPUT_FILE',
-                        type=str,
-                        help='output in .txt format'
-                        )
-
-    # Optional arguments
-    parser.add_argument('-v', '--version',
-                        action='version',
-                        version=version
-                        )
-    parser.add_argument('-a', '--author',
-                        action='help',
-                        help='show this help page'
-                        )
-    parser.add_argument('-o', '--output',
-                        action='store_true',
-                        help='save results to '
-                        )
-
-    args = parser.parse_args()
-
-    if args.help:
-        parser.print_help()
-        sys.exit(1)
 
 
 def run_gui():
@@ -79,13 +38,9 @@ def run_gui():
     print(f"<<< Program Terminated")
 
 
-def run():
-    # check API
-    if sys.argv[1:]:
-        run_cli()
-    else:
-        run_gui()
-
-
 if __name__ == '__main__':
-    run()
+    """
+    octadist        : OctaDist GUI (default)
+    octadist_cli    : OctaDist CLI  
+    """
+    run_gui()
