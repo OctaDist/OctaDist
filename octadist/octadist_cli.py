@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 # OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -169,6 +167,7 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
         run_gui()
         sys.exit(1)
 
+    computed = {}
     token = False
 
     if args.inp:

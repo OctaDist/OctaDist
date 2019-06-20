@@ -25,7 +25,7 @@ release = octadist.__release__
 
 
 def run_gui():
-    print(f"\nProgram Starts >>>")
+    print(f"Program Starts >>>")
     print(f"... OctaDist {version} {release} ...")
 
     app = octadist.main.OctaDist()
