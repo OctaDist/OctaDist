@@ -69,6 +69,15 @@ Nightly-build         2.6.0 (dev)   Active
    reference/*
 
 
+:Authors:
+   Rangsiman Ketkaew,
+   Yuthana Tantirungrotechai,
+   David J. Harding,
+   Phimphaka Harding,
+   Mathieu Marchivie
+
+:Version: 2.6.0 of June 2019
+
 
 Indices and tables
 ==================

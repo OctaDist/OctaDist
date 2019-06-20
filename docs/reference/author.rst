@@ -11,8 +11,8 @@ the `Switchable Molecules and Materials
 <http://www.icmcb-bordeaux.cnrs.fr/spip.php?rubrique85>`_ group at University of Bordeaux, France.
 
 
-* Rangsiman Ketkaew (Thammasat University, Thailand) 
-        E-mail: rangsiman1993@gmail.com 
+* Rangsiman Ketkaew (Thammasat University, Thailand)
+        E-mail: rangsiman1993@gmail.com
 * Yuthana Tantirungrotechai (Thammasat University, Thailand)
         E-mail: yt203y@gmail.com
 * David J. Harding (Walailak University, Thailand)

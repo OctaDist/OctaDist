@@ -8,7 +8,7 @@ for both 32-bit and 64-bit systems.
 Windows
 -------
 
-Most of the Windows end-user do not have Python installed on their OS, 
+Most of the Windows end-users do not have Python installed on their OS,
 so we strongly suggest you download a ready-to-use OctaDist (GUI version) on your system.
 
 For first time using OctaDist, you should run it as an administrator with full rights.
@@ -49,7 +49,7 @@ Linux
     
 5. Execute program as a package (you have to stay outside **octadist** directory)::
    
-    python -m octadist.Run
+    python -m octadist
    
 
 macOS
@@ -80,11 +80,13 @@ Installing and running the program on Mac are the same as Linux.
    
 7. Execute program (you have to stay outside **octadist** directory)::
    
-    python -m octadist.Run
+    python -m octadist
    
 
 PyPI
 ----
+
+Use pip install XXX
 
 OctaDist is also available on Python package index library,
 which can be found at https://pypi.org/project/octadist.
