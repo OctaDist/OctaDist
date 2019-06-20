@@ -83,11 +83,6 @@ class CalcDistortion:
         """
         Calculate metal-ligand bond distance and return value in Angstrom.
 
-        Parameters
-        ----------
-        coord : array_like
-            Atomic coordinates of octahedral structure.
-
         See Also
         --------
         calc_d_mean : Calculate mean metal-ligand bond length.
@@ -100,11 +95,6 @@ class CalcDistortion:
         """
         Calculate mean distance parameter and return value in Angstrom.
 
-        Parameters
-        ----------
-        coord : array_like
-            Atomic coordinates of octahedral structure.
-
         See Also
         --------
         calc_d_bond : Calculate metal-ligand bonds length.
@@ -115,11 +105,6 @@ class CalcDistortion:
     def calc_bond_angle(self):
         """
         Calculate 12 cis and 3 trans unique angles in octahedral structure.
-
-        Parameters
-        ----------
-        coord : array_like
-            Atomic coordinates of octahedral structure.
 
         See Also
         --------
@@ -143,22 +128,10 @@ class CalcDistortion:
         """
         Calculate Zeta parameter and return value in Angstrom.
 
-        Parameters
-        ----------
-        coord : array_like
-            Atomic coordinates of octahedral structure.
-
         See Also
         --------
         calc_d_bond : Calculate metal-ligand bonds length.
         calc_d_mean : Calculate mean metal-ligand bond length.
-
-        Notes
-        -----
-        \zeta = \sum_{i=1}^{6}\left | d_{i} - d_{mean}  \right |
-
-        where :math:`d_{i}` is individual M-X bond distance and
-        :math:`d_{mean}` is mean metal-ligand bond distance.
 
         References
         ----------
@@ -174,22 +147,10 @@ class CalcDistortion:
         """
         Calculate Delta parameter, also known as Tilting distortion parameter.
 
-        Parameters
-        ----------
-        coord : array_like
-            Atomic coordinates of octahedral structure.
-
         See Also
         --------
         calc_d_bond : Calculate metal-ligand bonds length.
         calc_d_mean : Calculate mean metal-ligand bond length.
-
-        Notes
-        -----
-        \Delta = \frac{1}{6} \sum_{i=1}^{6}(\frac{d_{i} - d_{mean}}{d_{mean}})^2
-
-        where :math:`d_{i}` is individual M-X bond distance and
-        :math:`d_{mean}` is mean metal-ligand bond distance.
 
         References
         ----------
@@ -204,20 +165,9 @@ class CalcDistortion:
         """
         Calculate Sigma parameter and return value in degree.
 
-        Parameters
-        ----------
-        coord : array_like
-            Atomic coordinates of octahedral structure.
-
         See Also
         --------
         calc_bond_angle : Calculate bond angles between ligand-metal-ligand.
-
-        Notes
-        -----
-        \Sigma = \sum_{i=1}^{12}\left | 90 - \phi_{i}  \right |
-
-        where :math:`\phi_{i}` in individual cis angle.
 
         References
         ----------
@@ -229,11 +179,6 @@ class CalcDistortion:
     def calc_theta(self):
         """
         Calculate Theta parameter and value in degree.
-
-        Parameters
-        ----------
-        coord : array_like
-            Atomic coordinates of octahedral structure.
 
         See Also
         --------
@@ -250,12 +195,6 @@ class CalcDistortion:
         octadist.src.projection.project_atom_onto_plane :
             Orthogonal projection of point onto the plane.
 
-        Notes
-        -----
-        \Theta = \sum_{i=1}^{24}\left | 60 - \theta_{i}  \right |
-
-        where :math:`\theta_{i}` is individual angle between two vectors of two twisting face.
-
         References
         ----------
         M. Marchivie et al.
@@ -264,23 +203,28 @@ class CalcDistortion:
         """
         ligands = list(self.coord[1:])
 
-        TM = self.coord[0]
-        N1 = self.coord[1]
-        N2 = self.coord[2]
-        N3 = self.coord[3]
-        N4 = self.coord[4]
-        N5 = self.coord[5]
-        N6 = self.coord[6]
+        coord_metal = self.coord[0]
+        coord_lig1 = self.coord[1]
+        coord_lig2 = self.coord[2]
+        coord_lig3 = self.coord[3]
+        coord_lig4 = self.coord[4]
+        coord_lig5 = self.coord[5]
+        coord_lig6 = self.coord[6]
 
         # Vector from metal to ligand atom
-        TMN1 = N1 - TM
-        TMN2 = N2 - TM
-        TMN3 = N3 - TM
-        TMN4 = N4 - TM
-        TMN5 = N5 - TM
-        TMN6 = N6 - TM
+        metal_to_lig1 = coord_lig1 - coord_metal
+        metal_to_lig2 = coord_lig2 - coord_metal
+        metal_to_lig3 = coord_lig3 - coord_metal
+        metal_to_lig4 = coord_lig4 - coord_metal
+        metal_to_lig5 = coord_lig5 - coord_metal
+        metal_to_lig6 = coord_lig6 - coord_metal
 
-        ligands_vec = [TMN1, TMN2, TMN3, TMN4, TMN5, TMN6]
+        ligands_vec = [metal_to_lig1, 
+                       metal_to_lig2, 
+                       metal_to_lig3, 
+                       metal_to_lig4, 
+                       metal_to_lig5, 
+                       metal_to_lig6]
 
         ###########################################
         # Determine the order of atoms in complex #
@@ -288,7 +232,7 @@ class CalcDistortion:
 
         max_angle = self.trans_angle[0]
 
-        # This loop is used to identify which N is in line with N1
+        # This loop is used to identify which N is in line with coord_lig1
         def_change = 6
         for n in range(6):
             test = linear.angle_btw_vectors(ligands_vec[0], ligands_vec[n])
@@ -312,29 +256,34 @@ class CalcDistortion:
         ligands[4] = ligands[def_change]
         ligands[def_change] = tp
 
-        N1 = ligands[0]
-        N2 = ligands[1]
-        N3 = ligands[2]
-        N4 = ligands[3]
-        N5 = ligands[4]
-        N6 = ligands[5]
+        coord_lig1 = ligands[0]
+        coord_lig2 = ligands[1]
+        coord_lig3 = ligands[2]
+        coord_lig4 = ligands[3]
+        coord_lig5 = ligands[4]
+        coord_lig6 = ligands[5]
 
-        TMN1 = N1 - TM
-        TMN2 = N2 - TM
-        TMN3 = N3 - TM
-        TMN4 = N4 - TM
-        TMN5 = N5 - TM
-        TMN6 = N6 - TM
+        metal_to_lig1 = coord_lig1 - coord_metal
+        metal_to_lig2 = coord_lig2 - coord_metal
+        metal_to_lig3 = coord_lig3 - coord_metal
+        metal_to_lig4 = coord_lig4 - coord_metal
+        metal_to_lig5 = coord_lig5 - coord_metal
+        metal_to_lig6 = coord_lig6 - coord_metal
 
-        ligands_vec = [TMN1, TMN2, TMN3, TMN4, TMN5, TMN6]
+        ligands_vec = [metal_to_lig1,
+                       metal_to_lig2,
+                       metal_to_lig3,
+                       metal_to_lig4,
+                       metal_to_lig5,
+                       metal_to_lig6]
 
-        # This loop is used to identify which N is in line with N2
+        # This loop is used to identify which N is in line with coord_lig2
         for n in range(6):
             test = linear.angle_btw_vectors(ligands_vec[1], ligands_vec[n])
             if test > (max_angle - 1):
                 def_change = n
 
-        # This loop is used to identify which N is in line with N2
+        # This loop is used to identify which N is in line with coord_lig2
         test_max = 0
         for n in range(6):
             test = linear.angle_btw_vectors(ligands_vec[1], ligands_vec[n])
@@ -346,35 +295,40 @@ class CalcDistortion:
             self.non_octa = True
             def_change = new_change
 
-        # Swapping the atom (n+1) just identified above with N6
+        # Swapping the atom (n+1) just identified above with coord_lig6
         tp = ligands[5]
         ligands[5] = ligands[def_change]
         ligands[def_change] = tp
 
-        # New atom order is stored into the N1 - N6 lists
-        N1 = ligands[0]
-        N2 = ligands[1]
-        N3 = ligands[2]
-        N4 = ligands[3]
-        N5 = ligands[4]
-        N6 = ligands[5]
+        # New atom order is stored into the coord_lig1 - coord_lig6 lists
+        coord_lig1 = ligands[0]
+        coord_lig2 = ligands[1]
+        coord_lig3 = ligands[2]
+        coord_lig4 = ligands[3]
+        coord_lig5 = ligands[4]
+        coord_lig6 = ligands[5]
 
-        TMN1 = N1 - TM
-        TMN2 = N2 - TM
-        TMN3 = N3 - TM
-        TMN4 = N4 - TM
-        TMN5 = N5 - TM
-        TMN6 = N6 - TM
+        metal_to_lig1 = coord_lig1 - coord_metal
+        metal_to_lig2 = coord_lig2 - coord_metal
+        metal_to_lig3 = coord_lig3 - coord_metal
+        metal_to_lig4 = coord_lig4 - coord_metal
+        metal_to_lig5 = coord_lig5 - coord_metal
+        metal_to_lig6 = coord_lig6 - coord_metal
 
-        ligands_vec = [TMN1, TMN2, TMN3, TMN4, TMN5, TMN6]
+        ligands_vec = [metal_to_lig1,
+                       metal_to_lig2,
+                       metal_to_lig3,
+                       metal_to_lig4,
+                       metal_to_lig5,
+                       metal_to_lig6]
 
-        # This loop is used to identify which N is in line with N3
+        # This loop is used to identify which N is in line with coord_lig3
         for n in range(6):
             test = linear.angle_btw_vectors(ligands_vec[2], ligands_vec[n])
             if test > (max_angle - 1):
                 def_change = n
 
-        # This loop is used to identify which N is in line with N3
+        # This loop is used to identify which N is in line with coord_lig3
         test_max = 0
         for n in range(6):
             test = linear.angle_btw_vectors(ligands_vec[2], ligands_vec[n])
@@ -386,82 +340,83 @@ class CalcDistortion:
             self.non_octa = True
             def_change = new_change
 
-        # Swapping of the atom (n+1) just identified above with N4
+        # Swapping of the atom (n+1) just identified above with coord_lig4
         tp = ligands[3]
         ligands[3] = ligands[def_change]
         ligands[def_change] = tp
 
-        # New atom order is stored into the N1 - N6 lists
-        N1 = ligands[0]
-        N2 = ligands[1]
-        N3 = ligands[2]
-        N4 = ligands[3]
-        N5 = ligands[4]
-        N6 = ligands[5]
+        # New atom order is stored into the coord_lig1 - coord_lig6 lists
+        coord_lig1 = ligands[0]
+        coord_lig2 = ligands[1]
+        coord_lig3 = ligands[2]
+        coord_lig4 = ligands[3]
+        coord_lig5 = ligands[4]
+        coord_lig6 = ligands[5]
 
         #####################################################
         # Calculate the Theta parameter ans its derivatives #
         #####################################################
 
-        eqOfPlane = []
-        indiTheta = []
+        eq_of_plane = []
+        indi_theta = []
 
         # loop over 8 faces
         for proj in range(8):
-            a, b, c, d = plane.find_eq_of_plane(N1, N2, N3)
-            eqOfPlane.append([a, b, c, d])
+            a, b, c, d = plane.find_eq_of_plane(coord_lig1, coord_lig2, coord_lig3)
+            eq_of_plane.append([a, b, c, d])
 
-            # Project M, N4, N5, and N6 onto the plane defined by N1, N2, and N3
-            TMP = projection.project_atom_onto_plane(TM, a, b, c, d)
-            N4P = projection.project_atom_onto_plane(N4, a, b, c, d)
-            N5P = projection.project_atom_onto_plane(N5, a, b, c, d)
-            N6P = projection.project_atom_onto_plane(N6, a, b, c, d)
+            # Project M, coord_lig4, coord_lig5, and coord_lig6 onto the plane
+            # that defined by coord_lig1, coord_lig2, and coord_lig3
+            proj_m = projection.project_atom_onto_plane(coord_metal, a, b, c, d)
+            proj_lig4 = projection.project_atom_onto_plane(coord_lig4, a, b, c, d)
+            proj_lig5 = projection.project_atom_onto_plane(coord_lig5, a, b, c, d)
+            proj_lig6 = projection.project_atom_onto_plane(coord_lig6, a, b, c, d)
 
-            VTh1 = N1 - TMP
-            VTh2 = N2 - TMP
-            VTh3 = N3 - TMP
-            VTh4 = N4P - TMP
-            VTh5 = N5P - TMP
-            VTh6 = N6P - TMP
+            proj_m_to_lig1 = coord_lig1 - proj_m
+            proj_m_to_lig2 = coord_lig2 - proj_m
+            proj_m_to_lig3 = coord_lig3 - proj_m
+            proj_m_to_lig4 = proj_lig4 - proj_m
+            proj_m_to_lig5 = proj_lig5 - proj_m
+            proj_m_to_lig6 = proj_lig6 - proj_m
 
-            a12 = linear.angle_btw_vectors(VTh1, VTh2)
-            a13 = linear.angle_btw_vectors(VTh1, VTh3)
+            a12 = linear.angle_btw_vectors(proj_m_to_lig1, proj_m_to_lig2)
+            a13 = linear.angle_btw_vectors(proj_m_to_lig1, proj_m_to_lig3)
             if a12 < a13:
-                direction = np.cross(VTh1, VTh2)
+                direction = np.cross(proj_m_to_lig1, proj_m_to_lig2)
             else:
-                direction = np.cross(VTh3, VTh1)
+                direction = np.cross(proj_m_to_lig3, proj_m_to_lig1)
 
-            theta1 = linear.angle_sign(VTh1, VTh4, direction)
-            theta2 = linear.angle_sign(VTh4, VTh2, direction)
-            theta3 = linear.angle_sign(VTh2, VTh5, direction)
-            theta4 = linear.angle_sign(VTh5, VTh3, direction)
-            theta5 = linear.angle_sign(VTh3, VTh6, direction)
-            theta6 = linear.angle_sign(VTh6, VTh1, direction)
+            theta1 = linear.angle_sign(proj_m_to_lig1, proj_m_to_lig4, direction)
+            theta2 = linear.angle_sign(proj_m_to_lig4, proj_m_to_lig2, direction)
+            theta3 = linear.angle_sign(proj_m_to_lig2, proj_m_to_lig5, direction)
+            theta4 = linear.angle_sign(proj_m_to_lig5, proj_m_to_lig3, direction)
+            theta5 = linear.angle_sign(proj_m_to_lig3, proj_m_to_lig6, direction)
+            theta6 = linear.angle_sign(proj_m_to_lig6, proj_m_to_lig1, direction)
 
-            indiTheta.append([theta1, theta2, theta3, theta4, theta5, theta6])
+            indi_theta.append([theta1, theta2, theta3, theta4, theta5, theta6])
 
-            sum_theta = sum(abs(indiTheta[proj][i] - 60) for i in range(6))
+            sum_theta = sum(abs(indi_theta[proj][i] - 60) for i in range(6))
 
             self.allTheta.append(sum_theta)
 
-            tp = N2
-            N2 = N4
-            N4 = N6
-            N6 = N3
-            N3 = tp
+            tp = coord_lig2
+            coord_lig2 = coord_lig4
+            coord_lig4 = coord_lig6
+            coord_lig6 = coord_lig3
+            coord_lig3 = tp
 
             # If the proj = 3, permutation face will be switched from N1N2N3
             # to N1N4N2, to N1N6N4, then to N1N3N6, and then back to N1N2N3
             if proj == 3:
-                tp = N1
-                N1 = N5
-                N5 = tp
-                tp = N2
-                N2 = N6
-                N6 = tp
-                tp = N3
-                N3 = N4
-                N4 = tp
+                tp = coord_lig1
+                coord_lig1 = coord_lig5
+                coord_lig5 = tp
+                tp = coord_lig2
+                coord_lig2 = coord_lig6
+                coord_lig6 = tp
+                tp = coord_lig3
+                coord_lig3 = coord_lig4
+                coord_lig4 = tp
 
             # End of the loop that calculate the 8 projections.
 
@@ -471,11 +426,6 @@ class CalcDistortion:
         """
         Calculate minimum Theta parameter and return value in degree.
 
-        Parameters
-        ----------
-        allTheta : list
-            List of individual Theta angles.
-
         """
         sorted_theta = sorted(self.allTheta)
         self.theta_min = sum(sorted_theta[i] for i in range(4))
@@ -483,11 +433,6 @@ class CalcDistortion:
     def calc_theta_max(self):
         """
         Calculate maximum Theta parameter and return value in degree.
-
-        Parameters
-        ----------
-        allTheta : list
-            List of individual Theta angles.
 
         """
         sorted_theta = sorted(self.allTheta)
