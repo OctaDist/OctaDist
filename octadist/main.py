@@ -1607,7 +1607,7 @@ n)\t<Atom n>\t<X>\t<Y>\t<Z>\t
         Link: https://www.gnu.org/licenses/gpl-3.0.en.html.
 
         """
-        text = """
+        text = """\
 OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
 
 This program is free software: you can redistribute it and/or modify \
