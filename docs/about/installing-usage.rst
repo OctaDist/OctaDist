@@ -5,14 +5,7 @@ Installing and Usage
 OctaDist is a cross-platform software which is available for Windows, Linux, and macOS;
 for both 32-bit and 64-bit systems.
 
-- Windows_
-- Linux_
-- macOS_
-- PyPI_
-- Anaconda_
 
-
-.. _Windows:
 Windows
 -------
 
@@ -37,7 +30,6 @@ Changing property of program can be completed in a few steps as follows:
 4. Wait program for process until open.
 
 
-.. _Linux:
 Linux
 -----
 
@@ -62,7 +54,6 @@ Linux
     python -m octadist
    
 
-.. _macOS:
 macOS
 -----
 
@@ -94,11 +85,10 @@ Installing and running the program on Mac are the same as Linux.
     python -m octadist
    
 
-.. _PyPI:
 PyPI
 ----
 
-**Use pip install XXX**
+**Install from server**
 
 OctaDist is also available on Python package index library,
 which can be found at https://pypi.org/project/octadist.
@@ -120,8 +110,6 @@ The following commands might be useful:
 
    pip install --upgrade octadist==2.6.0
 
-More details on installing Python package can be found its official website: 
-https://packaging.python.org/tutorials/installing-packages.
 
 **Install from the tarball**
 
@@ -149,7 +137,10 @@ https://packaging.python.org/tutorials/installing-packages.
     octadist_cli
 
 
-.. _Anaconda:
+More details on installing Python package can be found its official website:
+https://packaging.python.org/tutorials/installing-packages.
+
+
 Anaconda 
 --------
 

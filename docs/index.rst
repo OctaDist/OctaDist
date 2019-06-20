@@ -44,6 +44,10 @@ Nightly-build         2.6.0 (dev)   Active
 
    about/*
 
+   about/getting-started
+
+   about/getting-started.rst
+
 
 .. toctree::
    :maxdepth: 1
