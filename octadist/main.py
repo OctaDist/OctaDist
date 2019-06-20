@@ -32,7 +32,7 @@ import numpy as np
 import octadist
 from octadist.logo import Icon_Base64
 from octadist.src import (
-    echo_outs, calc, molecule, draw, plot, popup, scripting, structure, tools
+    calc, molecule, draw, plot, popup, scripting, structure, tools
 )
 
 
@@ -354,6 +354,23 @@ class OctaDist:
         self.box_result.configure(height="19", width="70", wrap="word", undo="True")
         self.box_result.grid(row=0)
 
+    def show_text(self, text):
+        """
+        Insert text to result box
+
+        Parameters
+        ----------
+        text : str
+            Text to show in result box.
+
+        Returns
+        -------
+        None : None
+
+        """
+        self.box_result.insert(tk.INSERT, text + "\n")
+        self.box_result.see(tk.END)
+
     def welcome_msg(self):
         """
         Show welcome message in result box:
@@ -365,12 +382,9 @@ class OctaDist:
         """
         full_version = octadist.__version__ + " " + octadist.__release__
 
-        echo_outs(self, f"Welcome to OctaDist {full_version}")
-        echo_outs(self, "")
-        echo_outs(self, f"Developed by {octadist.__author_full__}.")
-        echo_outs(self, "")
-        echo_outs(self, octadist.__website__)
-        echo_outs(self, "")
+        self.show_text(f"Welcome to OctaDist {full_version}\n")
+        self.show_text(f"Developed by {octadist.__author_full__}.\n")
+        self.show_text(octadist.__website__ + "\n")
 
     #####################
     # Manipulating File #
@@ -487,20 +501,21 @@ class OctaDist:
         # loop over complex
         for i in range(len(self.atom_coord_octa)):
             if i == 0:
-                echo_outs(self, "XYZ coordinates of extracted octahedral structure")
+                self.show_text("XYZ coordinates of extracted octahedral structure")
 
-            echo_outs(self, f"File {self.file_name[i][0]}: {self.file_name[i][1]}")
-            echo_outs(self, f"Metal center atom: {self.octa_index[i]}")
-            echo_outs(self, "Atom                       Cartesian coordinate")
+            self.show_text(f"File {self.file_name[i][0]}: {self.file_name[i][1]}")
+            self.show_text(f"Metal center atom: {self.octa_index[i]}")
+            self.show_text("Atom                       Cartesian coordinate")
 
             # loop over atoms in octahedron
             for k in range(7):
-                echo_outs(self, " {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
-                          .format(self.atom_coord_octa[i][0][k],
-                                  self.atom_coord_octa[i][1][k][0],
-                                  self.atom_coord_octa[i][1][k][1],
-                                  self.atom_coord_octa[i][1][k][2]))
-            echo_outs(self, "")
+                self.show_text(" {0:>2}      {1:14.9f}  {2:14.9f}  {3:14.9f}"
+                               .format(self.atom_coord_octa[i][0][k],
+                                       self.atom_coord_octa[i][1][k][0],
+                                       self.atom_coord_octa[i][1][k][1],
+                                       self.atom_coord_octa[i][1][k][2])
+                               )
+            self.show_text("")
 
     def save_results(self):
         """
@@ -649,22 +664,21 @@ class OctaDist:
             self.box_theta_mean.insert(tk.INSERT, "See below")
 
         # Print results to result box
-        echo_outs(self, "Computed octahedral distortion parameters for all complexes")
-        echo_outs(self, "")
-        echo_outs(self, "No. - Metal\t\tD_mean\tZeta\tDelta\tSigma\tTheta")
-        echo_outs(self, "**********************************************************************")
-        echo_outs(self, "")
+        self.show_text("Computed octahedral distortion parameters for all complexes\n")
+        self.show_text("No. - Metal\t\tD_mean\tZeta\tDelta\tSigma\tTheta")
+        self.show_text("**********************************************************************\n")
         for i in range(len(self.comp_result)):
-            echo_outs(self, "{0:2d}  -  {1}\t\t{2:9.4f}\t{3:9.6f}\t{4:9.6f}\t{5:9.4f}\t{6:9.4f}"
-                      .format(i + 1,
-                              self.octa_index[i],
-                              self.comp_result[i][0],
-                              self.comp_result[i][1],
-                              self.comp_result[i][2],
-                              self.comp_result[i][3],
-                              self.comp_result[i][4]))
+            self.show_text("{0:2d}  -  {1}\t\t{2:9.4f}\t{3:9.6f}\t{4:9.6f}\t{5:9.4f}\t{6:9.4f}"
+                           .format(i + 1,
+                                   self.octa_index[i],
+                                   self.comp_result[i][0],
+                                   self.comp_result[i][1],
+                                   self.comp_result[i][2],
+                                   self.comp_result[i][3],
+                                   self.comp_result[i][4])
+                           )
 
-        echo_outs(self, "")
+        self.show_text("")
 
     ###################
     # Program Setting #
@@ -763,16 +777,15 @@ class OctaDist:
             self.show_axis = bool(var_axis.get())
             self.show_grid = bool(var_grid.get())
 
-            echo_outs(self, "Updated program settings")
-            echo_outs(self, "************************")
-            echo_outs(self, f"Metal-ligand bond cutoff\t\t\t{self.cutoff_metal_ligand}")
-            echo_outs(self, f"Global bond cutoff\t\t\t{self.cutoff_global}")
-            echo_outs(self, f"Hydrogen bond cutoff\t\t\t{self.cutoff_hydrogen}")
-            echo_outs(self, f"Text editor\t\t\t{self.text_editor}")
-            echo_outs(self, f"Show Title\t\t\t{self.show_title}")
-            echo_outs(self, f"Show Axis\t\t\t{self.show_axis}")
-            echo_outs(self, f"Show Grid\t\t\t{self.show_grid}")
-            echo_outs(self, "")
+            self.show_text("Updated program settings")
+            self.show_text("************************")
+            self.show_text(f"Metal-ligand bond cutoff\t\t\t{self.cutoff_metal_ligand}")
+            self.show_text(f"Global bond cutoff\t\t\t{self.cutoff_global}")
+            self.show_text(f"Hydrogen bond cutoff\t\t\t{self.cutoff_hydrogen}")
+            self.show_text(f"Text editor\t\t\t{self.text_editor}")
+            self.show_text(f"Show Title\t\t\t{self.show_title}")
+            self.show_text(f"Show Axis\t\t\t{self.show_axis}")
+            self.show_text(f"Show Grid\t\t\t{self.show_grid}\n")
 
             wd.destroy()
 
@@ -1417,16 +1430,11 @@ class OctaDist:
 
         run_rmsd = tools.CalcRMSD(coord_1=coord_complex_1, coord_2=coord_complex_2)
 
-        rmsd_normal = run_rmsd.rmsd_normal
-        rmsd_translate = run_rmsd.rmsd_translate
-        rmsd_rotate = run_rmsd.rmsd_rotate
-
-        echo_outs(self, "RMSD between two complexes")
-        echo_outs(self, "**************************")
-        echo_outs(self, f"Normal RMSD       : {rmsd_normal:3.6f}")
-        echo_outs(self, f"Re-centered RMSD  : {rmsd_translate:3.6f}")
-        echo_outs(self, f"Rotated RMSD      : {rmsd_rotate:3.6f}")
-        echo_outs(self, "")
+        self.show_text("RMSD between two complexes")
+        self.show_text("**************************")
+        self.show_text(f"Normal RMSD       : {run_rmsd.rmsd_normal:3.6f}")
+        self.show_text(f"Re-centered RMSD  : {run_rmsd.rmsd_translate:3.6f}")
+        self.show_text(f"Rotated RMSD      : {run_rmsd.rmsd_rotate:3.6f}\n")
 
     ################
     # Check Update #
@@ -1523,58 +1531,52 @@ class OctaDist:
         if self.octadist_icon is not None:
             wd.wm_iconbitmap(self.octadist_icon)
         wd.title("Program Help")
-        wd.geometry("550x600")
         wd.option_add("*Font", "Arial 10")
+        wd.geometry("550x420")
+        wd.resizable(0, 0)
         frame = tk.Frame(wd)
         frame.grid()
 
         # Usage
         lbl = tk.Label(frame, text="Usage:")
         lbl.grid(sticky=tk.W, row=0)
-        msg_help_1 = "1. Browse input file\n" \
-                     "2. Check if uploaded data is accurate\n" \
-                     "3. Compute distortion parameters\n" \
-                     "4. Analyse and refine results\n" \
-                     "5. Save results as output file\n"
+
+        msg_help_1 = """\
+1. Browse input file
+2. Check if uploaded data is accurate
+3. Compute distortion parameters
+4. Analyse and refine results
+5. Save results as output file
+"""
+
         msg = tk.Message(frame, text=msg_help_1, width="450")
-        msg.grid(sticky=tk.W, row=1)
+        msg.grid(padx="15", sticky=tk.W, row=1)
 
         # XYZ file format
-        lbl = tk.Label(frame, text="Supported input: XYZ file format (*.xyz):\n")
+        lbl = tk.Label(frame, text="Input structure in .xyz format:\n")
         lbl.grid(sticky=tk.W, row=2)
-        msg_help_2 = " <number of atoms>\n" \
-                     " comment line\n" \
-                     " <Atom 1>\t<X>\t<Y>\t<Z>\n" \
-                     " <Atom 2>\t<X>\t<Y>\t<Z>\n" \
-                     " <Atom 3>\t<X>\t<Y>\t<Z>\n" \
-                     " <Atom 4>\t<X>\t<Y>\t<Z>\n" \
-                     "   .....\n" \
-                     "   .....\n" \
-                     " <Atom n>\t<X>\t<Y>\t<Z>"
-        msg = tk.Message(frame, text=msg_help_2, width="450", bg="yellow")
-        msg.grid(sticky=tk.W, row=3, column=0)
 
-        lbl = tk.Label(frame, text="\nExample of input file is available at the following website:")
+        msg_help_2 = """\
+1)\t<number of atoms>
+2)\tcomment line
+3)\t<Atom 1>\t<X>\t<Y>\t<Z>\t
+4)\t<Atom 2>\t<X>\t<Y>\t<Z>\t
+5)\t<Atom 3>\t<X>\t<Y>\t<Z>\t
+6)\t<Atom 4>\t<X>\t<Y>\t<Z>\t
+.....
+.....
+n)\t<Atom n>\t<X>\t<Y>\t<Z>\t
+"""
+
+        msg = tk.Message(frame, text=msg_help_2, width="450", bg="yellow")
+        msg.grid(padx="15", sticky=tk.W, row=3, column=0)
+
+        lbl = tk.Label(frame, text="\nOther examples of input file:")
         lbl.grid(sticky=tk.W, row=5, columnspan=2)
         link = "https://github.com/OctaDist/OctaDist/tree/master/example-input\n"
         lbl_link = tk.Label(frame, foreground="blue", text=link, cursor="hand2")
-        lbl_link.grid(sticky=tk.W, pady="5", row=6, columnspan=2)
+        lbl_link.grid(padx="15", pady="5", sticky=tk.W, row=6, columnspan=2)
         lbl_link.bind("<Button-1>", self.callback)
-
-        # References
-        lbl = tk.Label(frame, text="References:")
-        lbl.grid(sticky=tk.W, row=7, columnspan=2)
-        msg_help_3 = "1. M. Buron-Le Cointe, J. H´ebert, C. Bald´e, N. Moisan, L. Toupet,\n" \
-                     "   P. Guionneau, J. F. L´etard, E. Freysz, H. Cailleau, and E. Collet\n" \
-                     "   Physical Review B 2012, 85, 064114.\n" \
-                     "2. J. A. Alonso, M. J. Martı´nez-Lope, M. T. Casais, M. T. Ferna´ndez-Dı´az\n" \
-                     "   Inorg. Chem. 2000, 39, 917-923.\n" \
-                     "3. J. K. McCusker, A. L. Rheingold, D. N. Hendrickson\n" \
-                     "   Inorg. Chem. 1996, 35, 2100.\n" \
-                     "4. M. Marchivie, P. Guionneau, J. F. Letard, D. Chasseau\n" \
-                     "   Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.\n"
-        msg = tk.Message(frame, text=msg_help_3, width="450")
-        msg.grid(sticky=tk.W, row=8, columnspan=2)
 
     @staticmethod
     def show_about():
@@ -1586,12 +1588,9 @@ class OctaDist:
         3. Citation
 
         """
-        text = f"OctaDist version {octadist.__version__} ({octadist.__release__})\n" \
-            f"\n" \
-            f"Authors: {octadist.__author_full__}.\n" \
-            f"\n" \
-            f"Website: {octadist.__website__}\n" \
-            f"\n" \
+        text = f"OctaDist version {octadist.__version__} ({octadist.__release__})\n\n" \
+            f"Authors: {octadist.__author_full__}.\n\n" \
+            f"Website: {octadist.__website__}\n\n" \
             f"Please cite this project if you use OctaDist for scientific publication."
 
         showinfo("About program", text)
@@ -1608,21 +1607,22 @@ class OctaDist:
         Link: https://www.gnu.org/licenses/gpl-3.0.en.html.
 
         """
-        text = "OctaDist {0} Copyright (C) 2019  Rangsiman Ketkaew et al.\n" \
-               "\n" \
-               "This program is free software: you can redistribute it " \
-               "and/or modify it under the terms of the GNU General Public " \
-               "License as published by the Free Software Foundation, either " \
-               "version 3 of the License, or (at your option) any later version.\n" \
-               "\n" \
-               "This program is distributed in the hope that it will be useful, " \
-               "but WITHOUT ANY WARRANTY; without even the implied warranty " \
-               "of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. " \
-               "See the GNU General Public License for more details.\n" \
-               "\n" \
-               "You should have received a copy of the GNU General Public License " \
-               "along with this program. If not, see <https://www.gnu.org/licenses/>." \
-            .format(octadist.__version__)
+        text = """
+OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
+
+This program is free software: you can redistribute it and/or modify \
+it under the terms of the GNU General Public License as published by \
+the Free Software Foundation, either version 3 of the License, or \
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful, \
+but WITHOUT ANY WARRANTY; without even the implied warranty of \
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the \
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License \
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""
 
         showinfo("License", text)
 

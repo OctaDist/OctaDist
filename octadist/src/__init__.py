@@ -16,24 +16,3 @@
 
 __src__ = "source code"
 
-import tkinter as tk
-
-
-def echo_outs(self, text):
-    """
-    Insert text to result box
-
-    Parameters
-    ----------
-    self : object
-        Class object reference.
-    text : str
-        Text to show in result box.
-
-    Returns
-    -------
-    None : None
-
-    """
-    self.box_result.insert(tk.INSERT, text + "\n")
-    self.box_result.see(tk.END)
