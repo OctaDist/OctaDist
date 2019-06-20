@@ -102,9 +102,9 @@ The following commands might be useful:
 
    pip install --upgrade octadist
 
-- Upgrade/downgrade to a certain version, for example, version 2.5.4::
+- Upgrade/downgrade to a certain version, for example, version 2.6.0::
 
-   pip install --upgrade octadist==2.5.4
+   pip install --upgrade octadist==2.6.0
 
 More details on installing Python package can be found its official website: 
 https://packaging.python.org/tutorials/installing-packages.
