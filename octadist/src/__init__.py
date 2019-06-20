@@ -25,8 +25,10 @@ def echo_outs(self, text):
 
     Parameters
     ----------
+    self : object
+        Class object reference.
     text : str
-        Text
+        Text to show in result box.
 
     Returns
     -------
