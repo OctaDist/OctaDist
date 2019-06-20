@@ -25,6 +25,10 @@ release = octadist.__release__
 
 
 def run_gui():
+    """
+    OctaDist graphical user interface (GUI).
+
+    """
     print(f"Program Starts >>>")
     print(f"... OctaDist {version} {release} ...")
 
