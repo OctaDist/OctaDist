@@ -1,13 +1,18 @@
 #!/bin/bash
 
+echo "Install PyInstaller"
+echo "==================="
+
+python -m pip install --upgrade --user pyinstaller
+
 echo "Compile OctaDist using PyInstaller"
 echo "=================================="
 
-pyinstaller -F -w -i molecule.ico --version-file version.txt -n OctaDist-2.5.2-Win-x86-64 main.py
+pyinstaller -F -w -n OctaDist -i octadist/logo/molecule.ico octadist/main.py
 
 # Optional
-# --onefile		or -F	(compile as a standalone executable)
+# --onedir      or -D   (create one-folder containing packages)
+# --onefile		or -F	(create one-file as a standalone executable)
 # --windowed 	or -w	(turn off window console)
-# -i 					(set program icon)
-# --version-file		(set program version file)
+# --icon		or -i	(set program icon)
 # --name 		or -n 	(set program name)
