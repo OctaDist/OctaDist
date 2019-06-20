@@ -33,8 +33,7 @@ __website__ = "https://octadist.github.io"
 __github__ = "https://github.com/OctaDist/OctaDist"
 
 __all__ = \
-    ['Run',
-     'calc',
+    ['calc',
      'draw',
      'elements',
      'linear',
@@ -73,6 +72,7 @@ __all__ = \
      'get_coord_orca',
      'get_coord_qchem',
      'find_eq_of_plane',
+     'find_fit_plane',
      'Plot',
      'project_atom_onto_line',
      'project_atom_onto_plane',
@@ -143,6 +143,7 @@ from .src.molecule import get_coord_orca
 from .src.molecule import get_coord_qchem
 
 from .src.plane import find_eq_of_plane
+from .src.plane import find_fit_plane
 
 from .src.plot import Plot
 
