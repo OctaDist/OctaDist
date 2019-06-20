@@ -40,7 +40,8 @@ def run_gui():
 
 if __name__ == '__main__':
     """
-    octadist        : OctaDist GUI (default)
+    octadist        : OctaDist Main
+    octadist_gui    : OctaDist GUI (default)
     octadist_cli    : OctaDist CLI  
     """
     run_gui()
