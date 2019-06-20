@@ -82,17 +82,17 @@ Compilation instruction
 
    pyinstaller --version
 
-4. Change directory to ``./octadist_gui`` directory, ``where main.py`` is, for example:
+4. Change directory to ``./octadist`` subdirectory, where ``main.py`` is, for example:
 
 ::
 
-   cd OctaDist-2.5.4-Win-x86-64/octadist_gui/
+   cd OctaDist-*-Win-x86-64/octadist/
 
 5. Compile a standalone, like this:
 
 ::
 
-   pyinstaller --onefile -n OctaDist-2.5.4-Win-x86-64 main.py
+   pyinstaller --onefile --windowed -n OctaDist-*-Win-x86-64 main.py
 
 6. The standalone executable will be build in ``dist`` directory.
 
