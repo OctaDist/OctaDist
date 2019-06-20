@@ -9,7 +9,7 @@ version = octadist.__version__
 release = octadist.__release__
 
 if __name__ == '__main__':
-    print(f"\nProgram Started >>>")
+    print(f"\nProgram Starts >>>")
     print(f"... OctaDist {version} {release} ...")
 
     octadist.main.main()

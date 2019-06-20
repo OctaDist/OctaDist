@@ -66,7 +66,7 @@ def run_cli():
 
 
 def run_gui():
-    print(f"\nProgram Started >>>")
+    print(f"\nProgram Starts >>>")
     print(f"... OctaDist {version} {release} ...")
 
     app = octadist.main.OctaDist()
