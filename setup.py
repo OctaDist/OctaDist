@@ -77,7 +77,7 @@ setuptools.setup(
     entry_points={
         'console_scripts': [
             'octadist=octadist.__main__:run',
-            'octadist_cli=octadist.run_cli:run'
+            'octadist_cli=octadist.octadist_cli:run'
         ]
     },
 )

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
