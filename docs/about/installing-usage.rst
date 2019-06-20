@@ -98,7 +98,7 @@ Installing and running the program on Mac are the same as Linux.
 PyPI
 ----
 
-Use pip install XXX
+**Use pip install XXX**
 
 OctaDist is also available on Python package index library,
 which can be found at https://pypi.org/project/octadist.
@@ -122,6 +122,31 @@ The following commands might be useful:
 
 More details on installing Python package can be found its official website: 
 https://packaging.python.org/tutorials/installing-packages.
+
+**Install from the tarball**
+
+1. Compile source code as the tarball::
+
+    python setup.py sdist bdist_wheel
+
+2. Enter to `dist` directory::
+
+    cd dist
+
+3. Install OctaDist from the tarball (or wheel file)::
+
+    python -m pip install octadist-2.6.0.tar.gz
+
+4. Installed library of OctaDist will be install at `build/lib` directory::
+
+    cd ..
+    cd build/lib/octadist
+
+5. OctaDist GUI and CLI executable files will be added to environment variables automatically::
+
+    octadist
+    octadist_gui
+    octadist_cli
 
 
 .. _Anaconda:
