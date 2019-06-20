@@ -25,17 +25,12 @@ def err_no_file():
     showerror("Error", "No input file. At least one input file must be loaded.")
 
 
-def err_invalid_ftype(ftype):
+def err_invalid_ftype():
     """
     Show this error popup when file type is not supported by the program.
 
-    Parameters
-    ----------
-    ftype : str
-        File type of submitted file.
-
     """
-    showerror("Error", f"Invalid {ftype} file format.\n\n"
+    showerror("Error", f"Invalid input file format.\n\n"
               "The complex must have at least 1 metal atom and 6 ligand atoms.")
 
 
