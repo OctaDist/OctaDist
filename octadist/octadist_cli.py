@@ -21,11 +21,25 @@ import sys
 import octadist
 from octadist.__main__ import version, run_gui
 from octadist.src.molecule import (
-    extract_coord, extract_octa, is_xyz, get_coord_xyz
+    is_xyz, get_coord_xyz, extract_octa
 )
 
 
 def check_file(file):
+    """
+    Check if input file is exist or not.
+
+    Parameters
+    ----------
+    file : str
+        Input file name.
+
+    Returns
+    -------
+    file : str
+        Input file name.
+
+    """
     exist = os.path.isfile(file)
 
     if exist:
@@ -36,6 +50,22 @@ def check_file(file):
 
 
 def find_coord(file):
+    """
+    Find atomic symbols and atomic coordinates of structure.
+
+    Parameters
+    ----------
+    file : str
+        Input file name.
+
+    Returns
+    -------
+    atom : list
+        Atomic symbols.
+    coord : list
+        Atomic coordinates.
+
+    """
     if file.endswith(".xyz"):
         if is_xyz(file):
             atom, coord = get_coord_xyz(file)
@@ -43,8 +73,7 @@ def find_coord(file):
             print(f"File type of input file is not supported: {file}")
             sys.exit(1)
     else:
-        print(f"Could not read file: {file}")
-        print(f"File extension must be \'.xyz\': {file}")
+        print(f"File type of input file is not supported: {file}")
         sys.exit(1)
 
     atom = list(filter(None, atom))
@@ -53,12 +82,44 @@ def find_coord(file):
 
 
 def find_octa(atom, coord):
+    """
+    Find atomic symbols and atomic coordinates of structure.
+
+    Parameters
+    ----------
+    atom : list
+        Atomic symbols of structure.
+    coord : list
+        Atomic coordinates of structure.
+
+    Returns
+    -------
+    atom : list
+        Atomic symbols of octahedral structure.
+    coord : ndarray
+        Atomic coordinates of octahedral structure.
+
+    """
     atom, coord = extract_octa(atom, coord)
 
     return atom, coord
 
 
 def calc_param(coord):
+    """
+    Calculate octahedral distortion parameters.
+
+    Parameters
+    ----------
+    coord : array_like
+        Atomic coordinates of octahedral structure.
+
+    Returns
+    -------
+    computed : dict
+        Computed parameters.
+
+    """
     dist = octadist.CalcDistortion(coord)
     zeta = dist.zeta  # Zeta
     delta = dist.delta  # Delta
@@ -75,6 +136,12 @@ def calc_param(coord):
 
 
 def run_cli():
+    """
+    OctaDist command-line interface (CLI).
+    This function has been implemented by entry points function
+    in setuptools package.
+
+    """
     description = """\
 Octahedral Distortion Calculator: 
 A tool for computing octahedral distortion parameters in coordination complex.
@@ -127,10 +194,17 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
     parser.add_argument('--par',
                         type=str,
                         nargs='+',
-                        default='all',
-                        choices=['zeta', 'delta', 'sigma', 'theta', 'all'],
+                        choices=['zeta', 'delta', 'sigma', 'theta'],
                         metavar='PARAMETER',
-                        help='select which parameter to show (default is %(default)s)'
+                        help='select which the parameter (zeta, delta, sigma, theta) to show'
+                        )
+    parser.add_argument('--show',
+                        type=str,
+                        nargs='+',
+                        choices=['atom', 'coord'],
+                        metavar='MOL',
+                        help='show atomic symbol (atom) and atomic coordinate (coord) of '
+                             'octahedral structure'
                         )
 
     args = parser.parse_args()
@@ -157,45 +231,59 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
         print(f"- Website\t=\t{octadist.__website__}")
         sys.exit(1)
 
+    # in case GUI is requested
     if args.gui:
         run_gui()
         sys.exit(1)
 
+    atom_coord = {}
     computed = {}
     token = False
 
+    # find coordinates of structure
     if args.inp:
         # check if file is correct
         file = check_file(args.inp)
 
-        # extract atomic coordinate
         atom, coord = find_coord(file)
         atom, coord = find_octa(atom, coord)
 
-        computed = calc_param(coord)
+        atom_coord = {'atom': atom,
+                      'coord': coord
+                      }
 
-        if args.par and 'all' in args.par:
-            for key in computed.keys():
-                print(computed[key])
-        else:
-            for key in args.par:
-                print(computed[key])
+        computed = calc_param(coord)
 
         token = True
     else:
         print("No input file specified")
 
+    # print computed parameters
+    if not args.par and token:
+        for key in ['zeta', 'delta', 'sigma', 'theta']:
+            print(computed[key])
+    else:
+        for key in args.par:
+            print(computed[key])
+
+    # print atom and coord
+    if args.show and token:
+        for key in args.show:
+            print(atom_coord[key])
+
+    # save result
     if args.out and token:
         with open(args.out + '.txt', 'w') as f:
             f.write("Octahedral distortion parameters\n")
             f.write("--------------------------------\n")
             f.write(f"File: {args.inp}\n")
             f.write(f"Zeta   = {computed['zeta']}\n")
-            f.write(f"Delta  = {computed['zeta']}\n")
-            f.write(f"Sigma  = {computed['zeta']}\n")
-            f.write(f"Theta  = {computed['zeta']}\n")
+            f.write(f"Delta  = {computed['delta']}\n")
+            f.write(f"Sigma  = {computed['sigma']}\n")
+            f.write(f"Theta  = {computed['theta']}\n")
             f.write(f"\nComputed by OctaDist {version}\n")
             f.close()
+        print(f"Output file has been saved to {f}")
 
 
 if __name__ == '__main__':
