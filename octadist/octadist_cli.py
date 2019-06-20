@@ -82,7 +82,7 @@ def calc_param(coord):
     return computed
 
 
-def run():
+def run_cli():
     description = """\
 Octahedral Distortion Calculator: 
 A tool for computing octahedral distortion parameters in coordination complex.
@@ -205,4 +205,4 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
 
 
 if __name__ == '__main__':
-    run()
+    run_cli()

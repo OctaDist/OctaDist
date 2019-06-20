@@ -76,8 +76,8 @@ setuptools.setup(
     python_requires='>=3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*',
     entry_points={
         'console_scripts': [
-            'octadist=octadist.__main__:run',
-            'octadist_cli=octadist.octadist_cli:run'
+            'octadist=octadist.__main__:run_gui',
+            'octadist_cli=octadist.octadist_cli:run_cli'
         ]
     },
 )
