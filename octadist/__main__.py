@@ -79,7 +79,8 @@ def run_gui():
     print(f"<<< Program Terminated")
 
 
-def check_api():
+def run():
+    # check API
     if sys.argv[1:]:
         run_cli()
     else:
@@ -87,4 +88,4 @@ def check_api():
 
 
 if __name__ == '__main__':
-    check_api()
+    run()
