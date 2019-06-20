@@ -325,13 +325,13 @@ class CalcJahnTeller:
         ########################
 
         xx, yy, z, abcd = plane.find_fit_plane(self.coord_A)
-        plane_A = (xx, yy, z)
+        plane_a = (xx, yy, z)
         a1, b1, c1, d1 = abcd
 
         self.box_eq1.insert(tk.INSERT, f"{a1:8.5f}x {b1:+8.5f}y {c1:+8.5f}z {d1:+8.5f} = 0")
 
         xx, yy, z, abcd = plane.find_fit_plane(self.coord_B)
-        plane_B = (xx, yy, z)
+        plane_b = (xx, yy, z)
         a2, b2, c2, d2 = abcd
 
         self.box_eq2.insert(tk.INSERT, f"{a2:8.5f}x {b2:+8.5f}y {c2:+8.5f}z {d2:+8.5f} = 0")
@@ -401,11 +401,11 @@ class CalcJahnTeller:
         ax.grid(True)
 
         # Plot plane A
-        xx, yy, z = plane_A
+        xx, yy, z = plane_a
         ax.plot_surface(xx, yy, z, alpha=0.2, color='green')
 
         # Plot plane B
-        xx, yy, z = plane_B
+        xx, yy, z = plane_b
         ax.plot_surface(xx, yy, z, alpha=0.2, color='red')
 
         # ax.set_xlim(-10, 10)
@@ -494,17 +494,13 @@ class CalcRMSD:
 
     >>> test = CalcRMSD(coord_1=comp1, coord_2=comp2)
 
-    >>> rmsd_normal = test.get_rmsd_normal()
-    >>> rmsd_translate = test.get_rmsd_translate()
-    >>> rmsd_rotate = test.get_rmsd_rotate()
-
-    >>> rmsd_normal
+    >>> test.rmsd_normal
     6.758144
 
-    >>> rmsd_translate
+    >>> test.rmsd_translate
     0.305792
 
-    >>> rmsd_rotate
+    >>> test.rmsd_rotate
     0.277988
 
     """

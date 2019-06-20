@@ -348,12 +348,12 @@ class SurfaceArea:
 
         self.box.insert(tk.END, "\t\tAtoms*\t\tArea (Å³)\n")
 
-        totalArea = 0
+        total_area = 0
         for i in range(8):
             area = linear.triangle_area(c_ref[i][0], c_ref[i][1], c_ref[i][2])
             self.box.insert(tk.END, f"Face no. {i + 1}:\t\t{a_ref[i]}\t\t{area:10.6f}\n")
-            totalArea += area
+            total_area += area
 
-        self.box.insert(tk.END, f"\nThe total surface area:   {totalArea:10.6f}\n")
+        self.box.insert(tk.END, f"\nThe total surface area:   {total_area:10.6f}\n")
 
         self.box.insert(tk.END, "\n==============================\n\n")
