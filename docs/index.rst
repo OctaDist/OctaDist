@@ -50,7 +50,15 @@ Nightly-build         2.6.0 (dev)   Active
    :caption: MODULES:
    :glob:
 
-   modules/* 
+   modules/*
+
+
+.. toctree::
+   :maxdepth: 1
+   :caption: API:
+   :glob:
+
+   api/*
 
 
 .. toctree::
