@@ -111,17 +111,17 @@ def extract_coord(file=None):
 
     atom = []
     coord = np.array([])
-    check = True
+    is_ftype_correct = True
+    is_format_correct = True
+    is_coord_correct = True
 
     # Check file extension
     if file.endswith(".xyz"):
         if is_xyz(file):
             atom, coord = get_coord_xyz(file)
-
         else:
-            ftype = "XYZ"
-            popup.err_invalid_ftype(ftype)
-            check = False
+            is_ftype_correct = False
+            is_coord_correct = False
 
     elif file.endswith(".out") or file.endswith(".log"):
         if is_gaussian(file):
@@ -133,16 +133,24 @@ def extract_coord(file=None):
         elif is_qchem(file):
             atom, coord = get_coord_qchem(file)
         else:
-            check = False
+            is_coord_correct = False
     else:
-        popup.err_wrong_format()
-        check = False
+        is_format_correct = False
+        is_coord_correct = False
 
-    if check:
+    if not is_ftype_correct:
+        popup.err_invalid_ftype()
+
+    if not is_format_correct:
+        popup.err_wrong_format()
+
+    if is_coord_correct:
+        # atom and coord are correct
         # Remove empty string in list
         atom = list(filter(None, atom))
         return atom, coord
     else:
+        # if not correct, return empty atom and coord
         return atom, coord
 
 
