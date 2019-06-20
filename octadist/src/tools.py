@@ -14,18 +14,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-import functools
 import tkinter as tk
 from tkinter import scrolledtext as tkscrolled
 
 import numpy as np
 import rmsd
-import scipy.optimize
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-import octadist
-from octadist.src import linear, elements, util
+from octadist.src import linear, elements, plane, util
 
 
 class CalcJahnTeller:
@@ -304,85 +301,6 @@ class CalcJahnTeller:
         # plt.axis('off')
         plt.show()
 
-    #########################################
-    # Find best fit plane to selected atoms #
-    #########################################
-
-    def find_fit_plane(self, coord):
-        """
-        Find best fit plane to the given data points (atoms).
-
-        scipy.optimize.minimize is used to find the least-square plane.
-
-        Parameters
-        ----------
-        coord : array_like
-            Coordinates of selected atom chunk.
-
-        Returns
-        -------
-        xx, yy, z : float
-            Coefficient of the surface.
-        abcd : tuple
-            Coefficient of the equation of the plane.
-
-        Examples
-        --------
-        >>> Example of set of coordinate of atoms.
-        points = [(1.1, 2.1, 8.1),
-                  (3.2, 4.2, 8.0),
-                  (5.3, 1.3, 8.2),
-                  (3.4, 2.4, 8.3),
-                  (1.5, 4.5, 8.0),
-                  (5.5, 6.7, 4.5)]
-
-        >>> # To plot the plane, run following commands:
-        ... # map coordinates for scattering plot
-
-        >>> xs, ys, zs = zip(*points)
-        ... ax.scatter(xs, ys, zs)
-
-        """
-        def plane(x, y, params):
-            a = params[0]
-            b = params[1]
-            c = params[2]
-            z = a * x + b * y + c
-            return z
-
-        def error(params, points):
-            result = 0
-            for (x, y, z) in points:
-                plane_z = plane(x, y, params)
-                diff = abs(plane_z - z)
-                result += diff ** 2
-            return result
-
-        def cross(a, b):
-            return [a[1] * b[2] - a[2] * b[1],
-                    a[2] * b[0] - a[0] * b[2],
-                    a[0] * b[1] - a[1] * b[0]]
-
-        points = coord
-
-        fun = functools.partial(error, points=points)
-        params0 = [0, 0, 0]
-        res = scipy.optimize.minimize(fun, params0)
-
-        a = res.x[0]
-        b = res.x[1]
-        c = res.x[2]
-
-        point = np.array([0.0, 0.0, c])
-        normal = np.array(cross([1, 0, a], [0, 1, b]))
-        d = -point.dot(normal)
-        xx, yy = np.meshgrid([-5, 10], [-5, 10])
-        z = (-normal[0] * xx - normal[1] * yy - d) * 1. / normal[2]
-
-        abcd = (a, b, c, d)
-
-        return xx, yy, z, abcd
-
     ########################################
     # Plot fit plant to the selected atoms #
     ########################################
@@ -406,13 +324,13 @@ class CalcJahnTeller:
         # Find eq of the plane #
         ########################
 
-        xx, yy, z, abcd = self.find_fit_plane(self.coord_A)
+        xx, yy, z, abcd = plane.find_fit_plane(self.coord_A)
         plane_A = (xx, yy, z)
         a1, b1, c1, d1 = abcd
 
         self.box_eq1.insert(tk.INSERT, f"{a1:8.5f}x {b1:+8.5f}y {c1:+8.5f}z {d1:+8.5f} = 0")
 
-        xx, yy, z, abcd = self.find_fit_plane(self.coord_B)
+        xx, yy, z, abcd = plane.find_fit_plane(self.coord_B)
         plane_B = (xx, yy, z)
         a2, b2, c2, d2 = abcd
 
