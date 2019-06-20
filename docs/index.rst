@@ -25,7 +25,7 @@ Status
 Release               Version       Status
 =============         ===========   ======
 Stable                2.5.4         Active
-Nightly-build         2.5.5 (dev)   Active
+Nightly-build         2.6.0 (dev)   Active
 =============         ===========   ======
 
 .. note::
