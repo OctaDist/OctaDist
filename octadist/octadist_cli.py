@@ -19,8 +19,10 @@ import os
 import sys
 
 import octadist
-from octadist.src.molecule import *
 from octadist.__main__ import version, run_gui
+from octadist.src.molecule import (
+    extract_coord, extract_octa, is_xyz, get_coord_xyz
+)
 
 
 def check_file(file):
@@ -33,33 +35,25 @@ def check_file(file):
         sys.exit(1)
 
 
-def extract_coord(file):
-    atom = []
-    coord = np.array([])
-
+def find_coord(file):
     if file.endswith(".xyz"):
         if is_xyz(file):
             atom, coord = get_coord_xyz(file)
         else:
             print(f"File type of input file is not supported: {file}")
             sys.exit(1)
-
-    elif file.endswith(".out") or file.endswith(".log"):
-        if is_gaussian(file):
-            atom, coord = get_coord_gaussian(file)
-        elif is_nwchem(file):
-            atom, coord = get_coord_nwchem(file)
-        elif is_orca(file):
-            atom, coord = get_coord_orca(file)
-        elif is_qchem(file):
-            atom, coord = get_coord_qchem(file)
-        else:
-            print(f"Could not extract atomic coordinate: {file}")
     else:
         print(f"Could not read file: {file}")
+        print(f"File extension must be \'.xyz\': {file}")
         sys.exit(1)
 
     atom = list(filter(None, atom))
+
+    return atom, coord
+
+
+def find_octa(atom, coord):
+    atom, coord = extract_octa(atom, coord)
 
     return atom, coord
 
@@ -119,7 +113,7 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
                         action='store',
                         type=str,
                         metavar='INPUT',
-                        help='input structure in .xyz or .out or .log formats'
+                        help='input structure in .xyz format'
                         )
     parser.add_argument('-o', '--out',
                         action='store',
@@ -175,7 +169,8 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
         file = check_file(args.inp)
 
         # extract atomic coordinate
-        atom, coord = extract_coord(file)
+        atom, coord = find_coord(file)
+        atom, coord = find_octa(atom, coord)
 
         computed = calc_param(coord)
 
