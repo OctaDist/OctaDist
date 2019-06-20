@@ -152,9 +152,9 @@ def find_metal(atom=None, coord=None):
 
     Parameters
     ----------
-    atom : list
+    atom : list, None
         Full atomic labels of complex.
-    coord : array_like
+    coord : array_like, None
         Full atomic coordinates of complex.
 
     Returns

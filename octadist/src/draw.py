@@ -27,9 +27,9 @@ class DrawComplex:
 
     Parameters
     ----------
-    atom : list
+    atom : list, None
         Atomic symbols of octahedral structure.
-    coord : list, array, tuple
+    coord : list, array, tuple, bool, None
         Atomic coordinates of octahedral structure.
     cutoff_global : int or float
         Global cutoff for screening bonds.
