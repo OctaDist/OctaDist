@@ -42,12 +42,15 @@ Nightly-build         2.6.0 (dev)   Active
    :caption: ABOUT:
    :glob:
 
-   about/*
-
    about/getting-started
 
-   about/getting-started.rst
+   about/distortion-parameters
 
+   about/program-structure
+
+   about/installing-usage
+
+   about/running-the-tests
 
 .. toctree::
    :maxdepth: 1
