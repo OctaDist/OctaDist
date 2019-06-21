@@ -14,10 +14,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# import tkinter  # required for TkAgg
-# import matplotlib
-# matplotlib.use('TkAgg')
-
 from matplotlib import pyplot as plt
 
 

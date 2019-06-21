@@ -14,10 +14,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# import tkinter as tk
-# import matplotlib
-# matplotlib.use('TkAgg')
-
 import tkinter as tk
 from tkinter import scrolledtext as tkscrolled
 
