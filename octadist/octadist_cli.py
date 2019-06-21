@@ -162,13 +162,13 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
                         action='version',
                         version=version
                         )
-    parser.add_argument('-a', '--author',
-                        action='store_true',
-                        help='show authors'
-                        )
-    parser.add_argument('--info',
+    parser.add_argument('-a', '--about',
                         action='store_true',
                         help='show program info'
+                        )
+    parser.add_argument('-c', '--cite',
+                        action='store_true',
+                        help='show how to cite OctaDist'
                         )
     parser.add_argument('-g', '--gui',
                         action='store_true',
@@ -217,7 +217,7 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
         print(octadist.__author_full__)
         sys.exit(1)
 
-    if args.info:
+    if args.about:
         print("\nOctaDist Program info")
         print("=====================")
         print(f"- Name\t\t=\t{octadist.__title__}")
@@ -229,6 +229,14 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
         print(f"- E-mail\t=\t{octadist.__email__}")
         print(f"- Document\t=\t{octadist.__doc__}")
         print(f"- Website\t=\t{octadist.__website__}")
+        sys.exit(1)
+
+    if args.cite:
+        print("\nHow to cite OctaDist")
+        print("=====================")
+        print("Please cite this project when you use OctaDist for scientific publication.\n")
+        print("  OctaDist: A tool for calculating distortion parameters in coordination complexes.")
+        print("  https://octadist.github.io\n")
         sys.exit(1)
 
     # in case GUI is requested
