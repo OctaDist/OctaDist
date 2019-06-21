@@ -19,6 +19,10 @@ from tkinter import scrolledtext as tkscrolled
 
 import numpy as np
 import rmsd
+
+import matplotlib
+matplotlib.use('TkAgg')
+
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 

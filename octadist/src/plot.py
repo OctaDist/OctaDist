@@ -14,6 +14,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+import matplotlib
+matplotlib.use('TkAgg')
+
 from matplotlib import pyplot as plt
 
 
