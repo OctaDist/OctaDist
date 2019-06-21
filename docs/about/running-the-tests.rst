@@ -1,9 +1,12 @@
 =================
-Running the Tests
+Running the tests
 =================
 
 Running OctaDist Examples.
 
+
+Example 1
+---------
 
 **Example 1 for running the test on OctaDist PyPI:**
 
@@ -45,6 +48,9 @@ Running OctaDist Examples.
     # Theta = 122.688972774546
 
 
+Example 2
+---------
+
 **Example 2 for running the test on OctaDist PyPI:**
     
 .. code-block:: python
@@ -53,7 +59,7 @@ Running OctaDist Examples.
 
     atom = ['O', 'O', 'Fe', 'N', 'N', 'N', 'N']
 
-    coor = [[1.885657000, 4.804777000, 6.183726000],
+    coord = [[1.885657000, 4.804777000, 6.183726000],
              [1.747515000, 6.960963000, 7.932784000],
              [2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
              [4.094380000, 5.807257000, 7.588689000],
@@ -86,6 +92,9 @@ Running OctaDist Examples.
     # Sigma = 47.926528379270124
     # Theta = 122.688972774546
 
+
+Example 3
+---------
 
 **Example 3 for running the test on OctaDist PyPI:**
 
@@ -123,6 +132,9 @@ Running OctaDist Examples.
     # Sigma = 147.3168033970211
     # Theta = 520.6407679851042
 
+
+Example 4
+---------
 
 **Example 4 for running the test on OctaDist PyPI:**
 
@@ -162,6 +174,9 @@ Running OctaDist Examples.
     # Theta = 4.177042495798965
 
 
+Example 5
+---------
+
 **Example 5 for running the test on OctaDist PyPI:**
     
 .. code-block:: python
@@ -179,6 +194,9 @@ Running OctaDist Examples.
     my_plot.add_legend()
     my_plot.show_plot()
 
+
+Example 6
+---------
 
 **Example 6 for running the test on OctaDist PyPI:**
 
@@ -200,4 +218,6 @@ Running OctaDist Examples.
 
     # Output image, Complex_saved_by_OctaDist.png, is stored at ../images directory
 
+.. figure:: Complex_saved_by_OctaDist.png
+    :align: center
 

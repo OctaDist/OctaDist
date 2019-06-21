@@ -25,18 +25,13 @@ def err_no_file():
     showerror("Error", "No input file. At least one input file must be loaded.")
 
 
-def err_invalid_ftype(ftype):
+def err_invalid_ftype():
     """
     Show this error popup when file type is not supported by the program.
 
-    Parameters
-    ----------
-    ftype : str
-        File type of submitted file.
-
     """
-    showerror("Error", f"Invalid {ftype} file format.\n\n"
-    "The complex must have at least 1 metal atom and 6 ligand atoms.")
+    showerror("Error", f"Invalid input file format.\n\n"
+              "The complex must have at least 1 metal atom and 6 ligand atoms.")
 
 
 def err_no_coord(i):
@@ -53,7 +48,7 @@ def err_no_coord(i):
 
     """
     showerror("Error", f"File no. {i} has no atomic coordinates.\n\n"
-                        "Please make sure the input file format is correct.")
+              "Please make sure the input file format is correct.")
 
 
 def err_less_ligands(i):
@@ -67,8 +62,8 @@ def err_less_ligands(i):
 
     """
     showerror("Error", f"File no. {i} has ligand atoms less than six atoms.\n\n"
-                        "Please check if some ligand atoms are so far away from metal atom,"
-                        "or check if the metal-ligand bond cutoff is set properly.")
+              "Please check if some ligand atoms are so far away from metal atom,"
+              "or check if the metal-ligand bond cutoff is set properly.")
 
 
 def err_no_metal():

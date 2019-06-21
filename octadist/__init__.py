@@ -14,16 +14,20 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-__author__ = "R. Ketkaew, Y. Tantirungrotechai, D. J. Harding, P. Harding, and M. Marchivie"
+import tkinter
+import matplotlib
+matplotlib.use('TkAgg')
+
+__author__ = "R. Ketkaew, Y. Tantirungrotechai, D. J. Harding, P. Harding, M. Marchivie"
 __author_full__ = "Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, " \
-                  "Phimphaka Harding, and Mathieu Marchivie"
+                  "Phimphaka Harding, Mathieu Marchivie"
 __maintainer__ = "Rangsiman Ketkaew"
 __copyright__ = "OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al."
 __license__ = "GNU v3"
 __credit__ = "OctaDist Development Team"
 __email__ = "rangsiman1993@gmail.com"
-__version__ = "2.5.4"
-__revision__ = "2019.254"
+__version__ = "2.6.0"
+__revision__ = "2019.260"
 __release__ = "June 2019"
 __status__ = "stable"
 __title__ = "Octahedral Distortion Calculator"
@@ -33,8 +37,7 @@ __website__ = "https://octadist.github.io"
 __github__ = "https://github.com/OctaDist/OctaDist"
 
 __all__ = \
-    ['Run',
-     'calc',
+    ['calc',
      'draw',
      'elements',
      'linear',
@@ -73,6 +76,7 @@ __all__ = \
      'get_coord_orca',
      'get_coord_qchem',
      'find_eq_of_plane',
+     'find_fit_plane',
      'Plot',
      'project_atom_onto_line',
      'project_atom_onto_plane',
@@ -143,6 +147,7 @@ from .src.molecule import get_coord_orca
 from .src.molecule import get_coord_qchem
 
 from .src.plane import find_eq_of_plane
+from .src.plane import find_fit_plane
 
 from .src.plot import Plot
 

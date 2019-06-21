@@ -24,6 +24,17 @@ tools       Analysis tools by 3rd-party libraries
 util        Frequently-used functions e.g. find atomic bonds
 ==========  ================================================
 
+Application Program Interface (API)
+-----------------------------------
+
+============  =========================================
+API version   Description
+============  =========================================
+octadist_gui  Graphical user interface (__main__.py)
+octadist_cli  Command line interface (octadist_cli.py)
+============  =========================================
+
+
 Requirements
 ------------
 
@@ -37,4 +48,7 @@ The following 3rd party library and package are used in OctaDist for specific fu
     matplotlib
     rmsd
 
+To install requirements::
+
+    pip install -r requirements.txt
 

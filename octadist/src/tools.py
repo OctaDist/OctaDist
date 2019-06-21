@@ -14,18 +14,16 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-import functools
 import tkinter as tk
 from tkinter import scrolledtext as tkscrolled
 
 import numpy as np
 import rmsd
-import scipy.optimize
+
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-import octadist
-from octadist.src import linear, elements, util
+from octadist.src import linear, elements, plane, util
 
 
 class CalcJahnTeller:
@@ -54,7 +52,6 @@ class CalcJahnTeller:
     Examples
     --------
     >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
-
     >>> coord = [[2.298354000, 5.161785000, 7.971898000],
                  [1.885657000, 4.804777000, 6.183726000],
                  [1.747515000, 6.960963000, 7.932784000],
@@ -62,7 +59,6 @@ class CalcJahnTeller:
                  [0.539005000, 4.482809000, 8.460004000],
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
-
     >>> test = CalcJahnTeller(atom=atom, coord=coord)
     >>> test.start_app()
     >>> test.create_widget()
@@ -70,6 +66,7 @@ class CalcJahnTeller:
     >>> test.show_app()
 
     """
+
     def __init__(self, atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2, master=None, icon=None):
         self.atom = atom
         self.coord = coord
@@ -304,85 +301,6 @@ class CalcJahnTeller:
         # plt.axis('off')
         plt.show()
 
-    #########################################
-    # Find best fit plane to selected atoms #
-    #########################################
-
-    def find_fit_plane(self, coord):
-        """
-        Find best fit plane to the given data points (atoms).
-
-        scipy.optimize.minimize is used to find the least-square plane.
-
-        Parameters
-        ----------
-        coord : array_like
-            Coordinates of selected atom chunk.
-
-        Returns
-        -------
-        xx, yy, z : float
-            Coefficient of the surface.
-        abcd : tuple
-            Coefficient of the equation of the plane.
-
-        Examples
-        --------
-        >>> Example of set of coordinate of atoms.
-        points = [(1.1, 2.1, 8.1),
-                  (3.2, 4.2, 8.0),
-                  (5.3, 1.3, 8.2),
-                  (3.4, 2.4, 8.3),
-                  (1.5, 4.5, 8.0),
-                  (5.5, 6.7, 4.5)]
-
-        >>> # To plot the plane, run following commands:
-        ... # map coordinates for scattering plot
-
-        >>> xs, ys, zs = zip(*points)
-        ... ax.scatter(xs, ys, zs)
-
-        """
-        def plane(x, y, params):
-            a = params[0]
-            b = params[1]
-            c = params[2]
-            z = a * x + b * y + c
-            return z
-
-        def error(params, points):
-            result = 0
-            for (x, y, z) in points:
-                plane_z = plane(x, y, params)
-                diff = abs(plane_z - z)
-                result += diff ** 2
-            return result
-
-        def cross(a, b):
-            return [a[1] * b[2] - a[2] * b[1],
-                    a[2] * b[0] - a[0] * b[2],
-                    a[0] * b[1] - a[1] * b[0]]
-
-        points = coord
-
-        fun = functools.partial(error, points=points)
-        params0 = [0, 0, 0]
-        res = scipy.optimize.minimize(fun, params0)
-
-        a = res.x[0]
-        b = res.x[1]
-        c = res.x[2]
-
-        point = np.array([0.0, 0.0, c])
-        normal = np.array(cross([1, 0, a], [0, 1, b]))
-        d = -point.dot(normal)
-        xx, yy = np.meshgrid([-5, 10], [-5, 10])
-        z = (-normal[0] * xx - normal[1] * yy - d) * 1. / normal[2]
-
-        abcd = (a, b, c, d)
-
-        return xx, yy, z, abcd
-
     ########################################
     # Plot fit plant to the selected atoms #
     ########################################
@@ -406,14 +324,14 @@ class CalcJahnTeller:
         # Find eq of the plane #
         ########################
 
-        xx, yy, z, abcd = self.find_fit_plane(self.coord_A)
-        plane_A = (xx, yy, z)
+        xx, yy, z, abcd = plane.find_fit_plane(self.coord_A)
+        plane_a = (xx, yy, z)
         a1, b1, c1, d1 = abcd
 
         self.box_eq1.insert(tk.INSERT, f"{a1:8.5f}x {b1:+8.5f}y {c1:+8.5f}z {d1:+8.5f} = 0")
 
-        xx, yy, z, abcd = self.find_fit_plane(self.coord_B)
-        plane_B = (xx, yy, z)
+        xx, yy, z, abcd = plane.find_fit_plane(self.coord_B)
+        plane_b = (xx, yy, z)
         a2, b2, c2, d2 = abcd
 
         self.box_eq2.insert(tk.INSERT, f"{a2:8.5f}x {b2:+8.5f}y {c2:+8.5f}z {d2:+8.5f} = 0")
@@ -483,11 +401,11 @@ class CalcJahnTeller:
         ax.grid(True)
 
         # Plot plane A
-        xx, yy, z = plane_A
+        xx, yy, z = plane_a
         ax.plot_surface(xx, yy, z, alpha=0.2, color='green')
 
         # Plot plane B
-        xx, yy, z = plane_B
+        xx, yy, z = plane_b
         ax.plot_surface(xx, yy, z, alpha=0.2, color='red')
 
         # ax.set_xlim(-10, 10)
@@ -538,9 +456,9 @@ class CalcRMSD:
 
     Parameters
     ----------
-    coord_1 : array_list
+    coord_1 : array_like
         Atomic labels and coordinates of structure 1.
-    coord_2 : array_list
+    coord_2 : array_like
         Atomic labels and coordinates of structure 2.
 
     Returns
@@ -558,6 +476,7 @@ class CalcRMSD:
 
     Examples
     --------
+    >>> # Example of structure 1
     >>> comp1 = [[10.1873, 5.7463, 5.615],
                  [8.494, 5.9735, 4.8091],
                  [9.6526, 6.4229, 7.3079],
@@ -565,7 +484,7 @@ class CalcRMSD:
                  [9.6229, 3.9221, 6.0083],
                  [12.0065, 5.5562, 6.3497],
                  [10.8046, 4.9471, 3.9219]]
-
+    >>> # Example of structure 1
     >>> comp2 = [[12.0937, 2.4505, 3.4207],
                  [12.9603, 2.2952, 1.7286],
                  [13.4876, 1.6182, 4.4230],
@@ -573,23 +492,16 @@ class CalcRMSD:
                  [10.9307, 0.7697, 2.9315],
                  [10.7878, 2.2987, 5.1071],
                  [10.6773, 3.7960, 2.5424]]
-
     >>> test = CalcRMSD(coord_1=comp1, coord_2=comp2)
-
-    >>> rmsd_normal = test.get_rmsd_normal()
-    >>> rmsd_translate = test.get_rmsd_translate()
-    >>> rmsd_rotate = test.get_rmsd_rotate()
-
-    >>> rmsd_normal
+    >>> test.rmsd_normal
     6.758144
-
-    >>> rmsd_translate
+    >>> test.rmsd_translate
     0.305792
-
-    >>> rmsd_rotate
+    >>> test.rmsd_rotate
     0.277988
 
     """
+
     def __init__(self, coord_1, coord_2):
         self.coord_1 = np.asarray(coord_1, dtype=np.float64)
         self.coord_2 = np.asarray(coord_2, dtype=np.float64)
@@ -630,4 +542,3 @@ class CalcRMSD:
         self.coord_1 = np.dot(self.coord_1, rotation_matrix)
 
         self.rmsd_rotate = rmsd.rmsd(self.coord_1, self.coord_2)
-

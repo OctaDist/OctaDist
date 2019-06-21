@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,5 +16,36 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-__src__ = "source code"
+import os
 
+import octadist.main
+
+version = octadist.__version__
+release = octadist.__release__
+
+
+def run_gui():
+    """
+    OctaDist graphical user interface (GUI).
+
+    """
+    print(f"Program Starts >>>")
+    print(f"... OctaDist {version} {release} ...")
+
+    app = octadist.main.OctaDist()
+    app.start_app()
+
+    # Delete icon after closing app
+    if app.octadist_icon is not None:
+        os.remove(app.octadist_icon)
+
+    print(f"<<< Program Terminated")
+
+
+if __name__ == '__main__':
+    """
+    octadist        : OctaDist Main
+    octadist_gui    : OctaDist GUI (default)
+    octadist_cli    : OctaDist CLI  
+    """
+    run_gui()

@@ -25,7 +25,7 @@ Status
 Release               Version       Status
 =============         ===========   ======
 Stable                2.5.4         Active
-Nightly-build         2.5.5 (dev)   Active
+Nightly-build         2.6.0 (dev)   Active
 =============         ===========   ======
 
 .. note::
@@ -42,15 +42,32 @@ Nightly-build         2.5.5 (dev)   Active
    :caption: ABOUT:
    :glob:
 
-   about/*
+   about/getting-started
 
+   about/distortion-parameters
+
+   about/program-structure
+
+   about/installing-usage
+
+   about/running-the-tests
+
+   about/development
 
 .. toctree::
    :maxdepth: 1
    :caption: MODULES:
    :glob:
 
-   modules/* 
+   modules/*
+
+
+.. toctree::
+   :maxdepth: 1
+   :caption: API:
+   :glob:
+
+   api/*
 
 
 .. toctree::
@@ -60,6 +77,15 @@ Nightly-build         2.5.5 (dev)   Active
 
    reference/*
 
+
+:Authors:
+   Rangsiman Ketkaew,
+   Yuthana Tantirungrotechai,
+   David J. Harding,
+   Phimphaka Harding,
+   Mathieu Marchivie
+
+:Version: 2.6.0 of June 2019
 
 
 Indices and tables

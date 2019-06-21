@@ -27,9 +27,9 @@ class DrawComplex:
 
     Parameters
     ----------
-    atom : list
+    atom : list, None
         Atomic symbols of octahedral structure.
-    coord : list, array, tuple
+    coord : list, array, tuple, bool, None
         Atomic coordinates of octahedral structure.
     cutoff_global : int or float
         Global cutoff for screening bonds.
@@ -41,7 +41,6 @@ class DrawComplex:
     Examples
     --------
     >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
-
     >>> coord = [[2.298354000, 5.161785000, 7.971898000],
                  [1.885657000, 4.804777000, 6.183726000],
                  [1.747515000, 6.960963000, 7.932784000],
@@ -49,7 +48,6 @@ class DrawComplex:
                  [0.539005000, 4.482809000, 8.460004000],
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
-
     >>> test = DrawComplex(atom=atom, coord=coord)
     >>> test.add_atom()
     >>> test.add_bond()
@@ -278,7 +276,6 @@ class DrawProjection:
     Examples
     --------
     >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
-
     >>> coord = [[2.298354000, 5.161785000, 7.971898000],
                  [1.885657000, 4.804777000, 6.183726000],
                  [1.747515000, 6.960963000, 7.932784000],
@@ -286,7 +283,6 @@ class DrawProjection:
                  [0.539005000, 4.482809000, 8.460004000],
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
-
     >>> test = DrawProjection(atom=atom, coord=coord)
     >>> test.add_atom()
     >>> test.add_symbol()
@@ -441,7 +437,6 @@ class DrawTwistingPlane:
     Examples
     --------
     >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
-
     >>> coord = [[2.298354000, 5.161785000, 7.971898000],
                  [1.885657000, 4.804777000, 6.183726000],
                  [1.747515000, 6.960963000, 7.932784000],
@@ -449,7 +444,6 @@ class DrawTwistingPlane:
                  [0.539005000, 4.482809000, 8.460004000],
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
-
     >>> test = DrawTwistingPlane(atom=atom, coord=coord)
     >>> test.add_plane()
     >>> test.add_symbol()

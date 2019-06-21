@@ -69,6 +69,18 @@ source code for command line interface (CLI) are available for as follows:
 [Conda-link]: https://anaconda.org/rangsiman/octadist
 [Dev-badge]: https://img.shields.io/travis/OctaDist/OctaDist/nightly-build.svg
 
+Branch:
+
+1. Master stable version: https://github.com/OctaDist/OctaDist/tree/master
+2. Nightly Dev version: https://github.com/OctaDist/OctaDist/tree/nightly-build
+
+## Git Clone
+
+```sh
+git clone https://github.com/OctaDist/OctaDist.git
+git checkout nightly-build
+git pull origin nightly-build
+```
 
 ## Documents
 
