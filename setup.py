@@ -15,11 +15,12 @@ description = "OctaDist: A tool for calculating distortion parameters in coordin
 setuptools.setup(
     name="octadist",
     version=__version__,
-    author="Rangsiman Ketkaew",
+    author="Rangsiman Ketkaew et al.",
     author_email="rangsiman1993@gmail.com",
     description=description,
     long_description=long_description,
     long_description_content_type="text/markdown",
+    license="GNU General Public License v3 (GPLv3) on top the license of Python.",
     url="https://octadist.github.io",
     download_url="https://github.com/OctaDist/OctaDist/releases",
     project_urls={
@@ -29,9 +30,9 @@ setuptools.setup(
     },
     packages=setuptools.find_packages(),
     install_requires=[
-        'numpy>=1.16.4',
-        'scipy>=1.3.0',
-        'matplotlib>=3.1.0',
+        'numpy',
+        'scipy',
+        'matplotlib',
         'rmsd>=1.3.2'
     ],
     classifiers=[
