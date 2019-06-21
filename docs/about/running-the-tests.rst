@@ -218,6 +218,6 @@ Example 6
 
     # Output image, Complex_saved_by_OctaDist.png, is stored at ../images directory
 
-.. figure:: images/Complex_saved_by_OctaDist.png
+.. figure:: Complex_saved_by_OctaDist.png
     :align: center
 
