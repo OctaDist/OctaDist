@@ -34,6 +34,14 @@ def check_atom(x):
     atom.index(i) : int
         If x is symbol, return atomic number.
 
+    Examples
+    --------
+    >>> check_atom('He')
+    2
+
+    >>> check_atom(2)
+    'He'
+
     """
     atoms = [
         '0',
@@ -75,6 +83,11 @@ def check_radii(x):
     atom_radii[x] : int
         Atomic radius.
 
+    Examples
+    --------
+    >>> check_radii(2) # He
+    0.93
+
     """
     atom_radii = np.array([
         0,
@@ -115,6 +128,11 @@ def check_color(x):
     References
     ----------
     http://jmol.sourceforge.net/jscolors/
+
+    Examples
+    --------
+    >>> check_color(2) # He
+    '#D9FFFF'
 
     """
     atom_color = [
