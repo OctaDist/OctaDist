@@ -2,10 +2,14 @@
 octadist_gui
 ============
 
-Running
--------
+Running GUI
+-----------
 
 .. code-block:: sh
+
+    octadist
+
+    # or
 
     octadist_gui
 

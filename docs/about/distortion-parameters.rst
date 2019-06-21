@@ -11,8 +11,8 @@ Mathematical expression of the octahedral distortion parameters are given by fol
 
     \zeta = \sum_{i=1}^{6}\left | d_{i} - d_{mean}  \right |
 
-    where :math:`d_{i}` is individual M-X bond distance and
-    :math:`d_{mean}` is mean metal-ligand bond distance.
+where :math:`d_{i}` is individual M-X bond distance and
+:math:`d_{mean}` is mean metal-ligand bond distance.
 
 - Delta parameter
 
@@ -20,8 +20,8 @@ Mathematical expression of the octahedral distortion parameters are given by fol
 
     \Delta = \frac{1}{6} \sum_{i=1}^{6}(\frac{d_{i} - d_{mean}}{d_{mean}})^2
 
-    where :math:`d_{i}` is individual M-X bond distance and
-    :math:`d_{mean}` is mean metal-ligand bond distance.
+where :math:`d_{i}` is individual M-X bond distance and
+:math:`d_{mean}` is mean metal-ligand bond distance.
 
 - Sigma parameter
 
@@ -29,7 +29,7 @@ Mathematical expression of the octahedral distortion parameters are given by fol
 
     \Sigma = \sum_{i=1}^{12}\left | 90 - \phi_{i}  \right |
 
-    where :math:`\phi_{i}` in individual cis angle.
+where :math:`\phi_{i}` in individual cis angle.
 
 - Theta parameter
 
@@ -37,5 +37,5 @@ Mathematical expression of the octahedral distortion parameters are given by fol
 
     \Theta = \sum_{i=1}^{24}\left | 60 - \theta_{i}  \right |
 
-    where :math:`\theta_{i}` is individual angle between two vectors of two twisting face.
+where :math:`\theta_{i}` is individual angle between two vectors of two twisting face.
 

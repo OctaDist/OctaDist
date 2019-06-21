@@ -48,4 +48,7 @@ The following 3rd party library and package are used in OctaDist for specific fu
     matplotlib
     rmsd
 
+To install requirements::
+
+    pip install -r requirements.txt
 
