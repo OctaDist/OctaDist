@@ -3,8 +3,6 @@ sudo: yes
 dist: xenial
 
 branches:
-  only:
-    - master
 
 python:
   - "3.7"  # 3.7 development branch
