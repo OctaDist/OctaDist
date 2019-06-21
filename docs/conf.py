@@ -14,6 +14,7 @@
 #
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath('..'))
 # sys.path.insert(0, os.path.abspath('.'))
 # sys.path.insert(0, os.path.abspath('../src'))
@@ -120,11 +121,11 @@ html_theme_options = {
 
 # VCS options: https://docs.readthedocs.io/en/latest/vcs.html#github
 html_context = {
-    "display_github": True, # Integrate GitHub
-    "github_user": "octadist", # Username
-    "github_repo": "OctaDist", # Repo name
-    "github_version": "nightly-build", # Version
-    "conf_py_path": "/", # Path in the checkout to the docs root
+    "display_github": True,  # Integrate GitHub
+    "github_user": "octadist",  # Username
+    "github_repo": "OctaDist",  # Repo name
+    "github_version": "nightly-build",  # Version
+    "conf_py_path": "/",  # Path in the checkout to the docs root
 }
 
 html_logo = '../images/molecule.png'
@@ -149,7 +150,6 @@ html_logo = '../images/molecule.png'
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'OctaDistdoc'
-
 
 # -- Options for LaTeX output ------------------------------------------------
 
@@ -179,7 +179,6 @@ latex_documents = [
      'Rangsiman Ketkaew', 'manual'),
 ]
 
-
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
@@ -188,7 +187,6 @@ man_pages = [
     (master_doc, 'octadist', 'OctaDist Documentation',
      [author], 1)
 ]
-
 
 # -- Options for Texinfo output ----------------------------------------------
 
@@ -200,7 +198,6 @@ texinfo_documents = [
      author, 'OctaDist', 'One line description of project.',
      'Miscellaneous'),
 ]
-
 
 # -- Options for Epub output -------------------------------------------------
 
@@ -218,7 +215,6 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
-
 
 # -- Extension configuration -------------------------------------------------
 
