@@ -50,7 +50,7 @@ Nightly-build         2.6.0 (dev)   Active
 
    about/installing-usage
 
-   about/running-the-tests/*
+   about/running-the-tests
 
    about/development
 
