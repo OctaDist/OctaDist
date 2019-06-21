@@ -59,9 +59,7 @@ def find_eq_of_plane(x, y, z):
     >>> N1 = [2.298354000, 5.161785000, 7.971898000]
     >>> N2 = [1.885657000, 4.804777000, 6.183726000]
     >>> N3 = [1.747515000, 6.960963000, 7.932784000]
-
     >>> a, b, c, d = find_eq_of_plane(N1, N2, N3)
-
     >>> a
     -3.231203733528
     >>> b
@@ -116,12 +114,14 @@ def find_fit_plane(coord):
                   (5.3, 1.3, 8.2),
                   (3.4, 2.4, 8.3),
                   (1.5, 4.5, 8.0),
-                  (5.5, 6.7, 4.5)]
-
+                  (5.5, 6.7, 4.5)
+                  ]
     >>> # To plot the plane, run following commands:
-    ... # map coordinates for scattering plot
+    >>> import matplotlib.pyplot as plt
+    >>> # map coordinates for scattering plot
     >>> xs, ys, zs = zip(*points)
-    >>> ax.scatter(xs, ys, zs)
+    >>> plt.scatter(xs, ys, zs)
+    >>> plt.show()
 
     """
     def plane(x, y, params):
