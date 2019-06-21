@@ -110,7 +110,9 @@ Reference manual :
 
 If you use Windows, we strongly suggest you download a standalone executable:
 
-[Click Here to Download OctaDist-2.6.0-Win-x86-64.exe]()
+[Click Here to Download OctaDist-2.6.0-Win-x86-64.exe][download-win-exe]
+
+[download-win-exe]: https://github.com/OctaDist/OctaDist/releases/download/v.2.6.0/OctaDist-2.6.0-Win-x86-64.exe
 
 
 If you use Linux or macOS and already have Python 3 installed on the system, 
@@ -142,7 +144,7 @@ Download a standalone executable to your system.
 |:-----------------:|:------------------:|:-----------------:|
 | OctaDist GUI      | XYZ coordinates    | Computed distortion parameters|
 
-[Screenshots_1]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_OctaDist-2.5.4.png
+[Screenshots_1]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_OctaDist.png
 [Screenshots_2]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_Example_Mol.png
 [Screenshots_3]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_Computed.png
 
