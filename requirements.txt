@@ -1,4 +1,4 @@
-numpy==1.16.4
-scipy==1.3.0
-matplotlib==3.1.0
-rmsd==1.3.2
+numpy
+scipy
+matplotlib
+rmsd
