@@ -60,11 +60,10 @@ Nightly-build         2.6.0 (dev)   Active
    modules/*
 
 
-.. toctree::
+.. toctree ::
    :maxdepth: 1
    :caption: API:
    :glob:
-
    api/*
 
 
