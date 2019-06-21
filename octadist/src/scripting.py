@@ -43,7 +43,9 @@ class ScriptingConsole:
 
     Examples
     --------
-    >>> console = ScriptingConsole(self)
+    >>> import tkinter as tk
+    >>> master = tk.Tk()
+    >>> console = ScriptingConsole(master)
     >>> console.scripting_start()
 
     """
