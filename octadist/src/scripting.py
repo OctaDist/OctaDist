@@ -49,6 +49,7 @@ class ScriptingConsole:
     """
     def __init__(self, root):
         self.root = root
+        self.wd = None
         self.history_command = []
 
     def scripting_start(self):
@@ -57,22 +58,22 @@ class ScriptingConsole:
 
         """
 
-        wd = tk.Toplevel(self.root.master)
+        self.wd = tk.Toplevel(self.root.master)
         if self.root.octadist_icon is not None:
-            wd.wm_iconbitmap(self.root.octadist_icon)
-        wd.title("OctaDist Scripting Interface")
-        wd.bind('<Return>', self.script_execute)
-        wd.resizable(0, 0)
+            self.wd.wm_iconbitmap(self.root.octadist_icon)
+        self.wd.title("OctaDist Scripting Interface")
+        self.wd.bind('<Return>', self.script_execute)
+        self.wd.resizable(0, 0)
 
-        lbl = tk.Label(wd, text="Output:")
+        lbl = tk.Label(self.wd, text="Output:")
         lbl.grid(padx="5", pady="5", sticky=tk.W, row=0, column=0)
-        self.box_script = tk.Text(wd, width=70, height=20)
+        self.box_script = tk.Text(self.wd, width=70, height=20)
         self.box_script.grid(padx="5", pady="5", row=1, column=0, columnspan=2)
-        lbl = tk.Label(wd, text="Input:")
+        lbl = tk.Label(self.wd, text="Input:")
         lbl.grid(padx="5", pady="5", sticky=tk.W, row=2, column=0)
-        self.entry_script = tk.Entry(wd, width=62)
+        self.entry_script = tk.Entry(self.wd, width=62)
         self.entry_script.grid(padx="5", pady="5", sticky=tk.W, row=3, column=0)
-        btn_script = tk.Button(wd, text="Run")
+        btn_script = tk.Button(self.wd, text="Run")
         btn_script.bind('<Button-1>', self.script_execute)
         btn_script.grid(padx="5", pady="5", row=3, column=1)
 
@@ -80,36 +81,39 @@ class ScriptingConsole:
         self.box_script.insert(tk.INSERT, "If you have no idea what to do about scripting, "
                                           "type \"help\" to get started.\n\n")
 
-        wd.mainloop()
+        self.wd.mainloop()
 
     def script_run_help(self):
         """
         Show help messages.
 
         """
-        help_msg = ">>> Interactive code console for OctaDist.\n" \
-                   ">>> This scripting interface supports built-in commands as follows:\n" \
-                   ">>> \n" \
-                   ">>> Command\t\tDescription\n" \
-                   ">>> =======\t\t===========\n" \
-                   ">>> help\t\tShow this help info.\n" \
-                   ">>> list\t\tList all commands.\n" \
-                   ">>> info\t\tShow info of program.\n" \
-                   ">>> doc\t\tShow docstring of this function.\n" \
-                   ">>> show\t\tShow values of variables.\n" \
-                   ">>> \t\tUsage: show var1 [var2] [var3] [...]\n" \
-                   ">>> type\t\tShow type of variables.\n" \
-                   ">>> \t\tUsage: type var1 [var2] [var3] [...]\n" \
-                   ">>> set\t\tSet new value to variable.\n" \
-                   ">>> \t\tUsage: set var value\n" \
-                   ">>> clear\t\tClear stdout/stderr.\n" \
-                   ">>> clean\t\tClear stdout/stderr and command history.\n" \
-                   ">>> \t\thistory - Clean previous commands history.\n" \
-                   ">>> \t\tmaster - Clean cache of OctaDist master class.\n" \
-                   ">>> restore\t\tRestore program settings.\n" \
-                   ">>> history\t\tCommand history.\n" \
-                   ">>> \n" \
-                   f">>> Rangsiman Ketkaew\t\t<rangsiman1993@gmail.com>\t\tOctaDist {octadist.__version__}"
+        help_msg = f"""\
+>>> Interactive code console for OctaDist.
+>>> This scripting interface supports built-in commands as follows:
+>>> 
+>>> Command\t\tDescription
+>>> =======\t\t===========
+>>> help\t\tShow this help info.
+>>> list\t\tList all commands.
+>>> info\t\tShow info of program.
+>>> doc\t\tShow docstring of this function.
+>>> show\t\tShow values of variables.
+>>> \t\tUsage: show var1 [var2] [var3] [...]
+>>> type\t\tShow type of variables.
+>>> \t\tUsage: type var1 [var2] [var3] [...]
+>>> set\t\tSet new value to variable.
+>>> \t\tUsage: set var value
+>>> clear\t\tClear stdout/stderr.
+>>> clean\t\tClear stdout/stderr and command history.
+>>> \t\thistory - Clean previous commands history.
+>>> \t\tmaster - Clean cache of OctaDist master class.
+>>> restore\t\tRestore program settings.
+>>> history\t\tCommand history.
+>>> 
+>>> Rangsiman Ketkaew\t\t<rangsiman1993@gmail.com>\t\tOctaDist {octadist.__version__}
+"""
+
         self.box_script.insert(tk.INSERT, help_msg + "\n")
 
     def script_run_list(self):
@@ -118,7 +122,7 @@ class ScriptingConsole:
 
         """
         all_command = "help, list, info, doc, show, type, set, " \
-                      "clear, clean, restore, history"
+                      "clear, clean, restore, history, exit"
         self.box_script.insert(tk.INSERT, f">>> {all_command}\n")
 
     def script_run_info(self):
@@ -247,8 +251,14 @@ class ScriptingConsole:
 
         self.box_script.insert(tk.INSERT, f">>> Restore all settings\n")
 
-        var_settings = ("cutoff_metal_ligand", "cutoff_global", "cutoff_hydrogen",
-                        "text_editor", "show_title", "show_axis", "show_grid")
+        var_settings = ("cutoff_metal_ligand",
+                        "cutoff_global",
+                        "cutoff_hydrogen",
+                        "text_editor",
+                        "show_title",
+                        "show_axis",
+                        "show_grid"
+                        )
 
         for key in var_settings:
             value = self.root.__dict__[f"{key}"]
@@ -327,6 +337,9 @@ class ScriptingConsole:
             self.script_run_restore()
         elif command == "history":
             self.script_run_history()
+        elif command == "exit" or command == "quit":
+            self.wd.destroy()
+            return 1
         else:
             self.script_no_command(command)
 
