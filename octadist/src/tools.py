@@ -14,15 +14,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+import tkinter  # required for TkAgg
+import matplotlib
+matplotlib.use('TkAgg')
+
 import tkinter as tk
 from tkinter import scrolledtext as tkscrolled
 
 import numpy as np
 import rmsd
-
-import tkinter  # required for TkAgg
-import matplotlib
-matplotlib.use('TkAgg')
 
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
