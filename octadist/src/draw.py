@@ -14,8 +14,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# import matplotlib
-# matplotlib.use('TkAgg')
+import tkinter
+import matplotlib
+matplotlib.use('TkAgg')
 
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
