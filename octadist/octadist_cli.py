@@ -183,10 +183,14 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
                         help='input structure in .xyz format'
                         )
     parser.add_argument('-o', '--out',
+                        action='store_true',
+                        help='show formatted output summary'
+                        )
+    parser.add_argument('-s', '--save',
                         action='store',
                         type=str,
                         metavar='OUTPUT',
-                        help='save results to text file, '
+                        help='save formatted output to text file, '
                              'please specify name of OUTPUT file without \'.txt\' extension'
                         )
 
@@ -262,13 +266,26 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
     else:
         print("No input file specified")
 
+    # get only basename of file from path
+    basename = os.path.basename(args.inp)
+
     # print computed parameters
-    if not args.par and token:
-        for key in ['zeta', 'delta', 'sigma', 'theta']:
-            print(computed[key])
-    else:
-        for key in args.par:
-            print(computed[key])
+    if not args.show:
+        if not args.out:
+            if not args.par and token:
+                for key in ['zeta', 'delta', 'sigma', 'theta']:
+                    print(computed[key])
+            else:
+                for key in args.par:
+                    print(computed[key])
+        else:
+            print("Octahedral distortion parameters")
+            print("--------------------------------")
+            print(f"File: {basename}")
+            print(f"Zeta   = {computed['zeta']:12.8f}")
+            print(f"Delta  = {computed['delta']:12.8f}")
+            print(f"Sigma  = {computed['sigma']:12.8f}")
+            print(f"Theta  = {computed['theta']:12.8f}")
 
     # print atom and coord
     if args.show and token:
@@ -276,18 +293,18 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
             print(atom_coord[key])
 
     # save result
-    if args.out and token:
-        with open(args.out + '.txt', 'w') as f:
+    if args.save and token:
+        with open(args.save + '.txt', 'w') as f:
             f.write("Octahedral distortion parameters\n")
             f.write("--------------------------------\n")
-            f.write(f"File: {args.inp}\n")
-            f.write(f"Zeta   = {computed['zeta']}\n")
-            f.write(f"Delta  = {computed['delta']}\n")
-            f.write(f"Sigma  = {computed['sigma']}\n")
-            f.write(f"Theta  = {computed['theta']}\n")
+            f.write(f"File: {basename}\n")
+            f.write(f"Zeta   = {computed['zeta']:12.8f}\n")
+            f.write(f"Delta  = {computed['delta']:12.8f}\n")
+            f.write(f"Sigma  = {computed['sigma']:12.8f}\n")
+            f.write(f"Theta  = {computed['theta']:12.8f}\n")
             f.write(f"\nComputed by OctaDist {version}\n")
             f.close()
-        print(f"Output file has been saved to {f}")
+        print(f"\nOutput file has been saved to {os.path.realpath(f.name)}")
 
 
 if __name__ == '__main__':
