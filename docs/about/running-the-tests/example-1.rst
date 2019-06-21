@@ -1,6 +1,6 @@
-=================
-Running the Tests
-=================
+=========
+Example 1
+=========
 
 Running OctaDist Examples.
 
