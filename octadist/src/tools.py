@@ -20,10 +20,8 @@ from tkinter import scrolledtext as tkscrolled
 import numpy as np
 import rmsd
 
-import matplotlib
-from numpy.core._multiarray_umath import ndarray
-
-matplotlib.use('TkAgg')
+# import matplotlib
+# matplotlib.use('TkAgg')
 
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
