@@ -21,6 +21,8 @@ import numpy as np
 import rmsd
 
 import matplotlib
+from numpy.core._multiarray_umath import ndarray
+
 matplotlib.use('TkAgg')
 
 from matplotlib import pyplot as plt
@@ -55,7 +57,6 @@ class CalcJahnTeller:
     Examples
     --------
     >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
-
     >>> coord = [[2.298354000, 5.161785000, 7.971898000],
                  [1.885657000, 4.804777000, 6.183726000],
                  [1.747515000, 6.960963000, 7.932784000],
@@ -63,7 +64,6 @@ class CalcJahnTeller:
                  [0.539005000, 4.482809000, 8.460004000],
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
-
     >>> test = CalcJahnTeller(atom=atom, coord=coord)
     >>> test.start_app()
     >>> test.create_widget()
@@ -71,6 +71,7 @@ class CalcJahnTeller:
     >>> test.show_app()
 
     """
+
     def __init__(self, atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2, master=None, icon=None):
         self.atom = atom
         self.coord = coord
@@ -460,9 +461,9 @@ class CalcRMSD:
 
     Parameters
     ----------
-    coord_1 : array_list
+    coord_1 : array_like
         Atomic labels and coordinates of structure 1.
-    coord_2 : array_list
+    coord_2 : array_like
         Atomic labels and coordinates of structure 2.
 
     Returns
@@ -480,6 +481,7 @@ class CalcRMSD:
 
     Examples
     --------
+    >>> # Example of structure 1
     >>> comp1 = [[10.1873, 5.7463, 5.615],
                  [8.494, 5.9735, 4.8091],
                  [9.6526, 6.4229, 7.3079],
@@ -487,7 +489,7 @@ class CalcRMSD:
                  [9.6229, 3.9221, 6.0083],
                  [12.0065, 5.5562, 6.3497],
                  [10.8046, 4.9471, 3.9219]]
-
+    >>> # Example of structure 1
     >>> comp2 = [[12.0937, 2.4505, 3.4207],
                  [12.9603, 2.2952, 1.7286],
                  [13.4876, 1.6182, 4.4230],
@@ -495,19 +497,16 @@ class CalcRMSD:
                  [10.9307, 0.7697, 2.9315],
                  [10.7878, 2.2987, 5.1071],
                  [10.6773, 3.7960, 2.5424]]
-
     >>> test = CalcRMSD(coord_1=comp1, coord_2=comp2)
-
     >>> test.rmsd_normal
     6.758144
-
     >>> test.rmsd_translate
     0.305792
-
     >>> test.rmsd_rotate
     0.277988
 
     """
+
     def __init__(self, coord_1, coord_2):
         self.coord_1 = np.asarray(coord_1, dtype=np.float64)
         self.coord_2 = np.asarray(coord_2, dtype=np.float64)
@@ -548,4 +547,3 @@ class CalcRMSD:
         self.coord_1 = np.dot(self.coord_1, rotation_matrix)
 
         self.rmsd_rotate = rmsd.rmsd(self.coord_1, self.coord_2)
-
