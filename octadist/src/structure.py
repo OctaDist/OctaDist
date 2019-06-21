@@ -38,8 +38,8 @@ class DataComplex:
 
     Examples
     --------
+    >>> file = "File_1"
     >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
-
     >>> coord = [[2.298354000, 5.161785000, 7.971898000],
                  [1.885657000, 4.804777000, 6.183726000],
                  [1.747515000, 6.960963000, 7.932784000],
@@ -47,9 +47,9 @@ class DataComplex:
                  [0.539005000, 4.482809000, 8.460004000],
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
-
     >>> my_app = DataComplex()
-    >>> my_app.add_octa(atom, coord)
+    >>> my_app.add_name(file)
+    >>> my_app.add_coord(atom, coord)
 
     """
     def __init__(self, master=None, icon=None):
@@ -134,8 +134,8 @@ class StructParam:
 
     Examples
     --------
+    >>> metal = 'Fe'
     >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
-
     >>> coord = [[2.298354000, 5.161785000, 7.971898000],
                  [1.885657000, 4.804777000, 6.183726000],
                  [1.747515000, 6.960963000, 7.932784000],
@@ -143,9 +143,9 @@ class StructParam:
                  [0.539005000, 4.482809000, 8.460004000],
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
-
-    >>> my_app = DataComplex()
-    >>> my_app.add_octa(atom, coord)
+    >>> my_app = StructParam()
+    >>> my_app.add_metal(metal)
+    >>> my_app.add_coord(atom, coord)
 
     """
     def __init__(self, master=None, icon=None):
@@ -266,6 +266,7 @@ class SurfaceArea:
 
     Examples
     --------
+    >>> metal = 'Fe'
     >>> coord = [[2.298354000, 5.161785000, 7.971898000],
                  [1.885657000, 4.804777000, 6.183726000],
                  [1.747515000, 6.960963000, 7.932784000],
@@ -273,8 +274,8 @@ class SurfaceArea:
                  [0.539005000, 4.482809000, 8.460004000],
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
-
     >>> my_app = SurfaceArea()
+    >>> my_app.add_metal(metal)
     >>> my_app.add_octa(coord)
 
     """
