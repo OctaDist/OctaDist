@@ -45,10 +45,7 @@ def angle_sign(v1, v2, direct):
     >>> vector1 = [1.21859514, -0.92569245, -0.51717955]
     >>> vector2 = [1.02186387,  0.57480095, -0.95220433]
     >>> direction = [1.29280503, 0.69301873, 1.80572438]
-
-    >>> angle = angle_sign(vector1, vector2, direction)
-
-    >>> angle
+    >>> angle_sign(vector1, vector2, direction)
     60.38697927455357
 
     """
@@ -89,10 +86,7 @@ def angle_btw_vectors(v1, v2):
     --------
     >>> vector1 = [-0.412697, -0.357008, -1.788172]
     >>> vector2 = [-0.550839,  1.799178, -0.039114]
-
-    >>> angle = angle_btw_vectors(vector1, vector2)
-
-    >>> angle
+    >>> angle_btw_vectors(vector1, vector2)
     95.62773246517462
 
     """
@@ -129,17 +123,15 @@ def angle_btw_planes(a1, b1, c1, a2, b2, c2):
 
     Examples
     --------
+    >>> # Plane 1
     >>> a1 = -3.231203733528
     >>> b1 = -0.9688526458499996
     >>> c1 = 0.9391692927779998
-
+    >>> # Plane 2
     >>> a2 = 1.3904813057000005
     >>> b2 = 3.928502357473003
     >>> c2 = -4.924114034864001
-
-    >>> angle = angle_btw_planes(a1, b1, c1, a2, b2, c2)
-
-    >>> angle
+    >>> angle_btw_planes(a1, b1, c1, a2, b2, c2)
     124.89920902358416
 
     """
@@ -177,13 +169,11 @@ def triangle_area(a, b, c):
 
     Examples
     --------
+    >>> # Three vertices
     >>> a = [2.298354000, 5.161785000, 7.971898000]
     >>> b = [1.885657000, 4.804777000, 6.183726000]
     >>> c = [1.747515000, 6.960963000, 7.932784000]
-
-    >>> area = triangle_area(a, b, c)
-
-    >>> area
+    >>> triangle_area(a, b, c)
     1.7508135235821773
 
     """
