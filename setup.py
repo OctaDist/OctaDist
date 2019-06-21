@@ -29,10 +29,10 @@ setuptools.setup(
     },
     packages=setuptools.find_packages(),
     install_requires=[
-        'numpy',
-        'scipy',
-        'matplotlib',
-        'rmsd'
+        'numpy>=1.16.4',
+        'scipy>=1.3.0',
+        'matplotlib>=3.1.0',
+        'rmsd>=1.3.2'
     ],
     classifiers=[
         "Environment :: Console",
