@@ -39,9 +39,7 @@ def count_line(file=None):
     Examples
     --------
     >>> file = "/home/Jack/[Fe(1-bpp)2][BF4]2-HS.xyz"
-    >>> line = count_line(file)
-
-    >>> line
+    >>> count_line(file)
     27
 
     """
@@ -92,10 +90,8 @@ def extract_coord(file=None):
     --------
     >>> file = "/home/Jack/[Fe(1-bpp)2][BF4]2-HS.xyz"
     >>> atom, coord = extract_coord(file)
-
     >>> atom
     ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
-
     >>> coord
     [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
      [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
@@ -182,7 +178,6 @@ def find_metal(atom=None, coord=None):
     Examples
     --------
     >>> atom = ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
-
     >>> coord = [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
                  [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
                  [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
@@ -190,15 +185,11 @@ def find_metal(atom=None, coord=None):
                  [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
                  [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
                  [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
-
     >>> total_metal, atom_metal, coord_metal = find_metal(atom, coord)
-
     >>> total_metal
     1
-
     >>> atom_metal
     ['Fe']
-
     >>> coord_metal
     [[-1.95348286  4.51770478 14.78558113]]
 
@@ -262,7 +253,6 @@ def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
     Examples
     --------
     >>> atom = ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
-
     >>> coord = [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
                  [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
                  [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
@@ -270,12 +260,9 @@ def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
                  [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
                  [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
                  [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
-
     >>> atom_octa, coord_octa = extract_octa(atom, coord)
-
     >>> atom_octa
     ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
-
     >>> coord_octa
     [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
      [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
@@ -343,7 +330,7 @@ def is_xyz(f):
     -----
     XYZ file format is like following:
 
-    >>> 
+    >>> # Example XYZ file format
     <number of atom>
     comment
     <index 0> <X> <Y> <Z>
@@ -363,7 +350,6 @@ def is_xyz(f):
     N   4.350474    9.106286    6.356091
     O   5.789096    7.796326    4.611355
     O   6.686381    7.763872    7.209699
-
     >>> is_xyz(example.xyz)
     True
 
