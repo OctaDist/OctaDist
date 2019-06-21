@@ -213,10 +213,6 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
         parser.print_help()
         sys.exit(1)
 
-    if args.author:
-        print(octadist.__author_full__)
-        sys.exit(1)
-
     if args.about:
         print("\nOctaDist Program info")
         print("=====================")
