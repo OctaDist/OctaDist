@@ -41,13 +41,12 @@ def project_atom_onto_line(p, a, b):
 
     Examples
     --------
+    >>> # point to project
     >>> p = [10.1873, 5.7463, 5.615]
+    >>> # head and end points of line
     >>> a = [8.494, 5.9735, 4.8091]
     >>> b = [9.6526, 6.4229, 7.3079]
-
-    >>> proj = project_atom_onto_line(p, a, b)
-
-    >>> proj
+    >>> project_atom_onto_line(p, a, b)
     [9.07023235 6.19701012 6.05188388]
 
     """
@@ -93,15 +92,14 @@ def project_atom_onto_plane(p, a, b, c, d):
 
     Examples
     --------
+    >>> # point to project
     >>> p = [10.1873, 5.7463, 5.615]
+    >>> # coefficient of the equation of the plane
     >>> a = -3.231203733528
     >>> b = -0.9688526458499996
     >>> c = 0.9391692927779998
     >>> d = -4.940497273569501
-
-    >>> proj = project_atom_onto_plane(p, a, b, c, d)
-
-    >>> proj
+    >>> project_atom_onto_plane(p, a, b, c, d)
     [2.73723598 3.51245316 7.78040705]
 
     """
