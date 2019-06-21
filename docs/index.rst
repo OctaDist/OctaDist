@@ -52,6 +52,8 @@ Nightly-build         2.6.0 (dev)   Active
 
    about/running-the-tests
 
+   about/development
+
 .. toctree::
    :maxdepth: 1
    :caption: MODULES:
