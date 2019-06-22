@@ -4,6 +4,40 @@ Running the tests
 
 Running OctaDist Examples.
 
+Command line interface (CLI)
+----------------------------
+
+To run OctaDist command line (with help)::
+
+    octadist_cli
+
+Suppose that the following is an example of input structure::
+
+    /home/nutt/test-structure.xyz
+
+Compute distortion parameters::
+
+    octadist_cli -i /home/nutt/test-structure.xyz
+
+    # output
+    0.18506902312963258
+    0.0003179610975578898
+    89.06158122867365
+    286.13107524834516
+
+You can ask OctaDist to show formatted output::
+
+    octadist_cli -i /home/nutt/test-structure.xyz -o
+
+    # output
+    Octahedral distortion parameters
+    --------------------------------
+    File: test-structure.xyz.xyz
+    Zeta   =   0.18506902
+    Delta  =   0.00031796
+    Sigma  =  89.06158123
+    Theta  = 286.13107525
+
 
 Example 1
 ---------
