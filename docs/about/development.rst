@@ -63,9 +63,9 @@ To install requirements::
 Build the tarball, wheel, and egg files
 ---------------------------------------
 
-- tar.gz: the tarball (supported by PIP)
-- whl: wheel file (supported by PIP)
-- egg: cross-platform zip file (supported by easy_install)
+- ``.tar.gz`` : the tarball (supported by PIP)
+- ``.whl`` : wheel file (supported by PIP)
+- ``.egg`` : cross-platform zip file (supported by easy_install)
 
 1. Build source code::
 
