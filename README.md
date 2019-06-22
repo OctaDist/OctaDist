@@ -13,8 +13,8 @@
 [Repo-size]: https://img.shields.io/github/repo-size/OctaDist/OctaDist.svg
 [DL-all-badge]: https://img.shields.io/github/downloads/OctaDist/octadist/total.svg
 [DL-all-link]: https://github.com/OctaDist/OctaDist/releases
-[DL-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.5.4/total.svg
-[DL-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.5.4
+[DL-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.6.0/total.svg
+[DL-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.0
 
 
 ## OctaDist
@@ -51,14 +51,14 @@ source code for command line interface (CLI) are available for as follows:
 
 [release-link]: https://github.com/OctaDist/OctaDist/releases
 
-| Platform  | Description | Usability | Status |
-|-----------|-------------|-----------|:------:|
-| Windows   | A standalone executable | GUI | [![Travis-CI Test][Travis-badge]][Travis-link] |
-| Linux     | Source code as a Python package | GUI & CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
-| macOS     | Source code as a Python package | CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
-| PyPI library   | [![PyPI-Server][PyPI-badge]][PyPI-link]| CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
-| Anaconda cloud | [![Conda-Server][Conda-badge]][Conda-link]| CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
-| Nightly build | Development build | GUI & CLI | [![Travis-CI Test][Dev-badge]][Travis-link] |
+| Platform  | Description | Status |
+|-----------|-------------|:------:|
+| Windows   | Standalone executable | [![Travis-CI Test][Travis-badge]][Travis-link] |
+| Linux     | Support for GUI and CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
+| macOS     | Support for GUI and CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
+| PyPI library   | [![PyPI-Server][PyPI-badge]][PyPI-link]| [![Travis-CI Test][Travis-badge]][Travis-link] |
+| Anaconda cloud | [![Conda-Server][Conda-badge]][Conda-link]| [![Travis-CI Test][Travis-badge]][Travis-link] |
+| Nightly build | Development build | [![Travis-CI Test][Dev-badge]][Travis-link] |
 
 [Travis-badge]: https://img.shields.io/travis/OctaDist/OctaDist/master.svg
 [Travis-link]: https://travis-ci.org/OctaDist/OctaDist
@@ -69,10 +69,10 @@ source code for command line interface (CLI) are available for as follows:
 [Conda-link]: https://anaconda.org/rangsiman/octadist
 [Dev-badge]: https://img.shields.io/travis/OctaDist/OctaDist/nightly-build.svg
 
-Branch:
+**Branch:**
 
-1. Master stable version: https://github.com/OctaDist/OctaDist/tree/master
-2. Nightly Dev version: https://github.com/OctaDist/OctaDist/tree/nightly-build
+1. Master stable: https://github.com/OctaDist/OctaDist/tree/master
+2. Nightly dev: https://github.com/OctaDist/OctaDist/tree/nightly-build
 
 ## Git Clone
 
@@ -106,46 +106,65 @@ Reference manual :
 [Nightly-Epub]: https://readthedocs.org/projects/octadist/downloads/epub/nightly-build/
 
 
-## Installing
+## Download and Install
 
-The easiest way to install OctaDist is to use `pip`.
+If you use Windows, we strongly suggest you download a standalone executable:
+
+[Click Here to Download OctaDist-2.6.0-Win-x86-64.exe][download-win-exe]
+
+[download-win-exe]: https://github.com/OctaDist/OctaDist/releases/download/v.2.6.0/OctaDist-2.6.0-Win-x86-64.exe
+
+
+If you use Linux or macOS and already have Python 3 installed on the system, 
+the easiest way to install OctaDist is to use `pip`.
 
 ```sh
 pip install octadist
 ```
 
-or use `conda` for those who have Anaconda installed on your system.
+or use `conda` for those who have Anaconda:
 
 ```sh
 conda install -c rangsiman octadist
 ```
 
-To execute OctaDist package, use the following command:
-
-```sh
-python -m octadist.Run
-```
-
-*Note that you have to stay at the top-level directory (outside octadist)*.
-
-
-## Running the tests
+## Starting OctaDist
 
 ### Graphical User Interface (GUI)
 
-Just download a standalone executable to your system.
+To start GUI program:
+
+```sh
+octadist
+```
+
+Download a standalone executable to your system.
 
 |![][Screenshots_1] | ![][Screenshots_2] | ![][Screenshots_3]|
 |:-----------------:|:------------------:|:-----------------:|
 | OctaDist GUI      | XYZ coordinates    | Computed distortion parameters|
 
-[Screenshots_1]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_OctaDist-2.5.4.png
+[Screenshots_1]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_OctaDist.png
 [Screenshots_2]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_Example_Mol.png
 [Screenshots_3]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_Computed.png
 
 ### Command Line Interface (CLI)
 
-#### Example 1
+To start program command line (with help):
+
+```sh
+octadist_cli
+```
+
+To compute parameters:
+
+```sh
+octadist_cli -i INPUT.xyz
+```
+
+## Running the tests
+
+#### Example 1: OctaDist as a package
 
 ```python
 import octadist as oc
@@ -163,26 +182,13 @@ coord = [[2.298354000, 5.161785000, 7.971898000],  # <- Metal atom
          [2.886404000, 5.392925000, 9.848966000]]
 
 dist = oc.CalcDistortion(coord)
-zeta = dist.zeta             # Zeta
-delta = dist.delta           # Delta
-sigma = dist.sigma           # Sigma
-theta = dist.theta           # Theta
+zeta = dist.zeta             # 0.228072561
+delta = dist.delta           # 0.000476251
+sigma = dist.sigma           # 47.92652837
+theta = dist.theta           # 122.6889727
 ```
 
-Example of output for computed parameters:
-
-```shell
-Computed parameters
--------------------
-Zeta  = 0.228072561
-Delta = 0.000476251
-Sigma = 47.92652837
-Theta = 122.6889727
-```
-
-#### Example 2
-
-OctaDist can display the 3D structure of molecule.
+#### Example 2: Display 3D structure of molecule
 
 ```python
 import octadist as oc
