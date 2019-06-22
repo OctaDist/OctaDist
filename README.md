@@ -66,7 +66,6 @@ source code for command line interface (CLI) are available for as follows:
 [PyPI-link]: https://pypi.org/project/octadist/
 [Conda-badge]: https://anaconda.org/rangsiman/octadist/badges/version.svg
 [Conda-link]: https://anaconda.org/rangsiman/octadist
-[Conda-link]: https://anaconda.org/rangsiman/octadist
 [Dev-badge]: https://img.shields.io/travis/OctaDist/OctaDist/nightly-build.svg
 
 **Branch:**
