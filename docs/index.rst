@@ -44,6 +44,8 @@ Nightly-build         2.6.0 (dev)   Active
 
    about/getting-started
 
+   about/features
+
    about/distortion-parameters
 
    about/program-structure
