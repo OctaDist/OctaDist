@@ -27,9 +27,9 @@ copyright = '2019, Rangsiman Ketkaew et al.'
 author = 'Rangsiman Ketkaew'
 
 # The short X.Y version
-version = '2.6.0'
+version = '2.6.1'
 # The full version, including alpha/beta/rc tags
-release = '2.6.0'
+release = '2.6.1'
 
 # autodoc_mock_imports = ['_tkinter']
 
