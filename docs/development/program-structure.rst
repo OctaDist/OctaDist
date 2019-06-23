@@ -1,9 +1,9 @@
-=================
-Program structure
-=================
+====================
+Program Architecture
+====================
 
-Program structure of OctaDist
------------------------------
+Program structure
+-----------------
 
 ==========  ================================================
 Function    Description
@@ -33,22 +33,4 @@ API version   Description
 octadist_gui  Graphical user interface (__main__.py)
 octadist_cli  Command line interface (octadist_cli.py)
 ============  =========================================
-
-
-Requirements
-------------
-
-OctaDist is written entirely in Python 3 binding to Tkinter GUI toolkit.
-The following 3rd party library and package are used in OctaDist for specific functions.
-
-.. code-block:: bash
-
-    numpy
-    scipy
-    matplotlib
-    rmsd
-
-To install requirements::
-
-    pip install -r requirements.txt
 

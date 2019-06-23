@@ -10,11 +10,8 @@
 OctaDist Docs
 =============
 
-What is OctaDist?
------------------
 
 **OctaDist: A tool for computing the distortion parameters in coordination complexes.**
-
 
 OctaDist (**Octa**\hedral **Dist**\ortion calculator) is an inorganic chemistry and
 crystallography program for computing the distortion parameters, such as distance and
@@ -51,8 +48,23 @@ Nightly-build   |dev_ver|        Active
    at https://octadist.github.io/manual.html.
 
 
-----
+Citation
+--------
 
+Please cite this project when you use OctaDist for scientific publication.
+
+.. code-block::
+
+    OctaDist: A tool for calculating distortion parameters in coordination complexes.
+    https://octadist.github.io
+
+
+Bug report
+----------
+    For reporting bugs in OctaDist, please submit issues on OctaDist Github.
+
+
+----
 
 User Documentation
 ------------------
@@ -63,20 +75,15 @@ User Documentation
    :maxdepth: 2
    :caption: User Documentation
 
-   about/getting-started
-   about/features
-   about/distortion-parameters
-   about/program-structure
-   about/installing-usage
-   about/running-the-tests
-   about/development
-
-   modules_list.rst
-
-   api_list.rst
-
-   reference/author
-   reference/license
+   menu_getting_started.rst
+   menu_install.rst
+   menu_build.rst
+   menu_run.rst
+   menu_modules.rst
+   menu_test.rst
+   menu_dev.rst
+   references/authors.rst
+   references/license.rst
 
 :Authors:
    Rangsiman Ketkaew,
