@@ -10,25 +10,34 @@
 OctaDist Docs
 =============
 
+What is OctaDist?
+-----------------
+
 **OctaDist: A tool for computing the distortion parameters in coordination complexes.**
 
 
-OctaDist (**Octa**\hedral **Dist**\ortion calculator) is an inorganic chemistry and crystallography program 
-for computing the distortion parameters, such as distance and angle distortions, in coordination complexes. 
-For example, they are used for tracking structural change of the spin-crossover complex when the electronics 
-spin-state changes from low-spin to high-spin, and vice versa. OctaDist can also be used to study other kind of 
-the metal complex such as perovskite and metal-organic framework (MOF).
+OctaDist (**Octa**\hedral **Dist**\ortion calculator) is an inorganic chemistry and
+crystallography program for computing the distortion parameters, such as distance and
+angle distortions, in coordination complexes. For example, they are used for tracking
+structural change of the spin-crossover complex when the electronics spin-state
+changes from low-spin to high-spin, and vice versa. OctaDist can also be used to study
+other kind of the metal complex such as perovskite and metal-organic framework (MOF).
 
 - Official homepage: https://octadist.github.io
 - Github repository: https://github.com/OctaDist/OctaDist
 
-Status
-------
+Program Status
+--------------
+
+OctaDist is maintained on Github version control system.
+All versions has been continuously tested using Travis CI.
+Currently, OctaDist project has two branchs: Master (stable)
+and nightly-build (dev).
 
 =============   ==============   ======
-Release         Version          Status
+Branch          Version          Status
 =============   ==============   ======
-Stable          |Stable_ver|     Active
+Master          |Stable_ver|     Active
 Nightly-build   |Nightly_ver|    Active
 =============   ==============   ======
 
@@ -83,6 +92,7 @@ Nightly-build   |Nightly_ver|    Active
 
    reference/*
 
+----
 
 :Authors:
    Rangsiman Ketkaew,
