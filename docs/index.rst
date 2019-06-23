@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. |Stable_ver| replace:: 2.6.0
-.. |Nightly_ver| replace:: 2.6.1
+.. |ver| replace:: 2.6.0
+.. |dev_ver| replace:: 2.6.1
 
 =============
 OctaDist Docs
@@ -37,8 +37,8 @@ and nightly-build (dev).
 =============   ==============   ======
 Branch          Version          Status
 =============   ==============   ======
-Master          |Stable_ver|     Active
-Nightly-build   |Nightly_ver|    Active
+Master          |ver|            Active
+Nightly-build   |dev_ver|        Active
 =============   ==============   ======
 
 .. note::
@@ -50,49 +50,46 @@ Nightly-build   |Nightly_ver|    Active
    For the end-user, we strongly suggest you visit the user-friendly document
    at https://octadist.github.io/manual.html.
 
-.. toctree::
-   :maxdepth: 1
-   :caption: ABOUT:
-   :glob:
-
-   about/getting-started
-
-   about/features
-
-   about/distortion-parameters
-
-   about/program-structure
-
-   about/installing-usage
-
-   about/running-the-tests
-
-   about/development
-
-.. toctree::
-   :maxdepth: 1
-   :caption: MODULES:
-   :glob:
-
-   modules/*
-
-
-.. toctree::
-   :maxdepth: 1
-   :caption: API:
-   :glob:
-
-   api/*
-
-
-.. toctree::
-   :maxdepth: 1
-   :caption: REFERENCES:
-   :glob:
-
-   reference/*
 
 ----
+
+
+User Documentation
+------------------
+
+:ref:`genindex`, :ref:`modindex`, :ref:`search`
+
+.. toctree::
+   :maxdepth: 2
+
+   about/getting-started
+   about/features
+   about/distortion-parameters
+   about/program-structure
+   about/installing-usage
+   about/running-the-tests
+   about/development
+
+   modules/main.
+   modules/calc.rst
+   modules/draw.rst
+   modules/elements.rst
+   modules/linear.rst
+   modules/molecule.rst
+   modules/plane.rst
+   modules/plot.rst
+   modules/popup.rst
+   modules/projection.rst
+   modules/scripting.rst
+   modules/structure.rst
+   modules/tools.rst
+   modules/util.rst
+
+   api/gui.rst
+   api/cli.rst
+
+   reference/author.rst
+   reference/license.rst
 
 :Authors:
    Rangsiman Ketkaew,
@@ -101,12 +98,5 @@ Nightly-build   |Nightly_ver|    Active
    Phimphaka Harding,
    Mathieu Marchivie
 
-:Version: 2.6.0 of June 2019
+:Version: |ver| of June 2019
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

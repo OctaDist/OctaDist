@@ -1,0 +1,1298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="33512ebb-bd06-4fdf-8dfa-b8d0a367e6eb" name="Default Changelist" comment="Edited docs.">
+      <change beforePath="$PROJECT_DIR$/docs/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.rst" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="OctaDist-nightly-build" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/setup.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="325">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="450">
+                <caret line="18" selection-start-line="18" selection-end-line="18" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/octadist/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="300">
+              <caret line="12" column="67" selection-start-line="12" selection-start-column="67" selection-end-line="12" selection-end-column="67" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/octadist/src/molecule.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="200">
+              <caret line="8" column="64" selection-start-line="8" selection-start-column="64" selection-end-line="8" selection-end-column="64" />
+              <folding>
+                <element signature="e#770#801#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/docs/index.rst">
+          <provider selected="true" editor-type-id="restructured-text-editor" />
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>get_rmsd_normal</find>
+      <find>echo_outs(self,</find>
+      <find>self.echo_outs(self,</find>
+      <find>self.echo</find>
+      <find>self.echo_out</find>
+      <find>self.show_text</find>
+      <find>re</find>
+      <find>resiz</find>
+      <find>structure_output</find>
+      <find>=None</find>
+      <find>=none</find>
+      <find>-info</find>
+      <find>invalid</find>
+      <find>wr</find>
+      <find>ddd</find>
+      <find>could not</find>
+      <find>: arra</find>
+      <find>2.5</find>
+      <find>%</find>
+      <find>&quot;&gt;&gt;&gt;</find>
+      <find>\n&quot; \</find>
+      <find>wd</find>
+      <find>exit</find>
+      <find>author</find>
+      <find>coord_1</find>
+      <find>array</find>
+      <find>&gt;&gt;&gt;</find>
+      <find>append</find>
+      <find>f.write</find>
+      <find>save_</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>complex_1</replace>
+      <replace>complex_2</replace>
+      <replace>def</replace>
+      <replace>c_full : ndarray</replace>
+      <replace>plane</replace>
+      <replace>structure</replace>
+      <replace>float64</replace>
+      <replace>util</replace>
+      <replace>array_like</replace>
+      <replace>self.c_ref</replace>
+      <replace>self.c_oppo</replace>
+      <replace>self.atom</replace>
+      <replace>self.coord</replace>
+      <replace>file</replace>
+      <replace>coord</replace>
+      <replace>atom</replace>
+      <replace>self.non_octa</replace>
+      <replace>octadist</replace>
+      <replace>metal_to_lig</replace>
+      <replace>projected_lig6</replace>
+      <replace>projected_metal_to_lig</replace>
+      <replace>proj_m</replace>
+      <replace>_2_</replace>
+      <replace>_to_</replace>
+      <replace>proj_lig</replace>
+      <replace>self.echo_outs(self,</replace>
+      <replace>self.echo_outs(</replace>
+      <replace>&gt;&gt;&gt;</replace>
+      <replace>self.wd</replace>
+      <replace>print</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="CREATE_PULL_REQUEST_DEFAULT_BRANCH" value="master" />
+    <option name="CREATE_PULL_REQUEST_DEFAULT_REPO_USER" value="OctaDist" />
+    <option name="CREATE_PULL_REQUEST_DEFAULT_REPO_NAME" value="OctaDist" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/docs/reference/license.rst" />
+        <option value="$PROJECT_DIR$/hello.py" />
+        <option value="$PROJECT_DIR$/octadist/logo/Base64_icon.txt" />
+        <option value="$PROJECT_DIR$/octadist/logo/__init__.py" />
+        <option value="$PROJECT_DIR$/octadist/logo/Base64_icon.py" />
+        <option value="$PROJECT_DIR$/octadist/run_octadist.py" />
+        <option value="$USER_HOME$/Anaconda3/envs/Env-Py37/Lib/site-packages/rmsd/calculate_rmsd.py" />
+        <option value="$PROJECT_DIR$/build/lib/octadist/src/tools.py" />
+        <option value="$PROJECT_DIR$/example-py/example_2.py" />
+        <option value="$PROJECT_DIR$/octadist/src/__init__.py" />
+        <option value="$PROJECT_DIR$/octadist/Run.py" />
+        <option value="$PROJECT_DIR$/CheckPyModule.py" />
+        <option value="$PROJECT_DIR$/version.txt" />
+        <option value="$PROJECT_DIR$/version_update.txt" />
+        <option value="$PROJECT_DIR$/octadist/___cli___.py" />
+        <option value="$PROJECT_DIR$/octadist/run_cli.py" />
+        <option value="$PROJECT_DIR$/build/lib/octadist/octadist_cli.py" />
+        <option value="$PROJECT_DIR$/octadist/__main__.py" />
+        <option value="$PROJECT_DIR$/docs/reference/author.rst" />
+        <option value="$PROJECT_DIR$/compile.sh" />
+        <option value="$PROJECT_DIR$/octadist/main.py" />
+        <option value="$PROJECT_DIR$/octadist/src/calc.py" />
+        <option value="$PROJECT_DIR$/octadist/src/elements.py" />
+        <option value="$PROJECT_DIR$/octadist/src/linear.py" />
+        <option value="$PROJECT_DIR$/octadist/src/plane.py" />
+        <option value="$PROJECT_DIR$/octadist/src/projection.py" />
+        <option value="$PROJECT_DIR$/octadist/src/scripting.py" />
+        <option value="$PROJECT_DIR$/octadist/src/structure.py" />
+        <option value="$PROJECT_DIR$/octadist/src/util.py" />
+        <option value="$PROJECT_DIR$/docs/conf.py" />
+        <option value="$PROJECT_DIR$/octadist/src/tools.py" />
+        <option value="$PROJECT_DIR$/octadist/src/draw.py" />
+        <option value="$PROJECT_DIR$/octadist/src/plot.py" />
+        <option value="$PROJECT_DIR$/requirements.txt" />
+        <option value="$PROJECT_DIR$/octadist/octadist_cli.py" />
+        <option value="$PROJECT_DIR$/docs/reference/development.rst" />
+        <option value="$PROJECT_DIR$/docs/about/installing-usage.rst" />
+        <option value="$PROJECT_DIR$/docs/api/cli.rst" />
+        <option value="$PROJECT_DIR$/docs/api/gui.rst" />
+        <option value="$PROJECT_DIR$/docs/about/program-structure.rst" />
+        <option value="$PROJECT_DIR$/docs/about/getting-started.rst" />
+        <option value="$PROJECT_DIR$/docs/about/distortion-parameters.rst" />
+        <option value="$PROJECT_DIR$/docs/running-the-tests/example-1.rst" />
+        <option value="$PROJECT_DIR$/docs/about/running-the-tests.rst" />
+        <option value="$PROJECT_DIR$/.travis.yml" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/octadist/src/popup.py" />
+        <option value="$PROJECT_DIR$/setup.py" />
+        <option value="$PROJECT_DIR$/octadist/__init__.py" />
+        <option value="$PROJECT_DIR$/octadist/src/molecule.py" />
+        <option value="$PROJECT_DIR$/docs/index.rst" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="72" />
+    <option name="y" value="104" />
+    <option name="width" value="2302" />
+    <option name="height" value="1380" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="OctaDist-nightly-build" type="b2602c69:ProjectViewProjectNode" />
+              <item name="OctaDist-nightly-build" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="full.screen.before.presentation.mode" value="false" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Coding/learnpython" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.reStructuredText" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Nutt\Documents\GitHub\OctaDist-nightly-build\docs\images" />
+      <recent name="C:\Users\Nutt\Documents\GitHub\OctaDist-nightly-build\docs\about\running-the-tests" />
+      <recent name="C:\Users\Nutt\Documents\GitHub\OctaDist-nightly-build\docs\api" />
+      <recent name="C:\Users\Nutt\Documents\GitHub\OctaDist-nightly-build\octadist_gui\logo" />
+      <recent name="C:\Users\Nutt\Documents\GitHub\OctaDist-nightly-build\docs\modules" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Nutt\Documents\GitHub\OctaDist-nightly-build\docs\about" />
+      <recent name="C:\Users\Nutt\Documents\GitHub\OctaDist-nightly-build\docs\images" />
+      <recent name="C:\Users\Nutt\Documents\GitHub\OctaDist-nightly-build\docs\running-the-tests" />
+      <recent name="C:\Users\Nutt\Documents\GitHub\OctaDist-nightly-build\images" />
+      <recent name="C:\Users\Nutt\Documents\GitHub\OctaDist-nightly-build\" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.main">
+    <configuration name="Run" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="OctaDist-nightly-build" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/octadist" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/octadist/Run.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="__main__" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="OctaDist-nightly-build" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/octadist" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/octadist/__main__.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="aaa" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="OctaDist-nightly-build" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/aaa.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="example_1" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="OctaDist-nightly-build" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example-py" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/example-py/example_1.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="hello" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="OctaDist-nightly-build" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hello.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python">
+      <module name="OctaDist-nightly-build" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/octadist" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/octadist/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.Run" />
+      <item itemvalue="Python.__main__" />
+      <item itemvalue="Python.aaa" />
+      <item itemvalue="Python.example_1" />
+      <item itemvalue="Python.hello" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.__main__" />
+        <item itemvalue="Python.Run" />
+        <item itemvalue="Python.hello" />
+        <item itemvalue="Python.aaa" />
+        <item itemvalue="Python.example_1" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="33512ebb-bd06-4fdf-8dfa-b8d0a367e6eb" name="Default Changelist" comment="" />
+      <created>1557510409015</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1557510409015</updated>
+      <workItem from="1561096725276" duration="775000" />
+      <workItem from="1561097523873" duration="33368000" />
+      <workItem from="1561181379992" duration="1561000" />
+      <workItem from="1561195939096" duration="662000" />
+      <workItem from="1561263076761" duration="11147000" />
+      <workItem from="1561308334824" duration="1153000" />
+    </task>
+    <task id="LOCAL-00176" summary="Updated docs.">
+      <created>1561054546421</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1561054546421</updated>
+    </task>
+    <task id="LOCAL-00177" summary="Updated command for creating exe file.">
+      <created>1561055536908</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1561055536909</updated>
+    </task>
+    <task id="LOCAL-00178" summary="Added 'exit' function for closing scripting console.">
+      <created>1561110309566</created>
+      <option name="number" value="00178" />
+      <option name="presentableId" value="LOCAL-00178" />
+      <option name="project" value="LOCAL" />
+      <updated>1561110309567</updated>
+    </task>
+    <task id="LOCAL-00179" summary="Added other.xml to .idea.">
+      <created>1561112827854</created>
+      <option name="number" value="00179" />
+      <option name="presentableId" value="LOCAL-00179" />
+      <option name="project" value="LOCAL" />
+      <updated>1561112827854</updated>
+    </task>
+    <task id="LOCAL-00180" summary="Specify MPLBACKEND to 'TkAgg'.">
+      <created>1561112875906</created>
+      <option name="number" value="00180" />
+      <option name="presentableId" value="LOCAL-00180" />
+      <option name="project" value="LOCAL" />
+      <updated>1561112875906</updated>
+    </task>
+    <task id="LOCAL-00181" summary="Added --cite for showing citation to octadist_cli.">
+      <created>1561114131494</created>
+      <option name="number" value="00181" />
+      <option name="presentableId" value="LOCAL-00181" />
+      <option name="project" value="LOCAL" />
+      <updated>1561114131494</updated>
+    </task>
+    <task id="LOCAL-00182" summary="Specified required version of packages.">
+      <created>1561114165335</created>
+      <option name="number" value="00182" />
+      <option name="presentableId" value="LOCAL-00182" />
+      <option name="project" value="LOCAL" />
+      <updated>1561114165336</updated>
+    </task>
+    <task id="LOCAL-00183" summary="Removed author option.">
+      <created>1561128452208</created>
+      <option name="number" value="00183" />
+      <option name="presentableId" value="LOCAL-00183" />
+      <option name="project" value="LOCAL" />
+      <updated>1561128452208</updated>
+    </task>
+    <task id="LOCAL-00184" summary="Edited docstring.">
+      <created>1561128589344</created>
+      <option name="number" value="00184" />
+      <option name="presentableId" value="LOCAL-00184" />
+      <option name="project" value="LOCAL" />
+      <updated>1561128589344</updated>
+    </task>
+    <task id="LOCAL-00185" summary="Edited docstring.">
+      <created>1561128653853</created>
+      <option name="number" value="00185" />
+      <option name="presentableId" value="LOCAL-00185" />
+      <option name="project" value="LOCAL" />
+      <updated>1561128653853</updated>
+    </task>
+    <task id="LOCAL-00186" summary="Edited docstring.">
+      <created>1561128859281</created>
+      <option name="number" value="00186" />
+      <option name="presentableId" value="LOCAL-00186" />
+      <option name="project" value="LOCAL" />
+      <updated>1561128859281</updated>
+    </task>
+    <task id="LOCAL-00187" summary="Edited docstring.">
+      <created>1561128976487</created>
+      <option name="number" value="00187" />
+      <option name="presentableId" value="LOCAL-00187" />
+      <option name="project" value="LOCAL" />
+      <updated>1561128976487</updated>
+    </task>
+    <task id="LOCAL-00188" summary="Edited docstring.">
+      <created>1561129226153</created>
+      <option name="number" value="00188" />
+      <option name="presentableId" value="LOCAL-00188" />
+      <option name="project" value="LOCAL" />
+      <updated>1561129226153</updated>
+    </task>
+    <task id="LOCAL-00189" summary="Edited docstring.">
+      <created>1561129386457</created>
+      <option name="number" value="00189" />
+      <option name="presentableId" value="LOCAL-00189" />
+      <option name="project" value="LOCAL" />
+      <updated>1561129386457</updated>
+    </task>
+    <task id="LOCAL-00190" summary="Edited docstring.">
+      <created>1561129411020</created>
+      <option name="number" value="00190" />
+      <option name="presentableId" value="LOCAL-00190" />
+      <option name="project" value="LOCAL" />
+      <updated>1561129411020</updated>
+    </task>
+    <task id="LOCAL-00191" summary="Edited docstring.">
+      <created>1561129522430</created>
+      <option name="number" value="00191" />
+      <option name="presentableId" value="LOCAL-00191" />
+      <option name="project" value="LOCAL" />
+      <updated>1561129522430</updated>
+    </task>
+    <task id="LOCAL-00192" summary="Edited docstring.">
+      <created>1561129638565</created>
+      <option name="number" value="00192" />
+      <option name="presentableId" value="LOCAL-00192" />
+      <option name="project" value="LOCAL" />
+      <updated>1561129638565</updated>
+    </task>
+    <task id="LOCAL-00193" summary="Edited docstring.">
+      <created>1561129923817</created>
+      <option name="number" value="00193" />
+      <option name="presentableId" value="LOCAL-00193" />
+      <option name="project" value="LOCAL" />
+      <updated>1561129923817</updated>
+    </task>
+    <task id="LOCAL-00194" summary="Edited docstring.">
+      <created>1561130358775</created>
+      <option name="number" value="00194" />
+      <option name="presentableId" value="LOCAL-00194" />
+      <option name="project" value="LOCAL" />
+      <updated>1561130358775</updated>
+    </task>
+    <task id="LOCAL-00195" summary="Edited docstring.">
+      <created>1561130376864</created>
+      <option name="number" value="00195" />
+      <option name="presentableId" value="LOCAL-00195" />
+      <option name="project" value="LOCAL" />
+      <updated>1561130376864</updated>
+    </task>
+    <task id="LOCAL-00196" summary="Edited docstring.">
+      <created>1561130409698</created>
+      <option name="number" value="00196" />
+      <option name="presentableId" value="LOCAL-00196" />
+      <option name="project" value="LOCAL" />
+      <updated>1561130409698</updated>
+    </task>
+    <task id="LOCAL-00197" summary="Edited docstring.">
+      <created>1561131414635</created>
+      <option name="number" value="00197" />
+      <option name="presentableId" value="LOCAL-00197" />
+      <option name="project" value="LOCAL" />
+      <updated>1561131414635</updated>
+    </task>
+    <task id="LOCAL-00198" summary="Edited docs.">
+      <created>1561131748190</created>
+      <option name="number" value="00198" />
+      <option name="presentableId" value="LOCAL-00198" />
+      <option name="project" value="LOCAL" />
+      <updated>1561131748190</updated>
+    </task>
+    <task id="LOCAL-00199" summary="Edited docs.">
+      <created>1561131953538</created>
+      <option name="number" value="00199" />
+      <option name="presentableId" value="LOCAL-00199" />
+      <option name="project" value="LOCAL" />
+      <updated>1561131953538</updated>
+    </task>
+    <task id="LOCAL-00200" summary="Commented matplotlib.use('TkAgg').">
+      <created>1561132142661</created>
+      <option name="number" value="00200" />
+      <option name="presentableId" value="LOCAL-00200" />
+      <option name="project" value="LOCAL" />
+      <updated>1561132142662</updated>
+    </task>
+    <task id="LOCAL-00201" summary="Tried adding 'import tkinter' to avoid error from TkAgg.">
+      <created>1561132769866</created>
+      <option name="number" value="00201" />
+      <option name="presentableId" value="LOCAL-00201" />
+      <option name="project" value="LOCAL" />
+      <updated>1561132769866</updated>
+    </task>
+    <task id="LOCAL-00202" summary="Tried adding 'import tkinter' to avoid error from TkAgg.">
+      <created>1561132941811</created>
+      <option name="number" value="00202" />
+      <option name="presentableId" value="LOCAL-00202" />
+      <option name="project" value="LOCAL" />
+      <updated>1561132941812</updated>
+    </task>
+    <task id="LOCAL-00203" summary="Tried adding 'import tkinter' to avoid error from TkAgg.">
+      <created>1561133412385</created>
+      <option name="number" value="00203" />
+      <option name="presentableId" value="LOCAL-00203" />
+      <option name="project" value="LOCAL" />
+      <updated>1561133412385</updated>
+    </task>
+    <task id="LOCAL-00204" summary="Tried adding 'import tkinter' to avoid error from TkAgg.">
+      <created>1561133645458</created>
+      <option name="number" value="00204" />
+      <option name="presentableId" value="LOCAL-00204" />
+      <option name="project" value="LOCAL" />
+      <updated>1561133645458</updated>
+    </task>
+    <task id="LOCAL-00205" summary="Tried adding 'import tkinter' to avoid error from TkAgg.">
+      <created>1561133931691</created>
+      <option name="number" value="00205" />
+      <option name="presentableId" value="LOCAL-00205" />
+      <option name="project" value="LOCAL" />
+      <updated>1561133931691</updated>
+    </task>
+    <task id="LOCAL-00206" summary="Tried adding 'import tkinter' to avoid error from TkAgg.">
+      <created>1561134085641</created>
+      <option name="number" value="00206" />
+      <option name="presentableId" value="LOCAL-00206" />
+      <option name="project" value="LOCAL" />
+      <updated>1561134085641</updated>
+    </task>
+    <task id="LOCAL-00207" summary="Don't need to specified required version.">
+      <created>1561134404529</created>
+      <option name="number" value="00207" />
+      <option name="presentableId" value="LOCAL-00207" />
+      <option name="project" value="LOCAL" />
+      <updated>1561134404529</updated>
+    </task>
+    <task id="LOCAL-00208" summary="Updated license of program.">
+      <created>1561135921073</created>
+      <option name="number" value="00208" />
+      <option name="presentableId" value="LOCAL-00208" />
+      <option name="project" value="LOCAL" />
+      <updated>1561135921073</updated>
+    </task>
+    <task id="LOCAL-00209" summary="Fixed argument parser in octadist_cli.">
+      <created>1561137821561</created>
+      <option name="number" value="00209" />
+      <option name="presentableId" value="LOCAL-00209" />
+      <option name="project" value="LOCAL" />
+      <updated>1561137821561</updated>
+    </task>
+    <task id="LOCAL-00210" summary="Updated installing and running docs.">
+      <created>1561144848833</created>
+      <option name="number" value="00210" />
+      <option name="presentableId" value="LOCAL-00210" />
+      <option name="project" value="LOCAL" />
+      <updated>1561144848833</updated>
+    </task>
+    <task id="LOCAL-00211" summary="Updated development docs.">
+      <created>1561146215413</created>
+      <option name="number" value="00211" />
+      <option name="presentableId" value="LOCAL-00211" />
+      <option name="project" value="LOCAL" />
+      <updated>1561146215414</updated>
+    </task>
+    <task id="LOCAL-00212" summary="Updated running the tests docs.">
+      <created>1561146492452</created>
+      <option name="number" value="00212" />
+      <option name="presentableId" value="LOCAL-00212" />
+      <option name="project" value="LOCAL" />
+      <updated>1561146492452</updated>
+    </task>
+    <task id="LOCAL-00213" summary="Updated running the tests docs.">
+      <created>1561147030020</created>
+      <option name="number" value="00213" />
+      <option name="presentableId" value="LOCAL-00213" />
+      <option name="project" value="LOCAL" />
+      <updated>1561147030021</updated>
+    </task>
+    <task id="LOCAL-00214" summary="Updated running the tests docs.">
+      <created>1561147079260</created>
+      <option name="number" value="00214" />
+      <option name="presentableId" value="LOCAL-00214" />
+      <option name="project" value="LOCAL" />
+      <updated>1561147079260</updated>
+    </task>
+    <task id="LOCAL-00215" summary="Updated running the tests docs.">
+      <created>1561147840788</created>
+      <option name="number" value="00215" />
+      <option name="presentableId" value="LOCAL-00215" />
+      <option name="project" value="LOCAL" />
+      <updated>1561147840789</updated>
+    </task>
+    <task id="LOCAL-00216" summary="Updated running the tests docs.">
+      <created>1561147959398</created>
+      <option name="number" value="00216" />
+      <option name="presentableId" value="LOCAL-00216" />
+      <option name="project" value="LOCAL" />
+      <updated>1561147959398</updated>
+    </task>
+    <task id="LOCAL-00217" summary="Updated running the tests docs.">
+      <created>1561147980767</created>
+      <option name="number" value="00217" />
+      <option name="presentableId" value="LOCAL-00217" />
+      <option name="project" value="LOCAL" />
+      <updated>1561147980767</updated>
+    </task>
+    <task id="LOCAL-00218" summary="Updated travis.">
+      <created>1561150887109</created>
+      <option name="number" value="00218" />
+      <option name="presentableId" value="LOCAL-00218" />
+      <option name="project" value="LOCAL" />
+      <updated>1561150887109</updated>
+    </task>
+    <task id="LOCAL-00219" summary="Updated travis.">
+      <created>1561150914952</created>
+      <option name="number" value="00219" />
+      <option name="presentableId" value="LOCAL-00219" />
+      <option name="project" value="LOCAL" />
+      <updated>1561150914952</updated>
+    </task>
+    <task id="LOCAL-00220" summary="Updated README.">
+      <created>1561151092786</created>
+      <option name="number" value="00220" />
+      <option name="presentableId" value="LOCAL-00220" />
+      <option name="project" value="LOCAL" />
+      <updated>1561151092786</updated>
+    </task>
+    <task id="LOCAL-00221" summary="Use error handling to avoid error when OctaDist tries to load TkAgg in Google Colab.">
+      <created>1561301440493</created>
+      <option name="number" value="00221" />
+      <option name="presentableId" value="LOCAL-00221" />
+      <option name="project" value="LOCAL" />
+      <updated>1561301440497</updated>
+    </task>
+    <task id="LOCAL-00222" summary="Changed the order of function based on uses.">
+      <created>1561301517634</created>
+      <option name="number" value="00222" />
+      <option name="presentableId" value="LOCAL-00222" />
+      <option name="project" value="LOCAL" />
+      <updated>1561301517634</updated>
+    </task>
+    <task id="LOCAL-00223" summary="Use replacement to link version.">
+      <created>1561303605851</created>
+      <option name="number" value="00223" />
+      <option name="presentableId" value="LOCAL-00223" />
+      <option name="project" value="LOCAL" />
+      <updated>1561303605851</updated>
+    </task>
+    <task id="LOCAL-00224" summary="Edited docs.">
+      <created>1561304888022</created>
+      <option name="number" value="00224" />
+      <option name="presentableId" value="LOCAL-00224" />
+      <option name="project" value="LOCAL" />
+      <updated>1561304888023</updated>
+    </task>
+    <option name="localTasksCounter" value="225" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Doctests_in_main - 2019.06.08 at 17h 07m 23s.xml">
+      <configuration name="Doctests in main" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Doctests_in_main - 2019.06.08 at 17h 07m 38s.xml">
+      <configuration name="Doctests in main" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Doctests_in_main - 2019.06.08 at 17h 07m 52s.xml">
+      <configuration name="Doctests in main" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Doctest_OctaDist_welcome_msg - 2019.06.08 at 17h 08m 07s.xml">
+      <configuration name="Doctest OctaDist.welcome_msg" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Doctests_in_main_(1) - 2019.06.08 at 17h 08m 16s.xml">
+      <configuration name="Doctests in main (1)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Doctests_in_main_(1) - 2019.06.08 at 17h 08m 58s.xml">
+      <configuration name="Doctests in main (1)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Doctests_in_main_(1) - 2019.06.08 at 17h 09m 27s.xml">
+      <configuration name="Doctests in main (1)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Doctests_in_main_(1) - 2019.06.08 at 17h 09m 37s.xml">
+      <configuration name="Doctests in main (1)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Doctests_in_main_(1) - 2019.06.08 at 17h 10m 06s.xml">
+      <configuration name="Doctests in main (1)" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Doctests_in_main_(1) - 2019.06.08 at 17h 11m 55s.xml">
+      <configuration name="Doctests in main (1)" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="48666000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1381" height="885" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7314815" visible="true" weight="0.20830189" />
+      <window_info id="Structure" order="1" sideWeight="0.2685185" side_tool="true" visible="true" weight="0.20830189" />
+      <window_info id="Favorites" order="2" sideWeight="0.50132275" side_tool="true" weight="0.17891611" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.4153439" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4988864" weight="0.39814815" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3994709" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32936507" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.37037036" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49886793" weight="0.5568783" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5011321" side_tool="true" weight="0.39021164" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32671958" />
+      <window_info active="true" anchor="bottom" id="GitHub Pull Requests" order="11" visible="true" weight="0.4457672" />
+      <window_info anchor="bottom" id="SVN Repositories" order="12" weight="0.32936507" />
+      <window_info anchor="bottom" id="Inspection Results" order="13" weight="0.17592593" />
+      <window_info anchor="bottom" id="Docker" order="14" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" order="15" />
+      <window_info anchor="bottom" id="Concurrent Activities Diagram" order="16" weight="0.32936507" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" weight="0.32981133" />
+      <window_info anchor="right" x="880" y="84" width="437" height="756" id="SciView" order="4" sideWeight="0.499187" weight="0.32981133" />
+      <window_info anchor="right" x="0" y="0" width="295" height="685" id="Documentation" order="5" sideWeight="0.500813" side_tool="true" weight="0.32981133" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.25167784" visible="true" weight="0.21306607" />
+      <window_info active="true" id="Structure" order="1" sideWeight="0.7483221" side_tool="true" visible="true" weight="0.21306607" />
+      <window_info id="Favorites" order="2" sideWeight="0.50132275" side_tool="true" weight="0.17891611" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32936507" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4996288" visible="true" weight="0.21164021" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3994709" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32936507" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.27910054" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5003712" side_tool="true" weight="0.35582012" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.4722222" />
+      <window_info anchor="bottom" id="GitHub Pull Requests" order="11" weight="0.32936507" />
+      <window_info anchor="bottom" id="SVN Repositories" order="12" weight="0.32936507" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added API pages: CLI &amp; GUI." />
+    <MESSAGE value="Updated version and added API pages: CLI &amp; GUI." />
+    <MESSAGE value="Updated docs." />
+    <MESSAGE value="Updated command for creating exe file." />
+    <MESSAGE value="Added 'exit' function for closing scripting console." />
+    <MESSAGE value="Added other.xml to .idea." />
+    <MESSAGE value="Specify MPLBACKEND to 'TkAgg'." />
+    <MESSAGE value="Added --cite for showing citation to octadist_cli." />
+    <MESSAGE value="Specified required version of packages." />
+    <MESSAGE value="Removed author option." />
+    <MESSAGE value="Edited docstring." />
+    <MESSAGE value="Commented matplotlib.use('TkAgg')." />
+    <MESSAGE value="Tried adding 'import tkinter' to avoid error from TkAgg." />
+    <MESSAGE value="Don't need to specified required version." />
+    <MESSAGE value="Updated license of program." />
+    <MESSAGE value="Fixed argument parser in octadist_cli." />
+    <MESSAGE value="Updated installing and running docs." />
+    <MESSAGE value="Updated development docs." />
+    <MESSAGE value="Updated running the tests docs." />
+    <MESSAGE value="Updated travis." />
+    <MESSAGE value="Updated README." />
+    <MESSAGE value="Use error handling to avoid error when OctaDist tries to load TkAgg in Google Colab." />
+    <MESSAGE value="Changed the order of function based on uses." />
+    <MESSAGE value="Use replacement to link version." />
+    <MESSAGE value="Edited docs." />
+    <option name="LAST_COMMIT_MESSAGE" value="Edited docs." />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/OctaDist_nightly_build$main.coverage" NAME="main Coverage Results" MODIFIED="1561301369526" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/octadist" />
+    <SUITE FILE_PATH="coverage/OctaDist_nightly_build$__main__.coverage" NAME="__main__ Coverage Results" MODIFIED="1561099646240" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/octadist" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/f" />
+    <entry file="file://$PROJECT_DIR$/f.txt" />
+    <entry file="file://$PROJECT_DIR$/build/lib/octadist/octadist_cli.py" />
+    <entry file="file://$PROJECT_DIR$/docs/modules/main.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/modules/scripting.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/reference/author.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/aaa.py" />
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compile.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CheckPyModule.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="18" column="49" lean-forward="true" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/__main__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1207">
+          <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
+          <folding>
+            <element signature="e#793#802#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/elements.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2142">
+          <caret line="164" lean-forward="true" selection-start-line="164" selection-end-line="164" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/linear.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="169" column="12" lean-forward="true" selection-start-line="169" selection-start-column="12" selection-end-line="169" selection-end-column="12" />
+          <folding>
+            <element signature="e#770#788#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/projection.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="113" lean-forward="true" selection-start-line="113" selection-end-line="113" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Anaconda3/envs/Env-Py37/Lib/site-packages/rmsd/calculate_rmsd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="45" column="13" lean-forward="true" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/calc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="403" lean-forward="true" selection-start-line="403" selection-end-line="403" />
+          <folding>
+            <element signature="e#770#788#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/modules/calc.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
+          <folding>
+            <element signature="e#564#573#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/modules/draw.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6325">
+          <caret line="262" lean-forward="true" selection-start-line="262" selection-end-line="262" />
+          <folding>
+            <element signature="e#770#788#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/structure.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6975">
+          <caret line="279" lean-forward="true" selection-start-line="279" selection-end-line="279" />
+          <folding>
+            <element signature="e#770#790#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/scripting.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8725">
+          <caret line="349" lean-forward="true" selection-start-line="349" selection-end-line="349" />
+          <folding>
+            <element signature="e#770#790#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/plane.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4150">
+          <caret line="166" lean-forward="true" selection-start-line="166" selection-end-line="166" />
+          <folding>
+            <element signature="e#770#786#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/plot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/draw.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+          <folding>
+            <element signature="e#770#806#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="547" column="36" selection-start-line="547" selection-start-column="36" selection-end-line="547" selection-end-column="36" />
+          <folding>
+            <element signature="e#770#783#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/octadist_cli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="195" selection-start-line="195" selection-end-line="195" />
+          <folding>
+            <element signature="e#770#785#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/about/development.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/api/cli.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/api/gui.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/about/getting-started.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/about/distortion-parameters.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/about/running-the-tests/example-2.rst" />
+    <entry file="file://$PROJECT_DIR$/docs/about/Complex_saved_by_OctaDist.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/about/running-the-tests.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/about/installing-usage.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/tools.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/version_update.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/version.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="10" column="6" lean-forward="true" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-714">
+          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/popup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="139" column="96" lean-forward="true" selection-start-line="139" selection-start-column="96" selection-end-line="139" selection-end-column="96" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/about/program-structure.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="450">
+            <caret line="18" selection-start-line="18" selection-end-line="18" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="12" column="67" selection-start-line="12" selection-start-column="67" selection-end-line="12" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/src/molecule.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="8" column="64" selection-start-line="8" selection-start-column="64" selection-end-line="8" selection-end-column="64" />
+          <folding>
+            <element signature="e#770#801#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/index.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>
