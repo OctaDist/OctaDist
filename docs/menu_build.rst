@@ -7,7 +7,7 @@ To build OctaDist from source code:
 .. toctree::
    :maxdepth: 1
 
-   build/prerequisites.rst
-   build/build-pip.rst
-   build/build-exe.rst
+   build-app/prerequisites.rst
+   build-app/build-pip.rst
+   build-app/build-exe.rst
 

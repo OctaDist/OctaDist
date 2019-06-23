@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="33512ebb-bd06-4fdf-8dfa-b8d0a367e6eb" name="Default Changelist" comment="Edited docs.">
-      <change beforePath="$PROJECT_DIR$/docs/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/index.rst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/modules/modules.rst" beforeDir="false" />
-    </list>
+    <list default="true" id="33512ebb-bd06-4fdf-8dfa-b8d0a367e6eb" name="Default Changelist" comment="Edited docs." />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -235,6 +232,11 @@
               <item name="OctaDist-nightly-build" type="b2602c69:ProjectViewProjectNode" />
               <item name="OctaDist-nightly-build" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="OctaDist-nightly-build" type="b2602c69:ProjectViewProjectNode" />
+              <item name="OctaDist-nightly-build" type="462c0819:PsiDirectoryNode" />
+              <item name="docs" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -447,7 +449,7 @@
       <workItem from="1561181379992" duration="1561000" />
       <workItem from="1561195939096" duration="662000" />
       <workItem from="1561263076761" duration="11147000" />
-      <workItem from="1561308334824" duration="2203000" />
+      <workItem from="1561308334824" duration="3335000" />
     </task>
     <task id="LOCAL-00176" summary="Updated docs.">
       <created>1561054546421</created>
@@ -828,7 +830,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49716000" />
+    <option name="totallyTimeSpent" value="50848000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
