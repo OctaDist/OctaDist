@@ -3,6 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. |Stable_ver| replace:: 2.6.0
+.. |Nightly_ver| replace:: 2.6.1
+
+=============
 OctaDist Docs
 =============
 
@@ -21,12 +25,12 @@ the metal complex such as perovskite and metal-organic framework (MOF).
 Status
 ------
 
-=============         ===========   ======
-Release               Version       Status
-=============         ===========   ======
-Stable                2.5.4         Active
-Nightly-build         2.6.0 (dev)   Active
-=============         ===========   ======
+=============   ==============   ======
+Release         Version          Status
+=============   ==============   ======
+Stable          |Stable_ver|     Active
+Nightly-build   |Nightly_ver|    Active
+=============   ==============   ======
 
 .. note::
    OctaDist is open-source computer software and freely distributed under
