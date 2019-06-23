@@ -70,26 +70,13 @@ User Documentation
    about/running-the-tests
    about/development
 
-   modules/main.
-   modules/calc.rst
-   modules/draw.rst
-   modules/elements.rst
-   modules/linear.rst
-   modules/molecule.rst
-   modules/plane.rst
-   modules/plot.rst
-   modules/popup.rst
-   modules/projection.rst
-   modules/scripting.rst
-   modules/structure.rst
-   modules/tools.rst
-   modules/util.rst
+   modules_list.rst
 
-   api/gui.rst
-   api/cli.rst
+   api/gui
+   api/cli
 
-   reference/author.rst
-   reference/license.rst
+   reference/author
+   reference/license
 
 :Authors:
    Rangsiman Ketkaew,

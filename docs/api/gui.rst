@@ -1,5 +1,5 @@
 ============
-octadist_gui
+OctaDist GUI
 ============
 
 Running GUI

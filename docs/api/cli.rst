@@ -1,5 +1,5 @@
 ============
-octadist_cli
+OctaDist CLI
 ============
 
 Running command-line
