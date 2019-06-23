@@ -61,6 +61,7 @@ User Documentation
 
 .. toctree::
    :maxdepth: 2
+   :caption: User Documentation
 
    about/getting-started
    about/features
@@ -72,8 +73,7 @@ User Documentation
 
    modules_list.rst
 
-   api/gui
-   api/cli
+   api_list.rst
 
    reference/author
    reference/license
