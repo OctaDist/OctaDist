@@ -8,7 +8,7 @@ If you already have OctaDist installed on your system, this section may be skipp
 .. toctree::
    :maxdepth: 1
 
-   docs-build-app/prerequisites.rst
-   docs-build-app/build-pip.rst
-   docs-build-app/build-exe.rst
+   docs-build/prerequisites.rst
+   docs-build/build-pip.rst
+   docs-build/build-exe.rst
 

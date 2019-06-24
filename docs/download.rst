@@ -5,8 +5,8 @@ Download OctaDist
 .. toctree::
    :maxdepth: 1
 
-   docs-download/stable.rst
-   docs-download/nightly.rst
+   docs-download/stable-version.rst
+   docs-download/dev-version.rst
    docs-download/sys-require.rst
    docs-download/archives.rst
 

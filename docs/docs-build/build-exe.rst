@@ -15,7 +15,7 @@ Compilation can be completed easily using `PyInstaller <https://www.pyinstaller.
 
 3. Check the version of PyInstaller::
 
-    pyinstaller -v
+    pyinstaller --version
 
 4. Change directory to ``octadist`` subdirectory, where ``main.py`` is, for example::
 
@@ -27,6 +27,9 @@ Compilation can be completed easily using `PyInstaller <https://www.pyinstaller.
 
 6. The standalone executable will be build in ``dist`` directory.
 
-FYI: Other useful options for building executable can be found at
-`PyInstaller manual <https://pyinstaller.readthedocs.io/en/stable/>`_.
+
+.. note::
+
+    Other useful options for building executable can be found at
+    `PyInstaller manual <https://pyinstaller.readthedocs.io/en/stable/>`_.
 

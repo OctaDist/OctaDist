@@ -27,17 +27,13 @@ Build the tarball, wheel, and egg
 5. Standalone executable (binary) file will be automatically added to environment variables,
    you can start OctaDist by calling its names anywhere:
 
-   - To start GUI::
+   - To start graphical-interface::
 
-       octadist
-
-   or::
-
-       octadist_gui
+        octadist
 
    - To start command-line::
 
-       octadist_cli
+        octadist_cli
 
 
 More details on Python package can be found its official website:

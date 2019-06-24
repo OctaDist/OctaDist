@@ -1,13 +1,19 @@
+.. _label-development:
+
 ===========
 Development
 ===========
 
 OctaDist is written entirely in Python 3 binding to Tkinter toolkit.
-It is available for on Windows, Linux, and macOS for both 32-bit and 64-bit systems.
-It can be used as a graphical user interface (GUI) and a command line interface (CLI) version.
-The first one is mainly developed for the end-users, who are not familiar with Linux command,
-while the latter is appropriate for the end-users and developer who are working with CLI,
-for example, on Linux or macOS.
+We aim that OctaDist should be user-friendly software so that anyone can use.
+Therefore, we have been developing OctaDist with the ease of use.
+In the current version, it supports both of a graphical user interface (GUI) and
+a command line interface (CLI) version. The first one is mainly developed for
+the general end-users who are not familiar with command line,
+while the latter is primarily developed as a package which is appropriate for
+those who works with CLI. Having designed as a third party package,
+the command-line OctaDist version is an smart assistant helping with a wide range of
+your problems.
 
 
 Contribution
@@ -15,7 +21,32 @@ Contribution
 
 To give a contribution on program development, please pull request on
 `the OctaDist Github <https://github.com/OctaDist/OctaDist>`_.
-If you found a bug in program, please submit it on
+
+.. code-block:: sh
+
+    git clone https://github.com/OctaDist/OctaDist.git
+    git checkout nightly-build
+    git pull origin nightly-build
+
+
+OctaDist Testing
+----------------
+
+After you have finished editing the source code of program,
+you can use ``setuptools`` for testing OctaDist such as build and install.
+A ``setup.py`` file in top-level directory provides software testing as follows:
+
+.. code-block:: sh
+
+    pip setup.py build
+    pip setup.py install
+    pip setup.py test
+
+
+Bug report
+----------
+
+If you found a bug in OctaDist, please submit it on
 `issues page <https://github.com/OctaDist/OctaDist/issues>`_.
 We appreciate all help and contribution in getting program development.
 
@@ -44,5 +75,4 @@ Source code on Github:
 
 .. tip::
    For OctaDist download stats, please go to https://octadist.github.io/stats.html.
-
 

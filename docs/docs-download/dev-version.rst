@@ -1,9 +1,10 @@
-=========================
-Nightly Development Build
-=========================
+===================
+Development Version
+===================
 
-An on-going development build can be downloaded at `Dev-build (zip)`_.
-To install it on your system via pip, use following command:
+An on-going development build of OctaDist, called ``nightly-build`` version,
+can be downloaded at `Dev-build (zip)`_.
+To install it on your system via ``pip``, use the following command:
 
 .. _Dev-build (zip): https://github.com/OctaDist/OctaDist/archive/nightly-build.zip
 
@@ -11,6 +12,7 @@ To install it on your system via pip, use following command:
 
     pip install https://github.com/OctaDist/OctaDist/archive/nightly-build.zip
 
-
-See Development for more details.
+.. note::
+    Python version must be equal or higher than 3.5.
+    See :ref:`label-development` for more details.
 

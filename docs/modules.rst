@@ -2,10 +2,14 @@
 Modules
 =======
 
+OctaDist is composed of the following modules:
+
 .. toctree::
    :maxdepth: 1
    
    docs-modules/main.rst
+   docs-modules/gui.rst
+   docs-modules/cli.rst
    docs-modules/calc.rst
    docs-modules/draw.rst
    docs-modules/elements.rst

@@ -63,7 +63,10 @@ Please cite this project when you use OctaDist for scientific publication.
 
 Bug report
 ----------
-    For reporting bugs in OctaDist, please submit issues on OctaDist Github.
+
+For reporting bugs in OctaDist, please submit issues on
+`OctaDist Github issues page <https://github.com/OctaDist/OctaDist/issues>`_.
+We appreciate all help and contribution in getting program development.
 
 
 ----
@@ -77,7 +80,7 @@ User Documentation
    :maxdepth: 2
    :caption: User Documentation
 
-   getting_started.rst
+   getting-started.rst
    download.rst
    install.rst
    build.rst
