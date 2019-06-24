@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="33512ebb-bd06-4fdf-8dfa-b8d0a367e6eb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/octadist/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/octadist/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/build.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/build.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/download.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/download.rst" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,13 +31,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/octadist/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-194">
-              <caret line="1460" column="51" lean-forward="true" selection-start-line="1460" selection-start-column="51" selection-end-line="1460" selection-end-column="51" />
+            <state relative-caret-position="281">
+              <caret line="1320" column="18" selection-start-line="1320" selection-start-column="18" selection-end-line="1320" selection-end-column="18" />
               <folding>
                 <element signature="e#770#783#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/build.rst">
+          <provider selected="true" editor-type-id="restructured-text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/docs/download.rst">
+          <provider selected="true" editor-type-id="restructured-text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/conf.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="325">
+              <caret line="13" column="1" lean-forward="true" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+              <folding>
+                <element signature="e#564#573#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -128,8 +151,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/hello.py" />
-        <option value="$PROJECT_DIR$/octadist/logo/Base64_icon.txt" />
         <option value="$PROJECT_DIR$/octadist/logo/__init__.py" />
         <option value="$PROJECT_DIR$/octadist/logo/Base64_icon.py" />
         <option value="$PROJECT_DIR$/octadist/run_octadist.py" />
@@ -179,6 +200,8 @@
         <option value="$PROJECT_DIR$/docs/index.rst" />
         <option value="$PROJECT_DIR$/octadist/__init__.py" />
         <option value="$PROJECT_DIR$/octadist/main.py" />
+        <option value="$PROJECT_DIR$/docs/build.rst" />
+        <option value="$PROJECT_DIR$/docs/download.rst" />
       </list>
     </option>
   </component>
@@ -205,12 +228,6 @@
               <item name="OctaDist-nightly-build" type="b2602c69:ProjectViewProjectNode" />
               <item name="OctaDist-nightly-build" type="462c0819:PsiDirectoryNode" />
               <item name="docs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="OctaDist-nightly-build" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OctaDist-nightly-build" type="462c0819:PsiDirectoryNode" />
-              <item name="docs" type="462c0819:PsiDirectoryNode" />
-              <item name="docs-test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="OctaDist-nightly-build" type="b2602c69:ProjectViewProjectNode" />
@@ -443,14 +460,7 @@
       <workItem from="1561308334824" duration="3883000" />
       <workItem from="1561362618950" duration="2341000" />
       <workItem from="1561369513394" duration="709000" />
-      <workItem from="1561375635836" duration="807000" />
-    </task>
-    <task id="LOCAL-00180" summary="Specify MPLBACKEND to 'TkAgg'.">
-      <created>1561112875906</created>
-      <option name="number" value="00180" />
-      <option name="presentableId" value="LOCAL-00180" />
-      <option name="project" value="LOCAL" />
-      <updated>1561112875906</updated>
+      <workItem from="1561375635836" duration="1614000" />
     </task>
     <task id="LOCAL-00181" summary="Added --cite for showing citation to octadist_cli.">
       <created>1561114131494</created>
@@ -788,7 +798,14 @@
       <option name="project" value="LOCAL" />
       <updated>1561376310955</updated>
     </task>
-    <option name="localTasksCounter" value="229" />
+    <task id="LOCAL-00229" summary="Fixed source code download link for program update.">
+      <created>1561376471975</created>
+      <option name="number" value="00229" />
+      <option name="presentableId" value="LOCAL-00229" />
+      <option name="project" value="LOCAL" />
+      <updated>1561376471975</updated>
+    </task>
+    <option name="localTasksCounter" value="230" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -824,7 +841,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55253000" />
+    <option name="totallyTimeSpent" value="56060000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -839,12 +856,12 @@
     <frame x="-7" y="-7" width="1381" height="885" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7265625" visible="true" weight="0.21735848" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7265625" visible="true" weight="0.21735848" />
       <window_info id="Structure" order="1" sideWeight="0.2734375" side_tool="true" visible="true" weight="0.21735848" />
       <window_info id="Favorites" order="2" sideWeight="0.50132275" side_tool="true" weight="0.17891611" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.4153439" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4988864" visible="true" weight="0.15343915" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4988864" visible="true" weight="0.15343915" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3994709" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -942,7 +959,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added 'exit' function for closing scripting console." />
     <MESSAGE value="Added other.xml to .idea." />
     <MESSAGE value="Specify MPLBACKEND to 'TkAgg'." />
     <MESSAGE value="Added --cite for showing citation to octadist_cli." />
@@ -967,16 +983,14 @@
     <MESSAGE value="Updated docs." />
     <MESSAGE value="Added comment line to __init__." />
     <MESSAGE value="Added __help__." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added __help__." />
+    <MESSAGE value="Fixed source code download link for program update." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed source code download link for program update." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/OctaDist_nightly_build$main.coverage" NAME="main Coverage Results" MODIFIED="1561376324228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/octadist" />
     <SUITE FILE_PATH="coverage/OctaDist_nightly_build$__main__.coverage" NAME="__main__ Coverage Results" MODIFIED="1561099646240" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/octadist" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/build/lib/octadist/octadist_cli.py" />
-    <entry file="file://$PROJECT_DIR$/docs/modules/main.rst" />
-    <entry file="file://$PROJECT_DIR$/docs/modules/scripting.rst" />
     <entry file="file://$PROJECT_DIR$/docs/reference/author.rst" />
     <entry file="file://$PROJECT_DIR$/aaa.py" />
     <entry file="file://$PROJECT_DIR$/LICENSE">
@@ -1196,16 +1210,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/conf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
-          <folding>
-            <element signature="e#564#573#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/index.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
@@ -1244,13 +1248,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/octadist/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-194">
-          <caret line="1460" column="51" lean-forward="true" selection-start-line="1460" selection-start-column="51" selection-end-line="1460" selection-end-column="51" />
+        <state relative-caret-position="281">
+          <caret line="1320" column="18" selection-start-line="1320" selection-start-column="18" selection-end-line="1320" selection-end-column="18" />
           <folding>
             <element signature="e#770#783#0" expanded="true" />
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/dev.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="13" column="1" lean-forward="true" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+          <folding>
+            <element signature="e#564#573#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/build.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/download.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
   </component>
   <component name="masterDetails">

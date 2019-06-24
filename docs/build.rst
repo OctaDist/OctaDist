@@ -2,7 +2,8 @@
 Build OctaDist
 ==============
 
-To build OctaDist from source code:
+This section will explain how to build OctaDist from source code.
+If you already have OctaDist installed on your system, this section may be skipped.
 
 .. toctree::
    :maxdepth: 1

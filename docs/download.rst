@@ -2,8 +2,6 @@
 Download OctaDist
 =================
 
-OctaDist To Download OctaDist:
-
 .. toctree::
    :maxdepth: 1
 
