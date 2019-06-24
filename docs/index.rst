@@ -33,13 +33,13 @@ and nightly-build (dev).
 
 .. tabularcolumns:: |c|c|c|
 
-+-------------+---------+---------+
-|Branch       |Version  |Status   |
-+=============+=========+=========+
-|Master       ||ver|    |Active   |
-+-------------+---------+---------+
-|Nightly-build||dev_ver||Active   |
-+-------------+---------+---------+
++---------------+----------+---------+
+| Branch        | Version  | Status  |
++===============+==========+=========+
+| Master        ||ver|     | Active  |
++---------------+----------+---------+
+| Nightly-build ||dev_ver| | Active  |
++---------------+----------+---------+
 
 .. note::
    OctaDist is open-source computer software and freely distributed under
