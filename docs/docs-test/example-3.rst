@@ -2,7 +2,7 @@
 Example 3
 =========
 
-**Example 3 for running the test on OctaDist PyPI:**
+**Example 3 for running the test on OctaDist PyPI**
 
 .. code-block:: python
         

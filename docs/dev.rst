@@ -41,3 +41,8 @@ Source code on Github:
 
     docs-development/program-structure.rst
 
+
+.. tip::
+   For OctaDist download stats, please go to https://octadist.github.io/stats.html.
+
+

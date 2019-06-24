@@ -2,7 +2,7 @@
 Example 6
 =========
 
-**Example 6 for running the test on OctaDist PyPI:**
+**Example 6 for running the test on OctaDist PyPI**
 
 .. code-block:: python
 
@@ -23,5 +23,9 @@ Example 6
     # Output image, Complex_saved_by_OctaDist.png, is stored at ../images directory
 
 .. figure:: Complex_saved_by_OctaDist.png
+    :width: 300px
     :align: center
+    :alt: structure to show
+
+    Snapshot of structure saved by OctaDist.
 
