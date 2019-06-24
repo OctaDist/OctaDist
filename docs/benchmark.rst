@@ -21,10 +21,10 @@ Perfect iron metal complex:
 
 
 - \<D> = 1.460000 Angstrom
-- ![](https://latex.codecogs.com/svg.Latex?%5Czeta) = 0.000000 Angstrom
-- ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 0.00000000
-- ![](https://latex.codecogs.com/svg.Latex?%5CSigma) = 0.00000000 degree
-- ![](https://latex.codecogs.com/svg.Latex?%5CTheta) = 0.00000000 degree
+- :math:`\zeta` = 0.000000 Angstrom
+- :math:`\Delta` = 0.00000000
+- :math:`\Sigma` = 0.00000000 degree
+- :math:`\Theta` = 0.00000000 degree
 
 
 2. [Fe(1-bpp)2][BF4]2 complex in low-spin state
@@ -46,10 +46,10 @@ The XRD structure taken from Malcolm Halcrow's CCDC library:
 
 
 - \<D> = 1.958109 Angstrom
-- ![](https://latex.codecogs.com/svg.Latex?%5Czeta) = 0.203199 Angstrom
-- ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 0.000348
-- ![](https://latex.codecogs.com/svg.Latex?%5CSigma) = 86.081494 degree
-- ![](https://latex.codecogs.com/svg.Latex?%5CTheta) = 281.231091 degree
+- :math:`\zeta` = 0.203199 Angstrom
+- :math:`\Delta` = 0.000348
+- :math:`\Sigma` = 86.081494 degree
+- :math:`\Theta` = 281.231091 degree
 
 
 3. [Fe(1-bpp)2][BF4]2 complex in high-spin state
@@ -70,11 +70,11 @@ The XRD structure taken from Malcolm Halcrow's CCDC library:
     N         2.957100000     7.673300000    13.543900000
 
 
-- \<D> = 2.178519 Angstrom
-- ![](https://latex.codecogs.com/svg.Latex?%5Czeta) = 0.155914 Angstrom
-- ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 0.000168
-- ![](https://latex.codecogs.com/svg.Latex?%5CSigma) = 150.814795 degree
-- ![](https://latex.codecogs.com/svg.Latex?%5CTheta) = 496.648479 degree
+- :math:`d_{mean}` = 2.178519 Angstrom
+- :math:`\zeta` = 0.155914 Angstrom
+- :math:`\Delta` = 0.000168
+- :math:`\Sigma` = 150.814795 degree
+- :math:`\Theta` = 496.648479 degree
 
 4. Very distorted structure
 ---------------------------
@@ -95,9 +95,9 @@ Highly distorted structure:
 
 
 - \<D> = 2.149211 Angstrom
-- ![](https://latex.codecogs.com/svg.Latex?%5Czeta) = 0.082408 Angstrom
-- ![](https://latex.codecogs.com/svg.Latex?%5CDelta) = 0.000066
-- ![](https://latex.codecogs.com/svg.Latex?%5CSigma) = 182.673342 degree
-- ![](https://latex.codecogs.com/svg.Latex?%5CTheta) = 673.278321 degree
+- :math:`\zeta` = 0.082408 Angstrom
+- :math:`\Delta` = 0.000066
+- :math:`\Sigma` = 182.673342 degree
+- :math:`\Theta` = 673.278321 degree
 
 

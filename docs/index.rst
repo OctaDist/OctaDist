@@ -83,6 +83,7 @@ User Documentation
    modules.rst
    test.rst
    benchmark.rst
+   error-and-fixing.rst
    dev.rst
    authors.rst
    license.rst
