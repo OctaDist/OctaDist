@@ -82,7 +82,7 @@ User Documentation
    run.rst
    modules.rst
    test.rst
-   benchmark.rst
+   benchmarks.rst
    error-and-fixing.rst
    dev.rst
    authors.rst
