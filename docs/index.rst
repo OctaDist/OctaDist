@@ -43,9 +43,8 @@ Nightly-build   |dev_ver|        Active
    The GNU General Public License v3.0.
 
 .. tip::
-   This document is a reference code of nightly development build of OctaDist.
-   For the end-user, we strongly suggest you visit the user-friendly document
-   at https://octadist.github.io/manual.html.
+   This documentation is generated as both user and reference code manuals.
+   For more details, please go to the development page.
 
 
 Citation
