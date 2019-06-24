@@ -82,10 +82,10 @@ User Documentation
    install.rst
    build.rst
    run.rst
-   modules.rst
    test.rst
    benchmarks.rst
    error-and-fixing.rst
+   modules.rst
    dev.rst
    authors.rst
    license.rst
