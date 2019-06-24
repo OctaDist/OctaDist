@@ -3,30 +3,40 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. |ver| replace:: 2.6.0
+.. |dev_ver| replace:: 2.6.1
+
+=============
 OctaDist Docs
 =============
 
+
 **OctaDist: A tool for computing the distortion parameters in coordination complexes.**
 
-
-OctaDist (**Octa**\hedral **Dist**\ortion calculator) is an inorganic chemistry and crystallography program 
-for computing the distortion parameters, such as distance and angle distortions, in coordination complexes. 
-For example, they are used for tracking structural change of the spin-crossover complex when the electronics 
-spin-state changes from low-spin to high-spin, and vice versa. OctaDist can also be used to study other kind of 
-the metal complex such as perovskite and metal-organic framework (MOF).
+OctaDist (**Octa**\hedral **Dist**\ortion calculator) is an inorganic chemistry and
+crystallography program for computing the distortion parameters, such as distance and
+angle distortions, in coordination complexes. For example, they are used for tracking
+structural change of the spin-crossover complex when the electronics spin-state
+changes from low-spin to high-spin, and vice versa. OctaDist can also be used to study
+other kind of the metal complex such as perovskite and metal-organic framework (MOF).
 
 - Official homepage: https://octadist.github.io
 - Github repository: https://github.com/OctaDist/OctaDist
 
-Status
-------
+Program Status
+--------------
 
-=============         ===========   ======
-Release               Version       Status
-=============         ===========   ======
-Stable                2.5.4         Active
-Nightly-build         2.6.0 (dev)   Active
-=============         ===========   ======
+OctaDist is maintained on Github version control system.
+All versions has been continuously tested using Travis CI.
+Currently, OctaDist project has two branchs: Master (stable)
+and nightly-build (dev).
+
+=============   ==============   ======
+Branch          Version          Status
+=============   ==============   ======
+Master          |ver|            Active
+Nightly-build   |dev_ver|        Active
+=============   ==============   ======
 
 .. note::
    OctaDist is open-source computer software and freely distributed under
@@ -37,48 +47,46 @@ Nightly-build         2.6.0 (dev)   Active
    For the end-user, we strongly suggest you visit the user-friendly document
    at https://octadist.github.io/manual.html.
 
-.. toctree::
-   :maxdepth: 1
-   :caption: ABOUT:
-   :glob:
 
-   about/getting-started
+Citation
+--------
 
-   about/features
+Please cite this project when you use OctaDist for scientific publication.
 
-   about/distortion-parameters
+.. code-block::
 
-   about/program-structure
+    OctaDist: A tool for calculating distortion parameters in coordination complexes.
+    https://octadist.github.io
 
-   about/installing-usage
 
-   about/running-the-tests
+Bug report
+----------
+    For reporting bugs in OctaDist, please submit issues on OctaDist Github.
 
-   about/development
 
-.. toctree::
-   :maxdepth: 1
-   :caption: MODULES:
-   :glob:
+----
 
-   modules/*
+User Documentation
+------------------
 
+:ref:`genindex`, :ref:`modindex`, :ref:`search`
 
 .. toctree::
-   :maxdepth: 1
-   :caption: API:
-   :glob:
+   :maxdepth: 2
+   :caption: User Documentation
 
-   api/*
-
-
-.. toctree::
-   :maxdepth: 1
-   :caption: REFERENCES:
-   :glob:
-
-   reference/*
-
+   getting_started.rst
+   download.rst
+   install.rst
+   build.rst
+   run.rst
+   modules.rst
+   test.rst
+   benchmarks.rst
+   error-and-fixing.rst
+   dev.rst
+   authors.rst
+   license.rst
 
 :Authors:
    Rangsiman Ketkaew,
@@ -87,12 +95,5 @@ Nightly-build         2.6.0 (dev)   Active
    Phimphaka Harding,
    Mathieu Marchivie
 
-:Version: 2.6.0 of June 2019
+:Version: |ver| of June 2019
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

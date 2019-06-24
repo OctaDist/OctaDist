@@ -176,7 +176,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'OctaDist.tex', 'OctaDist Documentation',
-     'Rangsiman Ketkaew', 'manual'),
+     'OctaDist Development Team', 'manual'),
 ]
 
 # -- Options for manual page output ------------------------------------------
