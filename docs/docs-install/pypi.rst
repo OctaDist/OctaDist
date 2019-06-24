@@ -12,15 +12,19 @@ The following commands are also useful for those who want to play with ``pip``:
 
    pip install -r requirements.txt
 
-- Upgrade to the latest version::
+- Install or upgrade to the latest version::
 
    pip install --upgrade octadist
 
-- Upgrade/downgrade to a certain version, for example, version 2.6.0::
+- Install/upgrade/downgrade to a certain version, for example, version 2.6.0::
 
-   pip install --upgrade octadist==2.6.0
+   pip install --upgrade octadist==2.6.0 
 
-- Uninstall program::
+- Install the package with a specific version of Python. for example::
+
+   python3.7 -m pip install --upgrade --user octadidst
+
+- Uninstall package::
 
    pip uninstall octadist
 

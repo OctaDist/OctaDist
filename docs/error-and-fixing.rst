@@ -2,8 +2,8 @@
 Error and Fixing
 ================
 
-OctaDist Startup Slow on Windows? 
----------------------------------
+1. OctaDist Startup Slow on Windows? 
+------------------------------------
 
 Windows Defender slow down OctaDist by scanning its file.
 You can fix this annoying issue by excluding OctaDist out of process scan list.
@@ -23,8 +23,8 @@ Here are the steps for adding OctaDist to exclusion list:
 5. Close OctaDist and run it again.
 
 
-Missing some packages
----------------------
+2. Missing some packages
+------------------------
 
 If error message says `ImportError:` or `ModuleNotFoundError:`, some important packages have not been installed. 
 To install all required packages, stay at top directory of OctaDist and type this command:
@@ -34,8 +34,8 @@ To install all required packages, stay at top directory of OctaDist and type thi
     pip install -r requirements.txt
 
 
-MPL error
----------
+3. MPL error
+------------
 
 If program crashes with confusing errors messages, you may need to set `MPLBACKEND` environment variable 
 before running the program, like this:
@@ -45,8 +45,8 @@ before running the program, like this:
     export MPLBACKEND=TkAgg
    
 
-Cannot connect to X11 server
-----------------------------
+4. Cannot connect to X11 server
+-------------------------------
 
 If you run GUI using `octadist` or `octadist_gui` and then it fails with the following error:
 
@@ -90,4 +90,10 @@ To install a minimal X11 on Ubuntu Server Edition:
 
     sudo apt-get install xorg
     sudo apt-get install openbox
+
+
+.. tip::
+
+    If you found new bug in OctaDist, do not hesitate to let us know.
+    Your suggestions would help OctaDist getting improved.
 
