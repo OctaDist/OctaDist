@@ -19,5 +19,10 @@ Running OctaDist can be completed in a few steps as follows:
 
     Yes
 
-FYI: For first time using OctaDist, you should run it as an administrator with full rights.
+
+.. note::
+
+    Windows Defender might recognize OctaDist as third-party software.
+    For first time starting OctaDist in Windows, you should run it as 
+    an administrator with full rights.
 

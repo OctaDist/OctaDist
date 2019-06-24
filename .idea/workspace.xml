@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="33512ebb-bd06-4fdf-8dfa-b8d0a367e6eb" name="Default Changelist" comment="" />
+    <list default="true" id="33512ebb-bd06-4fdf-8dfa-b8d0a367e6eb" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/docs/docs-download/stable-version.rst" beforeDir="false" afterPath="$PROJECT_DIR$/docs/docs-download/stable-version.rst" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -463,7 +465,7 @@
       <workItem from="1561308334824" duration="3883000" />
       <workItem from="1561362618950" duration="2341000" />
       <workItem from="1561369513394" duration="709000" />
-      <workItem from="1561375635836" duration="6882000" />
+      <workItem from="1561375635836" duration="7229000" />
     </task>
     <task id="LOCAL-00182" summary="Specified required version of packages.">
       <created>1561114165335</created>
@@ -844,7 +846,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="61328000" />
+    <option name="totallyTimeSpent" value="61675000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
