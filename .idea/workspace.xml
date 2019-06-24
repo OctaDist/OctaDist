@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="33512ebb-bd06-4fdf-8dfa-b8d0a367e6eb" name="Default Changelist" comment="Edited name of author for docs of nightly-build.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="33512ebb-bd06-4fdf-8dfa-b8d0a367e6eb" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,66 +27,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/setup.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="13" selection-start-line="13" selection-end-line="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="450">
-                <caret line="18" selection-start-line="18" selection-end-line="18" />
-              </first_editor>
-              <second_editor />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/octadist/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="12" column="67" selection-start-line="12" selection-start-column="67" selection-end-line="12" selection-end-column="67" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/octadist/src/molecule.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="8" column="64" selection-start-line="8" selection-start-column="64" selection-end-line="8" selection-end-column="64" />
-              <folding>
-                <element signature="e#770#801#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/index.rst">
           <provider selected="true" editor-type-id="restructured-text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/conf.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="180" lean-forward="true" selection-start-line="180" selection-end-line="180" />
-              <folding>
-                <element signature="e#564#573#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
+        <entry file="file://$PROJECT_DIR$/docs/docs-test/example-6.rst">
+          <provider selected="true" editor-type-id="restructured-text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/test.rst">
           <provider selected="true" editor-type-id="restructured-text-editor" />
         </entry>
@@ -179,7 +128,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/docs/reference/license.rst" />
         <option value="$PROJECT_DIR$/hello.py" />
         <option value="$PROJECT_DIR$/octadist/logo/Base64_icon.txt" />
         <option value="$PROJECT_DIR$/octadist/logo/__init__.py" />
@@ -228,8 +176,9 @@
         <option value="$PROJECT_DIR$/setup.py" />
         <option value="$PROJECT_DIR$/octadist/__init__.py" />
         <option value="$PROJECT_DIR$/octadist/src/molecule.py" />
-        <option value="$PROJECT_DIR$/docs/index.rst" />
         <option value="$PROJECT_DIR$/docs/conf.py" />
+        <option value="$PROJECT_DIR$/docs/docs-test/example-6.rst" />
+        <option value="$PROJECT_DIR$/docs/index.rst" />
       </list>
     </option>
   </component>
@@ -255,6 +204,12 @@
               <item name="OctaDist-nightly-build" type="b2602c69:ProjectViewProjectNode" />
               <item name="OctaDist-nightly-build" type="462c0819:PsiDirectoryNode" />
               <item name="docs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="OctaDist-nightly-build" type="b2602c69:ProjectViewProjectNode" />
+              <item name="OctaDist-nightly-build" type="462c0819:PsiDirectoryNode" />
+              <item name="docs" type="462c0819:PsiDirectoryNode" />
+              <item name="docs-test" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -470,13 +425,7 @@
       <workItem from="1561263076761" duration="11147000" />
       <workItem from="1561308334824" duration="3883000" />
       <workItem from="1561362618950" duration="2341000" />
-    </task>
-    <task id="LOCAL-00177" summary="Updated command for creating exe file.">
-      <created>1561055536908</created>
-      <option name="number" value="00177" />
-      <option name="presentableId" value="LOCAL-00177" />
-      <option name="project" value="LOCAL" />
-      <updated>1561055536909</updated>
+      <workItem from="1561369513394" duration="709000" />
     </task>
     <task id="LOCAL-00178" summary="Added 'exit' function for closing scripting console.">
       <created>1561110309566</created>
@@ -814,7 +763,14 @@
       <option name="project" value="LOCAL" />
       <updated>1561365879105</updated>
     </task>
-    <option name="localTasksCounter" value="226" />
+    <task id="LOCAL-00226" summary="Updated docs.">
+      <created>1561369606914</created>
+      <option name="number" value="00226" />
+      <option name="presentableId" value="LOCAL-00226" />
+      <option name="project" value="LOCAL" />
+      <updated>1561369606914</updated>
+    </task>
+    <option name="localTasksCounter" value="227" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -850,7 +806,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53737000" />
+    <option name="totallyTimeSpent" value="54446000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -863,10 +819,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1381" height="885" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.73015875" visible="true" weight="0.21132076" />
-      <window_info id="Structure" order="1" sideWeight="0.26984128" side_tool="true" visible="true" weight="0.21132076" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.728836" visible="true" weight="0.21433963" />
+      <window_info id="Structure" order="1" sideWeight="0.27116403" side_tool="true" visible="true" weight="0.21433963" />
       <window_info id="Favorites" order="2" sideWeight="0.50132275" side_tool="true" weight="0.17891611" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.4153439" />
@@ -969,7 +924,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated version and added API pages: CLI &amp; GUI." />
-    <MESSAGE value="Updated docs." />
     <MESSAGE value="Updated command for creating exe file." />
     <MESSAGE value="Added 'exit' function for closing scripting console." />
     <MESSAGE value="Added other.xml to .idea." />
@@ -993,21 +947,17 @@
     <MESSAGE value="Use replacement to link version." />
     <MESSAGE value="Edited docs." />
     <MESSAGE value="Edited name of author for docs of nightly-build." />
-    <option name="LAST_COMMIT_MESSAGE" value="Edited name of author for docs of nightly-build." />
+    <MESSAGE value="Updated docs." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated docs." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/OctaDist_nightly_build$main.coverage" NAME="main Coverage Results" MODIFIED="1561301369526" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/octadist" />
     <SUITE FILE_PATH="coverage/OctaDist_nightly_build$__main__.coverage" NAME="__main__ Coverage Results" MODIFIED="1561099646240" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/octadist" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/f.txt" />
     <entry file="file://$PROJECT_DIR$/build/lib/octadist/octadist_cli.py" />
-    <entry file="file://$PROJECT_DIR$/docs/modules/main.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/modules/scripting.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/modules/main.rst" />
+    <entry file="file://$PROJECT_DIR$/docs/modules/scripting.rst" />
     <entry file="file://$PROJECT_DIR$/docs/reference/author.rst" />
     <entry file="file://$PROJECT_DIR$/aaa.py" />
     <entry file="file://$PROJECT_DIR$/LICENSE">
@@ -1085,12 +1035,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/modules/calc.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/modules/draw.rst">
-      <provider selected="true" editor-type-id="restructured-text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/modules/calc.rst" />
+    <entry file="file://$PROJECT_DIR$/docs/modules/draw.rst" />
     <entry file="file://$PROJECT_DIR$/octadist/src/util.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6325">
@@ -1268,20 +1214,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/index.rst">
+    <entry file="file://$PROJECT_DIR$/docs/test.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/conf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="180" lean-forward="true" selection-start-line="180" selection-end-line="180" />
+        <state relative-caret-position="150">
+          <caret line="6" column="24" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
           <folding>
             <element signature="e#564#573#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/test.rst">
+    <entry file="file://$PROJECT_DIR$/docs/docs-test/example-6.rst">
+      <provider selected="true" editor-type-id="restructured-text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/index.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
   </component>

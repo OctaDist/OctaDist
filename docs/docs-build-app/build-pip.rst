@@ -24,20 +24,21 @@ Build the tarball, wheel, and egg
 
 4. Installed library of OctaDist will be install at ``build/lib/octadist`` directory.
 
-5. OctaDist executable files will be automatically added to environment variables,
-you can call the program anywhere and anytime:
+5. Standalone executable (binary) file will be automatically added to environment variables,
+   you can start OctaDist by calling its names anywhere:
 
-- To start GUI::
+   - To start GUI::
 
-     octadist
+       octadist
 
-  or::
+   or::
 
-     octadist_gui
+       octadist_gui
 
-- To start command-line::
+   - To start command-line::
 
-    octadist_cli
+       octadist_cli
+
 
 More details on Python package can be found its official website:
 https://packaging.python.org/tutorials/installing-packages.

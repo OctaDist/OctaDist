@@ -2,7 +2,7 @@
 Python Package
 ==============
 
-OctaDist can be run directly as a Python package.
+OctaDist can be used as a Python package directly.
 
 1. Check if your system has all dependencies for OctaDist::
 
