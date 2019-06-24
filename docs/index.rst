@@ -75,13 +75,14 @@ User Documentation
    :maxdepth: 2
    :caption: User Documentation
 
-   menu_getting_started.rst
-   menu_install.rst
-   menu_build.rst
-   menu_run.rst
-   menu_modules.rst
-   menu_test.rst
-   menu_dev.rst
+   docs_getting_started.rst
+   docs_download.rst
+   docs_install.rst
+   docs_build.rst
+   docs_run.rst
+   docs_modules.rst
+   docs_test.rst
+   docs_dev.rst
    references/authors.rst
    references/license.rst
 
