@@ -4,6 +4,7 @@ Features
 
 Structural distortion analysis
 ------------------------------
+
 - Determination of regular, irregular distorted, very distorted, and non-octahedral octahedral complexes
 - Calculation of octahedral distortion parameters
     - Mean distance: :math:`d_{mean}`
@@ -14,6 +15,7 @@ Structural distortion analysis
 
 Molecular visualizations
 ------------------------
+
 - 3D modelling of complex
 - Display of eight faces of octahedron
 - Atomic orthogonal projection and projection plane
@@ -22,6 +24,7 @@ Molecular visualizations
   
 Tools and Utilities
 -------------------
+
 - Structural parameters
 - Surface area
 - Scripting Run supported
@@ -32,6 +35,7 @@ Tools and Utilities
   
 Capabilities
 ------------
+
 - Cross-platform for both 32-bit and 64-bit systems
 - Graphical user interface (GUI)
 - Command line interface (CLI)
@@ -43,5 +47,6 @@ Capabilities
 
 Architectures
 -------------
+
 - Python-based program binding to Tkinter GUI toolkit and tested on PyCharm (Community Edition)
 - Encapsulation of data, variable, and function as Class/Object.
