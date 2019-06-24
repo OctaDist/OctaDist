@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="33512ebb-bd06-4fdf-8dfa-b8d0a367e6eb" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/octadist/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/octadist/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/octadist/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/octadist/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -30,23 +30,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/octadist/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="281">
-              <caret line="221" column="82" lean-forward="true" selection-start-line="221" selection-start-column="82" selection-end-line="221" selection-end-column="82" />
+            <state relative-caret-position="-194">
+              <caret line="1460" column="51" lean-forward="true" selection-start-line="1460" selection-start-column="51" selection-end-line="1460" selection-end-column="51" />
               <folding>
                 <element signature="e#770#783#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/octadist/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="39" column="92" selection-start-line="39" selection-start-column="92" selection-end-line="39" selection-end-column="92" />
             </state>
           </provider>
         </entry>
@@ -62,7 +53,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>echo_outs(self,</find>
       <find>self.echo_outs(self,</find>
       <find>self.echo</find>
       <find>self.echo_out</find>
@@ -92,6 +82,7 @@
       <find>f.write</find>
       <find>save_</find>
       <find>getting</find>
+      <find>darwin</find>
     </findStrings>
     <replaceStrings>
       <replace>complex_1</replace>
@@ -156,7 +147,6 @@
         <option value="$PROJECT_DIR$/octadist/__main__.py" />
         <option value="$PROJECT_DIR$/docs/reference/author.rst" />
         <option value="$PROJECT_DIR$/compile.sh" />
-        <option value="$PROJECT_DIR$/octadist/main.py" />
         <option value="$PROJECT_DIR$/octadist/src/calc.py" />
         <option value="$PROJECT_DIR$/octadist/src/elements.py" />
         <option value="$PROJECT_DIR$/octadist/src/linear.py" />
@@ -188,6 +178,7 @@
         <option value="$PROJECT_DIR$/docs/docs-test/example-6.rst" />
         <option value="$PROJECT_DIR$/docs/index.rst" />
         <option value="$PROJECT_DIR$/octadist/__init__.py" />
+        <option value="$PROJECT_DIR$/octadist/main.py" />
       </list>
     </option>
   </component>
@@ -452,14 +443,7 @@
       <workItem from="1561308334824" duration="3883000" />
       <workItem from="1561362618950" duration="2341000" />
       <workItem from="1561369513394" duration="709000" />
-      <workItem from="1561375635836" duration="526000" />
-    </task>
-    <task id="LOCAL-00179" summary="Added other.xml to .idea.">
-      <created>1561112827854</created>
-      <option name="number" value="00179" />
-      <option name="presentableId" value="LOCAL-00179" />
-      <option name="project" value="LOCAL" />
-      <updated>1561112827854</updated>
+      <workItem from="1561375635836" duration="807000" />
     </task>
     <task id="LOCAL-00180" summary="Specify MPLBACKEND to 'TkAgg'.">
       <created>1561112875906</created>
@@ -797,7 +781,14 @@
       <option name="project" value="LOCAL" />
       <updated>1561375936401</updated>
     </task>
-    <option name="localTasksCounter" value="228" />
+    <task id="LOCAL-00228" summary="Added __help__.">
+      <created>1561376310954</created>
+      <option name="number" value="00228" />
+      <option name="presentableId" value="LOCAL-00228" />
+      <option name="project" value="LOCAL" />
+      <updated>1561376310955</updated>
+    </task>
+    <option name="localTasksCounter" value="229" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -833,7 +824,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54972000" />
+    <option name="totallyTimeSpent" value="55253000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -848,12 +839,12 @@
     <frame x="-7" y="-7" width="1381" height="885" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.72751325" visible="true" weight="0.21735848" />
-      <window_info id="Structure" order="1" sideWeight="0.27248678" side_tool="true" visible="true" weight="0.21735848" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7265625" visible="true" weight="0.21735848" />
+      <window_info id="Structure" order="1" sideWeight="0.2734375" side_tool="true" visible="true" weight="0.21735848" />
       <window_info id="Favorites" order="2" sideWeight="0.50132275" side_tool="true" weight="0.17891611" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.4153439" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4988864" weight="0.39814815" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.4988864" visible="true" weight="0.15343915" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3994709" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -951,7 +942,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Updated command for creating exe file." />
     <MESSAGE value="Added 'exit' function for closing scripting console." />
     <MESSAGE value="Added other.xml to .idea." />
     <MESSAGE value="Specify MPLBACKEND to 'TkAgg'." />
@@ -976,10 +966,11 @@
     <MESSAGE value="Edited name of author for docs of nightly-build." />
     <MESSAGE value="Updated docs." />
     <MESSAGE value="Added comment line to __init__." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added comment line to __init__." />
+    <MESSAGE value="Added __help__." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added __help__." />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/OctaDist_nightly_build$main.coverage" NAME="main Coverage Results" MODIFIED="1561301369526" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/octadist" />
+    <SUITE FILE_PATH="coverage/OctaDist_nightly_build$main.coverage" NAME="main Coverage Results" MODIFIED="1561376324228" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/octadist" />
     <SUITE FILE_PATH="coverage/OctaDist_nightly_build$__main__.coverage" NAME="__main__ Coverage Results" MODIFIED="1561099646240" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/octadist" />
   </component>
   <component name="editorHistoryManager">
@@ -1085,16 +1076,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/octadist/src/scripting.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8725">
-          <caret line="349" lean-forward="true" selection-start-line="349" selection-end-line="349" />
-          <folding>
-            <element signature="e#770#790#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/octadist/src/plane.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4150">
@@ -1118,16 +1099,6 @@
           <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
           <folding>
             <element signature="e#770#806#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/octadist/octadist_cli.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="195" selection-start-line="195" selection-end-line="195" />
-          <folding>
-            <element signature="e#770#785#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1244,20 +1215,40 @@
     <entry file="file://$PROJECT_DIR$/docs/test.rst">
       <provider selected="true" editor-type-id="restructured-text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/octadist/main.py">
+    <entry file="file://$PROJECT_DIR$/octadist/src/scripting.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="221" column="82" lean-forward="true" selection-start-line="221" selection-start-column="82" selection-end-line="221" selection-end-column="82" />
+        <state relative-caret-position="268">
+          <caret line="142" lean-forward="true" selection-start-line="142" selection-end-line="142" />
           <folding>
-            <element signature="e#770#783#0" expanded="true" />
+            <element signature="e#770#790#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/octadist_cli.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="229" column="51" lean-forward="true" selection-start-line="229" selection-start-column="51" selection-end-line="229" selection-end-column="51" />
+          <folding>
+            <element signature="e#770#785#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/octadist/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="245">
-          <caret line="39" column="92" selection-start-line="39" selection-start-column="92" selection-end-line="39" selection-end-column="92" />
+        <state relative-caret-position="-155">
+          <caret line="23" column="8" lean-forward="true" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/octadist/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-194">
+          <caret line="1460" column="51" lean-forward="true" selection-start-line="1460" selection-start-column="51" selection-end-line="1460" selection-end-column="51" />
+          <folding>
+            <element signature="e#770#783#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
