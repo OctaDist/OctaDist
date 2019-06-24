@@ -14,6 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+# USe TkAgg as MPL backend.
+# Note that Google colab does not support TkAgg.
 try:
     import tkinter
     import matplotlib
