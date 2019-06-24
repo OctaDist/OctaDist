@@ -8,6 +8,6 @@ and a command line interface (CLI).
 .. toctree::
    :maxdepth: 1
 
-   run/gui.rst
-   run/cli.rst
+   docs-run/gui.rst
+   docs-run/cli.rst
 

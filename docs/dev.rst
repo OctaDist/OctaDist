@@ -39,5 +39,5 @@ Source code on Github:
 .. toctree::
     :max-depth: 1
 
-    development/program-structure.rst
+    docs-development/program-structure.rst
 

@@ -75,16 +75,17 @@ User Documentation
    :maxdepth: 2
    :caption: User Documentation
 
-   docs_getting_started.rst
-   docs_download.rst
-   docs_install.rst
-   docs_build.rst
-   docs_run.rst
-   docs_modules.rst
-   docs_test.rst
-   docs_dev.rst
-   references/authors.rst
-   references/license.rst
+   getting_started.rst
+   download.rst
+   install.rst
+   build.rst
+   run.rst
+   modules.rst
+   test.rst
+   benchmark.rst
+   dev.rst
+   authors.rst
+   license.rst
 
 :Authors:
    Rangsiman Ketkaew,
