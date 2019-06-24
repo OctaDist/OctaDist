@@ -31,12 +31,12 @@ All versions has been continuously tested using Travis CI.
 Currently, OctaDist project has two branchs: Master (stable)
 and nightly-build (dev).
 
-=============   ==============   ======
-Branch          Version          Status
-=============   ==============   ======
-Master          |ver|            Active
-Nightly-build   |dev_ver|        Active
-=============   ==============   ======
+=============  =========   =======
+Branch         Version     Status
+=============  =========   =======
+Master         |ver|       Active
+Nightly-build  |dev_ver|   Active
+=============  =========   =======
 
 .. note::
    OctaDist is open-source computer software and freely distributed under
