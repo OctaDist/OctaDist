@@ -134,7 +134,7 @@ class CalcDistortion:
         ----------
         .. [1] M. Buron-Le Cointe, J. Hébert, C. Baldé, N. Moisan,
             L. Toupet, P. Guionneau, J. F. Létard, E. Freysz,
-            H. Cailleau, and E. Collet - Intermolecular control of
+            H. Cailleau, and E. Collet. - Intermolecular control of
             thermoswitching and photoswitching phenomena in two
             spin-crossover polymorphs. Phys. Rev. B 85, 064114.
 
@@ -155,8 +155,8 @@ class CalcDistortion:
 
         References
         ----------
-        .. [2] M. W. Lufaso and P. M. Woodward - Jahn–Teller distortions,
-            cation ordering and octahedral tilting in perovskites
+        .. [2] M. W. Lufaso and P. M. Woodward. - Jahn–Teller distortions,
+            cation ordering and octahedral tilting in perovskites.
             Acta Cryst. (2004). B60, 10-20. DOI: 10.1107/S0108768103026661
 
         """
@@ -173,11 +173,11 @@ class CalcDistortion:
 
         References
         ----------
-        .. [3] James K. McCuskerArnold L. RheingoldDavid N. Hendrickson
+        .. [3] James K. McCuskerArnold L. RheingoldDavid N. Hendrickson.
             Variable-Temperature Studies of Laser-Initiated 5T2 → 1A1
             Intersystem Crossing in Spin-Crossover Complexes: 
             Empirical Correlations between Activation Parameters
-            and Ligand Structure in a Series of Polypyridyl
+            and Ligand Structure in a Series of Polypyridyl.
             Ferrous Complexes. Inorg. Chem. 1996, 35, 2100.
 
         """
@@ -206,8 +206,8 @@ class CalcDistortion:
         ----------
         .. [4] M. Marchivie, P. Guionneau, J.-F. Létard, D. Chasseau.
             Photo‐induced spin‐transition: the role of the iron(II)
-            environment distortion -
-            Acta Crystal-logr. Sect. B Struct. Sci. 2005, 61, 25.
+            environment distortion. Acta Crystal-logr. Sect. B Struct.
+            Sci. 2005, 61, 25.
 
         """
         ligands = list(self.coord[1:])
