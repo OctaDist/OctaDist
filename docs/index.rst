@@ -46,7 +46,7 @@ and nightly-build (dev).
    The GNU General Public License v3.0.
 
 .. tip::
-   This documentation is generated as both user and reference code manuals. 
+   This documentation is generated be both user and reference code manuals. 
    For more details, please go to the development page.
 
 
