@@ -31,6 +31,8 @@ version = '2.6.0'
 # The full version, including alpha/beta/rc tags
 release = '2.6.0'
 
+# Not aphabetacally order
+autodoc_member_order = 'bysource'
 # autodoc_mock_imports = ['_tkinter']
 
 # -- General configuration ---------------------------------------------------
