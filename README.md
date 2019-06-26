@@ -13,8 +13,8 @@
 [Repo-size]: https://img.shields.io/github/repo-size/OctaDist/OctaDist.svg
 [DL-all-badge]: https://img.shields.io/github/downloads/OctaDist/octadist/total.svg
 [DL-all-link]: https://github.com/OctaDist/OctaDist/releases
-[DL-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.6.0/total.svg
-[DL-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.0
+[DL-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.6.1/total.svg
+[DL-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
 
 
 ## OctaDist
@@ -109,9 +109,9 @@ Reference manual :
 
 If you use Windows, we strongly suggest you download a standalone executable:
 
-[Click Here to Download OctaDist-2.6.0-Win-x86-64.exe][download-win-exe]
+[Click Here to Download OctaDist-2.6.1-Win-x86-64.exe][download-win-exe]
 
-[download-win-exe]: https://github.com/OctaDist/OctaDist/releases/download/v.2.6.0/OctaDist-2.6.0-Win-x86-64.exe
+[download-win-exe]: https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64.exe
 
 
 If you use Linux or macOS and already have Python 3 installed on the system, 
