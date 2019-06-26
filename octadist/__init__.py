@@ -14,9 +14,14 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-import tkinter
-import matplotlib
-matplotlib.use('TkAgg')
+# USe TkAgg as MPL backend.
+# Note that Google colab does not support TkAgg.
+try:
+    import tkinter
+    import matplotlib
+    matplotlib.use('TkAgg')
+except ImportError:
+    pass
 
 __author__ = "R. Ketkaew, Y. Tantirungrotechai, D. J. Harding, P. Harding, M. Marchivie"
 __author_full__ = "Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, " \
@@ -26,13 +31,14 @@ __copyright__ = "OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al."
 __license__ = "GNU v3"
 __credit__ = "OctaDist Development Team"
 __email__ = "rangsiman1993@gmail.com"
-__version__ = "2.6.0"
-__revision__ = "2019.260"
+__version__ = "2.6.1"
+__revision__ = "2019.261"
 __release__ = "June 2019"
 __status__ = "stable"
 __title__ = "Octahedral Distortion Calculator"
 __description__ = "OctaDist: A tool for calculating distortion parameters in coordination complexes."
-__doc__ = "https://octadist.github.io/manual.html"
+__doc__ = "OctaDist documentation is available at https://octadist.readthedocs.io"
+__help__ = "https://octadist.readthedocs.io"
 __website__ = "https://octadist.github.io"
 __github__ = "https://github.com/OctaDist/OctaDist"
 

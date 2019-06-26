@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. |ver| replace:: 2.6.0
-.. |dev_ver| replace:: 2.6.1
+.. |ver| replace:: 2.6.1
+.. |dev_ver| replace:: 2.6.2
 
 =============
 OctaDist Docs

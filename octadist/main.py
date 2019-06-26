@@ -219,7 +219,7 @@ class OctaDist:
         menu_bar.add_cascade(label="Help", menu=help_menu)
         help_menu.add_command(label="Quick Help", command=lambda: self.show_help())
         help_menu.add_command(label="Getting Started",
-                              command=lambda: webbrowser.open_new_tab(octadist.__doc__))
+                              command=lambda: webbrowser.open_new_tab(octadist.__help__))
         help_menu.add_separator()
         submit_issue = "https://github.com/OctaDist/OctaDist/issues"
         help_menu.add_command(label="Report Issue", command=lambda: webbrowser.open_new_tab(submit_issue))
@@ -1478,12 +1478,8 @@ class OctaDist:
                     link_windows = main_link + "-Win-x86-64.exe"
                     webbrowser.open_new_tab(link_windows)
 
-                elif os_name == "Darwin":
-                    link_mac = main_link + "-macOS-x86-64"
-                    webbrowser.open_new_tab(link_mac)
-
-                elif os_name == "Linux":
-                    link_linux = main_link + "-Linux-x86-64.tar.gz"
+                elif os_name == "Darwin" or os_name == "Linux":
+                    link_linux = main_link + "-src-x86-64.tar.gz"
                     webbrowser.open_new_tab(link_linux)
 
                 else:

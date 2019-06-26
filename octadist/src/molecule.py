@@ -22,291 +22,6 @@ from scipy.spatial import distance
 from octadist.src import elements, popup
 
 
-def count_line(file=None):
-    """
-    Count lines in an input file.
-
-    Parameters
-    ----------
-    file : str
-        Absolute or full path of input file.
-
-    Returns
-    -------
-    i + 1 : int
-        Number of line in file.
-
-    Examples
-    --------
-    >>> file = "/home/Jack/[Fe(1-bpp)2][BF4]2-HS.xyz"
-    >>> count_line(file)
-    27
-
-    """
-    if file is None:
-        raise TypeError("count_line needs one argument: input file")
-
-    with open(file) as f:
-        for i, l in enumerate(f):
-            pass
-
-    return i + 1
-
-
-def extract_coord(file=None):
-    """
-    Check file type, read data, extract atom and coord from an input file.
-
-    Parameters
-    ----------
-    file : str
-        User input filename.
-
-    Returns
-    -------
-    atom : list
-        Full atomic labels of complex.
-    coord : ndarray
-        Full atomic coordinates of complex.
-
-    See Also
-    --------
-    octadist.main.OctaDist.open_file :
-        Open file dialog and to browse input file.
-    octadist.main.OctaDist.search_coord :
-        Search octahedral structure in complex.
-
-    Notes
-    -----
-    The following is the file type that OctaDist supports:
-
-    - ``XYZ``
-    - ``Gaussian``
-    - ``NWChem``
-    - ``ORCA``
-    - ``Q-Chem``
-
-    Examples
-    --------
-    >>> file = "/home/Jack/[Fe(1-bpp)2][BF4]2-HS.xyz"
-    >>> atom, coord = extract_coord(file)
-    >>> atom
-    ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
-    >>> coord
-    [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
-     [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
-     [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
-     [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
-     [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
-     [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
-     [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
-
-    """
-    if file is None:
-        raise TypeError("extract_coord needs one argument: input file")
-
-    atom = []
-    coord = np.array([])
-    is_ftype_correct = True
-    is_format_correct = True
-    is_coord_correct = True
-
-    # Check file extension
-    if file.endswith(".xyz"):
-        if is_xyz(file):
-            atom, coord = get_coord_xyz(file)
-        else:
-            is_ftype_correct = False
-            is_coord_correct = False
-
-    elif file.endswith(".out") or file.endswith(".log"):
-        if is_gaussian(file):
-            atom, coord = get_coord_gaussian(file)
-        elif is_nwchem(file):
-            atom, coord = get_coord_nwchem(file)
-        elif is_orca(file):
-            atom, coord = get_coord_orca(file)
-        elif is_qchem(file):
-            atom, coord = get_coord_qchem(file)
-        else:
-            is_coord_correct = False
-    else:
-        is_format_correct = False
-        is_coord_correct = False
-
-    if not is_ftype_correct:
-        popup.err_invalid_ftype()
-
-    if not is_format_correct:
-        popup.err_wrong_format()
-
-    if is_coord_correct:
-        # atom and coord are correct
-        # Remove empty string in list
-        atom = list(filter(None, atom))
-        return atom, coord
-    else:
-        # if not correct, return empty atom and coord
-        return atom, coord
-
-
-def find_metal(atom=None, coord=None):
-    """
-    Count the number of metal center atom in complex.
-
-    Parameters
-    ----------
-    atom : list, None
-        Full atomic labels of complex.
-    coord : array_like, None
-        Full atomic coordinates of complex.
-
-    Returns
-    -------
-    total_metal : int
-        The total number of metal center atom.
-    atom_metal : list
-        Atomic labels of metal center atom.
-    coord_metal : ndarray
-        Atomic coordinates of metal center atom.
-
-    See Also
-    --------
-    octadist.src.elements.check_atom :
-        Convert atomic number to atomic symbol and vice versa.
-
-    Examples
-    --------
-    >>> atom = ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
-    >>> coord = [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
-                 [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
-                 [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
-                 [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
-                 [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
-                 [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
-                 [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
-    >>> total_metal, atom_metal, coord_metal = find_metal(atom, coord)
-    >>> total_metal
-    1
-    >>> atom_metal
-    ['Fe']
-    >>> coord_metal
-    [[-1.95348286  4.51770478 14.78558113]]
-
-    """
-    if atom is None or coord is None:
-        raise TypeError("find_metal needs two arguments: atom, coord")
-
-    total_metal = 0
-    atom_metal = []
-    coord_metal = []
-
-    for i in range(len(atom)):
-        number = elements.check_atom(atom[i])
-
-        if 21 <= number <= 30 or \
-                39 <= number <= 48 or \
-                57 <= number <= 80 or \
-                89 <= number <= 109:
-
-            total_metal += 1
-            atom_metal.append(atom[i])
-            coord_metal.append(coord[i])
-
-    coord_metal = np.asarray(coord_metal, dtype=np.float64)
-
-    return total_metal, atom_metal, coord_metal
-
-
-def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
-    """
-    Search the octahedral structure in complex and return atoms and coordinates.
-
-    Parameters
-    ----------
-    atom : list
-        Full atomic labels of complex.
-    coord : array_like
-        Full atomic coordinates of complex.
-    metal : int
-        Number of metal atom that will be taken as center atom for
-        finding atomic coordinates of octahedral structure of interest.
-        Default value is 1.
-    cutoff_metal_ligand : float, optional
-        Cutoff distance for screening metal-ligand bond.
-        Default value is 2.8.
-
-    Returns
-    -------
-    atom_octa : list
-        Atomic labels of octahedral structure.
-    coord_octa : ndarray
-        Atomic coordinates of octahedral structure.
-
-    See Also
-    --------
-    find_metal :
-        Find metals in complex.
-    octadist.main.OctaDist.search_coord :
-        Search octahedral structure in complex.
-
-    Examples
-    --------
-    >>> atom = ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
-    >>> coord = [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
-                 [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
-                 [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
-                 [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
-                 [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
-                 [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
-                 [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
-    >>> atom_octa, coord_octa = extract_octa(atom, coord)
-    >>> atom_octa
-    ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
-    >>> coord_octa
-    [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
-     [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
-     [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
-     [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
-     [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
-     [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
-     [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
-
-    """
-    if atom is None or coord is None:
-        raise TypeError("find_metal needs two arguments: atom and coord")
-
-    # Count the number of metal center atom
-    total_metal, atom_metal, coord_metal = find_metal(atom, coord)
-
-    if metal <= 0:
-        raise ValueError("index of metal must be positive integer")
-
-    elif metal > total_metal:
-        raise ValueError("user-defined index of metal is greater than "
-                         "the total metal in complex.")
-
-    metal_index = metal - 1
-    dist_list = []
-
-    for i in range(len(list(atom))):
-        dist = distance.euclidean(coord_metal[metal_index], coord[i])
-        if dist <= cutoff_metal_ligand:
-            dist_list.append([atom[i], coord[i], dist])
-
-    # sort list of tuples by distance in ascending order
-    dist_list.sort(key=itemgetter(2))
-
-    # Keep only first 7 atoms
-    dist_list = dist_list[:7]
-    atom_octa, coord_octa, dist = zip(*dist_list)
-
-    atom_octa = list(atom_octa)
-    coord_octa = np.asarray(coord_octa, dtype=np.float64)
-
-    return atom_octa, coord_octa
-
-
 def is_xyz(f):
     """
     Check if the input file is .xyz file format.
@@ -340,7 +55,7 @@ def is_xyz(f):
 
     Examples
     --------
-    >>> example.xyz 
+    >>> example.xyz
     7
     Comment: From Excel file
     Fe  6.251705    9.063211    5.914842
@@ -786,3 +501,289 @@ def get_coord_qchem(f):
     coord = np.asarray(coord, dtype=np.float64)
 
     return atom, coord
+
+
+def count_line(file=None):
+    """
+    Count lines in an input file.
+
+    Parameters
+    ----------
+    file : str
+        Absolute or full path of input file.
+
+    Returns
+    -------
+    i + 1 : int
+        Number of line in file.
+
+    Examples
+    --------
+    >>> file = "/home/Jack/[Fe(1-bpp)2][BF4]2-HS.xyz"
+    >>> count_line(file)
+    27
+
+    """
+    if file is None:
+        raise TypeError("count_line needs one argument: input file")
+
+    with open(file) as f:
+        for i, l in enumerate(f):
+            pass
+
+    return i + 1
+
+
+def extract_coord(file=None):
+    """
+    Check file type, read data, extract atom and coord from an input file.
+
+    Parameters
+    ----------
+    file : str
+        User input filename.
+
+    Returns
+    -------
+    atom : list
+        Full atomic labels of complex.
+    coord : ndarray
+        Full atomic coordinates of complex.
+
+    See Also
+    --------
+    octadist.main.OctaDist.open_file :
+        Open file dialog and to browse input file.
+    octadist.main.OctaDist.search_coord :
+        Search octahedral structure in complex.
+
+    Notes
+    -----
+    The following is the file type that OctaDist supports:
+
+    - ``XYZ``
+    - ``Gaussian``
+    - ``NWChem``
+    - ``ORCA``
+    - ``Q-Chem``
+
+    Examples
+    --------
+    >>> file = "/home/Jack/[Fe(1-bpp)2][BF4]2-HS.xyz"
+    >>> atom, coord = extract_coord(file)
+    >>> atom
+    ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
+    >>> coord
+    [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
+     [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
+     [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
+     [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
+     [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
+     [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
+     [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
+
+    """
+    if file is None:
+        raise TypeError("extract_coord needs one argument: input file")
+
+    atom = []
+    coord = np.array([])
+    is_ftype_correct = True
+    is_format_correct = True
+    is_coord_correct = True
+
+    # Check file extension
+    if file.endswith(".xyz"):
+        if is_xyz(file):
+            atom, coord = get_coord_xyz(file)
+        else:
+            is_ftype_correct = False
+            is_coord_correct = False
+
+    elif file.endswith(".out") or file.endswith(".log"):
+        if is_gaussian(file):
+            atom, coord = get_coord_gaussian(file)
+        elif is_nwchem(file):
+            atom, coord = get_coord_nwchem(file)
+        elif is_orca(file):
+            atom, coord = get_coord_orca(file)
+        elif is_qchem(file):
+            atom, coord = get_coord_qchem(file)
+        else:
+            is_coord_correct = False
+    else:
+        is_format_correct = False
+        is_coord_correct = False
+
+    if not is_ftype_correct:
+        popup.err_invalid_ftype()
+
+    if not is_format_correct:
+        popup.err_wrong_format()
+
+    if is_coord_correct:
+        # atom and coord are correct
+        # Remove empty string in list
+        atom = list(filter(None, atom))
+        return atom, coord
+    else:
+        # if not correct, return empty atom and coord
+        return atom, coord
+
+
+def find_metal(atom=None, coord=None):
+    """
+    Count the number of metal center atom in complex.
+
+    Parameters
+    ----------
+    atom : list, None
+        Full atomic labels of complex.
+    coord : array_like, None
+        Full atomic coordinates of complex.
+
+    Returns
+    -------
+    total_metal : int
+        The total number of metal center atom.
+    atom_metal : list
+        Atomic labels of metal center atom.
+    coord_metal : ndarray
+        Atomic coordinates of metal center atom.
+
+    See Also
+    --------
+    octadist.src.elements.check_atom :
+        Convert atomic number to atomic symbol and vice versa.
+
+    Examples
+    --------
+    >>> atom = ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
+    >>> coord = [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
+                 [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
+                 [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
+                 [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
+                 [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
+                 [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
+                 [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
+    >>> total_metal, atom_metal, coord_metal = find_metal(atom, coord)
+    >>> total_metal
+    1
+    >>> atom_metal
+    ['Fe']
+    >>> coord_metal
+    [[-1.95348286  4.51770478 14.78558113]]
+
+    """
+    if atom is None or coord is None:
+        raise TypeError("find_metal needs two arguments: atom, coord")
+
+    total_metal = 0
+    atom_metal = []
+    coord_metal = []
+
+    for i in range(len(atom)):
+        number = elements.check_atom(atom[i])
+
+        if 21 <= number <= 30 or \
+                39 <= number <= 48 or \
+                57 <= number <= 80 or \
+                89 <= number <= 109:
+
+            total_metal += 1
+            atom_metal.append(atom[i])
+            coord_metal.append(coord[i])
+
+    coord_metal = np.asarray(coord_metal, dtype=np.float64)
+
+    return total_metal, atom_metal, coord_metal
+
+
+def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
+    """
+    Search the octahedral structure in complex and return atoms and coordinates.
+
+    Parameters
+    ----------
+    atom : list
+        Full atomic labels of complex.
+    coord : array_like
+        Full atomic coordinates of complex.
+    metal : int
+        Number of metal atom that will be taken as center atom for
+        finding atomic coordinates of octahedral structure of interest.
+        Default value is 1.
+    cutoff_metal_ligand : float, optional
+        Cutoff distance for screening metal-ligand bond.
+        Default value is 2.8.
+
+    Returns
+    -------
+    atom_octa : list
+        Atomic labels of octahedral structure.
+    coord_octa : ndarray
+        Atomic coordinates of octahedral structure.
+
+    See Also
+    --------
+    find_metal :
+        Find metals in complex.
+    octadist.main.OctaDist.search_coord :
+        Search octahedral structure in complex.
+
+    Examples
+    --------
+    >>> atom = ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
+    >>> coord = [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
+                 [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
+                 [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
+                 [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
+                 [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
+                 [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
+                 [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
+    >>> atom_octa, coord_octa = extract_octa(atom, coord)
+    >>> atom_octa
+    ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
+    >>> coord_octa
+    [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
+     [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
+     [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
+     [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
+     [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
+     [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
+     [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
+
+    """
+    if atom is None or coord is None:
+        raise TypeError("find_metal needs two arguments: atom and coord")
+
+    # Count the number of metal center atom
+    total_metal, atom_metal, coord_metal = find_metal(atom, coord)
+
+    if metal <= 0:
+        raise ValueError("index of metal must be positive integer")
+
+    elif metal > total_metal:
+        raise ValueError("user-defined index of metal is greater than "
+                         "the total metal in complex.")
+
+    metal_index = metal - 1
+    dist_list = []
+
+    for i in range(len(list(atom))):
+        dist = distance.euclidean(coord_metal[metal_index], coord[i])
+        if dist <= cutoff_metal_ligand:
+            dist_list.append([atom[i], coord[i], dist])
+
+    # sort list of tuples by distance in ascending order
+    dist_list.sort(key=itemgetter(2))
+
+    # Keep only first 7 atoms
+    dist_list = dist_list[:7]
+    atom_octa, coord_octa, dist = zip(*dist_list)
+
+    atom_octa = list(atom_octa)
+    coord_octa = np.asarray(coord_octa, dtype=np.float64)
+
+    return atom_octa, coord_octa
+
