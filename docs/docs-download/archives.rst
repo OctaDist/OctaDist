@@ -7,7 +7,7 @@ The source code and executable of all version and release note can be found at
 ==========   ==============   ===============   ===================
  Version      Release date    Download link     Stats 
 ==========   ==============   ===============   ===================
-2.6.1        Jun 22, 2019     dl-2.6.1_         |Badge-2.6.1|
+2.6.0        Jun 22, 2019     dl-2.6.0_         |Badge-2.6.0|
 2.5.4        Jun 10, 2019     dl-2.5.4_         |Badge-2.5.4|
 2.5.3        May 22, 2019     dl-2.5.3_         |Badge-2.5.3|
 2.5.2        May 6, 2019      dl-2.5.2_         |Badge-2.5.2|
@@ -27,7 +27,7 @@ The source code and executable of all version and release note can be found at
 
 Total download: |Badge-TotalDL|
 
-.. _dl-2.6.1: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
+.. _dl-2.6.0: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
 .. _dl-2.5.4: https://github.com/OctaDist/OctaDist/releases/tag/v.2.5.4
 .. _dl-2.5.3: https://github.com/OctaDist/OctaDist/releases/tag/v.2.5.3
 .. _dl-2.5.2: https://github.com/OctaDist/OctaDist/releases/tag/v.2.5.2
@@ -45,7 +45,7 @@ Total download: |Badge-TotalDL|
 .. _dl-1.0: https://github.com/OctaDist/OctaDist/releases/tag/v.1.0
 
 
-.. |Badge-2.6.1| image:: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.6.1/total.svg
+.. |Badge-2.6.0| image:: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.6.1/total.svg
 .. |Badge-2.5.4| image:: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.5.4/total.svg
 .. |Badge-2.5.3| image:: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.5.3/total.svg
 .. |Badge-2.5.2| image:: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.5.2/total.svg
