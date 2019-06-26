@@ -65,6 +65,15 @@ class CalcJahnTeller:
     >>> test.find_bond()
     >>> test.show_app()
 
+    References
+    ----------
+    .. [1] J. M. Holland, J. A. McAllister, C. A. Kilner,
+        M. Thornton-Pett, A. J. Bridgeman, M. A. Halcrow.
+        Stereochemical effects on the spin-state transition
+        shown by salts of [FeL2]2+ [L = 2,6-di(pyrazol-1-yl)pyridine].
+        J. Chem. Soc., Dalton Trans., 2002, 548-554.
+        DOI: 10.1039/B108468M.
+
     """
 
     def __init__(self, atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2, master=None, icon=None):
@@ -472,7 +481,7 @@ class CalcRMSD:
 
     References
     ----------
-    Link: https://github.com/charnley/rmsd.
+    .. [2] J. C. Kromann. https://github.com/charnley/rmsd.
 
     Examples
     --------
