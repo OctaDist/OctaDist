@@ -210,48 +210,31 @@ class CalcDistortion:
             Sci. 2005, 61, 25.
 
         """
-        ligands = list(self.coord[1:])
-
-        coord_metal = self.coord[0]
-        coord_lig1 = self.coord[1]
-        coord_lig2 = self.coord[2]
-        coord_lig3 = self.coord[3]
-        coord_lig4 = self.coord[4]
-        coord_lig5 = self.coord[5]
-        coord_lig6 = self.coord[6]
-
-        # Vector from metal to ligand atom
-        metal_to_lig1 = coord_lig1 - coord_metal
-        metal_to_lig2 = coord_lig2 - coord_metal
-        metal_to_lig3 = coord_lig3 - coord_metal
-        metal_to_lig4 = coord_lig4 - coord_metal
-        metal_to_lig5 = coord_lig5 - coord_metal
-        metal_to_lig6 = coord_lig6 - coord_metal
-
-        ligands_vec = [metal_to_lig1, 
-                       metal_to_lig2, 
-                       metal_to_lig3, 
-                       metal_to_lig4, 
-                       metal_to_lig5, 
-                       metal_to_lig6]
-
         ###########################################
         # Determine the order of atoms in complex #
         ###########################################
 
+        # Metal and ligand atoms
+        coord_metal = self.coord[0]
+        ligands = list(self.coord[1:])
+        coord_lig = np.array([self.coord[i] for i in range(1, 7)])
+
+        # Vector from metal to ligand atoms
+        metal_to_lig = np.array([coord_lig[i] - coord_metal for i in range(6)])
+
         max_angle = self.trans_angle[0]
 
-        # This loop is used to identify which N is in line with coord_lig1
+        # Identify which N is in line with ligand 1
         def_change = 6
         for n in range(6):
-            test = linear.angle_btw_vectors(ligands_vec[0], ligands_vec[n])
+            test = linear.angle_btw_vectors(metal_to_lig[0], metal_to_lig[n])
             if test > (max_angle - 1):
                 def_change = n
 
         test_max = 0
         new_change = 0
         for n in range(6):
-            test = linear.angle_btw_vectors(ligands_vec[0], ligands_vec[n])
+            test = linear.angle_btw_vectors(metal_to_lig[0], metal_to_lig[n])
             if test > test_max:
                 test_max = test
                 new_change = n
@@ -265,37 +248,18 @@ class CalcDistortion:
         ligands[4] = ligands[def_change]
         ligands[def_change] = tp
 
-        coord_lig1 = ligands[0]
-        coord_lig2 = ligands[1]
-        coord_lig3 = ligands[2]
-        coord_lig4 = ligands[3]
-        coord_lig5 = ligands[4]
-        coord_lig6 = ligands[5]
+        # Update vector from metal to ligand atoms
+        metal_to_lig = np.array([ligands[i] - coord_metal for i in range(6)])
 
-        metal_to_lig1 = coord_lig1 - coord_metal
-        metal_to_lig2 = coord_lig2 - coord_metal
-        metal_to_lig3 = coord_lig3 - coord_metal
-        metal_to_lig4 = coord_lig4 - coord_metal
-        metal_to_lig5 = coord_lig5 - coord_metal
-        metal_to_lig6 = coord_lig6 - coord_metal
-
-        ligands_vec = [metal_to_lig1,
-                       metal_to_lig2,
-                       metal_to_lig3,
-                       metal_to_lig4,
-                       metal_to_lig5,
-                       metal_to_lig6]
-
-        # This loop is used to identify which N is in line with coord_lig2
+        # Identify which N is in line with ligand 2
         for n in range(6):
-            test = linear.angle_btw_vectors(ligands_vec[1], ligands_vec[n])
+            test = linear.angle_btw_vectors(metal_to_lig[1], metal_to_lig[n])
             if test > (max_angle - 1):
                 def_change = n
 
-        # This loop is used to identify which N is in line with coord_lig2
         test_max = 0
         for n in range(6):
-            test = linear.angle_btw_vectors(ligands_vec[1], ligands_vec[n])
+            test = linear.angle_btw_vectors(metal_to_lig[1], metal_to_lig[n])
             if test > test_max:
                 test_max = test
                 new_change = n
@@ -304,43 +268,23 @@ class CalcDistortion:
             self.non_octa = True
             def_change = new_change
 
-        # Swapping the atom (n+1) just identified above with coord_lig6
+        # Swap the atom (n+1) just identified above with ligand 6
         tp = ligands[5]
         ligands[5] = ligands[def_change]
         ligands[def_change] = tp
 
-        # New atom order is stored into the coord_lig1 - coord_lig6 lists
-        coord_lig1 = ligands[0]
-        coord_lig2 = ligands[1]
-        coord_lig3 = ligands[2]
-        coord_lig4 = ligands[3]
-        coord_lig5 = ligands[4]
-        coord_lig6 = ligands[5]
+        # Update vector from metal to ligand atoms
+        metal_to_lig = np.array([ligands[i] - coord_metal for i in range(6)])
 
-        metal_to_lig1 = coord_lig1 - coord_metal
-        metal_to_lig2 = coord_lig2 - coord_metal
-        metal_to_lig3 = coord_lig3 - coord_metal
-        metal_to_lig4 = coord_lig4 - coord_metal
-        metal_to_lig5 = coord_lig5 - coord_metal
-        metal_to_lig6 = coord_lig6 - coord_metal
-
-        ligands_vec = [metal_to_lig1,
-                       metal_to_lig2,
-                       metal_to_lig3,
-                       metal_to_lig4,
-                       metal_to_lig5,
-                       metal_to_lig6]
-
-        # This loop is used to identify which N is in line with coord_lig3
+        # Identify which N is in line with ligand 3
         for n in range(6):
-            test = linear.angle_btw_vectors(ligands_vec[2], ligands_vec[n])
+            test = linear.angle_btw_vectors(metal_to_lig[2], metal_to_lig[n])
             if test > (max_angle - 1):
                 def_change = n
 
-        # This loop is used to identify which N is in line with coord_lig3
         test_max = 0
         for n in range(6):
-            test = linear.angle_btw_vectors(ligands_vec[2], ligands_vec[n])
+            test = linear.angle_btw_vectors(metal_to_lig[2], metal_to_lig[n])
             if test > test_max:
                 test_max = test
                 new_change = n
@@ -349,12 +293,14 @@ class CalcDistortion:
             self.non_octa = True
             def_change = new_change
 
-        # Swapping of the atom (n+1) just identified above with coord_lig4
+        # Swap of the atom (n+1) just identified above with ligand 4
         tp = ligands[3]
         ligands[3] = ligands[def_change]
         ligands[def_change] = tp
 
-        # New atom order is stored into the coord_lig1 - coord_lig6 lists
+        # New atom order
+        coord_lig = np.array([ligands[i] for i in range(6)])
+
         coord_lig1 = ligands[0]
         coord_lig2 = ligands[1]
         coord_lig3 = ligands[2]
@@ -374,8 +320,7 @@ class CalcDistortion:
             a, b, c, d = plane.find_eq_of_plane(coord_lig1, coord_lig2, coord_lig3)
             eq_of_plane.append([a, b, c, d])
 
-            # Project M, coord_lig4, coord_lig5, and coord_lig6 onto the plane
-            # that defined by coord_lig1, coord_lig2, and coord_lig3
+            # Project the other atoms onto the plane
             proj_m = projection.project_atom_onto_plane(coord_metal, a, b, c, d)
             proj_lig4 = projection.project_atom_onto_plane(coord_lig4, a, b, c, d)
             proj_lig5 = projection.project_atom_onto_plane(coord_lig5, a, b, c, d)
