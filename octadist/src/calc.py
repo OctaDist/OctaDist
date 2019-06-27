@@ -338,15 +338,8 @@ class CalcDistortion:
             Sci. 2005, 61, 25.
 
         """
-        ###########################################
-        # Determine the order of atoms in complex #
-        ###########################################
-
+        # Get refined atomic coordinates
         coord_metal, coord_lig = self.determine_faces()
-
-        #####################################################
-        # Calculate the Theta parameter ans its derivatives #
-        #####################################################
 
         # loop over 8 faces
         for r in range(8):
