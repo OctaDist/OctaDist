@@ -174,7 +174,7 @@ class CalcDistortion:
 
         References
         ----------
-        .. [3] James K. McCuskerArnold L. RheingoldDavid N. Hendrickson.
+        .. [3] James K. McCusker, A. L. Rheingold, D. N. Hendrickson.
             Variable-Temperature Studies of Laser-Initiated 5T2 → 1A1
             Intersystem Crossing in Spin-Crossover Complexes: 
             Empirical Correlations between Activation Parameters
