@@ -201,6 +201,28 @@ class CalcDistortion:
         calc_theta :
             Calculate mean Theta parameter
 
+        Examples
+        --------
+        >>> bef = np.array([[4.0674, 7.2040, 13.6117]
+                            [4.3033, 7.3750, 11.7292]
+                            [3.8326, 6.9715, 15.4926]
+                            [5.8822, 6.4461, 13.4312]
+                            [3.3002, 5.3828, 13.6316]
+                            [4.8055, 8.9318, 14.2716]
+                            [2.3184, 8.0165, 13.1152]
+                            ])
+
+        >>> metal, coord = self.determine_faces(bef)
+        >>> metal
+        [ 4.0674  7.204  13.6117]
+        >>> coord_lig
+        [[ 4.3033  7.375  11.7292]      # Front face
+         [ 4.8055  8.9318 14.2716]      # Front face
+         [ 5.8822  6.4461 13.4312]      # Front face
+         [ 2.3184  8.0165 13.1152]      # Back face
+         [ 3.8326  6.9715 15.4926]      # Back face
+         [ 3.3002  5.3828 13.6316]]     # Back face
+
         """
         # Metal and ligand atoms
         coord_metal = self.coord[0]
