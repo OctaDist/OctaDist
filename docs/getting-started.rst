@@ -10,7 +10,7 @@ Here you can find all information of OctaDist.
 
     docs-getting-started/why-octadist.rst
     docs-getting-started/features.rst
-    docs-getting-started/math.rst
+    docs-getting-started/parameters.rst
     docs-getting-started/sys-require.rst
 
 
