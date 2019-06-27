@@ -5,7 +5,7 @@ Distortion parameters
 Mathematical expression of the octahedral distortion parameters are given by following equations
 
 
-- Zeta parameter
+- :math:`\zeta` parameter
 
 .. math::
 
@@ -14,7 +14,7 @@ Mathematical expression of the octahedral distortion parameters are given by fol
 where :math:`d_{i}` is individual M-X bond distance and
 :math:`d_{mean}` is mean metal-ligand bond distance.
 
-- Delta parameter
+- :math:`\Delta` parameter
 
 .. math::
 
@@ -23,7 +23,7 @@ where :math:`d_{i}` is individual M-X bond distance and
 where :math:`d_{i}` is individual M-X bond distance and
 :math:`d_{mean}` is mean metal-ligand bond distance.
 
-- Sigma parameter
+- :math:`\Sigma` parameter
 
 .. math::
 
@@ -31,7 +31,7 @@ where :math:`d_{i}` is individual M-X bond distance and
 
 where :math:`\phi_{i}` in individual cis angle.
 
-- Theta parameter
+- :math:`\Theta` parameter
 
 .. math::
 
