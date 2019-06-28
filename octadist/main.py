@@ -218,7 +218,7 @@ class OctaDist:
         # Help
         menu_bar.add_cascade(label="Help", menu=help_menu)
         help_menu.add_command(label="Quick Help", command=lambda: self.show_help())
-        help_menu.add_command(label="Getting Started",
+        help_menu.add_command(label="User Documentation",
                               command=lambda: webbrowser.open_new_tab(octadist.__help__))
         help_menu.add_separator()
         submit_issue = "https://github.com/OctaDist/OctaDist/issues"
