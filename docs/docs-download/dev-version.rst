@@ -2,12 +2,17 @@
 Development Version
 ===================
 
-An on-going development build of OctaDist, called ``nightly-build`` branch, 
-can be downloaded at `Dev-build (zip)`_. 
+An on-going development build of OctaDist, called ``nightly-build`` branch.
+The tarball can be downloaded at `Dev-build (zip)`_ or use the following command:
+
+.. code-block:: sh
+
+    wget https://github.com/OctaDist/OctaDist/archive/nightly-build.zip
 
 .. _Dev-build (zip): https://github.com/OctaDist/OctaDist/archive/nightly-build.zip
 
-However, you can use ``pip`` to install it on your system using the following command:
+You can also use ``pip`` to install the latest development build version 
+on your system using the following command:
 
 .. code-block:: sh
 
