@@ -1394,7 +1394,6 @@ class OctaDist:
                                       master=self.master,
                                       icon=self.octadist_icon)
         run_jt.start_app()
-        run_jt.create_widget()
         run_jt.find_bond()
         run_jt.show_app()
 

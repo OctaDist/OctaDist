@@ -103,11 +103,6 @@ class CalcJahnTeller:
         self.wd.title("Calculate Jahn-Teller distortion parameter")
         self.wd.geometry("630x550")
 
-    def create_widget(self):
-        """
-        Create widgets.
-
-        """
         self.lbl = tk.Label(self.wd, text="Group A")
         self.lbl.config(width=12)
         self.lbl.grid(padx="10", pady="5", row=0, column=0, columnspan=2)
