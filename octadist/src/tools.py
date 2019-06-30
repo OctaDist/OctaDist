@@ -461,9 +461,14 @@ class CalcRMSD:
     Parameters
     ----------
     coord_1 : array_like
-        Atomic labels and coordinates of structure 1.
+        Atomic coordinates of structure 1.
     coord_2 : array_like
-        Atomic labels and coordinates of structure 2.
+        Atomic coordinates of structure 2.
+    atom_1 : list, tuple, optional
+        Atomic symbols of structure 1.
+    atom_2 : list, tuple, optional
+        Atomic symbols of structure 2.
+        If no atom_2 specified, assign it with None.
 
     Returns
     -------
@@ -488,6 +493,7 @@ class CalcRMSD:
                  [9.6229, 3.9221, 6.0083],
                  [12.0065, 5.5562, 6.3497],
                  [10.8046, 4.9471, 3.9219]]
+
     >>> # Example of structure 1
     >>> comp2 = [[12.0937, 2.4505, 3.4207],
                  [12.9603, 2.2952, 1.7286],
@@ -496,7 +502,10 @@ class CalcRMSD:
                  [10.9307, 0.7697, 2.9315],
                  [10.7878, 2.2987, 5.1071],
                  [10.6773, 3.7960, 2.5424]]
+
     >>> test = CalcRMSD(coord_1=comp1, coord_2=comp2)
+    >>>
+    >>> test.calc_rmsd()
     >>> test.rmsd_normal
     6.758144
     >>> test.rmsd_translate
@@ -506,43 +515,135 @@ class CalcRMSD:
 
     """
 
-    def __init__(self, coord_1, coord_2):
+    def __init__(self, coord_1, coord_2, atom_1=None, atom_2=None, master=None, icon=None):
         self.coord_1 = np.asarray(coord_1, dtype=np.float64)
         self.coord_2 = np.asarray(coord_2, dtype=np.float64)
+
+        self.atom_1 = atom_1
+        self.atom_2 = atom_2
+
+        if self.atom_2 is None:
+            self.atom_2 = self.atom_1
+
+        if master is None:
+            self.wd = tk.Tk()
+        else:
+            self.wd = tk.Toplevel(master)
+
+        self.icon = icon
 
         self.rmsd_normal = 0
         self.rmsd_translate = 0
         self.rmsd_rotate = 0
 
-        self.calc_rmsd_normal()
-        self.calc_rmsd_translate()
-        self.calc_rmsd_rotate()
+    def start_app(self):
+        if self.icon is not None:
+            self.wd.wm_iconbitmap(self.icon)
+        self.wd.title("Calculate RMSD")
+        self.wd.geometry("630x440")
+        self.wd.resizable(0, 0)
 
-    def calc_rmsd_normal(self):
+        self.lbl = tk.Label(self.wd, text="Calculate root-mean-square deviation of atomic positions")
+        # self.lbl.config(width=12)
+        self.lbl.grid(padx="5", pady="5", row=0, column=0, columnspan=2)
+
+        self.lbl = tk.Label(self.wd, text="Structure A")
+        self.lbl.config(width=12)
+        self.lbl.grid(padx="10", pady="5", row=1, column=0)
+
+        self.lbl = tk.Label(self.wd, text="Structure B")
+        self.lbl.config(width=12)
+        self.lbl.grid(padx="10", pady="5", row=1, column=1)
+
+        self.box_1 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
+        self.box_1.grid(padx="5", pady="5", row=2, column=0)
+
+        self.box_2 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
+        self.box_2.grid(padx="5", pady="5", row=2, column=1)
+
+        self.lbl = tk.Label(self.wd, text="Normal RMSD")
+        self.lbl.grid(pady="5", row=3, column=0)
+        self.box_3 = tk.Entry(self.wd, width="20", justify='center')
+        self.box_3.grid(row=3, column=1, sticky=tk.W)
+
+        self.lbl = tk.Label(self.wd, text="Re-centered RMSD")
+        self.lbl.grid(pady="5", row=4, column=0)
+        self.box_4 = tk.Entry(self.wd, width="20", justify='center')
+        self.box_4.grid(row=4, column=1, sticky=tk.W)
+
+        self.lbl = tk.Label(self.wd, text="Rotated RMSD")
+        self.lbl.grid(pady="5", row=5, column=0)
+        self.box_5 = tk.Entry(self.wd, width="20", justify='center')
+        self.box_5.grid(row=5, column=1, sticky=tk.W)
+
+        self.btn = tk.Button(self.wd, text="Calculate RMSD", command=lambda: self.calc_and_show())
+        self.btn.config(width=15, relief=tk.RAISED)
+        self.btn.grid(padx="10", pady="15", row=6, column=0, columnspan=2)
+
+        # When app starts, show atomic coordinates in box.
+        self.show_coord()
+
+    def show_coord(self):
         """
-        Calculate normal RMSD.
+        Show atomic coordinates in box.
 
         """
+        num_atoms = len(self.coord_1)
+
+        self.box_1.insert(tk.INSERT, f"Total atoms: {num_atoms}\n\n")
+        self.box_2.insert(tk.INSERT, f"Total atoms: {num_atoms}\n\n")
+
+        if self.atom_1 is None or self.atom_2 is None:
+            self.atom_1 = ['N/A'] * num_atoms
+            self.atom_2 = ['N/A'] * num_atoms
+
+        for i in range(num_atoms):
+            self.box_1.insert(tk.INSERT, f"{i+1}.  {self.atom_1[i]}\t{self.coord_1[i]}\n")
+            self.box_2.insert(tk.INSERT, f"{i+1}.  {self.atom_2[i]}\t{self.coord_2[i]}\n")
+
+    def calc_rmsd(self):
+        """
+        Calculate normal, translated, and rotated RMSD.
+
+        """
+        tmp_1, tmp_2 = self.coord_1.copy(), self.coord_2.copy()
+
         self.rmsd_normal = rmsd.rmsd(self.coord_1, self.coord_2)
 
-    def calc_rmsd_translate(self):
-        """
-        Calculate translate RMSD.
-
-        """
         # Manipulate recenter
         self.coord_1 -= rmsd.centroid(self.coord_1)
         self.coord_2 -= rmsd.centroid(self.coord_2)
 
         self.rmsd_translate = rmsd.rmsd(self.coord_1, self.coord_2)
 
-    def calc_rmsd_rotate(self):
-        """
-        Calculate rotate RMSD.
-
-        """
         # Rotate
         rotation_matrix = rmsd.kabsch(self.coord_1, self.coord_2)
         self.coord_1 = np.dot(self.coord_1, rotation_matrix)
 
         self.rmsd_rotate = rmsd.rmsd(self.coord_1, self.coord_2)
+
+        self.coord_1, self.coord_2 = tmp_1, tmp_2
+
+    def calc_and_show(self):
+        """
+        Execute calc_rmsd function to calculate RMSD
+        and show results in box.
+
+        """
+        self.calc_rmsd()
+
+        self.box_3.delete(0, tk.END)
+        self.box_4.delete(0, tk.END)
+        self.box_5.delete(0, tk.END)
+
+        self.box_3.insert(tk.INSERT, f"{self.rmsd_normal: 3.6f}")
+        self.box_4.insert(tk.INSERT, f"{self.rmsd_translate: 3.6f}")
+        self.box_5.insert(tk.INSERT, f"{self.rmsd_rotate: 3.6f}")
+
+    def show_app(self):
+        """
+        Show application.
+
+        """
+        self.wd.mainloop()
+

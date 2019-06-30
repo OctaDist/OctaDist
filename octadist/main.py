@@ -1427,13 +1427,12 @@ class OctaDist:
                 popup.err_atom_not_match(i + 1)
                 return 1
 
-        run_rmsd = tools.CalcRMSD(coord_1=coord_complex_1, coord_2=coord_complex_2)
+        run_rmsd = tools.CalcRMSD(coord_complex_1, coord_complex_2,
+                                  atom_1=atom_complex_1, atom_2=atom_complex_2,
+                                  master=self.master, icon=self.octadist_icon)
 
-        self.show_text("RMSD between two complexes")
-        self.show_text("**************************")
-        self.show_text(f"Normal RMSD       : {run_rmsd.rmsd_normal:3.6f}")
-        self.show_text(f"Re-centered RMSD  : {run_rmsd.rmsd_translate:3.6f}")
-        self.show_text(f"Rotated RMSD      : {run_rmsd.rmsd_rotate:3.6f}\n")
+        run_rmsd.start_app()
+        run_rmsd.show_app()
 
     ################
     # Check Update #
