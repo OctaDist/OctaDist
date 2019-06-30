@@ -59,9 +59,9 @@ class CalcJahnTeller:
                  [0.539005000, 4.482809000, 8.460004000],
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
+
     >>> test = CalcJahnTeller(atom=atom, coord=coord)
     >>> test.start_app()
-    >>> test.create_widget()
     >>> test.find_bond()
     >>> test.show_app()
 
@@ -102,6 +102,7 @@ class CalcJahnTeller:
             self.wd.wm_iconbitmap(self.icon)
         self.wd.title("Calculate Jahn-Teller distortion parameter")
         self.wd.geometry("630x550")
+        self.wd.resizable(0, 0)
 
         self.lbl = tk.Label(self.wd, text="Group A")
         self.lbl.config(width=12)
@@ -504,7 +505,6 @@ class CalcRMSD:
                  [10.6773, 3.7960, 2.5424]]
 
     >>> test = CalcRMSD(coord_1=comp1, coord_2=comp2)
-    >>>
     >>> test.calc_rmsd()
     >>> test.rmsd_normal
     6.758144
