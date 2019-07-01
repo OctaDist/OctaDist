@@ -28,7 +28,7 @@ Program Status
 
 OctaDist is maintained on Github version control system.
 All versions has been continuously tested using Travis CI.
-Currently, OctaDist project has two branchs: Master (stable)
+Currently, OctaDist project has two branches: Master (stable)
 and nightly-build (dev).
 
 .. tabularcolumns:: |c|c|c|
