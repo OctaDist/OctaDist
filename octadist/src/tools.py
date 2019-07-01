@@ -540,7 +540,7 @@ class CalcRMSD:
         if self.icon is not None:
             self.wd.wm_iconbitmap(self.icon)
         self.wd.title("Calculate RMSD")
-        self.wd.geometry("630x440")
+        self.wd.geometry("700x440")
         self.wd.resizable(0, 0)
 
         self.lbl = tk.Label(self.wd, text="Calculate root-mean-square deviation of atomic positions")
@@ -555,26 +555,26 @@ class CalcRMSD:
         self.lbl.config(width=12)
         self.lbl.grid(padx="10", pady="5", row=1, column=1)
 
-        self.box_1 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
+        self.box_1 = tkscrolled.ScrolledText(self.wd, height="12", width="45", wrap="word", undo="True")
         self.box_1.grid(padx="5", pady="5", row=2, column=0)
 
-        self.box_2 = tkscrolled.ScrolledText(self.wd, height="12", width="40", wrap="word", undo="True")
+        self.box_2 = tkscrolled.ScrolledText(self.wd, height="12", width="45", wrap="word", undo="True")
         self.box_2.grid(padx="5", pady="5", row=2, column=1)
 
         self.lbl = tk.Label(self.wd, text="Normal RMSD")
-        self.lbl.grid(pady="5", row=3, column=0)
+        self.lbl.grid(padx="5", pady="5", row=3, column=0, sticky=tk.E)
         self.box_3 = tk.Entry(self.wd, width="20", justify='center')
-        self.box_3.grid(row=3, column=1, sticky=tk.W)
+        self.box_3.grid(padx="5", row=3, column=1, sticky=tk.W)
 
         self.lbl = tk.Label(self.wd, text="Re-centered RMSD")
-        self.lbl.grid(pady="5", row=4, column=0)
+        self.lbl.grid(padx="5", pady="5", row=4, column=0, sticky=tk.E)
         self.box_4 = tk.Entry(self.wd, width="20", justify='center')
-        self.box_4.grid(row=4, column=1, sticky=tk.W)
+        self.box_4.grid(padx="5", row=4, column=1, sticky=tk.W)
 
         self.lbl = tk.Label(self.wd, text="Rotated RMSD")
-        self.lbl.grid(pady="5", row=5, column=0)
+        self.lbl.grid(padx="5", pady="5", row=5, column=0, sticky=tk.E)
         self.box_5 = tk.Entry(self.wd, width="20", justify='center')
-        self.box_5.grid(row=5, column=1, sticky=tk.W)
+        self.box_5.grid(padx="5", row=5, column=1, sticky=tk.W)
 
         self.btn = tk.Button(self.wd, text="Calculate RMSD", command=lambda: self.calc_and_show())
         self.btn.config(width=15, relief=tk.RAISED)
