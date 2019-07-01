@@ -212,8 +212,8 @@ class OctaDist:
         tools_menu.add_command(label="Relationship Plot between ζ and Σ", command=lambda: self.plot_zeta_sigma())
         tools_menu.add_command(label="Relationship Plot between Σ and Θ", command=lambda: self.plot_sigma_theta())
         tools_menu.add_separator()
-        tools_menu.add_command(label="Calculate Jahn-Teller Distortion", command=lambda: self.calc_jahn_teller())
-        tools_menu.add_command(label="Calculate RMSD", command=lambda: self.calc_rmsd())
+        tools_menu.add_command(label="Calculate Jahn-Teller Distortion", command=lambda: self.tool_jahn_teller())
+        tools_menu.add_command(label="Calculate RMSD", command=lambda: self.tool_rmsd())
 
         # Help
         menu_bar.add_cascade(label="Help", menu=help_menu)
@@ -1368,7 +1368,7 @@ class OctaDist:
     # Analysis tools #
     ##################
 
-    def calc_jahn_teller(self):
+    def tool_jahn_teller(self):
         """
         Calculate Jahn-Teller distortion parameter.
 
@@ -1397,7 +1397,7 @@ class OctaDist:
         run_jt.find_bond()
         run_jt.show_app()
 
-    def calc_rmsd(self):
+    def tool_rmsd(self):
         """
         Calculate root mean squared displacement of atoms in complex, RMSD.
 
