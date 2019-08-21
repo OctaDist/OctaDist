@@ -19,7 +19,7 @@ import os
 import sys
 
 import octadist
-from octadist.__main__ import version, run_gui
+from .octadist_gui import run_gui
 from octadist.src.molecule import (
     is_xyz, get_coord_xyz, extract_octa
 )
@@ -160,7 +160,7 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
     # info
     parser.add_argument('-v', '--version',
                         action='version',
-                        version=version
+                        version=octadist.__version__
                         )
     parser.add_argument('-a', '--about',
                         action='store_true',
