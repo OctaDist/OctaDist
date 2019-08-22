@@ -29,8 +29,8 @@ def run_gui():
     OctaDist graphical user interface (GUI).
 
     """
-    print(f"Program Starts >>>")
-    print(f"... OctaDist {version} {release} ...")
+    print(">>> Program started")
+    print(f">>> OctaDist {version} {release}")
 
     app = octadist.main.OctaDist()
     app.start_app()
@@ -39,7 +39,7 @@ def run_gui():
     if app.octadist_icon is not None:
         os.remove(app.octadist_icon)
 
-    print(f"<<< Program Terminated")
+    print(">>> Program terminated")
 
 
 if __name__ == '__main__':
