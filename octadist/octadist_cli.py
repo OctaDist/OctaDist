@@ -302,7 +302,7 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
             f.write(f"Delta  = {computed['delta']:12.8f}\n")
             f.write(f"Sigma  = {computed['sigma']:12.8f}\n")
             f.write(f"Theta  = {computed['theta']:12.8f}\n")
-            f.write(f"\nComputed by OctaDist {version}\n")
+            f.write(f"\nComputed by OctaDist {octadist.__version__}\n")
             f.close()
         print(f"\nOutput file has been saved to {os.path.realpath(f.name)}")
 
