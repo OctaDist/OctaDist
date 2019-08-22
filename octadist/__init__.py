@@ -14,8 +14,8 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# Use TkAgg as MPL backend.
-# Note that Google colab does not support TkAgg.
+# Use TkAgg as MPL backend
+# Note that IPython service such as Google Colab does not support TkAgg
 try:
     import tkinter
     import matplotlib
@@ -93,8 +93,6 @@ __all__ = \
      'CalcRMSD',
      'find_bonds',
      'find_faces_octa',
-     'example_atom',
-     'example_coord',
      ]
 
 
@@ -120,7 +118,7 @@ from .src import structure
 from .src import tools
 from .src import util
 
-# Bring function and methods to top-level directory
+# Bring function and method to top-level directory
 
 from .src.calc import CalcDistortion
 
