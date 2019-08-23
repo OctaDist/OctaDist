@@ -13,6 +13,7 @@ Example 5
     atom_full, coord_full = oc.molecule.extract_coord(file)
 
     # Graphical display for octahedral complex
+    
     my_plot = oc.draw.DrawComplex(atom=atom_full, coord=coord_full)
     my_plot.add_atom()
     my_plot.add_bond()

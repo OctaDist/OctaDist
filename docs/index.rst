@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. |ver| replace:: 2.6.0
-.. |dev_ver| replace:: 2.6.1
+.. |ver| replace:: 2.6.1
+.. |dev_ver| replace:: 2.6.2
 
 =============
 OctaDist Docs
@@ -28,7 +28,7 @@ Program Status
 
 OctaDist is maintained on Github version control system.
 All versions has been continuously tested using Travis CI.
-Currently, OctaDist project has two branchs: Master (stable)
+Currently, OctaDist project has two branches: Master (stable)
 and nightly-build (dev).
 
 .. tabularcolumns:: |c|c|c|
@@ -46,7 +46,7 @@ and nightly-build (dev).
    The GNU General Public License v3.0.
 
 .. tip::
-   This documentation is generated as both user and reference code manuals. 
+   This documentation is generated be both user and reference code manuals. 
    For more details, please go to the development page.
 
 

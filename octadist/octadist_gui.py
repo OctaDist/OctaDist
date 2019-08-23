@@ -16,14 +16,32 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-import octadist.octadist_gui
+import os
+
+import octadist.main
+
+version = octadist.__version__
+release = octadist.__release__
+
+
+def run_gui():
+    """
+    OctaDist graphical user interface (GUI).
+
+    """
+    print(">>> Program started")
+    print(f">>> OctaDist {version} {release}")
+
+    app = octadist.main.OctaDist()
+    app.start_app()
+
+    # Delete icon after closing app
+    if app.octadist_icon is not None:
+        os.remove(app.octadist_icon)
+
+    print(">>> Program terminated")
 
 
 if __name__ == '__main__':
-    """
-    octadist        : OctaDist Main
-    octadist_gui    : OctaDist GUI (default)
-    octadist_cli    : OctaDist CLI  
-    """
-    octadist.octadist_gui.run_gui()
+    run_gui()
 
