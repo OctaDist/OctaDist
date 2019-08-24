@@ -2,7 +2,7 @@
 Getting Started
 ===============
 
-Welcome to the first section of OctaDist documentation. 
+Welcome to the first section of the OctaDist documentation. 
 Here you can find all information of OctaDist.
 
 .. toctree::

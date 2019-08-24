@@ -68,9 +68,8 @@ If you run GUI using `octadist` or `octadist_gui` and then it fails with the fol
     _tkinter.TclError: couldn't connect to display ":0"
 
 
-The message above implies that your system cannot connect to X11 server, 
-which is used for displaying the GUI of program.
-This error usually happens on Debian or Ubuntu (and Ubuntu-based on Windows). 
+The above message implies that your system cannot connect to X11 server used for displaying the GUI of program.
+This error usually happens on Debian or Ubuntu (and Windows Subsystem for Linux on Windows). 
 So, you need to install X11 server as follows: 
 
 **X11 Client Installation**
@@ -84,7 +83,7 @@ To install the `xauth` package, use `apt-get`:
 
 **X11 Server Installation**
 
-To install a minimal X11 on Ubuntu Server Edition:
+To install a minimal X11 on Ubuntu Server edition:
 
 .. code-block:: sh
 
@@ -94,6 +93,6 @@ To install a minimal X11 on Ubuntu Server Edition:
 
 .. tip::
 
-    If you found new bug in OctaDist, do not hesitate to let us know.
+    If you find any issues, do not hesitate to let us know.
     Your suggestions would help OctaDist getting improved.
 

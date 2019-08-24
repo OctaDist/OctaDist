@@ -2,7 +2,7 @@
 Python Package
 ==============
 
-OctaDist can be used as a Python package directly in other application.
+OctaDist is a Python package and can be directly implemented into other applications.
 For example, that OctaDist is a package may be useful for interactive python script.
 
 1. Check if your system has all dependencies for OctaDist::
@@ -36,7 +36,6 @@ For example, that OctaDist is a package may be useful for interactive python scr
 
 
 .. tip::
-
 
     PIP-compressed zip files of OctaDist are also available at 
     https://pypi.org/project/octadist/#files.
