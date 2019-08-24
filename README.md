@@ -161,13 +161,13 @@ octadist_cli
 To calculate distortion parameters:
 
 ```sh
-octadist_cli --input INPUT.xyz
+octadist_cli --inp INPUT.xyz
 ```
 
 To calculate distortion parameters and show formatted output:
 
 ```sh
-octadist_cli --input INPUT.xyz --output
+octadist_cli --inp INPUT.xyz --out
 ```
 
 
