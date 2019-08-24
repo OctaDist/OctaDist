@@ -1,0 +1,61 @@
+######################################################
+OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
+######################################################
+
+Program Info
+============
+
+program_name = OctaDist (Octahedral distortion calculator)
+program_version = 2.6.1
+program_release = August 2019
+
+Citation
+========
+
+If your work has been done by OctaDist, please cite us as following
+
+   OctaDist - A tool for calculating distortion parameters in coordination complexes.
+   https://octadist.github.io
+
+Install and Run
+===============
+
+1. Run "CheckPyModule.py" to check if your system has the python packages that required for OctaDist.
+
+	$ cd OctaDist-2.6.1-src-x86-64
+	$ python CheckPyModule.py
+
+    If any required packages has not been installed, run command:
+
+	$ pip install -r requirements.txt
+
+2. Build source code
+
+    $ python setup.py build
+    $ python setup.py install
+    $ python setup.py test
+
+3. Run OctaDist - GUI
+
+	$ octadist
+
+4. Run OctaDist - command line
+
+    $ octadist_cli
+
+Requirements
+============
+
+	- Python >=3.5
+	- numpy
+	- matplotlib
+	- sciPy
+	- rmsd
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+If you have any problem, please submit your issues on OctaDist Github. 
+https://github.com/OctaDist/OctaDist
+
+Rangsiman Ketkaew (Thammasat University, Thailand)
+E-mail: rangsiman1993@gmail.com
