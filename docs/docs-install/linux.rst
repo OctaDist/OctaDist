@@ -14,7 +14,7 @@ Installing OctaDist can be completed in a few steps as follows:
 
     pip install octadist
 
-2. Start OctaDist GUI, just type::
+2. Execute OctaDist GUI, just type::
 
     octadist
 

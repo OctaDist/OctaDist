@@ -13,6 +13,7 @@ Example 6
     atom_full, coord_full = oc.molecule.extract_coord(file)
 
     # Display and automatically save image as .png file with user-specified name
+    
     my_plot = oc.draw.DrawComplex(atom=atom_full, coord=coord_full)
     my_plot.add_atom()
     my_plot.add_bond()

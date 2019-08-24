@@ -5,8 +5,7 @@ Development
 ===========
 
 OctaDist is written entirely in Python 3 binding to Tkinter toolkit.
-We aim that OctaDist should be user-friendly software so that anyone can use.
-Therefore, we have been developing OctaDist with the ease of use.
+We have been developing OctaDist with the ease of use and flexibility.
 In the current version, it supports both of a graphical user interface (GUI) and
 a command line interface (CLI) version. The first one is mainly developed for
 the general end-users who are not familiar with command line,
@@ -32,7 +31,7 @@ To give a contribution on program development, please pull request on
 OctaDist Testing
 ----------------
 
-After you have finished editing the source code of program,
+When you have finished editing the source code of the program,
 you can use ``setuptools`` for testing OctaDist such as build and install.
 A ``setup.py`` file in top-level directory provides software testing as follows:
 
@@ -74,5 +73,5 @@ Source code on Github:
 
 
 .. tip::
-   For OctaDist download stats, please go to https://octadist.github.io/stats.html.
+    For OctaDist download stats, please go to https://octadist.github.io/stats.html.
 

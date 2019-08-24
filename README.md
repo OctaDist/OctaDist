@@ -13,8 +13,8 @@
 [Repo-size]: https://img.shields.io/github/repo-size/OctaDist/OctaDist.svg
 [DL-all-badge]: https://img.shields.io/github/downloads/OctaDist/octadist/total.svg
 [DL-all-link]: https://github.com/OctaDist/OctaDist/releases
-[DL-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.6.0/total.svg
-[DL-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.0
+[DL-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.6.1/total.svg
+[DL-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
 
 
 ## OctaDist
@@ -36,9 +36,9 @@ With the abilities of OctaDist, you can:
 - analyze the structure and conformation of coordination complexes.
 - compute the octahedral distortion parameters.
 - explore tilting distortion in perovskite and metal-organic framework.
-- display 3D molecule and other graphical analysis.
-- upgrade your and other program with OctaDist abilities.
-- deal with the code directly via an interactive scripting code.
+- display 3D molecule and graphical analysis.
+- implement OctaDist's module into your or other program.
+- access the program core directly via an interactive scripting language.
 
 
 ## Development and Release
@@ -70,8 +70,9 @@ source code for command line interface (CLI) are available for as follows:
 
 **Branch:**
 
-1. Master stable: https://github.com/OctaDist/OctaDist/tree/master
-2. Nightly dev: https://github.com/OctaDist/OctaDist/tree/nightly-build
+1. [master](https://github.com/OctaDist/OctaDist)
+2. [nightly-build](https://github.com/OctaDist/OctaDist/tree/nightly-build)
+
 
 ## Git Clone
 
@@ -80,6 +81,7 @@ git clone https://github.com/OctaDist/OctaDist.git
 git checkout nightly-build
 git pull origin nightly-build
 ```
+
 
 ## Documents
 
@@ -107,14 +109,14 @@ Reference manual :
 
 ## Download and Install
 
-If you use Windows, we strongly suggest you download a standalone executable:
+For Windows users, we strongly suggest a standalone executable:
 
-[Click Here to Download OctaDist-2.6.0-Win-x86-64.exe][download-win-exe]
+[Click Here to Download OctaDist-2.6.1-Win-x86-64.exe][download-win-exe]
 
-[download-win-exe]: https://github.com/OctaDist/OctaDist/releases/download/v.2.6.0/OctaDist-2.6.0-Win-x86-64.exe
+[download-win-exe]: https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64.exe
 
 
-If you use Linux or macOS and already have Python 3 installed on the system, 
+For Linux or macOS users and already have Python 3 installed on the system, 
 the easiest way to install OctaDist is to use `pip`.
 
 ```sh
@@ -127,6 +129,7 @@ or use `conda` for those who have Anaconda:
 conda install -c rangsiman octadist
 ```
 
+
 ## Starting OctaDist
 
 ### Graphical User Interface (GUI)
@@ -137,29 +140,46 @@ To start GUI program:
 octadist
 ```
 
-Download a standalone executable to your system.
+Screenshots of program:
 
-|![][Screenshots_1] | ![][Screenshots_2] | ![][Screenshots_3]|
-|:-----------------:|:------------------:|:-----------------:|
-| OctaDist GUI      | XYZ coordinates    | Computed distortion parameters|
+| ![][ss_1]     | ![][ss_2]        | ![][ss_3]                     |
+|:-------------:|:----------------:|:-----------------------------:|
+| OctaDist GUI  | XYZ coordinates  | Computed distortion parameters|
 
-[Screenshots_1]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_OctaDist.png
-[Screenshots_2]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_Example_Mol.png
-[Screenshots_3]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_Computed.png
+[ss_1]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_OctaDist.png
+[ss_2]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_Example_Mol.png
+[ss_3]: https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Screenshots_Computed.png
 
 ### Command Line Interface (CLI)
 
-To start program command line (with help):
+To start program command line:
 
 ```sh
 octadist_cli
 ```
 
-To compute parameters:
+To calculate distortion parameters:
 
 ```sh
-octadist_cli -i INPUT.xyz
+octadist_cli --input INPUT.xyz
 ```
+
+To calculate distortion parameters and show formatted output:
+
+```sh
+octadist_cli --input INPUT.xyz --output
+```
+
+
+## Supporting input format
+
+- XYZ: `*.xyz`
+- Computational chemistry outputs: `*.out` and `*.log`
+  - [Gaussian](http://gaussian.com/)
+  - [NWChem](http://www.nwchem-sw.org)
+  - [ORCA](https://orcaforum.kofo.mpg.de)
+  - [Q-Chem](https://www.q-chem.com/)
+
 
 ## Running the tests
 
@@ -212,11 +232,10 @@ my_plot.show_plot()
    align=middle width="350pt" />
 <p/>
 
+Other example scripts and octahedral complexes are available at [example-py][ex-py-link] and [example-input][ex-inp-link], respectively.
 
-Other example scripts and octahedral complexes are available at 
-[example-py](https://github.com/OctaDist/OctaDist-PyPI/tree/master/example-py) and 
-[example-input](https://github.com/OctaDist/OctaDist-PyPI/tree/master/example-input).
-
+[ex-py-link]: https://github.com/OctaDist/OctaDist-PyPI/tree/master/example-py
+[ex-inp-link]: https://github.com/OctaDist/OctaDist-PyPI/tree/master/example-input
 
 ## Citation
 
@@ -237,13 +256,19 @@ If you found issues in OctaDist, please report it to us at [here][submit-issues]
 
 ## Project team
 
-- [Rangsiman Ketkaew](https://sites.google.com/site/rangsiman1993) (Thammasat University, Thailand) <br/>
-  - E-mail: rangsiman1993@gmail.com <br/>
-- [Yuthana Tantirungrotechai](https://sites.google.com/site/compchem403/people/faculty/yuthana) (Thammasat University, Thailand)
+- [Rangsiman Ketkaew][rk-link] (Thammasat University, Thailand)
+  - E-mail: rangsiman1993@gmail.com
+- [Yuthana Tantirungrotechai][yt-link] (Thammasat University, Thailand)
   - E-mail: yt203y@gmail.com
-- [David J. Harding](https://www.funtechwu.com/david-j-harding) (Walailak University, Thailand)
+- [David J. Harding][dh-link] (Walailak University, Thailand)
   - E-mail: hdavid@mail.wu.ac.th
-- [Phimphaka Harding](https://www.funtechwu.com/phimphaka-harding) (Walailak University, Thailand)
+- [Phimphaka Harding][ph-link] (Walailak University, Thailand)
   - E-mail: kphimpha@mail.wu.ac.th
-- [Mathieu Marchivie](http://www.icmcb-bordeaux.cnrs.fr/spip.php?article562&lang=fr) (University of Bordeaux, France)
+- [Mathieu Marchivie][mm-link] (University of Bordeaux, France)
   - E-mail: mathieu.marchivie@icmcb.cnrs.fr
+
+[rk-link]: https://rangsimanketkaew.github.io
+[yt-link]: https://sites.google.com/site/compchem403/people/faculty/yuthana
+[dh-link]: https://www.funtechwu.com/david-j-harding
+[ph-link]: https://www.funtechwu.com/phimphaka-harding
+[mm-link]: http://www.icmcb-bordeaux.cnrs.fr/spip.php?article562&lang=en

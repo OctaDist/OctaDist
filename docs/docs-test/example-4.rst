@@ -10,14 +10,14 @@ Example 4
 
     file = r"../example-input/Multiple-metals.xyz"
 
-    atom_full, coor_full = oc.molecule.extract_coord(file)
+    atom_full, coord_full = oc.molecule.extract_coord(file)
 
     # If complex contains metal center more than one, you can specify the index metal
     # whose octahedral structure will be computed.
     # For example, this complex contains three metal atoms: Fe, Ru, and Rd.
     # I add "2" as a second argument for choosing Ru as metal of interest.
 
-    atom, coord = oc.molecule.extract_octa(atom_full, coor_full, 2)
+    atom, coord = oc.molecule.extract_octa(atom_full, coord_full, 2)
 
     dist = oc.CalcDistortion(coord)
     zeta = dist.zeta             # Zeta
