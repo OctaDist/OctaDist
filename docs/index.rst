@@ -100,5 +100,5 @@ User Documentation
    Phimphaka Harding,
    Mathieu Marchivie
 
-:Version: |ver| of June 2019
+:Version: |ver| of August 2019
 

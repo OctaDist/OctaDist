@@ -55,7 +55,7 @@ If you run GUI using `octadist` or `octadist_gui` and then it fails with the fol
     (py37) nutt@Ubuntu:~$ octadist
 
     Program Starts >>>
-    ... OctaDist 2.6.1 June 2019 ...
+    ... OctaDist 2.6.1 August 2019 ...
     Traceback (most recent call last):
         File "/home/nutt/.local/bin/octadist", line 10, in <module>
         sys.exit(run_gui())
