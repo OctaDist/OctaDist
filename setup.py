@@ -49,7 +49,7 @@ setuptools.setup(
         'numpy',
         'scipy',
         'matplotlib',
-        'rmsd>=1.3.2'
+        'rmsd'
     ],
     classifiers=[
         "Environment :: Console",
