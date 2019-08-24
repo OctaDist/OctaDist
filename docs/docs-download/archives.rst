@@ -27,7 +27,7 @@ The source code and executable of all version and release note can be found at
 
 Total download: |Badge-TotalDL|
 
-.. _dl-2.6.0: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.0
+.. _dl-2.6.0: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
 .. _dl-2.5.4: https://github.com/OctaDist/OctaDist/releases/tag/v.2.5.4
 .. _dl-2.5.3: https://github.com/OctaDist/OctaDist/releases/tag/v.2.5.3
 .. _dl-2.5.2: https://github.com/OctaDist/OctaDist/releases/tag/v.2.5.2
@@ -45,7 +45,7 @@ Total download: |Badge-TotalDL|
 .. _dl-1.0: https://github.com/OctaDist/OctaDist/releases/tag/v.1.0
 
 
-.. |Badge-2.6.0| image:: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.6.0/total.svg
+.. |Badge-2.6.0| image:: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.6.1/total.svg
 .. |Badge-2.5.4| image:: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.5.4/total.svg
 .. |Badge-2.5.3| image:: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.5.3/total.svg
 .. |Badge-2.5.2| image:: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.5.2/total.svg

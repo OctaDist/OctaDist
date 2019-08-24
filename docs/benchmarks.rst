@@ -20,7 +20,7 @@ Perfect iron metal complex:
     O         0.200698080     0.706806270    -1.460000000
 
 
-- \<D> = 1.460000 Angstrom
+- :math:`d_{mean}` = 1.460000 Angstrom
 - :math:`\zeta` = 0.000000 Angstrom
 - :math:`\Delta` = 0.00000000
 - :math:`\Sigma` = 0.00000000 degree
@@ -45,7 +45,7 @@ The XRD structure taken from Malcolm Halcrow's CCDC library:
     N         2.318400000     8.016500000    13.115200000
 
 
-- \<D> = 1.958109 Angstrom
+- :math:`d_{mean}` = 1.958109 Angstrom
 - :math:`\zeta` = 0.203199 Angstrom
 - :math:`\Delta` = 0.000348
 - :math:`\Sigma` = 86.081494 degree
@@ -94,7 +94,7 @@ Highly distorted structure:
     N        17.364238000    10.733354000     0.657318000
 
 
-- \<D> = 2.149211 Angstrom
+- :math:`d_{mean}` = 2.149211 Angstrom
 - :math:`\zeta` = 0.082408 Angstrom
 - :math:`\Delta` = 0.000066
 - :math:`\Sigma` = 182.673342 degree

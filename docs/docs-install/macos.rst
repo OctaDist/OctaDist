@@ -11,7 +11,7 @@ Like Linux, installing OctaDist on macOS can be completed in a few steps as foll
    
     pip install octadist
    
-3. Start OctaDist GUI, just type::
+3. Execute OctaDist GUI, just type::
   
     octadist
 
@@ -19,7 +19,7 @@ Like Linux, installing OctaDist on macOS can be completed in a few steps as foll
 
     octadist_gui
   
-4. If you want to run OctaDist with command-line, just type::
+4. If you want to execute OctaDist with command-line, just type::
 
     octadist_cli
 

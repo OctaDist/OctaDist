@@ -8,6 +8,7 @@ python:
   - "3.7"  # 3.7 development branch
   
 install:
+  - pip install pip --upgrade
   - pip install pyinstaller
   - pip install numpy
   - pip install scipy
@@ -15,7 +16,11 @@ install:
   - pip install rmsd
 
 script:
-  - cd octadist/
-  - pyinstaller --onefile --windowed --version-file=../version.txt -n OctaDist-Run-Test main.py
-#  - python src/main.py
+  - echo "Install OctaDist via setup.py"
+  - python setup.py sdist bdist_wheel bdist_egg
+  - python setup.py install
+  - python setup.py test
+  - octadist_cli --version
+  - echo "Compile source code to executable file"
+  - pyinstaller -F -w --version-file=version.txt -n OctaDist_EXE octadist/main.py
 

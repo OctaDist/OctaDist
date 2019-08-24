@@ -2,7 +2,7 @@
 Authors
 =======
 
-The program is developed and maintained actively in international collaboration between
+The program is actively developed in international collaboration between
 the members of the `Computational Chemistry Research Unit
 <https://sites.google.com/site/compchem403/>`_ at Thammasat University,
 the `Functional Materials & Nanotechnology CoE

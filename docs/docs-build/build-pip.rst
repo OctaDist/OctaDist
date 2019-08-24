@@ -36,6 +36,8 @@ Build the tarball, wheel, and egg
         octadist_cli
 
 
-More details on Python package can be found its official website:
-https://packaging.python.org/tutorials/installing-packages.
+.. note::
+
+    More details on Python package can be found its official website:
+    https://packaging.python.org/tutorials/installing-packages.
 

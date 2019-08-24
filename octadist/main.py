@@ -212,14 +212,14 @@ class OctaDist:
         tools_menu.add_command(label="Relationship Plot between ζ and Σ", command=lambda: self.plot_zeta_sigma())
         tools_menu.add_command(label="Relationship Plot between Σ and Θ", command=lambda: self.plot_sigma_theta())
         tools_menu.add_separator()
-        tools_menu.add_command(label="Calculate Jahn-Teller Distortion", command=lambda: self.calc_jahn_teller())
-        tools_menu.add_command(label="Calculate RMSD", command=lambda: self.calc_rmsd())
+        tools_menu.add_command(label="Calculate Jahn-Teller Distortion", command=lambda: self.tool_jahn_teller())
+        tools_menu.add_command(label="Calculate RMSD", command=lambda: self.tool_rmsd())
 
         # Help
         menu_bar.add_cascade(label="Help", menu=help_menu)
         help_menu.add_command(label="Quick Help", command=lambda: self.show_help())
-        help_menu.add_command(label="Getting Started",
-                              command=lambda: webbrowser.open_new_tab(octadist.__doc__))
+        help_menu.add_command(label="User Documentation",
+                              command=lambda: webbrowser.open_new_tab(octadist.__help__))
         help_menu.add_separator()
         submit_issue = "https://github.com/OctaDist/OctaDist/issues"
         help_menu.add_command(label="Report Issue", command=lambda: webbrowser.open_new_tab(submit_issue))
@@ -1368,7 +1368,7 @@ class OctaDist:
     # Analysis tools #
     ##################
 
-    def calc_jahn_teller(self):
+    def tool_jahn_teller(self):
         """
         Calculate Jahn-Teller distortion parameter.
 
@@ -1394,11 +1394,10 @@ class OctaDist:
                                       master=self.master,
                                       icon=self.octadist_icon)
         run_jt.start_app()
-        run_jt.create_widget()
         run_jt.find_bond()
         run_jt.show_app()
 
-    def calc_rmsd(self):
+    def tool_rmsd(self):
         """
         Calculate root mean squared displacement of atoms in complex, RMSD.
 
@@ -1428,13 +1427,12 @@ class OctaDist:
                 popup.err_atom_not_match(i + 1)
                 return 1
 
-        run_rmsd = tools.CalcRMSD(coord_1=coord_complex_1, coord_2=coord_complex_2)
+        run_rmsd = tools.CalcRMSD(coord_complex_1, coord_complex_2,
+                                  atom_1=atom_complex_1, atom_2=atom_complex_2,
+                                  master=self.master, icon=self.octadist_icon)
 
-        self.show_text("RMSD between two complexes")
-        self.show_text("**************************")
-        self.show_text(f"Normal RMSD       : {run_rmsd.rmsd_normal:3.6f}")
-        self.show_text(f"Re-centered RMSD  : {run_rmsd.rmsd_translate:3.6f}")
-        self.show_text(f"Rotated RMSD      : {run_rmsd.rmsd_rotate:3.6f}\n")
+        run_rmsd.start_app()
+        run_rmsd.show_app()
 
     ################
     # Check Update #
@@ -1478,12 +1476,8 @@ class OctaDist:
                     link_windows = main_link + "-Win-x86-64.exe"
                     webbrowser.open_new_tab(link_windows)
 
-                elif os_name == "Darwin":
-                    link_mac = main_link + "-macOS-x86-64"
-                    webbrowser.open_new_tab(link_mac)
-
-                elif os_name == "Linux":
-                    link_linux = main_link + "-Linux-x86-64.tar.gz"
+                elif os_name == "Darwin" or os_name == "Linux":
+                    link_linux = main_link + "-src-x86-64.tar.gz"
                     webbrowser.open_new_tab(link_linux)
 
                 else:

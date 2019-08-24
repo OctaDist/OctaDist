@@ -14,15 +14,15 @@ run OctaDist by double-clicking the ``.exe`` file as if you open other program.
 
 .. note::
 
-    OctaDist can take time to launch the GUI, usually 5 - 10 seconds.
-    However, if the program cannot start, please restart your system and run it again.
+    OctaDist can take time to launch the application, usually 5 - 10 seconds.
+    However, if the program does not start, please restart your system and run it again.
 
 
-Run OctaDist GUI on terminal
-----------------------------
+Run OctaDist GUI on the terminal
+--------------------------------
 
-Moreover, added to environment variables path, octadist can be called on terminal 
-such as ``CMD``, ``PowerShell``, and ``Terminal``, like this: 
+Moreover, OctaDist can be called on the terminal such as ``CMD``, 
+``PowerShell``, and ``Terminal`` as long as it is added to environment variable, like this: 
 
 
 .. code-block:: sh
@@ -30,11 +30,11 @@ such as ``CMD``, ``PowerShell``, and ``Terminal``, like this:
     octadist
 
 
-Run OctaDist from CLI
----------------------
+Run OctaDist CLI
+----------------
 
-A command-line OctaDist can start by typing ``octadist_cli`` on the terminal.
-If running without argument, the help docs will show by default.
+You can execute command-line OctaDist interface by typing ``octadist_cli`` on the terminal.
+If it is executed without argument, the help docs will show by default.
 
 .. code-block:: sh
 
@@ -85,7 +85,7 @@ Using OctaDist to calculate the distortion of structure can be done as follows:
 
 .. tip::
 
-    On Windows, you can check whether OctaDist is added to the path of environment 
+    On Windows, you can check whether OctaDist is added to environment 
     variables by using ``where`` command::
     
         where octadist
