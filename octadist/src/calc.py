@@ -22,7 +22,13 @@ from octadist.src import linear, plane, projection
 
 class CalcDistortion:
     """
-    Calculate metal-ligand bond distance and return value in Angstrom.
+    Calculate distortion parameters:
+    - Bond distance
+    - Mean bond distance
+    - Bond angle around metal center atom
+    - Delta parameter
+    - Sigma parameter
+    - Minimum, maximum, and mean Theta parameters
 
     Parameters
     ----------
