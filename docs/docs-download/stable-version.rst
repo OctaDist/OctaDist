@@ -11,10 +11,10 @@ The latest stable release of OctaDist is available for following OS and platform
 | Platform       |       Version         +-------------------------------+-----------------------------+
 |                |                       |         Full version          |         Lite version        |
 +================+=======================+===============================+=============================+
-| Windows OS     |                       | `Full (exe)`_ / `Full (zip)`_ | `Lite (exe)`_ / `Lite zip`_ |            |
+| Windows OS     |                       | `Full (exe)`_ / `Full (zip)`_ | `Lite (exe)`_ / `Lite zip`_ |
 +----------------+                       +-------------------------------+-----------------------------+
 | Linux OS       |     |github-ver|      |                                                             |
-+----------------+                       |                     `OctaDist (tar.gz)`_                    |
++----------------+                       |                        `Full (tar.gz)`_                     |
 | macOS          |                       |                                                             |
 +----------------+-----------------------+-------------------------------------------------------------+
 | PyPI           |      |pypi-ver|       |                   ``pip install octadist``                  |
@@ -30,5 +30,5 @@ The latest stable release of OctaDist is available for following OS and platform
 .. _Full (zip): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64.zip
 .. _Lite (exe): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64-lite.exe
 .. _Lite (zip): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64-lite.zip
-.. _OctaDist (tar.gz): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-src-x86-64.tar.gz
+.. _Full (tar.gz): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-src-x86-64.tar.gz
 
