@@ -124,6 +124,7 @@ def find_fit_plane(coord):
     >>> plt.show()
 
     """
+
     def plane(x, y, params):
         a = params[0]
         b = params[1]
@@ -140,9 +141,11 @@ def find_fit_plane(coord):
         return result
 
     def cross(a, b):
-        return [a[1] * b[2] - a[2] * b[1],
-                a[2] * b[0] - a[0] * b[2],
-                a[0] * b[1] - a[1] * b[0]]
+        return [
+            a[1] * b[2] - a[2] * b[1],
+            a[2] * b[0] - a[0] * b[2],
+            a[0] * b[1] - a[1] * b[0],
+        ]
 
     points = coord
 
@@ -158,7 +161,7 @@ def find_fit_plane(coord):
     normal = np.array(cross([1, 0, a], [0, 1, b]))
     d = -point.dot(normal)
     xx, yy = np.meshgrid([-5, 10], [-5, 10])
-    z = (-normal[0] * xx - normal[1] * yy - d) * 1. / normal[2]
+    z = (-normal[0] * xx - normal[1] * yy - d) * 1.0 / normal[2]
 
     abcd = (a, b, c, d)
 

@@ -20,9 +20,7 @@ import sys
 
 import octadist
 from .octadist_gui import run_gui
-from octadist.src.molecule import (
-    is_xyz, get_coord_xyz, extract_octa
-)
+from octadist.src.molecule import is_xyz, get_coord_xyz, extract_octa
 
 
 def check_file(file):
@@ -126,11 +124,7 @@ def calc_param(coord):
     sigma = dist.sigma  # Sigma
     theta = dist.theta  # Theta
 
-    computed = {'zeta': zeta,
-                'delta': delta,
-                'sigma': sigma,
-                'theta': theta
-                }
+    computed = {"zeta": zeta, "delta": delta, "sigma": sigma, "theta": theta}
 
     return computed
 
@@ -154,62 +148,64 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
         prog="octadist_cli",
         description=description,
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=epilog
+        epilog=epilog,
     )
 
     # info
-    parser.add_argument('-v', '--version',
-                        action='version',
-                        version=octadist.__version__
-                        )
-    parser.add_argument('-a', '--about',
-                        action='store_true',
-                        help='show program info'
-                        )
-    parser.add_argument('-c', '--cite',
-                        action='store_true',
-                        help='show how to cite OctaDist'
-                        )
-    parser.add_argument('-g', '--gui',
-                        action='store_true',
-                        help='launch OctaDist GUI (this option is the same as \'octadist\' command'
-                        )
+    parser.add_argument(
+        "-v", "--version", action="version", version=octadist.__version__
+    )
+    parser.add_argument("-a", "--about", action="store_true", help="show program info")
+    parser.add_argument(
+        "-c", "--cite", action="store_true", help="show how to cite OctaDist"
+    )
+    parser.add_argument(
+        "-g",
+        "--gui",
+        action="store_true",
+        help="launch OctaDist GUI (this option is the same as 'octadist' command",
+    )
 
     # input/output
-    parser.add_argument('-i', '--inp',
-                        action='store',
-                        type=str,
-                        metavar='INPUT',
-                        help='input structure in .xyz format'
-                        )
-    parser.add_argument('-o', '--out',
-                        action='store_true',
-                        help='show formatted output summary'
-                        )
-    parser.add_argument('-s', '--save',
-                        action='store',
-                        type=str,
-                        metavar='OUTPUT',
-                        help='save formatted output to text file, '
-                             'please specify name of OUTPUT file without \'.txt\' extension'
-                        )
+    parser.add_argument(
+        "-i",
+        "--inp",
+        action="store",
+        type=str,
+        metavar="INPUT",
+        help="input structure in .xyz format",
+    )
+    parser.add_argument(
+        "-o", "--out", action="store_true", help="show formatted output summary"
+    )
+    parser.add_argument(
+        "-s",
+        "--save",
+        action="store",
+        type=str,
+        metavar="OUTPUT",
+        help="save formatted output to text file, "
+        "please specify name of OUTPUT file without '.txt' extension",
+    )
 
     # result
-    parser.add_argument('--par',
-                        type=str,
-                        nargs='+',
-                        choices=['zeta', 'delta', 'sigma', 'theta'],
-                        metavar='PARAMETER',
-                        help='select which the parameter (zeta, delta, sigma, theta) to show'
-                        )
-    parser.add_argument('--show',
-                        type=str,
-                        nargs='+',
-                        choices=['atom', 'coord'],
-                        metavar='MOL',
-                        help='show atomic symbol (atom) and atomic coordinate (coord) of '
-                             'octahedral structure'
-                        )
+    parser.add_argument(
+        "--par",
+        type=str,
+        nargs="+",
+        choices=["zeta", "delta", "sigma", "theta"],
+        metavar="PARAMETER",
+        help="select which the parameter (zeta, delta, sigma, theta) to show",
+    )
+    parser.add_argument(
+        "--show",
+        type=str,
+        nargs="+",
+        choices=["atom", "coord"],
+        metavar="MOL",
+        help="show atomic symbol (atom) and atomic coordinate (coord) of "
+        "octahedral structure",
+    )
 
     args = parser.parse_args()
 
@@ -234,8 +230,12 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
     if args.cite:
         print("\nHow to cite OctaDist")
         print("=====================")
-        print("Please cite this project when you use OctaDist for scientific publication.\n")
-        print("  OctaDist: A tool for calculating distortion parameters in coordination complexes.")
+        print(
+            "Please cite this project when you use OctaDist for scientific publication.\n"
+        )
+        print(
+            "  OctaDist: A tool for calculating distortion parameters in coordination complexes."
+        )
         print("  https://octadist.github.io\n")
         sys.exit(1)
 
@@ -256,9 +256,7 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
         atom, coord = find_coord(file)
         atom, coord = find_octa(atom, coord)
 
-        atom_coord = {'atom': atom,
-                      'coord': coord
-                      }
+        atom_coord = {"atom": atom, "coord": coord}
 
         computed = calc_param(coord)
 
@@ -273,7 +271,7 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
     if not args.show:
         if not args.out:
             if not args.par and token:
-                for key in ['zeta', 'delta', 'sigma', 'theta']:
+                for key in ["zeta", "delta", "sigma", "theta"]:
                     print(computed[key])
             else:
                 for key in args.par:
@@ -294,7 +292,7 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
 
     # save result
     if args.save and token:
-        with open(args.save + '.txt', 'w') as f:
+        with open(args.save + ".txt", "w") as f:
             f.write("Octahedral distortion parameters\n")
             f.write("--------------------------------\n")
             f.write(f"File: {basename}\n")
@@ -307,5 +305,5 @@ For more details, please visit https://github.com/OctaDist/OctaDist.
         print(f"\nOutput file has been saved to {os.path.realpath(f.name)}")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run_cli()

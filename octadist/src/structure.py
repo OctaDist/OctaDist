@@ -52,6 +52,7 @@ class DataComplex:
     >>> my_app.add_coord(atom, coord)
 
     """
+
     def __init__(self, master=None, icon=None):
         if master is None:
             self.wd = tk.Tk()
@@ -76,8 +77,9 @@ class DataComplex:
 
         self.frame = tk.Frame(self.wd)
         self.frame.grid()
-        self.box = tkscrolled.ScrolledText(self.frame, wrap="word", undo="True",
-                                           width="75", height="30")
+        self.box = tkscrolled.ScrolledText(
+            self.frame, wrap="word", undo="True", width="75", height="30"
+        )
         self.box.grid(row=0, pady="5", padx="5")
 
     def add_name(self, file_name):
@@ -110,10 +112,13 @@ class DataComplex:
         self.box.insert(tk.END, f"List of atoms: {atoms}\n")
 
         for i in range(len(coord)):
-            self.box.insert(tk.END, f"{atom[i]:>2}\t"
-                                    f"{coord[i][0]:9.6f}\t\t"
-                                    f"{coord[i][1]:9.6f}\t\t"
-                                    f"{coord[i][2]:9.6f}")
+            self.box.insert(
+                tk.END,
+                f"{atom[i]:>2}\t"
+                f"{coord[i][0]:9.6f}\t\t"
+                f"{coord[i][1]:9.6f}\t\t"
+                f"{coord[i][2]:9.6f}",
+            )
             self.box.insert(tk.END, "\n")
         self.box.insert(tk.END, "\n\n")
 
@@ -148,6 +153,7 @@ class StructParam:
     >>> my_app.add_coord(atom, coord)
 
     """
+
     def __init__(self, master=None, icon=None):
         if master is None:
             self.wd = tk.Tk()
@@ -169,15 +175,16 @@ class StructParam:
         self.wd.geometry("380x530")
         self.wd.option_add("*Font", "Arial 10")
         self.wd.resizable(0, 0)
-        
+
         self.frame = tk.Frame(self.wd)
         self.frame.grid()
         self.lbl = tk.Label(self.frame, text="Structural parameters")
         self.lbl.grid(row=0, pady="5", padx="5", sticky=tk.W)
-        self.box = tkscrolled.ScrolledText(self.frame, wrap="word", undo="True",
-                                           width="50", height="30")
+        self.box = tkscrolled.ScrolledText(
+            self.frame, wrap="word", undo="True", width="50", height="30"
+        )
         self.box.grid(row=1, pady="5", padx="5")
-        
+
     def add_number(self, number):
         """
         Add file number to box.
@@ -189,7 +196,7 @@ class StructParam:
             
         """
         self.box.insert(tk.INSERT, f"Number : {number}\n")
-        
+
     def add_metal(self, metal):
         """
         Add metal atom to box:
@@ -241,7 +248,9 @@ class StructParam:
                     if i == 0:
                         texts = f"{atom[k]}{k}-{atom[i]}-{atom[j]}{j}\t\t{angle:10.6f}"
                     else:
-                        texts = f"{atom[k]}{k}-{atom[i]}{i}-{atom[j]}{j}\t\t{angle:10.6f}"
+                        texts = (
+                            f"{atom[k]}{k}-{atom[i]}{i}-{atom[j]}{j}\t\t{angle:10.6f}"
+                        )
 
                     self.box.insert(tk.END, "\n" + texts)
 
@@ -279,6 +288,7 @@ class SurfaceArea:
     >>> my_app.add_octa(coord)
 
     """
+
     def __init__(self, master=None, icon=None):
         if master is None:
             self.wd = tk.Tk()
@@ -303,8 +313,9 @@ class SurfaceArea:
 
         self.frame = tk.Frame(self.wd)
         self.frame.grid()
-        self.box = tkscrolled.ScrolledText(self.frame, wrap="word", undo="True",
-                                           width="50", height="30")
+        self.box = tkscrolled.ScrolledText(
+            self.frame, wrap="word", undo="True", width="50", height="30"
+        )
         self.box.grid(row=0, pady="5", padx="5")
 
     def add_number(self, number):
@@ -352,7 +363,9 @@ class SurfaceArea:
         total_area = 0
         for i in range(8):
             area = linear.triangle_area(c_ref[i][0], c_ref[i][1], c_ref[i][2])
-            self.box.insert(tk.END, f"Face no. {i + 1}:\t\t{a_ref[i]}\t\t{area:10.6f}\n")
+            self.box.insert(
+                tk.END, f"Face no. {i + 1}:\t\t{a_ref[i]}\t\t{area:10.6f}\n"
+            )
             total_area += area
 
         self.box.insert(tk.END, f"\nThe total surface area:   {total_area:10.6f}\n")

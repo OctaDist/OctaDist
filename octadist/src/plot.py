@@ -43,6 +43,7 @@ class Plot:
     >>> test.show_plot()
 
     """
+
     def __init__(self, *args, name1="Var1", name2="Var2"):
         try:
             self.data1 = args[0]
@@ -74,7 +75,7 @@ class Plot:
 
         """
         for i in range(len(self.data1)):
-            self.ax.scatter(self.data1, self.data2, label=f'Complex {i + 1}')
+            self.ax.scatter(self.data1, self.data2, label=f"Complex {i + 1}")
 
     def add_text(self):
         """
@@ -90,8 +91,13 @@ class Plot:
 
         """
         # Put a legend below current axis
-        self.ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.1),
-                       fancybox=True, shadow=True, ncol=5)
+        self.ax.legend(
+            loc="upper center",
+            bbox_to_anchor=(0.5, -0.1),
+            fancybox=True,
+            shadow=True,
+            ncol=5,
+        )
 
     def config_plot(self):
         """
@@ -100,7 +106,9 @@ class Plot:
         """
         # Shrink current axis's height by 10% on the bottom
         box = self.ax.get_position()
-        self.ax.set_position([box.x0, box.y0 + box.height * 0.1, box.width, box.height * 0.9])
+        self.ax.set_position(
+            [box.x0, box.y0 + box.height * 0.1, box.width, box.height * 0.9]
+        )
 
     def set_label(self):
         """

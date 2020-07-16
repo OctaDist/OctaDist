@@ -5,8 +5,8 @@ dist: xenial
 branch:
 
 python:
-  - "3.7"  # 3.7 development branch
-  
+  - "3.7" # 3.7 development branch
+
 install:
   - pip install pip --upgrade
   - pip install pyinstaller
@@ -23,4 +23,3 @@ script:
   - octadist_cli --version
   - echo "Compile source code to executable file"
   - pyinstaller -F -w --version-file=version.txt -n OctaDist_EXE octadist/main.py
-

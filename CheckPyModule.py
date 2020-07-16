@@ -39,4 +39,6 @@ for i, mod in enumerate(module):
         S = True
 
 if S:
-    print("\nTo install Python package, you can use command \"python -m pip install -U PACKAGE_NAME\"\n")
+    print(
+        '\nTo install Python package, you can use command "python -m pip install -U PACKAGE_NAME"\n'
+    )
