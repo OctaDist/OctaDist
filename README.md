@@ -26,6 +26,9 @@ https://octadist.github.io/
    <img alt="molecule" src="https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/molecule.png" align=middle width="200pt" />
 <p/>
 
+## Register for OctaDist
+
+To obtain OctaDist, please register by providing general information at https://cutt.ly/regis-octadist.
 
 ## Standard abilities
 
