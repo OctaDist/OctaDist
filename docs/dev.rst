@@ -66,12 +66,6 @@ Source code on Github:
   <https://github.com/OctaDist/OctaDist/tree/nightly-build>`_
 
 
-.. toctree::
-    :max-depth: 1
-
-    docs-development/program-structure.rst
-
-
 .. tip::
     For OctaDist download stats, please go to https://octadist.github.io/stats.html.
 
