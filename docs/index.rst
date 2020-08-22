@@ -55,7 +55,7 @@ Citation
 
 Please cite this project when you use OctaDist for scientific publication.
 
-.. code-block::
+.. code-block:: sh
 
     OctaDist: A tool for calculating distortion parameters in coordination complexes.
     https://octadist.github.io
