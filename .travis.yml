@@ -1,26 +1,56 @@
 language: python
+group: travis_latest
 sudo: yes
-dist: xenial
+dist: bionic
+
+# Needs graphical environment - enable xvfb
+services:
+  - xvfb
 
 branch:
 
 python:
-  - "3.7"  # 3.7 development branch
-  
+  - "3.6"
+  - "3.7"
+  - "3.8"
+
 install:
-  - pip install pip --upgrade
-  - pip install pyinstaller
-  - pip install numpy
-  - pip install scipy
-  - pip install matplotlib
-  - pip install rmsd
+  - pip3 install pip --upgrade
+  - pip3 install pyinstaller
+  - pip3 install -r requirements.txt
+
+before_script:
+  - chmod +x octadist_gui_timeout.sh
 
 script:
+  - echo "============================="
   - echo "Install OctaDist via setup.py"
-  - python setup.py sdist bdist_wheel bdist_egg
-  - python setup.py install
-  - python setup.py test
-  - octadist_cli --version
-  - echo "Compile source code to executable file"
-  - pyinstaller -F -w --version-file=version.txt -n OctaDist_EXE octadist/main.py
+  - echo "============================="
+  - python3 setup.py sdist bdist_wheel bdist_egg
+  - python3 setup.py install
+  - python3 setup.py test
+  - echo ""
 
+  - echo "Test OctaDist CLI"
+  - octadist_cli --version
+  - octadist_cli -i example-input/Perfect-octahedron.xyz
+  - octadist_cli -i example-input/Perfect-octahedron.xyz -o
+  - octadist_cli -i example-input/Fe-distorted-octa.xyz
+  - octadist_cli -i example-input/Fe-distorted-octa.xyz -o
+  - echo ""
+
+  - echo "Test compiling OctaDist"
+  - echo "======================================"
+  - echo "Compile source code to executable file"
+  - echo "======================================"
+  - pyinstaller -F -w --version-file=version.txt -n OctaDist_EXE octadist/main.py
+  - echo ""
+
+  - echo "================="
+  - echo "Test OctaDist GUI"
+  - echo "================="
+  - bash octadist_gui_timeout.sh
+
+  - echo "========="
+  - echo "Test Done"
+  - echo "========="

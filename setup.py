@@ -26,7 +26,9 @@ __version__ = "2.6.1"
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
-description = "OctaDist: A tool for calculating distortion parameters in coordination complexes."
+description = (
+    "OctaDist: A tool for calculating distortion parameters in coordination complexes."
+)
 
 setuptools.setup(
     name="octadist",
@@ -40,17 +42,12 @@ setuptools.setup(
     url="https://octadist.github.io",
     download_url="https://github.com/OctaDist/OctaDist/releases",
     project_urls={
-        'Documentation': 'https://octadist.readthedocs.io/en/latest/',
-        'Source': 'https://github.com/OctaDist/OctaDist',
-        'Tracker': 'https://github.com/OctaDist/OctaDist/issues',
+        "Documentation": "https://octadist.readthedocs.io/en/latest/",
+        "Source": "https://github.com/OctaDist/OctaDist",
+        "Tracker": "https://github.com/OctaDist/OctaDist/issues",
     },
     packages=setuptools.find_packages(),
-    install_requires=[
-        'numpy',
-        'scipy',
-        'matplotlib',
-        'rmsd'
-    ],
+    install_requires=["numpy", "scipy", "matplotlib", "rmsd"],
     classifiers=[
         "Environment :: Console",
         "Programming Language :: Python",
@@ -80,22 +77,22 @@ setuptools.setup(
         "Topic :: Multimedia :: Graphics :: 3D Modeling",
     ],
     keywords=[
-        'chemistry',
-        'computational chemistry',
-        'inorganic chemistry',
-        'crystallography',
-        'coordination complex',
-        'spin-crossover',
-        'octahedral distortion parameter',
-        'structural analysis',
-        'Molecular visualization'
+        "chemistry",
+        "computational chemistry",
+        "inorganic chemistry",
+        "crystallography",
+        "coordination complex",
+        "spin-crossover",
+        "octahedral distortion parameter",
+        "structural analysis",
+        "Molecular visualization",
     ],
-    python_requires='>=3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*',
+    python_requires=">=3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*",
     entry_points={
-        'console_scripts': [
-            'octadist=octadist.octadist_gui:run_gui',
-            'octadist_gui=octadist.octadist_gui:run_gui',
-            'octadist_cli=octadist.octadist_cli:run_cli'
+        "console_scripts": [
+            "octadist=octadist.octadist_gui:run_gui",
+            "octadist_gui=octadist.octadist_gui:run_gui",
+            "octadist_cli=octadist.octadist_cli:run_cli",
         ]
     },
 )

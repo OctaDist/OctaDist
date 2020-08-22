@@ -49,6 +49,7 @@ class ScriptingConsole:
     >>> console.scripting_start()
 
     """
+
     def __init__(self, root):
         self.root = root
         self.wd = None
@@ -64,7 +65,7 @@ class ScriptingConsole:
         if self.root.octadist_icon is not None:
             self.wd.wm_iconbitmap(self.root.octadist_icon)
         self.wd.title("OctaDist Scripting Interface")
-        self.wd.bind('<Return>', self.script_execute)
+        self.wd.bind("<Return>", self.script_execute)
         self.wd.resizable(0, 0)
 
         lbl = tk.Label(self.wd, text="Output:")
@@ -76,12 +77,17 @@ class ScriptingConsole:
         self.entry_script = tk.Entry(self.wd, width=62)
         self.entry_script.grid(padx="5", pady="5", sticky=tk.W, row=3, column=0)
         btn_script = tk.Button(self.wd, text="Run")
-        btn_script.bind('<Button-1>', self.script_execute)
+        btn_script.bind("<Button-1>", self.script_execute)
         btn_script.grid(padx="5", pady="5", row=3, column=1)
 
-        self.box_script.insert(tk.INSERT, "Welcome to OctaDist interactive scripting console\n")
-        self.box_script.insert(tk.INSERT, "If you have no idea what to do about scripting, "
-                                          "type \"help\" to get started.\n\n")
+        self.box_script.insert(
+            tk.INSERT, "Welcome to OctaDist interactive scripting console\n"
+        )
+        self.box_script.insert(
+            tk.INSERT,
+            "If you have no idea what to do about scripting, "
+            'type "help" to get started.\n\n',
+        )
 
         self.wd.mainloop()
 
@@ -123,8 +129,10 @@ class ScriptingConsole:
         Show list of commands in scripting run.
 
         """
-        all_command = "help, list, info, doc, show, type, set, " \
-                      "clear, clean, restore, history, exit"
+        all_command = (
+            "help, list, info, doc, show, type, set, "
+            "clear, clean, restore, history, exit"
+        )
         self.box_script.insert(tk.INSERT, f">>> {all_command}\n")
 
     def script_run_info(self):
@@ -152,7 +160,9 @@ class ScriptingConsole:
 
         """
         if not args:
-            self.box_script.insert(tk.INSERT, ">>> show command needs at least 1 parameter\n")
+            self.box_script.insert(
+                tk.INSERT, ">>> show command needs at least 1 parameter\n"
+            )
             return 1
 
         first_arg = args[0].lower()
@@ -168,7 +178,9 @@ class ScriptingConsole:
                 value = self.root.__dict__[f"{key}"]
                 self.box_script.insert(tk.INSERT, f">>> {key} = {value}\n")
             except KeyError:
-                self.box_script.insert(tk.INSERT, f">>> variable \"{args[i]}\" is not defined\n")
+                self.box_script.insert(
+                    tk.INSERT, f'>>> variable "{args[i]}" is not defined\n'
+                )
 
     def script_run_type(self, args):
         """
@@ -181,7 +193,9 @@ class ScriptingConsole:
 
         """
         if not args:
-            self.box_script.insert(tk.INSERT, ">>> \"type\" command needs at least 1 parameter\n")
+            self.box_script.insert(
+                tk.INSERT, '>>> "type" command needs at least 1 parameter\n'
+            )
             return 1
 
         for i in range(len(args)):
@@ -190,7 +204,9 @@ class ScriptingConsole:
                 data_type = type(self.root.__dict__[f"{key}"])
                 self.box_script.insert(tk.INSERT, f">>> {key} : {data_type}\n")
             except KeyError:
-                self.box_script.insert(tk.INSERT, f">>> variable \"{args[i]}\" is not defined\n")
+                self.box_script.insert(
+                    tk.INSERT, f'>>> variable "{args[i]}" is not defined\n'
+                )
 
     def script_run_set(self, args):
         """
@@ -213,7 +229,9 @@ class ScriptingConsole:
         self.root.__dict__[f"{key}"] = value
 
         if f"key" not in self.root.__dict__:
-            self.box_script.insert(tk.INSERT, f">>> new dynamic variable \"{key}\" defined\n")
+            self.box_script.insert(
+                tk.INSERT, f'>>> new dynamic variable "{key}" defined\n'
+            )
 
         self.box_script.insert(tk.INSERT, f">>> {key} = {value}\n")
 
@@ -253,14 +271,15 @@ class ScriptingConsole:
 
         self.box_script.insert(tk.INSERT, f">>> Restore all settings\n")
 
-        var_settings = ("cutoff_metal_ligand",
-                        "cutoff_global",
-                        "cutoff_hydrogen",
-                        "text_editor",
-                        "show_title",
-                        "show_axis",
-                        "show_grid"
-                        )
+        var_settings = (
+            "cutoff_metal_ligand",
+            "cutoff_global",
+            "cutoff_hydrogen",
+            "text_editor",
+            "show_title",
+            "show_axis",
+            "show_grid",
+        )
 
         for key in var_settings:
             value = self.root.__dict__[f"{key}"]
@@ -286,7 +305,7 @@ class ScriptingConsole:
             Command that user submits.
 
         """
-        self.box_script.insert(tk.INSERT, f">>> Command \"{command}\" not found\n")
+        self.box_script.insert(tk.INSERT, f'>>> Command "{command}" not found\n')
 
     def script_execute(self, event):
         """
@@ -303,7 +322,7 @@ class ScriptingConsole:
 
         # print input command
         if user_command:
-            res = (" ".join([str(i) for i in user_command]))
+            res = " ".join([str(i) for i in user_command])
             self.box_script.insert(tk.INSERT, f"{res}\n")
             # collect command to history list
             if res.lower() != "history":

@@ -15,10 +15,10 @@ atom_full, coord_full = oc.molecule.extract_coord(file)
 atom, coord = oc.molecule.extract_octa(atom_full, coord_full)
 
 dist = oc.CalcDistortion(coord)
-zeta = dist.zeta             # Zeta
-delta = dist.delta           # Delta
-sigma = dist.sigma           # Sigma
-theta = dist.theta           # Theta
+zeta = dist.zeta  # Zeta
+delta = dist.delta  # Delta
+sigma = dist.sigma  # Sigma
+theta = dist.theta  # Theta
 
 print("\nAll computed parameters")
 print("-----------------------")

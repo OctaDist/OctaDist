@@ -55,6 +55,7 @@ class DrawComplex:
     >>> test.show_plot()
 
     """
+
     def __init__(self, atom=None, coord=None, cutoff_global=2.0, cutoff_hydrogen=1.2):
         self.atom = atom
         self.coord = coord
@@ -66,9 +67,9 @@ class DrawComplex:
         if self.coord is None:
             raise TypeError("coord is not specified")
 
-        self.title_name = 'Display Complex'
-        self.title_size = '12'
-        self.label_size = '10'
+        self.title_name = "Display Complex"
+        self.title_size = "12"
+        self.label_size = "10"
         self.show_title = True
         self.show_axis = True
         self.show_grid = True
@@ -86,7 +87,7 @@ class DrawComplex:
         self.fig = plt.figure()
         self.ax = Axes3D(self.fig)
 
-        self.ax.set_title('Full complex', fontsize="12")
+        self.ax.set_title("Full complex", fontsize="12")
         # ax = fig.add_subplot(111, projection='3d')
 
     def add_atom(self):
@@ -97,12 +98,17 @@ class DrawComplex:
         for i in range(len(self.coord)):
             # Determine atomic number
             n = elements.check_atom(self.atom[i])
-            self.ax.scatter(self.coord[i][0],
-                            self.coord[i][1],
-                            self.coord[i][2],
-                            marker='o', linewidths=0.5, edgecolors='black',
-                            color=elements.check_color(n), label=f"{self.atom[i]}",
-                            s=elements.check_radii(n) * 300)
+            self.ax.scatter(
+                self.coord[i][0],
+                self.coord[i][1],
+                self.coord[i][2],
+                marker="o",
+                linewidths=0.5,
+                edgecolors="black",
+                color=elements.check_color(n),
+                label=f"{self.atom[i]}",
+                s=elements.check_radii(n) * 300,
+            )
 
     def add_symbol(self):
         """
@@ -110,10 +116,13 @@ class DrawComplex:
 
         """
         for j in range(len(self.atom)):
-            self.ax.text(self.coord[j][0] + 0.1,
-                         self.coord[j][1] + 0.1,
-                         self.coord[j][2] + 0.1,
-                         f"{self.atom[j]},{j}", fontsize=9)
+            self.ax.text(
+                self.coord[j][0] + 0.1,
+                self.coord[j][1] + 0.1,
+                self.coord[j][2] + 0.1,
+                f"{self.atom[j]},{j}",
+                fontsize=9,
+            )
 
     def add_bond(self):
         """
@@ -124,8 +133,9 @@ class DrawComplex:
         octadist.src.util.find_bonds : Find atomic bonds.
 
         """
-        _, self.bond_list = util.find_bonds(self.atom, self.coord,
-                                            self.cutoff_global, self.cutoff_hydrogen)
+        _, self.bond_list = util.find_bonds(
+            self.atom, self.coord, self.cutoff_global, self.cutoff_hydrogen
+        )
 
         for i in range(len(self.bond_list)):
             get_atoms = self.bond_list[i]
@@ -136,7 +146,7 @@ class DrawComplex:
         for i in range(len(self.atoms_pair)):
             merge = list(zip(self.atoms_pair[i][0], self.atoms_pair[i][1]))
             x, y, z = merge
-            self.ax.plot(x, y, z, 'k-', color="black", linewidth=2)
+            self.ax.plot(x, y, z, "k-", color="black", linewidth=2)
 
     def add_face(self, coord):
         """
@@ -150,15 +160,25 @@ class DrawComplex:
         _, c_ref, _, _ = util.find_faces_octa(coord)
 
         # Added faces
-        color_list = ["red", "blue", "green", "yellow",
-                      "violet", "cyan", "brown", "grey"]
+        color_list = [
+            "red",
+            "blue",
+            "green",
+            "yellow",
+            "violet",
+            "cyan",
+            "brown",
+            "grey",
+        ]
 
         for i in range(8):
             # Create array of vertices for 8 faces
             get_vertices = c_ref[i].tolist()
             x, y, z = zip(*get_vertices)
             vertices = [list(zip(x, y, z))]
-            self.ax.add_collection3d(Poly3DCollection(vertices, alpha=0.5, color=color_list[i]))
+            self.ax.add_collection3d(
+                Poly3DCollection(vertices, alpha=0.5, color=color_list[i])
+            )
 
     def add_legend(self):
         """
@@ -181,8 +201,9 @@ class DrawComplex:
             if label not in label_list:
                 handle_list.append(handle)
                 label_list.append(label)
-        leg = plt.legend(handle_list, label_list,
-                         loc="lower left", scatterpoints=1, fontsize=12)
+        leg = plt.legend(
+            handle_list, label_list, loc="lower left", scatterpoints=1, fontsize=12
+        )
 
         # fix size of point in legend
         for i in range(len(leg.legendHandles)):
@@ -209,9 +230,9 @@ class DrawComplex:
             label_size : text size of axis labels.
 
         """
-        title_name_user = kwargs.get('title_name')
-        self.title_size = kwargs.get('title_size')
-        self.label_size = kwargs.get('label_size')
+        title_name_user = kwargs.get("title_name")
+        self.title_size = kwargs.get("title_size")
+        self.label_size = kwargs.get("label_size")
         self.show_title = show_title
         self.show_axis = show_axis
         self.show_grid = show_grid
@@ -225,14 +246,14 @@ class DrawComplex:
             self.ax.set_title(title_name_user, fontsize=self.title_size)
 
         if self.label_size is not None:
-            self.ax.set_xlabel(r'X', fontsize=self.label_size)
-            self.ax.set_ylabel(r'Y', fontsize=self.label_size)
-            self.ax.set_zlabel(r'Z', fontsize=self.label_size)
+            self.ax.set_xlabel(r"X", fontsize=self.label_size)
+            self.ax.set_ylabel(r"Y", fontsize=self.label_size)
+            self.ax.set_zlabel(r"Z", fontsize=self.label_size)
 
         if not self.show_title:
-            self.ax.set_title('')
+            self.ax.set_title("")
         if not self.show_axis:
-            plt.axis('off')
+            plt.axis("off")
         if not self.show_grid:
             self.ax.grid(False)
 
@@ -290,9 +311,10 @@ class DrawProjection:
     >>> test.show_plot()
 
     """
+
     def __init__(self, **kwargs):
-        self.atom = kwargs.get('atom')
-        self.coord = kwargs.get('coord')
+        self.atom = kwargs.get("atom")
+        self.coord = kwargs.get("coord")
 
         if self.atom is None:
             raise TypeError("atom is not specified")
@@ -313,7 +335,7 @@ class DrawProjection:
         self.st = self.fig.suptitle("4 pairs of opposite planes", fontsize="x-large")
 
         for i in range(4):
-            ax = self.fig.add_subplot(2, 2, int(i + 1), projection='3d')
+            ax = self.fig.add_subplot(2, 2, int(i + 1), projection="3d")
             ax.set_title(f"Pair {i + 1}")
             self.sub_plot.append(ax)
 
@@ -333,19 +355,31 @@ class DrawProjection:
         for i in range(4):
             ax = self.sub_plot[i]
             # Metal
-            ax.scatter(self.coord[0][0],
-                       self.coord[0][1],
-                       self.coord[0][2],
-                       color='yellow', marker='o', s=100, linewidths=1,
-                       edgecolors='black', label="Metal center")
+            ax.scatter(
+                self.coord[0][0],
+                self.coord[0][1],
+                self.coord[0][2],
+                color="yellow",
+                marker="o",
+                s=100,
+                linewidths=1,
+                edgecolors="black",
+                label="Metal center",
+            )
 
             # Ligand
             for j in range(1, 7):
-                ax.scatter(self.coord[j][0],
-                           self.coord[j][1],
-                           self.coord[j][2],
-                           color='red', marker='o', s=50, linewidths=1,
-                           edgecolors='black', label="Ligand atoms")
+                ax.scatter(
+                    self.coord[j][0],
+                    self.coord[j][1],
+                    self.coord[j][2],
+                    color="red",
+                    marker="o",
+                    s=50,
+                    linewidths=1,
+                    edgecolors="black",
+                    label="Ligand atoms",
+                )
 
     def add_symbol(self):
         """
@@ -355,17 +389,23 @@ class DrawProjection:
         for i in range(4):
             ax = self.sub_plot[i]
             # Metal
-            ax.text(self.coord[0][0] + 0.1,
-                    self.coord[0][1] + 0.1,
-                    self.coord[0][2] + 0.1,
-                    self.atom[0], fontsize=9)
+            ax.text(
+                self.coord[0][0] + 0.1,
+                self.coord[0][1] + 0.1,
+                self.coord[0][2] + 0.1,
+                self.atom[0],
+                fontsize=9,
+            )
 
             # Ligand
             for j in range(1, 7):
-                ax.text(self.coord[j][0] + 0.1,
-                        self.coord[j][1] + 0.1,
-                        self.coord[j][2] + 0.1,
-                        f"{self.atom[j]},{j}", fontsize=9)
+                ax.text(
+                    self.coord[j][0] + 0.1,
+                    self.coord[j][1] + 0.1,
+                    self.coord[j][2] + 0.1,
+                    f"{self.atom[j]},{j}",
+                    fontsize=9,
+                )
 
     def add_plane(self):
         """
@@ -393,8 +433,12 @@ class DrawProjection:
             x, y, z = zip(*c_oppo[i])
             vertices_oppo = [list(zip(x, y, z))]
 
-            ax.add_collection3d(Poly3DCollection(vertices_ref, alpha=0.5, color=color_1[i]))
-            ax.add_collection3d(Poly3DCollection(vertices_oppo, alpha=0.5, color=color_2[i]))
+            ax.add_collection3d(
+                Poly3DCollection(vertices_ref, alpha=0.5, color=color_1[i])
+            )
+            ax.add_collection3d(
+                Poly3DCollection(vertices_oppo, alpha=0.5, color=color_2[i])
+            )
 
     @staticmethod
     def save_img(save="Complex_saved_by_OctaDist", file="png"):
@@ -451,9 +495,10 @@ class DrawTwistingPlane:
     >>> test.show_plot()
 
     """
+
     def __init__(self, **kwargs):
-        self.atom = kwargs.get('atom')
-        self.coord = kwargs.get('coord')
+        self.atom = kwargs.get("atom")
+        self.coord = kwargs.get("coord")
 
         if self.atom is None:
             raise TypeError("atom is not specified")
@@ -476,7 +521,9 @@ class DrawTwistingPlane:
 
         """
         self.fig = plt.figure()
-        self.st = self.fig.suptitle("Projected twisting triangular faces", fontsize="x-large")
+        self.st = self.fig.suptitle(
+            "Projected twisting triangular faces", fontsize="x-large"
+        )
 
     def shift_plot(self):
         """
@@ -492,8 +539,8 @@ class DrawTwistingPlane:
 
         """
         for i in range(4):
-            ax = self.fig.add_subplot(2, 2, int(i + 1), projection='3d')
-            ax.set_title(f"Projection plane {i + 1}", fontsize='10')
+            ax = self.fig.add_subplot(2, 2, int(i + 1), projection="3d")
+            ax.set_title(f"Projection plane {i + 1}", fontsize="10")
 
             self.all_ax.append(ax)
 
@@ -510,40 +557,60 @@ class DrawTwistingPlane:
 
         """
         for i in range(4):
-            a, b, c, d = plane.find_eq_of_plane(self.c_ref[i][0],
-                                                self.c_ref[i][1],
-                                                self.c_ref[i][2])
+            a, b, c, d = plane.find_eq_of_plane(
+                self.c_ref[i][0], self.c_ref[i][1], self.c_ref[i][2]
+            )
             m = projection.project_atom_onto_plane(self.coord[0], a, b, c, d)
             self.all_m.append(m)
 
             ax = self.all_ax[i]
 
             # Projected metal center atom
-            ax.scatter(m[0],
-                       m[1],
-                       m[2],
-                       color='orange', s=100, marker='o', linewidths=1,
-                       edgecolors='black', label="Metal center")
+            ax.scatter(
+                m[0],
+                m[1],
+                m[2],
+                color="orange",
+                s=100,
+                marker="o",
+                linewidths=1,
+                edgecolors="black",
+                label="Metal center",
+            )
 
             # Reference atoms
             all_proj_lig = []
             for j in range(3):
-                ax.scatter(self.c_ref[i][j][0],
-                           self.c_ref[i][j][1],
-                           self.c_ref[i][j][2],
-                           color='red', s=50, marker='o', linewidths=1,
-                           edgecolors='black', label="Reference atom")
+                ax.scatter(
+                    self.c_ref[i][j][0],
+                    self.c_ref[i][j][1],
+                    self.c_ref[i][j][2],
+                    color="red",
+                    s=50,
+                    marker="o",
+                    linewidths=1,
+                    edgecolors="black",
+                    label="Reference atom",
+                )
 
                 # Project ligand atom onto the reference face
-                proj_lig = projection.project_atom_onto_plane(self.c_oppo[i][j], a, b, c, d)
+                proj_lig = projection.project_atom_onto_plane(
+                    self.c_oppo[i][j], a, b, c, d
+                )
                 all_proj_lig.append(proj_lig)
 
-            # Projected opposite atoms
-                ax.scatter(proj_lig[0],
-                           proj_lig[1],
-                           proj_lig[2],
-                           color='blue', s=50, marker='o', linewidths=1,
-                           edgecolors='black', label="Projected ligand atom")
+                # Projected opposite atoms
+                ax.scatter(
+                    proj_lig[0],
+                    proj_lig[1],
+                    proj_lig[2],
+                    color="blue",
+                    s=50,
+                    marker="o",
+                    linewidths=1,
+                    edgecolors="black",
+                    label="Projected ligand atom",
+                )
 
             self.all_proj_ligs.append(all_proj_lig)
 
@@ -554,12 +621,10 @@ class DrawTwistingPlane:
 
             x, y, z = zip(*self.all_proj_ligs[i])
             projected_oppo_vertices_list = [list(zip(x, y, z))]
-            ax.add_collection3d(Poly3DCollection(vertices,
-                                                 alpha=0.5,
-                                                 color="yellow"))
-            ax.add_collection3d(Poly3DCollection(projected_oppo_vertices_list,
-                                                 alpha=0.5,
-                                                 color="blue"))
+            ax.add_collection3d(Poly3DCollection(vertices, alpha=0.5, color="yellow"))
+            ax.add_collection3d(
+                Poly3DCollection(projected_oppo_vertices_list, alpha=0.5, color="blue")
+            )
 
     def add_symbol(self):
         """
@@ -568,21 +633,30 @@ class DrawTwistingPlane:
         """
         for i in range(4):
             ax = self.all_ax[i]
-            ax.text(self.all_m[i][0] + 0.1,
-                    self.all_m[i][1] + 0.1,
-                    self.all_m[i][2] + 0.1,
-                    f"{self.atom[0]}'", fontsize=9)
+            ax.text(
+                self.all_m[i][0] + 0.1,
+                self.all_m[i][1] + 0.1,
+                self.all_m[i][2] + 0.1,
+                f"{self.atom[0]}'",
+                fontsize=9,
+            )
 
             for j in range(3):
-                ax.text(self.c_ref[i][j][0] + 0.1,
-                        self.c_ref[i][j][1] + 0.1,
-                        self.c_ref[i][j][2] + 0.1,
-                        f"{j + 1}", fontsize=9)
+                ax.text(
+                    self.c_ref[i][j][0] + 0.1,
+                    self.c_ref[i][j][1] + 0.1,
+                    self.c_ref[i][j][2] + 0.1,
+                    f"{j + 1}",
+                    fontsize=9,
+                )
 
-                ax.text(self.all_proj_ligs[i][j][0] + 0.1,
-                        self.all_proj_ligs[i][j][1] + 0.1,
-                        self.all_proj_ligs[i][j][2] + 0.1,
-                        f"{j + 1}'", fontsize=9)
+                ax.text(
+                    self.all_proj_ligs[i][j][0] + 0.1,
+                    self.all_proj_ligs[i][j][1] + 0.1,
+                    self.all_proj_ligs[i][j][2] + 0.1,
+                    f"{j + 1}'",
+                    fontsize=9,
+                )
 
     def add_bond(self):
         """
@@ -593,11 +667,13 @@ class DrawTwistingPlane:
             for j in range(3):
                 merge = list(zip(self.all_m[i].tolist(), self.c_ref[i][j].tolist()))
                 x, y, z = merge
-                self.all_ax[i].plot(x, y, z, 'k-', color="black")
+                self.all_ax[i].plot(x, y, z, "k-", color="black")
 
-                merge = list(zip(self.all_m[i].tolist(), self.all_proj_ligs[i][j].tolist()))
+                merge = list(
+                    zip(self.all_m[i].tolist(), self.all_proj_ligs[i][j].tolist())
+                )
                 x, y, z = merge
-                self.all_ax[i].plot(x, y, z, 'k->', color="black")
+                self.all_ax[i].plot(x, y, z, "k->", color="black")
 
     @staticmethod
     def save_img(save="Complex_saved_by_OctaDist", file="png"):

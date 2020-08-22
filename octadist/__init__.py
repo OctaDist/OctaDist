@@ -19,13 +19,16 @@
 try:
     import tkinter
     import matplotlib
-    matplotlib.use('TkAgg')
+
+    matplotlib.use("TkAgg")
 except ImportError:
     pass
 
 __author__ = "R. Ketkaew, Y. Tantirungrotechai, D. J. Harding, P. Harding, M. Marchivie"
-__author_full__ = "Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, " \
-                  "Phimphaka Harding, Mathieu Marchivie"
+__author_full__ = (
+    "Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, "
+    "Phimphaka Harding, Mathieu Marchivie"
+)
 __maintainer__ = "Rangsiman Ketkaew"
 __copyright__ = "OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al."
 __license__ = "GNU v3"
@@ -36,64 +39,66 @@ __revision__ = "2019.261"
 __release__ = "August 2019"
 __status__ = "stable"
 __title__ = "Octahedral Distortion Calculator"
-__description__ = "OctaDist: A tool for calculating distortion parameters in coordination complexes."
+__description__ = (
+    "OctaDist: A tool for calculating distortion parameters in coordination complexes."
+)
 __doc__ = "OctaDist documentation is available at https://octadist.readthedocs.io"
 __help__ = "https://octadist.readthedocs.io"
 __website__ = "https://octadist.github.io"
 __github__ = "https://github.com/OctaDist/OctaDist"
 
-__all__ = \
-    ['calc',
-     'draw',
-     'elements',
-     'linear',
-     'molecule',
-     'plane',
-     'plot',
-     'popup',
-     'projection',
-     'structure',
-     'tools',
-     'util',
-     # -----------------------
-     'CalcDistortion',
-     'DrawComplex',
-     'DrawProjection',
-     'DrawTwistingPlane',
-     'check_atom',
-     'check_radii',
-     'check_color',
-     'angle_sign',
-     'angle_btw_vectors',
-     'angle_btw_planes',
-     'triangle_area',
-     'count_line',
-     'extract_coord',
-     'find_metal',
-     'extract_octa',
-     'is_xyz',
-     'is_gaussian',
-     'is_nwchem',
-     'is_orca',
-     'is_qchem',
-     'get_coord_xyz',
-     'get_coord_gaussian',
-     'get_coord_nwchem',
-     'get_coord_orca',
-     'get_coord_qchem',
-     'find_eq_of_plane',
-     'find_fit_plane',
-     'Plot',
-     'project_atom_onto_line',
-     'project_atom_onto_plane',
-     'DataComplex',
-     'StructParam',
-     'SurfaceArea',
-     'CalcJahnTeller',
-     'CalcRMSD',
-     'find_bonds',
-     'find_faces_octa',
-     ]
+__all__ = [
+    "calc",
+    "draw",
+    "elements",
+    "linear",
+    "molecule",
+    "plane",
+    "plot",
+    "popup",
+    "projection",
+    "structure",
+    "tools",
+    "util",
+    # -----------------------
+    "CalcDistortion",
+    "DrawComplex",
+    "DrawProjection",
+    "DrawTwistingPlane",
+    "check_atom",
+    "check_radii",
+    "check_color",
+    "angle_sign",
+    "angle_btw_vectors",
+    "angle_btw_planes",
+    "triangle_area",
+    "count_line",
+    "extract_coord",
+    "find_metal",
+    "extract_octa",
+    "is_xyz",
+    "is_gaussian",
+    "is_nwchem",
+    "is_orca",
+    "is_qchem",
+    "get_coord_xyz",
+    "get_coord_gaussian",
+    "get_coord_nwchem",
+    "get_coord_orca",
+    "get_coord_qchem",
+    "find_eq_of_plane",
+    "find_fit_plane",
+    "Plot",
+    "project_atom_onto_line",
+    "project_atom_onto_plane",
+    "DataComplex",
+    "StructParam",
+    "SurfaceArea",
+    "CalcJahnTeller",
+    "CalcRMSD",
+    "find_bonds",
+    "find_faces_octa",
+]
 
 
 # Bring sub-modules to top-level directory

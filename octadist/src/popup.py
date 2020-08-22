@@ -30,8 +30,11 @@ def err_invalid_ftype():
     Show this error popup when file type is not supported by the program.
 
     """
-    showerror("Error", f"Invalid input file format.\n\n"
-              "The complex must have at least 1 metal atom and 6 ligand atoms.")
+    showerror(
+        "Error",
+        f"Invalid input file format.\n\n"
+        "The complex must have at least 1 metal atom and 6 ligand atoms.",
+    )
 
 
 def err_no_coord(i):
@@ -47,8 +50,11 @@ def err_no_coord(i):
         Number of file.
 
     """
-    showerror("Error", f"File no. {i} has no atomic coordinates.\n\n"
-              "Please make sure the input file format is correct.")
+    showerror(
+        "Error",
+        f"File no. {i} has no atomic coordinates.\n\n"
+        "Please make sure the input file format is correct.",
+    )
 
 
 def err_less_ligands(i):
@@ -61,9 +67,12 @@ def err_less_ligands(i):
         Number of file.
 
     """
-    showerror("Error", f"File no. {i} has ligand atoms less than six atoms.\n\n"
-              "Please check if some ligand atoms are so far away from metal atom,"
-              "or check if the metal-ligand bond cutoff is set properly.")
+    showerror(
+        "Error",
+        f"File no. {i} has ligand atoms less than six atoms.\n\n"
+        "Please check if some ligand atoms are so far away from metal atom,"
+        "or check if the metal-ligand bond cutoff is set properly.",
+    )
 
 
 def err_no_metal():
@@ -71,8 +80,11 @@ def err_no_metal():
     Show this error popup when the complex has no transition metal atom.
 
     """
-    showerror("Error", "Cannot proceed calculation. Your current structure has no transition metal.\n\n"
-                       "The complex must have at least one transition metal.")
+    showerror(
+        "Error",
+        "Cannot proceed calculation. Your current structure has no transition metal.\n\n"
+        "The complex must have at least one transition metal.",
+    )
 
 
 def err_no_calc():
@@ -81,7 +93,10 @@ def err_no_calc():
     but the results have not been computed yet.
 
     """
-    showerror("Error", "No results. Click \"Compute\" to calculate octahedral distortion parameters.")
+    showerror(
+        "Error",
+        'No results. Click "Compute" to calculate octahedral distortion parameters.',
+    )
 
 
 def err_only_2_files():
@@ -98,7 +113,9 @@ def err_not_equal_atom():
     Show this error popup when the total number of atoms of two complexes are not equal.
 
     """
-    showerror("Error", "The number of atoms in structure 1 and structure 2 are not the same.")
+    showerror(
+        "Error", "The number of atoms in structure 1 and structure 2 are not the same."
+    )
 
 
 def err_atom_not_match(line):
@@ -127,8 +144,11 @@ def err_wrong_format():
     Show this error popup when user has loaded the file that is not supported by OctaDist.
 
     """
-    showerror("Error", "Could not read file.\n\n"
-                       "Input file format is not supported by the current version of OctaDist.")
+    showerror(
+        "Error",
+        "Could not read file.\n\n"
+        "Input file format is not supported by the current version of OctaDist.",
+    )
 
 
 def err_no_editor():
@@ -136,8 +156,11 @@ def err_no_editor():
     Show this error popup if text editor path is empty.
 
     """
-    showerror("Error", "No text editor.\n\n"
-                       "Text editor path is empty. Go to setting and browse a new text editor.")
+    showerror(
+        "Error",
+        "No text editor.\n\n"
+        "Text editor path is empty. Go to setting and browse a new text editor.",
+    )
 
 
 def err_cannot_update():
@@ -146,8 +169,11 @@ def err_cannot_update():
     the machine that user is using.
 
     """
-    showerror("Error", "Cannot download an installer of a new version.\n\n"
-                       "Please contact OctaDist development team for further help.")
+    showerror(
+        "Error",
+        "Cannot download an installer of a new version.\n\n"
+        "Please contact OctaDist development team for further help.",
+    )
 
 
 def info_save_results(file):

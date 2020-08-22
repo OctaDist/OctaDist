@@ -92,7 +92,9 @@ class CalcDistortion:
         calc_d_mean : Calculate mean metal-ligand bond length.
 
         """
-        self.bond_dist = [distance.euclidean(self.coord[0], self.coord[i]) for i in range(1, 7)]
+        self.bond_dist = [
+            distance.euclidean(self.coord[0], self.coord[i]) for i in range(1, 7)
+        ]
         self.bond_dist = np.asarray(self.bond_dist, dtype=np.float64)
 
     def calc_d_mean(self):
@@ -167,7 +169,9 @@ class CalcDistortion:
             Acta Cryst. (2004). B60, 10-20. DOI: 10.1107/S0108768103026661
 
         """
-        delta = sum(pow((self.bond_dist[i] - self.d_mean) / self.d_mean, 2) for i in range(6))
+        delta = sum(
+            pow((self.bond_dist[i] - self.d_mean) / self.d_mean, 2) for i in range(6)
+        )
         self.delta = delta / 6
 
     def calc_sigma(self):
@@ -349,25 +353,35 @@ class CalcDistortion:
 
         # loop over 8 faces
         for r in range(8):
-            a, b, c, d = plane.find_eq_of_plane(coord_lig[0], coord_lig[1], coord_lig[2])
+            a, b, c, d = plane.find_eq_of_plane(
+                coord_lig[0], coord_lig[1], coord_lig[2]
+            )
             self.eq_of_plane.append([a, b, c, d])
 
             # Project metal and other three ligand atom onto the plane
             projected_m = projection.project_atom_onto_plane(coord_metal, a, b, c, d)
-            projected_lig4 = projection.project_atom_onto_plane(coord_lig[3], a, b, c, d)
-            projected_lig5 = projection.project_atom_onto_plane(coord_lig[4], a, b, c, d)
-            projected_lig6 = projection.project_atom_onto_plane(coord_lig[5], a, b, c, d)
+            projected_lig4 = projection.project_atom_onto_plane(
+                coord_lig[3], a, b, c, d
+            )
+            projected_lig5 = projection.project_atom_onto_plane(
+                coord_lig[4], a, b, c, d
+            )
+            projected_lig6 = projection.project_atom_onto_plane(
+                coord_lig[5], a, b, c, d
+            )
 
             # Find the vectors between atoms that are on the same plane
             # These vectors will be used to calculate Theta afterward.
-            vector_theta = np.array([
-                coord_lig[0] - projected_m,
-                coord_lig[1] - projected_m,
-                coord_lig[2] - projected_m,
-                projected_lig4 - projected_m,
-                projected_lig5 - projected_m,
-                projected_lig6 - projected_m
-            ])
+            vector_theta = np.array(
+                [
+                    coord_lig[0] - projected_m,
+                    coord_lig[1] - projected_m,
+                    coord_lig[2] - projected_m,
+                    projected_lig4 - projected_m,
+                    projected_lig5 - projected_m,
+                    projected_lig6 - projected_m,
+                ]
+            )
 
             # Check if the direction is CW or CCW
             a12 = linear.angle_btw_vectors(vector_theta[0], vector_theta[1])
@@ -388,7 +402,7 @@ class CalcDistortion:
             theta5 = linear.angle_sign(vector_theta[2], vector_theta[5], direction)
             theta6 = linear.angle_sign(vector_theta[5], vector_theta[0], direction)
 
-            indi_theta = np.array([theta1, theta2, theta3, theta4,  theta5, theta6])
+            indi_theta = np.array([theta1, theta2, theta3, theta4, theta5, theta6])
 
             self.eight_theta.append(sum(abs(indi_theta - 60)))
 

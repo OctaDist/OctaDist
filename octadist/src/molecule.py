@@ -111,7 +111,7 @@ def get_coord_xyz(f):
     for l in line:
         # read atom on 1st column and insert to list
         l_strip = l.strip()
-        lst = l_strip.split(' ')[0]
+        lst = l_strip.split(" ")[0]
         atom.append(lst)
 
     file = open(f, "r")
@@ -200,7 +200,7 @@ def get_coord_gaussian(f):
             end = i
             break
 
-    for line in nline[start + 5: end]:
+    for line in nline[start + 5 : end]:
         data = line.split()
         data1 = int(data[1])
         coord_x = float(data[3])
@@ -394,7 +394,7 @@ def get_coord_orca(f):
             end = i - 1
             break
 
-    for line in nline[start + 2:end]:
+    for line in nline[start + 2 : end]:
         dat = line.split()
         dat1 = dat[0]
         coord_x = float(dat[1])
@@ -487,7 +487,7 @@ def get_coord_qchem(f):
             end = i - 1
             break
 
-    for line in nline[start + 5:end]:
+    for line in nline[start + 5 : end]:
         dat = line.split()
         dat1 = dat[1]
         coord_x = float(dat[2])
@@ -685,10 +685,12 @@ def find_metal(atom=None, coord=None):
     for i in range(len(atom)):
         number = elements.check_atom(atom[i])
 
-        if 21 <= number <= 30 or \
-                39 <= number <= 48 or \
-                57 <= number <= 80 or \
-                89 <= number <= 109:
+        if (
+            21 <= number <= 30
+            or 39 <= number <= 48
+            or 57 <= number <= 80
+            or 89 <= number <= 109
+        ):
 
             total_metal += 1
             atom_metal.append(atom[i])
@@ -764,8 +766,9 @@ def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
         raise ValueError("index of metal must be positive integer")
 
     elif metal > total_metal:
-        raise ValueError("user-defined index of metal is greater than "
-                         "the total metal in complex.")
+        raise ValueError(
+            "user-defined index of metal is greater than " "the total metal in complex."
+        )
 
     metal_index = metal - 1
     dist_list = []

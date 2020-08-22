@@ -135,7 +135,7 @@ def angle_btw_planes(a1, b1, c1, a2, b2, c2):
     124.89920902358416
 
     """
-    d = (a1 * a2 + b1 * b2 + c1 * c2)
+    d = a1 * a2 + b1 * b2 + c1 * c2
     e1 = sqrt(a1 * a1 + b1 * b1 + c1 * c1)
     e2 = sqrt(a2 * a2 + b2 * b2 + c2 * c2)
     d = d / (e1 * e2)
@@ -183,10 +183,11 @@ def triangle_area(a, b, c):
 
     ab = b - a
     ac = c - a
-    value = (pow(np.dot(ab[1], ac[2]) - np.dot(ab[2], ac[1]), 2) +
-             pow(np.dot(ab[2], ac[0]) - np.dot(ab[0], ac[2]), 2) +
-             pow(np.dot(ab[0], ac[1]) - np.dot(ab[1], ac[0]), 2)
-             )
+    value = (
+        pow(np.dot(ab[1], ac[2]) - np.dot(ab[2], ac[1]), 2)
+        + pow(np.dot(ab[2], ac[0]) - np.dot(ab[0], ac[2]), 2)
+        + pow(np.dot(ab[0], ac[1]) - np.dot(ab[1], ac[0]), 2)
+    )
 
     area = np.float64(sqrt(value) / 2)
 

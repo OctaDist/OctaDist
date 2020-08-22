@@ -91,12 +91,9 @@ def find_bonds(atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2):
 
     for i in range(len(all_bond)):
         if all_bond[i][2] <= cutoff_global:
-            filtered_pair_1.append([all_pair[i][0],
-                                    all_pair[i][1]])
+            filtered_pair_1.append([all_pair[i][0], all_pair[i][1]])
 
-            filtered_bond_1.append([all_bond[i][0],
-                                    all_bond[i][1],
-                                    all_bond[i][2]])
+            filtered_bond_1.append([all_bond[i][0], all_bond[i][1], all_bond[i][2]])
 
     filtered_pair_2 = []
     filtered_bond_2 = []
@@ -206,17 +203,13 @@ def find_faces_octa(c_octa):
     for i in range(1, 5):
         for j in range(i + 1, 6):
             for k in range(j + 1, 7):
-                a, b, c, d = plane.find_eq_of_plane(c_octa[i],
-                                                    c_octa[j],
-                                                    c_octa[k])
+                a, b, c, d = plane.find_eq_of_plane(c_octa[i], c_octa[j], c_octa[k])
                 m = projection.project_atom_onto_plane(c_octa[0], a, b, c, d)
                 d_btw = distance.euclidean(m, c_octa[0])
                 dist.append(d_btw)
 
                 a_ref_f.append([i, j, k])
-                c_ref_f.append([c_octa[i],
-                                c_octa[j],
-                                c_octa[k]])
+                c_ref_f.append([c_octa[i], c_octa[j], c_octa[k]])
 
     # Sort faces by distance in ascending order
     dist_a_c = list(zip(dist, a_ref_f, c_ref_f))
@@ -247,9 +240,13 @@ def find_faces_octa(c_octa):
     for i in range(len(a_oppo_f)):
         coord_oppo = []
         for j in range(3):
-            coord_oppo.append([c_octa[int(a_oppo_f[i][j])][0],
-                               c_octa[int(a_oppo_f[i][j])][1],
-                               c_octa[int(a_oppo_f[i][j])]][2])
+            coord_oppo.append(
+                [
+                    c_octa[int(a_oppo_f[i][j])][0],
+                    c_octa[int(a_oppo_f[i][j])][1],
+                    c_octa[int(a_oppo_f[i][j])],
+                ][2]
+            )
         c_oppo_f.append(coord_oppo)
 
     a_ref_f = list(a_ref_f)
