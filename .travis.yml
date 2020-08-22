@@ -23,13 +23,6 @@ before_script:
   - chmod +x octadist_gui_timeout.sh
 
 script:
-  - echo "========================="
-  - echo "Setup Display Environment"
-  - echo "========================="
-  - xvfb-run make test
-  # Set screen resolution
-  - xvfb-run --server-args="-screen 0 1024x768x24" make test
-
   - echo "============================="
   - echo "Install OctaDist via setup.py"
   - echo "============================="
