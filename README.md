@@ -249,6 +249,17 @@ OctaDist - A tool for calculating distortion parameters in coordination complexe
 https://octadist.github.io
 ```
 
+BibTeX
+
+```
+@misc{KetkaewOctaDist2019, 
+    author = {Rangsiman Ketkaew and Yuthana Tantirungrotechai and David J. Harding and Phimphaka Harding and and Mathieu Marchivie}, 
+    title = {OctaDist: A tool for calculating distortion parameters in coordination complexes}, 
+    url = {https://octadist.github.io}, 
+    year = {2019}, 
+    month = {Aug}}
+```
+
 
 ## Bug report
 
