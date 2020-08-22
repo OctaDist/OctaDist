@@ -36,9 +36,6 @@ for i, mod in enumerate(module):
         print("[/] %s. %s was installed on system." % (int(i + 1), mod))
     except ImportError:
         print("[x] %s. %s was not found on system." % (int(i + 1), mod))
-        S = True
-
-if S:
-    print(
-        '\nTo install Python package, you can use command "python -m pip install -U PACKAGE_NAME"\n'
-    )
+        print(
+        "\nTo install Python package, you can use command \"python -m pip install -U PACKAGE_NAME\"\n"
+        )
