@@ -3,9 +3,11 @@
 ![Python Wheel][Py-wheel-badge]
 ![Code size][Code-size]
 ![Repo size][Repo-size]
+![License][license]
 
 [![Github Download All releases][DL-all-badge]][DL-all-link]
 [![Github Download Latest version][DL-latest-badge]][DL-latest-link]
+![Platform][platform]
 
 [Py-ver-badge]: https://img.shields.io/pypi/pyversions/octadist.svg
 [Py-wheel-badge]: https://img.shields.io/pypi/wheel/octadist.svg
@@ -15,7 +17,8 @@
 [DL-all-link]: https://github.com/OctaDist/OctaDist/releases
 [DL-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.6.1/total.svg
 [DL-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
-
+[license]: https://img.shields.io/github/license/OctaDist/OctaDist
+[platform]: https://img.shields.io/conda/pn/rangsiman/octadist
 
 ## OctaDist
 
@@ -28,7 +31,7 @@ https://octadist.github.io/
 
 ## Register for OctaDist
 
-To obtain OctaDist, please register by providing general information at https://cutt.ly/regis-octadist.
+To get notified when we release new version of OctaDist, please register at https://cutt.ly/regis-octadist.
 
 ## Standard abilities
 
@@ -39,7 +42,7 @@ With the abilities of OctaDist, you can:
 - analyze the structure and conformation of coordination complexes.
 - compute the octahedral distortion parameters.
 - explore tilting distortion in perovskite and metal-organic framework.
-- display 3D molecule and graphical analysis.
+- display 3D molecule for graphical analysis.
 - implement OctaDist's module into your or other program.
 - access the program core directly via an interactive scripting language.
 

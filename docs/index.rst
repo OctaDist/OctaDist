@@ -4,7 +4,6 @@
    contain the root `toctree` directive.
 
 .. |ver| replace:: 2.6.1
-.. |dev_ver| replace:: 2.6.2
 
 =============
 OctaDist Docs
@@ -38,7 +37,7 @@ and nightly-build (dev).
 +===============+==========+=========+
 | Master        ||ver|     | Active  |
 +---------------+----------+---------+
-| Nightly-build ||dev_ver| | Active  |
+| Nightly-build |     -    | Active  |
 +---------------+----------+---------+
 
 .. note::
