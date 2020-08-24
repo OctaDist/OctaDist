@@ -3,7 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. |ver| replace:: 2.6.1
+.. |sta-ver| replace:: 2.6.1
+.. |dev-ver| replace:: 3.0.0
 
 =============
 OctaDist Docs
@@ -35,9 +36,9 @@ and nightly-build (dev).
 +---------------+----------+---------+
 | Branch        | Version  | Status  |
 +===============+==========+=========+
-| Master        ||ver|     | Active  |
+| Master        ||sta-ver| | Active  |
 +---------------+----------+---------+
-| Nightly-build |     -    | Active  |
+| Nightly-build ||dev-ver| | Active  |
 +---------------+----------+---------+
 
 .. note::
@@ -110,5 +111,5 @@ User Documentation
    Phimphaka Harding,
    Mathieu Marchivie
 
-:Version: |ver| of August 2019
+:Version: |sta-ver| of August 2019
 
