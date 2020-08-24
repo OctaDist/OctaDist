@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. |sta-ver| replace:: 2.6.1
-.. |dev-ver| replace:: 3.0.0
+.. |sta-ver| replace:: 3.0.0
+.. |dev-ver| replace:: 3.1.0
 
 =============
 OctaDist Docs
@@ -111,5 +111,5 @@ User Documentation
    Phimphaka Harding,
    Mathieu Marchivie
 
-:Version: |sta-ver| of August 2019
+:Version: |sta-ver| of 2020
 
