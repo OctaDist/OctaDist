@@ -59,7 +59,6 @@ class CalcJahnTeller:
                  [0.539005000, 4.482809000, 8.460004000],
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
-
     >>> test = CalcJahnTeller(atom=atom, coord=coord)
     >>> test.start_app()
     >>> test.find_bond()
