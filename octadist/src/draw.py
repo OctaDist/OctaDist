@@ -27,10 +27,12 @@ class DrawComplex:
 
     Parameters
     ----------
-    atom : list, None
-        Atomic symbols of octahedral structure.
-    coord : list, array, tuple, bool, None
-        Atomic coordinates of octahedral structure.
+    atom : list
+        Atomic symbols of octahedral structure. 
+        Default to None.
+    coord : list, array, tuple, bool
+        Atomic coordinates of octahedral structure. 
+        Default to None.
     cutoff_global : int or float
         Global cutoff for screening bonds.
         Default value is 2.0.
@@ -78,6 +80,7 @@ class DrawComplex:
         self.bond_list = None
 
         self.start_plot()
+        self.plot_title()
 
     def start_plot(self):
         """
@@ -87,8 +90,21 @@ class DrawComplex:
         self.fig = plt.figure()
         self.ax = Axes3D(self.fig)
 
-        self.ax.set_title("Full complex", fontsize="12")
         # ax = fig.add_subplot(111, projection='3d')
+
+    def plot_title(self, title="Full complex", font_size="12"):
+        """
+        Add plot title at top position.
+
+        Parameters
+        ----------
+        title : str
+            Top title of the plot.  Default is "Full complex".
+        fontsize : int, float, str
+            Font size of title. Default is "12".
+
+        """
+        self.st = self.fig.suptitle(title, fontsize=font_size)
 
     def add_atom(self):
         """
@@ -290,9 +306,11 @@ class DrawProjection:
     Parameters
     ----------
     atom : list
-        Atomic symbols of octahedral structure.
+        Atomic symbols of octahedral structure. 
+        Default to None.
     coord : list, array, tuple
-        Atomic coordinates of octahedral structure.
+        Atomic coordinates of octahedral structure. 
+        Default to None.
 
     Examples
     --------
@@ -312,9 +330,9 @@ class DrawProjection:
 
     """
 
-    def __init__(self, **kwargs):
-        self.atom = kwargs.get("atom")
-        self.coord = kwargs.get("coord")
+    def __init__(self, atom=None, coord=None):
+        self.atom = atom
+        self.coord = coord
 
         if self.atom is None:
             raise TypeError("atom is not specified")
@@ -324,6 +342,7 @@ class DrawProjection:
         self.sub_plot = []
 
         self.start_plot()
+        self.plot_title()
         self.shift_plot()
 
     def start_plot(self):
@@ -332,12 +351,27 @@ class DrawProjection:
 
         """
         self.fig = plt.figure()
-        self.st = self.fig.suptitle("4 pairs of opposite planes", fontsize="x-large")
 
         for i in range(4):
             ax = self.fig.add_subplot(2, 2, int(i + 1), projection="3d")
             ax.set_title(f"Pair {i + 1}")
             self.sub_plot.append(ax)
+
+    def plot_title(self, title="4 pairs of opposite planes", font_size="x-large"):
+        """
+        Add plot title at top position.
+
+        Parameters
+        ----------
+        title : str
+            Top title of the plot.  Default is "Full complex".
+        fontsize : int, float, str
+            Font size of title. Default is "12".
+
+        """
+        # self.st = self.fig.suptitle(, fontsize="")
+        self.st = self.fig.suptitle(title, fontsize=font_size)
+
 
     def shift_plot(self):
         """
@@ -474,9 +508,11 @@ class DrawTwistingPlane:
     Parameters
     ----------
     atom : list
-        Atomic symbols of octahedral structure.
+        Atomic symbols of octahedral structure. 
+        Default to None.
     coord : list, array, tuple
-        Atomic coordinates of octahedral structure.
+        Atomic coordinates of octahedral structure. 
+        Default to None.
 
     Examples
     --------
@@ -496,9 +532,10 @@ class DrawTwistingPlane:
 
     """
 
-    def __init__(self, **kwargs):
-        self.atom = kwargs.get("atom")
-        self.coord = kwargs.get("coord")
+    def __init__(self, atom=None, coord=None, symbol_fontsize=15):
+        self.atom = atom
+        self.coord = coord
+        self.symbol_fontsize = symbol_fontsize
 
         if self.atom is None:
             raise TypeError("atom is not specified")
@@ -512,6 +549,7 @@ class DrawTwistingPlane:
         self.all_proj_ligs = []
 
         self.start_plot()
+        self.plot_title()
         self.shift_plot()
         self.create_subplots()
 
@@ -521,9 +559,20 @@ class DrawTwistingPlane:
 
         """
         self.fig = plt.figure()
-        self.st = self.fig.suptitle(
-            "Projected twisting triangular faces", fontsize="x-large"
-        )
+    
+    def plot_title(self, title="Projected twisting triangular faces", font_size="x-large"):
+        """
+        Add plot title at top position.
+
+        Parameters
+        ----------
+        title : str
+            Top title of the plot.  Default is "Projected twisting triangular faces".
+        fontsize : int, float, str
+            Font size of title. Default is "x-large".
+
+        """
+        self.st = self.fig.suptitle(title, fontsize=font_size)
 
     def shift_plot(self):
         """
@@ -626,6 +675,11 @@ class DrawTwistingPlane:
                 Poly3DCollection(projected_oppo_vertices_list, alpha=0.5, color="blue")
             )
 
+            # Adjust tick spacing
+            ax.set_xticks(ax.get_xticks()[::1])
+            ax.set_yticks(ax.get_yticks()[::1])
+            ax.set_zticks(ax.get_zticks()[::1])
+
     def add_symbol(self):
         """
         Add all atoms to show in figure.
@@ -634,28 +688,28 @@ class DrawTwistingPlane:
         for i in range(4):
             ax = self.all_ax[i]
             ax.text(
-                self.all_m[i][0] + 0.1,
-                self.all_m[i][1] + 0.1,
-                self.all_m[i][2] + 0.1,
+                self.all_m[i][0] + 0.2,
+                self.all_m[i][1] + 0.2,
+                self.all_m[i][2] + 0.2,
                 f"{self.atom[0]}'",
-                fontsize=9,
+                fontsize=self.symbol_fontsize,
             )
 
             for j in range(3):
                 ax.text(
-                    self.c_ref[i][j][0] + 0.1,
-                    self.c_ref[i][j][1] + 0.1,
-                    self.c_ref[i][j][2] + 0.1,
+                    self.c_ref[i][j][0] + 0.2,
+                    self.c_ref[i][j][1] + 0.2,
+                    self.c_ref[i][j][2] + 0.2,
                     f"{j + 1}",
-                    fontsize=9,
+                    fontsize=self.symbol_fontsize,
                 )
 
                 ax.text(
-                    self.all_proj_ligs[i][j][0] + 0.1,
-                    self.all_proj_ligs[i][j][1] + 0.1,
-                    self.all_proj_ligs[i][j][2] + 0.1,
+                    self.all_proj_ligs[i][j][0] + 0.2,
+                    self.all_proj_ligs[i][j][1] + 0.2,
+                    self.all_proj_ligs[i][j][2] + 0.2,
                     f"{j + 1}'",
-                    fontsize=9,
+                    fontsize=self.symbol_fontsize,
                 )
 
     def add_bond(self):
