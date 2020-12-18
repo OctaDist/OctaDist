@@ -24,7 +24,7 @@ try:
 except ImportError:
     pass
 
-__author__ = "R. Ketkaew, Y. Tantirungrotechai, D. J. Harding, P. Harding, M. Marchivie"
+__author__ = "R. Ketkaew, Y. Tantirungrotechai, P. Harding, G. Chastanet, P. Guionneau, M. Marchivie, D. J. Harding"
 __author_full__ = (
     "Rangsiman Ketkaew, Yuthana Tantirungrotechai, Phimphaka Harding, Guillaume Chastanet, "
     "Philippe Guionneau, Mathieu Marchivie, David J. Harding"
@@ -35,13 +35,11 @@ __license__ = "GNU v3"
 __credit__ = "OctaDist Development Team"
 __email__ = "rangsiman1993@gmail.com"
 __version__ = "3.0.0"
-__revision__ = "2020.300"
-__release__ = "2020"
+__revision__ = "2021.300"
+__release__ = "2021"
 __status__ = "stable"
 __title__ = "Octahedral Distortion Calculator"
-__description__ = (
-    "OctaDist: A tool for calculating distortion parameters in coordination complexes."
-)
+__description__ = "A tool for calculating distortion parameters in molecule."
 __doc__ = "OctaDist documentation is available at https://octadist.readthedocs.io"
 __help__ = "https://octadist.readthedocs.io"
 __website__ = "https://octadist.github.io"
