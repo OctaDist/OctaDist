@@ -26,8 +26,8 @@ except ImportError:
 
 __author__ = "R. Ketkaew, Y. Tantirungrotechai, D. J. Harding, P. Harding, M. Marchivie"
 __author_full__ = (
-    "Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, "
-    "Phimphaka Harding, Mathieu Marchivie"
+    "Rangsiman Ketkaew, Yuthana Tantirungrotechai, Phimphaka Harding, Guillaume Chastanet, "
+    "Philippe Guionneau, Mathieu Marchivie, David J. Harding"
 )
 __maintainer__ = "Rangsiman Ketkaew"
 __copyright__ = "OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al."
