@@ -171,9 +171,7 @@ class OctaDist:
         file_menu.add_command(label="New", command=lambda: self.clear_cache())
         file_menu.add_command(label="Open...", command=lambda: self.open_file())
         file_menu.add_command(label="Save Results", command=lambda: self.save_results())
-        file_menu.add_command(
-            label="Save Coordinates", command=lambda: self.save_coord()
-        )
+        file_menu.add_command(label="Save Coordinates", command=lambda: self.save_coord())
         file_menu.add_separator()
         file_menu.add_command(label="Settings", command=lambda: self.settings())
         file_menu.add_separator()
@@ -184,92 +182,47 @@ class OctaDist:
         edit_menu.add_cascade(label="Copy... to clipboard", menu=copy_menu)
         copy_menu.add_command(label="File Name", command=lambda: self.copy_name())
         copy_menu.add_command(label="File Path", command=lambda: self.copy_path())
-        copy_menu.add_command(
-            label="Computed Distortion Parameters", command=lambda: self.copy_results()
-        )
-        copy_menu.add_command(
-            label="Coordinates of Octahedral Structure",
-            command=lambda: self.copy_octa(),
-        )
+        copy_menu.add_command(label="Computed Distortion Parameters", command=lambda: self.copy_results())
+        copy_menu.add_command(label="Coordinates of Octahedral Structure", command=lambda: self.copy_octa())
         edit_menu.add_separator()
         edit_menu.add_command(label="Edit File", command=lambda: self.edit_file())
-        edit_menu.add_command(
-            label="Run Scripting Console", command=lambda: self.scripting_console()
-        )
+        edit_menu.add_command(label="Run Scripting Console", command=lambda: self.scripting_console())
         edit_menu.add_separator()
-        edit_menu.add_command(
-            label="Clear All Results", command=lambda: self.clear_cache()
-        )
+        edit_menu.add_command(label="Clear All Results", command=lambda: self.clear_cache())
 
         # Display
         menu_bar.add_cascade(label="Display", menu=disp_menu)
         disp_menu.add_command(label="Complex", command=lambda: self.draw_all_atom())
-        disp_menu.add_command(
-            label="Complex and Eight Faces",
-            command=lambda: self.draw_all_atom_and_face(),
-        )
+        disp_menu.add_command(label="Complex and Eight Faces", command=lambda: self.draw_all_atom_and_face())
         disp_menu.add_separator()
         disp_menu.add_command(label="Octahedron", command=lambda: self.draw_octa())
-        disp_menu.add_command(
-            label="Octahedron and Eight Faces",
-            command=lambda: self.draw_octa_and_face(),
-        )
+        disp_menu.add_command(label="Octahedron and Eight Faces", command=lambda: self.draw_octa_and_face())
         disp_menu.add_separator()
-        disp_menu.add_command(
-            label="Projection Planes", command=lambda: self.draw_projection()
-        )
-        disp_menu.add_command(
-            label="Twisting Triangular Faces",
-            command=lambda: self.draw_twisting_plane(),
-        )
+        disp_menu.add_command(label="Projection Planes", command=lambda: self.draw_projection())
+        disp_menu.add_command(label="Twisting Triangular Faces", command=lambda: self.draw_twisting_plane())
 
         # Tools
         menu_bar.add_cascade(label="Tools", menu=tools_menu)
-        tools_menu.add_cascade(
-            label="Data Summary", command=lambda: self.show_data_complex()
-        )
-        tools_menu.add_cascade(
-            label="Show Structural Parameter", command=lambda: self.show_param_octa()
-        )
-        tools_menu.add_command(
-            label="Calculate Surface Area", command=lambda: self.show_surface_area()
-        )
+        tools_menu.add_cascade(label="Data Summary", command=lambda: self.show_data_complex())
+        tools_menu.add_cascade(label="Show Structural Parameter", command=lambda: self.show_param_octa())
+        tools_menu.add_command(label="Calculate Surface Area", command=lambda: self.show_surface_area())
         tools_menu.add_separator()
-        tools_menu.add_command(
-            label="Relationship Plot between ζ and Σ",
-            command=lambda: self.plot_zeta_sigma(),
-        )
-        tools_menu.add_command(
-            label="Relationship Plot between Σ and Θ",
-            command=lambda: self.plot_sigma_theta(),
-        )
+        tools_menu.add_command(label="Relationship Plot between ζ and Σ", command=lambda: self.plot_zeta_sigma())
+        tools_menu.add_command(label="Relationship Plot between Σ and Θ", command=lambda: self.plot_sigma_theta())
         tools_menu.add_separator()
-        tools_menu.add_command(
-            label="Calculate Jahn-Teller Distortion",
-            command=lambda: self.tool_jahn_teller(),
-        )
+        tools_menu.add_command(label="Calculate Jahn-Teller Distortion", command=lambda: self.tool_jahn_teller())
         tools_menu.add_command(label="Calculate RMSD", command=lambda: self.tool_rmsd())
 
         # Help
         menu_bar.add_cascade(label="Help", menu=help_menu)
-        help_menu.add_command(label="Quick Help", command=lambda: self.show_help())
-        help_menu.add_command(
-            label="User Documentation",
-            command=lambda: webbrowser.open_new_tab(octadist.__help__),
-        )
+        help_menu.add_command(label="User Documentation", command=lambda: webbrowser.open_new_tab(octadist.__help__))
+        example_mol = "https://github.com/OctaDist/OctaDist/tree/master/example-input"
+        help_menu.add_command(label="Example molecules", command=lambda: webbrowser.open_new_tab(example_mol))
         help_menu.add_separator()
         submit_issue = "https://github.com/OctaDist/OctaDist/issues"
-        help_menu.add_command(
-            label="Report Issue", command=lambda: webbrowser.open_new_tab(submit_issue)
-        )
-        help_menu.add_command(
-            label="Github Repository",
-            command=lambda: webbrowser.open_new_tab(octadist.__github__),
-        )
-        help_menu.add_command(
-            label="Homepage",
-            command=lambda: webbrowser.open_new_tab(octadist.__website__),
-        )
+        help_menu.add_command(label="Report Issue", command=lambda: webbrowser.open_new_tab(submit_issue))
+        help_menu.add_command(label="Github Repository", command=lambda: webbrowser.open_new_tab(octadist.__github__))
+        help_menu.add_command(label="Homepage", command=lambda: webbrowser.open_new_tab(octadist.__website__))
         help_menu.add_separator()
         help_menu.add_command(label="License", command=lambda: self.show_license())
         help_menu.add_separator()
@@ -1639,66 +1592,6 @@ class OctaDist:
 
         """
         webbrowser.open_new(event.widget.cget("text"))
-
-    def show_help(self):
-        """
-        Show program help on a sub-window:
-
-        1. Simple usage
-        2. XYZ file format
-        3. References
-
-        """
-        wd = tk.Toplevel(self.master)
-        if self.octadist_icon is not None:
-            wd.wm_iconbitmap(self.octadist_icon)
-        wd.title("Program Help")
-        wd.option_add("*Font", "Arial 10")
-        wd.geometry("550x420")
-        wd.resizable(0, 0)
-        frame = tk.Frame(wd)
-        frame.grid()
-
-        # Usage
-        lbl = tk.Label(frame, text="Usage:")
-        lbl.grid(sticky=tk.W, row=0)
-
-        msg_help_1 = """\
-1. Browse input file
-2. Check if uploaded data is accurate
-3. Compute distortion parameters
-4. Analyse and refine results
-5. Save results as output file
-"""
-
-        msg = tk.Message(frame, text=msg_help_1, width="450")
-        msg.grid(padx="15", sticky=tk.W, row=1)
-
-        # XYZ file format
-        lbl = tk.Label(frame, text="Input structure in .xyz format:\n")
-        lbl.grid(sticky=tk.W, row=2)
-
-        msg_help_2 = """\
-1)\t<number of atoms>
-2)\tcomment line
-3)\t<Atom 1>\t<X>\t<Y>\t<Z>\t
-4)\t<Atom 2>\t<X>\t<Y>\t<Z>\t
-5)\t<Atom 3>\t<X>\t<Y>\t<Z>\t
-6)\t<Atom 4>\t<X>\t<Y>\t<Z>\t
-.....
-.....
-n)\t<Atom n>\t<X>\t<Y>\t<Z>\t
-"""
-
-        msg = tk.Message(frame, text=msg_help_2, width="450", bg="yellow")
-        msg.grid(padx="15", sticky=tk.W, row=3, column=0)
-
-        lbl = tk.Label(frame, text="\nOther examples of input file:")
-        lbl.grid(sticky=tk.W, row=5, columnspan=2)
-        link = "https://github.com/OctaDist/OctaDist/tree/master/example-input\n"
-        lbl_link = tk.Label(frame, foreground="blue", text=link, cursor="hand2")
-        lbl_link.grid(padx="15", pady="5", sticky=tk.W, row=6, columnspan=2)
-        lbl_link.bind("<Button-1>", self.callback)
 
     @staticmethod
     def show_about():
