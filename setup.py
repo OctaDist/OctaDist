@@ -27,7 +27,7 @@ with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
 description = (
-    "OctaDist: A tool for calculating distortion parameters in coordination complexes."
+    "OctaDist: A tool for calculating distortion parameters in molecule."
 )
 
 setuptools.setup(
@@ -47,7 +47,7 @@ setuptools.setup(
         "Tracker": "https://github.com/OctaDist/OctaDist/issues",
     },
     packages=setuptools.find_packages(),
-    install_requires=["numpy", "scipy", "matplotlib", "rmsd"],
+    install_requires=["numpy", "scipy", "matplotlib", "rmsd", "pymatgen"],
     classifiers=[
         "Environment :: Console",
         "Programming Language :: Python",
