@@ -179,6 +179,7 @@ octadist_cli --inp EXAMPLE_INPUT.xyz --out
 
 ## Supporting input format
 
+- CIF: `*.cif`
 - XYZ: `*.xyz`
 - Computational chemistry outputs: `*.out` and `*.log`
   - [Gaussian](http://gaussian.com/)
