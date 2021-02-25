@@ -114,7 +114,7 @@ class DrawComplex:
         """
         for i in range(len(self.coord)):
             # Determine atomic number
-            n = elements.check_atom(self.atom[i])
+            n = elements.number_to_symbol(self.atom[i])
             self.ax.scatter(
                 self.coord[i][0],
                 self.coord[i][1],
@@ -122,9 +122,9 @@ class DrawComplex:
                 marker="o",
                 linewidths=0.5,
                 edgecolors="black",
-                color=elements.check_color(n),
+                color=elements.number_to_color(n),
                 label=f"{self.atom[i]}",
-                s=elements.check_radii(n) * 300,
+                s=elements.number_to_radii(n) * 300,
             )
 
     def add_symbol(self):
@@ -395,7 +395,7 @@ class DrawComplex_Plotly:
         """
         for i in range(len(self.coord)):
             # Determine atomic number
-            n = elements.check_atom(self.atom[i])
+            n = elements.number_to_symbol(self.atom[i])
             self.ax.scatter(
                 self.coord[i][0],
                 self.coord[i][1],
@@ -403,14 +403,14 @@ class DrawComplex_Plotly:
                 marker="o",
                 linewidths=0.5,
                 edgecolors="black",
-                color=elements.check_color(n),
+                color=elements.number_to_color(n),
                 label=f"{self.atom[i]}",
-                s=elements.check_radii(n) * 300,
+                s=elements.number_to_radii(n) * 300,
             )
 
-        n = [elements.check_atom(i) for i in self.atom]
-        s = [elements.check_radii(i) * 100 for i in n] 
-        c = [elements.check_color(i) for i in n]
+        n = [elements.number_to_symbol(i) for i in self.atom]
+        s = [elements.number_to_radii(i) * 100 for i in n] 
+        c = [elements.number_to_color(i) for i in n]
         print(s)
         print(c)
 

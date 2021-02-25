@@ -220,7 +220,7 @@ class CalcJahnTeller:
         # Plot all atoms
         for i in range(len(self.coord)):
             # Determine atomic number
-            n = elements.check_atom(self.atom[i])
+            n = elements.number_to_symbol(self.atom[i])
             ax.scatter(
                 self.coord[i][0],
                 self.coord[i][1],
@@ -229,9 +229,9 @@ class CalcJahnTeller:
                 linewidths=0.5,
                 edgecolors="black",
                 picker=5,
-                color=elements.check_color(n),
+                color=elements.number_to_color(n),
                 label=f"{self.atom[i]}",
-                s=elements.check_radii(n) * 300,
+                s=elements.number_to_radii(n) * 300,
             )
 
         atoms_pair = []
@@ -326,7 +326,7 @@ class CalcJahnTeller:
             coord = [x[ind], y[ind], z[ind]]
             insert_text(results, coord, group)
             # Highlight selected atom
-            index = elements.check_atom(atom)
+            index = elements.number_to_symbol(atom)
             ax.scatter(
                 x[ind],
                 y[ind],
@@ -337,7 +337,7 @@ class CalcJahnTeller:
                 picker=5,
                 alpha=0.5,
                 color="yellow",
-                s=elements.check_radii(index) * 400,
+                s=elements.number_to_radii(index) * 400,
             )
             # print(i+1, atom, x[ind], y[ind], z[ind])
 
@@ -408,7 +408,7 @@ class CalcJahnTeller:
         # Plot all atoms
         for i in range(len(self.coord)):
             # Determine atomic number
-            n = elements.check_atom(self.atom[i])
+            n = elements.number_to_symbol(self.atom[i])
             ax.scatter(
                 self.coord[i][0],
                 self.coord[i][1],
@@ -417,9 +417,9 @@ class CalcJahnTeller:
                 linewidths=0.5,
                 edgecolors="black",
                 picker=5,
-                color=elements.check_color(n),
+                color=elements.number_to_color(n),
                 label=f"{self.atom[i]}",
-                s=elements.check_radii(n) * 300,
+                s=elements.number_to_radii(n) * 300,
             )
 
         atoms_pair = []
