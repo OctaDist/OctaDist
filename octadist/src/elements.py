@@ -17,7 +17,7 @@
 import numpy as np
 
 
-def check_atom(x):
+def number_to_symbol(x):
     """
     Convert atomic number to symbol and vice versa for atom 1-109.
 
@@ -68,7 +68,7 @@ def check_atom(x):
                 return atoms.index(i)
 
 
-def check_radii(x):
+def number_to_radii(x):
     """
     Convert atomic number (index) to atom radii in Angstroms: 1-119.
 
@@ -110,7 +110,7 @@ def check_radii(x):
     return atom_radii[x]
 
 
-def check_color(x):
+def number_to_color(x):
     """
     Convert atomic number to color: 1-109.
 
