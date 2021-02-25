@@ -17,9 +17,131 @@
 from operator import itemgetter
 
 import numpy as np
+import pymatgen as pmg
 from scipy.spatial import distance
 
 from octadist.src import elements, popup
+
+
+def is_cif(f):
+    """
+    Check if the input file is .cif file format.
+
+    Parameters
+    ----------
+    f : str
+        User input filename.
+
+    Returns
+    -------
+    bool : bool
+        If file is CIF file, return True.
+
+    See Also
+    --------
+    get_coord_cif :
+        Find atomic coordinates of molecule from CIF file.
+
+    Notes
+    -----
+    CIF file format is like following:
+
+    #########################
+    # Example XYZ file format
+    #########################
+
+    <number of atom>
+    comment
+    <index 0> <X> <Y> <Z>
+    <index 1> <X> <Y> <Z>
+    ...
+    <index 6> <X> <Y> <Z>
+
+    Examples
+    --------
+    >>> # example.cif
+    >>> # example
+    >>> # _audit_creation_date              2012-10-26T21:09:50-0400
+    >>> # _audit_creation_method            fapswitch 2.2
+    >>> # _symmetry_space_group_name_H-M    P1
+    >>> # _symmetry_Int_Tables_number       1
+    >>> # _space_group_crystal_system       triclinic
+    >>> # _cell_length_a                    16.012374
+    >>> # _cell_length_b                    14.740457
+    >>> # _cell_length_c                    19.436146
+    >>> # _cell_angle_alpha                 89.939227
+    >>> # _cell_angle_beta                  90.110039
+    >>> # _cell_angle_gamma                 90.015104
+    >>> # _cell_volume                      4587.49671393
+    >>> # 
+    >>> # loop_
+    >>> # _atom_site_label
+    >>> # _atom_site_type_symbol
+    >>> # _atom_type_description
+    >>> # _atom_site_fract_x
+    >>> # _atom_site_fract_y
+    >>> # _atom_site_fract_z
+    >>> # _atom_type_partial_charge
+    >>> # C1    C     C_R   0.340882 0.499989 0.500098 0.541130
+    >>> # C2    C     C_R   0.528123 0.048033 0.558069 0.232589
+    >>> # C3    C     C_R   0.499931 0.902862 0.500001 -0.063750
+    >>> # C4    C     C_R   0.500061 0.097137 0.500001 -0.063745
+    >>> # C5    C     C_1   0.499958 0.802655 0.499991 0.266033
+    >>> # ...
+    >>> is_cif("example.cif")
+    True
+
+    """
+    cif_file = open(f, "r")
+    nline = cif_file.readlines()
+
+    for i in range(len(nline)):
+        if "loop_" in nline[i]:
+            return True
+
+    return False
+
+
+def get_coord_cif(f):
+    """
+    Get coordinate from .cif file.
+
+    Parameters
+    ----------
+    f : str
+        User input filename.
+
+    Returns
+    -------
+    atom : list
+        Full atomic labels of complex.
+    coord : ndarray
+        Full atomic coordinates of complex.
+
+    Examples
+    --------
+    >>> file = "example.cif"
+    >>> atom, coord = get_coord_cif(file)
+    >>> atom
+    ['Fe', 'O', 'O', 'N', 'N', 'N', 'N']
+    >>> coord
+    array([[18.268051, 11.28912 ,  2.565804],
+           [19.823874, 10.436314,  1.381569],
+           [19.074466,  9.706294,  3.743576],
+           [17.364238, 10.733354,  0.657318],
+           [16.149538, 11.306661,  2.913619],
+           [18.599941, 12.116308,  4.528988],
+           [18.364987, 13.407634,  2.249608]])
+
+    """
+    import warnings
+    warnings.filterwarnings('ignore')
+    
+    structure = pmg.Structure.from_file(f)
+    atom = list(map(lambda x: elements.number_to_symbol(x), structure.atomic_numbers))
+    coord = structure.cart_coords
+
+    return atom, coord
 
 
 def is_xyz(f):
@@ -236,13 +358,13 @@ def get_coord_gaussian(f):
             end = i
             break
 
-    for line in nline[start + 5 : end]:
+    for line in nline[start + 5: end]:
         data = line.split()
         data1 = int(data[1])
         coord_x = float(data[3])
         coord_y = float(data[4])
         coord_z = float(data[5])
-        data1 = elements.check_atom(data1)
+        data1 = elements.number_to_symbol(data1)
         atom.append(data1)
         coord.append([coord_x, coord_y, coord_z])
 
@@ -362,7 +484,7 @@ def get_coord_nwchem(f):
         coord_x = float(dat[3])
         coord_y = float(dat[4])
         coord_z = float(dat[5])
-        dat1 = elements.check_atom(dat1)
+        dat1 = elements.number_to_symbol(dat1)
         atom.append(dat1)
         coord.append([coord_x, coord_y, coord_z])
 
@@ -464,7 +586,7 @@ def get_coord_orca(f):
             end = i - 1
             break
 
-    for line in nline[start + 2 : end]:
+    for line in nline[start + 2: end]:
         dat = line.split()
         dat1 = dat[0]
         coord_x = float(dat[1])
@@ -574,7 +696,7 @@ def get_coord_qchem(f):
             end = i - 1
             break
 
-    for line in nline[start + 5 : end]:
+    for line in nline[start + 5: end]:
         dat = line.split()
         dat1 = dat[1]
         coord_x = float(dat[2])
@@ -623,7 +745,10 @@ def count_line(file=None):
 
 def extract_coord(file=None):
     """
-    Check file type, read data, extract atom and coord from an input file.
+    Check file type, read data, extract atomic symbols and cartesian coordinate from 
+    a structure input file provided by the user. This function can efficiently manupulate I/O process. 
+    File types currently supported are listed in notes below. Other file formats can also be implemented 
+    easily within this module.
 
     Parameters
     ----------
@@ -646,8 +771,9 @@ def extract_coord(file=None):
 
     Notes
     -----
-    The following is the file type that OctaDist supports:
+    The following are file types supported by the current virsion of OctaDist:
 
+    - ``CIF``
     - ``XYZ``
     - ``Gaussian``
     - ``NWChem``
@@ -682,20 +808,32 @@ def extract_coord(file=None):
     is_coord_correct = True
 
     # Check file extension
-    if file.endswith(".xyz"):
+    # --- CIF ---
+    if file.endswith(".cif"):
+        if is_cif(file):
+            atom, coord = get_coord_cif(file)
+        else:
+            is_ftype_correct = False
+            is_coord_correct = False
+    # --- XYZ ---
+    elif file.endswith(".xyz"):
         if is_xyz(file):
             atom, coord = get_coord_xyz(file)
         else:
             is_ftype_correct = False
             is_coord_correct = False
-
+    # --- Other formats ---
     elif file.endswith(".out") or file.endswith(".log"):
+        # Gaussian
         if is_gaussian(file):
             atom, coord = get_coord_gaussian(file)
+        # NWChem
         elif is_nwchem(file):
             atom, coord = get_coord_nwchem(file)
+        # ORCA
         elif is_orca(file):
             atom, coord = get_coord_orca(file)
+        # Q-Chem
         elif is_qchem(file):
             atom, coord = get_coord_qchem(file)
         else:
@@ -772,7 +910,7 @@ def find_metal(atom=None, coord=None):
     coord_metal = []
 
     for i in range(len(atom)):
-        number = elements.check_atom(atom[i])
+        number = elements.number_to_symbol(atom[i])
 
         if (
             21 <= number <= 30
@@ -880,4 +1018,3 @@ def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
     coord_octa = np.asarray(coord_octa, dtype=np.float64)
 
     return atom_octa, coord_octa
-

@@ -398,6 +398,7 @@ class OctaDist:
         input_file = filedialog.askopenfilenames(
             title="Choose input file",
             filetypes=(
+                ("CIF File", "*.cif"),
                 ("XYZ File", "*.xyz"),
                 ("Gaussian Output File", "*.out"),
                 ("Gaussian Output File", "*.log"),
