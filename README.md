@@ -281,23 +281,23 @@ If you found issues in OctaDist, please report it to us at [here][submit-issues]
 
 ## Project team
 
-- [Rangsiman Ketkaew][RK-website] (Thammasat University, Thailand) 
+- [Rangsiman Ketkaew][rk-link] (Thammasat University, Thailand) 
   - E-mail: rangsiman1993@gmail.com
-- [Yuthana Tantirungrotechai][YT-website] (Thammasat University, Thailand)
+- [Yuthana Tantirungrotechai][yt-link] (Thammasat University, Thailand)
   - E-mail: yt203y@gmail.com
-- [David J. Harding][DH-website] (Walailak University, Thailand)
-  - E-mail: hdavid@mail.wu.ac.th
-- [Phimphaka Harding][PH-website] (Walailak University, Thailand)
+- [Phimphaka Harding][ph-link] (Walailak University, Thailand)
   - E-mail: kphimpha@mail.wu.ac.th
-- [Guillaume Chastanet][MM-website] (University of Bordeaux, France)
+- Guillaume Chastanet (University of Bordeaux, France)
   - E-mail: Guillaume.Chastanet@icmcb.cnrs.fr
-- [Philippe Guionneau][MM-website] (University of Bordeaux, France)
+- Philippe Guionneau (University of Bordeaux, France)
   - E-mail: Philippe.Guionneau@icmcb.cnrs.fr
-- [Mathieu Marchivie][MM-website] (University of Bordeaux, France)
+- [Mathieu Marchivie][mm-link] (University of Bordeaux, France)
   - E-mail: mathieu.marchivie@icmcb.cnrs.fr
+- [David J. Harding][dh-link] (Walailak University, Thailand)
+  - E-mail: hdavid@mail.wu.ac.th
 
 [rk-link]: https://rangsimanketkaew.github.io
 [yt-link]: https://sites.google.com/site/compchem403/people/faculty/yuthana
-[dh-link]: https://www.funtechwu.com/david-j-harding
 [ph-link]: https://www.funtechwu.com/phimphaka-harding
 [mm-link]: http://www.icmcb-bordeaux.cnrs.fr/spip.php?article562&lang=en
+[dh-link]: https://www.funtechwu.com/david-j-harding
