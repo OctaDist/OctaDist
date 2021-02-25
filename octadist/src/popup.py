@@ -28,7 +28,7 @@ def err_invalid_ftype():
     """
     showerror(
         "Error", f"Invalid input file format.\n\n"
-        "Supported formats are *.xyz, *.out, *.log.\n"
+        "Supported formats are *.cif, *.xyz, *.out, *.log.\n"
         "Also note that molecule must contain one metal atom and six ligand atoms.",
     )
 
