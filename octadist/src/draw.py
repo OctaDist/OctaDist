@@ -22,7 +22,7 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from octadist.src import elements, plane, projection, util
 
 
-class DrawComplex:
+class DrawComplex_Matplotlib:
     """
     Display 3D structure of octahedral complex with label for each atoms.
 

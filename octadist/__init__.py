@@ -125,7 +125,7 @@ from .src import util
 
 from .src.calc import CalcDistortion
 
-from .src.draw import DrawComplex
+from .src.draw import DrawComplex_Matplotlib
 from .src.draw import DrawProjection
 from .src.draw import DrawTwistingPlane
 

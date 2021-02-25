@@ -1113,7 +1113,7 @@ class OctaDist:
 
         atom_full, coord_full = self.atom_coord_full[0]
 
-        my_plot = draw.DrawComplex(
+        my_plot = draw.DrawComplex_Matplotlib(
             atom=atom_full,
             coord=coord_full,
             cutoff_global=self.cutoff_global,
@@ -1148,7 +1148,7 @@ class OctaDist:
 
         atom_full, coord_full = self.atom_coord_full[0]
 
-        my_plot = draw.DrawComplex(
+        my_plot = draw.DrawComplex_Matplotlib(
             atom=atom_full,
             coord=coord_full,
             cutoff_global=self.cutoff_global,
@@ -1188,7 +1188,7 @@ class OctaDist:
 
         atom_octa, coord_octa = self.atom_coord_octa[0]
 
-        my_plot = draw.DrawComplex(
+        my_plot = draw.DrawComplex_Matplotlib(
             atom=atom_octa,
             coord=coord_octa,
             cutoff_global=self.cutoff_global,
@@ -1223,7 +1223,7 @@ class OctaDist:
 
         atom_octa, coord_octa = self.atom_coord_octa[0]
 
-        my_plot = draw.DrawComplex(
+        my_plot = draw.DrawComplex_Matplotlib(
             atom=atom_octa,
             coord=coord_octa,
             cutoff_global=self.cutoff_global,
