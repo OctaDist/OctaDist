@@ -249,19 +249,26 @@ Other example scripts and octahedral complexes are available at [example-py][ex-
 Please cite this project when you use OctaDist for scientific publication.
 
 ```
-OctaDist - A tool for calculating distortion parameters in coordination complexes.
-https://octadist.github.io
+Ketkaew, R.; Tantirungrotechai, Y.; Harding, P.; Chastanet, G.; Guionneau, P.; Marchivie, M.; Harding, D. J. 
+OctaDist: A Tool for Calculating Distortion Parameters in Spin Crossover and Coordination Complexes. 
+*Dalton Trans.*, **2021**,50, 1086-1096. https://doi.org/10.1039/D0DT03988H
 ```
 
 BibTeX
 
 ```
-@misc{KetkaewOctaDist2019, 
-    author = {Rangsiman Ketkaew and Yuthana Tantirungrotechai and David J. Harding and Phimphaka Harding and and Mathieu Marchivie}, 
-    title = {OctaDist: A tool for calculating distortion parameters in coordination complexes}, 
-    url = {https://octadist.github.io}, 
-    year = {2019}, 
-    month = {Aug}}
+@article{Ketkaew2021,
+  doi = {10.1039/d0dt03988h},
+  url = {https://doi.org/10.1039/d0dt03988h},
+  year = {2021},
+  publisher = {Royal Society of Chemistry ({RSC})},
+  volume = {50},
+  number = {3},
+  pages = {1086--1096},
+  author = {Rangsiman Ketkaew and Yuthana Tantirungrotechai and Phimphaka Harding and Guillaume Chastanet and Philippe Guionneau and Mathieu Marchivie and David J. Harding},
+  title = {OctaDist: a tool for calculating distortion parameters in spin crossover and coordination complexes},
+  journal = {Dalton Transactions}
+}
 ```
 
 
@@ -274,15 +281,19 @@ If you found issues in OctaDist, please report it to us at [here][submit-issues]
 
 ## Project team
 
-- [Rangsiman Ketkaew][rk-link] (Thammasat University, Thailand)
+- [Rangsiman Ketkaew][RK-website] (Thammasat University, Thailand) 
   - E-mail: rangsiman1993@gmail.com
-- [Yuthana Tantirungrotechai][yt-link] (Thammasat University, Thailand)
+- [Yuthana Tantirungrotechai][YT-website] (Thammasat University, Thailand)
   - E-mail: yt203y@gmail.com
-- [David J. Harding][dh-link] (Walailak University, Thailand)
+- [David J. Harding][DH-website] (Walailak University, Thailand)
   - E-mail: hdavid@mail.wu.ac.th
-- [Phimphaka Harding][ph-link] (Walailak University, Thailand)
+- [Phimphaka Harding][PH-website] (Walailak University, Thailand)
   - E-mail: kphimpha@mail.wu.ac.th
-- [Mathieu Marchivie][mm-link] (University of Bordeaux, France)
+- [Guillaume Chastanet][MM-website] (University of Bordeaux, France)
+  - E-mail: Guillaume.Chastanet@icmcb.cnrs.fr
+- [Philippe Guionneau][MM-website] (University of Bordeaux, France)
+  - E-mail: Philippe.Guionneau@icmcb.cnrs.fr
+- [Mathieu Marchivie][MM-website] (University of Bordeaux, France)
   - E-mail: mathieu.marchivie@icmcb.cnrs.fr
 
 [rk-link]: https://rangsimanketkaew.github.io
