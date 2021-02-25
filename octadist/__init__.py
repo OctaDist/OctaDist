@@ -129,9 +129,9 @@ from .src.draw import DrawComplex
 from .src.draw import DrawProjection
 from .src.draw import DrawTwistingPlane
 
-from .src.elements import check_atom
-from .src.elements import check_radii
-from .src.elements import check_color
+from .src.elements import number_to_symbol
+from .src.elements import number_to_radii
+from .src.elements import number_to_color
 
 from .src.linear import angle_sign
 from .src.linear import angle_btw_vectors
