@@ -6,7 +6,7 @@ import octadist as oc
 
 file = r"../example-input/Multiple-metals.xyz"
 
-atom_full, coord_full = oc.molecule.extract_coord(file)
+atom_full, coord_full = oc.io.extract_coord(file)
 
 # Display and automatically save image as .png file with user-specified name
 my_plot = oc.draw.DrawComplex(atom=atom_full, coord=coord_full)

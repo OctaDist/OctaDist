@@ -112,7 +112,7 @@ from .src import calc
 from .src import draw
 from .src import elements
 from .src import linear
-from .src import molecule
+from .src import io
 from .src import plane
 from .src import plot
 from .src import popup
@@ -138,20 +138,20 @@ from .src.linear import angle_btw_vectors
 from .src.linear import angle_btw_planes
 from .src.linear import triangle_area
 
-from .src.molecule import count_line
-from .src.molecule import extract_coord
-from .src.molecule import find_metal
-from .src.molecule import extract_octa
-from .src.molecule import is_xyz
-from .src.molecule import is_gaussian
-from .src.molecule import is_nwchem
-from .src.molecule import is_orca
-from .src.molecule import is_qchem
-from .src.molecule import get_coord_xyz
-from .src.molecule import get_coord_gaussian
-from .src.molecule import get_coord_nwchem
-from .src.molecule import get_coord_orca
-from .src.molecule import get_coord_qchem
+from .src.io import count_line
+from .src.io import extract_coord
+from .src.io import find_metal
+from .src.io import extract_octa
+from .src.io import is_xyz
+from .src.io import is_gaussian
+from .src.io import is_nwchem
+from .src.io import is_orca
+from .src.io import is_qchem
+from .src.io import get_coord_xyz
+from .src.io import get_coord_gaussian
+from .src.io import get_coord_nwchem
+from .src.io import get_coord_orca
+from .src.io import get_coord_qchem
 
 from .src.plane import find_eq_of_plane
 from .src.plane import find_fit_plane

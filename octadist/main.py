@@ -32,7 +32,7 @@ import numpy as np
 
 import octadist
 from octadist.logo import Icon_Base64
-from octadist.src import calc, molecule, draw, plot, popup, scripting, structure, tools
+from octadist.src import io, calc, draw, plot, popup, scripting, structure, tools
 
 
 class OctaDist:
@@ -437,7 +437,7 @@ class OctaDist:
             # Extract atomic coordinates from file #
             ########################################
 
-            atom_full, coord_full = molecule.extract_coord(self.file_list[i])
+            atom_full, coord_full = io.extract_coord(self.file_list[i])
             self.atom_coord_full.append([atom_full, coord_full])
 
             # If either lists is empty, then continue to next file
@@ -448,14 +448,14 @@ class OctaDist:
             # Extract octahedral structure from the complex #
             #################################################
 
-            total_metal, atom_metal, coord_metal = molecule.find_metal(atom_full, coord_full)
+            total_metal, atom_metal, coord_metal = io.find_metal(atom_full, coord_full)
 
             if total_metal == 0:
                 popup.warn_no_metal(i + 1)
 
             # loop over number of metal found in complex
             for j in range(total_metal):
-                atom_octa, coord_octa = molecule.extract_octa(atom_full, coord_full, j + 1, self.cutoff_metal_ligand)
+                atom_octa, coord_octa = io.extract_octa(atom_full, coord_full, j + 1, self.cutoff_metal_ligand)
 
                 # If no atomic coordinates inside, it will raise error
                 if np.any(coord_octa) == 0:
