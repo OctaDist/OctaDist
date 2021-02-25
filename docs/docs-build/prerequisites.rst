@@ -36,6 +36,7 @@ The following third-party packages are used in OctaDist.
     scipy
     matplotlib
     rmsd
+    pymatgen
 
 
 Actually, if you use ``pip`` to install OctaDist, the required dependencies

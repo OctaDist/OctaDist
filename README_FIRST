@@ -6,8 +6,8 @@ Program Info
 ============
 
 program_name = OctaDist (Octahedral distortion calculator)
-program_version = 2.6.1
-program_release = August 2019
+program_version = 3.0.0
+program_release = 2020
 
 Citation
 ========
@@ -22,7 +22,7 @@ Install and Run
 
 1. Run "CheckPyModule.py" to check if your system has the python packages that required for OctaDist.
 
-	$ cd OctaDist-2.6.1-src-x86-64
+	$ cd OctaDist-3.0.0-src-x86-64
 	$ python CheckPyModule.py
 
     If any required packages has not been installed, run command:
@@ -46,7 +46,7 @@ Install and Run
 Requirements
 ============
 
-	- Python >=3.5
+	- Python >=3.6
 	- numpy
 	- matplotlib
 	- sciPy

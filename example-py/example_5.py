@@ -6,10 +6,10 @@ import octadist as oc
 
 file = r"../example-input/Multiple-metals.xyz"
 
-atom_full, coord_full = oc.molecule.extract_coord(file)
+atom_full, coord_full = oc.io.extract_coord(file)
 
 # Graphical display for octahedral complex
-my_plot = oc.draw.DrawComplex(atom=atom_full, coord=coord_full)
+my_plot = oc.draw.DrawComplex_Matplotlib(atom=atom_full, coord=coord_full)
 my_plot.add_atom()
 my_plot.add_bond()
 my_plot.add_legend()

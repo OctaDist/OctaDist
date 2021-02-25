@@ -14,6 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+import numpy as np
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
@@ -21,16 +22,18 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from octadist.src import elements, plane, projection, util
 
 
-class DrawComplex:
+class DrawComplex_Matplotlib:
     """
     Display 3D structure of octahedral complex with label for each atoms.
 
     Parameters
     ----------
-    atom : list, None
+    atom : list
         Atomic symbols of octahedral structure.
-    coord : list, array, tuple, bool, None
+        Default to None.
+    coord : list, array, tuple, bool
         Atomic coordinates of octahedral structure.
+        Default to None.
     cutoff_global : int or float
         Global cutoff for screening bonds.
         Default value is 2.0.
@@ -78,6 +81,7 @@ class DrawComplex:
         self.bond_list = None
 
         self.start_plot()
+        self.plot_title()
 
     def start_plot(self):
         """
@@ -87,8 +91,21 @@ class DrawComplex:
         self.fig = plt.figure()
         self.ax = Axes3D(self.fig)
 
-        self.ax.set_title("Full complex", fontsize="12")
         # ax = fig.add_subplot(111, projection='3d')
+
+    def plot_title(self, title="Full complex", font_size="12"):
+        """
+        Add plot title at top position.
+
+        Parameters
+        ----------
+        title : str
+            Top title of the plot.  Default is "Full complex".
+        fontsize : int, float, str
+            Font size of title. Default is "12".
+
+        """
+        self.st = self.fig.suptitle(title, fontsize=font_size)
 
     def add_atom(self):
         """
@@ -97,7 +114,7 @@ class DrawComplex:
         """
         for i in range(len(self.coord)):
             # Determine atomic number
-            n = elements.check_atom(self.atom[i])
+            n = elements.number_to_symbol(self.atom[i])
             self.ax.scatter(
                 self.coord[i][0],
                 self.coord[i][1],
@@ -105,9 +122,9 @@ class DrawComplex:
                 marker="o",
                 linewidths=0.5,
                 edgecolors="black",
-                color=elements.check_color(n),
+                color=elements.number_to_color(n),
                 label=f"{self.atom[i]}",
-                s=elements.check_radii(n) * 300,
+                s=elements.number_to_radii(n) * 300,
             )
 
     def add_symbol(self):
@@ -283,6 +300,318 @@ class DrawComplex:
         plt.show()
 
 
+class DrawComplex_Plotly:
+    """
+    Display 3D structure of octahedral complex with label for each atoms.
+
+    Parameters
+    ----------
+    atom : list
+        Atomic symbols of octahedral structure.
+        Default to None.
+    coord : list, array, tuple, bool
+        Atomic coordinates of octahedral structure.
+        Default to None.
+    cutoff_global : int or float
+        Global cutoff for screening bonds.
+        Default value is 2.0.
+    cutoff_hydrogen : int or float
+        Cutoff for screening hydrogen bonds.
+        Default value is 1.2.
+
+    Examples
+    --------
+    >>> atom = ['Fe', 'N', 'N', 'N', 'O', 'O', 'O']
+    >>> coord = [[2.298354000, 5.161785000, 7.971898000],
+                 [1.885657000, 4.804777000, 6.183726000],
+                 [1.747515000, 6.960963000, 7.932784000],
+                 [4.094380000, 5.807257000, 7.588689000],
+                 [0.539005000, 4.482809000, 8.460004000],
+                 [2.812425000, 3.266553000, 8.131637000],
+                 [2.886404000, 5.392925000, 9.848966000]]
+    >>> test = DrawComplex(atom=atom, coord=coord)
+    >>> test.add_atom()
+    >>> test.add_bond()
+    >>> test.add_legend()
+    >>> test.show_plot()
+
+    """
+
+    def __init__(self, atom=None, coord=None, cutoff_global=2.0, cutoff_hydrogen=1.2):
+        self.atom = atom
+        self.coord = coord
+        self.cutoff_global = cutoff_global
+        self.cutoff_hydrogen = cutoff_hydrogen
+
+        if self.atom is None:
+            raise TypeError("atom is not specified")
+        if self.coord is None:
+            raise TypeError("coord is not specified")
+
+        # Make sure that coord is a NumPy array
+        self.coord = np.asarray(self.coord, dtype=np.float32)
+
+        self.title_name = "Display Complex"
+        self.title_size = "12"
+        self.label_size = "10"
+        self.show_title = True
+        self.show_axis = True
+        self.show_grid = True
+
+        self.atoms_pair = []
+        self.bond_list = None
+
+        self.start_plot()
+        self.plot_title()
+
+    def start_plot(self):
+        """
+        Introduce figure to plot.
+
+        """
+        self.fig = plt.figure()
+        self.ax = Axes3D(self.fig)
+
+        # ax = fig.add_subplot(111, projection='3d')
+
+    def plot_title(self, title="Full complex", font_size="12"):
+        """
+        Add plot title at top position.
+
+        Parameters
+        ----------
+        title : str
+            Top title of the plot.  Default is "Full complex".
+        fontsize : int, float, str
+            Font size of title. Default is "12".
+
+        """
+        self.st = self.fig.suptitle(title, fontsize=font_size)
+
+    def add_atom(self):
+        """
+        Add all atoms to show in figure.
+
+        """
+        for i in range(len(self.coord)):
+            # Determine atomic number
+            n = elements.number_to_symbol(self.atom[i])
+            self.ax.scatter(
+                self.coord[i][0],
+                self.coord[i][1],
+                self.coord[i][2],
+                marker="o",
+                linewidths=0.5,
+                edgecolors="black",
+                color=elements.number_to_color(n),
+                label=f"{self.atom[i]}",
+                s=elements.number_to_radii(n) * 300,
+            )
+
+        n = [elements.number_to_symbol(i) for i in self.atom]
+        s = [elements.number_to_radii(i) * 100 for i in n]
+        c = [elements.number_to_color(i) for i in n]
+
+        import plotly.graph_objects as go
+
+        marker_data = go.Scatter3d(
+            x=self.coord[:, 0],
+            y=self.coord[:, 1],
+            z=self.coord[:, 2],
+            marker=dict(
+                size=s,
+                color=c,
+                colorscale='Viridis',
+                opacity=0.8,
+                line=dict(
+                    width=2,
+                    color='rgb(0,0,0)'
+                )
+                # linewidths=0.5,
+                # edgecolors="black",
+            ),
+            mode='markers'
+        )
+        self.fig = go.Figure(data=[marker_data])
+        plotly_warning = "Generated by DrawComplex_Plotly in OctaDist"
+        self.fig.update_layout(title=self.title_name + " : " + plotly_warning,
+                          # autosize=False,
+                          # width=500, height=500,
+                          # margin=dict(l=65, r=50, b=65, t=90),
+                          )
+
+    # def add_symbol(self):
+    #     """
+    #     Add symbol of atoms to show in figure.
+
+    #     """
+    #     for j in range(len(self.atom)):
+    #         self.ax.text(
+    #             self.coord[j][0] + 0.1,
+    #             self.coord[j][1] + 0.1,
+    #             self.coord[j][2] + 0.1,
+    #             f"{self.atom[j]},{j}",
+    #             fontsize=9,
+    #         )
+
+    # def add_bond(self):
+    #     """
+    #     Calculate bond distance, screen bond, and add them to show in figure.
+
+    #     See Also
+    #     --------
+    #     octadist.src.util.find_bonds : Find atomic bonds.
+
+    #     """
+    #     _, self.bond_list = util.find_bonds(
+    #         self.atom, self.coord, self.cutoff_global, self.cutoff_hydrogen
+    #     )
+
+    #     for i in range(len(self.bond_list)):
+    #         get_atoms = self.bond_list[i]
+    #         x, y, z = zip(*get_atoms)
+    #         atoms = list(zip(x, y, z))
+    #         self.atoms_pair.append(atoms)
+
+    #     for i in range(len(self.atoms_pair)):
+    #         merge = list(zip(self.atoms_pair[i][0], self.atoms_pair[i][1]))
+    #         x, y, z = merge
+    #         self.ax.plot(x, y, z, "k-", color="black", linewidth=2)
+
+    # def add_face(self, coord):
+    #     """
+    #     Find the faces of octahedral structure and add those faces to show in figure.
+
+    #     See Also
+    #     --------
+    #     octadist.src.util.find_faces_octa
+
+    #     """
+    #     _, c_ref, _, _ = util.find_faces_octa(coord)
+
+    #     # Added faces
+    #     color_list = [
+    #         "red",
+    #         "blue",
+    #         "green",
+    #         "yellow",
+    #         "violet",
+    #         "cyan",
+    #         "brown",
+    #         "grey",
+    #     ]
+
+    #     for i in range(8):
+    #         # Create array of vertices for 8 faces
+    #         get_vertices = c_ref[i].tolist()
+    #         x, y, z = zip(*get_vertices)
+    #         vertices = [list(zip(x, y, z))]
+    #         self.ax.add_collection3d(
+    #             Poly3DCollection(vertices, alpha=0.5, color=color_list[i])
+    #         )
+
+    # def add_legend(self):
+    #     """
+    #     Add atoms legend to show in figure.
+
+    #     References
+    #     ----------
+    #     1. Remove duplicate labels in legend.
+    #         Ref: https://stackoverflow.com/a/26550501/6596684.
+
+    #     2. Fix size of point in legend.
+    #         Ref: https://stackoverflow.com/a/24707567/6596684.
+
+    #     """
+    #     # remove duplicate labels
+    #     handles, labels = self.ax.get_legend_handles_labels()
+    #     handle_list, label_list = [], []
+
+    #     for handle, label in zip(handles, labels):
+    #         if label not in label_list:
+    #             handle_list.append(handle)
+    #             label_list.append(label)
+    #     leg = plt.legend(
+    #         handle_list, label_list, loc="lower left", scatterpoints=1, fontsize=12
+    #     )
+
+    #     # fix size of point in legend
+    #     for i in range(len(leg.legendHandles)):
+    #         leg.legendHandles[i]._sizes = [90]
+
+    # def config_plot(self, show_title=True, show_axis=True, show_grid=True, **kwargs):
+    #     """
+    #     Setting configuration for figure.
+
+    #     Parameters
+    #     ----------
+    #     show_title : bool
+    #         If True, show title of figure.
+    #         If False, not show title of figure.
+    #     show_axis : bool
+    #         If True, show axis of figure.
+    #         If False, not show axis of figure.
+    #     show_grid : bool
+    #         If True, show grid of figure.
+    #         If False, not show grid of figure.
+    #     kwargs : dict (optional)
+    #         title_name : title name of figure.
+    #         title_size : text size of title.
+    #         label_size : text size of axis labels.
+
+    #     """
+    #     title_name_user = kwargs.get("title_name")
+    #     self.title_size = kwargs.get("title_size")
+    #     self.label_size = kwargs.get("label_size")
+    #     self.show_title = show_title
+    #     self.show_axis = show_axis
+    #     self.show_grid = show_grid
+
+    #     if title_name_user is not None:
+    #         self.ax.set_title(title_name_user)
+
+    #     if self.title_size is not None:
+    #         if title_name_user is None:
+    #             title_name_user = self.title_name
+    #         self.ax.set_title(title_name_user, fontsize=self.title_size)
+
+    #     if self.label_size is not None:
+    #         self.ax.set_xlabel(r"X", fontsize=self.label_size)
+    #         self.ax.set_ylabel(r"Y", fontsize=self.label_size)
+    #         self.ax.set_zlabel(r"Z", fontsize=self.label_size)
+
+    #     if not self.show_title:
+    #         self.ax.set_title("")
+    #     if not self.show_axis:
+    #         plt.axis("off")
+    #     if not self.show_grid:
+    #         self.ax.grid(False)
+
+    # @staticmethod
+    # def save_img(save="Complex_saved_by_OctaDist", file="png"):
+    #     """
+    #     Save figure as an image.
+
+    #     Parameters
+    #     ----------
+    #     save : str
+    #         Name of image file.
+    #         Default value is "Complex_saved_by_OctaDist".
+    #     file : file
+    #         Image type.
+    #         Default value is "png".
+
+    #     """
+    #     plt.savefig(f"{save}.{file}")
+
+    def show_plot(self):
+        """
+        Show plot.
+
+        """
+        self.fig.show()
+
+
 class DrawProjection:
     """
     Display the selected 4 faces of octahedral complex.
@@ -291,8 +620,10 @@ class DrawProjection:
     ----------
     atom : list
         Atomic symbols of octahedral structure.
+        Default to None.
     coord : list, array, tuple
         Atomic coordinates of octahedral structure.
+        Default to None.
 
     Examples
     --------
@@ -312,9 +643,9 @@ class DrawProjection:
 
     """
 
-    def __init__(self, **kwargs):
-        self.atom = kwargs.get("atom")
-        self.coord = kwargs.get("coord")
+    def __init__(self, atom=None, coord=None):
+        self.atom = atom
+        self.coord = coord
 
         if self.atom is None:
             raise TypeError("atom is not specified")
@@ -324,6 +655,7 @@ class DrawProjection:
         self.sub_plot = []
 
         self.start_plot()
+        self.plot_title()
         self.shift_plot()
 
     def start_plot(self):
@@ -332,12 +664,26 @@ class DrawProjection:
 
         """
         self.fig = plt.figure()
-        self.st = self.fig.suptitle("4 pairs of opposite planes", fontsize="x-large")
 
         for i in range(4):
             ax = self.fig.add_subplot(2, 2, int(i + 1), projection="3d")
             ax.set_title(f"Pair {i + 1}")
             self.sub_plot.append(ax)
+
+    def plot_title(self, title="4 pairs of opposite planes", font_size="x-large"):
+        """
+        Add plot title at top position.
+
+        Parameters
+        ----------
+        title : str
+            Top title of the plot.  Default is "Full complex".
+        fontsize : int, float, str
+            Font size of title. Default is "12".
+
+        """
+        # self.st = self.fig.suptitle(, fontsize="")
+        self.st = self.fig.suptitle(title, fontsize=font_size)
 
     def shift_plot(self):
         """
@@ -475,8 +821,10 @@ class DrawTwistingPlane:
     ----------
     atom : list
         Atomic symbols of octahedral structure.
+        Default to None.
     coord : list, array, tuple
         Atomic coordinates of octahedral structure.
+        Default to None.
 
     Examples
     --------
@@ -496,9 +844,10 @@ class DrawTwistingPlane:
 
     """
 
-    def __init__(self, **kwargs):
-        self.atom = kwargs.get("atom")
-        self.coord = kwargs.get("coord")
+    def __init__(self, atom=None, coord=None, symbol_fontsize=15):
+        self.atom = atom
+        self.coord = coord
+        self.symbol_fontsize = symbol_fontsize
 
         if self.atom is None:
             raise TypeError("atom is not specified")
@@ -512,6 +861,7 @@ class DrawTwistingPlane:
         self.all_proj_ligs = []
 
         self.start_plot()
+        self.plot_title()
         self.shift_plot()
         self.create_subplots()
 
@@ -521,9 +871,20 @@ class DrawTwistingPlane:
 
         """
         self.fig = plt.figure()
-        self.st = self.fig.suptitle(
-            "Projected twisting triangular faces", fontsize="x-large"
-        )
+
+    def plot_title(self, title="Projected twisting triangular faces", font_size="x-large"):
+        """
+        Add plot title at top position.
+
+        Parameters
+        ----------
+        title : str
+            Top title of the plot.  Default is "Projected twisting triangular faces".
+        fontsize : int, float, str
+            Font size of title. Default is "x-large".
+
+        """
+        self.st = self.fig.suptitle(title, fontsize=font_size)
 
     def shift_plot(self):
         """
@@ -626,6 +987,11 @@ class DrawTwistingPlane:
                 Poly3DCollection(projected_oppo_vertices_list, alpha=0.5, color="blue")
             )
 
+            # Adjust tick spacing
+            ax.set_xticks(ax.get_xticks()[::1])
+            ax.set_yticks(ax.get_yticks()[::1])
+            ax.set_zticks(ax.get_zticks()[::1])
+
     def add_symbol(self):
         """
         Add all atoms to show in figure.
@@ -634,28 +1000,28 @@ class DrawTwistingPlane:
         for i in range(4):
             ax = self.all_ax[i]
             ax.text(
-                self.all_m[i][0] + 0.1,
-                self.all_m[i][1] + 0.1,
-                self.all_m[i][2] + 0.1,
+                self.all_m[i][0] + 0.2,
+                self.all_m[i][1] + 0.2,
+                self.all_m[i][2] + 0.2,
                 f"{self.atom[0]}'",
-                fontsize=9,
+                fontsize=self.symbol_fontsize,
             )
 
             for j in range(3):
                 ax.text(
-                    self.c_ref[i][j][0] + 0.1,
-                    self.c_ref[i][j][1] + 0.1,
-                    self.c_ref[i][j][2] + 0.1,
+                    self.c_ref[i][j][0] + 0.2,
+                    self.c_ref[i][j][1] + 0.2,
+                    self.c_ref[i][j][2] + 0.2,
                     f"{j + 1}",
-                    fontsize=9,
+                    fontsize=self.symbol_fontsize,
                 )
 
                 ax.text(
-                    self.all_proj_ligs[i][j][0] + 0.1,
-                    self.all_proj_ligs[i][j][1] + 0.1,
-                    self.all_proj_ligs[i][j][2] + 0.1,
+                    self.all_proj_ligs[i][j][0] + 0.2,
+                    self.all_proj_ligs[i][j][1] + 0.2,
+                    self.all_proj_ligs[i][j][2] + 0.2,
                     f"{j + 1}'",
-                    fontsize=9,
+                    fontsize=self.symbol_fontsize,
                 )
 
     def add_bond(self):

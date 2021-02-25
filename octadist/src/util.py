@@ -43,8 +43,10 @@ def find_bonds(atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2):
 
     Returns
     -------
-    filtered_bond_2 : list
-        Selected bonds in molecule after screening.
+    filtered_pair_2 : list
+        List of pair of atoms of selected bonds in molecule after screening
+    filtered_bond_2 : array-like
+        Array of bond distances of selected bonds in molecule after screening.
 
     Examples
     --------
@@ -58,19 +60,25 @@ def find_bonds(atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2):
                  [2.886404000, 5.392925000, 9.848966000]]
     >>> pair_bond, bond_dist = find_bonds(atom, coord)
     >>> pair_bond
-    [['Fe', 'N'],
-     ['Fe', 'N'],
-     ['Fe', 'N'],
-     ['Fe', 'O'],
-     ['Fe', 'O'],
-     ['Fe', 'O']]
+    [['Fe', 'N'], ['Fe', 'N'], ['Fe', 'N'], ['Fe', 'O'], ['Fe', 'O'], ['Fe', 'O']]
     >>> bond_dist
-    [[[2.298354, 5.161785, 7.971898], [1.885657, 4.804777, 6.183726]],
-     [[2.298354, 5.161785, 7.971898], [1.747515, 6.960963, 7.932784]],
-     [[2.298354, 5.161785, 7.971898], [4.094380, 5.807257, 7.588689]],
-     [[2.298354, 5.161785, 7.971898], [0.539005, 4.482809, 8.460004]],
-     [[2.298354, 5.161785, 7.971898], [2.812425, 3.266553, 8.131637]],
-     [[2.298354, 5.161785, 7.971898], [2.886404, 5.392925, 9.848966]]]
+    [[[2.298354 5.161785 7.971898]
+      [1.885657 4.804777 6.183726]]
+
+     [[2.298354 5.161785 7.971898]
+      [1.747515 6.960963 7.932784]]
+
+     [[2.298354 5.161785 7.971898]
+      [4.09438  5.807257 7.588689]]
+
+     [[2.298354 5.161785 7.971898]
+      [0.539005 4.482809 8.460004]]
+
+     [[2.298354 5.161785 7.971898]
+      [2.812425 3.266553 8.131637]]
+
+     [[2.298354 5.161785 7.971898]
+      [2.886404 5.392925 9.848966]]]
 
     """
     all_pair = []
@@ -107,7 +115,7 @@ def find_bonds(atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2):
             filtered_pair_2.append([filtered_pair_1[i][0], filtered_pair_1[i][1]])
             filtered_bond_2.append([filtered_bond_1[i][0], filtered_bond_1[i][1]])
 
-    return filtered_pair_2, filtered_bond_2
+    return filtered_pair_2, np.array(filtered_bond_2)
 
 
 def find_faces_octa(c_octa):
@@ -256,4 +264,3 @@ def find_faces_octa(c_octa):
     c_oppo_f = np.asarray(c_oppo_f, dtype=np.float64)
 
     return a_ref_f, c_ref_f, a_oppo_f, c_oppo_f
-

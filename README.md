@@ -15,8 +15,8 @@
 [Repo-size]: https://img.shields.io/github/repo-size/OctaDist/OctaDist.svg
 [DL-all-badge]: https://img.shields.io/github/downloads/OctaDist/octadist/total.svg
 [DL-all-link]: https://github.com/OctaDist/OctaDist/releases
-[DL-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.2.6.1/total.svg
-[DL-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
+[DL-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.3.0.0/total.svg
+[DL-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.3.0.0
 [license]: https://img.shields.io/github/license/OctaDist/OctaDist
 [platform]: https://img.shields.io/conda/pn/rangsiman/octadist
 
@@ -117,9 +117,9 @@ Reference manual :
 
 For Windows users, we strongly suggest a standalone executable:
 
-[Click Here to Download OctaDist-2.6.1-Win-x86-64.exe][download-win-exe]
+[Click Here to Download OctaDist-3.0.0-Win-x86-64.exe][download-win-exe]
 
-[download-win-exe]: https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64.exe
+[download-win-exe]: https://github.com/OctaDist/OctaDist/releases/download/v.3.0.0/OctaDist-3.0.0-Win-x86-64.exe
 
 
 For Linux or macOS users and already have Python 3 installed on the system, 
@@ -179,6 +179,7 @@ octadist_cli --inp EXAMPLE_INPUT.xyz --out
 
 ## Supporting input format
 
+- CIF: `*.cif`
 - XYZ: `*.xyz`
 - Computational chemistry outputs: `*.out` and `*.log`
   - [Gaussian](http://gaussian.com/)
@@ -248,19 +249,26 @@ Other example scripts and octahedral complexes are available at [example-py][ex-
 Please cite this project when you use OctaDist for scientific publication.
 
 ```
-OctaDist - A tool for calculating distortion parameters in coordination complexes.
-https://octadist.github.io
+Ketkaew, R.; Tantirungrotechai, Y.; Harding, P.; Chastanet, G.; Guionneau, P.; Marchivie, M.; Harding, D. J. 
+OctaDist: A Tool for Calculating Distortion Parameters in Spin Crossover and Coordination Complexes. 
+*Dalton Trans.*, **2021**,50, 1086-1096. https://doi.org/10.1039/D0DT03988H
 ```
 
 BibTeX
 
 ```
-@misc{KetkaewOctaDist2019, 
-    author = {Rangsiman Ketkaew and Yuthana Tantirungrotechai and David J. Harding and Phimphaka Harding and and Mathieu Marchivie}, 
-    title = {OctaDist: A tool for calculating distortion parameters in coordination complexes}, 
-    url = {https://octadist.github.io}, 
-    year = {2019}, 
-    month = {Aug}}
+@article{Ketkaew2021,
+  doi = {10.1039/d0dt03988h},
+  url = {https://doi.org/10.1039/d0dt03988h},
+  year = {2021},
+  publisher = {Royal Society of Chemistry ({RSC})},
+  volume = {50},
+  number = {3},
+  pages = {1086--1096},
+  author = {Rangsiman Ketkaew and Yuthana Tantirungrotechai and Phimphaka Harding and Guillaume Chastanet and Philippe Guionneau and Mathieu Marchivie and David J. Harding},
+  title = {OctaDist: a tool for calculating distortion parameters in spin crossover and coordination complexes},
+  journal = {Dalton Transactions}
+}
 ```
 
 
@@ -273,19 +281,23 @@ If you found issues in OctaDist, please report it to us at [here][submit-issues]
 
 ## Project team
 
-- [Rangsiman Ketkaew][rk-link] (Thammasat University, Thailand)
+- [Rangsiman Ketkaew][rk-link] (Thammasat University, Thailand) 
   - E-mail: rangsiman1993@gmail.com
 - [Yuthana Tantirungrotechai][yt-link] (Thammasat University, Thailand)
   - E-mail: yt203y@gmail.com
-- [David J. Harding][dh-link] (Walailak University, Thailand)
-  - E-mail: hdavid@mail.wu.ac.th
 - [Phimphaka Harding][ph-link] (Walailak University, Thailand)
   - E-mail: kphimpha@mail.wu.ac.th
+- Guillaume Chastanet (University of Bordeaux, France)
+  - E-mail: Guillaume.Chastanet@icmcb.cnrs.fr
+- Philippe Guionneau (University of Bordeaux, France)
+  - E-mail: Philippe.Guionneau@icmcb.cnrs.fr
 - [Mathieu Marchivie][mm-link] (University of Bordeaux, France)
   - E-mail: mathieu.marchivie@icmcb.cnrs.fr
+- [David J. Harding][dh-link] (Walailak University, Thailand)
+  - E-mail: hdavid@mail.wu.ac.th
 
 [rk-link]: https://rangsimanketkaew.github.io
 [yt-link]: https://sites.google.com/site/compchem403/people/faculty/yuthana
-[dh-link]: https://www.funtechwu.com/david-j-harding
 [ph-link]: https://www.funtechwu.com/phimphaka-harding
 [mm-link]: http://www.icmcb-bordeaux.cnrs.fr/spip.php?article562&lang=en
+[dh-link]: https://www.funtechwu.com/david-j-harding

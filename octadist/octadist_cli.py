@@ -20,7 +20,7 @@ import sys
 
 import octadist
 from .octadist_gui import run_gui
-from octadist.src.molecule import is_xyz, get_coord_xyz, extract_octa
+from octadist.src.io import is_xyz, get_coord_xyz, extract_octa
 
 
 def check_file(file):
