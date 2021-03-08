@@ -18,6 +18,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+import plotly.graph_objects as go
 
 from octadist.src import elements, plane, projection, util
 
@@ -397,8 +398,6 @@ class DrawComplex_Plotly:
         s = [elements.number_to_radii(i) * 100 for i in n]
         c = [elements.number_to_color(i) for i in n]
 
-        import plotly.graph_objects as go
-
         marker_data = go.Scatter3d(
             x=self.coord[:, 0],
             y=self.coord[:, 1],
@@ -443,8 +442,6 @@ class DrawComplex_Plotly:
         _, self.bond_list = util.find_bonds(
             self.atom, self.coord, self.cutoff_global, self.cutoff_hydrogen
         )
-
-        import plotly.graph_objects as go
         
         for i in range(len(self.bond_list)):
             get_atoms = self.bond_list[i]
