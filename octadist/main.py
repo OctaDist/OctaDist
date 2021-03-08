@@ -425,9 +425,9 @@ class OctaDist:
 
         See Also
         --------
-        octadist.src.molecule.extract_coord :
+        octadist.src.io.extract_coord :
             Extract atomic symbols and atomic coordinates from input file.
-        octadist.src.molecule.extract_octa :
+        octadist.src.io.extract_octa :
             Extract octahedral structure from complex.
 
         """

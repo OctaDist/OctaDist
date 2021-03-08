@@ -59,13 +59,17 @@ source code for command line interface (CLI) are available for as follows:
 
 | Platform  | Description | Status |
 |-----------|-------------|:------:|
-| Windows   | Standalone executable | [![Travis-CI Test][Travis-badge]][Travis-link] |
-| Linux     | Support for GUI and CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
-| macOS     | Support for GUI and CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
+| Windows   | [![windows][windows-2.6.1-badge]][windows-2.6.1-link] | [![Travis-CI Test][Travis-badge]][Travis-link] |
+| Linux     | [![latest-release][latest-release-badge]][latest-release-link] | [![Travis-CI Test][Travis-badge]][Travis-link] |
+| macOS     | [![latest-release][latest-release-badge]][latest-release-link] | [![Travis-CI Test][Travis-badge]][Travis-link] |
 | PyPI library   | [![PyPI-Server][PyPI-badge]][PyPI-link]| [![Travis-CI Test][Travis-badge]][Travis-link] |
 | Anaconda cloud | [![Conda-Server][Conda-badge]][Conda-link]| [![Travis-CI Test][Travis-badge]][Travis-link] |
 | Nightly build | Development build | [![Travis-CI Test][Dev-badge]][Travis-link] |
 
+[windows-2.6.1-badge]: https://img.shields.io/badge/release-v.2.6.1-blue
+[windows-2.6.1-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
+[latest-release-badge]: https://img.shields.io/github/release/octadist/octadist.svg
+[latest-release-link]: https://github.com/OctaDist/OctaDist/releases/latest
 [Travis-badge]: https://img.shields.io/travis/OctaDist/OctaDist/master.svg
 [Travis-link]: https://travis-ci.org/OctaDist/OctaDist
 [PyPI-badge]: https://img.shields.io/pypi/v/octadist.svg
@@ -221,7 +225,7 @@ import octadist as oc
 
 file = r"../example-input/Multiple-metals.xyz"
 
-atom_full, coord_full = oc.molecule.extract_coord(file)
+atom_full, coord_full = oc.io.extract_coord(file)
 
 my_plot = oc.draw.DrawComplex(atom=atom_full, coord=coord_full)
 my_plot.add_atom()
