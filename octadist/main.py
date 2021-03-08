@@ -88,6 +88,9 @@ class OctaDist:
         # Default executable of text editor
         self.text_editor = "notepad.exe"
 
+        # Default molecular visualizer
+        self.visualizer = "Matplotlib"
+
         # Default display settings
         self.show_title = True
         self.show_axis = True
@@ -97,6 +100,7 @@ class OctaDist:
         self.backup_cutoff_global = self.cutoff_global
         self.backup_cutoff_hydrogen = self.cutoff_hydrogen
         self.backup_text_editor = self.text_editor
+        self.backup_visualizer = self.visualizer
         self.backup_show_title = self.show_title
         self.backup_show_axis = self.show_axis
         self.backup_show_grid = self.show_grid
@@ -754,6 +758,7 @@ class OctaDist:
             self.cutoff_global = self.backup_cutoff_global
             self.cutoff_hydrogen = self.backup_cutoff_hydrogen
             self.text_editor = self.backup_text_editor
+            self.visualizer = self.backup_visualizer
             self.show_title = self.backup_show_title
             self.show_axis = self.backup_show_axis
             self.show_grid = self.backup_show_grid
@@ -777,6 +782,7 @@ class OctaDist:
             self.cutoff_global = float(var_2.get())
             self.cutoff_hydrogen = float(var_3.get())
             self.text_editor = str(entry_exe.get())
+            self.visualizer = str(var_vis.get())
             self.show_title = bool(var_title.get())
             self.show_axis = bool(var_axis.get())
             self.show_grid = bool(var_grid.get())
@@ -787,6 +793,7 @@ class OctaDist:
             self.show_text(f"Global bond cutoff\t\t\t{self.cutoff_global}")
             self.show_text(f"Hydrogen bond cutoff\t\t\t{self.cutoff_hydrogen}")
             self.show_text(f"Text editor\t\t\t{self.text_editor}")
+            self.show_text(f"Molecular visualizer\t\t\t{self.visualizer}")
             self.show_text(f"Show Title\t\t\t{self.show_title}")
             self.show_text(f"Show Axis\t\t\t{self.show_axis}")
             self.show_text(f"Show Grid\t\t\t{self.show_grid}\n")
@@ -817,36 +824,36 @@ class OctaDist:
         # Setting: Cutoff #
         ###################
 
-        cutoff = tk.LabelFrame(frame, text="Bond Cutoff:")
-        cutoff.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky="W", row=0, columnspan=4)
+        frame_cutoff = tk.LabelFrame(frame, text="Bond Cutoff:")
+        frame_cutoff.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky="W", row=0, columnspan=4)
 
-        label_1 = tk.Label(cutoff, text="Metal-Ligand Bond")
+        label_1 = tk.Label(frame_cutoff, text="Metal-Ligand Bond")
         label_1.grid(padx="10", pady="5", ipadx="10", row=0, column=0)
 
         var_1 = tk.DoubleVar()
         var_1.set(self.cutoff_metal_ligand)
 
-        scale_1 = tk.Scale(cutoff, orient="horizontal", variable=var_1, to=5, resolution=0.1)
+        scale_1 = tk.Scale(frame_cutoff, orient="horizontal", variable=var_1, to=5, resolution=0.1)
         scale_1.configure(width=20, length=100)
         scale_1.grid(padx="10", pady="5", ipadx="10", row=1, column=0)
 
-        label_2 = tk.Label(cutoff, text="Global Distance")
+        label_2 = tk.Label(frame_cutoff, text="Global Distance")
         label_2.grid(padx="10", pady="5", ipadx="10", row=0, column=1)
 
         var_2 = tk.DoubleVar()
         var_2.set(self.cutoff_global)
 
-        scale_2 = tk.Scale(cutoff, orient="horizontal", variable=var_2, to=5, resolution=0.1)
+        scale_2 = tk.Scale(frame_cutoff, orient="horizontal", variable=var_2, to=5, resolution=0.1)
         scale_2.configure(width=20, length=100)
         scale_2.grid(padx="10", pady="5", ipadx="10", row=1, column=1)
 
-        label_3 = tk.Label(cutoff, text="Hydrogen Distance")
+        label_3 = tk.Label(frame_cutoff, text="Hydrogen Distance")
         label_3.grid(padx="10", pady="5", ipadx="10", row=0, column=2)
 
         var_3 = tk.DoubleVar()
         var_3.set(self.cutoff_hydrogen)
 
-        scale_3 = tk.Scale(cutoff, orient="horizontal", variable=var_3, to=5, resolution=0.1)
+        scale_3 = tk.Scale(frame_cutoff, orient="horizontal", variable=var_3, to=5, resolution=0.1)
         scale_3.configure(width=20, length=100)
         scale_3.grid(padx="10", pady="5", ipadx="10", row=1, column=2)
 
@@ -868,19 +875,33 @@ class OctaDist:
 
         entry_exe.insert(tk.INSERT, self.text_editor)
 
-        #####################
-        # Setting: Displays #
-        #####################
+        ########################
+        # Setting : Visualizer #
+        ########################
 
-        displays = tk.LabelFrame(frame, text="Displays:")
-        displays.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky="W", row=2, columnspan=4)
+        frame_visualizer = tk.LabelFrame(frame, text="Visualizer:")
+        frame_visualizer.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky="W", row=2)
+
+        visualizers = ['Matplotlib', 'Plotly']
+        var_vis = tk.StringVar()
+        var_vis.set(self.visualizer)
+
+        vis = ttk.Combobox(frame_visualizer, textvariable=var_vis, values=visualizers)
+        vis.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky="W")
+
+        ####################
+        # Setting: Figures #
+        ####################
+
+        frame_figures = tk.LabelFrame(frame, text="Displays:")
+        frame_figures.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky="W", row=3, columnspan=4)
 
         # Show title of plot?
         var_title = tk.BooleanVar()
         var_title.set(self.show_title)
 
         show_title = ttk.Checkbutton(
-            displays,
+            frame_figures,
             text="Show Figure Title",
             onvalue=True,
             offvalue=False,
@@ -894,7 +915,7 @@ class OctaDist:
         var_axis.set(self.show_axis)
 
         show_axis = ttk.Checkbutton(
-            displays,
+            frame_figures,
             text="Show Axis",
             onvalue=True,
             offvalue=False,
@@ -908,7 +929,7 @@ class OctaDist:
         var_grid.set(self.show_grid)
 
         show_grid = ttk.Checkbutton(
-            displays,
+            frame_figures,
             text="Show Gridlines",
             onvalue=True,
             offvalue=False,
@@ -923,15 +944,15 @@ class OctaDist:
 
         button = tk.Button(frame, text="Restore settings", command=lambda: restore_settings(self))
         button.configure(width=15)
-        button.grid(padx="10", pady="10", sticky=tk.W, row=3, column=0)
+        button.grid(padx="10", pady="10", sticky=tk.W, row=4, column=0)
 
         button = tk.Button(frame, text="OK", command=lambda: click_ok(self))
         button.configure(width=15)
-        button.grid(padx="5", pady="10", sticky=tk.E, row=3, column=2)
+        button.grid(padx="5", pady="10", sticky=tk.E, row=4, column=2)
 
         button = tk.Button(frame, text="Cancel", command=lambda: click_cancel())
         button.configure(width=15)
-        button.grid(padx="5", pady="10", row=3, column=3)
+        button.grid(padx="5", pady="10", row=4, column=3)
 
         frame.mainloop()
 
@@ -1113,21 +1134,35 @@ class OctaDist:
 
         atom_full, coord_full = self.atom_coord_full[0]
 
-        my_plot = draw.DrawComplex_Matplotlib(
-            atom=atom_full,
-            coord=coord_full,
-            cutoff_global=self.cutoff_global,
-            cutoff_hydrogen=self.cutoff_hydrogen,
-        )
-        my_plot.add_atom()
-        my_plot.add_bond()
-        my_plot.add_legend()
-        my_plot.config_plot(
-            show_title=self.show_title,
-            show_axis=self.show_axis,
-            show_grid=self.show_grid,
-        )
-        my_plot.show_plot()
+        if self.visualizer == "Matplotlib":
+            my_plot = draw.DrawComplex_Matplotlib(
+                atom=atom_full,
+                coord=coord_full,
+                cutoff_global=self.cutoff_global,
+                cutoff_hydrogen=self.cutoff_hydrogen,
+            )
+            my_plot.add_atom()
+            my_plot.add_bond()
+            my_plot.add_legend()
+            my_plot.config_plot(
+                show_title=self.show_title,
+                show_axis=self.show_axis,
+                show_grid=self.show_grid,
+            )
+            my_plot.show_plot()
+
+        elif self.visualizer == "Plotly":
+            my_plot = draw.DrawComplex_Plotly(
+                atom=atom_full,
+                coord=coord_full,
+                cutoff_global=self.cutoff_global,
+                cutoff_hydrogen=self.cutoff_hydrogen,
+            )
+            my_plot.add_atom()
+            my_plot.add_bond()
+            my_plot.show_plot()
+        else:
+            popup.err_visualizer_not_found()
 
     def draw_all_atom_and_face(self):
         """
