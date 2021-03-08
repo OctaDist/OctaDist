@@ -50,7 +50,7 @@ __all__ = [
     "draw",
     "elements",
     "linear",
-    "molecule",
+    "io",
     "plane",
     "plot",
     "popup",
@@ -60,7 +60,8 @@ __all__ = [
     "util",
     # -----------------------
     "CalcDistortion",
-    "DrawComplex",
+    "DrawComplex_Matplotlib",
+    "DrawComplex_Plotly",
     "DrawProjection",
     "DrawTwistingPlane",
     "check_atom",
@@ -74,11 +75,13 @@ __all__ = [
     "extract_coord",
     "find_metal",
     "extract_octa",
+    "is_cif",
     "is_xyz",
     "is_gaussian",
     "is_nwchem",
     "is_orca",
     "is_qchem",
+    "get_coord_cif",
     "get_coord_xyz",
     "get_coord_gaussian",
     "get_coord_nwchem",
@@ -126,6 +129,7 @@ from .src import util
 from .src.calc import CalcDistortion
 
 from .src.draw import DrawComplex_Matplotlib
+from .src.draw import DrawComplex_Plotly
 from .src.draw import DrawProjection
 from .src.draw import DrawTwistingPlane
 
