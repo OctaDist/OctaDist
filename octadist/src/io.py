@@ -17,7 +17,7 @@
 from operator import itemgetter
 
 import numpy as np
-import pymatgen as pmg
+import pymatgen
 from scipy.spatial import distance
 
 from octadist.src import elements, popup
@@ -137,7 +137,8 @@ def get_coord_cif(f):
     import warnings
     warnings.filterwarnings('ignore')
     
-    structure = pmg.Structure.from_file(f)
+    # works only with pymatgen <= v2021.3.3
+    structure = pymatgen.Structure.from_file(f)
     atom = list(map(lambda x: elements.number_to_symbol(x), structure.atomic_numbers))
     coord = structure.cart_coords
 
