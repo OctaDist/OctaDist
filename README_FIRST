@@ -7,7 +7,7 @@ Program Info
 
 program_name = OctaDist (Octahedral distortion calculator)
 program_version = 3.0.0
-program_release = 2020
+program_release = 2021
 
 Citation
 ========
@@ -51,6 +51,8 @@ Requirements
 	- matplotlib
 	- sciPy
 	- rmsd
+	- plotly
+	- pymatgen <= 2021.3.3
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
