@@ -59,7 +59,6 @@ setuptools.setup(
         "Environment :: Console",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Development Status :: 5 - Production/Stable",
@@ -94,7 +93,7 @@ setuptools.setup(
         "structural analysis",
         "Molecular visualization",
     ],
-    python_requires=">=3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*",
+    python_requires=">=3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*"
     entry_points={
         "console_scripts": [
             "octadist=octadist.octadist_gui:run_gui",
