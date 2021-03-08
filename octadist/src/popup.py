@@ -131,6 +131,13 @@ def err_no_editor():
     showerror("Error", "Text editor path is empty. Go to program setting and browse a new text editor.")
 
 
+def err_visualizer_not_found():
+    """Show this error popup if user-defined visualizer is not available.
+    """
+    showerror("Error", "Molecular visualizer that you specified is not supported. "
+    "Please choose either Matplotlib or Plotly.")
+
+
 def err_cannot_update():
     """Show this error popup when the program cannot detect the operating system that the user is using.
     """
