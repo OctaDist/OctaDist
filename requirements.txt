@@ -2,4 +2,5 @@ numpy
 scipy
 matplotlib
 rmsd
-pymatgen
+pymatgen==2021.3.3
+plotly

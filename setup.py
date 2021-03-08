@@ -47,7 +47,14 @@ setuptools.setup(
         "Tracker": "https://github.com/OctaDist/OctaDist/issues",
     },
     packages=setuptools.find_packages(),
-    install_requires=["numpy", "scipy", "matplotlib", "rmsd", "pymatgen"],
+    install_requires=[
+        "numpy", 
+        "scipy", 
+        "matplotlib", 
+        "rmsd", 
+        "pymatgen<=2021.3.3", 
+        "plotly"
+        ],
     classifiers=[
         "Environment :: Console",
         "Programming Language :: Python",
