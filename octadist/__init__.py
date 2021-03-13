@@ -24,10 +24,10 @@ try:
 except ImportError:
     pass
 
-__author__ = "R. Ketkaew, Y. Tantirungrotechai, D. J. Harding, P. Harding, M. Marchivie"
+__author__ = "R. Ketkaew, Y. Tantirungrotechai, P. Harding, G. Chastanet, P. Guionneau, M. Marchivie, D. J. Harding"
 __author_full__ = (
-    "Rangsiman Ketkaew, Yuthana Tantirungrotechai, David J. Harding, "
-    "Phimphaka Harding, Mathieu Marchivie"
+    "Rangsiman Ketkaew, Yuthana Tantirungrotechai, Phimphaka Harding, Guillaume Chastanet, "
+    "Philippe Guionneau, Mathieu Marchivie, David J. Harding"
 )
 __maintainer__ = "Rangsiman Ketkaew"
 __copyright__ = "OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al."
@@ -35,13 +35,11 @@ __license__ = "GNU v3"
 __credit__ = "OctaDist Development Team"
 __email__ = "rangsiman1993@gmail.com"
 __version__ = "3.0.0"
-__revision__ = "2020.300"
-__release__ = "2020"
+__revision__ = "2021.300"
+__release__ = "2021"
 __status__ = "stable"
 __title__ = "Octahedral Distortion Calculator"
-__description__ = (
-    "OctaDist: A tool for calculating distortion parameters in coordination complexes."
-)
+__description__ = "A tool for calculating distortion parameters in molecule."
 __doc__ = "OctaDist documentation is available at https://octadist.readthedocs.io"
 __help__ = "https://octadist.readthedocs.io"
 __website__ = "https://octadist.github.io"
@@ -52,7 +50,7 @@ __all__ = [
     "draw",
     "elements",
     "linear",
-    "molecule",
+    "io",
     "plane",
     "plot",
     "popup",
@@ -62,7 +60,8 @@ __all__ = [
     "util",
     # -----------------------
     "CalcDistortion",
-    "DrawComplex",
+    "DrawComplex_Matplotlib",
+    "DrawComplex_Plotly",
     "DrawProjection",
     "DrawTwistingPlane",
     "check_atom",
@@ -76,11 +75,13 @@ __all__ = [
     "extract_coord",
     "find_metal",
     "extract_octa",
+    "is_cif",
     "is_xyz",
     "is_gaussian",
     "is_nwchem",
     "is_orca",
     "is_qchem",
+    "get_coord_cif",
     "get_coord_xyz",
     "get_coord_gaussian",
     "get_coord_nwchem",
@@ -114,7 +115,7 @@ from .src import calc
 from .src import draw
 from .src import elements
 from .src import linear
-from .src import molecule
+from .src import io
 from .src import plane
 from .src import plot
 from .src import popup
@@ -127,33 +128,34 @@ from .src import util
 
 from .src.calc import CalcDistortion
 
-from .src.draw import DrawComplex
+from .src.draw import DrawComplex_Matplotlib
+from .src.draw import DrawComplex_Plotly
 from .src.draw import DrawProjection
 from .src.draw import DrawTwistingPlane
 
-from .src.elements import check_atom
-from .src.elements import check_radii
-from .src.elements import check_color
+from .src.elements import number_to_symbol
+from .src.elements import number_to_radii
+from .src.elements import number_to_color
 
 from .src.linear import angle_sign
 from .src.linear import angle_btw_vectors
 from .src.linear import angle_btw_planes
 from .src.linear import triangle_area
 
-from .src.molecule import count_line
-from .src.molecule import extract_coord
-from .src.molecule import find_metal
-from .src.molecule import extract_octa
-from .src.molecule import is_xyz
-from .src.molecule import is_gaussian
-from .src.molecule import is_nwchem
-from .src.molecule import is_orca
-from .src.molecule import is_qchem
-from .src.molecule import get_coord_xyz
-from .src.molecule import get_coord_gaussian
-from .src.molecule import get_coord_nwchem
-from .src.molecule import get_coord_orca
-from .src.molecule import get_coord_qchem
+from .src.io import count_line
+from .src.io import extract_coord
+from .src.io import find_metal
+from .src.io import extract_octa
+from .src.io import is_xyz
+from .src.io import is_gaussian
+from .src.io import is_nwchem
+from .src.io import is_orca
+from .src.io import is_qchem
+from .src.io import get_coord_xyz
+from .src.io import get_coord_gaussian
+from .src.io import get_coord_nwchem
+from .src.io import get_coord_orca
+from .src.io import get_coord_qchem
 
 from .src.plane import find_eq_of_plane
 from .src.plane import find_fit_plane

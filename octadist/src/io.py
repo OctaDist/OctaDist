@@ -17,9 +17,132 @@
 from operator import itemgetter
 
 import numpy as np
+import pymatgen
 from scipy.spatial import distance
 
 from octadist.src import elements, popup
+
+
+def is_cif(f):
+    """
+    Check if the input file is .cif file format.
+
+    Parameters
+    ----------
+    f : str
+        User input filename.
+
+    Returns
+    -------
+    bool : bool
+        If file is CIF file, return True.
+
+    See Also
+    --------
+    get_coord_cif :
+        Find atomic coordinates of molecule from CIF file.
+
+    Notes
+    -----
+    CIF file format is like following:
+
+    #########################
+    # Example XYZ file format
+    #########################
+
+    <number of atom>
+    comment
+    <index 0> <X> <Y> <Z>
+    <index 1> <X> <Y> <Z>
+    ...
+    <index 6> <X> <Y> <Z>
+
+    Examples
+    --------
+    >>> # example.cif
+    >>> # example
+    >>> # _audit_creation_date              2012-10-26T21:09:50-0400
+    >>> # _audit_creation_method            fapswitch 2.2
+    >>> # _symmetry_space_group_name_H-M    P1
+    >>> # _symmetry_Int_Tables_number       1
+    >>> # _space_group_crystal_system       triclinic
+    >>> # _cell_length_a                    16.012374
+    >>> # _cell_length_b                    14.740457
+    >>> # _cell_length_c                    19.436146
+    >>> # _cell_angle_alpha                 89.939227
+    >>> # _cell_angle_beta                  90.110039
+    >>> # _cell_angle_gamma                 90.015104
+    >>> # _cell_volume                      4587.49671393
+    >>> # 
+    >>> # loop_
+    >>> # _atom_site_label
+    >>> # _atom_site_type_symbol
+    >>> # _atom_type_description
+    >>> # _atom_site_fract_x
+    >>> # _atom_site_fract_y
+    >>> # _atom_site_fract_z
+    >>> # _atom_type_partial_charge
+    >>> # C1    C     C_R   0.340882 0.499989 0.500098 0.541130
+    >>> # C2    C     C_R   0.528123 0.048033 0.558069 0.232589
+    >>> # C3    C     C_R   0.499931 0.902862 0.500001 -0.063750
+    >>> # C4    C     C_R   0.500061 0.097137 0.500001 -0.063745
+    >>> # C5    C     C_1   0.499958 0.802655 0.499991 0.266033
+    >>> # ...
+    >>> is_cif("example.cif")
+    True
+
+    """
+    cif_file = open(f, "r")
+    nline = cif_file.readlines()
+
+    for i in range(len(nline)):
+        if "loop_" in nline[i]:
+            return True
+
+    return False
+
+
+def get_coord_cif(f):
+    """
+    Get coordinate from .cif file.
+
+    Parameters
+    ----------
+    f : str
+        User input filename.
+
+    Returns
+    -------
+    atom : list
+        Full atomic labels of complex.
+    coord : ndarray
+        Full atomic coordinates of complex.
+
+    Examples
+    --------
+    >>> file = "example.cif"
+    >>> atom, coord = get_coord_cif(file)
+    >>> atom
+    ['Fe', 'O', 'O', 'N', 'N', 'N', 'N']
+    >>> coord
+    array([[18.268051, 11.28912 ,  2.565804],
+           [19.823874, 10.436314,  1.381569],
+           [19.074466,  9.706294,  3.743576],
+           [17.364238, 10.733354,  0.657318],
+           [16.149538, 11.306661,  2.913619],
+           [18.599941, 12.116308,  4.528988],
+           [18.364987, 13.407634,  2.249608]])
+
+    """
+    import warnings
+    warnings.filterwarnings('ignore')
+    
+    # works only with pymatgen <= v2021.3.3
+    structure = pymatgen.Structure.from_file(f)
+    atom = list(map(lambda x: elements.number_to_symbol(x), structure.atomic_numbers))
+    coord = structure.cart_coords
+
+    return atom, coord
 
 
 def is_xyz(f):
@@ -45,7 +168,10 @@ def is_xyz(f):
     -----
     XYZ file format is like following:
 
-    >>> # Example XYZ file format
+    #########################
+    # Example XYZ file format
+    #########################
+
     <number of atom>
     comment
     <index 0> <X> <Y> <Z>
@@ -55,17 +181,18 @@ def is_xyz(f):
 
     Examples
     --------
-    >>> example.xyz
-    7
-    Comment: From Excel file
-    Fe  6.251705    9.063211    5.914842
-    N   8.15961     9.066456    5.463087
-    N   6.749414    10.457551   7.179682
-    N   5.709997    10.492955   4.658257
-    N   4.350474    9.106286    6.356091
-    O   5.789096    7.796326    4.611355
-    O   6.686381    7.763872    7.209699
-    >>> is_xyz(example.xyz)
+    >>> # example.xyz
+    >>> # 20
+    >>> # Comment: From Excel file
+    >>> # Fe  6.251705    9.063211    5.914842
+    >>> # N   8.15961     9.066456    5.463087
+    >>> # N   6.749414    10.457551   7.179682
+    >>> # N   5.709997    10.492955   4.658257
+    >>> # N   4.350474    9.106286    6.356091
+    >>> # O   5.789096    7.796326    4.611355
+    >>> # O   6.686381    7.763872    7.209699
+    >>> # ...
+    >>> is_xyz("example.xyz")
     True
 
     """
@@ -100,6 +227,21 @@ def get_coord_xyz(f):
         Full atomic labels of complex.
     coord : ndarray
         Full atomic coordinates of complex.
+
+    Examples
+    --------
+    >>> file = "Fe-distorted-complex.xyz"
+    >>> atom, coord = get_coord_xyz(file)
+    >>> atom
+    ['Fe', 'O', 'O', 'N', 'N', 'N', 'N']
+    >>> coord
+    array([[18.268051, 11.28912 ,  2.565804],
+           [19.823874, 10.436314,  1.381569],
+           [19.074466,  9.706294,  3.743576],
+           [17.364238, 10.733354,  0.657318],
+           [16.149538, 11.306661,  2.913619],
+           [18.599941, 12.116308,  4.528988],
+           [18.364987, 13.407634,  2.249608]])
 
     """
     file = open(f, "r")
@@ -144,18 +286,20 @@ def is_gaussian(f):
 
     Examples
     --------
-    >>> gaussian.log
-                                Standard orientation:
-    ---------------------------------------------------------------------
-    Center     Atomic      Atomic             Coordinates (Angstroms)
-    Number     Number       Type             X           Y           Z
-    ---------------------------------------------------------------------
-         1         26           0        0.000163    1.364285   -0.000039
-         2          8           0        0.684192    0.084335   -1.192008
-         3          8           0       -0.683180    0.083251    1.191173
-         4          7           0        1.639959    1.353157    1.006941
-         5          7           0       -0.563377    2.891083    1.435925
-    ...
+    >>> # gaussian.log
+    >>> #                             Standard orientation:
+    >>> # ---------------------------------------------------------------------
+    >>> # Center     Atomic      Atomic             Coordinates (Angstroms)
+    >>> # Number     Number       Type             X           Y           Z
+    >>> # ---------------------------------------------------------------------
+    >>> #      1         26           0        0.000163    1.364285   -0.000039
+    >>> #      2          8           0        0.684192    0.084335   -1.192008
+    >>> #      3          8           0       -0.683180    0.083251    1.191173
+    >>> #      4          7           0        1.639959    1.353157    1.006941
+    >>> #      5          7           0       -0.563377    2.891083    1.435925
+    >>> # ...
+    >>> is_gaussian("gaussian.log")
+    True
 
     """
     gaussian_file = open(f, "r")
@@ -184,6 +328,21 @@ def get_coord_gaussian(f):
     coord : ndarray
         Full atomic coordinates of complex.
 
+    Examples
+    --------
+    >>> file = "Gaussian-Fe-distorted-complex.out"
+    >>> atom, coord = get_coord_gaussian(file)
+    >>> atom
+    ['Fe', 'O', 'O', 'N', 'N', 'N', 'N']
+    >>> coord
+    array([[18.268051, 11.28912 ,  2.565804],
+           [19.823874, 10.436314,  1.381569],
+           [19.074466,  9.706294,  3.743576],
+           [17.364238, 10.733354,  0.657318],
+           [16.149538, 11.306661,  2.913619],
+           [18.599941, 12.116308,  4.528988],
+           [18.364987, 13.407634,  2.249608]])
+
     """
     gaussian_file = open(f, "r")
     nline = gaussian_file.readlines()
@@ -200,13 +359,13 @@ def get_coord_gaussian(f):
             end = i
             break
 
-    for line in nline[start + 5 : end]:
+    for line in nline[start + 5: end]:
         data = line.split()
         data1 = int(data[1])
         coord_x = float(data[3])
         coord_y = float(data[4])
         coord_z = float(data[5])
-        data1 = elements.check_atom(data1)
+        data1 = elements.number_to_symbol(data1)
         atom.append(data1)
         coord.append([coord_x, coord_y, coord_z])
 
@@ -238,20 +397,22 @@ def is_nwchem(f):
 
     Examples
     --------
-    >>> nwchem.out
-      ----------------------
-      Optimization converged
-      ----------------------
-    ...
-    ...
-     No.       Tag          Charge          X              Y              Z
-    ---- ---------------- ---------- -------------- -------------- --------------
-       1 Ru(Fragment=1)      44.0000    -3.04059115    -0.08558108    -0.07699482
-       2 C(Fragment=1)        6.0000    -1.62704660     2.40971357     0.63980357
-       3 C(Fragment=1)        6.0000    -0.61467778     0.59634595     1.68841986
-       4 C(Fragment=1)        6.0000     0.31519183     1.41684566     2.30745116
-       5 C(Fragment=1)        6.0000     0.28773462     2.80126911     2.08006241
-    ...
+    >>> # nwchem.out
+    >>> #   ----------------------
+    >>> #   Optimization converged
+    >>> #   ----------------------
+    >>> # ...
+    >>> # ...
+    >>> #  No.       Tag          Charge          X              Y              Z
+    >>> # ---- ---------------- ---------- -------------- -------------- --------------
+    >>> #    1 Ru(Fragment=1)      44.0000    -3.04059115    -0.08558108    -0.07699482
+    >>> #    2 C(Fragment=1)        6.0000    -1.62704660     2.40971357     0.63980357
+    >>> #    3 C(Fragment=1)        6.0000    -0.61467778     0.59634595     1.68841986
+    >>> #    4 C(Fragment=1)        6.0000     0.31519183     1.41684566     2.30745116
+    >>> #    5 C(Fragment=1)        6.0000     0.28773462     2.80126911     2.08006241
+    >>> # ...
+    >>> is_nwchem("nwchem.out")
+    True
 
     """
     nwchem_file = open(f, "r")
@@ -285,6 +446,21 @@ def get_coord_nwchem(f):
     coord : ndarray
         Full atomic coordinates of complex.
 
+    Examples
+    --------
+    >>> file = "NWChem-Fe-distorted-complex.out"
+    >>> atom, coord = get_coord_nwchem(file)
+    >>> atom
+    ['Fe', 'O', 'O', 'N', 'N', 'N', 'N']
+    >>> coord
+    array([[18.268051, 11.28912 ,  2.565804],
+           [19.823874, 10.436314,  1.381569],
+           [19.074466,  9.706294,  3.743576],
+           [17.364238, 10.733354,  0.657318],
+           [16.149538, 11.306661,  2.913619],
+           [18.599941, 12.116308,  4.528988],
+           [18.364987, 13.407634,  2.249608]])
+
     """
     nwchem_file = open(f, "r")
     nline = nwchem_file.readlines()
@@ -309,7 +485,7 @@ def get_coord_nwchem(f):
         coord_x = float(dat[3])
         coord_y = float(dat[4])
         coord_z = float(dat[5])
-        dat1 = elements.check_atom(dat1)
+        dat1 = elements.number_to_symbol(dat1)
         atom.append(dat1)
         coord.append([coord_x, coord_y, coord_z])
 
@@ -341,16 +517,18 @@ def is_orca(f):
 
     Examples
     --------
-    >>> orca.out
-    ---------------------------------
-    CARTESIAN COORDINATES (ANGSTROEM)
-    ---------------------------------
-      C      0.009657    0.000000    0.005576
-      C      0.009657   -0.000000    1.394424
-      C      1.212436   -0.000000    2.088849
-      C      2.415214    0.000000    1.394425
-      C      2.415214   -0.000000    0.005575
-    ...
+    >>> # orca.out
+    >>> # ---------------------------------
+    >>> # CARTESIAN COORDINATES (ANGSTROEM)
+    >>> # ---------------------------------
+    >>> #   C      0.009657    0.000000    0.005576
+    >>> #   C      0.009657   -0.000000    1.394424
+    >>> #   C      1.212436   -0.000000    2.088849
+    >>> #   C      2.415214    0.000000    1.394425
+    >>> #   C      2.415214   -0.000000    0.005575
+    >>> # ...
+    >>> is_orca("orca.out")
+    True
 
     """
     orca_file = open(f, "r")
@@ -378,6 +556,21 @@ def get_coord_orca(f):
     coord : ndarray
         Full atomic coordinates of complex.
 
+    Examples
+    --------
+    >>> file = "ORCA-Fe-distorted-complex.out"
+    >>> atom, coord = get_coord_orca(file)
+    >>> atom
+    ['Fe', 'O', 'O', 'N', 'N', 'N', 'N']
+    >>> coord
+    array([[18.268051, 11.28912 ,  2.565804],
+           [19.823874, 10.436314,  1.381569],
+           [19.074466,  9.706294,  3.743576],
+           [17.364238, 10.733354,  0.657318],
+           [16.149538, 11.306661,  2.913619],
+           [18.599941, 12.116308,  4.528988],
+           [18.364987, 13.407634,  2.249608]])
+
     """
     orca_file = open(f, "r")
     nline = orca_file.readlines()
@@ -394,7 +587,7 @@ def get_coord_orca(f):
             end = i - 1
             break
 
-    for line in nline[start + 2 : end]:
+    for line in nline[start + 2: end]:
         dat = line.split()
         dat1 = dat[0]
         coord_x = float(dat[1])
@@ -431,18 +624,20 @@ def is_qchem(f):
 
     Examples
     --------
-    >>> qchem.out
-    ******************************
-    **  OPTIMIZATION CONVERGED  **
-    ******************************
-                               Coordinates (Angstroms)
-        ATOM                X               Y               Z
-         1  C         0.2681746845   -0.8206222796   -0.3704019386
-         2  C        -1.1809302341   -0.5901746612   -0.6772716414
-         3  H        -1.6636318262   -1.5373167851   -0.9496501352
-         4  H        -1.2829834971    0.0829227646   -1.5389938241
-         5  C        -1.9678565203    0.0191922768    0.5346693165
-    ...
+    >>> # qchem.out
+    >>> # ******************************
+    >>> # **  OPTIMIZATION CONVERGED  **
+    >>> # ******************************
+    >>> #                            Coordinates (Angstroms)
+    >>> #     ATOM                X               Y               Z
+    >>> #      1  C         0.2681746845   -0.8206222796   -0.3704019386
+    >>> #      2  C        -1.1809302341   -0.5901746612   -0.6772716414
+    >>> #      3  H        -1.6636318262   -1.5373167851   -0.9496501352
+    >>> #      4  H        -1.2829834971    0.0829227646   -1.5389938241
+    >>> #      5  C        -1.9678565203    0.0191922768    0.5346693165
+    >>> # ...
+    >>> is_qchem("qchem.out")
+    True
 
     """
     qchem_file = open(f, "r")
@@ -471,6 +666,21 @@ def get_coord_qchem(f):
     coord : ndarray
         Full atomic coordinates of complex.
 
+    Examples
+    --------
+    >>> file = "Qchem-Fe-distorted-complex.out"
+    >>> atom, coord = get_coord_qchem(file)
+    >>> atom
+    ['Fe', 'O', 'O', 'N', 'N', 'N', 'N']
+    >>> coord
+    array([[18.268051, 11.28912 ,  2.565804],
+           [19.823874, 10.436314,  1.381569],
+           [19.074466,  9.706294,  3.743576],
+           [17.364238, 10.733354,  0.657318],
+           [16.149538, 11.306661,  2.913619],
+           [18.599941, 12.116308,  4.528988],
+           [18.364987, 13.407634,  2.249608]])
+
     """
     orca_file = open(f, "r")
     nline = orca_file.readlines()
@@ -487,7 +697,7 @@ def get_coord_qchem(f):
             end = i - 1
             break
 
-    for line in nline[start + 5 : end]:
+    for line in nline[start + 5: end]:
         dat = line.split()
         dat1 = dat[1]
         coord_x = float(dat[2])
@@ -519,7 +729,7 @@ def count_line(file=None):
 
     Examples
     --------
-    >>> file = "/home/Jack/[Fe(1-bpp)2][BF4]2-HS.xyz"
+    >>> file = "[Fe(1-bpp)2][BF4]2-HS.xyz"
     >>> count_line(file)
     27
 
@@ -536,7 +746,10 @@ def count_line(file=None):
 
 def extract_coord(file=None):
     """
-    Check file type, read data, extract atom and coord from an input file.
+    Check file type, read data, extract atomic symbols and cartesian coordinate from 
+    a structure input file provided by the user. This function can efficiently manupulate I/O process. 
+    File types currently supported are listed in notes below. Other file formats can also be implemented 
+    easily within this module.
 
     Parameters
     ----------
@@ -559,8 +772,9 @@ def extract_coord(file=None):
 
     Notes
     -----
-    The following is the file type that OctaDist supports:
+    The following are file types supported by the current virsion of OctaDist:
 
+    - ``CIF``
     - ``XYZ``
     - ``Gaussian``
     - ``NWChem``
@@ -569,18 +783,20 @@ def extract_coord(file=None):
 
     Examples
     --------
-    >>> file = "/home/Jack/[Fe(1-bpp)2][BF4]2-HS.xyz"
+    >>> file = "[Fe(1-bpp)2][BF4]2-HS.xyz"
     >>> atom, coord = extract_coord(file)
     >>> atom
-    ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
+    ['Fe', 'N', 'N', 'N', 'N', 'N', 'N', 'C', 'C']
     >>> coord
-    [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
-     [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
-     [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
-     [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
-     [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
-     [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
-     [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
+    array([[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
+           [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
+           [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
+           [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
+           [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
+           [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01],
+           [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
+           [-6.14953418e+00,  8.30666180e+00,  2.91361978e+01],
+           [-8.59995241e+00,  7.11630815e+00,  4.52898814e+01]])
 
     """
     if file is None:
@@ -593,20 +809,32 @@ def extract_coord(file=None):
     is_coord_correct = True
 
     # Check file extension
-    if file.endswith(".xyz"):
+    # --- CIF ---
+    if file.endswith(".cif"):
+        if is_cif(file):
+            atom, coord = get_coord_cif(file)
+        else:
+            is_ftype_correct = False
+            is_coord_correct = False
+    # --- XYZ ---
+    elif file.endswith(".xyz"):
         if is_xyz(file):
             atom, coord = get_coord_xyz(file)
         else:
             is_ftype_correct = False
             is_coord_correct = False
-
+    # --- Other formats ---
     elif file.endswith(".out") or file.endswith(".log"):
+        # Gaussian
         if is_gaussian(file):
             atom, coord = get_coord_gaussian(file)
+        # NWChem
         elif is_nwchem(file):
             atom, coord = get_coord_nwchem(file)
+        # ORCA
         elif is_orca(file):
             atom, coord = get_coord_orca(file)
+        # Q-Chem
         elif is_qchem(file):
             atom, coord = get_coord_qchem(file)
         else:
@@ -672,7 +900,7 @@ def find_metal(atom=None, coord=None):
     >>> atom_metal
     ['Fe']
     >>> coord_metal
-    [[-1.95348286  4.51770478 14.78558113]]
+    array([[-1.95348286,  4.51770478, 14.7855811 ]])
 
     """
     if atom is None or coord is None:
@@ -683,7 +911,7 @@ def find_metal(atom=None, coord=None):
     coord_metal = []
 
     for i in range(len(atom)):
-        number = elements.check_atom(atom[i])
+        number = elements.number_to_symbol(atom[i])
 
         if (
             21 <= number <= 30
@@ -735,25 +963,27 @@ def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
 
     Examples
     --------
-    >>> atom = ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
+    >>> atom = ['Fe', 'N', 'N', 'N', 'N', 'N', 'N', 'C', 'C']
     >>> coord = [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
                  [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
                  [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
                  [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
                  [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
                  [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
-                 [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
+                 [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01],
+                 [-6.14953418e+00,  8.30666180e+00,  2.91361978e+01],
+                 [-8.59995241e+00,  7.11630815e+00,  4.52898814e+01]]
     >>> atom_octa, coord_octa = extract_octa(atom, coord)
     >>> atom_octa
     ['Fe', 'N', 'N', 'N', 'N', 'N', 'N']
     >>> coord_octa
-    [[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
-     [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
-     [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01],
-     [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
-     [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
-     [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
-     [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
+    array([[-1.95348286e+00,  4.51770478e+00,  1.47855811e+01],
+           [-1.87618286e+00,  4.48070478e+00,  1.26484811e+01],
+           [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
+           [-4.88286000e-03,  3.69060478e+00,  1.42392811e+01],
+           [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
+           [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01],
+           [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01]])
 
     """
     if atom is None or coord is None:
@@ -789,4 +1019,3 @@ def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
     coord_octa = np.asarray(coord_octa, dtype=np.float64)
 
     return atom_octa, coord_octa
-

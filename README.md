@@ -59,13 +59,17 @@ source code for command line interface (CLI) are available for as follows:
 
 | Platform  | Description | Status |
 |-----------|-------------|:------:|
-| Windows   | Standalone executable | [![Travis-CI Test][Travis-badge]][Travis-link] |
-| Linux     | Support for GUI and CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
-| macOS     | Support for GUI and CLI | [![Travis-CI Test][Travis-badge]][Travis-link] |
+| Windows   | [![windows][windows-2.6.1-badge]][windows-2.6.1-link] | [![Travis-CI Test][Travis-badge]][Travis-link] |
+| Linux     | [![latest-release][latest-release-badge]][latest-release-link] | [![Travis-CI Test][Travis-badge]][Travis-link] |
+| macOS     | [![latest-release][latest-release-badge]][latest-release-link] | [![Travis-CI Test][Travis-badge]][Travis-link] |
 | PyPI library   | [![PyPI-Server][PyPI-badge]][PyPI-link]| [![Travis-CI Test][Travis-badge]][Travis-link] |
 | Anaconda cloud | [![Conda-Server][Conda-badge]][Conda-link]| [![Travis-CI Test][Travis-badge]][Travis-link] |
 | Nightly build | Development build | [![Travis-CI Test][Dev-badge]][Travis-link] |
 
+[windows-2.6.1-badge]: https://img.shields.io/badge/release-v.2.6.1-blue
+[windows-2.6.1-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
+[latest-release-badge]: https://img.shields.io/github/release/octadist/octadist.svg
+[latest-release-link]: https://github.com/OctaDist/OctaDist/releases/latest
 [Travis-badge]: https://img.shields.io/travis/OctaDist/OctaDist/master.svg
 [Travis-link]: https://travis-ci.org/OctaDist/OctaDist
 [PyPI-badge]: https://img.shields.io/pypi/v/octadist.svg
@@ -179,6 +183,7 @@ octadist_cli --inp EXAMPLE_INPUT.xyz --out
 
 ## Supporting input format
 
+- CIF: `*.cif`
 - XYZ: `*.xyz`
 - Computational chemistry outputs: `*.out` and `*.log`
   - [Gaussian](http://gaussian.com/)
@@ -220,7 +225,7 @@ import octadist as oc
 
 file = r"../example-input/Multiple-metals.xyz"
 
-atom_full, coord_full = oc.molecule.extract_coord(file)
+atom_full, coord_full = oc.io.extract_coord(file)
 
 my_plot = oc.draw.DrawComplex(atom=atom_full, coord=coord_full)
 my_plot.add_atom()
@@ -248,19 +253,26 @@ Other example scripts and octahedral complexes are available at [example-py][ex-
 Please cite this project when you use OctaDist for scientific publication.
 
 ```
-OctaDist - A tool for calculating distortion parameters in coordination complexes.
-https://octadist.github.io
+Ketkaew, R.; Tantirungrotechai, Y.; Harding, P.; Chastanet, G.; Guionneau, P.; Marchivie, M.; Harding, D. J. 
+OctaDist: A Tool for Calculating Distortion Parameters in Spin Crossover and Coordination Complexes. 
+Dalton Trans., 2021,50, 1086-1096. https://doi.org/10.1039/D0DT03988H
 ```
 
 BibTeX
 
 ```
-@misc{KetkaewOctaDist2019, 
-    author = {Rangsiman Ketkaew and Yuthana Tantirungrotechai and David J. Harding and Phimphaka Harding and and Mathieu Marchivie}, 
-    title = {OctaDist: A tool for calculating distortion parameters in coordination complexes}, 
-    url = {https://octadist.github.io}, 
-    year = {2019}, 
-    month = {Aug}}
+@article{Ketkaew2021,
+  doi = {10.1039/d0dt03988h},
+  url = {https://doi.org/10.1039/d0dt03988h},
+  year = {2021},
+  publisher = {Royal Society of Chemistry ({RSC})},
+  volume = {50},
+  number = {3},
+  pages = {1086--1096},
+  author = {Rangsiman Ketkaew and Yuthana Tantirungrotechai and Phimphaka Harding and Guillaume Chastanet and Philippe Guionneau and Mathieu Marchivie and David J. Harding},
+  title = {OctaDist: a tool for calculating distortion parameters in spin crossover and coordination complexes},
+  journal = {Dalton Transactions}
+}
 ```
 
 
@@ -273,19 +285,23 @@ If you found issues in OctaDist, please report it to us at [here][submit-issues]
 
 ## Project team
 
-- [Rangsiman Ketkaew][rk-link] (Thammasat University, Thailand)
+- [Rangsiman Ketkaew][rk-link] (Thammasat University, Thailand) 
   - E-mail: rangsiman1993@gmail.com
 - [Yuthana Tantirungrotechai][yt-link] (Thammasat University, Thailand)
   - E-mail: yt203y@gmail.com
-- [David J. Harding][dh-link] (Walailak University, Thailand)
-  - E-mail: hdavid@mail.wu.ac.th
 - [Phimphaka Harding][ph-link] (Walailak University, Thailand)
   - E-mail: kphimpha@mail.wu.ac.th
+- Guillaume Chastanet (University of Bordeaux, France)
+  - E-mail: Guillaume.Chastanet@icmcb.cnrs.fr
+- Philippe Guionneau (University of Bordeaux, France)
+  - E-mail: Philippe.Guionneau@icmcb.cnrs.fr
 - [Mathieu Marchivie][mm-link] (University of Bordeaux, France)
   - E-mail: mathieu.marchivie@icmcb.cnrs.fr
+- [David J. Harding][dh-link] (Walailak University, Thailand)
+  - E-mail: hdavid@mail.wu.ac.th
 
 [rk-link]: https://rangsimanketkaew.github.io
 [yt-link]: https://sites.google.com/site/compchem403/people/faculty/yuthana
-[dh-link]: https://www.funtechwu.com/david-j-harding
 [ph-link]: https://www.funtechwu.com/phimphaka-harding
 [mm-link]: http://www.icmcb-bordeaux.cnrs.fr/spip.php?article562&lang=en
+[dh-link]: https://www.funtechwu.com/david-j-harding

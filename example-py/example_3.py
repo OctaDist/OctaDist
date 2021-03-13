@@ -11,8 +11,8 @@ file = r"../example-input/Multiple-metals.xyz"
 # Then use coord.extract_file to extract all atomic symbols and coordinates,
 # and then use coord.extract_octa for taking the octahedral structure.
 
-atom_full, coord_full = oc.molecule.extract_coord(file)
-atom, coord = oc.molecule.extract_octa(atom_full, coord_full)
+atom_full, coord_full = oc.io.extract_coord(file)
+atom, coord = oc.io.extract_octa(atom_full, coord_full)
 
 dist = oc.CalcDistortion(coord)
 zeta = dist.zeta  # Zeta

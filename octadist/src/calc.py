@@ -22,13 +22,14 @@ from octadist.src import linear, plane, projection
 
 class CalcDistortion:
     """
-    Calculate distortion parameters:
-    - Bond distance
-    - Mean bond distance
-    - Bond angle around metal center atom
-    - Delta parameter
-    - Sigma parameter
-    - Minimum, maximum, and mean Theta parameters
+    Calculate octahedral histortion parameters:
+    - Bond distance : `calc_d_bond`
+    - Mean bond distance : `calc_d_mean`
+    - Bond angle around metal center atom : `calc_bond_angle`
+    - zeta parameter : `calc_zeta`
+    - Delta parameter : `calc_delta`
+    - Sigma parameter : `calc_sigma`
+    - Minimum, maximum, and mean Theta parameters : `calc_theta_min`, `calc_theta_max`, `calc_theta`
 
     Parameters
     ----------
@@ -132,7 +133,7 @@ class CalcDistortion:
 
     def calc_zeta(self):
         """
-        Calculate Zeta parameter and return value in Angstrom.
+        Calculate zeta parameter and return value in Angstrom.
 
         See Also
         --------
@@ -213,15 +214,15 @@ class CalcDistortion:
 
         Examples
         --------
-        >>> bef = np.array([[4.0674, 7.2040, 13.6117]
-                            [4.3033, 7.3750, 11.7292]
-                            [3.8326, 6.9715, 15.4926]
-                            [5.8822, 6.4461, 13.4312]
-                            [3.3002, 5.3828, 13.6316]
-                            [4.8055, 8.9318, 14.2716]
-                            [2.3184, 8.0165, 13.1152]
-                            ])
-
+        >>> bef = np.array([
+                    [4.0674, 7.2040, 13.6117]
+                    [4.3033, 7.3750, 11.7292]
+                    [3.8326, 6.9715, 15.4926]
+                    [5.8822, 6.4461, 13.4312]
+                    [3.3002, 5.3828, 13.6316]
+                    [4.8055, 8.9318, 14.2716]
+                    [2.3184, 8.0165, 13.1152]
+                    ])
         >>> metal, coord = self.determine_faces(bef)
         >>> metal
         [ 4.0674  7.204  13.6117]

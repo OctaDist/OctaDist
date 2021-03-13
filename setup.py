@@ -27,7 +27,7 @@ with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
 description = (
-    "OctaDist: A tool for calculating distortion parameters in coordination complexes."
+    "OctaDist: A tool for calculating distortion parameters in molecule."
 )
 
 setuptools.setup(
@@ -47,12 +47,18 @@ setuptools.setup(
         "Tracker": "https://github.com/OctaDist/OctaDist/issues",
     },
     packages=setuptools.find_packages(),
-    install_requires=["numpy", "scipy", "matplotlib", "rmsd"],
+    install_requires=[
+        "numpy", 
+        "scipy", 
+        "matplotlib", 
+        "rmsd", 
+        "pymatgen<=2021.3.3", 
+        "plotly"
+        ],
     classifiers=[
         "Environment :: Console",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Development Status :: 5 - Production/Stable",
@@ -87,7 +93,7 @@ setuptools.setup(
         "structural analysis",
         "Molecular visualization",
     ],
-    python_requires=">=3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*",
+    python_requires=">=3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*",
     entry_points={
         "console_scripts": [
             "octadist=octadist.octadist_gui:run_gui",

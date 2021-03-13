@@ -15,7 +15,7 @@ calc          Calculating distortion parameters
 draw          Displaying molecule
 elements      Atomic properties
 linear        Built-in mathematical functions
-molecule      Manipulating atomic coordinates
+io            Manipulating atomic coordinates
 plane         Manipulate projection plane
 plot          Plotting graph and chart
 popup         Error, warning, and info messages
@@ -48,8 +48,8 @@ Source code
    docs-modules/calc.rst
    docs-modules/draw.rst
    docs-modules/elements.rst
+   docs-modules/io.rst
    docs-modules/linear.rst
-   docs-modules/molecule.rst
    docs-modules/plane.rst
    docs-modules/plot.rst
    docs-modules/popup.rst

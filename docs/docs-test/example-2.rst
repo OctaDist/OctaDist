@@ -21,7 +21,7 @@ Example 2
     # If the first atom is not metal atom, you can rearrange the sequence
     # of atom in list using coord.extract_octa method.
 
-    atom_octa, coord_octa = oc.molecule.extract_octa(atom, coord)
+    atom_octa, coord_octa = oc.io.extract_octa(atom, coord)
 
     dist = oc.CalcDistortion(coord_octa)
     zeta = dist.zeta             # Zeta

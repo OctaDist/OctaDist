@@ -15,7 +15,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('..'))
+sys.path.insert(0, os.path.abspath('./../...'))
 # sys.path.insert(0, os.path.abspath('.'))
 # sys.path.insert(0, os.path.abspath('../src'))
 
@@ -30,9 +30,9 @@ copyright = '2019, Rangsiman Ketkaew et al.'
 author = 'Rangsiman Ketkaew'
 
 # The short X.Y version
-version = '2.6.1'
+version = '3.0.0'
 # The full version, including alpha/beta/rc tags
-release = '2.6.1'
+release = '3.0.0'
 
 # Not alphabetically order
 autodoc_member_order = 'bysource'

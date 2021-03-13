@@ -11,10 +11,10 @@ The latest stable release of OctaDist is available for following OS and platform
 | Platform       |       Version         +-------------------------------+-------------------------------+
 |                |                       |         Full version          |         Lite version          |
 +================+=======================+===============================+===============================+
-| Windows OS     |                       | `Full (exe)`_ / `Full (zip)`_ | `Lite (exe)`_ / `Lite (zip)`_ |
-+----------------+                       +-------------------------------+-------------------------------+
-| Linux OS       |     |github-ver|      |                               |                               |
-+----------------+                       |        `Full (tar.gz)`_       |        `Lite (tar.gz)`_       |
+| Windows OS     |     |ver-2.6.1|       | `Full (exe)`_ / `Full (zip)`_ | `Lite (exe)`_ / `Lite (zip)`_ |
++----------------+-----------------------+-------------------------------+-------------------------------+
+| Linux OS       |                       |                               |                               |
++----------------+     |github-ver|      |        `Full (tar.gz)`_       |               N/A             |
 | macOS          |                       |                               |                               |
 +----------------+-----------------------+-------------------------------+-------------------------------+
 | PyPI           |      |pypi-ver|       |                   ``pip install octadist``                    |
@@ -22,6 +22,7 @@ The latest stable release of OctaDist is available for following OS and platform
 | Anaconda       |      |conda-ver|      |             ``conda install -c rangsiman octadist``           |
 +----------------+-----------------------+---------------------------------------------------------------+
 
+.. |ver-2.6.1| image:: https://img.shields.io/badge/release-v.2.6.1-blue
 .. |github-ver| image:: https://img.shields.io/github/release/octadist/octadist.svg
 .. |pypi-ver| image:: https://img.shields.io/pypi/v/octadist.svg
 .. |conda-ver| image:: https://anaconda.org/rangsiman/octadist/badges/version.svg
@@ -30,8 +31,7 @@ The latest stable release of OctaDist is available for following OS and platform
 .. _Full (zip): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64.zip
 .. _Lite (exe): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64-lite.exe
 .. _Lite (zip): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64-lite.zip
-.. _Full (tar.gz): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-src-x86-64.tar.gz
-.. _Lite (tar.gz): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-src-x86-64-lite.tar.gz
+.. _Full (tar.gz): https://github.com/OctaDist/OctaDist/releases/download/v.3.0.0/OctaDist-3.0.0-src-x86-64.tar.gz
 
 .. note::
     Both full and lite versions of OctaDist are open-source and free to download under the GNU v.3 license.

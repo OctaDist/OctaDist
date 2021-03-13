@@ -18,7 +18,7 @@ Here are the steps for adding OctaDist to exclusion list:
 
 4. Specify the name of OctaDist executable, for example::
 
-    OctaDist-2.6.1-Win-x86-64.exe
+    OctaDist-3.0.0-Win-x86-64.exe
     
 5. Close OctaDist and run it again.
 
@@ -55,15 +55,15 @@ If you run GUI using `octadist` or `octadist_gui` and then it fails with the fol
     (py37) nutt@Ubuntu:~$ octadist
 
     Program Starts >>>
-    ... OctaDist 2.6.1 August 2019 ...
+    ... OctaDist 3.0.0 January 2021 ...
     Traceback (most recent call last):
         File "/home/nutt/.local/bin/octadist", line 10, in <module>
         sys.exit(run_gui())
-        File "/home/nutt/.local/lib/python3.6/site-packages/octadist/__main__.py", line 35, in run_gui
+        File "/home/nutt/.local/lib/python3.7/site-packages/octadist/__main__.py", line 35, in run_gui
         app = octadist.main.OctaDist()
-        File "/home/nutt/.local/lib/python3.6/site-packages/octadist/main.py", line 68, in __init__
+        File "/home/nutt/.local/lib/python3.7/site-packages/octadist/main.py", line 68, in __init__
         self.master = tk.Tk()
-        File "/usr/lib/python3.6/tkinter/__init__.py", line 2023, in __init__
+        File "/usr/lib/python3.7/tkinter/__init__.py", line 2023, in __init__
         self.tk = _tkinter.create(screenName, baseName, className, interactive, wantobjects, useTk, sync, use)
     _tkinter.TclError: couldn't connect to display ":0"
 
