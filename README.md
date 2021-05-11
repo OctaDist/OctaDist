@@ -33,6 +33,10 @@ https://octadist.github.io/
 
 To get notified when we release new version of OctaDist, please register at https://cutt.ly/regis-octadist.
 
+## OctaDist Forum
+
+The users can post questions in our Google Groups: [OctaDist Forum](https://groups.google.com/g/octadist-forum)
+
 ## Standard abilities
 
 OctaDist is computer software for inorganic chemistry and crystallography program.
@@ -142,6 +146,8 @@ conda install -c rangsiman octadist
 
 ## Starting OctaDist
 
+The following commands can be used to start OctaDist in different ways:
+
 ### Graphical User Interface (GUI)
 
 To start GUI program:
@@ -221,13 +227,16 @@ theta = dist.theta           # 122.6889727
 #### Example 2: Display 3D structure of molecule
 
 ```python
+import os
 import octadist as oc
 
-file = r"../example-input/Multiple-metals.xyz"
+dir_path = os.path.dirname(os.path.realpath(__file__))
+input_folder = os.path.join(dir_path, "../example-input/")
+file = input_folder + "Multiple-metals.xyz"
 
 atom_full, coord_full = oc.io.extract_coord(file)
 
-my_plot = oc.draw.DrawComplex(atom=atom_full, coord=coord_full)
+my_plot = oc.draw.DrawComplex_Matplotlib(atom=atom_full, coord=coord_full)
 my_plot.add_atom()
 my_plot.add_bond()
 my_plot.add_legend()
@@ -239,7 +248,7 @@ my_plot.show_plot()
 
 <p align="center">
    <img alt="molecule" 
-   src="https://raw.githubusercontent.com/OctaDist/OctaDist/master/example-py/Complex_saved_by_OctaDist.png" 
+   src="https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/Complex_saved_by_OctaDist.png" 
    align=middle width="350pt" />
 <p/>
 
