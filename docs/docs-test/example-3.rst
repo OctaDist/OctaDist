@@ -6,11 +6,14 @@ Example 3
 
 .. code-block:: python
         
+    import os
     import octadist as oc
 
     # You can also import your input file, like this:
 
-    file = r"../example-input/Multiple-metals.xyz"
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    input_folder = os.path.join(dir_path, "../example-input/")
+    file = input_folder + "Multiple-metals.xyz"
 
     # Then use coord.extract_file to extract all atomic symbols and coordinates,
     # and then use coord.extract_octa for taking the octahedral structure.

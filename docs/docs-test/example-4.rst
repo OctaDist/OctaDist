@@ -5,12 +5,15 @@ Example 4
 **Example 4 for running the test on OctaDist PyPI**
 
 .. code-block:: python
-    
+
+    import os
     import octadist as oc
+    
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    input_folder = os.path.join(dir_path, "../example-input/")
+    file = input_folder + "Multiple-metals.xyz"
 
-    file = r"../example-input/Multiple-metals.xyz"
-
-    atom_full, coord_full = oc.io.extract_coord(file)
+    atom_full, coor_full = oc.io.extract_coord(file)
 
     # If complex contains metal center more than one, you can specify the index metal
     # whose octahedral structure will be computed.

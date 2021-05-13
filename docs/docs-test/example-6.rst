@@ -6,15 +6,17 @@ Example 6
 
 .. code-block:: python
 
+    import os
     import octadist as oc
 
-    file = r"../example-input/Multiple-metals.xyz"
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    input_folder = os.path.join(dir_path, "../example-input/")
+    file = input_folder + "Multiple-metals.xyz"
 
     atom_full, coord_full = oc.io.extract_coord(file)
 
     # Display and automatically save image as .png file with user-specified name
-    
-    my_plot = oc.draw.DrawComplex(atom=atom_full, coord=coord_full)
+    my_plot = oc.draw.DrawComplex_Matplotlib(atom=atom_full, coord=coord_full)
     my_plot.add_atom()
     my_plot.add_bond()
     my_plot.add_legend()

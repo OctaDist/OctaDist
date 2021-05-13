@@ -1,10 +1,12 @@
 =========
-Example 5
+Example 7
 =========
 
-**Example 5 for running the test on OctaDist PyPI**
+**Example 7 for running the test on OctaDist PyPI**
     
 .. code-block:: python
+
+    # Display a molecule using Plotly visualizer
 
     import os
     import octadist as oc
@@ -15,10 +17,8 @@ Example 5
 
     atom_full, coord_full = oc.io.extract_coord(file)
 
-    # Graphical display for octahedral complex
-    my_plot = oc.draw.DrawComplex_Matplotlib(atom=atom_full, coord=coord_full)
+    my_plot = oc.draw.DrawComplex_Plotly(atom=atom_full, coord=coord_full)
     my_plot.add_atom()
     my_plot.add_bond()
-    my_plot.add_legend()
     my_plot.show_plot()
 
