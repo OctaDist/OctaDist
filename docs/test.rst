@@ -79,4 +79,5 @@ Running the tests
    docs-test/example-4.rst
    docs-test/example-5.rst
    docs-test/example-6.rst
+   docs-test/example-7.rst
 

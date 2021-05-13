@@ -37,7 +37,11 @@ release = '3.0.0'
 # Not alphabetically order
 autodoc_member_order = 'bysource'
 # autodoc_mock_imports = ['tkinter']
-autodoc_mock_imports = ["pymatgen"]
+autodoc_mock_imports = [
+    # "octadist", 
+    "TkAgg", 
+    "pymatgen"
+    ]
 
 # -- General configuration ---------------------------------------------------
 

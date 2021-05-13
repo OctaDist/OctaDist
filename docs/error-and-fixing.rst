@@ -50,7 +50,7 @@ before running the program, like this:
 
 If you run GUI using `octadist` or `octadist_gui` and then it fails with the following error:
 
-.. code-block:: sh
+.. code-block::
 
     (py37) nutt@Ubuntu:~$ octadist
 

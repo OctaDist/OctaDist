@@ -133,7 +133,7 @@ class CalcDistortion:
 
     def calc_zeta(self):
         """
-        Calculate zeta parameter and return value in Angstrom.
+        Calculate zeta parameter [1]_ and return value in Angstrom.
 
         See Also
         --------
@@ -156,7 +156,7 @@ class CalcDistortion:
 
     def calc_delta(self):
         """
-        Calculate Delta parameter, also known as Tilting distortion parameter.
+        Calculate Delta parameter, also known as Tilting distortion parameter [2]_.
 
         See Also
         --------
@@ -177,7 +177,7 @@ class CalcDistortion:
 
     def calc_sigma(self):
         """
-        Calculate Sigma parameter and return value in degree.
+        Calculate Sigma parameter [3]_ and return value in degree.
 
         See Also
         --------
@@ -324,7 +324,7 @@ class CalcDistortion:
 
     def calc_theta(self):
         """
-        Calculate Theta parameter and value in degree.
+        Calculate Theta parameter [4]_ and value in degree.
 
         See Also
         --------

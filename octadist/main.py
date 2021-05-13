@@ -523,7 +523,7 @@ class OctaDist:
 
     def save_results(self):
         """
-        Save results as output file. Default file extension is *.txt.
+        Save results as output file. Default file extension is .txt.
 
         """
         f = filedialog.asksaveasfile(
@@ -555,7 +555,7 @@ class OctaDist:
     def save_coord(self):
         """
         Save atomic coordinates (Cartesian coordinate) of octahedral structure.
-        Default file extension is *xyz.
+        Default file extension is .xyz.
 
         """
         if len(self.file_list) == 0:

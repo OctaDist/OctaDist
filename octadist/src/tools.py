@@ -28,7 +28,7 @@ from octadist.src import linear, elements, plane, util
 
 class CalcJahnTeller:
     """
-    Calculate angular Jahn-Teller distortion parameter.
+    Calculate angular Jahn-Teller distortion parameter [1]_.
 
     Parameters
     ----------
@@ -511,7 +511,7 @@ class CalcJahnTeller:
 
 class CalcRMSD:
     """
-    Calculate root mean squared displacement of atoms in complex, RMSD.
+    Calculate root mean squared displacement of atoms in complex, RMSD [2]_.
 
     Parameters
     ----------
