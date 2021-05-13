@@ -16,13 +16,13 @@
 
 # Use TkAgg as MPL backend
 # Note that IPython service such as Google Colab does not support TkAgg
-try:
-    import tkinter
-    import matplotlib
+# try:
+#     import tkinter
+#     import matplotlib
 
-    matplotlib.use("TkAgg")
-except ImportError:
-    pass
+#     matplotlib.use("TkAgg")
+# except ImportError:
+#     pass
 
 __author__ = "R. Ketkaew, Y. Tantirungrotechai, P. Harding, G. Chastanet, P. Guionneau, M. Marchivie, D. J. Harding"
 __author_full__ = (
