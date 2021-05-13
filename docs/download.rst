@@ -7,6 +7,5 @@ Download OctaDist
 
    docs-download/stable-version.rst
    docs-download/dev-version.rst
-   docs-download/sys-require.rst
    docs-download/archives.rst
 

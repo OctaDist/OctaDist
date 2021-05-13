@@ -44,18 +44,7 @@ def is_cif(f):
 
     Notes
     -----
-    CIF file format is like following:
-
-    #########################
-    # Example XYZ file format
-    #########################
-
-    <number of atom>
-    comment
-    <index 0> <X> <Y> <Z>
-    <index 1> <X> <Y> <Z>
-    ...
-    <index 6> <X> <Y> <Z>
+    More details about CIF file format are provided at https://en.wikipedia.org/wiki/Crystallographic_Information_File.
 
     Examples
     --------
@@ -163,21 +152,6 @@ def is_xyz(f):
     --------
     get_coord_xyz :
         Find atomic coordinates of molecule from XYZ file.
-
-    Notes
-    -----
-    XYZ file format is like following:
-
-    #########################
-    # Example XYZ file format
-    #########################
-
-    <number of atom>
-    comment
-    <index 0> <X> <Y> <Z>
-    <index 1> <X> <Y> <Z>
-    ...
-    <index 6> <X> <Y> <Z>
 
     Examples
     --------

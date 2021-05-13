@@ -2,6 +2,6 @@
 octadist.gui
 ============
 
-.. automodule:: octadist.__main__
+.. automodule:: octadist.octadist_gui
    :members:
    :undoc-members:
