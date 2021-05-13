@@ -1,5 +1,3 @@
-.. currentmodule:: octadist.main
-
 =============
 octadist.main
 =============

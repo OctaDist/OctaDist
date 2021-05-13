@@ -19,8 +19,8 @@ sys.path.insert(0, os.path.abspath('./../...'))
 # sys.path.insert(0, os.path.abspath('.'))
 # sys.path.insert(0, os.path.abspath('../src'))
 
-import matplotlib
-matplotlib.use('TkAgg')
+# import matplotlib
+# matplotlib.use('TkAgg')
 
 
 # -- Project information -----------------------------------------------------
