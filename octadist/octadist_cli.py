@@ -139,7 +139,7 @@ def run_cli():
     description = """\
 Octahedral Distortion Calculator: 
 A tool for computing octahedral distortion parameters in coordination complex.
-For more details, please visit https://github.com/OctaDist/OctaDist.
+For more details, please visit https://octadist.github.io.
 """
 
     epilog = f"Rangsiman Ketkaew\tUpdated on {octadist.__release__}\tE-mail: {octadist.__email__}"
