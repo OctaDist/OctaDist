@@ -36,16 +36,16 @@ def find_bonds(atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2):
         List of atomic coordinates of molecule.
     cutoff_global : int or float
         Global cutoff for screening bonds.
-        Default value is 2.0.
+        Default is 2.0.
     cutoff_hydrogen : int or float
         Cutoff for screening hydrogen bonds.
-        Default value is 1.2.
+        Default is 1.2.
 
     Returns
     -------
     filtered_pair_2 : list
         List of pair of atoms of selected bonds in molecule after screening
-    filtered_bond_2 : array-like
+    filtered_bond_2 : array_like
         Array of bond distances of selected bonds in molecule after screening.
 
     Examples
@@ -64,19 +64,14 @@ def find_bonds(atom, coord, cutoff_global=2.0, cutoff_hydrogen=1.2):
     >>> bond_dist
     [[[2.298354 5.161785 7.971898]
       [1.885657 4.804777 6.183726]]
-
      [[2.298354 5.161785 7.971898]
       [1.747515 6.960963 7.932784]]
-
      [[2.298354 5.161785 7.971898]
       [4.09438  5.807257 7.588689]]
-
      [[2.298354 5.161785 7.971898]
       [0.539005 4.482809 8.460004]]
-
      [[2.298354 5.161785 7.971898]
       [2.812425 3.266553 8.131637]]
-
      [[2.298354 5.161785 7.971898]
       [2.886404 5.392925 9.848966]]]
 
@@ -122,21 +117,21 @@ def find_faces_octa(c_octa):
     """
     Find the eight faces of octahedral structure.
 
-    1. Choose 3 atoms out of 6 ligand atoms.
-        The total number of combination is 20.
-    2. Orthogonally project metal center atom onto the face:
-        m ----> m'
-    3. Calculate the shortest distance between original metal center to its projected point.
-    4. Sort the 20 faces in ascending order of the shortest distance.
-    5. Delete 12 faces that closest to metal center atom (first 12 faces).
-    6. The remaining 8 faces are the (reference) face of octahedral structure.
-    7. Find 8 opposite faces.
+    .. code-block::
 
-    | Reference plane             Opposite plane
-    |    [[1 2 3]                    [[4 5 6]
-    |     [1 2 4]        --->         [3 5 6]
-    |       ...                         ...
-    |     [2 3 5]]                    [1 4 6]]
+        1. Choose 3 atoms out of 6 ligand atoms. The total number of combination is 20.
+        2. Orthogonally project metal center atom onto the face: m ----> m'
+        3. Calculate the shortest distance between original metal center to its projected point.
+        4. Sort the 20 faces in ascending order of the shortest distance.
+        5. Delete 12 faces that closest to metal center atom (first 12 faces).
+        6. The remaining 8 faces are the (reference) face of octahedral structure.
+        7. Find 8 opposite faces.
+
+        Reference plane              Opposite plane
+           [[1 2 3],                    [[4 5 6],
+            [1 2 4],        --->         [3 5 6],
+              ...                          ...
+            [2 3 5]]                     [1 4 6]]
 
     Parameters
     ----------
@@ -147,11 +142,11 @@ def find_faces_octa(c_octa):
     -------
     a_ref_f : list
         Atomic labels of reference face.
-    c_ref_f : ndarray
+    c_ref_f : array_like
         Atomic coordinates of reference face.
     a_oppo_f : list
         Atomic labels of opposite face.
-    c_oppo_f : ndarray
+    c_oppo_f : array_like
         Atomic coordinates of opposite face.
 
     See Also
@@ -163,13 +158,13 @@ def find_faces_octa(c_octa):
 
     Examples
     --------
-    >>> coord = [[14.68572 18.49228  6.66716]
-                 [14.86476 16.48821  7.43379]
-                 [14.44181 20.594    6.21555]
-                 [13.37473 17.23453  5.45099]
-                 [16.26114 18.54903  8.20527]
-                 [13.04897 19.25464  7.93122]
-                 [16.09157 18.9617   5.02956]]
+    >>> coord = [[14.68572, 18.49228, 6.66716],
+                 [14.86476, 16.48821, 7.43379],
+                 [14.44181, 20.59400, 6.21555],
+                 [13.37473, 17.23453, 5.45099],
+                 [16.26114, 18.54903, 8.20527],
+                 [13.04897, 19.25464, 7.93122],
+                 [16.09157, 18.96170, 5.02956]]
     >>> a_ref, c_ref, a_oppo, c_oppo = find_faces_octa(coord)
     >>> a_ref
     [[1, 3, 6], [1, 4, 6], [2, 3, 6], [2, 3, 5],
@@ -220,8 +215,7 @@ def find_faces_octa(c_octa):
                 c_ref_f.append([c_octa[i], c_octa[j], c_octa[k]])
 
     # Sort faces by distance in ascending order
-    dist_a_c = list(zip(dist, a_ref_f, c_ref_f))
-    dist_a_c.sort()
+    dist_a_c = sorted(zip(dist, a_ref_f, c_ref_f))
     dist, a_ref_f, c_ref_f = list(zip(*dist_a_c))
     c_ref_f = np.asarray(c_ref_f, dtype=np.float64)
 

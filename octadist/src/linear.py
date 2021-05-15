@@ -38,7 +38,8 @@ def angle_sign(v1, v2, direct):
 
     See Also
     --------
-    calc.calc_theta
+    calc.calc_theta :
+        Calculate theta parameter.
 
     Examples
     --------
@@ -105,9 +106,11 @@ def angle_btw_planes(a1, b1, c1, a2, b2, c2):
     """
     Find the angle between 2 planes in 3D and return value in degree.
 
-    | General equation of plane:
-    |
-    | a*X + b*Y + c*Z + d = 0
+    .. code-block::
+
+        General equation of plane:
+
+        a*X + b*Y + c*Z + d = 0
 
     Parameters
     ----------
@@ -149,9 +152,11 @@ def triangle_area(a, b, c):
     """
     Calculate the area of the triangle using the cross product:
 
-    | Area = abs(ab X ac)/2
-    |
-    | where vector ab = b - a and vector ac = c - a.
+    .. code-block::
+
+        Area = abs(ab X ac)/2
+        
+        where vector ab = b - a and vector ac = c - a.
 
     Parameters
     ----------

@@ -128,10 +128,10 @@ class Plot:
         ----------
         save : str
             Name of image file.
-            Default value is "Complex_saved_by_OctaDist".
+            Default is "Complex_saved_by_OctaDist".
         file : file
             Image type.
-            Default value is "png".
+            Default is "png".
 
         """
         plt.savefig(f"{save}.{file}")
@@ -143,4 +143,3 @@ class Plot:
 
         """
         plt.show()
-

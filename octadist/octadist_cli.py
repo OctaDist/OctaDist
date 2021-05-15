@@ -94,7 +94,7 @@ def find_octa(atom, coord):
     -------
     atom : list
         Atomic symbols of octahedral structure.
-    coord : ndarray
+    coord : array_like
         Atomic coordinates of octahedral structure.
 
     """

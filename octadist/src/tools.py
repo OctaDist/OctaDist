@@ -41,10 +41,10 @@ class CalcJahnTeller:
         If not None, use tk.Toplevel(master).
     cutoff_global : int or float
         Global cutoff for screening bonds.
-        Default value is 2.0.
+        Default is 2.0.
     cutoff_hydrogen : int or float
         Cutoff for screening hydrogen bonds.
-        Default value is 1.2.
+        Default is 1.2.
     icon : str, optional
         If None, use tkinter default icon.
         If not None, use user-defined icon.
@@ -191,7 +191,8 @@ class CalcJahnTeller:
 
         See Also
         --------
-        octadist.src.util.find_bonds : Find atomic bonds.
+        octadist.src.util.find_bonds :
+            Find atomic bonds.
 
         """
         _, self.bond_list = util.find_bonds(
@@ -519,9 +520,9 @@ class CalcRMSD:
         Atomic coordinates of structure 1.
     coord_2 : array_like
         Atomic coordinates of structure 2.
-    atom_1 : list, tuple, optional
+    atom_1 : list or tuple, optional
         Atomic symbols of structure 1.
-    atom_2 : list, tuple, optional
+    atom_2 : list or tuple, optional
         Atomic symbols of structure 2.
         If no atom_2 specified, assign it with None.
 
@@ -714,4 +715,3 @@ class CalcRMSD:
 
         """
         self.wd.mainloop()
-

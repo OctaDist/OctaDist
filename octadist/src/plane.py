@@ -22,17 +22,19 @@ import numpy as np
 
 def find_eq_of_plane(x, y, z):
     """
-    Find the equation of plane of given three points using cross product
+    Find the equation of plane of given three points using cross product:
 
-    | The general form of plane equation:
-    |
-    | Ax + By + Cz = D
-    |
-    | where A, B, C, and D are coefficient.
-    |
-    | XZ  X  XY = (a, b, c)
-    |
-    | d = (a, b, c).Z
+    .. code-block::
+
+        The general form of plane equation:
+        
+        Ax + By + Cz = D
+        
+        where A, B, C, and D are coefficient.
+        
+        XZ  X  XY = (a, b, c)
+        
+        d = (a, b, c).Z
 
     Parameters
     ----------
@@ -89,8 +91,6 @@ def find_fit_plane(coord):
     """
     Find best fit plane to the given data points (atoms).
 
-    scipy.optimize.minimize is used to find the least-square plane.
-
     Parameters
     ----------
     coord : array_like
@@ -106,6 +106,11 @@ def find_fit_plane(coord):
         Coefficient of the surface.
     abcd : tuple
         Coefficient of the equation of the plane.
+
+    See Also
+    --------
+    scipy.optimize.minimize :
+        Used to find the least-square plane.
 
     Examples
     --------

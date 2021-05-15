@@ -966,9 +966,12 @@ class OctaDist:
 
         See Also
         --------
-        copy_path
-        copy_results
-        copy_octa
+        copy_path :
+            Copy absolute path of input file to clibboard.
+        copy_results :
+            Copy results to clibboard.
+        copy_octa :
+            Copy octahedral structure coordinates to clibboard.
 
         """
         if len(self.file_list) == 0:
@@ -990,8 +993,11 @@ class OctaDist:
         See Also
         --------
         copy_name
-        copy_results
-        copy_octa
+            Copy input file name to clibboard.
+        copy_results :
+            Copy results to clibboard.
+        copy_octa :
+            Copy octahedral structure coordinates to clibboard.
 
         """
         if len(self.file_list) == 0:
@@ -1011,8 +1017,11 @@ class OctaDist:
         See Also
         --------
         copy_name
-        copy_path
-        copy_octa
+            Copy input file name to clibboard.
+        copy_path :
+            Copy absolute path of input file to clibboard.
+        copy_octa :
+            Copy octahedral structure coordinates to clibboard.
 
         """
         if len(self.file_list) == 0:
@@ -1046,8 +1055,11 @@ class OctaDist:
         See Also
         --------
         copy_name
-        copy_path
-        copy_results
+            Copy input file name to clibboard.
+        copy_path :
+            Copy absolute path of input file to clibboard.
+        copy_results :
+            Copy results to clibboard.
 
         """
         if len(self.file_list) == 0:
@@ -1094,7 +1106,7 @@ class OctaDist:
         """
         Start scripting interface for an interactive code.
 
-        User can access to class variable (dynamics variable).
+        User can access to class variable (dynamic variable).
 
         +------------+
         | Output box |

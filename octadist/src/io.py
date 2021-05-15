@@ -62,7 +62,7 @@ def is_cif(f):
     >>> # _cell_angle_beta                  90.110039
     >>> # _cell_angle_gamma                 90.015104
     >>> # _cell_volume                      4587.49671393
-    >>> # 
+    >>> #
     >>> # loop_
     >>> # _atom_site_label
     >>> # _atom_site_type_symbol
@@ -104,7 +104,7 @@ def get_coord_cif(f):
     -------
     atom : list
         Full atomic labels of complex.
-    coord : ndarray
+    coord : array_like
         Full atomic coordinates of complex.
 
     Examples
@@ -125,7 +125,7 @@ def get_coord_cif(f):
     """
     import warnings
     warnings.filterwarnings('ignore')
-    
+
     # works only with pymatgen <= v2021.3.3
     structure = pymatgen.Structure.from_file(f)
     atom = list(map(lambda x: elements.number_to_symbol(x), structure.atomic_numbers))
@@ -199,7 +199,7 @@ def get_coord_xyz(f):
     -------
     atom : list
         Full atomic labels of complex.
-    coord : ndarray
+    coord : array_like
         Full atomic coordinates of complex.
 
     Examples
@@ -299,7 +299,7 @@ def get_coord_gaussian(f):
     -------
     atom : list
         Full atomic labels of complex.
-    coord : ndarray
+    coord : array_like
         Full atomic coordinates of complex.
 
     Examples
@@ -417,7 +417,7 @@ def get_coord_nwchem(f):
     -------
     atom : list
         Full atomic labels of complex.
-    coord : ndarray
+    coord : array_like
         Full atomic coordinates of complex.
 
     Examples
@@ -527,7 +527,7 @@ def get_coord_orca(f):
     -------
     atom : list
         Full atomic labels of complex.
-    coord : ndarray
+    coord : array_like
         Full atomic coordinates of complex.
 
     Examples
@@ -637,7 +637,7 @@ def get_coord_qchem(f):
     -------
     atom : list
         Full atomic labels of complex.
-    coord : ndarray
+    coord : array_like
         Full atomic coordinates of complex.
 
     Examples
@@ -720,9 +720,9 @@ def count_line(file=None):
 
 def extract_coord(file=None):
     """
-    Check file type, read data, extract atomic symbols and cartesian coordinate from 
-    a structure input file provided by the user. This function can efficiently manupulate I/O process. 
-    File types currently supported are listed in notes below. Other file formats can also be implemented 
+    Check file type, read data, extract atomic symbols and cartesian coordinate from
+    a structure input file provided by the user. This function can efficiently manupulate I/O process.
+    File types currently supported are listed in notes below. Other file formats can also be implemented
     easily within this module.
 
     Parameters
@@ -734,7 +734,7 @@ def extract_coord(file=None):
     -------
     atom : list
         Full atomic labels of complex.
-    coord : ndarray
+    coord : array_like
         Full atomic coordinates of complex.
 
     See Also
@@ -839,10 +839,12 @@ def find_metal(atom=None, coord=None):
 
     Parameters
     ----------
-    atom : list, None
+    atom : list or None
         Full atomic labels of complex.
-    coord : array_like, None
+        Default is None.
+    coord : array_like or None
         Full atomic coordinates of complex.
+        Default is None.
 
     Returns
     -------
@@ -850,7 +852,7 @@ def find_metal(atom=None, coord=None):
         The total number of metal center atom.
     atom_metal : list
         Atomic labels of metal center atom.
-    coord_metal : ndarray
+    coord_metal : array_like
         Atomic coordinates of metal center atom.
 
     See Also
@@ -916,16 +918,16 @@ def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
     metal : int
         Number of metal atom that will be taken as center atom for
         finding atomic coordinates of octahedral structure of interest.
-        Default value is 1.
+        Default is 1.
     cutoff_metal_ligand : float, optional
         Cutoff distance for screening metal-ligand bond.
-        Default value is 2.8.
+        Default is 2.8.
 
     Returns
     -------
     atom_octa : list
         Atomic labels of octahedral structure.
-    coord_octa : ndarray
+    coord_octa : array_like
         Atomic coordinates of octahedral structure.
 
     See Also
