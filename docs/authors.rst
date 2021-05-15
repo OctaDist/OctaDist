@@ -11,15 +11,19 @@ the `Switchable Molecules and Materials
 <http://www.icmcb-bordeaux.cnrs.fr/spip.php?rubrique85>`_ group at University of Bordeaux, France.
 
 
-* Rangsiman Ketkaew (Thammasat University, Thailand)
+* `Rangsiman Ketkaew <https://rangsimanketkaew.github.io/>`_ (Thammasat University, Thailand)
         E-mail: rangsiman1993@gmail.com
-* Yuthana Tantirungrotechai (Thammasat University, Thailand)
+* `Yuthana Tantirungrotechai <https://sites.google.com/site/compchem403/people/faculty/yuthana>`_ (Thammasat University, Thailand)
         E-mail: yt203y@gmail.com
-* David J. Harding (Walailak University, Thailand)
+* `David J. Harding <https://www.funtechwu.com/david-j-harding>`_ (Walailak University, Thailand)
         E-mail: hdavid@mail.wu.ac.th
-* Phimphaka Harding (Walailak University, Thailand)
+* `Phimphaka Harding <https://www.funtechwu.com/phimphaka-harding>`_ (Walailak University, Thailand)
         E-mail: kphimpha@mail.wu.ac.th
-* Mathieu Marchivie (University of Bordeaux, France)
+* `Guillaume Chastanet <http://www.icmcb-bordeaux.cnrs.fr/spip.php?article562>`_ (University of Bordeaux, France)
+        E-mail: Guillaume.Chastanet@icmcb.cnrs.fr
+* `Philippe Guionneau <http://www.icmcb-bordeaux.cnrs.fr/spip.php?article562>`_ (University of Bordeaux, France)
+        E-mail: Philippe.Guionneau@icmcb.cnrs.fr
+* `Mathieu Marchivie <http://www.icmcb-bordeaux.cnrs.fr/spip.php?article562>`_ (University of Bordeaux, France)
         E-mail: mathieu.marchivie@icmcb.cnrs.fr
 
 
