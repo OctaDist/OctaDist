@@ -24,16 +24,16 @@ def find_eq_of_plane(x, y, z):
     """
     Find the equation of plane of given three points using cross product:
 
-    .. code-block::
+    ::
 
         The general form of plane equation:
-        
+
         Ax + By + Cz = D
-        
+
         where A, B, C, and D are coefficient.
-        
+
         XZ  X  XY = (a, b, c)
-        
+
         d = (a, b, c).Z
 
     Parameters
@@ -171,4 +171,3 @@ def find_fit_plane(coord):
     abcd = (a, b, c, d)
 
     return xx, yy, z, abcd
-

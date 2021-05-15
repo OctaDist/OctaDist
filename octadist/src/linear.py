@@ -106,7 +106,7 @@ def angle_btw_planes(a1, b1, c1, a2, b2, c2):
     """
     Find the angle between 2 planes in 3D and return value in degree.
 
-    .. code-block::
+    ::
 
         General equation of plane:
 
@@ -152,10 +152,10 @@ def triangle_area(a, b, c):
     """
     Calculate the area of the triangle using the cross product:
 
-    .. code-block::
+    ::
 
         Area = abs(ab X ac)/2
-        
+
         where vector ab = b - a and vector ac = c - a.
 
     Parameters

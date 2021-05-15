@@ -117,7 +117,7 @@ def find_faces_octa(c_octa):
     """
     Find the eight faces of octahedral structure.
 
-    .. code-block::
+    ::
 
         1. Choose 3 atoms out of 6 ligand atoms. The total number of combination is 20.
         2. Orthogonally project metal center atom onto the face: m ----> m'
