@@ -36,7 +36,7 @@ Run OctaDist CLI
 You can execute command-line OctaDist interface by typing ``octadist_cli`` on the terminal.
 If it is executed without argument, the help docs will show by default.
 
-.. code-block::
+.. code-block:: sh
 
     (py37) user@Linux:~$ octadist_cli
 

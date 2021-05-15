@@ -30,7 +30,7 @@ or
 
 The following third-party packages are used in OctaDist.
 
-.. code-block:: bash
+.. code-block:: sh
 
     numpy
     scipy
