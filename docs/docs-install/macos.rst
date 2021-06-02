@@ -9,7 +9,7 @@ Like Linux, installing OctaDist on macOS can be completed in a few steps as foll
 
 2. Use ``pip`` command to install OctaDist::
    
-    pip install octadist
+    pip install --user octadist
    
 3. Execute OctaDist GUI, just type::
   
@@ -23,3 +23,11 @@ Like Linux, installing OctaDist on macOS can be completed in a few steps as foll
 
     octadist_cli
 
+In case you are not able to install the latest version of OctaDust, you can try the older stable version:
+
+::
+
+    pip install --user octadist==2.6.1
+
+If you experience any problems while installing OctaDist on macOS, 
+please do not hesitate to post your question at https://groups.google.com/g/octadist-forum.

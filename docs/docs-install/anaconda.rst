@@ -30,3 +30,5 @@ The channel of OctaDist is at https://anaconda.org/rangsiman/octadist.
 
     OctaDist package on Anaconda server has been imported from PyPI server.
 
+If you experience any problems while installing OctaDist using Conda, 
+please do not hesitate to post your question at https://groups.google.com/g/octadist-forum.

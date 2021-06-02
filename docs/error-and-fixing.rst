@@ -33,8 +33,42 @@ To install all required packages, stay at top directory of OctaDist and type thi
 
     pip install -r requirements.txt
 
+3. tkinter is not properly configured to Python
+-----------------------------------------------
 
-3. MPL error
+If you are using an old version of Python e.g. 3.7, tkinter somehow could not configured to this Python.
+
+::
+
+    raceback (most recent call last):
+    File "/Users/nadia/Library/Python/3.7/lib/python/site-packages/octadist/octadist_gui.py", line 21, in <module>
+        import octadist.main
+    File "/Users/nadia/Library/Python/3.7/lib/python/site-packages/octadist/__init__.py", line 112, in <module>
+        from .src import molecule
+    File "/Users/nadia/Library/Python/3.7/lib/python/site-packages/octadist/src/molecule.py", line 22, in <module>
+        from octadist.src import elements, popup
+    File "/Users/nadia/Library/Python/3.7/lib/python/site-packages/octadist/src/popup.py", line 17, in <module>
+        from tkinter.messagebox import showinfo, showerror, showwarning
+    File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/tkinter/__init__.py", line 36, in <module>
+        import _tkinter # If this fails your Python may not be configured for Tk
+
+Solutions: Reinstall Tk and/or install Python 3.8 or newer version
+
+- Linux (Ubuntu): ``sudo apt install python3.8``
+- macOS: ``brew install python@3.8``
+
+4. Failed to build PEP517
+-------------------------
+
+::
+
+    ERROR: Could not build wheels for scipy which use PEP 517 and cannot be installed directly
+
+Solutions:
+- ``pip3 install --upgrade pip``
+- ``pip3 install --user PEP517``
+
+5. MPL error
 ------------
 
 If program crashes with confusing errors messages, you may need to set `MPLBACKEND` environment variable 
@@ -45,7 +79,7 @@ before running the program, like this:
     export MPLBACKEND=TkAgg
    
 
-4. Cannot connect to X11 server
+6. Cannot connect to X11 server
 -------------------------------
 
 If you run GUI using `octadist` or `octadist_gui` and then it fails with the following error:

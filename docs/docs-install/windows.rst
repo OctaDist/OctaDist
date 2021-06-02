@@ -26,3 +26,5 @@ Running OctaDist can be completed in a few steps as follows:
     For first time starting OctaDist in Windows, you should run it as 
     an administrator with full rights.
 
+If you experience any problems while installing OctaDist on Windows OS, 
+please do not hesitate to post your question at https://groups.google.com/g/octadist-forum.

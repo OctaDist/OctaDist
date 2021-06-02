@@ -12,7 +12,7 @@ Installing OctaDist can be completed in a few steps as follows:
 
 1. Use ``pip`` command to install OctaDist::
 
-    pip install octadist
+    pip install --user octadist
 
 2. Execute OctaDist GUI, just type::
 
@@ -26,3 +26,11 @@ Installing OctaDist can be completed in a few steps as follows:
 
     octadist_cli
    
+In case you are not able to install the latest version of OctaDust, you can try the older stable version:
+
+::
+
+    pip install --user octadist==2.6.1
+
+If you experience any problems while installing OctaDist on Linux, 
+please do not hesitate to post your question at https://groups.google.com/g/octadist-forum.
