@@ -25,22 +25,27 @@ from octadist.src import elements, plane, projection, util
 
 class DrawComplex_Matplotlib:
     """
-    Display 3D structure of octahedral complex with label for each atoms.
+    Display 3D structure of octahedral complex with label for each atoms using Matplotlib.
 
     Parameters
     ----------
     atom : list
         Atomic symbols of octahedral structure.
-        Default to None.
-    coord : list, array, tuple, bool
+        Default is None.
+    coord : list or array_like or tuple or bool
         Atomic coordinates of octahedral structure.
-        Default to None.
+        Default is None.
     cutoff_global : int or float
         Global cutoff for screening bonds.
-        Default value is 2.0.
+        Default is 2.0.
     cutoff_hydrogen : int or float
         Cutoff for screening hydrogen bonds.
-        Default value is 1.2.
+        Default is 1.2.
+
+    See Also
+    --------
+    draw.DrawComplex_Plotly :
+        Use Plotly engine to draw a complex.
 
     Examples
     --------
@@ -52,7 +57,7 @@ class DrawComplex_Matplotlib:
                  [0.539005000, 4.482809000, 8.460004000],
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
-    >>> test = DrawComplex(atom=atom, coord=coord)
+    >>> test = DrawComplex_Matplotlib(atom=atom, coord=coord)
     >>> test.add_atom()
     >>> test.add_bond()
     >>> test.add_legend()
@@ -101,9 +106,11 @@ class DrawComplex_Matplotlib:
         Parameters
         ----------
         title : str
-            Top title of the plot.  Default is "Full complex".
-        fontsize : int, float, str
-            Font size of title. Default is "12".
+            Top title of the plot.
+            Default is "Full complex".
+        fontsize : int or float or str
+            Font size of title.
+            Default is "12".
 
         """
         self.st = self.fig.suptitle(title, fontsize=font_size)
@@ -148,7 +155,8 @@ class DrawComplex_Matplotlib:
 
         See Also
         --------
-        octadist.src.util.find_bonds : Find atomic bonds.
+        octadist.src.util.find_bonds :
+            Find atomic bonds.
 
         """
         _, self.bond_list = util.find_bonds(
@@ -172,7 +180,8 @@ class DrawComplex_Matplotlib:
 
         See Also
         --------
-        octadist.src.util.find_faces_octa
+        octadist.src.util.find_faces_octa :
+            Find all faces of octahedron.
 
         """
         _, c_ref, _, _ = util.find_faces_octa(coord)
@@ -242,7 +251,7 @@ class DrawComplex_Matplotlib:
         show_grid : bool
             If True, show grid of figure.
             If False, not show grid of figure.
-        kwargs : dict (optional)
+        kwargs : dict, optional
             title_name : title name of figure.
             title_size : text size of title.
             label_size : text size of axis labels.
@@ -284,10 +293,10 @@ class DrawComplex_Matplotlib:
         ----------
         save : str
             Name of image file.
-            Default value is "Complex_saved_by_OctaDist".
-        file : file
+            Default is "Complex_saved_by_OctaDist".
+        file : str
             Image type.
-            Default value is "png".
+            Default is "png".
 
         """
         plt.savefig(f"{save}.{file}")
@@ -303,22 +312,27 @@ class DrawComplex_Matplotlib:
 
 class DrawComplex_Plotly:
     """
-    Display 3D structure of octahedral complex with label for each atoms.
+    Display 3D structure of octahedral complex in web browser using Plotly.
 
     Parameters
     ----------
     atom : list
         Atomic symbols of octahedral structure.
-        Default to None.
-    coord : list, array, tuple, bool
+        Default is None.
+    coord : list or array_like or tuple or bool
         Atomic coordinates of octahedral structure.
-        Default to None.
+        Default is None.
     cutoff_global : int or float
         Global cutoff for screening bonds.
-        Default value is 2.0.
+        Default is 2.0.
     cutoff_hydrogen : int or float
         Cutoff for screening hydrogen bonds.
-        Default value is 1.2.
+        Default is 1.2.
+
+    See Also
+    --------
+    draw.DrawComplex_Matplotlib :
+        Use Matplotlib engine to draw a complex.
 
     Examples
     --------
@@ -330,10 +344,9 @@ class DrawComplex_Plotly:
                  [0.539005000, 4.482809000, 8.460004000],
                  [2.812425000, 3.266553000, 8.131637000],
                  [2.886404000, 5.392925000, 9.848966000]]
-    >>> test = DrawComplex(atom=atom, coord=coord)
+    >>> test = DrawComplex_Plotly(atom=atom, coord=coord)
     >>> test.add_atom()
     >>> test.add_bond()
-    >>> test.add_legend()
     >>> test.show_plot()
 
     """
@@ -382,9 +395,11 @@ class DrawComplex_Plotly:
         Parameters
         ----------
         title : str
-            Top title of the plot.  Default is "Full complex".
-        fontsize : int, float, str
-            Font size of title. Default is "12".
+            Top title of the plot.
+            Default is "Full complex".
+        fontsize : int or float or str
+            Font size of title.
+            Default is "12".
 
         """
         self.st = self.fig.suptitle(title, fontsize=font_size)
@@ -420,15 +435,18 @@ class DrawComplex_Plotly:
         self.fig = go.Figure(data=[marker_data])
         plotly_warning = "Generated by DrawComplex_Plotly in OctaDist"
         self.fig.update_layout(title=self.title_name + " : " + plotly_warning,
-                        scene = dict(
-                            xaxis = dict(range=[np.min(self.coord[:, 0]) - 0.5, np.max(self.coord[:, 0]) + 0.5]),
-                            yaxis = dict(range=[np.min(self.coord[:, 1]) - 0.5, np.max(self.coord[:, 1]) + 0.5]),
-                            zaxis = dict(range=[np.min(self.coord[:, 2]) - 0.5, np.max(self.coord[:, 2]) + 0.5])
-                        )
-                          #   autosize=True,
-                          # width=500, height=500,
-                          # margin=dict(l=65, r=50, b=65, t=90),
-                          )
+                               scene=dict(
+                                   xaxis=dict(range=[np.min(self.coord[:, 0]) -
+                                              0.5, np.max(self.coord[:, 0]) + 0.5]),
+                                   yaxis=dict(range=[np.min(self.coord[:, 1]) -
+                                              0.5, np.max(self.coord[:, 1]) + 0.5]),
+                                   zaxis=dict(range=[np.min(self.coord[:, 2]) -
+                                              0.5, np.max(self.coord[:, 2]) + 0.5])
+                               )
+                               #   autosize=True,
+                               # width=500, height=500,
+                               # margin=dict(l=65, r=50, b=65, t=90),
+                               )
 
     def add_bond(self):
         """
@@ -436,13 +454,14 @@ class DrawComplex_Plotly:
 
         See Also
         --------
-        octadist.src.util.find_bonds : Find atomic bonds.
+        octadist.src.util.find_bonds :
+            Find atomic bonds.
 
         """
         _, self.bond_list = util.find_bonds(
             self.atom, self.coord, self.cutoff_global, self.cutoff_hydrogen
         )
-        
+
         for i in range(len(self.bond_list)):
             get_atoms = self.bond_list[i]
             x, y, z = zip(*get_atoms)
@@ -462,8 +481,8 @@ class DrawComplex_Plotly:
                 ),
                 opacity=0.7,
                 mode="lines",
-                name="bond-" + str(i+1)
-                )
+                name="bond-" + str(i + 1)
+            )
             self.fig.add_trace(line)
 
     # def add_legend(self):
@@ -503,10 +522,10 @@ class DrawComplex_Plotly:
         ----------
         save : str
             Name of image file.
-            Default value is "Complex_saved_by_OctaDist".
-        file : file
+            Default is "Complex_saved_by_OctaDist".
+        file : str
             Image type.
-            Default value is "png".
+            Default is "png".
 
         """
         self.fig.write_image(f"{save}.{file}")
@@ -527,10 +546,10 @@ class DrawProjection:
     ----------
     atom : list
         Atomic symbols of octahedral structure.
-        Default to None.
-    coord : list, array, tuple
+        Default is None.
+    coord : list or array_like or tuple
         Atomic coordinates of octahedral structure.
-        Default to None.
+        Default is None.
 
     Examples
     --------
@@ -584,9 +603,11 @@ class DrawProjection:
         Parameters
         ----------
         title : str
-            Top title of the plot.  Default is "Full complex".
-        fontsize : int, float, str
-            Font size of title. Default is "12".
+            Top title of the plot.
+            Default is "Full complex".
+        fontsize : int or float or str
+            Font size of title.
+            Default is "x-large".
 
         """
         # self.st = self.fig.suptitle(, fontsize="")
@@ -594,7 +615,8 @@ class DrawProjection:
 
     def shift_plot(self):
         """
-        Shift subplots down. Default value is 0.25.
+        Shift subplots down.
+        Default is 0.25.
 
         """
         self.fig.subplots_adjust(top=0.25)
@@ -666,7 +688,8 @@ class DrawProjection:
 
         See Also
         --------
-        octadist.src.util.find_faces_octa
+        octadist.src.util.find_faces_octa :
+            Find all faces of octahedron.
 
         """
         _, c_ref, _, c_oppo = util.find_faces_octa(self.coord)
@@ -702,10 +725,10 @@ class DrawProjection:
         ----------
         save : str
             Name of image file.
-            Default value is "Complex_saved_by_OctaDist".
+            Default is "Complex_saved_by_OctaDist".
         file : file
             Image type.
-            Default value is "png".
+            Default is "png".
 
         """
         plt.savefig(f"{save}.{file}")
@@ -728,10 +751,10 @@ class DrawTwistingPlane:
     ----------
     atom : list
         Atomic symbols of octahedral structure.
-        Default to None.
-    coord : list, array, tuple
+        Default is None.
+    coord : list or array or tuple
         Atomic coordinates of octahedral structure.
-        Default to None.
+        Default is None.
 
     Examples
     --------
@@ -786,16 +809,19 @@ class DrawTwistingPlane:
         Parameters
         ----------
         title : str
-            Top title of the plot.  Default is "Projected twisting triangular faces".
-        fontsize : int, float, str
-            Font size of title. Default is "x-large".
+            Top title of the plot.
+            Default is "Projected twisting triangular faces".
+        fontsize : int or float or str
+            Font size of title.
+            Default is "x-large".
 
         """
         self.st = self.fig.suptitle(title, fontsize=font_size)
 
     def shift_plot(self):
         """
-        Shift subplots down. Default value is 0.25.
+        Shift subplots down.
+        Default is 0.25.
 
         """
         self.fig.subplots_adjust(top=0.25)
@@ -957,10 +983,10 @@ class DrawTwistingPlane:
         ----------
         save : str
             Name of image file.
-            Default value is "Complex_saved_by_OctaDist".
-        file : file
+            Default is "Complex_saved_by_OctaDist".
+        file : str
             Image type.
-            Default value is "png".
+            Default is "png".
 
         """
         plt.savefig(f"{save}.{file}")

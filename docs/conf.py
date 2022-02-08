@@ -19,8 +19,8 @@ sys.path.insert(0, os.path.abspath('./../...'))
 # sys.path.insert(0, os.path.abspath('.'))
 # sys.path.insert(0, os.path.abspath('../src'))
 
-import matplotlib
-matplotlib.use('TkAgg')
+# import matplotlib
+# matplotlib.use('TkAgg')
 
 
 # -- Project information -----------------------------------------------------
@@ -36,7 +36,12 @@ release = '3.0.0'
 
 # Not alphabetically order
 autodoc_member_order = 'bysource'
-# autodoc_mock_imports = ['_tkinter']
+# autodoc_mock_imports = ['tkinter']
+autodoc_mock_imports = [
+    # "octadist", 
+    "TkAgg", 
+    "pymatgen"
+    ]
 
 # -- General configuration ---------------------------------------------------
 
@@ -182,6 +187,9 @@ latex_elements = {
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
+
+    # Avoid blank pages in generated PDF file
+    'extraclassoptions': 'openany,oneside'
 }
 
 # Grouping the document tree into LaTeX files. List of tuples

@@ -2,6 +2,8 @@
 # Example 6 for running the test on OctaDist PyPI #
 ###################################################
 
+# Display a molecule using Plotly visualizer
+
 import os
 import octadist as oc
 
@@ -11,12 +13,7 @@ file = input_folder + "Multiple-metals.xyz"
 
 atom_full, coord_full = oc.io.extract_coord(file)
 
-# Display and automatically save image as .png file with user-specified name
-my_plot = oc.draw.DrawComplex_Matplotlib(atom=atom_full, coord=coord_full)
+my_plot = oc.draw.DrawComplex_Plotly(atom=atom_full, coord=coord_full)
 my_plot.add_atom()
 my_plot.add_bond()
-my_plot.add_legend()
-my_plot.save_img()
 my_plot.show_plot()
-
-# Output image, Complex_saved_by_OctaDist.png, is stored at ../images directory

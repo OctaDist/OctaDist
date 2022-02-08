@@ -36,7 +36,7 @@ Run OctaDist CLI
 You can execute command-line OctaDist interface by typing ``octadist_cli`` on the terminal.
 If it is executed without argument, the help docs will show by default.
 
-.. code-block:: sh
+::
 
     (py37) user@Linux:~$ octadist_cli
 
@@ -67,7 +67,7 @@ If it is executed without argument, the help docs will show by default.
     --show MOL [MOL ...]  show atomic symbol (atom) and atomic coordinate
                             (coord) of octahedral structure
 
-    Rangsiman Ketkaew       Updated on August 2019    E-mail: rangsiman1993@gmail.com
+    Rangsiman Ketkaew       Updated on 2021 E-mail: rangsiman1993@gmail.com
 
 
 Using OctaDist to calculate the distortion of structure can be done as follows:

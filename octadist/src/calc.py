@@ -23,13 +23,16 @@ from octadist.src import linear, plane, projection
 class CalcDistortion:
     """
     Calculate octahedral histortion parameters:
-    - Bond distance : `calc_d_bond`
-    - Mean bond distance : `calc_d_mean`
-    - Bond angle around metal center atom : `calc_bond_angle`
-    - zeta parameter : `calc_zeta`
-    - Delta parameter : `calc_delta`
-    - Sigma parameter : `calc_sigma`
-    - Minimum, maximum, and mean Theta parameters : `calc_theta_min`, `calc_theta_max`, `calc_theta`
+
+    - Bond distance : :meth:`calc_d_bond`
+    - Mean bond distance : :meth:`calc_d_mean`
+    - Bond angle around metal center atom : :meth:`calc_bond_angle`
+    - zeta parameter : :meth:`calc_zeta`
+    - Delta parameter : :meth:`calc_delta`
+    - Sigma parameter : :meth:`calc_sigma`
+    - Minimum Tehta parameter : :meth:`calc_theta_min`
+    - Maximum Theta parameter : :meth:`calc_theta_max`
+    - Mean Theta parametes : :meth:`calc_theta`
 
     Parameters
     ----------
@@ -90,7 +93,8 @@ class CalcDistortion:
 
         See Also
         --------
-        calc_d_mean : Calculate mean metal-ligand bond length.
+        calc_d_mean : 
+            Calculate mean metal-ligand bond length.
 
         """
         self.bond_dist = [
@@ -104,7 +108,8 @@ class CalcDistortion:
 
         See Also
         --------
-        calc_d_bond : Calculate metal-ligand bonds length.
+        calc_d_bond : 
+            Calculate metal-ligand bonds length.
 
         """
         self.d_mean = np.mean(self.bond_dist)
@@ -115,7 +120,8 @@ class CalcDistortion:
 
         See Also
         --------
-        calc_sigma : Calculate Sigma parameter.
+        calc_sigma : 
+            Calculate Sigma parameter.
 
         """
         all_angle = []
@@ -133,12 +139,14 @@ class CalcDistortion:
 
     def calc_zeta(self):
         """
-        Calculate zeta parameter and return value in Angstrom.
+        Calculate zeta parameter [1]_ and return value in Angstrom.
 
         See Also
         --------
-        calc_d_bond : Calculate metal-ligand bonds length.
-        calc_d_mean : Calculate mean metal-ligand bond length.
+        calc_d_bond : 
+            Calculate metal-ligand bonds length.
+        calc_d_mean : 
+            Calculate mean metal-ligand bond length.
 
         References
         ----------
@@ -156,12 +164,14 @@ class CalcDistortion:
 
     def calc_delta(self):
         """
-        Calculate Delta parameter, also known as Tilting distortion parameter.
+        Calculate Delta parameter, also known as Tilting distortion parameter [2]_.
 
         See Also
         --------
-        calc_d_bond : Calculate metal-ligand bonds length.
-        calc_d_mean : Calculate mean metal-ligand bond length.
+        calc_d_bond : 
+            Calculate metal-ligand bonds length.
+        calc_d_mean : 
+            Calculate mean metal-ligand bond length.
 
         References
         ----------
@@ -177,11 +187,12 @@ class CalcDistortion:
 
     def calc_sigma(self):
         """
-        Calculate Sigma parameter and return value in degree.
+        Calculate Sigma parameter [3]_ and return value in degree.
 
         See Also
         --------
-        calc_bond_angle : Calculate bond angles between ligand-metal-ligand.
+        calc_bond_angle : 
+            Calculate bond angles between ligand-metal-ligand.
 
         References
         ----------
@@ -197,19 +208,18 @@ class CalcDistortion:
 
     def determine_faces(self):
         """
-        Refine the order of ligand atoms in order to find the plane
-        for projection.
+        Refine the order of ligand atoms in order to find the plane for projection.
 
         Returns
         -------
-        coord_metal : nd.array
+        coord_metal : array_like
             Coordinate of metal atom.
-        coord_lig : nd.array
+        coord_lig : array_like
             Coordinate of ligand atoms.
 
         See Also
         --------
-        calc_theta :
+        calc_theta : 
             Calculate mean Theta parameter
 
         Examples
@@ -324,7 +334,7 @@ class CalcDistortion:
 
     def calc_theta(self):
         """
-        Calculate Theta parameter and value in degree.
+        Calculate Theta parameter [4]_ and value in degree.
 
         See Also
         --------
@@ -334,7 +344,7 @@ class CalcDistortion:
             Calculate maximum Theta parameter.
         octadist.src.linear.angle_btw_vectors :
             Calculate cosine angle between two vectors.
-        octadist.src.linear.angle_sign
+        octadist.src.linear.angle_sign :
             Calculate cosine angle between two vectors sensitive to CW/CCW direction.
         octadist.src.plane.find_eq_of_plane :
             Find the equation of the plane.

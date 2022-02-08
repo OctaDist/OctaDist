@@ -353,7 +353,8 @@ class SurfaceArea:
 
         See Also
         --------
-        octadist.src.util.find_faces_octa
+        octadist.src.util.find_faces_octa :
+            Find all faces of octahedron.
 
         """
         a_ref, c_ref, a_oppo, c_oppo = util.find_faces_octa(coord)

@@ -40,3 +40,5 @@ For example, that OctaDist is a package may be useful for interactive python scr
     PIP-compressed zip files of OctaDist are also available at 
     https://pypi.org/project/octadist/#files.
 
+If you experience any problems while installing OctaDist from the source code, 
+please do not hesitate to post your question at https://groups.google.com/g/octadist-forum.

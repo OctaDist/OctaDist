@@ -23,7 +23,7 @@ class ScriptingConsole:
     """
     Start scripting interface for an interactive code.
 
-    User can access to class variable (dynamics variable).
+    User can access to class variable (dynamic variable).
 
     +------------+
     | Output box |

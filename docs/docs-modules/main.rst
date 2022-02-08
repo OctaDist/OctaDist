@@ -1,9 +1,7 @@
-.. currentmodule:: octadist.main
-
 =============
 octadist.main
 =============
 
-.. autoclass:: octadist.main.OctaDist
+.. automodule:: octadist.main
    :members:
    :undoc-members:
