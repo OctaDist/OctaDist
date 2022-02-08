@@ -402,6 +402,7 @@ class OctaDist:
         input_file = filedialog.askopenfilenames(
             title="Choose input file",
             filetypes=(
+                ("All Files", "*.*"),
                 ("CIF File", "*.cif"),
                 ("XYZ File", "*.xyz"),
                 ("Gaussian Output File", "*.out"),
@@ -412,7 +413,6 @@ class OctaDist:
                 ("ORCA Output File", "*.log"),
                 ("Q-Chem Output File", "*.out"),
                 ("Q-Chem Output File", "*.log"),
-                ("All Files", "*.*"),
             ),
         )
 
@@ -453,16 +453,16 @@ class OctaDist:
             # Extract octahedral structure from the complex #
             #################################################
 
-            total_metal, atom_metal, coord_metal = io.find_metal(atom_full, coord_full)
+            atom_metal, coord_metal, index_metal = io.find_metal(atom_full, coord_full)
 
-            if total_metal == 0:
+            if len(atom_metal) == 0:
                 popup.warn_no_metal(i + 1)
 
-            # loop over number of metal found in complex
-            for j in range(total_metal):
-                atom_octa, coord_octa = io.extract_octa(atom_full, coord_full, j + 1, self.cutoff_metal_ligand)
+            # loop over the number of metal atoms found in the complex
+            for j in range(len(atom_metal)):
+                atom_octa, coord_octa = io.extract_octa(atom_full, coord_full, index_metal[j], self.cutoff_metal_ligand)
 
-                # If no atomic coordinates inside, it will raise error
+                # If no atomic coordinates inside, raise error
                 if np.any(coord_octa) == 0:
                     popup.err_no_coord(i + 1)
                     continue

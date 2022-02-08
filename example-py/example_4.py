@@ -11,12 +11,13 @@ file = input_folder + "Multiple-metals.xyz"
 
 atom_full, coor_full = oc.io.extract_coord(file)
 
-# If complex contains metal center more than one, you can specify the index metal
+# If a complex contains more than one metal atoms, you can specify the index of metal
 # whose octahedral structure will be computed.
-# For example, this complex contains three metal atoms: Fe, Ru, and Rd.
-# I add "2" as a second argument for choosing Ru as metal of interest.
+# For example, a test complex contains three metal atoms: Fe, Ru, and Rd.
+# You can  specify the index of the reference atom with ref_index keyword (Python-index-based, start from 0).
+# So for Ru, I set it to 8 (because Ru is the 9th atom of the complex).
 
-atom, coord = oc.io.extract_octa(atom_full, coor_full, 2)
+atom, coord = oc.io.extract_octa(atom_full, coor_full, ref_index=8)
 
 dist = oc.CalcDistortion(coord)
 zeta = dist.zeta  # Zeta

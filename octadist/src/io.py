@@ -124,7 +124,8 @@ def get_coord_cif(f):
 
     """
     import warnings
-    warnings.filterwarnings('ignore')
+
+    warnings.filterwarnings("ignore")
 
     # works only with pymatgen <= v2021.3.3
     structure = pymatgen.Structure.from_file(f)
@@ -333,7 +334,7 @@ def get_coord_gaussian(f):
             end = i
             break
 
-    for line in nline[start + 5: end]:
+    for line in nline[start + 5 : end]:
         data = line.split()
         data1 = int(data[1])
         coord_x = float(data[3])
@@ -561,7 +562,7 @@ def get_coord_orca(f):
             end = i - 1
             break
 
-    for line in nline[start + 2: end]:
+    for line in nline[start + 2 : end]:
         dat = line.split()
         dat1 = dat[0]
         coord_x = float(dat[1])
@@ -671,7 +672,7 @@ def get_coord_qchem(f):
             end = i - 1
             break
 
-    for line in nline[start + 5: end]:
+    for line in nline[start + 5 : end]:
         dat = line.split()
         dat1 = dat[1]
         coord_x = float(dat[2])
@@ -824,12 +825,11 @@ def extract_coord(file=None):
         popup.err_wrong_format()
 
     if is_coord_correct:
-        # atom and coord are correct
-        # Remove empty string in list
+        # if atom and coord are correct, remove empty string in list
         atom = list(filter(None, atom))
         return atom, coord
     else:
-        # if not correct, return empty atom and coord
+        # return empty atom and coord
         return atom, coord
 
 
@@ -848,12 +848,12 @@ def find_metal(atom=None, coord=None):
 
     Returns
     -------
-    total_metal : int
-        The total number of metal center atom.
     atom_metal : list
         Atomic labels of metal center atom.
     coord_metal : array_like
         Atomic coordinates of metal center atom.
+    index_metal : list
+        Indices of metal atoms found.
 
     See Also
     --------
@@ -870,9 +870,7 @@ def find_metal(atom=None, coord=None):
                  [-2.18698286e+00,  4.34540478e+00,  1.69060811e+01],
                  [-1.17538286e+00,  6.38340478e+00,  1.56457811e+01],
                  [-2.75078286e+00,  2.50260478e+00,  1.51806811e+01]]
-    >>> total_metal, atom_metal, coord_metal = find_metal(atom, coord)
-    >>> total_metal
-    1
+    >>> atom_metal, coord_metal = find_metal(atom, coord)
     >>> atom_metal
     ['Fe']
     >>> coord_metal
@@ -882,30 +880,23 @@ def find_metal(atom=None, coord=None):
     if atom is None or coord is None:
         raise TypeError("find_metal needs two arguments: atom, coord")
 
-    total_metal = 0
     atom_metal = []
     coord_metal = []
+    index_metal = []
 
     for i in range(len(atom)):
         number = elements.number_to_symbol(atom[i])
-
-        if (
-            21 <= number <= 30
-            or 39 <= number <= 48
-            or 57 <= number <= 80
-            or 89 <= number <= 109
-        ):
-
-            total_metal += 1
+        if 21 <= number <= 30 or 39 <= number <= 48 or 57 <= number <= 80 or 89 <= number <= 109:
             atom_metal.append(atom[i])
             coord_metal.append(coord[i])
+            index_metal.append(i)
 
     coord_metal = np.asarray(coord_metal, dtype=np.float64)
 
-    return total_metal, atom_metal, coord_metal
+    return atom_metal, coord_metal, index_metal
 
 
-def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
+def extract_octa(atom, coord, ref_index=0, cutoff_ref_ligand=2.8):
     """
     Search the octahedral structure in complex and return atoms and coordinates.
 
@@ -915,12 +906,12 @@ def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
         Full atomic labels of complex.
     coord : array_like
         Full atomic coordinates of complex.
-    metal : int
-        Number of metal atom that will be taken as center atom for
-        finding atomic coordinates of octahedral structure of interest.
-        Default is 1.
-    cutoff_metal_ligand : float, optional
-        Cutoff distance for screening metal-ligand bond.
+    ref_index : int
+        Index of the reference to be used as the center atom for neighbor atoms 
+        in octahedral structure of the complex. Python-based index.
+        Default is 0.
+    cutoff_ref_ligand : float, optional
+        Cutoff distance for screening bond distance between reference and ligand atoms.
         Default is 2.8.
 
     Returns
@@ -962,26 +953,17 @@ def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
            [-3.90128286e+00,  5.27750478e+00,  1.40814811e+01]])
 
     """
-    if atom is None or coord is None:
-        raise TypeError("find_metal needs two arguments: atom and coord")
-
-    # Count the number of metal center atom
-    total_metal, atom_metal, coord_metal = find_metal(atom, coord)
-
-    if metal <= 0:
-        raise ValueError("index of metal must be positive integer")
-
-    elif metal > total_metal:
+    if ref_index < 0:
+        raise ValueError("index of the reference center atom must be equal or greater than zero")
+    elif ref_index + 1 > len(atom):
         raise ValueError(
-            "user-defined index of metal is greater than " "the total metal in complex."
+            "index of the reference center atom is greater than the total number of atoms in the complex."
         )
 
-    metal_index = metal - 1
     dist_list = []
-
     for i in range(len(list(atom))):
-        dist = distance.euclidean(coord_metal[metal_index], coord[i])
-        if dist <= cutoff_metal_ligand:
+        dist = distance.euclidean(coord[ref_index], coord[i])
+        if dist <= cutoff_ref_ligand:
             dist_list.append([atom[i], coord[i], dist])
 
     # sort list of tuples by distance in ascending order
@@ -990,7 +972,6 @@ def extract_octa(atom=None, coord=None, metal=1, cutoff_metal_ligand=2.8):
     # Keep only first 7 atoms
     dist_list = dist_list[:7]
     atom_octa, coord_octa, dist = zip(*dist_list)
-
     atom_octa = list(atom_octa)
     coord_octa = np.asarray(coord_octa, dtype=np.float64)
 
