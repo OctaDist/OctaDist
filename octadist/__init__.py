@@ -44,6 +44,8 @@ __doc__ = "OctaDist documentation is available at https://octadist.readthedocs.i
 __help__ = "https://octadist.readthedocs.io"
 __website__ = "https://octadist.github.io"
 __github__ = "https://github.com/OctaDist/OctaDist"
+__ref__ = "Dalton Trans., 2021,50, 1086-1096"
+__doi__ = "https://doi.org/10.1039/D0DT03988H"
 
 __all__ = [
     "calc",

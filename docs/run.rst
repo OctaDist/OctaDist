@@ -41,31 +41,29 @@ If it is executed without argument, the help docs will show by default.
     (py37) user@Linux:~$ octadist_cli
 
     # output
-    usage: octadist_cli [-h] [-v] [-a] [-c] [-g] [-i INPUT] [-o] [-s OUTPUT]
-                        [--par PARAMETER [PARAMETER ...]] [--show MOL [MOL ...]]
+    usage: octadist_cli [-h] [-i INPUT] [-f] [-r REF_CENTER_ATOM] [-c CUTOFF_DIST] [-s OUTPUT] [-p PARAMETER [PARAMETER ...]] [--show MOL [MOL ...]] [-g] [-a] [-v]
 
     Octahedral Distortion Calculator:
     A tool for computing octahedral distortion parameters in coordination complex.
-    For more details, please visit https://github.com/OctaDist/OctaDist.
+    For more details, please visit https://octadist.github.io.
 
     optional arguments:
     -h, --help            show this help message and exit
-    -v, --version         show program's version number and exit
-    -a, --about           show program info
-    -c, --cite            show how to cite OctaDist
-    -g, --gui             launch OctaDist GUI (this option is the same as
-                            'octadist' command
     -i INPUT, --inp INPUT
-                            input structure in .xyz format
-    -o, --out             show formatted output summary
+                            Input structure in .xyz format
+    -f, --format          Show formatted output summary
+    -r REF_CENTER_ATOM, --ref-index REF_CENTER_ATOM
+                            Index of the reference center atom. Default to 0
+    -c CUTOFF_DIST, --cutoff CUTOFF_DIST
+                            Cutoff distance (in Angstroms) for determining octahedron. Default to 2.8
     -s OUTPUT, --save OUTPUT
-                            save formatted output to text file, please specify
-                            name of OUTPUT file without '.txt' extension
-    --par PARAMETER [PARAMETER ...]
-                            select which the parameter (zeta, delta, sigma, theta)
-                            to show
-    --show MOL [MOL ...]  show atomic symbol (atom) and atomic coordinate
-                            (coord) of octahedral structure
+                            Save formatted output to text file, please specify name of OUTPUT file without '.txt' extension
+    -p PARAMETER [PARAMETER ...], --par PARAMETER [PARAMETER ...]
+                            Select which the parameter (zeta, delta, sigma, theta) to show
+    --show MOL [MOL ...]  Show atomic symbol (atom) and atomic coordinate (coord) of octahedral structure
+    -g, --gui             launch OctaDist GUI (this option is the same as 'octadist' command
+    -a, --about           Show program info
+    -v, --version         show program's version number and exit
 
     Rangsiman Ketkaew       Updated on 2021 E-mail: rangsiman1993@gmail.com
 

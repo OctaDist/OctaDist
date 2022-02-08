@@ -79,30 +79,6 @@ def find_coord(file):
     return atom, coord
 
 
-def find_octa(atom, coord):
-    """
-    Find atomic symbols and atomic coordinates of structure.
-
-    Parameters
-    ----------
-    atom : list
-        Atomic symbols of structure.
-    coord : list
-        Atomic coordinates of structure.
-
-    Returns
-    -------
-    atom : list
-        Atomic symbols of octahedral structure.
-    coord : array_like
-        Atomic coordinates of octahedral structure.
-
-    """
-    atom, coord = extract_octa(atom, coord)
-
-    return atom, coord
-
-
 def calc_param(coord):
     """
     Calculate octahedral distortion parameters.
@@ -115,16 +91,11 @@ def calc_param(coord):
     Returns
     -------
     computed : dict
-        Computed parameters.
+        Computed parameters: zeta, delta, sigma, theta.
 
     """
     dist = octadist.CalcDistortion(coord)
-    zeta = dist.zeta  # Zeta
-    delta = dist.delta  # Delta
-    sigma = dist.sigma  # Sigma
-    theta = dist.theta  # Theta
-
-    computed = {"zeta": zeta, "delta": delta, "sigma": sigma, "theta": theta}
+    computed = {"zeta": dist.zeta, "delta": dist.delta, "sigma": dist.sigma, "theta": dist.theta}
 
     return computed
 
@@ -151,32 +122,29 @@ For more details, please visit https://octadist.github.io.
         epilog=epilog,
     )
 
-    # info
-    parser.add_argument(
-        "-v", "--version", action="version", version=octadist.__version__
-    )
-    parser.add_argument("-a", "--about", action="store_true", help="show program info")
-    parser.add_argument(
-        "-c", "--cite", action="store_true", help="show how to cite OctaDist"
-    )
-    parser.add_argument(
-        "-g",
-        "--gui",
-        action="store_true",
-        help="launch OctaDist GUI (this option is the same as 'octadist' command",
-    )
-
     # input/output
     parser.add_argument(
-        "-i",
-        "--inp",
-        action="store",
-        type=str,
-        metavar="INPUT",
-        help="input structure in .xyz format",
+        "-i", "--inp", action="store", type=str, metavar="INPUT", help="Input structure in .xyz format",
+    )
+    parser.add_argument("-f", "--format", action="store_true", help="Show formatted output summary")
+    # octahedron parameters
+    parser.add_argument(
+        "-r",
+        "--ref-index",
+        type=int,
+        metavar="REF_CENTER_ATOM",
+        dest="ref_index",
+        default=0,
+        help="Index of the reference center atom. Default to 0",
     )
     parser.add_argument(
-        "-o", "--out", action="store_true", help="show formatted output summary"
+        "-c",
+        "--cutoff",
+        type=float,
+        metavar="CUTOFF_DIST",
+        dest="cutoff",
+        default=2.8,
+        help="Cutoff distance (in Angstroms) for determining octahedron. Default to 2.8",
     )
     parser.add_argument(
         "-s",
@@ -184,18 +152,17 @@ For more details, please visit https://octadist.github.io.
         action="store",
         type=str,
         metavar="OUTPUT",
-        help="save formatted output to text file, "
+        help="Save formatted output to text file, "
         "please specify name of OUTPUT file without '.txt' extension",
     )
-
-    # result
     parser.add_argument(
+        "-p",
         "--par",
         type=str,
         nargs="+",
         choices=["zeta", "delta", "sigma", "theta"],
         metavar="PARAMETER",
-        help="select which the parameter (zeta, delta, sigma, theta) to show",
+        help="Select which the parameter (zeta, delta, sigma, theta) to show",
     )
     parser.add_argument(
         "--show",
@@ -203,9 +170,16 @@ For more details, please visit https://octadist.github.io.
         nargs="+",
         choices=["atom", "coord"],
         metavar="MOL",
-        help="show atomic symbol (atom) and atomic coordinate (coord) of "
-        "octahedral structure",
+        help="Show atomic symbol (atom) and atomic coordinate (coord) of octahedral structure",
     )
+    parser.add_argument(
+        "-g",
+        "--gui",
+        action="store_true",
+        help="launch OctaDist GUI (this option is the same as 'octadist' command",
+    )
+    parser.add_argument("-a", "--about", action="store_true", help="Show program info")
+    parser.add_argument("-v", "--version", action="version", version=octadist.__version__)
 
     args = parser.parse_args()
 
@@ -225,18 +199,7 @@ For more details, please visit https://octadist.github.io.
         print(f"- E-mail\t=\t{octadist.__email__}")
         print(f"- Document\t=\t{octadist.__doc__}")
         print(f"- Website\t=\t{octadist.__website__}")
-        sys.exit(1)
-
-    if args.cite:
-        print("\nHow to cite OctaDist")
-        print("=====================")
-        print(
-            "Please cite this project when you use OctaDist for scientific publication.\n"
-        )
-        print(
-            "  OctaDist: A tool for calculating distortion parameters in coordination complexes."
-        )
-        print("  https://octadist.github.io\n")
+        print(f"- Reference\t=\t{octadist.__ref__}. " + f"{octadist.__doi__}")
         sys.exit(1)
 
     # in case GUI is requested
@@ -246,60 +209,49 @@ For more details, please visit https://octadist.github.io.
 
     atom_coord = {}
     computed = {}
-    token = False
 
-    # find coordinates of structure
-    if args.inp:
-        # check if file is correct
-        file = check_file(args.inp)
-
-        atom, coord = find_coord(file)
-        atom, coord = find_octa(atom, coord)
-
-        atom_coord = {"atom": atom, "coord": coord}
-
-        computed = calc_param(coord)
-
-        token = True
-    else:
+    if not args.inp:
         print("No input file specified")
+        sys.exit(1)
+
+    # check if file is correct
+    file = check_file(args.inp)
+    atom, coord = find_coord(file)
+    atom, coord = extract_octa(atom, coord, args.ref_index, args.cutoff)
+    if len(atom) < 7:
+        print(
+            "Extracted octahedron is incomplete. Please adjust cutoff distance, e.g., increase the value, to fix the issue."
+        )
+        sys.exit(1)
+
+    atom_coord = {"atom": atom, "coord": coord}
+    computed = calc_param(coord)
 
     # get only basename of file from path
     basename = os.path.basename(args.inp)
 
-    # print computed parameters
-    if not args.show:
-        if not args.out:
-            if not args.par and token:
-                for key in ["zeta", "delta", "sigma", "theta"]:
-                    print(computed[key])
-            else:
-                for key in args.par:
-                    print(computed[key])
-        else:
-            print("Octahedral distortion parameters")
-            print("--------------------------------")
-            print(f"File: {basename}")
-            print(f"Zeta   = {computed['zeta']:12.8f}")
-            print(f"Delta  = {computed['delta']:12.8f}")
-            print(f"Sigma  = {computed['sigma']:12.8f}")
-            print(f"Theta  = {computed['theta']:12.8f}")
+    # print unformatted output
+    if not args.format:
+        for v in computed.values():
+            print(f"{v:12.8f}")
+    # print formatted output
+    else:
+        for k, v in computed.items():
+            print(f"{k}\t=\t{v:12.8f}")
 
     # print atom and coord
-    if args.show and token:
+    if args.show:
         for key in args.show:
             print(atom_coord[key])
 
     # save result
-    if args.save and token:
+    if args.save:
         with open(args.save + ".txt", "w") as f:
             f.write("Octahedral distortion parameters\n")
             f.write("--------------------------------\n")
             f.write(f"File: {basename}\n")
-            f.write(f"Zeta   = {computed['zeta']:12.8f}\n")
-            f.write(f"Delta  = {computed['delta']:12.8f}\n")
-            f.write(f"Sigma  = {computed['sigma']:12.8f}\n")
-            f.write(f"Theta  = {computed['theta']:12.8f}\n")
+            for k, v in computed.items():
+                f.write(f"{k}\t=\t{v:12.8f}\n")
             f.write(f"\nComputed by OctaDist {octadist.__version__}\n")
             f.close()
         print(f"\nOutput file has been saved to {os.path.realpath(f.name)}")

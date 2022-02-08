@@ -183,7 +183,7 @@ octadist_cli --inp EXAMPLE_INPUT.xyz
 To calculate distortion parameters and show formatted output:
 
 ```sh
-octadist_cli --inp EXAMPLE_INPUT.xyz --out
+octadist_cli --inp EXAMPLE_INPUT.xyz --format
 ```
 
 
