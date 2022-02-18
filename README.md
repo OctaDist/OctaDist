@@ -29,14 +29,6 @@ https://octadist.github.io/
    <img alt="molecule" src="https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/molecule.png" align=middle width="200pt" />
 <p/>
 
-## Register for OctaDist
-
-To get notified when we release new version of OctaDist, please register at https://cutt.ly/regis-octadist.
-
-## OctaDist Forum
-
-The users can post questions in our Google Groups: [OctaDist Forum](https://groups.google.com/g/octadist-forum)
-
 ## Standard abilities
 
 OctaDist is computer software for inorganic chemistry and crystallography program.
@@ -49,50 +41,6 @@ With the abilities of OctaDist, you can:
 - display 3D molecule for graphical analysis.
 - implement OctaDist's module into your or other program.
 - access the program core directly via an interactive scripting language.
-
-## Development and Release
-
-OctaDist is written entirely in Python 3 binding to Tkinter GUI toolkit.
-It is cross-platform program which can work on multiple operating systems.
-The stable version and development build of OctaDist are released at [here][release-link].
-A standalone executable for graphical user interface (GUI) and
-source code for command line interface (CLI) are available for as follows:
-
-[release-link]: https://github.com/OctaDist/OctaDist/releases
-
-| Platform       | Description                                                    |                     Status                     |
-| -------------- | -------------------------------------------------------------- | :--------------------------------------------: |
-| Windows        | [![windows][windows-2.6.1-badge]][windows-2.6.1-link]          | [![Travis-CI Test][travis-badge]][travis-link] |
-| Linux          | [![latest-release][latest-release-badge]][latest-release-link] | [![Travis-CI Test][travis-badge]][travis-link] |
-| macOS          | [![latest-release][latest-release-badge]][latest-release-link] | [![Travis-CI Test][travis-badge]][travis-link] |
-| PyPI library   | [![PyPI-Server][pypi-badge]][pypi-link]                        | [![Travis-CI Test][travis-badge]][travis-link] |
-| Anaconda cloud | [![Conda-Server][conda-badge]][conda-link]                     | [![Travis-CI Test][travis-badge]][travis-link] |
-| Nightly build  | Development build                                              |  [![Travis-CI Test][dev-badge]][travis-link]   |
-
-[windows-2.6.1-badge]: https://img.shields.io/badge/release-v.2.6.1-blue
-[windows-2.6.1-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
-[latest-release-badge]: https://img.shields.io/github/release/octadist/octadist.svg
-[latest-release-link]: https://github.com/OctaDist/OctaDist/releases/latest
-[travis-badge]: https://img.shields.io/travis/OctaDist/OctaDist/master.svg
-[travis-link]: https://travis-ci.org/OctaDist/OctaDist
-[pypi-badge]: https://img.shields.io/pypi/v/octadist.svg
-[pypi-link]: https://pypi.org/project/octadist/
-[conda-badge]: https://anaconda.org/rangsiman/octadist/badges/version.svg
-[conda-link]: https://anaconda.org/rangsiman/octadist
-[dev-badge]: https://img.shields.io/travis/OctaDist/OctaDist/nightly-build.svg
-
-**Branch:**
-
-1. [master](https://github.com/OctaDist/OctaDist)
-2. [nightly-build](https://github.com/OctaDist/OctaDist/tree/nightly-build)
-
-## Git Clone
-
-```sh
-git clone https://github.com/OctaDist/OctaDist.git
-git checkout nightly-build
-git pull origin nightly-build
-```
 
 ## Documents
 
@@ -270,6 +218,58 @@ Other example scripts and octahedral complexes are available at [example-py][ex-
 
 [ex-py-link]: https://github.com/OctaDist/OctaDist-PyPI/tree/master/example-py
 [ex-inp-link]: https://github.com/OctaDist/OctaDist-PyPI/tree/master/example-input
+
+## Development and Release
+
+OctaDist is written entirely in Python 3 binding to Tkinter GUI toolkit.
+It is cross-platform program which can work on multiple operating systems.
+The stable version and development build of OctaDist are released at [here][release-link].
+A standalone executable for graphical user interface (GUI) and
+source code for command line interface (CLI) are available for as follows:
+
+[release-link]: https://github.com/OctaDist/OctaDist/releases
+
+| Platform       | Description                                                    |                     Status                     |
+| -------------- | -------------------------------------------------------------- | :--------------------------------------------: |
+| Windows        | [![windows][windows-2.6.1-badge]][windows-2.6.1-link]          | [![Travis-CI Test][travis-badge]][travis-link] |
+| Linux          | [![latest-release][latest-release-badge]][latest-release-link] | [![Travis-CI Test][travis-badge]][travis-link] |
+| macOS          | [![latest-release][latest-release-badge]][latest-release-link] | [![Travis-CI Test][travis-badge]][travis-link] |
+| PyPI library   | [![PyPI-Server][pypi-badge]][pypi-link]                        | [![Travis-CI Test][travis-badge]][travis-link] |
+| Anaconda cloud | [![Conda-Server][conda-badge]][conda-link]                     | [![Travis-CI Test][travis-badge]][travis-link] |
+| Nightly build  | Development build                                              |  [![Travis-CI Test][dev-badge]][travis-link]   |
+
+[windows-2.6.1-badge]: https://img.shields.io/badge/release-v.2.6.1-blue
+[windows-2.6.1-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
+[latest-release-badge]: https://img.shields.io/github/release/octadist/octadist.svg
+[latest-release-link]: https://github.com/OctaDist/OctaDist/releases/latest
+[travis-badge]: https://img.shields.io/travis/OctaDist/OctaDist/master.svg
+[travis-link]: https://travis-ci.org/OctaDist/OctaDist
+[pypi-badge]: https://img.shields.io/pypi/v/octadist.svg
+[pypi-link]: https://pypi.org/project/octadist/
+[conda-badge]: https://anaconda.org/rangsiman/octadist/badges/version.svg
+[conda-link]: https://anaconda.org/rangsiman/octadist
+[dev-badge]: https://img.shields.io/travis/OctaDist/OctaDist/nightly-build.svg
+
+**Branch:**
+
+1. [master](https://github.com/OctaDist/OctaDist)
+2. [nightly-build](https://github.com/OctaDist/OctaDist/tree/nightly-build)
+
+## Git Clone
+
+```sh
+git clone https://github.com/OctaDist/OctaDist.git
+git checkout nightly-build
+git pull origin nightly-build
+```
+
+## Register for OctaDist
+
+To get notified when we release new version of OctaDist, please register at https://cutt.ly/regis-octadist.
+
+## OctaDist Forum
+
+The users can post questions in our Google Groups: [OctaDist Forum](https://groups.google.com/g/octadist-forum)
 
 ## Citation
 
