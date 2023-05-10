@@ -68,9 +68,12 @@ Reference manual :
 
 For Windows users, we strongly suggest a standalone executable:
 
-[Click Here to Download OctaDist-2.6.1-Win-x86-64.exe][download-win-exe]
+[Click Here to Download OctaDist-2.6.1-Win-x86-64.exe (104 MB)][download-win-exe-2.6.1]
 
-[download-win-exe]: https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64.exe
+[Click Here to Download OctaDist-3.0.0-Win-x86-64.exe (320 MB)][download-win-exe-3.0.0]
+
+[download-win-exe-2.6.1]: https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64.exe
+[download-win-exe-3.0.0]: https://github.com/OctaDist/OctaDist/releases/download/v.3.0.0/OctaDist-3.0.0-src-x86-64.exe
 
 For Linux or macOS users and already have Python 3 installed on the system,
 the easiest way to install OctaDist is to use `pip`.
