@@ -52,7 +52,7 @@ setuptools.setup(
         "scipy", 
         "matplotlib", 
         "rmsd", 
-        "pymatgen<=2021.3.3", 
+        "pymatgen", 
         "plotly"
         ],
     classifiers=[
