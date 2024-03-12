@@ -2,6 +2,9 @@
 macOS
 =====
 
+Note that OctaDist supports up to Python 3.9. 
+``gcc`` development tool is also required to install the dependencies packages of OctaDist.
+
 Like Linux, installing OctaDist on macOS can be completed in a few steps as follows:
 
 1. Press **Command** - **spacebar** to launch Spotlight and type ``Terminal``,
@@ -27,7 +30,7 @@ In case you are not able to install the latest version of OctaDust, you can try 
 
 ::
 
-    pip install --user octadist==2.6.1
+    pip install --user octadist==3.0.0
 
 If you experience any problems while installing OctaDist on macOS, 
 please do not hesitate to post your question at https://groups.google.com/g/octadist-forum.

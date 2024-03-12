@@ -8,6 +8,9 @@ which can be found at https://pypi.org/project/octadist.
 The end-user can use ``pip``, a Python package-management system,
 to find and install OctaDist and other dependencies simultaneously.
 
+Note that OctaDist supports up to Python 3.9. 
+``gcc`` development tool is also required to install the dependencies packages of OctaDist.
+
 Installing OctaDist can be completed in a few steps as follows:
 
 1. Use ``pip`` command to install OctaDist::
@@ -30,7 +33,7 @@ In case you are not able to install the latest version of OctaDust, you can try 
 
 ::
 
-    pip install --user octadist==2.6.1
+    pip install --user octadist==3.0.0
 
 If you experience any problems while installing OctaDist on Linux, 
 please do not hesitate to post your question at https://groups.google.com/g/octadist-forum.

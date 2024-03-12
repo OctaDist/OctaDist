@@ -6,6 +6,8 @@ OctaDist is a cross-platform software which is available for Windows, Linux, and
 for both 32-bit and 64-bit systems. You can install OctaDist by several ways, 
 depending on your system and purpose.
 
+Note that OctaDist supports up to Python 3.9.
+
 .. toctree::
    :maxdepth: 1
 

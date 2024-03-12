@@ -8,3 +8,8 @@ Minimum system requirements for OctaDist:
 - Linux (X11 Start)
 - OS X 10.8+ and macOS 10.12+
 
+Python version:
+
+- 3.6
+- 3.7
+- 3.9

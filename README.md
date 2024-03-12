@@ -1,4 +1,3 @@
-![Python version][py-ver-badge]
 [![PyPI-Server][pypi-badge]][pypi-link]
 ![Python Wheel][py-wheel-badge]
 ![Code size][code-size]
@@ -9,7 +8,6 @@
 [![Github Download Latest version][dl-latest-badge]][dl-latest-link]
 ![Platform][platform]
 
-[py-ver-badge]: https://img.shields.io/pypi/pyversions/octadist.svg
 [py-wheel-badge]: https://img.shields.io/pypi/wheel/octadist.svg
 [code-size]: https://img.shields.io/github/languages/code-size/OctaDist/OctaDist.svg
 [repo-size]: https://img.shields.io/github/repo-size/OctaDist/OctaDist.svg
@@ -44,7 +42,7 @@ With the abilities of OctaDist, you can:
 
 ## Documents
 
-User manual : [https://octadist.github.io/manual.html][manual-link].
+User manual: [https://octadist.github.io/manual.html][manual-link].
 
 [manual-link]: https://octadist.github.io/manual.html
 
@@ -76,7 +74,9 @@ For Windows users, we strongly suggest a standalone executable:
 [download-win-exe-3.0.0]: https://github.com/OctaDist/OctaDist/releases/download/v.3.0.0/OctaDist-3.0.0-src-x86-64.exe
 
 For Linux or macOS users and already have Python 3 installed on the system,
-the easiest way to install OctaDist is to use `pip`.
+the easiest way to install OctaDist is to use `pip`. 
+
+**Note that OctaDist supports up to Python 3.9.**
 
 ```sh
 pip install octadist
