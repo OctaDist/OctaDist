@@ -13,6 +13,6 @@ build:
 python:
   #  version: 3.11
    install:
-      - requirements: requirements.txt
+      - requirements: requirements_readthedocs.txt
       - method: pip
         path: .

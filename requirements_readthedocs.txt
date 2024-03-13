@@ -2,4 +2,6 @@ numpy
 scipy
 matplotlib
 rmsd
+pymatgen
 plotly
+sphinx_rtd_theme
