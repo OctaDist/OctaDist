@@ -50,7 +50,7 @@ Reference manual :
 
 | Version   |              Status               |                               Docs                                |
 | --------- | :-------------------------------: | :---------------------------------------------------------------: |
-| Stable    |  ![Doc-Latest-Badge][doc-latest]  |   [HTML][latest-html] / [PDF][latest-pdf] / [Epub][latest-epub]   |
+| Latest    |  ![Doc-Latest-Badge][doc-latest]  |   [HTML][latest-html] / [PDF][latest-pdf] / [Epub][latest-epub]   |
 | Dev Build | ![Doc-Nightly-Badge][doc-nightly] | [HTML][nightlyg-html] / [PDF][nightly-pdf] / [Epub][nightly-epub] |
 
 [doc-latest]: https://img.shields.io/readthedocs/octadist/latest.svg
