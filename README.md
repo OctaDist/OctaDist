@@ -1,3 +1,4 @@
+[![Python package][github-action]][github-action-link]
 [![PyPI-Server][pypi-badge]][pypi-link]
 ![Python Wheel][py-wheel-badge]
 ![Code size][code-size]
@@ -8,6 +9,8 @@
 [![Github Download Latest version][dl-latest-badge]][dl-latest-link]
 ![Platform][platform]
 
+[github-action]: https://github.com/OctaDist/OctaDist/actions/workflows/python-package.yml/badge.svg
+[github-action-link]: https://github.com/OctaDist/OctaDist/actions/workflows/python-package.yml
 [py-wheel-badge]: https://img.shields.io/pypi/wheel/octadist.svg
 [code-size]: https://img.shields.io/github/languages/code-size/OctaDist/OctaDist.svg
 [repo-size]: https://img.shields.io/github/repo-size/OctaDist/OctaDist.svg
@@ -232,21 +235,19 @@ source code for command line interface (CLI) are available for as follows:
 
 [release-link]: https://github.com/OctaDist/OctaDist/releases
 
-| Platform       | Description                                                    |                     Status                     |
-| -------------- | -------------------------------------------------------------- | :--------------------------------------------: |
-| Windows        | [![windows][windows-2.6.1-badge]][windows-2.6.1-link]          | [![Travis-CI Test][travis-badge]][travis-link] |
-| Linux          | [![latest-release][latest-release-badge]][latest-release-link] | [![Travis-CI Test][travis-badge]][travis-link] |
-| macOS          | [![latest-release][latest-release-badge]][latest-release-link] | [![Travis-CI Test][travis-badge]][travis-link] |
-| PyPI library   | [![PyPI-Server][pypi-badge]][pypi-link]                        | [![Travis-CI Test][travis-badge]][travis-link] |
-| Anaconda cloud | [![Conda-Server][conda-badge]][conda-link]                     | [![Travis-CI Test][travis-badge]][travis-link] |
-| Nightly build  | Development build                                              |  [![Travis-CI Test][dev-badge]][travis-link]   |
+| Platform       | Description                                                    |
+| -------------- | -------------------------------------------------------------- |
+| Windows        | [![windows][windows-2.6.1-badge]][windows-2.6.1-link]          |
+| Linux          | [![latest-release][latest-release-badge]][latest-release-link] |
+| macOS          | [![latest-release][latest-release-badge]][latest-release-link] |
+| PyPI library   | [![PyPI-Server][pypi-badge]][pypi-link]                        |
+| Anaconda cloud | [![Conda-Server][conda-badge]][conda-link]                     |
+| Nightly build  | Development build                                              |
 
 [windows-2.6.1-badge]: https://img.shields.io/badge/release-v.2.6.1-blue
 [windows-2.6.1-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
 [latest-release-badge]: https://img.shields.io/github/release/octadist/octadist.svg
 [latest-release-link]: https://github.com/OctaDist/OctaDist/releases/latest
-[travis-badge]: https://img.shields.io/travis/OctaDist/OctaDist/master.svg
-[travis-link]: https://travis-ci.org/OctaDist/OctaDist
 [pypi-badge]: https://img.shields.io/pypi/v/octadist.svg
 [pypi-link]: https://pypi.org/project/octadist/
 [conda-badge]: https://anaconda.org/rangsiman/octadist/badges/version.svg
