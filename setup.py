@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
+# OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,14 +21,12 @@
 
 import setuptools
 
-__version__ = "3.0.0"
+__version__ = "3.1.0"
 
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
-description = (
-    "OctaDist: A tool for calculating distortion parameters in molecule."
-)
+description = "OctaDist: A tool for calculating distortion parameters in molecule."
 
 setuptools.setup(
     name="octadist",
@@ -47,14 +45,7 @@ setuptools.setup(
         "Tracker": "https://github.com/OctaDist/OctaDist/issues",
     },
     packages=setuptools.find_packages(),
-    install_requires=[
-        "numpy", 
-        "scipy", 
-        "matplotlib", 
-        "rmsd", 
-        "pymatgen", 
-        "plotly"
-        ],
+    install_requires=["numpy", "scipy", "matplotlib", "rmsd", "pymatgen", "plotly"],
     classifiers=[
         "Environment :: Console",
         "Programming Language :: Python",

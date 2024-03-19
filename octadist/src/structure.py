@@ -1,4 +1,4 @@
-# OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
+# OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -188,24 +188,24 @@ class StructParam:
     def add_number(self, number):
         """
         Add file number to box.
-        
+
         Parameters
         ----------
         number : int
             File number.
-            
+
         """
         self.box.insert(tk.INSERT, f"Number : {number}\n")
 
     def add_metal(self, metal):
         """
         Add metal atom to box:
-        
+
         Parameters
         ----------
         metal : str
             Metal atom.
-        
+
         """
         self.box.insert(tk.END, f"Metal: {metal}\n")
 

@@ -1,13 +1,13 @@
-######################################################
-OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
-######################################################
+###########################################################
+OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al.
+###########################################################
 
 Program Info
 ============
 
 program_name = OctaDist (Octahedral distortion calculator)
-program_version = 3.0.0
-program_release = 2021
+program_version = 3.1.0
+program_release = 2024
 
 Citation
 ========
@@ -22,7 +22,7 @@ Install and Run
 
 1. Run "CheckPyModule.py" to check if your system has the python packages that required for OctaDist.
 
-	$ cd OctaDist-3.0.0-src-x86-64
+	$ cd OctaDist-info_using_devinfo_using_dev-src-x86-64
 	$ python CheckPyModule.py
 
     If any required packages has not been installed, run command:
@@ -59,5 +59,5 @@ Requirements
 If you have any problem, please submit your issues on OctaDist Github. 
 https://github.com/OctaDist/OctaDist
 
-Rangsiman Ketkaew (Thammasat University, Thailand)
+Rangsiman Ketkaew (University of Zurich, Switzerland)
 E-mail: rangsiman1993@gmail.com

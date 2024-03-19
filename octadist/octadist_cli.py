@@ -1,4 +1,4 @@
-# OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
+# OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -95,7 +95,12 @@ def calc_param(coord):
 
     """
     dist = octadist.CalcDistortion(coord)
-    computed = {"zeta": dist.zeta, "delta": dist.delta, "sigma": dist.sigma, "theta": dist.theta}
+    computed = {
+        "zeta": dist.zeta,
+        "delta": dist.delta,
+        "sigma": dist.sigma,
+        "theta": dist.theta,
+    }
 
     return computed
 
@@ -124,9 +129,16 @@ For more details, please visit https://octadist.github.io.
 
     # input/output
     parser.add_argument(
-        "-i", "--inp", action="store", type=str, metavar="INPUT", help="Input structure in .xyz format",
+        "-i",
+        "--inp",
+        action="store",
+        type=str,
+        metavar="INPUT",
+        help="Input structure in .xyz format",
     )
-    parser.add_argument("-f", "--format", action="store_true", help="Show formatted output summary")
+    parser.add_argument(
+        "-f", "--format", action="store_true", help="Show formatted output summary"
+    )
     # octahedron parameters
     parser.add_argument(
         "-r",
@@ -179,7 +191,9 @@ For more details, please visit https://octadist.github.io.
         help="launch OctaDist GUI (this option is the same as 'octadist' command",
     )
     parser.add_argument("-a", "--about", action="store_true", help="Show program info")
-    parser.add_argument("-v", "--version", action="version", version=octadist.__version__)
+    parser.add_argument(
+        "-v", "--version", action="version", version=octadist.__version__
+    )
 
     args = parser.parse_args()
 

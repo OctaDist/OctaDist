@@ -1,4 +1,4 @@
-# OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
+# OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -886,7 +886,12 @@ def find_metal(atom=None, coord=None):
 
     for i in range(len(atom)):
         number = elements.number_to_symbol(atom[i])
-        if 21 <= number <= 30 or 39 <= number <= 48 or 57 <= number <= 80 or 89 <= number <= 109:
+        if (
+            21 <= number <= 30
+            or 39 <= number <= 48
+            or 57 <= number <= 80
+            or 89 <= number <= 109
+        ):
             atom_metal.append(atom[i])
             coord_metal.append(coord[i])
             index_metal.append(i)
@@ -907,7 +912,7 @@ def extract_octa(atom, coord, ref_index=0, cutoff_ref_ligand=2.8):
     coord : array_like
         Full atomic coordinates of complex.
     ref_index : int
-        Index of the reference to be used as the center atom for neighbor atoms 
+        Index of the reference to be used as the center atom for neighbor atoms
         in octahedral structure of the complex. Python-based index.
         Default is 0.
     cutoff_ref_ligand : float, optional
@@ -954,7 +959,9 @@ def extract_octa(atom, coord, ref_index=0, cutoff_ref_ligand=2.8):
 
     """
     if ref_index < 0:
-        raise ValueError("index of the reference center atom must be equal or greater than zero")
+        raise ValueError(
+            "index of the reference center atom must be equal or greater than zero"
+        )
     elif ref_index + 1 > len(atom):
         raise ValueError(
             "index of the reference center atom is greater than the total number of atoms in the complex."

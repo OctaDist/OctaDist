@@ -16,9 +16,9 @@ The following commands are also useful for those who want to play with ``pip``:
 
    pip install --upgrade --user octadist
 
-- Install/upgrade/downgrade to a certain version, for example, version 3.0.0::
+- Install/upgrade/downgrade to a certain version, for example, version 3.1.0::
 
-   pip install --upgrade --user octadist==3.0.0
+   pip install --upgrade --user octadist==3.1.0
 
 - Install the package with a specific version of Python. for example::
 

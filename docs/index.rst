@@ -3,9 +3,9 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. |year-ver| replace:: 2021
-.. |sta-ver| replace:: 3.0.0
-.. |dev-ver| replace:: 3.1.0
+.. |year-ver| replace:: 2024
+.. |sta-ver| replace:: 3.1.0
+.. |dev-ver| replace:: 3.1.1
 
 =============
 OctaDist Docs

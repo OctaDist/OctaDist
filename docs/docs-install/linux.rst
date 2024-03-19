@@ -33,7 +33,7 @@ In case you are not able to install the latest version of OctaDust, you can try 
 
 ::
 
-    pip install --user octadist==3.0.0
+    pip install --user octadist==3.1.0
 
 If you experience any problems while installing OctaDist on Linux, 
 please do not hesitate to post your question at https://groups.google.com/g/octadist-forum.

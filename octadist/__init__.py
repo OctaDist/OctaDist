@@ -1,4 +1,4 @@
-# OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
+# OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,13 +30,13 @@ __author_full__ = (
     "Philippe Guionneau, Mathieu Marchivie, David J. Harding"
 )
 __maintainer__ = "Rangsiman Ketkaew"
-__copyright__ = "OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al."
+__copyright__ = "OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al."
 __license__ = "GNU v3"
 __credit__ = "OctaDist Development Team"
 __email__ = "rangsiman1993@gmail.com"
-__version__ = "3.0.0"
-__revision__ = "2021.300"
-__release__ = "2021"
+__version__ = "3.1.0"
+__revision__ = "2024.310"
+__release__ = "2024"
 __status__ = "stable"
 __title__ = "Octahedral Distortion Calculator"
 __description__ = "A tool for calculating distortion parameters in molecule."
@@ -176,4 +176,3 @@ from .src.tools import CalcRMSD
 
 from .src.util import find_bonds
 from .src.util import find_faces_octa
-

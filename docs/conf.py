@@ -27,13 +27,13 @@ sys.path.insert(0, os.path.abspath('./../...'))
 # -- Project information -----------------------------------------------------
 
 project = 'OctaDist'
-copyright = '2019, Rangsiman Ketkaew et al.'
+copyright = '2019-2024, Rangsiman Ketkaew et al.'
 author = 'Rangsiman Ketkaew'
 
 # The short X.Y version
-version = '3.0.0'
+version = '3.1.0'
 # The full version, including alpha/beta/rc tags
-release = '3.0.0'
+release = '3.1.0'
 
 # Not alphabetically order
 autodoc_member_order = 'bysource'

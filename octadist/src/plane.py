@@ -1,4 +1,4 @@
-# OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
+# OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -139,10 +139,10 @@ def find_fit_plane(coord):
 
     def error(params, points):
         result = 0
-        for (x, y, z) in points:
+        for x, y, z in points:
             plane_z = plane(x, y, params)
             diff = abs(plane_z - z)
-            result += diff ** 2
+            result += diff**2
         return result
 
     def cross(a, b):
