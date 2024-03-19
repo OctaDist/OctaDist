@@ -76,6 +76,7 @@ class OctaDist:
         self.all_delta = []  # Delta of all octahedral structures.
         self.all_sigma = []  # Sigma of all octahedral structures.
         self.all_theta = []  # Theta of all octahedral structures.
+        self.all_vol = []  # Volumes of all octahedral structures.
         self.comp_result = []  # Distortion parameters.
 
         self.octadist_icon = None
@@ -176,7 +177,9 @@ class OctaDist:
         file_menu.add_command(label="New", command=lambda: self.clear_cache())
         file_menu.add_command(label="Open...", command=lambda: self.open_file())
         file_menu.add_command(label="Save Results", command=lambda: self.save_results())
-        file_menu.add_command(label="Save Coordinates", command=lambda: self.save_coord())
+        file_menu.add_command(
+            label="Save Coordinates", command=lambda: self.save_coord()
+        )
         file_menu.add_separator()
         file_menu.add_command(label="Settings", command=lambda: self.settings())
         file_menu.add_separator()
@@ -187,57 +190,96 @@ class OctaDist:
         edit_menu.add_cascade(label="Copy... to clipboard", menu=copy_menu)
         copy_menu.add_command(label="File Name", command=lambda: self.copy_name())
         copy_menu.add_command(label="File Path", command=lambda: self.copy_path())
-        copy_menu.add_command(label="Computed Distortion Parameters", command=lambda: self.copy_results())
-        copy_menu.add_command(label="Coordinates of Octahedral Structure", command=lambda: self.copy_octa())
+        copy_menu.add_command(
+            label="Computed Distortion Parameters", command=lambda: self.copy_results()
+        )
+        copy_menu.add_command(
+            label="Coordinates of Octahedral Structure",
+            command=lambda: self.copy_octa(),
+        )
         edit_menu.add_separator()
         edit_menu.add_command(label="Edit File", command=lambda: self.edit_file())
-        edit_menu.add_command(label="Run Scripting Console", command=lambda: self.scripting_console())
+        edit_menu.add_command(
+            label="Run Scripting Console", command=lambda: self.scripting_console()
+        )
         edit_menu.add_separator()
-        edit_menu.add_command(label="Clear All Results", command=lambda: self.clear_cache())
+        edit_menu.add_command(
+            label="Clear All Results", command=lambda: self.clear_cache()
+        )
 
         # Display
         menu_bar.add_cascade(label="Display", menu=disp_menu)
         disp_menu.add_command(label="Complex", command=lambda: self.draw_all_atom())
-        disp_menu.add_command(label="Complex and Eight Faces", command=lambda: self.draw_all_atom_and_face())
+        disp_menu.add_command(
+            label="Complex and Eight Faces",
+            command=lambda: self.draw_all_atom_and_face(),
+        )
         disp_menu.add_separator()
         disp_menu.add_command(label="Octahedron", command=lambda: self.draw_octa())
-        disp_menu.add_command(label="Octahedron and Eight Faces", command=lambda: self.draw_octa_and_face())
+        disp_menu.add_command(
+            label="Octahedron and Eight Faces",
+            command=lambda: self.draw_octa_and_face(),
+        )
         disp_menu.add_separator()
-        disp_menu.add_command(label="Projection Planes", command=lambda: self.draw_projection())
-        disp_menu.add_command(label="Twisting Triangular Faces", command=lambda: self.draw_twisting_plane())
+        disp_menu.add_command(
+            label="Projection Planes", command=lambda: self.draw_projection()
+        )
+        disp_menu.add_command(
+            label="Twisting Triangular Faces",
+            command=lambda: self.draw_twisting_plane(),
+        )
 
         # Tools
         menu_bar.add_cascade(label="Tools", menu=tools_menu)
-        tools_menu.add_cascade(label="Data Summary", command=lambda: self.show_data_complex())
-        tools_menu.add_cascade(label="Show Structural Parameter", command=lambda: self.show_param_octa())
-        tools_menu.add_command(label="Calculate Surface Area", command=lambda: self.show_surface_area())
-        tools_menu.add_separator()
-        tools_menu.add_command(
-            label="Relationship Plot between ζ and Σ", command=lambda: self.plot_zeta_sigma()
+        tools_menu.add_cascade(
+            label="Data Summary", command=lambda: self.show_data_complex()
+        )
+        tools_menu.add_cascade(
+            label="Show Structural Parameter", command=lambda: self.show_param_octa()
         )
         tools_menu.add_command(
-            label="Relationship Plot between Σ and Θ", command=lambda: self.plot_sigma_theta()
+            label="Calculate Surface Area", command=lambda: self.show_surface_area()
         )
         tools_menu.add_separator()
         tools_menu.add_command(
-            label="Calculate Jahn-Teller Distortion", command=lambda: self.tool_jahn_teller()
+            label="Relationship Plot between ζ and Σ",
+            command=lambda: self.plot_zeta_sigma(),
+        )
+        tools_menu.add_command(
+            label="Relationship Plot between Σ and Θ",
+            command=lambda: self.plot_sigma_theta(),
+        )
+        tools_menu.add_separator()
+        tools_menu.add_command(
+            label="Calculate Jahn-Teller Distortion",
+            command=lambda: self.tool_jahn_teller(),
         )
         tools_menu.add_command(label="Calculate RMSD", command=lambda: self.tool_rmsd())
 
         # Help
         menu_bar.add_cascade(label="Help", menu=help_menu)
         help_menu.add_command(
-            label="User Documentation", command=lambda: webbrowser.open_new_tab(octadist.__help__)
+            label="User Documentation",
+            command=lambda: webbrowser.open_new_tab(octadist.__help__),
         )
         example_mol = "https://github.com/OctaDist/OctaDist/tree/master/example-input"
-        help_menu.add_command(label="Example molecules", command=lambda: webbrowser.open_new_tab(example_mol))
+        help_menu.add_command(
+            label="Example molecules",
+            command=lambda: webbrowser.open_new_tab(example_mol),
+        )
         help_menu.add_separator()
         submit_issue = "https://github.com/OctaDist/OctaDist/issues"
-        help_menu.add_command(label="Report Issue", command=lambda: webbrowser.open_new_tab(submit_issue))
         help_menu.add_command(
-            label="Github Repository", command=lambda: webbrowser.open_new_tab(octadist.__github__)
+            label="Report Issue", command=lambda: webbrowser.open_new_tab(submit_issue)
         )
-        help_menu.add_command(label="Homepage", command=lambda: webbrowser.open_new_tab(octadist.__website__))
+        help_menu.add_command(
+            label="Github Repository",
+            command=lambda: webbrowser.open_new_tab(octadist.__github__),
+        )
+        help_menu.add_command(
+            label="Homepage",
+            command=lambda: webbrowser.open_new_tab(octadist.__website__),
+        )
         help_menu.add_separator()
         help_menu.add_command(label="License", command=lambda: self.show_license())
         help_menu.add_separator()
@@ -354,6 +396,17 @@ class OctaDist:
 
         lbl = tk.Label(frame3, text="  degree")
         lbl.grid(pady="5", row=4, column=2)
+
+        # Octahedron Volume
+        lbl = tk.Label(frame3, text="Vol   =   ")
+        lbl.grid(sticky=tk.E, pady="5", row=5, column=0)
+
+        self.box_vol = tk.Entry(frame3)
+        self.box_vol.configure(width="12", justify="center")
+        self.box_vol.grid(row=5, column=1)
+
+        lbl = tk.Label(frame3, text="  Å3")
+        lbl.grid(pady="5", row=5, column=2)
 
         ###########
         # Frame 4 #
@@ -582,7 +635,11 @@ class OctaDist:
             mode="w",
             defaultextension=".xyz",
             title="Save atomic coordinates",
-            filetypes=(("XYZ File", "*.xyz"), ("TXT File", "*.txt"), ("All Files", "*.*")),
+            filetypes=(
+                ("XYZ File", "*.xyz"),
+                ("TXT File", "*.txt"),
+                ("All Files", "*.*"),
+            ),
         )
 
         file_name = self.file_list[0].split("/")[-1]
@@ -592,7 +649,9 @@ class OctaDist:
 
         f.write(f"{num_atom}\n")
         full_version = octadist.__version__ + " " + f"({octadist.__release__})"
-        f.write(f"{file_name} : this file was generated by OctaDist version {full_version}.\n")
+        f.write(
+            f"{file_name} : this file was generated by OctaDist version {full_version}.\n"
+        )
         for i in range(num_atom):
             f.write(
                 "{0:2s}\t{1:9.6f}\t{2:9.6f}\t{3:9.6f}\n".format(
@@ -617,6 +676,7 @@ class OctaDist:
         - Delta
         - Sigma
         - Theta
+        - Volume
 
         See Also
         --------
@@ -630,6 +690,8 @@ class OctaDist:
             Calculate Sigma parameter.
         octadist.src.calc.CalcDistortion.calc_theta :
             Calculate Theta parameter.
+        octadist.src.calc.CalcDistortion.calc_vol :
+            Calculate octahedron volume.
 
         """
         if len(self.atom_coord_octa) >= 1:
@@ -655,6 +717,7 @@ class OctaDist:
             sigma = calc_dist.sigma
             theta = calc_dist.theta
             non_octa = calc_dist.non_octa
+            vol = calc_dist.oct_vol
 
             if non_octa:
                 popup.warn_not_octa()
@@ -665,32 +728,34 @@ class OctaDist:
             self.all_sigma.append(sigma)
             self.all_theta.append(theta)
 
-            self.comp_result.append([d_mean, zeta, delta, sigma, theta])
+            self.comp_result.append([d_mean, zeta, delta, sigma, theta, vol])
 
         # Print results to each unique box.
 
         if len(self.atom_coord_octa) == 1:
-            d_mean, zeta, delta, sigma, theta = self.comp_result[0]
+            d_mean, zeta, delta, sigma, theta, vol = self.comp_result[0]
 
             self.box_d_mean.insert(tk.INSERT, f"{d_mean:3.6f}")
             self.box_zeta.insert(tk.INSERT, f"{zeta:3.6f}")
             self.box_delta.insert(tk.INSERT, f"{delta:3.6f}")
             self.box_sigma.insert(tk.INSERT, f"{sigma:3.6f}")
             self.box_theta_mean.insert(tk.INSERT, f"{theta:3.6f}")
+            self.box_vol.insert(tk.INSERT, f"{vol:3.6f}")
         else:
             self.box_d_mean.insert(tk.INSERT, "See below")
             self.box_zeta.insert(tk.INSERT, "See below")
             self.box_delta.insert(tk.INSERT, "See below")
             self.box_sigma.insert(tk.INSERT, "See below")
             self.box_theta_mean.insert(tk.INSERT, "See below")
+            self.box_vol.insert(tk.INSERT, "See below")
 
         # Print results to result box
         self.show_text("Computed octahedral distortion parameters for all complexes\n")
-        self.show_text("No. - Metal\t\tD_mean\tZeta\tDelta\tSigma\tTheta")
+        self.show_text("No. - Metal\t\tD_mean\tZeta\tDelta\tSigma\tTheta\tVolume")
         self.show_text("*" * 71)
         for i in range(len(self.comp_result)):
             self.show_text(
-                "{0:2d}  -  {1}\t\t{2:9.4f}\t{3:9.6f}\t{4:9.6f}\t{5:9.4f}\t{6:9.4f}".format(
+                "{0:2d}  -  {1}\t\t{2:9.4f}\t{3:9.6f}\t{4:9.6f}\t{5:9.4f}\t{6:9.4f}\t{7:9.4f}".format(
                     i + 1,
                     self.octa_index[i],
                     self.comp_result[i][0],
@@ -698,6 +763,7 @@ class OctaDist:
                     self.comp_result[i][2],
                     self.comp_result[i][3],
                     self.comp_result[i][4],
+                    self.comp_result[i][5],
                 )
             )
 
@@ -721,7 +787,8 @@ class OctaDist:
             """
             try:
                 input_file = filedialog.askopenfilename(
-                    title="Choose text editor executable", filetypes=[("EXE file", "*.exe")],
+                    title="Choose text editor executable",
+                    filetypes=[("EXE file", "*.exe")],
                 )
 
                 file_list = str(input_file)
@@ -837,7 +904,9 @@ class OctaDist:
         ###################
 
         frame_cutoff = tk.LabelFrame(frame, text="Bond Cutoff:")
-        frame_cutoff.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky="W", row=0, columnspan=4)
+        frame_cutoff.grid(
+            padx=5, pady=5, ipadx=5, ipady=5, sticky="W", row=0, columnspan=4
+        )
 
         label_1 = tk.Label(frame_cutoff, text="Metal-Ligand Bond")
         label_1.grid(padx="10", pady="5", ipadx="10", row=0, column=0)
@@ -845,7 +914,9 @@ class OctaDist:
         var_1 = tk.DoubleVar()
         var_1.set(self.cutoff_metal_ligand)
 
-        scale_1 = tk.Scale(frame_cutoff, orient="horizontal", variable=var_1, to=5, resolution=0.1)
+        scale_1 = tk.Scale(
+            frame_cutoff, orient="horizontal", variable=var_1, to=5, resolution=0.1
+        )
         scale_1.configure(width=20, length=100)
         scale_1.grid(padx="10", pady="5", ipadx="10", row=1, column=0)
 
@@ -855,7 +926,9 @@ class OctaDist:
         var_2 = tk.DoubleVar()
         var_2.set(self.cutoff_global)
 
-        scale_2 = tk.Scale(frame_cutoff, orient="horizontal", variable=var_2, to=5, resolution=0.1)
+        scale_2 = tk.Scale(
+            frame_cutoff, orient="horizontal", variable=var_2, to=5, resolution=0.1
+        )
         scale_2.configure(width=20, length=100)
         scale_2.grid(padx="10", pady="5", ipadx="10", row=1, column=1)
 
@@ -865,7 +938,9 @@ class OctaDist:
         var_3 = tk.DoubleVar()
         var_3.set(self.cutoff_hydrogen)
 
-        scale_3 = tk.Scale(frame_cutoff, orient="horizontal", variable=var_3, to=5, resolution=0.1)
+        scale_3 = tk.Scale(
+            frame_cutoff, orient="horizontal", variable=var_3, to=5, resolution=0.1
+        )
         scale_3.configure(width=20, length=100)
         scale_3.grid(padx="10", pady="5", ipadx="10", row=1, column=2)
 
@@ -874,7 +949,9 @@ class OctaDist:
         ########################
 
         frame_text_editor = tk.LabelFrame(frame, text="Text editor:")
-        frame_text_editor.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky="W", row=1, columnspan=4)
+        frame_text_editor.grid(
+            padx=5, pady=5, ipadx=5, ipady=5, sticky="W", row=1, columnspan=4
+        )
 
         label = tk.Label(frame_text_editor, text="Enter the EXE:")
         label.grid(padx="5", sticky=tk.E, row=0, column=0)
@@ -906,7 +983,9 @@ class OctaDist:
         ####################
 
         frame_figures = tk.LabelFrame(frame, text="Displays:")
-        frame_figures.grid(padx=5, pady=5, ipadx=5, ipady=5, sticky="W", row=3, columnspan=4)
+        frame_figures.grid(
+            padx=5, pady=5, ipadx=5, ipady=5, sticky="W", row=3, columnspan=4
+        )
 
         # Show title of plot?
         var_title = tk.BooleanVar()
@@ -954,7 +1033,9 @@ class OctaDist:
         # Setting: Console #
         ####################
 
-        button = tk.Button(frame, text="Restore settings", command=lambda: restore_settings(self))
+        button = tk.Button(
+            frame, text="Restore settings", command=lambda: restore_settings(self)
+        )
         button.configure(width=15)
         button.grid(padx="10", pady="10", sticky=tk.W, row=4, column=0)
 
@@ -1044,8 +1125,15 @@ class OctaDist:
             popup.err_no_calc()
             return 1
 
-        results = "Zeta, Delta, Sigma, Gamma\n" "{0:3.6f}, {1:3.6f}, {2:3.6f}, {3:3.6f}".format(
-            self.all_zeta[0], self.all_delta[0], self.all_sigma[0], self.all_theta[0],
+        results = (
+            "Zeta, Delta, Sigma, Gamma, Volume\n"
+            "{0:3.6f}, {1:3.6f}, {2:3.6f}, {3:3.6f}".format(
+                self.all_zeta[0],
+                self.all_delta[0],
+                self.all_sigma[0],
+                self.all_theta[0],
+                self.all_vol[0],
+            )
         )
 
         clip = tk.Tk()
@@ -1163,7 +1251,9 @@ class OctaDist:
             my_plot.add_bond()
             my_plot.add_legend()
             my_plot.config_plot(
-                show_title=self.show_title, show_axis=self.show_axis, show_grid=self.show_grid,
+                show_title=self.show_title,
+                show_axis=self.show_axis,
+                show_grid=self.show_grid,
             )
             my_plot.show_plot()
 
@@ -1214,7 +1304,9 @@ class OctaDist:
 
         my_plot.add_legend()
         my_plot.config_plot(
-            show_title=self.show_title, show_axis=self.show_axis, show_grid=self.show_grid,
+            show_title=self.show_title,
+            show_axis=self.show_axis,
+            show_grid=self.show_grid,
         )
         my_plot.show_plot()
 
@@ -1247,7 +1339,9 @@ class OctaDist:
         my_plot.add_bond()
         my_plot.add_legend()
         my_plot.config_plot(
-            show_title=self.show_title, show_axis=self.show_axis, show_grid=self.show_grid,
+            show_title=self.show_title,
+            show_axis=self.show_axis,
+            show_grid=self.show_grid,
         )
         my_plot.show_plot()
 
@@ -1285,7 +1379,9 @@ class OctaDist:
             my_plot.add_face(coord)
 
         my_plot.config_plot(
-            show_title=self.show_title, show_axis=self.show_axis, show_grid=self.show_grid,
+            show_title=self.show_title,
+            show_axis=self.show_axis,
+            show_grid=self.show_grid,
         )
         my_plot.show_plot()
 
@@ -1447,7 +1543,9 @@ class OctaDist:
             popup.err_no_calc()
             return 1
 
-        my_plot = plot.Plot(self.all_sigma, self.all_theta, name1="sigma", name2="theta")
+        my_plot = plot.Plot(
+            self.all_sigma, self.all_theta, name1="sigma", name2="theta"
+        )
         my_plot.add_point()
         my_plot.add_text()
         my_plot.add_legend()
@@ -1545,7 +1643,9 @@ class OctaDist:
         File: https://www.github.com/OctaDist/OctaDist/version_update.txt.
 
         """
-        data = urlopen("https://raw.githubusercontent.com/OctaDist/OctaDist/master/version_update.txt").read()
+        data = urlopen(
+            "https://raw.githubusercontent.com/OctaDist/OctaDist/master/version_update.txt"
+        ).read()
         # decode
         data = data.decode("utf-8")
         data = data.split()
@@ -1559,7 +1659,10 @@ class OctaDist:
         if server_rev > user_rev:
             popup.info_new_update()
 
-            text = f"A new version {server_ver} is ready for download.\n\n" "Do you want to download now?"
+            text = (
+                f"A new version {server_ver} is ready for download.\n\n"
+                "Do you want to download now?"
+            )
             msg_box = messagebox.askquestion("Updates available", text, icon="warning")
 
             if msg_box == "yes":
@@ -1676,6 +1779,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         self.all_delta = []
         self.all_sigma = []
         self.all_theta = []
+        self.all_vol = []
         self.comp_result = []
 
         self.clear_param_box()
@@ -1691,6 +1795,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
         self.box_d_mean.delete(0, tk.END)
         self.box_zeta.delete(0, tk.END)
         self.box_theta_mean.delete(0, tk.END)
+        self.box_vol.delete(0, tk.END)
 
     def clear_result_box(self):
         """
