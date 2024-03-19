@@ -16,8 +16,8 @@
 [repo-size]: https://img.shields.io/github/repo-size/OctaDist/OctaDist.svg
 [dl-all-badge]: https://img.shields.io/github/downloads/OctaDist/octadist/total.svg
 [dl-all-link]: https://github.com/OctaDist/OctaDist/releases
-[dl-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.3.0.0/total.svg
-[dl-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.3.0.0
+[dl-latest-badge]: https://img.shields.io/github/downloads/OctaDist/OctaDist/v.3.1.0/total.svg
+[dl-latest-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.3.1.0
 [license]: https://img.shields.io/github/license/OctaDist/OctaDist
 [platform]: https://img.shields.io/conda/pn/rangsiman/octadist
 

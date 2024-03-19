@@ -31,7 +31,7 @@ The latest stable release of OctaDist is available for following OS and platform
 .. _Full (zip): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64.zip
 .. _Lite (exe): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64-lite.exe
 .. _Lite (zip): https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64-lite.zip
-.. _Full (tar.gz): https://github.com/OctaDist/OctaDist/releases/download/v.3.0.0/OctaDist-3.0.0-src-x86-64.tar.gz
+.. _Full (tar.gz): https://github.com/OctaDist/OctaDist/releases/download/v.3.1.0/OctaDist-3.1.0-src-x86-64.tar.gz
 
 .. note::
     Both full and lite versions of OctaDist are open-source and free to download under the GNU v.3 license.
