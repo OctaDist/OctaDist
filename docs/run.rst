@@ -65,7 +65,7 @@ If it is executed without argument, the help docs will show by default.
     -a, --about           Show program info
     -v, --version         show program's version number and exit
 
-    Rangsiman Ketkaew       Updated on 2021 E-mail: rangsiman1993@gmail.com
+    Rangsiman Ketkaew       Updated on 2024 E-mail: rangsiman1993@gmail.com
 
 
 Using OctaDist to calculate the distortion of structure can be done as follows:
