@@ -1803,6 +1803,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
         """
         self.box_result.delete(1.0, tk.END)
+        self.welcome_msg()
 
     def start_app(self):
         """
