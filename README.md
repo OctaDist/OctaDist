@@ -269,7 +269,7 @@ git pull origin nightly-build
 
 ## Register for OctaDist
 
-To get notified when we release new version of OctaDist, please register at https://cutt.ly/regis-octadist.
+To get notified when we release a new version of OctaDist, please register at https://cutt.ly/regis-octadist.
 
 ## OctaDist Forum
 
@@ -310,11 +310,11 @@ If you found issues in OctaDist, please report it to us at [here][submit-issues]
 
 ## Project team
 
-- [Rangsiman Ketkaew][rk-link] (Thammasat University, Thailand)
+- [Rangsiman Ketkaew][rk-link] (University of Zurich, Switzerland)
   - E-mail: rangsiman1993@gmail.com
 - [Yuthana Tantirungrotechai][yt-link] (Thammasat University, Thailand)
   - E-mail: yt203y@gmail.com
-- [Phimphaka Harding][ph-link] (Walailak University, Thailand)
+- [Phimphaka Harding][ph-link] (Suranaree University of Technology, Thailand)
   - E-mail: kphimpha@mail.wu.ac.th
 - Guillaume Chastanet (University of Bordeaux, France)
   - E-mail: Guillaume.Chastanet@icmcb.cnrs.fr
@@ -322,7 +322,7 @@ If you found issues in OctaDist, please report it to us at [here][submit-issues]
   - E-mail: Philippe.Guionneau@icmcb.cnrs.fr
 - [Mathieu Marchivie][mm-link] (University of Bordeaux, France)
   - E-mail: mathieu.marchivie@icmcb.cnrs.fr
-- [David J. Harding][dh-link] (Walailak University, Thailand)
+- [David J. Harding][dh-link] (Suranaree University of Technology, Thailand)
   - E-mail: hdavid@mail.wu.ac.th
 
 [rk-link]: https://rangsimanketkaew.github.io
