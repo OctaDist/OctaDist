@@ -69,15 +69,12 @@ Reference manual :
 
 For Windows users, we strongly suggest a standalone executable:
 
-[Click Here to Download OctaDist-2.6.1-Win-x86-64.exe (104 MB)][download-win-exe-2.6.1]
+[Click Here to Download OctaDist-3.1.0-Win-x86-64.exe (389 MB)][download-win-exe-3.1.0]
 
-[Click Here to Download OctaDist-3.0.0-Win-x86-64.exe (320 MB)][download-win-exe-3.0.0]
-
-[download-win-exe-2.6.1]: https://github.com/OctaDist/OctaDist/releases/download/v.2.6.1/OctaDist-2.6.1-Win-x86-64.exe
-[download-win-exe-3.0.0]: https://github.com/OctaDist/OctaDist/releases/download/v.3.0.0/OctaDist-3.0.0-src-x86-64.exe
+[download-win-exe-3.1.0]: https://github.com/OctaDist/OctaDist/releases/download/v.3.1.0/OctaDist-3.1.0-Win-x86-64.exe
 
 For Linux or macOS users and already have Python 3 installed on the system,
-the easiest way to install OctaDist is to use `pip`. 
+the easiest way to install OctaDist is to use `pip`.
 
 **Note that OctaDist supports up to Python 3.9.**
 
@@ -237,15 +234,15 @@ source code for command line interface (CLI) are available for as follows:
 
 | Platform       | Description                                                    |
 | -------------- | -------------------------------------------------------------- |
-| Windows        | [![windows][windows-2.6.1-badge]][windows-2.6.1-link]          |
+| Windows        | [![windows][windows-badge]][windows-link]                      |
 | Linux          | [![latest-release][latest-release-badge]][latest-release-link] |
 | macOS          | [![latest-release][latest-release-badge]][latest-release-link] |
 | PyPI library   | [![PyPI-Server][pypi-badge]][pypi-link]                        |
 | Anaconda cloud | [![Conda-Server][conda-badge]][conda-link]                     |
 | Nightly build  | Development build                                              |
 
-[windows-2.6.1-badge]: https://img.shields.io/badge/release-v.2.6.1-blue
-[windows-2.6.1-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.2.6.1
+[windows-badge]: https://img.shields.io/badge/release-v.3.1.0-blue
+[windows-link]: https://github.com/OctaDist/OctaDist/releases/tag/v.3.1.0
 [latest-release-badge]: https://img.shields.io/github/release/octadist/octadist.svg
 [latest-release-link]: https://github.com/OctaDist/OctaDist/releases/latest
 [pypi-badge]: https://img.shields.io/pypi/v/octadist.svg
