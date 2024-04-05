@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
+# OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ print("Python version in system: %s\n" % sys.version)
 
 if sys.version_info < (3,):
     print("OctaDist supports only for Python 3.\n")
-    print("Please upgrade your Python to version 3 (Python 3.8 is recommended).")
+    print("Please upgrade your Python to version 3 (Python 3.9 is recommended).")
 
 module = ["numpy", "scipy", "matplotlib", "rmsd"]
 
@@ -37,5 +37,5 @@ for i, mod in enumerate(module):
     except ImportError:
         print("[x] %s. %s was not found on system." % (int(i + 1), mod))
         print(
-        "\nTo install Python package, you can use command \"python -m pip install -U PACKAGE_NAME\"\n"
+            '\nTo install Python package, you can use command "python -m pip install -U PACKAGE_NAME"\n'
         )

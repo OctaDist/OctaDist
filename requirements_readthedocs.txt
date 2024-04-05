@@ -4,3 +4,4 @@ matplotlib
 rmsd
 pymatgen
 plotly
+sphinx_rtd_theme

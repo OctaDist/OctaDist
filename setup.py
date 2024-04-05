@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
+# OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,14 +21,12 @@
 
 import setuptools
 
-__version__ = "3.0.0"
+__version__ = "3.1.0"
 
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()
 
-description = (
-    "OctaDist: A tool for calculating distortion parameters in molecule."
-)
+description = "OctaDist: A tool for calculating distortion parameters in molecule."
 
 setuptools.setup(
     name="octadist",
@@ -47,20 +45,14 @@ setuptools.setup(
         "Tracker": "https://github.com/OctaDist/OctaDist/issues",
     },
     packages=setuptools.find_packages(),
-    install_requires=[
-        "numpy", 
-        "scipy", 
-        "matplotlib", 
-        "rmsd", 
-        "pymatgen<=2021.3.3", 
-        "plotly"
-        ],
+    install_requires=["numpy", "scipy", "matplotlib", "rmsd", "pymatgen", "plotly"],
     classifiers=[
         "Environment :: Console",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: OS Independent",
@@ -93,7 +85,8 @@ setuptools.setup(
         "structural analysis",
         "Molecular visualization",
     ],
-    python_requires=">=3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*",
+    python_requires=">=3, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, \
+        !=3.6.*, !=3.10.*, !=3.11.*",
     entry_points={
         "console_scripts": [
             "octadist=octadist.octadist_gui:run_gui",

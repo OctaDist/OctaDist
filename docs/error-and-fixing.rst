@@ -18,7 +18,7 @@ Here are the steps for adding OctaDist to exclusion list:
 
 4. Specify the name of OctaDist executable, for example::
 
-    OctaDist-3.0.0-Win-x86-64.exe
+    OctaDist-3.1.0-Win-x86-64.exe
     
 5. Close OctaDist and run it again.
 
@@ -52,10 +52,10 @@ If you are using an old version of Python e.g. 3.7, tkinter somehow could not co
     File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.7/lib/python3.7/tkinter/__init__.py", line 36, in <module>
         import _tkinter # If this fails your Python may not be configured for Tk
 
-Solutions: Reinstall Tk and/or install Python 3.8 or newer version
+Solutions: Reinstall Tk and/or install Python 3.9 or newer version
 
-- Linux (Ubuntu): ``sudo apt install python3.8``
-- macOS: ``brew install python@3.8``
+- Linux (Ubuntu): ``sudo apt install python3.9``
+- macOS: ``brew install python@3.9``
 
 4. Failed to build PEP517
 -------------------------
@@ -89,7 +89,7 @@ If you run GUI using `octadist` or `octadist_gui` and then it fails with the fol
     (py37) nutt@Ubuntu:~$ octadist
 
     Program Starts >>>
-    ... OctaDist 3.0.0 January 2021 ...
+    ... OctaDist 3.1.0 March 2024 ...
     Traceback (most recent call last):
         File "/home/nutt/.local/bin/octadist", line 10, in <module>
         sys.exit(run_gui())

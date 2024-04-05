@@ -1,17 +1,20 @@
 language: python
 group: travis_latest
 sudo: yes
-dist: bionic
+dist: jammy
 
 # Needs graphical environment - enable xvfb
 services:
   - xvfb
 
-branch:
+branches:
+  only:
+  - master
 
 python:
   - "3.7"
   - "3.8"
+  - "3.9"
 
 install:
   - pip3 install pip --upgrade

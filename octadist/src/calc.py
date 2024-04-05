@@ -1,4 +1,4 @@
-# OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
+# OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
 
 import numpy as np
 from scipy.spatial import distance
+from scipy.spatial import ConvexHull
 
 from octadist.src import linear, plane, projection
 
@@ -33,6 +34,7 @@ class CalcDistortion:
     - Minimum Tehta parameter : :meth:`calc_theta_min`
     - Maximum Theta parameter : :meth:`calc_theta_max`
     - Mean Theta parametes : :meth:`calc_theta`
+    - Volume : :meth:`calc_vol`
 
     Parameters
     ----------
@@ -76,6 +78,7 @@ class CalcDistortion:
         self.theta_max = 0
         self.eq_of_plane = []
         self.non_octa = False
+        self.vol_octa = 0
 
         self.calc_d_bond()
         self.calc_d_mean()
@@ -86,6 +89,7 @@ class CalcDistortion:
         self.calc_theta()
         self.calc_theta_min()
         self.calc_theta_max()
+        self.calc_vol()
 
     def calc_d_bond(self):
         """
@@ -93,7 +97,7 @@ class CalcDistortion:
 
         See Also
         --------
-        calc_d_mean : 
+        calc_d_mean :
             Calculate mean metal-ligand bond length.
 
         """
@@ -108,7 +112,7 @@ class CalcDistortion:
 
         See Also
         --------
-        calc_d_bond : 
+        calc_d_bond :
             Calculate metal-ligand bonds length.
 
         """
@@ -120,7 +124,7 @@ class CalcDistortion:
 
         See Also
         --------
-        calc_sigma : 
+        calc_sigma :
             Calculate Sigma parameter.
 
         """
@@ -143,9 +147,9 @@ class CalcDistortion:
 
         See Also
         --------
-        calc_d_bond : 
+        calc_d_bond :
             Calculate metal-ligand bonds length.
-        calc_d_mean : 
+        calc_d_mean :
             Calculate mean metal-ligand bond length.
 
         References
@@ -168,9 +172,9 @@ class CalcDistortion:
 
         See Also
         --------
-        calc_d_bond : 
+        calc_d_bond :
             Calculate metal-ligand bonds length.
-        calc_d_mean : 
+        calc_d_mean :
             Calculate mean metal-ligand bond length.
 
         References
@@ -191,14 +195,14 @@ class CalcDistortion:
 
         See Also
         --------
-        calc_bond_angle : 
+        calc_bond_angle :
             Calculate bond angles between ligand-metal-ligand.
 
         References
         ----------
         .. [3] James K. McCusker, A. L. Rheingold, D. N. Hendrickson.
             Variable-Temperature Studies of Laser-Initiated 5T2 → 1A1
-            Intersystem Crossing in Spin-Crossover Complexes: 
+            Intersystem Crossing in Spin-Crossover Complexes:
             Empirical Correlations between Activation Parameters
             and Ligand Structure in a Series of Polypyridyl.
             Ferrous Complexes. Inorg. Chem. 1996, 35, 2100.
@@ -219,7 +223,7 @@ class CalcDistortion:
 
         See Also
         --------
-        calc_theta : 
+        calc_theta :
             Calculate mean Theta parameter
 
         Examples
@@ -461,3 +465,26 @@ class CalcDistortion:
         """
         sorted_theta = sorted(self.eight_theta)
         self.theta_max = sum(sorted_theta[i] for i in range(4, 8))
+
+    def calc_vol(self):
+        """
+        Calculate the octahedron volume and return value in cubic Angstrom.
+
+        """
+        try:
+            points = np.array(
+                [
+                    self.coord[1],
+                    self.coord[2],
+                    self.coord[3],
+                    self.coord[4],
+                    self.coord[5],
+                    self.coord[6],
+                ]
+            )
+            vol = ConvexHull(points).volume
+            vol = round(vol, 2)
+        except:
+            vol = 0
+
+        self.oct_vol = vol

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# OctaDist  Copyright (C) 2019  Rangsiman Ketkaew et al.
+# OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@ if __name__ == "__main__":
     """
     octadist        : OctaDist Main
     octadist_gui    : OctaDist GUI (default)
-    octadist_cli    : OctaDist CLI  
+    octadist_cli    : OctaDist CLI
     """
     octadist.octadist_gui.run_gui()
-
