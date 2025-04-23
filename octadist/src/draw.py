@@ -172,7 +172,7 @@ class DrawComplex_Matplotlib:
         for i in range(len(self.atoms_pair)):
             merge = list(zip(self.atoms_pair[i][0], self.atoms_pair[i][1]))
             x, y, z = merge
-            self.ax.plot(x, y, z, "k-", color="black", linewidth=2)
+            self.ax.plot(x, y, z, "-", color="black", linewidth=2)
 
     def add_face(self, coord):
         """
@@ -233,8 +233,8 @@ class DrawComplex_Matplotlib:
         )
 
         # fix size of point in legend
-        for i in range(len(leg.legendHandles)):
-            leg.legendHandles[i]._sizes = [90]
+        for i in range(len(leg.legend_handles)):
+            leg.legend_handles[i]._sizes = [90]
 
     def config_plot(self, show_title=True, show_axis=True, show_grid=True, **kwargs):
         """
@@ -521,8 +521,8 @@ class DrawComplex_Plotly:
     #     )
 
     #     # fix size of point in legend
-    #     for i in range(len(leg.legendHandles)):
-    #         leg.legendHandles[i]._sizes = [90]
+    #     for i in range(len(leg.legend_handles)):
+    #         leg.legend_handles[i]._sizes = [90]
 
     def save_img(self, save="Complex_saved_by_OctaDist", file="png"):
         """
@@ -978,13 +978,13 @@ class DrawTwistingPlane:
             for j in range(3):
                 merge = list(zip(self.all_m[i].tolist(), self.c_ref[i][j].tolist()))
                 x, y, z = merge
-                self.all_ax[i].plot(x, y, z, "k-", color="black")
+                self.all_ax[i].plot(x, y, z, "-", color="black")
 
                 merge = list(
                     zip(self.all_m[i].tolist(), self.all_proj_ligs[i][j].tolist())
                 )
                 x, y, z = merge
-                self.all_ax[i].plot(x, y, z, "k->", color="black")
+                self.all_ax[i].plot(x, y, z, "->", color="black")
 
     @staticmethod
     def save_img(save="Complex_saved_by_OctaDist", file="png"):

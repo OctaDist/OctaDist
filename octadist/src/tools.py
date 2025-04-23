@@ -246,7 +246,7 @@ class CalcJahnTeller:
         for i in range(len(atoms_pair)):
             merge = list(zip(atoms_pair[i][0], atoms_pair[i][1]))
             x, y, z = merge
-            ax.plot(x, y, z, "k-", color="black", linewidth=2)
+            ax.plot(x, y, z, "-", color="black", linewidth=2)
 
         # Set legend
         # Remove duplicate labels in legend.
@@ -262,8 +262,8 @@ class CalcJahnTeller:
         )
         # Fixed size of point in legend
         # Ref. https://stackoverflow.com/a/24707567/6596684
-        for i in range(len(leg.legendHandles)):
-            leg.legendHandles[i]._sizes = [90]
+        for i in range(len(leg.legend_handles)):
+            leg.legend_handles[i]._sizes = [90]
 
         # Set axis
         ax.set_xlabel(r"X", fontsize=15)
@@ -434,7 +434,7 @@ class CalcJahnTeller:
         for i in range(len(atoms_pair)):
             merge = list(zip(atoms_pair[i][0], atoms_pair[i][1]))
             x, y, z = merge
-            ax.plot(x, y, z, "k-", color="black", linewidth=2)
+            ax.plot(x, y, z, "-", color="black", linewidth=2)
 
         # Set legend
         # Remove duplicate labels in legend.
@@ -450,8 +450,8 @@ class CalcJahnTeller:
         )
         # Fixed size of point in legend
         # Ref. https://stackoverflow.com/a/24707567/6596684
-        for i in range(len(leg.legendHandles)):
-            leg.legendHandles[i]._sizes = [90]
+        for i in range(len(leg.legend_handles)):
+            leg.legend_handles[i]._sizes = [90]
 
         # Set axis
         ax.set_xlabel(r"X", fontsize=15)
