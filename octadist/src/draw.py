@@ -95,7 +95,8 @@ class DrawComplex_Matplotlib:
 
         """
         self.fig = plt.figure()
-        self.ax = Axes3D(self.fig)
+        # Use the recommended API to create a 3D subplot; this ensures proper autoscaling
+        self.ax = self.fig.add_subplot(111, projection="3d")
 
         # ax = fig.add_subplot(111, projection='3d')
 
@@ -134,6 +135,18 @@ class DrawComplex_Matplotlib:
                 label=f"{self.atom[i]}",
                 s=elements.number_to_radii(n) * 300,
             )
+
+        # Ensure axes limits reflect the data instead of staying at default [0, 1]
+        try:
+            coord = np.asarray(self.coord, dtype=np.float32)
+            if coord.ndim == 2 and coord.shape[1] >= 3:
+                pad = 0.5
+                self.ax.set_xlim(np.min(coord[:, 0]) - pad, np.max(coord[:, 0]) + pad)
+                self.ax.set_ylim(np.min(coord[:, 1]) - pad, np.max(coord[:, 1]) + pad)
+                self.ax.set_zlim(np.min(coord[:, 2]) - pad, np.max(coord[:, 2]) + pad)
+        except Exception:
+            # If anything goes wrong, fall back silently; matplotlib autoscale may still handle it
+            pass
 
     def add_symbol(self):
         """
@@ -228,13 +241,34 @@ class DrawComplex_Matplotlib:
             if label not in label_list:
                 handle_list.append(handle)
                 label_list.append(label)
-        leg = plt.legend(
-            handle_list, label_list, loc="lower left", scatterpoints=1, fontsize=12
+        # make some space on the right for an external legend
+        try:
+            self.fig.subplots_adjust(right=0.82)
+        except Exception:
+            pass
+
+        # place legend outside the plot area on the right to avoid overlap
+        leg = self.ax.legend(
+            handle_list,
+            label_list,
+            loc="lower left",
+            bbox_to_anchor=(1.12, 0.5),
+            scatterpoints=1,
+            fontsize=12,
+            frameon=True,
         )
 
-        # fix size of point in legend
+        # Option 1) fixed marker size in legend
         for i in range(len(leg.legend_handles)):
             leg.legend_handles[i]._sizes = [90]
+
+        # Option 2)adjust marker size in legend
+        # try:
+        #     for h in leg.legendHandles:
+        #         if hasattr(h, "_sizes"):
+        #             h._sizes = [90]
+        # except Exception:
+        #     pass
 
     def config_plot(self, show_title=True, show_axis=True, show_grid=True, **kwargs):
         """
