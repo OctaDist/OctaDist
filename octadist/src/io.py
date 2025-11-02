@@ -17,8 +17,6 @@
 from operator import itemgetter
 
 import numpy as np
-import pymatgen
-from scipy.spatial import distance
 
 from octadist.src import elements, popup
 
@@ -127,6 +125,14 @@ def get_coord_cif(f):
 
     warnings.filterwarnings("ignore")
 
+    # Lazy import to avoid requiring pymatgen unless CIF parsing is used
+    try:
+        import pymatgen
+    except ImportError as e:
+        raise ImportError(
+            "pymatgen is required to read CIF files. Install it or use a different input format."
+        ) from e
+
     # works only with pymatgen <= v2021.3.3
     structure = pymatgen.Structure.from_file(f)
     atom = list(map(lambda x: elements.number_to_symbol(x), structure.atomic_numbers))
@@ -226,9 +232,12 @@ def get_coord_xyz(f):
 
     atom = []
     for l in line:
-        # read atom on 1st column and insert to list
+        # read atom symbol on 1st column using arbitrary whitespace splitter
+        # handles spaces and tabs in XYZ files
         l_strip = l.strip()
-        lst = l_strip.split(" ")[0]
+        if not l_strip:
+            continue
+        lst = l_strip.split()[0]
         atom.append(lst)
 
     file = open(f, "r")
@@ -966,6 +975,9 @@ def extract_octa(atom, coord, ref_index=0, cutoff_ref_ligand=2.8):
         raise ValueError(
             "index of the reference center atom is greater than the total number of atoms in the complex."
         )
+
+    # Lazy import to avoid requiring scipy unless octa extraction is used
+    from scipy.spatial import distance
 
     dist_list = []
     for i in range(len(list(atom))):
