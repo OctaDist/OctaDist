@@ -127,14 +127,14 @@ def get_coord_cif(f):
 
     # Lazy import to avoid requiring pymatgen unless CIF parsing is used
     try:
-        import pymatgen
+        from pymatgen.core import Structure
     except ImportError as e:
         raise ImportError(
             "pymatgen is required to read CIF files. Install it or use a different input format."
         ) from e
 
     # works only with pymatgen <= v2021.3.3
-    structure = pymatgen.Structure.from_file(f)
+    structure = Structure.from_file(f)
     atom = list(map(lambda x: elements.number_to_symbol(x), structure.atomic_numbers))
     coord = structure.cart_coords
 
