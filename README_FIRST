@@ -1,62 +1,58 @@
 ###########################################################
-OctaDist  Copyright (C) 2019-2024  Rangsiman Ketkaew et al.
+OctaDist Copyright (C) 2019-2026 Rangsiman Ketkaew et al.
 ###########################################################
 
-Program Info
-============
+# Program Info
 
 program_name = OctaDist (Octahedral distortion calculator)
 program_version = 3.1.0
 program_release = 2024
 
-Citation
-========
+# Citation
 
 If your work has been done by OctaDist, please cite us as following
 
-   OctaDist - A tool for calculating distortion parameters in coordination complexes.
-   https://octadist.github.io
+OctaDist - A tool for calculating distortion parameters in coordination complexes.
+https://octadist.github.io
 
-Install and Run
-===============
+# Install and Run
 
 1. Run "CheckPyModule.py" to check if your system has the python packages that required for OctaDist.
 
-	$ cd OctaDist-info_using_devinfo_using_dev-src-x86-64
-	$ python CheckPyModule.py
+   $ cd OctaDist-info_using_devinfo_using_dev-src-x86-64
+   $ python CheckPyModule.py
 
-    If any required packages has not been installed, run command:
+   If any required packages has not been installed, run command:
 
-	$ pip install -r requirements.txt
+   $ pip install -r requirements.txt
 
 2. Build source code
 
-    $ python setup.py build
-    $ python setup.py install
-    $ python setup.py test
+   $ python setup.py build
+   $ python setup.py install
+   $ python setup.py test
 
 3. Run OctaDist - GUI
 
-	$ octadist
+   $ octadist
 
 4. Run OctaDist - command line
 
-    $ octadist_cli
+   $ octadist_cli
 
-Requirements
-============
+# Requirements
 
-	- Python 3.7, 3.8, 3.9
-	- numpy
-	- matplotlib
-	- sciPy
-	- rmsd
-	- plotly
-	- pymatgen <= 2021.3.3
+    - Python 3.7, 3.8, 3.9
+    - numpy
+    - matplotlib
+    - sciPy
+    - rmsd
+    - plotly
+    - pymatgen <= 2021.3.3
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-If you have any problem, please submit your issues on OctaDist Github. 
+If you have any problem, please submit your issues on OctaDist Github.
 https://github.com/OctaDist/OctaDist
 
 Rangsiman Ketkaew (ETH Zurich, Switzerland)

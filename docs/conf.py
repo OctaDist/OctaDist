@@ -16,7 +16,7 @@ import os
 import sys
 import sphinx_rtd_theme
 
-sys.path.insert(0, os.path.abspath('./../...'))
+sys.path.insert(0, os.path.abspath("./../..."))
 # sys.path.insert(0, os.path.abspath('.'))
 # sys.path.insert(0, os.path.abspath('../src'))
 
@@ -26,23 +26,23 @@ sys.path.insert(0, os.path.abspath('./../...'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'OctaDist'
-copyright = '2019-2024, Rangsiman Ketkaew et al.'
-author = 'Rangsiman Ketkaew'
+project = "OctaDist"
+copyright = "2019-2026, Rangsiman Ketkaew et al."
+author = "Rangsiman Ketkaew"
 
 # The short X.Y version
-version = '3.1.0'
+version = "3.1.0"
 # The full version, including alpha/beta/rc tags
-release = '3.1.0'
+release = "3.1.0"
 
 # Not alphabetically order
-autodoc_member_order = 'bysource'
+autodoc_member_order = "bysource"
 # autodoc_mock_imports = ['tkinter']
 autodoc_mock_imports = [
-    # "octadist", 
-    "TkAgg", 
-    "pymatgen"
-    ]
+    # "octadist",
+    "TkAgg",
+    "pymatgen",
+]
 
 # -- General configuration ---------------------------------------------------
 
@@ -54,13 +54,13 @@ autodoc_mock_imports = [
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.mathjax',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.githubpages',
-    'sphinx.ext.napoleon',
-    'sphinx_rtd_theme',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.mathjax",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.githubpages",
+    "sphinx.ext.napoleon",
+    "sphinx_rtd_theme",
 ]
 
 # import numpydoc
@@ -85,24 +85,24 @@ napoleon_use_param = True
 napoleon_use_rtype = False
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
+templates_path = ["_templates"]
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
 # source_suffix = ['.rst', '.md']
-source_suffix = '.rst'
+source_suffix = ".rst"
 
 # The master toctree document.
-master_doc = 'index'
+master_doc = "index"
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build']
+exclude_patterns = ["_build"]
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+pygments_style = "sphinx"
 
 todo_include_todos = False
 
@@ -111,12 +111,12 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'sphinx_rtd_theme'
+html_theme = "sphinx_rtd_theme"
 # html_theme = 'default'
 # html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
-html_theme_path = ['.']
+html_theme_path = ["."]
 
 # Theme options
 # further.  For a list of options available for each theme, see the
@@ -126,8 +126,8 @@ html_theme_options = {
     # 'typekit_id': 'hiw1hhg',
     # 'analytics_id': '',
     # 'sticky_navigation': True  # Set to False to disable the sticky nav while scrolling.
-    'logo_only': True,  # if we have a html_logo below, this shows /only/ the logo with no title text
-    'collapse_navigation': False,  # Collapse navigation (False makes it tree-like)
+    "logo_only": True,  # if we have a html_logo below, this shows /only/ the logo with no title text
+    "collapse_navigation": False,  # Collapse navigation (False makes it tree-like)
     # 'display_version': True,  # Display the docs version
     # 'navigation_depth': 4,  # Depth of the headers shown in the navigation bar
 }
@@ -141,7 +141,7 @@ html_context = {
     "conf_py_path": "/",  # Path in the checkout to the docs root
 }
 
-html_logo = '../images/molecule.png'
+html_logo = "../images/molecule.png"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -162,7 +162,7 @@ html_logo = '../images/molecule.png'
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'OctaDistdoc'
+htmlhelp_basename = "OctaDistdoc"
 
 # -- Options for LaTeX output ------------------------------------------------
 
@@ -170,39 +170,37 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
-
     # The font size ('10pt', '11pt' or '12pt').
     #
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     #
     # 'preamble': '',
-
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
-
     # Avoid blank pages in generated PDF file
-    'extraclassoptions': 'openany,oneside'
+    "extraclassoptions": "openany,oneside"
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'OctaDist.tex', 'OctaDist Documentation',
-     'OctaDist Development Team', 'manual'),
+    (
+        master_doc,
+        "OctaDist.tex",
+        "OctaDist Documentation",
+        "OctaDist Development Team",
+        "manual",
+    ),
 ]
 
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'octadist', 'OctaDist Documentation',
-     [author], 1)
-]
+man_pages = [(master_doc, "octadist", "OctaDist Documentation", [author], 1)]
 
 # -- Options for Texinfo output ----------------------------------------------
 
@@ -210,9 +208,15 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'OctaDist', 'OctaDist Documentation',
-     author, 'OctaDist', 'One line description of project.',
-     'Miscellaneous'),
+    (
+        master_doc,
+        "OctaDist",
+        "OctaDist Documentation",
+        author,
+        "OctaDist",
+        "One line description of project.",
+        "Miscellaneous",
+    ),
 ]
 
 # -- Options for Epub output -------------------------------------------------
@@ -230,7 +234,7 @@ epub_title = project
 # epub_uid = ''
 
 # A list of files that should not be packed into the epub file.
-epub_exclude_files = ['search.html']
+epub_exclude_files = ["search.html"]
 
 # -- Extension configuration -------------------------------------------------
 
