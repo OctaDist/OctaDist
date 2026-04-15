@@ -307,12 +307,12 @@ If you found issues in OctaDist, please report it to us at [here][submit-issues]
 
 ## Project team
 
-- [Rangsiman Ketkaew][rk-link] (University of Zurich, Switzerland)
+- [Rangsiman Ketkaew][rk-link] (ETH Zurich, Switzerland)
   - E-mail: rangsiman1993@gmail.com
 - [Yuthana Tantirungrotechai][yt-link] (Thammasat University, Thailand)
   - E-mail: yt203y@gmail.com
 - [Phimphaka Harding][ph-link] (Suranaree University of Technology, Thailand)
-  - E-mail: kphimpha@mail.wu.ac.th
+  - E-mail: phimphaka@sut.ac.th 
 - Guillaume Chastanet (University of Bordeaux, France)
   - E-mail: Guillaume.Chastanet@icmcb.cnrs.fr
 - Philippe Guionneau (University of Bordeaux, France)
@@ -320,7 +320,7 @@ If you found issues in OctaDist, please report it to us at [here][submit-issues]
 - [Mathieu Marchivie][mm-link] (University of Bordeaux, France)
   - E-mail: mathieu.marchivie@icmcb.cnrs.fr
 - [David J. Harding][dh-link] (Suranaree University of Technology, Thailand)
-  - E-mail: hdavid@mail.wu.ac.th
+  - E-mail: david@sut.ac.th
 
 [rk-link]: https://rangsimanketkaew.github.io
 [yt-link]: https://sites.google.com/site/compchem403/people/faculty/yuthana
