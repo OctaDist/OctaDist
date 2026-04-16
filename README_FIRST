@@ -10,16 +10,18 @@ program_release = 2024
 
 # Citation
 
-If your work has been done by OctaDist, please cite us as following
+If you use OctaDist, please cite:
 
-OctaDist - A tool for calculating distortion parameters in coordination complexes.
-https://octadist.github.io
+```
+Ketkaew, R.; Tantirungrotechai, Y.; Harding, P.; Chastanet, G.; Guionneau, P.; Marchivie, M.; Harding, D. J.
+OctaDist: A Tool for Calculating Distortion Parameters in Spin Crossover and Coordination Complexes.
+Dalton Trans., 2021,50, 1086-1096. https://doi.org/10.1039/D0DT03988H
+```
 
 # Install and Run
 
 1. Run "CheckPyModule.py" to check if your system has the python packages that required for OctaDist.
 
-   $ cd OctaDist-info_using_devinfo_using_dev-src-x86-64
    $ python CheckPyModule.py
 
    If any required packages has not been installed, run command:
@@ -42,7 +44,6 @@ https://octadist.github.io
 
 # Requirements
 
-	- Python 3.7, 3.8, 3.9
 	- numpy
 	- matplotlib
 	- sciPy
@@ -52,8 +53,9 @@ https://octadist.github.io
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-If you have any problem, please submit your issues on OctaDist Github.
-https://github.com/OctaDist/OctaDist
+To request a feature or report a bug, please use: https://github.com/OctaDist/OctaDist/issues
+
+# Contact
 
 Rangsiman Ketkaew (ETH Zurich, Switzerland)
 E-mail: rangsiman1993@gmail.com

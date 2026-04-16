@@ -2,7 +2,6 @@
 macOS
 =====
 
-Note that OctaDist supports up to Python 3.9. 
 ``gcc`` development tool is also required to install the dependencies packages of OctaDist.
 
 Like Linux, installing OctaDist on macOS can be completed in a few steps as follows:

@@ -19,6 +19,6 @@ on your system using the following command:
     pip install git+https://github.com/octadist/octadist.git@nightly-build
 
 .. note::
-    Python version must be either 3.7, 3.8, or 3.9.
+    OctaDist supports Python version 3.7 to 3.13.
     See :ref:`label-development` for more details.
 

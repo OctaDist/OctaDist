@@ -8,7 +8,6 @@ which can be found at https://pypi.org/project/octadist.
 The end-user can use ``pip``, a Python package-management system,
 to find and install OctaDist and other dependencies simultaneously.
 
-Note that OctaDist supports up to Python 3.9. 
 ``gcc`` development tool is also required to install the dependencies packages of OctaDist.
 
 Installing OctaDist can be completed in a few steps as follows:
