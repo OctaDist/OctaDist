@@ -32,7 +32,3 @@ The latest stable release of OctaDist is available for following OS and platform
     OctaDist is open-source and free to download under the GNU v.3 license. 
     It contains all capabilities including standard calculations, structural analysis, 
     and molecular visualization.
-
-.. note::
-    Note that OctaDist supports up to Python 3.9.
-    
