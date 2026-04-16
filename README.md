@@ -1,10 +1,13 @@
+<p align="left">
+   <img alt="molecule" src="https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/molecule.png" align=middle width="100pt" />
+<p/>
+
 [![Python package][github-action]][github-action-link]
 [![PyPI-Server][pypi-badge]][pypi-link]
 ![Python Wheel][py-wheel-badge]
 ![Code size][code-size]
 ![Repo size][repo-size]
 ![License][license]
-
 [![Github Download All releases][dl-all-badge]][dl-all-link]
 [![Github Download Latest version][dl-latest-badge]][dl-latest-link]
 ![Platform][platform]
@@ -24,11 +27,9 @@
 ## OctaDist
 
 Octahedral distortion calculator: A tool for calculating distortion parameters in coordination complexes.
-https://octadist.github.io/
 
-<p align="center">
-   <img alt="molecule" src="https://raw.githubusercontent.com/OctaDist/OctaDist/master/images/molecule.png" align=middle width="200pt" />
-<p/>
+Run OctaDist web app: https://octadist.streamlit.app
+Official website: https://octadist.github.io
 
 ## Standard abilities
 
@@ -36,16 +37,16 @@ OctaDist is computer software for inorganic chemistry and crystallography progra
 OctaDist can be used for studying the structural distortion in coordination complexes.
 With the abilities of OctaDist, you can:
 
-- analyze the structure and conformation of coordination complexes.
 - compute the octahedral distortion parameters.
+- analyze the structure and conformation of coordination complexes.
 - explore tilting distortion in perovskite and metal-organic framework.
 - display 3D molecule for graphical analysis.
-- implement OctaDist's module into your or other program.
+- integrate OctaDist's module into third party program.
 - access the program core directly via an interactive scripting language.
 
 ## Documents
 
-User manual: [https://octadist.github.io/manual.html][manual-link].
+User manual: [https://octadist.github.io/manual.html][manual-link]
 
 [manual-link]: https://octadist.github.io/manual.html
 
@@ -73,10 +74,7 @@ For Windows users, we strongly suggest a standalone executable:
 
 [download-win-exe-3.1.0]: https://github.com/OctaDist/OctaDist/releases/download/v.3.1.0/OctaDist-3.1.0-Win-x86-64.exe
 
-For Linux or macOS users and already have Python 3 installed on the system,
-the easiest way to install OctaDist is to use `pip`.
-
-**Note that OctaDist supports up to Python 3.9.**
+For Linux and macOS users who have Python 3 installed on the system, the easiest way to install OctaDist is to use `pip`.
 
 ```sh
 pip install octadist
@@ -256,21 +254,9 @@ source code for command line interface (CLI) are available for as follows:
 1. [master](https://github.com/OctaDist/OctaDist)
 2. [nightly-build](https://github.com/OctaDist/OctaDist/tree/nightly-build)
 
-## Git Clone
-
-```sh
-git clone https://github.com/OctaDist/OctaDist.git
-git checkout nightly-build
-git pull origin nightly-build
-```
-
-## Register for OctaDist
-
-To get notified when we release a new version of OctaDist, please register at https://cutt.ly/regis-octadist.
-
 ## OctaDist Forum
 
-The users can post questions in our Google Groups: [OctaDist Forum](https://groups.google.com/g/octadist-forum)
+Please ask a question in our Google Groups: [OctaDist Forum](https://groups.google.com/g/octadist-forum)
 
 ## Citation
 
@@ -299,13 +285,13 @@ BibTeX
 }
 ```
 
-## Bug report
+## Report
 
-If you found issues in OctaDist, please report it to us at [here][submit-issues].
+Please request features or report bugs [here][submit-issues].
 
 [submit-issues]: https://github.com/OctaDist/OctaDist/issues
 
-## Project team
+## Developers
 
 - [Rangsiman Ketkaew][rk-link] (ETH Zurich, Switzerland)
   - E-mail: rangsiman1993@gmail.com
