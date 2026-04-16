@@ -21,14 +21,15 @@ import sys
 print("Checking the Python packages required for OctaDist")
 print("--------------------------------------------------")
 print("Python version in system: %s\n" % sys.version)
+print("Executable Python: %s\n" % sys.executable)
 
 if sys.version_info < (3,):
     print("OctaDist supports only for Python 3.\n")
     print("Please upgrade your Python to version 3.")
 
-module = ["numpy", "scipy", "matplotlib", "rmsd"]
+module = ["numpy", "scipy", "matplotlib", "rmsd", "pymatgen", "plotly"]
 
-S = False
+missing = False
 
 for i, mod in enumerate(module):
     try:
@@ -36,6 +37,9 @@ for i, mod in enumerate(module):
         print("[/] %s. %s was installed on system." % (int(i + 1), mod))
     except ImportError:
         print("[x] %s. %s was not found on system." % (int(i + 1), mod))
-        print(
-            '\nTo install Python package, you can use command "python -m pip install -U PACKAGE_NAME"\n'
-        )
+        missing = True
+
+if missing:
+    print(
+        '\nTo install Python package, you can use command "python -m pip install -U PACKAGE_NAME"\n'
+    )
