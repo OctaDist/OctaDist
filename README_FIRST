@@ -42,13 +42,13 @@ https://octadist.github.io
 
 # Requirements
 
-    - Python 3.7, 3.8, 3.9
-    - numpy
-    - matplotlib
-    - sciPy
-    - rmsd
-    - plotly
-    - pymatgen <= 2021.3.3
+	- Python 3.7, 3.8, 3.9
+	- numpy
+	- matplotlib
+	- sciPy
+	- rmsd
+	- plotly
+	- pymatgen
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
